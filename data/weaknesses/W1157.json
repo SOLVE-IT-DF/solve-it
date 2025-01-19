@@ -1,0 +1,12 @@
+{
+    "id": "W1157",
+    "name": "Failure to parse app database",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": ["M1020"],
+    "references": []
+}

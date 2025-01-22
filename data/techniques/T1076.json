@@ -1,0 +1,12 @@
+{
+    "id": "T1076",
+    "name": "Use exploit on device to gain privileged access",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_output_classes" : [],
+    "references": []
+}

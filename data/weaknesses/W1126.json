@@ -1,6 +1,6 @@
 {
     "id": "W1126",
-    "name": "Failure to validate hash properly allowing a an incomplete disk image to present as validated",
+    "name": "Failure to validate hash properly allowing an incomplete disk image to present as validated",
     "INCOMP": "X",
     "INAC-EX": "",
     "INAC-AS": "",

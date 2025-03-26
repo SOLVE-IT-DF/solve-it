@@ -215,6 +215,7 @@ def main():
         # print them all
         techniques_to_print = techniques
     else:
+        # Take them from the CLI arguments
         techniques_to_print = args.techniques
 
         # techniques_to_print = ['T1001',  # Triage

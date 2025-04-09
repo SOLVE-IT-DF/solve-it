@@ -1,0 +1,6 @@
+{
+    "id": "M1007",
+    "name": "Use hardware write blocker",
+    "technique": "T1012",
+    "references" : []
+}

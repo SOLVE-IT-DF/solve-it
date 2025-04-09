@@ -1,0 +1,12 @@
+{
+    "id": "W1002",
+    "name": "Use of triage technology results in changes to the target media",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "x",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1007", "M1008"],
+    "references": []
+}

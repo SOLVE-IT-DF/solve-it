@@ -1,0 +1,12 @@
+{
+    "id": "W1003",
+    "name": "Triage tool applies a simplification that does not correctly represent the meaning of the digital data",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "mitigations": ["M1001"],
+    "references": []
+}

@@ -1,0 +1,13 @@
+{
+    "id": "T1001",
+    "name": "Triage",
+    "description": "Digital forensic triage is a partial forensic examination conducted under (significant) time and resource constraints. (Roussev et al 2013).",
+    "synonyms": [],
+    "details": "Involves the ranking of apprehended digital items in terms of their importance to a case and likelihood that the contain the data require (Wilson-Kovacs 2020). It can involve multiple techniques to identify devices of most interest such as keyword searching, hash matching, media review etc.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": ["W1001", "W1002", "W1003"],
+    "CASE_output_classes" : [],
+    "references": ["Roussev, V., Quates, C. and Martell, R., 2013. Real-time digital forensics and triage. Digital Investigation, 10(2), pp.158-167.",
+        "Wilson-Kovacs, D., 2020. Effective resource management in digital forensics: An exploratory analysis of triage practices in four English constabularies. Policing: an international journal, 43(1), pp.77-90."]
+}

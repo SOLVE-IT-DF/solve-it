@@ -1,0 +1,15 @@
+[
+
+    {"name":"Prioritise",
+    "description": "todo",
+    "techniques": ["T1001"]
+    },
+
+    {"name":"Acquire",
+    "description": "todo",
+    "techniques": ["T1028", "T1023", "T1024", "T1029", "T1030",
+                    "T1027", "T1002", "T1016", "T1003", "T1019",
+                    "T1022", "T1020", "T1017", "T1015",
+                    "T1018", "T1004", "T1026", "T1025", "T1104"]
+    }
+]

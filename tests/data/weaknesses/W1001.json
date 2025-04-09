@@ -1,0 +1,12 @@
+{
+    "id": "W1001",
+    "name": "Excluding a device that contains relevant information",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-ALT": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

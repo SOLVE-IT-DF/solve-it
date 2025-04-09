@@ -2,79 +2,9 @@ import os
 import json
 import xlsxwriter
 import argparse
+import solveitcore
 from xlsxwriter.utility import xl_col_to_name
 
-path_to_data = 'data'
-path_to_weaknesses = os.path.join(path_to_data, 'weaknesses')
-path_to_mitigations = os.path.join(path_to_data, 'mitigations')
-path_to_techniques = os.path.join(path_to_data, 'techniques')
-
-weaknesses = {}
-mitigations = {}
-
-
-def load_tactics(path_to_tactics_list):
-    f = open(path_to_tactics_list)
-    tactics_list = json.loads(f.read())
-    return tactics_list
-
-def load_techniques(path_to_techniques):
-    '''Loads techniques from on disk json into dictionary'''
-    techniques = {}
-    for each in os.listdir(path_to_techniques):
-        if each[-4:] == 'json':
-            technique_path = os.path.join(path_to_techniques, each)
-            f = open(technique_path)
-            try:
-                tech_dict = json.loads(f.read())
-            except json.decoder.JSONDecodeError:
-                print('error loading JSON from {}'.format(technique_path))
-                quit()
-            techniques[tech_dict.get('id')] = tech_dict
-    return techniques
-
-def load_weaknesses(path_to_weaknesses):
-    '''Loads weaknesses from on disk json into dictionary'''
-    weaknesses = {}
-    for each in os.listdir(path_to_weaknesses):
-        if each[-4:] == 'json':
-            f = open(os.path.join(path_to_weaknesses, each))
-            weakness_dict = json.loads(f.read())
-            weaknesses[weakness_dict.get('id')] = weakness_dict
-    return weaknesses
-
-
-def get_mit_list_for_technique(technique, weaknesses):
-    mit_list_for_this_technique = []
-    for each_weakness in technique.get('weaknesses'):
-        weakness_info = weaknesses.get(each_weakness)
-
-        for each_mitigation in weakness_info.get('mitigations'):
-            if each_mitigation not in mit_list_for_this_technique:
-                mit_list_for_this_technique.append(each_mitigation)
-
-    return mit_list_for_this_technique
-
-def load_mitigations(path_to_mitigations):
-    '''Loads mitigations from on disk json into dictionary'''
-    mitigations = {}
-    for each in os.listdir(path_to_mitigations):
-        if each[-4:] == 'json':
-            f = open(os.path.join(path_to_mitigations, each))
-            mit_dict = json.loads(f.read())
-            mitigations[mit_dict.get('id')] = mit_dict
-    return mitigations
-
-
-def get_max_mitigations_per_technique(techniques, weaknesses):
-    max_mits = 0
-    for each_technique in techniques:
-        mits = get_mit_list_for_technique(techniques[each_technique], weaknesses)
-
-        if len(mits) > max_mits:
-            max_mits = len(mits)
-
-    return max_mits
 
 def main():
 
@@ -90,14 +20,13 @@ def main():
                         help="output path for evaluation spreadsheet.")
     args = parser.parse_args()
 
-    techniques = load_techniques(path_to_techniques)
-    weaknesses = load_weaknesses(path_to_weaknesses)
-    mitigations = load_mitigations(path_to_mitigations)
-
     if args.output_file:
         outfile = args.output_file
     else:
-        outfile = 'case_evaluation.xlsx'
+        if not os.path.exists('output'):
+            os.mkdir('output')
+
+        outfile = os.path.join('output', 'solve-it_evaluation_workbook.xlsx')
 
     # quick test that output file is accessible
     try:
@@ -107,6 +36,10 @@ def main():
         print('output file ({}) could not be opened'.format(outfile))
         quit()
 
+
+    # Load knowledge base
+
+    kb = solveitcore.SOLVEIT('data', 'solve-it.json')
 
     # load lab config if present:
 
@@ -185,7 +118,7 @@ def main():
 
 
     # Write mitigations top header
-    max_mits = get_max_mitigations_per_technique(techniques, weaknesses)
+    max_mits = kb.get_max_mitigations_per_technique()
     print('Max mitiations: {}'.format(max_mits))
     max_letter = chr(ord('I') + max_mits-1)
     main_worksheet.merge_range("I1:{}1".format(max_letter), "Mitigations", header_type_format)
@@ -200,33 +133,29 @@ def main():
     main_worksheet.write_string(0, 8 + max_mits + 4, "Max", header_type_format)
     main_worksheet.write_string(0, 8 + max_mits + 5, "Met", header_type_format)
     main_worksheet.write_string(0, 8 + max_mits + 6, "Status", header_type_format)
-    main_worksheet.write_string(0, 8 + max_mits + 7, "s", header_type_format)
-    main_worksheet.write_string(0, 8 + max_mits + 8, "f", header_type_format)
-    main_worksheet.write_string(0, 8 + max_mits + 9, "d", header_type_format)
-    main_worksheet.write_string(0, 8 + max_mits + 10, "t", header_type_format)
-    main_worksheet.write_string(0, 8 + max_mits + 11, "Notes", header_type_format)
+    main_worksheet.write_string(0, 8 + max_mits + 7, "s1", header_type_format)
+    main_worksheet.write_string(0, 8 + max_mits + 8, "f1", header_type_format)
+    main_worksheet.write_string(0, 8 + max_mits + 9, "d1", header_type_format)
+    main_worksheet.write_string(0, 8 + max_mits + 10, "t1", header_type_format)
+    main_worksheet.write_string(0, 8 + max_mits + 11, "s2", header_type_format)
+    main_worksheet.write_string(0, 8 + max_mits + 12, "f2", header_type_format)
+    main_worksheet.write_string(0, 8 + max_mits + 13, "d2", header_type_format)
+    main_worksheet.write_string(0, 8 + max_mits + 14, "t2", header_type_format)
+
+    main_worksheet.write_string(0, 8 + max_mits + 15, "Notes", header_type_format)
 
     # formats the size of the extra columns at the end
-    main_worksheet.set_column(8 + max_mits + 0, 8 + max_mits + 11, 4)
-    main_worksheet.set_column(8 + max_mits + 11, 8 + max_mits + 11, 60)
+    main_worksheet.set_column(8 + max_mits + 0, 8 + max_mits + 15, 4)
+    main_worksheet.set_column(8 + max_mits + 15, 8 + max_mits + 15, 60)
 
 
     if len(args.techniques) == 0:
         # print them all
-        techniques_to_print = techniques
+        techniques_to_print = kb.list_techniques()
     else:
         techniques_to_print = args.techniques
 
-        # techniques_to_print = ['T1001',  # Triage
-        #                        'T1002',  # disk imaging
-        #                        'T1042',  # disk image hash validation
-        #                        'T1059',  # identify partitions
-        #                        'T1060',  # process file system structures
-        #                        'T1054',  # media review
-        #                        'T1049'   # keyword searching
-        #                         ]
-
-    print(techniques)
+    print(techniques_to_print)
 
     # Big loop for each technique...
     start_pos = 2
@@ -237,11 +166,11 @@ def main():
         start_pos+=1
 
         main_worksheet.write_string(start_pos, 0, "{}: {}".format(each_technique,
-                                                                  techniques[each_technique].get('name')),
+                                                                  kb.get_technique(each_technique).get('name')),
                                     header_type_format)
         main_worksheet.write_string(start_pos, 1, "Potential Weaknesses", header_type_format)
 
-        # write the headers for INCOMP etc each time...
+        # write the headers for INCOMP etc. each time...
         main_worksheet.write_string(start_pos, 2, "INCOMP", header_type_format)
         main_worksheet.write_string(start_pos, 3, "INAC-EX", header_type_format)
         main_worksheet.write_string(start_pos, 4, "INAC-AS", header_type_format)
@@ -252,15 +181,15 @@ def main():
         # write all the mitigation titles
         mit_index = {}
 
-        mits = get_mit_list_for_technique(techniques[each_technique], weaknesses)
+        mits = kb.get_mit_list_for_technique(each_technique)
 
         for i, each_mit in enumerate(mits):
-            main_worksheet.write_string(start_pos, 8 + i, "{}\n{}".format(each_mit, mitigations[each_mit].get('name')), header_small_format)
+            main_worksheet.write_string(start_pos, 8 + i, "{}\n{}".format(each_mit, kb.get_mitigation(each_mit).get('name')), header_small_format)
             mit_index[each_mit] = 8 + i
 
         # write the weaknesses out for each technique and flag the weakness type
-        for i, each_weakness in enumerate(techniques[each_technique].get('weaknesses')):
-            weakness_info = weaknesses[each_weakness]
+        for i, each_weakness in enumerate(kb.get_technique(each_technique).get('weaknesses')):
+            weakness_info = kb.get_weakness(each_weakness)
             main_worksheet.write_string(start_pos + 1, 0, "{}".format(each_weakness))
             main_worksheet.write_string(start_pos + 1, 1, "{}".format(weakness_info.get('name')))
             main_worksheet.write_string(start_pos + 1, 2, weakness_info.get('INCOMP', ''),
@@ -294,7 +223,8 @@ def main():
                     main_worksheet.write_string('{}{}'.format(xl_col_to_name(mit_index[each_mit]), str(start_pos+2)),
                                                         lab_config[each_mit].get('status'))
 
-                    main_worksheet.write_string('{}{}'.format('AD', str(start_pos+2)),
+
+                    main_worksheet.write_string('{}{}'.format('AH', str(start_pos+2)),
                                                         lab_config[each_mit].get('notes'))
                 else: # write blank to start with
                     main_worksheet.write_string('{}{}'.format(xl_col_to_name(mit_index[each_mit]), str(start_pos+2)),

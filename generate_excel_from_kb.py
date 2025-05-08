@@ -74,12 +74,31 @@ if __name__ == '__main__':
             weaknesses_sheet.write_string(i+1, 3, "x")
         weaknesses_sheet.write_string(i + 1, 4, str(kb.get_weakness(each_weakness).get('in_techniques')))
 
+        if kb.get_weakness(each_weakness).get('INCOMP') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 5, 'X')
+        if kb.get_weakness(each_weakness).get('INAC-EX') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 6, 'X')
+        if kb.get_weakness(each_weakness).get('INAC-ALT') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 7, 'X')
+        if kb.get_weakness(each_weakness).get('INAC-AS') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 8, 'X')
+        if kb.get_weakness(each_weakness).get('INAC-COR') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 9, 'X')
+        if kb.get_weakness(each_weakness).get('MISINT') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 10, 'X')
+
     # write some headers for weakness sheet
     weaknesses_sheet.write_string(0, 0, "ID")
     weaknesses_sheet.write_string(0, 1, "Description")
     weaknesses_sheet.write_string(0, 2, "Mitigations")
     weaknesses_sheet.write_string(0, 3, "Has none")
     weaknesses_sheet.write_string(0, 4, "In technique")
+    weaknesses_sheet.write_string(0, 5, "INCOMP")
+    weaknesses_sheet.write_string(0, 6, "INAC-EX")
+    weaknesses_sheet.write_string(0, 7, "INAC-ALT")
+    weaknesses_sheet.write_string(0, 8, "INAC-AS")
+    weaknesses_sheet.write_string(0, 9, "INAC-COR")
+    weaknesses_sheet.write_string(0, 10, "MISINT")
 
 
     for i, each_mitigation in enumerate(sorted(kb.list_mitigations())):

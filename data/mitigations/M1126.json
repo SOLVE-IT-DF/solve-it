@@ -1,0 +1,6 @@
+{
+    "id": "M1126",
+    "name": "Use forensic bootable environment to gain access to internal media",
+    "technique": "T1113",
+    "references" : []
+}

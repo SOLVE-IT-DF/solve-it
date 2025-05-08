@@ -1,0 +1,13 @@
+{
+    "id": "W1178",
+    "name": "Inability to load the forensic bootable environment due to system configuration",
+    "details": "System configuration may not permit alternative booting e.g., Secureboot is enabled",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

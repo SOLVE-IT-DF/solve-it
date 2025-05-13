@@ -1,0 +1,12 @@
+{
+    "id": "W1182",
+    "name": "Bootable environment overwrites relevant data on the target device",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "X",
+    "MISINT": "",
+    "mitigations": ["M1008", "M1014", "M1015"],
+    "references": []
+}

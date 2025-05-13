@@ -1,0 +1,12 @@
+{
+    "id": "W1177",
+    "name": "Failing to boot from intended forensic bootable environment, causing the normal system boot process to commence",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "X",
+    "INAC-COR": "X",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

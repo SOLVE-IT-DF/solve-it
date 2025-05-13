@@ -28,29 +28,38 @@ def format_techinque_sheet(worksheet):
     return worksheet
 
 
-
 if __name__ == '__main__':
 
-    kb = solveitcore.SOLVEIT('data', 'solve-it.json')
+    # Replace technique organisation configuration file here if needed
+    config_file = 'solve-it.json'
+
+    kb = solveitcore.SOLVEIT('data', config_file)
+
+    print("Using configuration file: {}".format(config_file))
 
     tactics_name_list = kb.list_tactics()
 
     if not os.path.exists('output'):
         os.mkdir('output')
-
     outpath = os.path.join('output', 'solve-it.xlsx')
 
+    print("Output will be to: {}".format(outpath))
+
     workbook = xlsxwriter.Workbook(outpath)
+
+    # Create all the worksheets
+    print('Creating worksheets...')
+
     workbook.add_worksheet(name='Main')
     workbook.set_size(2000, 1024)
     format_headings_in_workbook(workbook, kb.tactics)
+    print("- added 'main' worksheet")
 
     techniques_sheet = workbook.add_worksheet(name='Techniques')
     weaknesses_sheet = workbook.add_worksheet(name='Weaknesses')
     mitigations_sheet = workbook.add_worksheet(name='Mitigations')
 
-    # Create all the worksheets
-    print('Creating worksheets...')
+
     for each_technique_id in sorted(kb.list_techniques()):
         technique_name = kb.get_technique(each_technique_id).get('name')
         workbook.add_worksheet(each_technique_id)
@@ -66,6 +75,8 @@ if __name__ == '__main__':
         techniques_sheet.write_string(0, 2, "Weaknesses")
         techniques_sheet.write_string(0, 3, "Mitigations")
 
+    print("- populated 'all techniques' worksheet")
+
     for i, each_weakness in enumerate(sorted(kb.list_weaknesses())):
         weaknesses_sheet.write_string(i+1, 0, each_weakness)
         weaknesses_sheet.write_string(i+1, 1, kb.get_weakness(each_weakness).get('name'))
@@ -74,13 +85,33 @@ if __name__ == '__main__':
             weaknesses_sheet.write_string(i+1, 3, "x")
         weaknesses_sheet.write_string(i + 1, 4, str(kb.get_weakness(each_weakness).get('in_techniques')))
 
+        if kb.get_weakness(each_weakness).get('INCOMP') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 5, 'X')
+        if kb.get_weakness(each_weakness).get('INAC-EX') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 6, 'X')
+        if kb.get_weakness(each_weakness).get('INAC-ALT') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 7, 'X')
+        if kb.get_weakness(each_weakness).get('INAC-AS') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 8, 'X')
+        if kb.get_weakness(each_weakness).get('INAC-COR') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 9, 'X')
+        if kb.get_weakness(each_weakness).get('MISINT') in ['x', 'X']:
+            weaknesses_sheet.write_string(i + 1, 10, 'X')
+
     # write some headers for weakness sheet
     weaknesses_sheet.write_string(0, 0, "ID")
     weaknesses_sheet.write_string(0, 1, "Description")
     weaknesses_sheet.write_string(0, 2, "Mitigations")
     weaknesses_sheet.write_string(0, 3, "Has none")
     weaknesses_sheet.write_string(0, 4, "In technique")
+    weaknesses_sheet.write_string(0, 5, "INCOMP")
+    weaknesses_sheet.write_string(0, 6, "INAC-EX")
+    weaknesses_sheet.write_string(0, 7, "INAC-ALT")
+    weaknesses_sheet.write_string(0, 8, "INAC-AS")
+    weaknesses_sheet.write_string(0, 9, "INAC-COR")
+    weaknesses_sheet.write_string(0, 10, "MISINT")
 
+    print("- populated 'all weaknesses' worksheet")
 
     for i, each_mitigation in enumerate(sorted(kb.list_mitigations())):
         mitigations_sheet.write_string(i+1, 0, each_mitigation)
@@ -96,7 +127,7 @@ if __name__ == '__main__':
     mitigations_sheet.write_string(0, 3, "In weakness")
     mitigations_sheet.write_string(0, 4, "Weakness occurances")
 
-    print('worksheets added.')
+    print("- populated 'all techniques' worksheet")
 
     # records max row written so far for populating techniques in main
     tactics_row_indexes = {}
@@ -127,7 +158,7 @@ if __name__ == '__main__':
 
     # -------------------------------------------------------------------------------------------
 
-    print('Updating Main with links to techniques...')
+    print("Updating 'main' worksheet with links to techniques...")
     main_worksheet = workbook.get_worksheet_by_name('Main')
     main_worksheet.set_default_row(60)
 
@@ -138,8 +169,12 @@ if __name__ == '__main__':
         column = tactics_name_list.index(tactic)
 
         for each_technique_id in sorted(each_tactic.get('techniques')):
-            technique_name = kb.get_technique(each_technique_id).get('name')
+
             each_technique = kb.get_technique(each_technique_id)
+            if each_technique is None:
+                raise ValueError("Technique {} not found".format(each_technique_id))
+
+            technique_name = each_technique.get('name')
 
             try:
                 row = tactics_row_indexes[tactic]
@@ -157,18 +192,18 @@ if __name__ == '__main__':
                 print('Technique {} ({}) had a tactic not found in the tactics ({})'.format(each_technique_id,
                                                                                             technique_name,
                                                                                             tactic))
-
+    print("- 'main' worksheet updated")
     # ---------------------------------------------------------------------------------------------------------------
     # check if any are missed from index sheet
 
     for each in kb.list_techniques():
-        if each not in techniques_added:
+        if each not in techniques_added and each != "T1000":  # T1000 is demo technique so not expected to be referenced
             print("WARNING: Technique {} exists, but is not indexed in sheet".format(each))
 
 
 
     # ----------------------------------------------------------------------------------------------------------------
-    print('Populating the individual techniques sheets...')
+    print('Adding the individual techniques sheets...')
     for each_technique_id in kb.list_techniques():
         technique_name = kb.get_technique(each_technique_id).get('name')
 
@@ -333,7 +368,7 @@ if __name__ == '__main__':
             worksheet.write_string(refs_start + i, 1, each_reference, cell_format=technique_format)
             worksheet.write_string(refs_start + i, 8, str(references.get(each_reference)), cell_format=technique_format)
             i += 1
-
+    print("- all individual techniques worksheets updated")
 
     workbook.close()
 

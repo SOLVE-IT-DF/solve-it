@@ -1,0 +1,12 @@
+{
+    "id": "W1180",
+    "name": "Failure to identify encryption on the internal drive from bootable environment",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

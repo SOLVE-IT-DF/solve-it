@@ -7,7 +7,7 @@
     "subtechniques": [],
     "examples": ["WinFE - Windows Forensic Environment, is forensically sound, bootable Windows operation system that can be burned into USB and plug the USB into suspected device. Then, after changing boot order, booting to the USB to create forensic images from the tested Windows, MacOS and Linux systems.",
                 "PALADIN Forensic - is a modified “live” Linux distribution based on Ubuntu that simplifies various forensics tasks in a forensically sound manner via the PALADIN Toolbox."],
-    "weaknesses": [],
+    "weaknesses": ["W1177", "W1178", "W1179", "W1180"],
     "CASE_output_classes" : [],
     "references": ["Paladin Forensic Suite, https://sumuri.com/software/paladin/", "WinFE, https://www.winfe.net"]
 }

@@ -1,0 +1,5 @@
+{
+    "id": "M1132",
+    "name": "Use a Trusted Bootable Environment that supports decryption of the internal disk",
+    "references" : ["Casey et al (2011) The growing impact of full disk encryption on digital forensics, https://www.sciencedirect.com/science/article/abs/pii/S1742287611000727?via%3Dihub"]
+}

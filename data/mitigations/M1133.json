@@ -1,0 +1,5 @@
+{
+    "id": "M1133",
+    "name": "Acquire the encrypted contents of the internal disk and decrypt the copy within a virtualized environment",
+    "references" : ["Casey et al (2011) The growing impact of full disk encryption on digital forensics, https://www.sciencedirect.com/science/article/abs/pii/S1742287611000727?via%3Dihub"]
+}

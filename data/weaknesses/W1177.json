@@ -1,0 +1,12 @@
+{
+    "id": "W1177",
+    "name": "Failing to boot from the bootable environment, causing the normal system boot process to commence",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1126", "M1127"],
+    "references": []
+}

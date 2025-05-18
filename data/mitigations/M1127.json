@@ -1,0 +1,5 @@
+{
+    "id": "M1127",
+    "name": "Use a similar system to test steps required to interrupt the normal boot process and boot from Trusted Bootable Environment",
+    "references" : []
+}

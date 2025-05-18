@@ -1,0 +1,12 @@
+{
+    "id": "W1178",
+    "name": "Failing to permit the bootable environment (e.g., Secureboot is enabled)",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1128", "M1129", "M1130"],
+    "references": []
+}

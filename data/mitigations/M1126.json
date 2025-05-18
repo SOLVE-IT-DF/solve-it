@@ -1,0 +1,5 @@
+{
+    "id": "M1126",
+    "name": "Use manufacturer documentation to determine the process for interrupting the normal boot process and boot from the Trusted Bootable Environment",
+    "references" : []
+}

@@ -1,16 +1,16 @@
 [
     {"name":"Identification",
-    "description": "todo",
+    "description": "Detect the crime or incident from indicators, anomalies, complaints, system monitoring, audit analysis, or other signs.",
     "techniques": ["T1005", "T1006", "T1009", "T1008", "T1007"]
     },
 
     {"name":"Preservation",
-    "description": "todo",
+    "description": "Case management, forensic imaging, chain of custody, and time synchronization.",
     "techniques": ["T1014", "T1011", "T1010", "T1012", "T1013"]
     },
 
     {"name":"Collection",
-    "description": "todo",
+    "description": "Preservation using approved/validated methods, including recovery techniques, lossless compression, data reduction, and sampling.",
     "techniques": ["T1028", "T1023", "T1024", "T1029", "T1030",
                     "T1027", "T1002", "T1016", "T1003", "T1019",
                     "T1022", "T1020", "T1021", "T1017", "T1015",
@@ -19,7 +19,7 @@
 
 
     {"name":"Examination",
-    "description": "todo",
+    "description": "Preservation, traceability, filtering, pattern matching, hidden data discovery, and hidden data extraction.",
     "techniques": ["T1053",
                     "T1062", "T1061", "T1064", "T1063",  "T1059", "T1060",
                     "T1067", "T1065", "T1097", "T1066", "T1068", "T1096", "T1098",
@@ -32,13 +32,13 @@
     },
 
     {"name":"Analysis",
-    "description": "todo",
+    "description": "Preservation, traceability, statistical, protocols, data mining, timeline, link, spacial.",
     "techniques": ["T1047", "T1048", "T1046", "T1054", "T1056", "T1055", "T1051", "T1050", "T1049", "T1058", "T1057", "T1052", "T1085",
     "T1087", "T1088", "T1086"]
     },
 
     {"name":"Presentation",
-    "description": "todo",
+    "description": "Documentation, expert testimony, clarification, mission impact statement, recommended countermeasures, and statistical interpretation.",
     "techniques": ["T1091", "T1094", "T1092", "T1093"]
     },
 

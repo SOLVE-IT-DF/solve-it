@@ -6,7 +6,7 @@
     "details": "",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": ["W1164"],
+    "weaknesses": ["W1165"],
     "CASE_output_classes" : ["observable:ArchiveFile"],
     "references": []
 }

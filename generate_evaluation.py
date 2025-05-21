@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import xlsxwriter
 import argparse
@@ -164,10 +165,14 @@ def main():
         # add a grey divider row
         for i in range(0, 8+max_mits):
             main_worksheet.write_string(start_pos, i, '', cell_format=blank_grey_format)
-        start_pos+=1
+        start_pos += 1
 
-        main_worksheet.write_string(start_pos, 0, "{}: {}".format(each_technique,
-                                                                  kb.get_technique(each_technique).get('name')),
+        t = kb.get_technique(each_technique)
+        if t is None:
+            print('ERROR: technique: {} not found. Exiting...'.format(each_technique))
+            sys.exit(-1)
+
+        main_worksheet.write_string(start_pos, 0, "{}: {}".format(each_technique, t.get('name')),
                                     header_type_format)
         main_worksheet.write_string(start_pos, 1, "Potential Weaknesses", header_type_format)
 

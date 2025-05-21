@@ -1,0 +1,17 @@
+{
+    "id": "T1115",
+    "name": "Visualisation of geolocation information",
+    "description": "Presenting points or paths visually using extracted data, typically on a map",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples":  ["Autopsy Geolocation view (Basis Technology 2020)",
+                  "Magnet Axiom 'World map view' (Magnet 2020)"
+                  ],
+    "weaknesses": [],
+    "CASE_output_classes" : [],
+    "references": ["Magnet 2020, Using the Geolocation Data Filter in Magnet AXIOM & AXIOM Cyber, https://www.magnetforensics.com/blog/using-the-geolocation-data-filter-in-magnet-axiom-axiom-cyber/",
+                "Magnet 2024, Moving in the right direction with Animated maps, https://www.magnetforensics.com/blog/moving-in-the-right-direction-with-animated-maps/",
+                "Basis Technology 2020, Autopsy User Documentation: Geolocation Overview, https://sleuthkit.org/autopsy/docs/user-docs/4.13.0/geolocation_page.html"
+    ]
+}

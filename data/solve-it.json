@@ -81,7 +81,7 @@
 
     {"name":"Visualisation",
     "description": "todo",
-    "techniques": ["T1103"]
+    "techniques": ["T1103", "T1115"]
     },
 
     {"name":"Event Reconstruction",

@@ -1,12 +1,12 @@
 {
     "id": "W1176",
-    "name": "Unable to remove/detach internal storage media",
+    "name": "Unable to physically remove/detach internal storage media",
     "INCOMP": "X",
     "INAC-EX": "",
     "INAC-AS": "",
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "",
-    "mitigations": [],
-    "references": []
+    "mitigations": ["M1126"],
+    "references": ["Interpol (2021), Guidelines for digital forensics first responders v7, Ch5 Specific Procedures p34, https://www.interpol.int/content/download/16243/file/Guidelines_to_Digital_Forensics_First_Responders_V7.pdf"]
 }

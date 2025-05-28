@@ -1,0 +1,12 @@
+{
+    "id": "W1181",
+    "name": "Failure to decrypt internal disk using a bootable environment",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

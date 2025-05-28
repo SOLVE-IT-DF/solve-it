@@ -1,15 +1,16 @@
 [
     {"name":"Acquisition",
-    "description": "todo",
+    "description": "The Acquisition Phase saves the state of a digital system so that it can be later analyzed (Carrier 2003)",
     "techniques": ["T1028", "T1023", "T1024", "T1029", "T1030",
                     "T1027", "T1002", "T1016", "T1003", "T1019",
-                    "T1022", "T1020", "T1021", "T1017", "T1015",
+                    "T1022", "T1020", "T1017", "T1015",
                     "T1018", "T1004", "T1026", "T1025", "T1014", "T1011",
-                    "T1010", "T1012", "T1013"]
+                    "T1010", "T1012", "T1013"],
+      "references": ["Carrier, B., 2002. Open source digital forensics tools. The legal argument."]
     },
 
     {"name":"Analysis",
-    "description": "todo",
+    "description": "The Analysis Phase takes the acquired data and examines it to identify pieces of evidence (Carrier 2003)",
     "techniques": ["T1053",
                     "T1062", "T1061", "T1064", "T1063",  "T1059", "T1060",
                     "T1067", "T1065", "T1097", "T1066", "T1068", "T1096", "T1098",
@@ -17,18 +18,20 @@
                     "T1079", "T1082", "T1081", "T1080",
                     "T1083",
                     "T1084", "T1047", "T1048", "T1046", "T1054", "T1056", "T1055", "T1051", "T1050", "T1049", "T1058", "T1057", "T1052", "T1085",
-    "T1087", "T1088", "T1086", "T1039", "T1034", "T1035", "T1033", "T1031", "T1041", "T1038", "T1032", "T1036", "T1040",
+                    "T1087", "T1088", "T1086", "T1039", "T1034", "T1035", "T1033", "T1031", "T1041", "T1038", "T1032", "T1036", "T1040",
                     "T1045", "T1042", "T1043", "T1044"
-    ]
+    ],
+      "references": ["Carrier, B., 2002. Open source digital forensics tools. The legal argument."]
     },
 
     {"name":"Presentation",
-    "description": "todo",
-    "techniques": ["T1091", "T1094", "T1092", "T1093"]
+    "description": "The presentation phase presents the conclusions and corresponding evidence from the investigation (Carrier 2003)",
+    "techniques": ["T1091", "T1094", "T1092", "T1093"],
+    "references": ["Carrier, B., 2002. Open source digital forensics tools. The legal argument."]
     },
 
     {"name":"NA",
-    "description": "todo",
+    "description": "Techniques not easily accommodated by this process model",
     "techniques": ["T1005", "T1006", "T1009", "T1008", "T1007",
                     "T1001",
                     "T1090", "T1095", "T1089"

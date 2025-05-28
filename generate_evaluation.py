@@ -24,13 +24,14 @@ import solveitcore
 from xlsxwriter.utility import xl_col_to_name
 
 
-def generate_evaluation(techniques=None, lab_config=None, output_file=None):
+def generate_evaluation(techniques=None, lab_config=None, output_file=None, labels=None):
     """Generate an evaluation spreadsheet for the specified techniques.
     
     Args:
         techniques: List of technique IDs to include. If None or empty, includes all techniques.
         lab_config: Path to a JSON configuration file for a specific lab setup.
         output_file: Custom output path for the Excel file.
+        labels: list of labels to match the supplied techniques, so multiple instances of techniques can be displayed
         
     Returns:
         str: Path to the generated output file.
@@ -38,7 +39,7 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None):
     # Initialize parameters if not provided
     if techniques is None:
         techniques = []
-        
+
     # Set default output file path if not provided
     if not output_file:
         if not os.path.exists('output'):
@@ -67,6 +68,11 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None):
     except Exception as e:
         raise IOError(f'Output file ({output_file}) could not be opened: {str(e)}')
 
+    # Check if there are labels provided for each technique (blank strings can be used to make up the numbers)
+    if labels is not None:
+        if len(labels) != len(techniques):
+            raise ValueError("Mismatched number of labels and techniques:\n>>> {}\n>>> {}".format(techniques, labels))
+
     # Load knowledge base
     kb = solveitcore.SOLVEIT('data', 'solve-it.json')
 
@@ -81,6 +87,7 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None):
 
     # Create the workbook
     workbook = xlsxwriter.Workbook(output_file)
+    workbook.set_size(2000, 1024)
     main_worksheet = workbook.add_worksheet(name='Main')
 
     # ----------------------------------------
@@ -97,6 +104,14 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None):
     header_type_format.set_align('vcenter')
     header_type_format.set_text_wrap(True)
     header_type_format.set_bold(True)
+
+    # Header format that is left aligned
+    header_type_format_left = workbook.add_format()
+    header_type_format_left.set_align('left')
+    header_type_format_left.set_align('vcenter')
+    header_type_format_left.set_text_wrap(True)
+    header_type_format_left.set_bold(True)
+
 
     # Set format for header
     header_small_format = workbook.add_format()
@@ -153,7 +168,7 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None):
     main_worksheet.write_string(1, 3, "Do all artefacts reported as present actually exist", header_small_format)
     main_worksheet.write_string(1, 4, "For every set of items identified by a given tool, is each item truly part of that set", header_small_format)
     main_worksheet.write_string(1, 5, "Does a tool alter data in a way that changes its meaning?", header_small_format)
-    main_worksheet.write_string(1, 6, "Does the forensic tool detect and compensate for missing and corrupted dataDoes the forensic tool detect and compensate for missing and corrupted data", header_small_format)
+    main_worksheet.write_string(1, 6, "Does the forensic tool detect and compensate for missing and corrupted data", header_small_format)
     main_worksheet.write_string(1, 7, "The results are displayed in a manner that encourages, or does not prevent misinterpretation", header_small_format)
 
     # Write mitigations top header
@@ -163,6 +178,7 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None):
     main_worksheet.merge_range("I1:{}1".format(max_letter), "Mitigations", header_type_format)
     for i in range(0, max_mits):
         main_worksheet.write_string(1, 8 + i, "M{}".format(i), wrapped_title)
+        main_worksheet.set_column(8 + i, 8 + i, 12)     # set width of mitigations columns
 
     # Write column headings for totals Y. N etc.
     main_worksheet.write_string(0, 8 + max_mits + 0, "Y", header_type_format)
@@ -197,13 +213,17 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None):
 
     print(techniques_to_print)
 
+    # Prints labels if supplied
+    if labels is not None:
+        print(labels)
+
     # ----------------------------------------
     # Generate content for each technique
     # ----------------------------------------
     
     # Big loop for each technique...
     start_pos = 2
-    for each_technique in techniques_to_print:
+    for t_pos, each_technique in enumerate(techniques_to_print):
         technique = kb.get_technique(each_technique)
         
         # Skip if technique doesn't exist
@@ -216,10 +236,17 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None):
             main_worksheet.write_string(start_pos, i, '', cell_format=blank_grey_format)
         start_pos += 1
 
-        main_worksheet.write_string(start_pos, 0, "{}: {}".format(each_technique,
-                                                                  technique.get('name')),
-                                    header_type_format)
-        main_worksheet.write_string(start_pos, 1, "Potential Weaknesses", header_type_format)
+        if labels is None:  # Condition here is placeholder for label checking and displaying
+            technique_header_str = "{}".format(technique.get('name'))
+        else:
+            technique_header_str = "{}: {}".format(technique.get('name'), labels[t_pos])
+
+        # main_worksheet.set_row(start_pos, 26)
+        # cell_ref = "A" + str(start_pos + 1) + ":B" + str(start_pos + 1)
+        # main_worksheet.merge_range(cell_ref, technique_header_str, header_type_format_left)
+
+        main_worksheet.write_string(start_pos, 0, each_technique, header_type_format_left)
+        main_worksheet.write_string(start_pos, 1, technique_header_str, header_type_format_left)
 
         # Write the headers for INCOMP etc. each time...
         main_worksheet.write_string(start_pos, 2, "INCOMP", header_type_format)
@@ -343,6 +370,8 @@ def main():
                         help="Path to a text file of techniques to include for a specific case.")
     parser.add_argument('-o', action='store', type=str, dest='output_file',
                         help="output path for evaluation spreadsheet.")
+    parser.add_argument('--labels', nargs='+', type=str, dest='labels',
+                                help='List of labels to match with the techniques provided')
     args = parser.parse_args()
     
     # Process case_config file if provided
@@ -361,7 +390,8 @@ def main():
         output_file = generate_evaluation(
             techniques=techniques,
             lab_config=args.lab_config,
-            output_file=args.output_file
+            output_file=args.output_file,
+            labels=args.labels
         )
         
         # Print success message to the user

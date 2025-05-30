@@ -26,28 +26,16 @@ Each of these concepts are contained in subfolders within the \data subfolder. E
 
 ## Viewing the knowledge base in a spreadsheet
 
-A utility script is provided, 'generate_excel_from_kb.py'. This python3 script will generate an Excel spreadsheet (solve-it.xlsx) based on the current version of the json data (using the solve-it.json categorisations). This uses the Python xlsxwriter package. 
+A utility script is provided, `generate_excel_from_kb.py`. This python3 script will generate an Excel spreadsheet (solve-it.xlsx) based on the current version of the json data (using the solve-it.json categorisations). This uses the Python xlsxwriter package. 
 
 Pre-generated xlxs files can be found in the [releases](https://github.com/SOLVE-IT-DF/solve-it/releases) section.
 
-A another utility script 'generate_evaluation.py' can be used with a list of technqiue IDs provided as command line arguments. This provides a repackaged checklist of the supplied technqiues, with their weaknesses and potential mitigations. This can be used to review a case, an SOP, a tool workflow, and more. See example in [SOLVE-IT examples repository](https://github.com/SOLVE-IT-DF/solve-it-examples/tree/main/forensic_workflow_example_forensic_imaging).
+A another utility script `generate_evaluation.py` can be used with a list of technique IDs provided as command line arguments. This provides a repackaged checklist of the supplied technqiues, with their weaknesses and potential mitigations. This can be used to review a case, an SOP, a tool workflow, and more. See example in [SOLVE-IT examples repository](https://github.com/SOLVE-IT-DF/solve-it-examples/tree/main/forensic_workflow_example_forensic_imaging).
 
 ## Organisation of the techniques
-The file solve-it.json is the default categorisation of the techniques, but other examples are provided in carrier.json and dfrws.json.
+The file `solve-it.json` is the default categorisation of the techniques, but other examples are provided in `carrier.json` and `dfrws.json`.
 
 
 ## Contributing to the knowledge base
 
-To update a technique, locate the corresponding json file in the /data/techniques folder. Update that json with the relevant information.
-
-New techniques can be added by creating a new json file in the same structure. Technique T1000.json provides a template. 
-
-You can reference weaknesses and mitigations, either existing ones in the /data/weaknesses or /data/mitigations folders, or create new.
-
-## Notes on references
-Techniques, weaknesses, and mitigations can, and should, contain references to support the information within. The references should be in the appropriate file, e.g. if a reference is supporting defining a technique then it ought to be in the json file for the techniques (Txxxx), if it is highlighting a weakness then it should be in an weakness (Wxxxx) json file, and if it is describing a mitigation then it should be in the mitigation (Mxxxx) json file. 
-
-References should not be added just because they are about a topic, but should have meaningful implications in terms of explaining a technique, highlighting a weakness, or providing a mitigation.
-
-For large references, consider supplying the page or chapter number if appropriate. 
-
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for information. 

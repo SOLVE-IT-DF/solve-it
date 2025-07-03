@@ -1,12 +1,12 @@
 {
     "id": "T1088",
-    "name": "Connection analysis",
-    "description": "",
-    "synonyms": [],
+    "name": "Connection-based event reconstruction",
+    "description": "The process of assigning connection properties to a reconstructed event",
+    "synonyms": ["Relational analysis"],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
     "CASE_output_classes" : [],
-    "references": ["todo"]
+    "references": ["Casey, E., 2011. Digital evidence and computer crime: Forensic science, computers, and the internet. Academic press, Section 8.1.3"]
 }

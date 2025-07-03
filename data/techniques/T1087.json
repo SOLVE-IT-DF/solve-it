@@ -1,12 +1,12 @@
 {
     "id": "T1087",
-    "name": "Geospatial analysis",
-    "description": "",
+    "name": "Location-based event reconstruction",
+    "description": "The process of assigning location properties to a reconstructed event",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
     "CASE_output_classes" : [],
-    "references": ["todo"]
+    "references": []
 }

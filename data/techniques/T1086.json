@@ -1,13 +1,18 @@
 {
     "id": "T1086",
     "name": "Timeline analysis",
-    "description": "This involves performing event reconstruction (recreating past events by analyzing digital artifacts) using a set of timeline entries (adapted from Breitinger et al. 2025)",
-    "synonyms": [],
-    "details": "",
+    "description": "The process of moving from a set of timeline entries to reconstructed events, or to identify times of interest (adapted from Breitinger et al. 2025).",
+    "synonyms": ["Temporal Analysis"],
+    "details": "This can involve refinement approaches such as: filtering irrelevant entries, highlighting key entries, or aggregating entries into more meaningful events",
     "subtechniques": [],
-    "examples": ["PyDFT (Hargreaves & Patterson 2012)"],
+    "examples": ["TimeSketch (Berggren et al. 2014)",
+        "PyDFT (Hargreaves & Patterson 2012)"
+                ],
     "weaknesses": [],
     "CASE_output_classes" : [],
-    "references": ["Breitinger, F., Studiawan, H. and Hargreaves, C., 2025. SoK: Timeline based event reconstruction for digital forensics: Terminology, methodology, and current challenges.",
-                    "Hargreaves, C. and Patterson, J., 2012. An automated timeline reconstruction approach for digital forensic investigations. Digital Investigation, 9, pp.S69-S79."]
+    "references": [ "Berggren at al. (2014) TimeSketch, https://timesketch.org",
+                    "Breitinger, F., Studiawan, H. and Hargreaves, C., 2025. SoK: Timeline based event reconstruction for digital forensics: Terminology, methodology, and current challenges.",
+                    "Casey, E., 2011. Digital evidence and computer crime: Forensic science, computers, and the internet. Academic press, Section 8.1.2",
+                    "Hargreaves, C. and Patterson, J., 2012. An automated timeline reconstruction approach for digital forensic investigations. Digital Investigation, 9, pp.S69-S79."
+                    ]
 }

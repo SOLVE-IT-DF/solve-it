@@ -76,7 +76,7 @@
     "description": "todo",
     "techniques": ["T1054", "T1053", "T1056", "T1055",
                     "T1051", "T1050", "T1049", "T1058",
-                    "T1057", "T1052"]
+                    "T1057", "T1052", "T1086"]
     },
 
 
@@ -90,9 +90,9 @@
     "techniques": ["T1103", "T1115"]
     },
 
-    {"name":"Event Reconstruction",
+    {"name":"Reconstruct Events",
     "description": "todo",
-    "techniques": ["T1087", "T1088", "T1086"]
+    "techniques": ["T1087", "T1088", "T1117"]
     },
 
     {"name":"Research",

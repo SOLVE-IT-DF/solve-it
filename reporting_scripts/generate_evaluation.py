@@ -91,6 +91,7 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None, labe
         try:
             with open(lab_config) as f:
                 lab_config_data = json.loads(f.read())
+                logging.info(f'Lab configuration loaded from: {lab_config}')
         except Exception as e:
             raise ValueError(f"Error loading lab config file: {str(e)}")
 
@@ -229,7 +230,11 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None, labe
     # ----------------------------------------
     # Generate content for each technique
     # ----------------------------------------
-    
+
+    technique_log_list = []
+    weakness_log_list = []
+    mitigation_log_list = []
+
     # Big loop for each technique...
     start_pos = 2
     for t_pos, each_technique in enumerate(techniques_to_print):
@@ -317,12 +322,18 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None, labe
                     if full_technique_identifier in lab_config_data:  # if there is data for this technique
                         lab_technique_data = lab_config_data.get(full_technique_identifier)
                         logging.debug('found technique {}'.format({full_technique_identifier}))
+                        if full_technique_identifier not in technique_log_list:
+                            technique_log_list.append(full_technique_identifier)
                         if each_weakness in lab_technique_data:
                             logging.debug('found weakness {} ({})'.format(each_weakness, weakness_info.get('name')))
                             lab_weakness_data = lab_technique_data.get(each_weakness)
+                            if each_weakness not in weakness_log_list:
+                                weakness_log_list.append(each_weakness)
                             if each_mit in lab_weakness_data:
                                 logging.debug('found mitigation {}'.format(each_mit))
                                 # Found a mitigation in the lab config file
+                                if each_mit not in mitigation_log_list:
+                                    mitigation_log_list.append(each_mit)
                                 lab_mit_data = lab_weakness_data.get(each_mit)
                                 main_worksheet.write_string(
                                     '{}{}'.format(xl_col_to_name(mit_index[each_mit]), str(start_pos + 2)),
@@ -374,6 +385,10 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None, labe
             start_pos += 1
 
         start_pos += 1
+
+    logging.info(f'Techniques in lab config: {str(technique_log_list)}')
+    logging.info(f'Weaknesses in lab config: {str(weakness_log_list)}')
+    logging.info(f'Mitigations in lab config: {str(mitigation_log_list)}')
 
     # Close and save the workbook
     workbook.close()

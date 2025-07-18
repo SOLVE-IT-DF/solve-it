@@ -1,37 +1,39 @@
 {
-  "Lab config notes": "This is a demo to be used with: `generate_evaluation.py T1063 T1072 T1072 --lab_config ../lab_config_examples/example_lab.json --labels \"\" \"WhatsApp Examination\" \"Telegram Examination\"'",
-  "T1072:Chat app examination:WhatsApp Examination": {
-    "W1085": {
-      "M1054": {
+  "Lab config notes": "This is a demo to be used with: generate_evaluation.py T1002  --lab_config ../lab_config_examples/example_lab.json ",
+  "T1002:Disk imaging": {
+    "W1006": {
+      "M1005": {
         "status": "Y",
-        "notes": "tested 2025-01-05 with ACME testing software, result id: TEST00001"
+        "notes": "Standard imaging setup tested with HPA disk TTP-HPA-01"
       }
     },
-    "W1089": {
-      "M1054": {
+    "W1007": {
+      "M1006": {
         "status": "Y",
-        "notes": "tested 2025-01-05 with ACME testing software, result id: TEST00002"
+        "notes": "Standard imaging setup tested with DCO disk TTP-DCO-01"
       }
     },
-    "W1090": {
-      "M1054": {
+    "W1014": {
+      "M1007": {
         "status": "Y",
-        "notes": "tested 2025-01-05 with ACME testing software, result id: TEST00003"
-      }
-    }
-  },
-    "T1072:Chat app examination:Telegram Examination": {
-      "W1085": {
-        "M1054": {
-          "status": "Y",
-          "notes": "tested 2025-01-05 with ACME testing software, result id: TEST00004"
-        }
+        "notes": "Hardware write blockers are always used according to lab policy LAB_TK-421"
       },
-      "W1089": {
-        "M1054": {
-          "status": "Y",
-          "notes": "tested 2025-01-05 with ACME testing software, result id: TEST00005"
-        }
+      "M1008": {
+        "status": "NA",
+        "notes": "Software write blockers are not used"
+      }
+    },
+    "W1136": {
+      "M1089": {
+        "status": "N",
+        "notes": "Physical repair not undertaken at this lab"
+      }
+    },
+    "W1143": {
+      "M1102": {
+        "status": "N",
+        "notes": "Tooling for recovery of remapped sectors not available at this lab"
       }
     }
+  }
 }

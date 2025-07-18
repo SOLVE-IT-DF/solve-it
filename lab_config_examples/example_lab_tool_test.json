@@ -1,0 +1,37 @@
+{
+  "Lab config notes": "This is a demo to be used with: generate_evaluation.py T1063 T1072 T1072 --lab_config ../lab_config_examples/example_lab_tool_test --labels \"\" \"WhatsApp Examination\" \"Telegram Examination\" ",
+  "T1072:Chat app examination:WhatsApp Examination": {
+    "W1085": {
+      "M1054": {
+        "status": "Y",
+        "notes": "tested 2025-01-05 with ACME testing software, result id: TEST00001"
+      }
+    },
+    "W1089": {
+      "M1054": {
+        "status": "Y",
+        "notes": "tested 2025-01-05 with ACME testing software, result id: TEST00002"
+      }
+    },
+    "W1090": {
+      "M1054": {
+        "status": "Y",
+        "notes": "tested 2025-01-05 with ACME testing software, result id: TEST00003"
+      }
+    }
+  },
+    "T1072:Chat app examination:Telegram Examination": {
+      "W1085": {
+        "M1054": {
+          "status": "Y",
+          "notes": "tested 2025-01-05 with ACME testing software, result id: TEST00004"
+        }
+      },
+      "W1089": {
+        "M1054": {
+          "status": "Y",
+          "notes": "tested 2025-01-05 with ACME testing software, result id: TEST00005"
+        }
+      }
+    }
+}

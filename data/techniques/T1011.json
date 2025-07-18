@@ -1,6 +1,6 @@
 {
     "id": "T1011",
-    "name": "Evidence bags",
+    "name": "Store seized devices in evidence bags",
     "description": "",
     "synonyms": [],
     "details": "",
@@ -8,5 +8,5 @@
     "examples": [],
     "weaknesses": [],
     "CASE_output_classes" : [],
-    "references": ["todo"]
+    "references": []
 }

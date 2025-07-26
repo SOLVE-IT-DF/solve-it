@@ -97,7 +97,7 @@
 
     {"name":"Research",
     "description": "todo",
-    "techniques": ["T1090", "T1095", "T1089", "T1101"]
+    "techniques": ["T1090", "T1095", "T1089", "T1101", "T1119"]
     },
 
     {"name":"Documentation",

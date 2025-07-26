@@ -7,7 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1085", "W1086", "W1087", "W1088", "W1089", "W1090","W1091" ,"W1092", "W1093", "W1094", "W1095",
-        "W1096", "W1097","W1098","W1099","W1100" ,"W1101","W1102"],
+        "W1096", "W1097","W1098","W1099","W1100" ,"W1101", "W1102", "W1189", "W1190"],
     "CASE_output_classes" : ["observable:Message", "observable:SMSMessage"],
     "references": []
 }

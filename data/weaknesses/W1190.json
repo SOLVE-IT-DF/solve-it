@@ -1,0 +1,12 @@
+{
+    "id": "W1190",
+    "name": "Interpretation of app data is incorrect due to app changes.",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1138"],
+    "references": []
+}

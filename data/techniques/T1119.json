@@ -1,0 +1,12 @@
+{
+    "id": "T1119",
+    "name": "Detect changes in artifacts due to app updates",
+    "description": "Monitor every version change of an application to determine if there are changed to the way the app stores data",
+    "synonyms": ["App update monitoring"],
+    "details": "",
+    "subtechniques": [],
+    "examples": ["One implementation of this approach is discussed in the paper \"Puma: Automatically generating digital forensic reference data triggered by mobile application updates\" - Claij-Swart et al."],
+    "weaknesses": ["TODO"],
+    "CASE_output_classes" : ["TODO?"],
+    "references": ["todo"]
+}

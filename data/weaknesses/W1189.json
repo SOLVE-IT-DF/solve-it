@@ -1,0 +1,12 @@
+{
+    "id": "W1189",
+    "name": "Extraction is incorrect/incomplete due to app changes.",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

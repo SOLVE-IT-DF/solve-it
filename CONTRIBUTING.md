@@ -6,6 +6,9 @@ THIS DOCUMENT IS UNDER DEVELOPMENT
 
 There are multiple ways you can contribute to SOLVE-IT. 
 
+## SOLVE-IT contributor roles
+TBC
+
 ## Content that can be contributed
 There are many areas in which content can be contributed:
 

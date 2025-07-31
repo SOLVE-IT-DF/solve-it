@@ -1,0 +1,13 @@
+{
+    "id": "T1119",
+    "name": "Automatically scan for artifact changes caused by app updates",
+    "description": "Monitor every version change of an application to determine if there are changes to the way the app stores data",
+    "synonyms": ["App update monitoring"],
+    "details": "",
+    "subtechniques": [],
+    "examples": ["Discussed in 'Puma: Automatically generating digital forensic reference data triggered by mobile application updates' (Claij-Swart et al. 2025)"],
+    "weaknesses": ["W1191"],
+    "CASE_output_classes" : ["observable:hasChanged", "observable:filePath", "observable:tableSchema", "observable:TableField"],
+    "references": ["Claij-Swart et al. (2025) Puma: Automatically generating digital forensic reference data triggered by mobile application updates, APAC 2025 (full reference TBC)",
+        "Claij-Swart et al. (2025), PUMA (Programmable Utility for Mobile Automation), https://github.com/NetherlandsForensicInstitute/puma"]
+}

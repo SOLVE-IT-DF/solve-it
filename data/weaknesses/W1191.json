@@ -1,0 +1,12 @@
+{
+    "id": "W1191",
+    "name": "Missing changes in app artifacts during research since app interaction is needed to cause changes",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1140"],
+    "references": []
+}

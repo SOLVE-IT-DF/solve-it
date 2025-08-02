@@ -1,0 +1,12 @@
+{
+    "id": "W1195",
+    "name": "One or more keyword results are associated with a file by a tool but was within slack space and therefore it may not have been part of that file",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": ["M1151"],
+    "references": []
+}

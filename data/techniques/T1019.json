@@ -4,7 +4,7 @@
     "description": "Using the backup capability of the device to extract data from a mobile device (todo better definition)",
     "synonyms": [],
     "details": "",
-    "subtechniques": ["iOS Backup", "ADB Backup"],
+    "subtechniques": [],
     "examples": ["Magnet Acquire - A quick acquisition using this product collects an iOS backup, along with some other data. ",
                  "Elcomsoft iOS Forensic Toolkit - can trigger an iOS backup"],
     "weaknesses": ["W1037", "W1038", "W1039", "W1040", "W1041"],

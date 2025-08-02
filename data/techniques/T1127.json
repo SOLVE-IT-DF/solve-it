@@ -1,0 +1,13 @@
+{
+    "id": "T1127",
+    "name": "Keyword search (live) (logical)",
+    "description": "Searching for keywords over the raw data, without an index of text content, but on a file by file basis",
+    "synonyms": ["live search"],
+    "details": "This approach can include decoding the individual file formats and content. It can also overcome limitations associated with compressed data or data split due to file fragmentation.",
+    "subtechniques": [],
+    "examples":  [],
+    "weaknesses": ["W1195"],
+    "CASE_output_classes" : [],
+    "references": ["NIST, 2025. Computer forensics tools & techniques catalog: string search, https://toolcatalog.nist.gov/taxonomy/index.php?ff_id=31",
+                   "X-Ways (2025), X-Ways Manual: Logical Search (section 5.11), https://www.x-ways.net/winhex/manual.pdf"]
+}

@@ -192,6 +192,7 @@ if __name__ == '__main__':
     technique_format.set_align('center')
     technique_format.set_border(style=1)
     technique_format.set_text_wrap()
+    technique_format.set_bg_color("#F3F3F3")
 
     # Set format to see which ones have some content populated
     technique_format2 = workbook.add_format()
@@ -201,6 +202,16 @@ if __name__ == '__main__':
     technique_format2.set_text_wrap()
     technique_format2.set_border(style=1)
     technique_format2.set_bg_color("#E9E9E9")
+
+    # subtechqniue format 1
+    sub_technique_format1 = workbook.add_format()
+    sub_technique_format1.set_bold(False)
+    sub_technique_format1.set_align('vcenter')
+    sub_technique_format1.set_align('center')
+    sub_technique_format1.set_border(style=1)
+    sub_technique_format1.set_text_wrap()
+    sub_technique_format1.set_indent(3)
+
 
     # set format for centralised x marks
     weakness_type_format = workbook.add_format()
@@ -220,29 +231,53 @@ if __name__ == '__main__':
         column = tactics_name_list.index(tactic)
 
         for each_technique_id in sorted(each_tactic.get('techniques')):
+            if each_technique_id not in techniques_added:
+                each_technique = kb.get_technique(each_technique_id)
+                if each_technique is None:
+                    raise ValueError("Technique {} not found".format(each_technique_id))
 
-            each_technique = kb.get_technique(each_technique_id)
-            if each_technique is None:
-                raise ValueError("Technique {} not found".format(each_technique_id))
+                technique_name = each_technique.get('name')
+                subtechniques = each_technique.get('subtechniques')
 
-            technique_name = each_technique.get('name')
+                # Does the formatting based on if weaknesses are present or not
+                try:
+                    row = tactics_row_indexes[tactic]
+                    if len(each_technique['weaknesses']) == 0:
+                        the_format = technique_format
+                    else:
+                        the_format = technique_format2
 
-            try:
-                row = tactics_row_indexes[tactic]
-                if len(each_technique['weaknesses']) == 0:
-                    the_format = technique_format
-                else:
-                    the_format = technique_format2
+                    main_worksheet.write_url(row, column, 'internal:{}!A1'.format(each_technique_id),
+                                             string=technique_name + '\n' + each_technique_id,
+                                             cell_format=the_format)
+                    techniques_added.append(each_technique_id)
+                    tactics_row_indexes[tactic] += 1
 
-                main_worksheet.write_url(row, column, 'internal:{}!A1'.format(each_technique_id),
-                                         string=technique_name + '\n' + each_technique_id,
-                                         cell_format=the_format)
-                techniques_added.append(each_technique_id)
-                tactics_row_indexes[tactic] += 1
-            except KeyError:
-                print('Technique {} ({}) had a tactic not found in the tactics ({})'.format(each_technique_id,
-                                                                                            technique_name,
-                                                                                            tactic))
+                    # check for subtechqniues and do those first before moving on
+                    for each_subtechnique_id in subtechniques:
+                        row = tactics_row_indexes[tactic]
+                        each_subtechnique = kb.get_technique(each_subtechnique_id)
+                        if each_subtechnique is None:
+                            raise ValueError(f'Subtechnqiue {each_subtechnique_id} not found. ({each_technique_id})')
+                            sys.exit(-1)
+
+
+                        main_worksheet.write_url(row, column, 'internal:{}!A1'.format(each_subtechnique.get('id')),
+                                                 string='> ' + each_subtechnique.get('name') + '\n' + each_subtechnique.get('id'),
+                                                 cell_format=sub_technique_format1)
+
+                        if len(each_subtechnique.get('subtechniques')) > 0:
+                            logging.error(f'Nested subtechniques are not currently supported')
+                            logging.error(f"{str(each_subtechnique.get('subtechniques'))}")
+                            sys.exit(-1)
+
+                        techniques_added.append(each_subtechnique_id)
+                        tactics_row_indexes[tactic] += 1
+
+                except KeyError:
+                    print('Technique {} ({}) had a tactic not found in the tactics ({})'.format(each_technique_id,
+                                                                                                technique_name,
+                                                                                                tactic))
     print("- 'main' worksheet updated")
     # ---------------------------------------------------------------------------------------------------------------
     # check if any are missed from index sheet
@@ -297,7 +332,10 @@ if __name__ == '__main__':
         worksheet.write_string(5, 1, details, cell_format=technique_format)
         worksheet.write_string(6, 0, 'Subtechniques: ', bold_format)
         subtechniques = kb.get_technique(each_technique_id).get('subtechniques') or []
-        worksheet.write_string(6, 1, str(subtechniques))
+
+        # note - this needs nicer formatting eventually
+        sub_techniques_out = [sub_t + ':' + kb.get_technique(sub_t).get('name') for sub_t in subtechniques]
+        worksheet.write_string(6, 1, str(sub_techniques_out))
 
         worksheet.write_string(7, 0, 'CASE output entities: ', bold_format)
         case_output = kb.get_technique(each_technique_id).get('CASE_output_classes') or []

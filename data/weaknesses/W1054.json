@@ -1,13 +1,13 @@
 {
     "id": "W1054",
-    "name": "Data not indexed due to text encoding",
+    "name": "Data not indexed for keyword searching due to text encoding",
     "INCOMP": "X",
     "INAC-EX": "",
     "INAC-AS": "",
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "",
-    "mitigations": ["M1029", "M1034"],
+    "mitigations": ["M1029", "M1034", "M1146"],
     "references": []
 
 }

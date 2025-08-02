@@ -1,0 +1,12 @@
+{
+    "id": "T1124",
+    "name": "Keyword search (indexed)",
+    "description": "Searching for keywords within an index generated of data in a case",
+    "synonyms": ["indexed search"],
+    "details": "",
+    "subtechniques": [],
+    "examples":  [],
+    "weaknesses": ["W1052"],
+    "CASE_output_classes" : [],
+    "references": ["NIST, 2025. Computer forensics tools & techniques catalog: string search, https://toolcatalog.nist.gov/taxonomy/index.php?ff_id=31"]
+}

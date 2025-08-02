@@ -1,0 +1,12 @@
+{
+    "id": "W1193",
+    "name": "Keyword results missed since relevant keyword is split over a sector or cluster boundary",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1143", "M1144"],
+    "references": []
+}

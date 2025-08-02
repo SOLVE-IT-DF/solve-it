@@ -1,6 +1,6 @@
 {
     "id": "W1053",
-    "name": "Incorrect parsing of a regular expression",
+    "name": "Incorrect parsing of a supplied regular expression used for keyword searching",
     "INCOMP": "X",
     "INAC-EX": "X",
     "INAC-AS": "X",

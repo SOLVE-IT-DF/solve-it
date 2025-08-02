@@ -1,0 +1,12 @@
+{
+    "id": "W1192",
+    "name": "Relevant results not captured by the case-specific keywords used",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1031", "M1141", "M1142"],
+    "references": []
+}

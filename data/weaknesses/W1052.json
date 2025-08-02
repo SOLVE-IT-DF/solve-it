@@ -1,9 +1,9 @@
 {
     "id": "W1052",
-    "name": "Incorrect retrieval of results from the index",
+    "name": "Incorrect retrieval of results from an index",
     "INCOMP": "X",
     "INAC-EX": "X",
-    "INAC-AS": "X",
+    "INAC-AS": "",
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "",

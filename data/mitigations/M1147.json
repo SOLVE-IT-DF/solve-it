@@ -1,0 +1,5 @@
+{
+    "id": "M1147",
+    "name": "Ensure keyword indexing settings configure text substring handling as required during indexing",
+    "references" : []
+}

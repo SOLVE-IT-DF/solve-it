@@ -1,0 +1,12 @@
+{
+    "id": "T1121",
+    "name": "Keyword indexing",
+    "description": "Extracting strings from a data source and adding them to an index for subsequent searching",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples":  [],
+    "weaknesses": ["W1054", "W1055", "W1056", "W1197", "W1198"],
+    "CASE_output_classes" : [],
+    "references": []
+}

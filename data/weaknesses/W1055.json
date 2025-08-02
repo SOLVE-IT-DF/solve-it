@@ -1,12 +1,12 @@
 {
     "id": "W1055",
-    "name": "Data not indexed due to missing substring feature",
+    "name": "Data not indexed for keyword searching due to missing substring feature",
     "INCOMP": "X",
     "INAC-EX": "",
     "INAC-AS": "",
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "",
-    "mitigations": ["M1029", "M1034"],
+    "mitigations": ["M1029", "M1034", "M1147"],
     "references": []
 }

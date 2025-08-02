@@ -1,12 +1,12 @@
 {
     "id": "W1056",
-    "name": "Data not indexed due to case sensitivity problem",
+    "name": "Data not indexed for keyword searching due to case sensitivity problem",
     "INCOMP": "X",
     "INAC-EX": "",
     "INAC-AS": "",
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "",
-    "mitigations": ["M1029", "M1034"],
+    "mitigations": ["M1029", "M1034", "M1148"],
     "references": []
 }

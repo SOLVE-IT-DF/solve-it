@@ -1,0 +1,12 @@
+{
+    "id": "W1194",
+    "name": "Keyword results missed since relevant keyword is inside compressed or encoded data",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1143", "M1144"],
+    "references": []
+}

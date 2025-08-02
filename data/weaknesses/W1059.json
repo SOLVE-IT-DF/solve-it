@@ -7,6 +7,6 @@
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "",
-    "mitigations": ["M1032", "M1033", "M1038"],
+    "mitigations": ["M1033", "M1038"],
     "references": []
 }

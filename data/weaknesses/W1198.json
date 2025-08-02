@@ -1,0 +1,12 @@
+{
+    "id": "W1198",
+    "name": "Data not indexed for keyword searching due to file or content encoding",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1029", "M1034", "M1150"],
+    "references": []
+}

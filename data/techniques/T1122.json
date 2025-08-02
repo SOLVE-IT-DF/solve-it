@@ -1,0 +1,12 @@
+{
+    "id": "T1122",
+    "name": "Keyword search (case-type wordlists)",
+    "description": "Searching for case-type specific keywords",
+    "synonyms": [],
+    "details": "This compliments case-specific wordlists (T1123) created for the individual case.",
+    "subtechniques": [],
+    "examples":  ["Example word lists https://www.dfir.training/downloads/search-terms"],
+    "weaknesses": ["W1057", "W1059"],
+    "CASE_output_classes" : [],
+    "references": []
+}

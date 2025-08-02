@@ -4,7 +4,7 @@
     "description": "",
     "synonyms": [],
     "details": "",
-    "subtechniques": ["T1079", "T1080", "T1081", "T1082"],
+    "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1060", "W1061", "W1062"],
     "CASE_output_classes" : [],

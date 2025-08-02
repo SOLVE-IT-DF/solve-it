@@ -1,0 +1,12 @@
+{
+    "id": "W1196",
+    "name": "One or more files with relevant keyword results are missed since they are not stored as text, e.g. within an image",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1145"],
+    "references": []
+}

@@ -1,0 +1,12 @@
+{
+    "id": "T1120",
+    "name": "Automated artifact extraction",
+    "description": "The use of automation to extract pieces of data that are potentially useful for a digital forensic investigation",
+    "synonyms": ["Automated trace extraction"],
+    "details": "Artifacts extracted may be a direct mapping to lower levels of abstraction e.g. a database field 'message content' may map to an artifact 'message content', but in many cases, automated interpretation is applied where a field such as 'flag' containing numeric values, may be mapped to more meaningful text strings in the extracted artifact.",
+    "subtechniques": [],
+    "examples": ["iLEAPP", "aLEAPP", "Axiom", "Hansken"],
+    "weaknesses": ["W1189", "W1190"],
+    "CASE_output_classes" : ["analysis:AnalyticResult"],
+    "references": []
+}

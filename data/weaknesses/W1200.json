@@ -1,0 +1,12 @@
+{
+    "id": "W1200",
+    "name": "Failure to conduct iterative keyword searching due to excessive time taken per search",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1153"],
+    "references": []
+}

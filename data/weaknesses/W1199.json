@@ -1,0 +1,12 @@
+{
+    "id": "W1199",
+    "name": "Excessive keyword results returned from case-specific wordlists such that careful review of all results is impractical",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1033", "M1038", "M1142", "M1152"],
+    "references": []
+}

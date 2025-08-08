@@ -6,7 +6,7 @@
     "details": "This may be done on a physical sector basis, or on a logical (file) basis.",
     "subtechniques": [],
     "examples":  [],
-    "weaknesses": [],
+    "weaknesses": ["W1200"],
     "CASE_output_classes" : [],
     "references": ["NIST, 2025. Computer forensics tools & techniques catalog: string search, https://toolcatalog.nist.gov/taxonomy/index.php?ff_id=31",
                    "X-Ways (2025), X-Ways Manual: Simultaneous Search (section 5.10), https://www.x-ways.net/winhex/manual.pdf",

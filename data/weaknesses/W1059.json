@@ -1,12 +1,12 @@
 {
     "id": "W1059",
-    "name": "Excessive results returned such that careful review of all results is impractical",
+    "name": "Excessive keyword results returned from case-type wordlists such that careful review of all results is impractical",
     "INCOMP": "X",
     "INAC-EX": "",
     "INAC-AS": "",
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "",
-    "mitigations": ["M1033", "M1038"],
+    "mitigations": ["M1032", "M1033", "M1038"],
     "references": []
 }

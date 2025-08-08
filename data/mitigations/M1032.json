@@ -1,5 +1,5 @@
 {
     "id": "M1032",
-    "name": "Validation of selected words used in keyword lists",
-    "references" : []
+    "name": "Evaluation of the effectiveness of wordlist used for case-type searching",
+    "references" : ["Kanta, A. and Hargreaves, C., 2025, August. Measuring the effectiveness of keyword lists in digital forensics. In Proceedings of the 20th International Conference on Availability, Reliability and Security."]
 }

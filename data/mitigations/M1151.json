@@ -1,5 +1,5 @@
 {
     "id": "M1151",
-    "name": "Check keyword results are part of allocated file, or if not perform detailed analysis to determine if association is valid",
+    "name": "Check keyword results are part of allocated file, or if not perform detailed analysis to determine if the association between keyword results and file is valid",
     "references" : []
 }

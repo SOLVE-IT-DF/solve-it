@@ -89,21 +89,6 @@ if __name__ == '__main__':
     weaknesses_sheet = workbook.add_worksheet(name='Weaknesses')
     mitigations_sheet = workbook.add_worksheet(name='Mitigations')
 
-    # Adds some stats into the workbook
-    info_sheet.set_column(0, 0, 20)
-    info_sheet.set_column(1, 1, 30)
-    info_sheet.write_string(0, 0, "Property")
-    info_sheet.write_string(0, 1, "Value")
-    info_sheet.write_string(1, 0, "Workbook generated")
-    info_sheet.write_string(1, 1, datetime.datetime.now(tz=datetime.timezone.utc).isoformat())
-    info_sheet.write_string(2, 0, "Number of techniques")
-    info_sheet.write_number(2, 1, len(kb.list_techniques()))
-    info_sheet.write_string(3, 0, "Number of weaknesses")
-    info_sheet.write_number(3, 1, len(kb.list_weaknesses()))
-    info_sheet.write_string(4, 0, "Number of mitigations")
-    info_sheet.write_number(4, 1, len(kb.list_mitigations()))
-
-
     for each_technique_id in sorted(kb.list_techniques()):
         technique_name = kb.get_technique(each_technique_id).get('name')
         workbook.add_worksheet(each_technique_id)
@@ -226,6 +211,8 @@ if __name__ == '__main__':
 
     techniques_added = []
 
+    total_techniques_with_weaknesses = 0
+
     for each_tactic in kb.tactics:
         tactic = each_tactic.get('name')
         column = tactics_name_list.index(tactic)
@@ -246,6 +233,7 @@ if __name__ == '__main__':
                         the_format = technique_format
                     else:
                         the_format = technique_format2
+                        total_techniques_with_weaknesses += 1
 
                     main_worksheet.write_url(row, column, 'internal:{}!A1'.format(each_technique_id),
                                              string=technique_name + '\n' + each_technique_id,
@@ -272,6 +260,10 @@ if __name__ == '__main__':
                             sys.exit(-1)
 
                         techniques_added.append(each_subtechnique_id)
+
+                        if len(each_subtechnique.get('weaknesses')) > 0:
+                            total_techniques_with_weaknesses += 1
+
                         tactics_row_indexes[tactic] += 1
 
                 except KeyError:
@@ -464,5 +456,27 @@ if __name__ == '__main__':
             worksheet.write_string(refs_start + i, 8, str(references.get(each_reference)), cell_format=technique_format)
             i += 1
     print("- all individual techniques worksheets updated")
+
+
+    # Adds some stats into the workbook
+    info_sheet.set_column(0, 0, 20)
+    info_sheet.set_column(1, 1, 30)
+    info_sheet.write_string(0, 0, "Property")
+    info_sheet.write_string(0, 1, "Value")
+    info_sheet.write_string(1, 0, "Workbook generated")
+    info_sheet.write_string(1, 1, datetime.datetime.now(tz=datetime.timezone.utc).isoformat())
+    info_sheet.write_string(2, 0, "Number of objectives")
+    info_sheet.write_number(2, 1, len(kb.list_objectives()))
+    info_sheet.write_string(3, 0, "Number of techniques")
+    info_sheet.write_number(3, 1, len(kb.list_techniques()))
+    info_sheet.write_string(4, 0, "Number of weaknesses")
+    info_sheet.write_number(4, 1, len(kb.list_weaknesses()))
+    info_sheet.write_string(5, 0, "Number of mitigations")
+    info_sheet.write_number(5, 1, len(kb.list_mitigations()))
+    info_sheet.write_string(6, 0, "Number of techniques with weaknesses")
+    info_sheet.write_number(6, 1, total_techniques_with_weaknesses)
+    info_sheet.write_string(7, 0, "Proportion of techniques with weaknesses")
+    info_sheet.write_number(7, 1, round(total_techniques_with_weaknesses / len(kb.list_techniques()), 2))
+
 
     workbook.close()

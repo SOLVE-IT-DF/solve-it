@@ -7,6 +7,6 @@
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "x",
-    "mitigations": [],
+    "mitigations": ["M1103"],
     "references": ["Céline Vanini, Christopher J. Hargreaves, Harm van Beek, Frank Breitinger, 2024. Was the clock correct? Exploring timestamp interpretation through time anchors for digital forensic event reconstruction. Digital Investigation, 49."]
 }

@@ -1,11 +1,11 @@
 {
-    "id": "T1057",
-    "name": "Search for indicators of steganography",
-    "description": "Searching for the presence of current or historical steganography software on a system",
+    "id": "T1131",
+    "name": "Search for indicators of trail obfuscation",
+    "description": "Searching for the presence of current or historical trail obfuscation on a system",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples":  [],
     "weaknesses": [],
     "CASE_output_classes" : [],
     "references": ["Kessler, G.C., 2007. Anti-forensics and the digital investigator."]

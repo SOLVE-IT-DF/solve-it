@@ -1,22 +1,21 @@
 [
-    {"name":"Find potential evidence sources",
-    "description": "todo",
+    {"name":"Find potential digital evidence sources",
+    "description": "Locate sources of digital evidence that may be relevant to the investigation.",
     "techniques": ["T1005", "T1006", "T1009", "T1008", "T1007"]
     },
 
-    {"name":"Prioritise",
-    "description": "todo",
+    {"name":"Prioritize digital evidence sources",
+    "description": "Rank the evidence sources based on their relevance and potential value to the investigation.",
     "techniques": ["T1001"]
     },
 
-    {"name":"Preserve",
-    "description": "todo",
-    "techniques": ["T1014", "T1011", "T1010", "T1012", "T1013", "T1110"]
+    {"name":"Preserve digital evidence",
+    "description": "Ensure the integrity and authenticity of digital evidence is maintained.",
+    "techniques": ["T1011", "T1010", "T1012", "T1013", "T1110"]
     },
 
-
-    {"name":"Acquire",
-    "description": "todo",
+    {"name":"Acquire data",
+    "description": "Collect data from the identified evidence sources.",
     "techniques": ["T1112", "T1113",
                     "T1111",
                     "T1028", "T1029", "T1030", "T1027",
@@ -31,78 +30,82 @@
                     "T1025", "T1026"]
     },
 
-    {"name":"Gain Access",
-    "description": "todo",
+    {"name":"Gain access",
+    "description": "Attempt to gain access to protected data sources or other restricted data.",
     "techniques": ["T1039", "T1034", "T1035", "T1033", "T1031",
                     "T1041", "T1038", "T1032", "T1036", "T1037","T1040"]
     },
 
-    {"name":"Process Storage Format",
-    "description": "todo",
+    {"name":"Read data from digital evidence storage formats",
+    "description": "Access data within digital evidence containers such as disk images, memory dumps, or archive formats.",
     "techniques": ["T1045", "T1042", "T1043", "T1044", "T1102"]
     },
 
-    {"name":"Perform Data Reduction",
-    "description": "todo",
+    {"name":"Reduce data under consideration",
+    "description": "Filter the data to be considered in the investigation for practical, legal, or privacy protection reasons.",
     "techniques": ["T1047", "T1048", "T1046"]
     },
 
-
-    {"name":"Extract Partition and File System Information",
-    "description": "todo",
+    {"name":"Access partitions, volumes and file systems data",
+    "description": "Process core data storage structures such as partitions, volumes, and file systems, recovering content and metadata.",
     "techniques": ["T1062", "T1061", "T1064", "T1063",
                     "T1059", "T1060"]
     },
 
-    {"name":"Extract Operating System Feature Information",
-    "description": "todo",
+    {"name":"Extract artifacts stored by the operating system",
+    "description": "Process data stored by the operating system to extract digital forensic artifacts.",
     "techniques": ["T1067", "T1065", "T1097", "T1066",
                     "T1068", "T1096", "T1098", "T1083", "T1116"]
     },
 
-    {"name":"Extract Application-based Information",
-    "description": "todo",
+    {"name":"Extract artifacts stored by applications",
+    "description": "Process data stored by the applications to extract digital forensic artifacts.",
     "techniques": ["T1069", "T1073", "T1072", "T1078",
                     "T1070", "T1075", "T1077", "T1074", "T1105", "T1107",
                     "T1108", "T1109"]
     },
 
-    {"name":"Examine data at the file-level",
-    "description": "todo",
-    "techniques": ["T1079", "T1082", "T1081", "T1100", "T1080", "T1099", "T1106", "T1071"]
+    {"name":"Extract artifacts, or content of specific types",
+    "description": "Process data to extract artifacts or stored content of specific types.",
+    "techniques": ["T1071", "T1100", "T1099", "T1052", "T1053", "T1056", "T1120"]
     },
 
-    {"name":"Locate Relevant Digital Artefacts",
-    "description": "todo",
-    "techniques": ["T1054", "T1053", "T1056", "T1055",
-                    "T1051", "T1050", "T1049", "T1058",
-                    "T1057", "T1052", "T1118", "T1086",
-                    "T1120", "T1121", "T1122", "T1123", "T1124", "T1125"]
+    {"name":"Locate potentially relevant content",
+    "description": "Attempt to find digital artifacts relevant to the investigation.",
+    "techniques": ["T1051", "T1050", "T1049", "T1058",
+                    "T1057", "T1118", "T1086",
+                     "T1121", "T1122", "T1123", "T1124", "T1125"]
     },
 
 
-    {"name":"Establish Identities",
-    "description": "todo",
+    {"name":"Review content for relevance",
+    "description": "Review potentially relevant content to determine its significance or meaning.",
+    "techniques": ["T1054", "T1055", "T1079", "T1080", "T1081", "T1082"]
+    },
+
+
+    {"name":"Establish identities",
+    "description": "Attempt to link data or devices to individuals.",
     "techniques": ["T1084", "T1085"]
     },
 
-    {"name":"Create Visualisation",
-    "description": "Display information as a visual representation to assist with analysis",
+    {"name":"Create visualizations",
+    "description": "Display information using visual representations to assist with analysis.",
     "techniques": ["T1103", "T1115"]
     },
 
-    {"name":"Reconstruct Events",
-    "description": "todo",
+    {"name":"Reconstruct events",
+    "description": "Use available digital evidence to formulate and test hypotheses about events.",
     "techniques": ["T1087", "T1088", "T1117"]
     },
 
-    {"name":"Research",
-    "description": "todo",
+    {"name":"Conduct research",
+    "description": "Conduct research to gain additional knowledge to support the acquisition, extraction, or interpretation of digital evidence.",
     "techniques": ["T1090", "T1095", "T1089", "T1101", "T1119"]
     },
 
-    {"name":"Documentation",
-    "description": "todo",
-    "techniques": ["T1091", "T1094", "T1092", "T1093"]
+    {"name":"Produce documentation",
+    "description": "Create documentation about techniques used and findings.",
+    "techniques": ["T1091", "T1094", "T1092", "T1093", "T1014"]
     }
 ]

@@ -1,0 +1,17 @@
+{
+    "id": "W1216",
+    "name": "Presenting a call to or from the AI companion app that did not exist",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1161",
+        "M1162",
+        "M1027",
+        "M1055"
+    ],
+    "references": []
+}

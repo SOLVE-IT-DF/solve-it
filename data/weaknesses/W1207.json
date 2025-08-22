@@ -1,0 +1,14 @@
+{
+    "id": "W1207",
+    "name": "Failure to display a message to or from the AI companion app in the context of other messages",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "mitigations": [
+        "M1157"
+    ],
+    "references": []
+}

@@ -1,0 +1,16 @@
+{
+    "id": "W1201",
+    "name": "Failure to recover live messages to or from the AI companion app",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1154",
+        "M1027",
+        "M1055"
+    ],
+    "references": []
+}

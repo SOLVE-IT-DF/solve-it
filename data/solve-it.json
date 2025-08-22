@@ -64,7 +64,7 @@
     "description": "todo",
     "techniques": ["T1069", "T1073", "T1072", "T1078",
                     "T1070", "T1075", "T1077", "T1074", "T1105", "T1107",
-                    "T1108", "T1109"]
+                    "T1108", "T1109", "T1133"]
     },
 
     {"name":"Examine data at the file-level",

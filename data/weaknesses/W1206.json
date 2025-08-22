@@ -1,0 +1,16 @@
+{
+    "id": "W1206",
+    "name": "Merging the contents of two deleted messages together and presenting them as a single one sent to the AI companion app",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "x",
+    "MISINT": "",
+    "mitigations": [
+        "M1050",
+        "M1155",
+        "M1027"
+    ],
+    "references": []
+}

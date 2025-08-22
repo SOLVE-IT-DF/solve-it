@@ -1,0 +1,17 @@
+{
+    "id": "W1223",
+    "name": "Live access to the device (for extraction) updates last access times for an account",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "x",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1165",
+        "M1166",
+        "M1167",
+        "M1168"
+    ],
+    "references": []
+}

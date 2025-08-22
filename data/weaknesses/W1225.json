@@ -1,0 +1,17 @@
+{
+    "id": "W1225",
+    "name": "Failure to recover relevant app settings",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1050",
+        "M1169",
+        "M1170",
+        "M1027"
+    ],
+    "references": []
+}

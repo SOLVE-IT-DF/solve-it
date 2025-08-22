@@ -1,0 +1,22 @@
+{
+    "id": "W1220",
+    "name": "Presenting an incorrect timestamp associated with an interaction with the AI companion app",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "mitigations": [
+        "M1027",
+        "M1050",
+        "M1161",
+        "M1162",
+        "M1154",
+        "M1155",
+        "M1158",
+        "M1159",
+        "M1055"
+    ],
+    "references": []
+}

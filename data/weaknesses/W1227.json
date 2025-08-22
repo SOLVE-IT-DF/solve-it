@@ -1,0 +1,17 @@
+{
+    "id": "W1227",
+    "name": "Associating a configured bot with the wrong account",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1171",
+        "M1027",
+        "M1050",
+        "M1055"
+    ],
+    "references": []
+}

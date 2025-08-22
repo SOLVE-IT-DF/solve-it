@@ -1,0 +1,13 @@
+{
+    "id": "T1129",
+    "name": "Search for indicators of clock tampering",
+    "description": "Searching for indicators that the system clock has been tampered with",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples":  [],
+    "weaknesses": [],
+    "CASE_output_classes" : [],
+    "references": ["Vanini, C., Hargreaves, C.J., van Beek, H. and Breitinger, F., 2024. Was the clock correct? Exploring timestamp interpretation through time anchors for digital forensic event reconstruction. Forensic Science International: Digital Investigation, 49, p.301759.",
+                   "Dreier, L.M., Vanini, C., Hargreaves, C.J., Breitinger, F. and Freiling, F., 2024. Beyond timestamps: Integrating implicit timing information into digital forensic timelines. Forensic Science International: Digital Investigation, 49, p.301755."]
+}

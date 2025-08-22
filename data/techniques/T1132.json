@@ -1,0 +1,12 @@
+{
+    "id": "T1132",
+    "name": "Search for indicators of artifact wiping",
+    "description": "Searching for the presence of current or historical artifact wiping",
+    "synonyms": ["artifact scrubbing"],
+    "details": "",
+    "subtechniques": [],
+    "examples":  [],
+    "weaknesses": [],
+    "CASE_output_classes" : [],
+    "references": ["Kessler, G.C., 2007. Anti-forensics and the digital investigator."]
+}

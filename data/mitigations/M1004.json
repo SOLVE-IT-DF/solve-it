@@ -1,5 +1,6 @@
 {
     "id": "M1004",
     "name": "Check hash of image matches hash of source device",
+    "technique": "T1042",
     "references" : []
 }

@@ -1,0 +1,12 @@
+{
+    "id": "T1128",
+    "name": "Search for indicators of malware",
+    "description": "Searching for the presence of current or historical malware on a system",
+    "synonyms": ["virus scan", "malware scan"],
+    "details": "This can involve searching for malware itself or other indicators e.g. persistance mechanisms, delivery method etc.",
+    "subtechniques": [],
+    "examples":  [],
+    "weaknesses": [],
+    "CASE_output_classes" : [],
+    "references": []
+}

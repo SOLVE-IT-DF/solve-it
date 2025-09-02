@@ -1,0 +1,12 @@
+{
+    "id": "T1130",
+    "name": "Search for indicators of encrypted data",
+    "description": "Searching for the presence of current or historical encrypted data on a system",
+    "synonyms": [],
+    "details": "This can include encryption software itself, or encrypted files.",
+    "subtechniques": [],
+    "examples":  [],
+    "weaknesses": [],
+    "CASE_output_classes" : [],
+    "references": []
+}

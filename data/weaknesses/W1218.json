@@ -1,0 +1,18 @@
+{
+    "id": "W1218",
+    "name": "Presenting a call to the AI companion app as from the AI companion app, or vice versa",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1161",
+        "M1162",
+        "M1027",
+        "M1163",
+        "M1055"
+    ],
+    "references": []
+}

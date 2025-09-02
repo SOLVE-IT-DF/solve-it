@@ -1,0 +1,16 @@
+{
+    "id": "W1208",
+    "name": "Failure to recover live images sent to or from the AI companion app",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1158",
+        "M1027",
+        "M1055"
+    ],
+    "references": []
+}

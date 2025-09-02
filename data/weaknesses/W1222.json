@@ -1,0 +1,17 @@
+{
+    "id": "W1222",
+    "name": "Presenting account details that did not exist",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1164",
+        "M1027",
+        "M1050",
+        "M1055"
+    ],
+    "references": []
+}

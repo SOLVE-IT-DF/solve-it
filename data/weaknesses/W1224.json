@@ -1,0 +1,16 @@
+{
+    "id": "W1224",
+    "name": "Presenting a deleted account as live, or vice versa",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1164",
+        "M1050",
+        "M1027"
+    ],
+    "references": []
+}

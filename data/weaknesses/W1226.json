@@ -1,0 +1,17 @@
+{
+    "id": "W1226",
+    "name": "Failure to recover relevant AI bot settings",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1171",
+        "M1170",
+        "M1027",
+        "M1055"
+    ],
+    "references": []
+}

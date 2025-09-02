@@ -1,0 +1,16 @@
+{
+    "id": "W1215",
+    "name": "Failure to recover deleted but recoverable records of calls to or from the AI companion app",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1162",
+        "M1027",
+        "M1055"
+    ],
+    "references": []
+}

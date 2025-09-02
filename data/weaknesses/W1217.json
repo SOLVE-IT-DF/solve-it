@@ -1,0 +1,17 @@
+{
+    "id": "W1217",
+    "name": "Presenting a deleted call to the AI companion app as a live one, or vice versa",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1161",
+        "M1162",
+        "M1027",
+        "M1055"
+    ],
+    "references": []
+}

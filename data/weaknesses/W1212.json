@@ -1,0 +1,19 @@
+{
+    "id": "W1212",
+    "name": "Presenting an image sent to the AI chat app as from the AI companion app, or vice versa",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "M1160",
+        "M1158",
+        "M1159",
+        "M1027",
+        "M1050",
+        "M1055"
+    ],
+    "references": []
+}

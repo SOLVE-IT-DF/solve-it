@@ -1,8 +1,8 @@
 {
     "id": "T1091",
-    "name": "Bookmarking",
-    "description": "Making a record of selected files or pieces of data so they can be accessed easily, or used for generating automated reports.",
-    "synonyms": [],
+    "name": "Bookmark artifacts",
+    "description": "Make a record of selected files or pieces of data so they can be accessed easily, or used for generating automated reports.",
+    "synonyms": ["Bookmarking", "Tagging"],
     "details": "",
     "subtechniques": [],
     "examples": [],

@@ -29,6 +29,7 @@ def format_headings_in_workbook(workbook, tactics):
     # write headers
     for i in range(0,len(tactics)):
         worksheet.write_string(0, i, tactics[i].get('name'), header_format)
+        worksheet.write_comment(0, i, tactics[i].get('description'), {'font_size': 12, 'width': 200, 'height': 200})
 
     return workbook
 

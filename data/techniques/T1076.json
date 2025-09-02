@@ -1,0 +1,12 @@
+{
+    "id": "T1076",
+    "name": "Log file examination",
+    "description": "Examination of a file that was designed for incremental logging from a piece of software (e.g. an application or operating system feature)",
+    "synonyms": [],
+    "details": "These could be in a variety of formats e.g. plain text, JSON, XML, binary, etc.",
+    "subtechniques": [],
+    "examples": ["Examination of setupapi.dev.log", "Examination of syslog"],
+    "weaknesses": ["W1201", "W1202", "W1203", "W1204", "W1205", "W1206", "W1207", "W1208", "W1209"],
+    "CASE_output_classes" : ["observable:EventLog", "core:eventType"],
+    "references": []
+}

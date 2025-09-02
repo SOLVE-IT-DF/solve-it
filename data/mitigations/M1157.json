@@ -1,0 +1,5 @@
+{
+    "id": "M1157",
+    "name": "Ensure any available archive logs are also examined",
+    "references" : []
+}

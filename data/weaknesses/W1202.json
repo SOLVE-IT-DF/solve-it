@@ -1,0 +1,12 @@
+{
+    "id": "W1202",
+    "name": "Log entry missing due to being stored in archived copies of logs",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1157"],
+    "references": []
+}

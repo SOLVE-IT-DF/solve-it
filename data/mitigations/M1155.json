@@ -1,0 +1,5 @@
+{
+    "id": "M1155",
+    "name": "Check logging settings so the bounds of logging are known",
+    "references" : ["https://www.crowdstrike.com/en-us/guides/syslog-logging/advanced-concepts/"]
+}

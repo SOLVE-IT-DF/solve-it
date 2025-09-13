@@ -1,0 +1,12 @@
+{
+    "id": "W1201",
+    "name": "Log entry missing due to incorrect parsing of logfile",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1163", "M1027"],
+    "references": []
+}

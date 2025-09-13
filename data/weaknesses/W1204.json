@@ -1,0 +1,12 @@
+{
+    "id": "W1204",
+    "name": "Interpreting log entry absence as evidence of deletion rather than logging configuration",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "x",
+    "MISINT": "",
+    "mitigations": ["M1156"],
+    "references": []
+}

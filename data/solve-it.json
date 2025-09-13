@@ -69,7 +69,7 @@
 
     {"name":"Examine data at the file-level",
     "description": "todo",
-    "techniques": ["T1079", "T1082", "T1081", "T1100", "T1080", "T1099", "T1106", "T1071"]
+    "techniques": ["T1021", "T1076", "T1079", "T1082", "T1081", "T1100", "T1080", "T1099", "T1106", "T1071"]
     },
 
     {"name":"Locate Relevant Digital Artefacts",

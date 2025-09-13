@@ -1,0 +1,12 @@
+{
+    "id": "W1207",
+    "name": "Event time presented incorrectly due to incorrect timezone handling",
+    "INCOMP": "x",
+    "INAC-EX": "x",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "mitigations": ["M1027", "M1160", "M1161"],
+    "references": []
+}

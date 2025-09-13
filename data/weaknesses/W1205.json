@@ -1,0 +1,12 @@
+{
+    "id": "W1205",
+    "name": "Failure to extract log entry timestamp",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1162", "M1027"],
+    "references": []
+}

@@ -9,6 +9,10 @@ SOLVE-IT was introduced at [DFRWS EU 2025](https://dfrws.org/presentation/solve-
 
 This is a community project so please see [CONTRIBUTING.md](CONTRIBUTING.md) for information on how to contribute to the knowledge base.
 
+<img width="2366" height="1212" alt="image" src="https://github.com/user-attachments/assets/a84fb8f8-1817-457c-a47e-2b65cebf7bd7" />
+
+<img width="2554" height="1384" alt="image" src="https://github.com/user-attachments/assets/1d1ef9bf-58d1-4abb-8277-43030a725091" />
+
 ## Related repositories
 
 - educational material for SOLVE-IT can be found [here](https://github.com/SOLVE-IT-DF/solve-it-education)
@@ -29,14 +33,14 @@ The high-level concepts are:
 **Mitigations**: something that can be done to prevent a weakness from occurring, or to minimise its impact.
 
 
-Each of these concepts are contained in subfolders within the [\data](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data) subfolder. Each technique, weakness, and mitigation is represented as a json file that can be directly viewed.
+Each of these concepts are contained in subfolders within the [\data](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data) subfolder. Each technique, weakness, and mitigation is represented as a JSON file that can be directly viewed.
 
 ## Viewing the knowledge base in a spreadsheet
 
 Pre-generated xlsx files can be found in the [releases](https://github.com/SOLVE-IT-DF/solve-it/releases) section, published at regular intervals. The most up-to-date version can be found [here](https://github.com/SOLVE-IT-DF/solve-it/blob/main/.repo_info/solve-it-latest.xlsx), which is auto-generated on each commit.
 
 
-If you want to generate your own from the raw data (useful if you are adding or editing content), a utility script is provided, `reporting_scripts/generate_excel_from_kb.py`. This python3 script will generate an Excel spreadsheet (solve-it.xlsx) based on the current version of the json data (using the solve-it.json categorisations). This uses the Python xlsxwriter package. 
+If you want to generate your own from the raw data (useful if you are adding or editing content), a utility script is provided, `reporting_scripts/generate_excel_from_kb.py`. This python3 script will generate an Excel spreadsheet (solve-it.xlsx) based on the current version of the JSON data (using the solve-it.json categorisations). This uses the Python xlsxwriter package. 
 
 
 Another utility script `reporting_scripts/generate_evaluation.py` can be used with a list of technique IDs provided as command line arguments. This provides a repackaged checklist of the supplied techniques, with their weaknesses and potential mitigations. This can be used to review a case, an SOP, a tool workflow, and more. See example in [SOLVE-IT examples repository](https://github.com/SOLVE-IT-DF/solve-it-examples/tree/main/forensic_workflow_example_forensic_imaging).

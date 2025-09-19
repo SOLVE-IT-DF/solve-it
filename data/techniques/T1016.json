@@ -2,11 +2,18 @@
     "id": "T1016",
     "name": "Live data collection",
     "description": "Running commands on a live system to collect specific pieces of information e.g. running processes or open ports",
-    "synonyms": [],
+    "synonyms": ["Live response data collection",   
+                 "Volatile data collection"],
     "details": "Prior to collecting data from the system, pre-stages are described in (Waits et al 2008) as:\n- Establish trusted command shell\n- Establish method for transmitting and storing the information\n",
     "subtechniques": [],
-    "examples": [],
+    "examples": ["pslist", "procdump", "psloggedon", "ipconfig", "netstat"],
     "weaknesses": ["W1034", "W1035", "W1036"],
-    "CASE_output_classes" : [],
-    "references": ["Waits, C., Akinyele, J.A., Nolan, R. and Rogers, L., 2008. Computer forensics: results of live response inquiry vs. memory image analysis. CERT program, CMU/SEI-2008-TN-017."]
+    "CASE_output_classes" : [ "observable:Process",
+                              "observable:NetworkConnection",
+                              "observable:IPAddress",
+                              "observable:MACAddress",
+                              "observable:UserAccount"
+    ],
+    "references": ["Waits, C., Akinyele, J.A., Nolan, R. and Rogers, L., 2008. Computer forensics: results of live response inquiry vs. memory image analysis. CERT program, CMU/SEI-2008-TN-017.",
+                "Kent, K., Chevalier, S., Grance, T. & Dang, H. (2006) Guide to Integrating Forensic Techniques into Incident Response. NIST Special Publication 800‑86. National Institute of Standards and Technology (NIST). Available at: https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-86.pdf "]
 }

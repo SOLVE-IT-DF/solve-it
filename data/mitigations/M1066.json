@@ -1,5 +1,5 @@
 {
     "id": "M1066",
-    "name": "Extract URLs from other areas of the disk",
+    "name": "Attempt to reconstruct browser activity from other areas of disk",
     "references" : ["Chivers, H., 2014. Private browsing: A window of forensic opportunity. Digital Investigation, 11(1), pp.20-29."]
 }

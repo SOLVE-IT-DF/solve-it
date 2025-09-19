@@ -1,0 +1,6 @@
+id	name	technique	references
+M1027	Dual tool verification		
+M1050	Manual verification of relevant data		
+Mx001	New mitigation 3	T1234	"reference 1", "reference 2"
+MX002	New mitigation 1		"reference 3", 
+Mx003	New mitigation 2		"reference 4", "reference 5"

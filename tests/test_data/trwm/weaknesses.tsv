@@ -1,0 +1,30 @@
+id	name	INCOMP	INAC-EX	INAC-ALT	INAC-AS	INAC-COR	MISINT	Summary	Mitigation 1	Mitigation 2	Mitigation 3	Mitigation 4	Mitigation 5	Mitigation 6	Mitigation 7	Mitigation 8	Mitigation 9	Mitigation 10	references
+Wx001	Weakness 1 for R1	X						INCOMP	Manual verification of relevant data	New mitigation 1									Ref1
+Wx002	Weakness 2 for R1		X					INAC-EX	New mitigation 1										Ref2
+Wx003	Weakness 3 for R1			X				INAC-ALT	New mitigation 2	New miitgation 3									"Ref3", "Ref4"
+Wx004	Weakness 4 for R1				X			INAC-AS	Dual tool verification										["Ref 5", "Ref 6", "Ref 7"]
+Wx005	Weakness 5 for R1					X		INAC-COR											
+Wx006	Weakness 6 for R1						X	MISINT											
+Wx007	Weakness 7 for R1						X	MISINT											
+Wx008	Weakness 8 for R1						X	MISINT											
+Wx009	Weakness 9 for R1						X	MISINT											
+Wx010	Weakness 10 for R1						X	MISINT											
+Wx011	Weakness 1 for R2	X						INCOMP											
+Wx012	Weakness 2 for R2		X					INAC-EX											
+Wx013	Weakness 3 for R2			X				INAC-ALT											
+Wx014	Weakness 4 for R2				X			INAC-AS											
+Wx015	Weakness 5 for R2					X		INAC-COR											
+Wx016	Weakness 6 for R2						X	MISINT											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											
+		-	-	-	-	-	-	-											

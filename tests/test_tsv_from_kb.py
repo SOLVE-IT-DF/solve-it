@@ -11,7 +11,7 @@ import generate_tsv_from_kb
 
 class MyTestCase(unittest.TestCase):
     def test_print_objective_runs_without_error(self):
-        kb = KnowledgeBase('..', 'solve-it.json')
+        kb = KnowledgeBase('.', 'solve-it.json')
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
@@ -19,7 +19,7 @@ class MyTestCase(unittest.TestCase):
         self.assertIn("Objective", captured_output.getvalue())
 
     def test_print_technique_runs_without_error(self):
-        kb = KnowledgeBase('..', 'solve-it.json')
+        kb = KnowledgeBase('.', 'solve-it.json')
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
@@ -35,7 +35,7 @@ class MyTestCase(unittest.TestCase):
         self.assertIn("Synonyms", captured_output.getvalue())
 
     def test_print_weakness_runs_without_error(self):
-        kb = KnowledgeBase('..', 'solve-it.json')
+        kb = KnowledgeBase('.', 'solve-it.json')
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
@@ -54,7 +54,7 @@ class MyTestCase(unittest.TestCase):
         self.assertIn(test_str, captured_output.getvalue())
 
     def test_print_mitigations_runs_without_error(self):
-        kb = KnowledgeBase('..', 'solve-it.json')
+        kb = KnowledgeBase('.', 'solve-it.json')
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):

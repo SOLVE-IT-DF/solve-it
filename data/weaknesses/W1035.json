@@ -1,11 +1,11 @@
 {
     "id": "W1035",
     "name": "Collecting incorrect information from live system due to compromised machine (e.g. rootkit)",
-    "INCOMP": "",
+    "INCOMP": "x",
     "INAC-EX": "x",
     "INAC-AS": "x",
     "INAC-ALT": "",
-    "INAC-COR": "",
+    "INAC-COR": "x",
     "MISINT": "",
     "mitigations": ["M1013"],
     "references": []

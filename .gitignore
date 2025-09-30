@@ -210,4 +210,9 @@ marimo/_lsp/
 __marimo__/
 /reporting_scripts/output
 /output
+
+# VS Code
 .vscode/launch.json
+
+# Claude code configs
+/.claude

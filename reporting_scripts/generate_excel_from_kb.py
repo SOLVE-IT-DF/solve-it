@@ -163,7 +163,7 @@ if __name__ == '__main__':
     mitigations_sheet.write_string(0, 1, "Description")
     mitigations_sheet.write_string(0, 2, "In techniques")
     mitigations_sheet.write_string(0, 3, "In weakness")
-    mitigations_sheet.write_string(0, 4, "Weakness occurances")
+    mitigations_sheet.write_string(0, 4, "Weakness occurrences")
 
     print("- populated 'all techniques' worksheet")
 
@@ -323,16 +323,15 @@ if __name__ == '__main__':
         worksheet.write_string(3, 1, description, cell_format=technique_list_format)
         worksheet.write_string(4, 0, 'Synonyms: ', bold_format)
         synonyms = kb.get_technique(each_technique_id).get('synonyms') or []
-        worksheet.write_string(4, 1, pprint.pformat(synonyms))
+        worksheet.write_string(4, 1, pprint.pformat(synonyms), cell_format=technique_list_format)
         worksheet.write_string(5, 0, 'Details: ', bold_format)
         details = kb.get_technique(each_technique_id).get('details') or ''
         worksheet.write_string(5, 1, details, cell_format=technique_list_format)
         worksheet.write_string(6, 0, 'Subtechniques: ', bold_format)
         subtechniques = kb.get_technique(each_technique_id).get('subtechniques') or []
-
-        # note - this needs nicer formatting eventually
+        
         sub_techniques_out = [sub_t + ':' + kb.get_technique(sub_t).get('name') for sub_t in subtechniques]
-        worksheet.write_string(6, 1, str(sub_techniques_out))
+        worksheet.write_string(6, 1, pprint.pformat(sub_techniques_out), cell_format=technique_list_format)
 
         worksheet.write_string(7, 0, 'CASE output entities: ', bold_format)        
         case_output = kb.get_technique(each_technique_id).get('CASE_output_classes') or []

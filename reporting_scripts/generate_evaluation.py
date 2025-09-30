@@ -338,7 +338,7 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None, labe
                                 main_worksheet.write_string(
                                     '{}{}'.format(xl_col_to_name(mit_index[each_mit]), str(start_pos + 2)),
                                     lab_mit_data.get('status'))
-                                main_worksheet.write_string('{}{}'.format('AH', str(start_pos + 2)),
+                                main_worksheet.write_string('{}{}'.format(xl_col_to_name(8 + max_mits + 15,), str(start_pos + 2)),
                                                             lab_mit_data.get('notes'))
                     else:
                         logging.debug('technique {} NOT FOUND IN CONFIG'.format({full_technique_identifier}))

@@ -14,7 +14,6 @@ framework for systematically assessing techniques by showing:
 The script can be used directly from the command line or imported as a module
 by other Python code.
 """
-
 import os
 import sys
 import json
@@ -184,7 +183,8 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None, labe
     # Write mitigations top header
     max_mits = kb.get_max_mitigations_per_technique()
     print('Max mitigations: {}'.format(max_mits))
-    max_letter = chr(ord('I') + max_mits - 1)
+    max_letter = xl_col_to_name(8 + max_mits - 1)  # Column I is index 8, so last mitigation column is 8 + max_mits - 1
+
     main_worksheet.merge_range("I1:{}1".format(max_letter), "Potential Mitigations", header_type_format)
     for i in range(0, max_mits):
         main_worksheet.write_string(1, 8 + i, "M{}".format(i), wrapped_title)
@@ -444,8 +444,8 @@ def main():
         
     except Exception as e:
         # Print error message
-        print(f"Error generating evaluation workbook: {str(e)}")
-        return 1  # Error exit code
+        print(f"Error generating evaluation workbook: {str(e)}")    
+        return -1  # Error exit code
 
 
 if __name__ == "__main__":

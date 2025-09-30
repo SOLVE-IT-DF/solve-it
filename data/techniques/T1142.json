@@ -1,0 +1,12 @@
+{
+    "id": "T1142",
+    "name": "Browser downloads examination",
+    "description": "The examination of records of files downloaded with a browser",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": ["W1248"],
+    "CASE_output_classes" : [],
+    "references": []
+}

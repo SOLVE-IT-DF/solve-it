@@ -1,7 +1,7 @@
 {
-    "id": "T1000",
-    "name": "Placeholder",
-    "description": "",
+    "id": "T1147",
+    "name": "Browser cookie examination",
+    "description": "The examination of stored browser cookies",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

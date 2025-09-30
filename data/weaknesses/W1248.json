@@ -1,0 +1,12 @@
+{
+    "id": "W1248",
+    "name": "Missing browser downloads as the files were saved to a non-standard location",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

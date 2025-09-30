@@ -1,0 +1,12 @@
+{
+    "id": "W1243",
+    "name": "Missing browser history data as it was conducted outside of configured retention period",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1192", "M1193"],
+    "references": []
+}

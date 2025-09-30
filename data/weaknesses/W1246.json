@@ -1,0 +1,12 @@
+{
+    "id": "W1246",
+    "name": "Attribution of incorrect details (e.g. page title) to a browser web visit due to join queries used in underlying database",
+    "INCOMP": "",
+    "INAC-EX": "X",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

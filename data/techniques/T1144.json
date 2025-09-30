@@ -1,0 +1,12 @@
+{
+    "id": "T1144",
+    "name": "Browser profile enumeration",
+    "description": "The enumeration of the separate user profiles set up within a browser",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": ["W1249"],
+    "CASE_output_classes" : [],
+    "references": []
+}

@@ -1,0 +1,6 @@
+{
+    "id": "M1188",
+    "name": "Ensure all profiles of the web browser are considered",
+    "technique": "T1144",
+    "references" : []
+}

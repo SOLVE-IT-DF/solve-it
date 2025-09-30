@@ -1,0 +1,12 @@
+{
+    "id": "T1146",
+    "name": "Browser synchronization feature examination",
+    "description": "The examination of the settings and artifacts resulting from a browser synchronization feature",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_output_classes" : [],
+    "references": []
+}

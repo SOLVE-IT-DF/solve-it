@@ -1,0 +1,6 @@
+{
+    "id": "M1191",
+    "name": "Ensure that profile configuration is examined rather than just folders within the standard profile folder",
+    "technique": "T1143",
+    "references" : ["Mozillazine (2017), Profiles.ini file, https://kb.mozillazine.org/Profiles.ini_file"]
+}

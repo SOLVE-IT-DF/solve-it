@@ -1,0 +1,15 @@
+{
+    "id": "T1148",
+    "name": "Browser web storage examination",
+    "description": "The examination of ",
+    "synonyms": ["browser storage examination",
+                 "web storage examination",
+                 "HTML5 storage examination",
+                 "local storage examination"],
+    "details": "Web storage is a browser-based API bundled in HTML5 specifications that allow persistent client-side storage for web applications. (Mendoza 2015)",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_output_classes" : [],
+    "references": ["Mendoza, A., Kumar, A., Midcap, D., Cho, H. and Varol, C., 2015. BrowStEx: A tool to aggregate browser storage artifacts for forensic analysis. Digital investigation, 14, pp.63-75."]
+}

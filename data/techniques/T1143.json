@@ -1,7 +1,7 @@
 {
-    "id": "T1000",
-    "name": "Placeholder",
-    "description": "",
+    "id": "T1143",
+    "name": "Browser configuration examination",
+    "description": "The examination of a browsers configuration",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

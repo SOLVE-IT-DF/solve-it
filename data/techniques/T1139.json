@@ -1,7 +1,7 @@
 {
-    "id": "T1000",
-    "name": "Placeholder",
-    "description": "",
+    "id": "T1139",
+    "name": "Browser session examination",
+    "description": "The examination of sessions and open tabs and their individual histories",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

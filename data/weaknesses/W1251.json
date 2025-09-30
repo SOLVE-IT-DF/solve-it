@@ -1,0 +1,12 @@
+{
+    "id": "W1251",
+    "name": "Incomplete browser activity extraction due to failure to consider multiple profiles",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1188"],
+    "references": []
+}

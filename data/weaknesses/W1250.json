@@ -1,0 +1,12 @@
+{
+    "id": "W1250",
+    "name": "Incomplete browser activity extraction due to not considering the browser cache artifacts",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1187"],
+    "references": []
+}

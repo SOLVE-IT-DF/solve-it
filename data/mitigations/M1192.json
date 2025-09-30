@@ -1,0 +1,6 @@
+{
+    "id": "M1192",
+    "name": "Examine browser configuration to determine history retention settings",
+    "technique": "T1143",
+    "references" : []
+}

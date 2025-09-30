@@ -1,0 +1,5 @@
+{
+    "id": "M1189",
+    "name": "Conduct experiments to determine if content from the page in question is cached only when viewed in the browser",
+    "references" : ["Horsman, G., 2018. I didn't see that! An examination of internet browser cache behaviour following website visits. Digital Investigation, 25, pp.105-113."]
+}

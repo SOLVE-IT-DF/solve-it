@@ -1,0 +1,12 @@
+{
+    "id": "W1245",
+    "name": "Relying on times stored in browser history that are not representative of exact web page visit time",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [],
+    "references": ["Groß, T., Dirauf, R. and Freiling, F., 2020, May. Systematic analysis of browser history evidence. In 2020 13th International Conference on Systematic Approaches to Digital Forensic Engineering (SADFE) (pp. 1-12). IEEE."]
+}

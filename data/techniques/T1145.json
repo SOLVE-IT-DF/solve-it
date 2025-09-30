@@ -1,7 +1,7 @@
 {
-    "id": "T1000",
-    "name": "Placeholder",
-    "description": "",
+    "id": "T1145",
+    "name": "Browser extensions examination",
+    "description": "The examination of the extensions installed within a browser",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

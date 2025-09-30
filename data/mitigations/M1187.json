@@ -1,0 +1,6 @@
+{
+    "id": "M1187",
+    "name": "Ensure browser cache data is also considered ",
+    "technique": "T1138",
+    "references" : []
+}

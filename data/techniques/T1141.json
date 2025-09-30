@@ -1,0 +1,12 @@
+{
+    "id": "T1141",
+    "name": "Browser bookmarks examination",
+    "description": "The examination of the links saved within a browser to facilitate quick access",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": ["W1247"],
+    "CASE_output_classes" : [],
+    "references": []
+}

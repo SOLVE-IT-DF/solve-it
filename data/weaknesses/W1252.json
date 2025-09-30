@@ -1,0 +1,12 @@
+{
+    "id": "W1252",
+    "name": "Assuming that data stored in the cache was viewed by the user",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": ["M1189"],
+    "references": ["Horsman, G., 2018. I didn't see that! An examination of internet browser cache behaviour following website visits. Digital Investigation, 25, pp.105-113."]
+}

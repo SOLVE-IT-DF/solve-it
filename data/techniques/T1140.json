@@ -1,7 +1,7 @@
 {
-    "id": "T1000",
-    "name": "Placeholder",
-    "description": "",
+    "id": "T1140",
+    "name": "Browser autofill examination",
+    "description": "The examination of data that is stored to autocomplete entries in forms",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

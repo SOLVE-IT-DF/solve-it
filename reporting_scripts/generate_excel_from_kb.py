@@ -248,7 +248,7 @@ if __name__ == '__main__':
                         row = tactics_row_indexes[tactic]
                         each_subtechnique = kb.get_technique(each_subtechnique_id)
                         if each_subtechnique is None:
-                            raise ValueError(f'Subtechnqiue {each_subtechnique_id} not found. ({each_technique_id})')
+                            raise ValueError(f"Subtechnique {each_subtechnique_id} not found. ({each_technique_id})")
                             sys.exit(-1)
 
 

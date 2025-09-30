@@ -1,0 +1,27 @@
+{
+    "id": "T1137",
+    "name": "File versioning feature examination",
+    "description": "Extraction of data from the versioning system used by an operating system to store older versions of files.",
+    "synonyms": ["shadow copy examination", 
+                 "previous versions", 
+                 "macOS 'Versions' examination",
+                "'Revert to...' feature examination"],
+    "details": "Operating systems often maintain versioning systems that preserve older versions of files, either for backup purposes or to enable users to restore previous states. These systems create snapshots or shadow copies at regular intervals or when significant changes occur. Digital forensic examination of these versioning features can reveal files that have been modified or deleted, providing valuable evidence of system activity and user behavior. The examination process involves identifying the versioning mechanism used by the operating system, locating the stored versions, and extracting relevant data for analysis.",
+    "subtechniques": [],
+    "examples": [
+        "Volume Shadow Service (VSS)",
+        "MacOS \"Revert to\" feature"
+    ],
+    "weaknesses": [],
+    "CASE_output_classes": [
+        "observable:File",
+        "observable:version",
+        "observable:modifiedTime"
+    ],
+    "references": [
+        "Apple (2025) View and restore past versions of documents on Mac https://support.apple.com/en-gb/guide/mac-help/mh40710/mac",
+        "Hargreaves, C., Chivers, H. and Titheridge, D., 2008. Windows Vista and digital investigations. Digital Investigation, 5(1-2), pp.34-48.",
+        "Leschke, T.R. and Nicholas, C., 2013, October. Change-link 2.0: a digital forensic tool for visualizing changes to shadow volume data. In Proceedings of the Tenth Workshop on Visualization for Cyber Security (pp. 17-24).",
+        "Sreeja, S.C. and Balan, C., 2016, October. Forensic analysis of volume shadow copy in windows 7. In 2016 International Conference on Emerging Technological Trends (ICETT) (pp. 1-6). IEEE."
+    ]
+}

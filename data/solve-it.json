@@ -55,7 +55,8 @@
     {"name":"Extract artifacts stored by the operating system",
     "description": "Process data stored by the operating system to extract digital forensic artifacts.",
     "techniques": ["T1067", "T1065", "T1097", "T1066",
-                    "T1068", "T1096", "T1098", "T1083", "T1116"]
+                    "T1068", "T1096", "T1098", "T1083", "T1116",
+                    "T1137"]
     },
 
     {"name":"Extract artifacts stored by applications",

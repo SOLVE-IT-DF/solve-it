@@ -7,7 +7,10 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1103", "W1104", "W1105", "W1106", "W1107"],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : [
+            "observable:File",
+            "observable:rangeOffset",
+            "observable:rangeOffsetType"],
     "references": []
 }
 

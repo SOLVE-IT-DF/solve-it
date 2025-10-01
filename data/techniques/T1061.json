@@ -4,9 +4,21 @@
     "description": "The recovery of files from non-allocated space using residual file system structures.",
     "synonyms": ["Deleted file recovery"],
     "details": "",
-    "subtechniques": [],
+    "subtechniques": ["T1064"],
     "examples": [],
     "weaknesses": ["W1133", "W1134", "W1135"],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes" : [
+        "observable:File",
+        "observable:filePath",
+        "observable:modifiedTime",
+        "observable:creationTime",
+        "observable:accessedTime",
+        "observable:mftRecordChangeTime",
+        "observable:mftFileNameAccessedTime",
+        "observable:mftFileNameCreatedTime",
+        "observable:mftFileNameModifiedTime",
+        "observable:mftFileNameRecordChangeTime",
+        "core:confidence"
+    ],
+    "references": []
 }

@@ -48,7 +48,7 @@
 
     {"name":"Access partitions, volumes and file systems data",
     "description": "Process core data storage structures such as partitions, volumes, and file systems, recovering content and metadata.",
-    "techniques": ["T1062", "T1061", "T1064", "T1063",
+    "techniques": ["T1062", "T1061", "T1063",
                     "T1059", "T1060"]
     },
 

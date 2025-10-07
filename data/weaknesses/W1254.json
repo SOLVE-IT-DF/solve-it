@@ -1,0 +1,12 @@
+{
+    "id": "W1254",
+    "name": "Recovered (non-allocated) file content is incorrect due to an incorrect assumption that the file was contiguous e.g. some residual file metadata exists, but not the full reassembly information",
+    "INCOMP": "",
+    "INAC-EX": "X",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1196", "M1197", "M1079", "M1080", "M1081"],
+    "references": []
+}

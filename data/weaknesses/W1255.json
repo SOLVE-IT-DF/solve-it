@@ -1,0 +1,12 @@
+{
+    "id": "W1255",
+    "name": "Recovered file content is incorrect due to incorrect parsing of file size information that records allocated but unwritten sectors (e.g. Valid Data Length (VDL)",
+    "INCOMP": "",
+    "INAC-EX": "X",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1198", "M1199", "M1200", "M1079", "M1080", "M1081"],
+    "references": []
+}

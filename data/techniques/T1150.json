@@ -1,16 +1,13 @@
 {
-    "id": "T1060",
-    "name": "Enumerate allocated files and folders",
-    "description": "This involves parsing the live file system data structures and reconstructing the file system of the target media or device.",
-    "synonyms": ["file system parsing"],
+    "id": "T1150",
+    "name": "Recover non-allocated files using residual file metadata",
+    "description": "Use metadata that remains in the file system to recover non-allocated files",
+    "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": ["The Sleuth Kit - allows parsing of file system structures", 
-                 "X-Ways Forensics - allows parsing of file system structures"],
-    "weaknesses": ["W1068", "W1069", "W1070", "W1071", "W1072", "W1073",
-                    "W1074", "W1075", "W1076", "W1077", "W1078", "W1079",
-                    "W1080", "W1081", "W1082", "W1083", "W1084"],
-    "CASE_output_classes" : [
+    "examples": [],
+    "weaknesses": ["W1134", "W1135", "W1253", "W1254", "W1255", "W1256"],
+    "CASE_output_classes": [
                             "observable:File",
                             "observable:Directory",                             
                             "observable:accessedTime",
@@ -30,6 +27,8 @@
                             "observable:ownerSID",
                             "observable:allocationStatus"
                         ],
-    "references": ["Casey, E., Nelson, A. and Hyde, J., 2019. Standardization of file recovery classification and authentication. Digital Investigation, 31, p.100873.",
-                    "Carrier, B., 2005. File system forensic analysis. Addison-Wesley Professional."]
+    "references": [
+                    "Casey, E., Nelson, A. and Hyde, J., 2019. Standardization of file recovery classification and authentication. Digital Investigation, 31, p.100873.",
+                    "Carrier, B., 2005. File system forensic analysis. Addison-Wesley Professional."
+                    ]
 }

@@ -1,0 +1,1 @@
+This folder can contain extensions for SOLVE-IT. An experimental feature that will be released in due course. 

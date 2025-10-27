@@ -1,0 +1,6 @@
+{
+    "id": "M1204",
+    "name": "Use live keyword search over broader content of the data source",
+    "technique": "T1125",
+    "references" : []
+}

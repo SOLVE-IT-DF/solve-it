@@ -4,7 +4,7 @@
     "description": "This technique involves searching data in the case for specific strings",
     "synonyms": ["string search"],
     "details": "This search may be conducted live, directly over the data, or from a generated index of strings extracted from the data. The words searched for may be either case-specific, or sometimes case-type specific.",
-    "subtechniques": ["T1125", "T1126", "T1127", "T1124","T1121", "T1122", "T1123"],
+    "subtechniques": ["T1125", "T1126", "T1127", "T1124","T1121", "T1122", "T1123", "T1151"],
     "examples": [],
     "weaknesses": ["W1053", "W1058", "W1059", "W1196"],
     "CASE_output_classes" : [],

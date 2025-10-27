@@ -1,0 +1,6 @@
+{
+    "id": "M1203",
+    "name": "Use indexed keyword search over broader content of the data source",
+    "technique": "T1124",
+    "references" : []
+}

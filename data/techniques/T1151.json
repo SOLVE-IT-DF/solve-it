@@ -1,0 +1,17 @@
+{
+    "id": "T1151",
+    "name": "Keyword search (over extracted artifacts)",
+    "description": "Keyword searching only applied over extracted artifacts",
+    "synonyms": ["search artifacts only"],
+    "details": "This limited scope search may be performed within tools themselves e.g. McQuaid (2017), or within an exported packaged report.",
+    "subtechniques": [],
+    "examples": [
+        "Using Keywords with Magnet AXIOM (McQuaid 2017)"        
+    ],
+    "weaknesses": ["W1257"],
+    "CASE_output_classes": [
+    ],
+    "references": [
+        "McQuaid, J. (2017) ‘Using Keywords with Magnet AXIOM’, Magnet Forensics [Blog], https://www.magnetforensics.com/blog/using-keywords-with-magnet-axiom/"
+    ]
+}

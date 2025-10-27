@@ -1,0 +1,12 @@
+{
+    "id": "W1257",
+    "name": "Missing content that is relevant to a keyword search but it has not been extracted as 'artifacts'",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": ["M1203", "M1204"],
+    "references": []
+}

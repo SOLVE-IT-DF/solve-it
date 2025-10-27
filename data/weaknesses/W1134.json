@@ -1,12 +1,12 @@
 {
     "id": "W1134",
-    "name": "File metadata and name of a non-allocated file are recovered, but the content is fragmented/overwritten, but is still presented as the content of the recovered file",
+    "name": "Recovered (non-allocated) file content has been overwritten by the content of a newer, but also non-allocated file (which has residual file system information) but this is not detected ",
     "INCOMP": "",
     "INAC-EX": "",
     "INAC-AS": "X",
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "X",
-    "mitigations": ["M1079", "M1080", "M1081"],
+    "mitigations": ["M1079", "M1080", "M1081", "M1082", "M1083"],
     "references": ["Casey, E., Nelson, A. and Hyde, J., 2019. Standardization of file recovery classification and authentication. Digital Investigation, 31, p.100873."]
 }

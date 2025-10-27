@@ -1,0 +1,12 @@
+{
+    "id": "W1256",
+    "name": "Incorrect attribution of metadata to file content that was the result of 'file tunnelling'",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": ["M1079", "M1080", "M1081"],
+    "references": []
+}

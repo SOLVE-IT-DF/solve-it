@@ -1,0 +1,5 @@
+{
+    "id": "M1200",
+    "name": "Ensure that inconsistencies between allocated data size and data written size are clearly flagged.",
+    "references" : []
+}

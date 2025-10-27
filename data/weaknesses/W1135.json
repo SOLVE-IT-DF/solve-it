@@ -1,6 +1,6 @@
 {
     "id": "W1135",
-    "name": "File metadata and name of a non-allocated file are recovered, but its content has been overwritten by a newer file, but the non-allocated file's content is presented as this newer file's data",
+    "name": "Recovered (non-allocated) file content has been overwritten by the content of a newer live file but this is not detected ",
     "INCOMP": "",
     "INAC-EX": "",
     "INAC-AS": "X",

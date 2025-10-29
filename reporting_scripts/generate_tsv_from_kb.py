@@ -53,6 +53,34 @@ def print_techniques(kb, long):
                                         each_technique.get('name'))
                       )
 
+
+def print_techniques_by_objective(kb, long):
+    """Prints the SOLVE-IT techniques to stdout"""
+    # Print long or short header for techniques
+    if long is True:
+        print('Objective\tName\tDescription\tSynonyms')
+    else:
+        print('Objective\tID\tName')
+
+    objectives = kb.list_objectives()
+    for each_objective in objectives:
+        # print(each_objective.get('name'))
+        for each_technique_id in each_objective.get('techniques'):
+            t = kb.get_technique(each_technique_id)
+            if long is True:
+                print(f'{each_objective.get('name')}\t{each_technique_id}\t{t.get('name')}\t{t.get('description')}\t{t.get('synonyms')}')
+            else:
+                print(f'{each_objective.get('name')}\t{each_technique_id}\t{t.get('name')}')
+            
+            # process subtechniques too
+            for each_sub_id in t.get('subtechniques'):
+                s = kb.get_technique(each_sub_id)
+                if long is True:
+                    print(f'{each_objective.get('name')}\t{each_sub_id}\t{s.get('name')} (s)\t{s.get('description')}\t{s.get('synonyms')}')
+                else:
+                    print(f'{each_objective.get('name')}\t{each_sub_id}\t{s.get('name')} (s)')
+
+
 def print_weaknesses(kb, long):
     """Prints the SOLVE-IT weaknesses to stdout"""
     # Print long or short headers for weaknesses
@@ -110,6 +138,8 @@ def main():
                         help="Print the objectives from SOLVE-IT in TSV format")
     parser.add_argument('--techniques', '-t', action='store_true',
                         help="Print the techniques from SOLVE-IT in TSV format")
+    parser.add_argument('--techniques_by_objective', '-t2', action='store_true',
+                        help="Print the techniques (organized by objective) from SOLVE-IT in TSV format")
     parser.add_argument('--weaknesses', '-w', action='store_true',
                         help="Print the weaknesses from SOLVE-IT in TSV format")
     parser.add_argument('--mitigations', '-m', action='store_true',
@@ -131,6 +161,8 @@ def main():
         print_objectives(kb, args.long)
     elif args.techniques is True:
         print_techniques(kb, args.long)
+    elif args.techniques_by_objective is True:
+        print_techniques_by_objective(kb, args.long)
     elif args.weaknesses is True:
         print_weaknesses(kb, args.long)
     elif args.mitigations is True:

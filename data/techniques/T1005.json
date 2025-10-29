@@ -1,12 +1,12 @@
 {
     "id": "T1005",
     "name": "Crime scene searching",
-    "description": "TODO",
+    "description": "The process of 'carefully documenting the conditions at a crime scene and identifying all relevant physical evidence.' (Birzer 2018).",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1114"],
-    "CASE_output_classes" : ["observable:Device", "observable:Computer", "observable:MobileDevice", "observable:SmartDevice", "observable:WearableDevice"],
-    "references": ["todo"]
+    "CASE_output_classes" : ["observable:Device", "observable:Computer", "observable:MobileDevice", "observable:SmartDevice", "observable:WearableDevice", "observable:location"],
+    "references": ["Birzer, M.L., 2018. Crime Scene Search. Introduction to Criminal Investigation, p.35."]
 }

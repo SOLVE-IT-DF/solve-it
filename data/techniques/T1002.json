@@ -1,7 +1,7 @@
 {
     "id": "T1002",
     "name": "Disk imaging",
-    "description": "Copying of sectors from a storage media, typically LBA0 to LBAmax into an imaging format. The could be from a traditional hard disk, SSD, USB stick, or data from an eMMC chip that has been desoldered and placed in a reader. ",
+    "description": "Copying of sectors from a storage media, typically LBA~0~ to LBA~max~ into an imaging format. The could be from a traditional hard disk, SSD, USB stick, or data from an eMMC chip that has been desoldered and placed in a reader. ",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

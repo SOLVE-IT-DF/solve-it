@@ -8,11 +8,12 @@ import pprint
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from solve_it_library import KnowledgeBase, SOLVEITDataError
+import solve_it_library.solve_it_x as solve_it_x
 
 # Configure logging to show info and errors to console
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
-def format_headings_in_workbook(workbook, tactics):
+def format_headings_in_workbook(workbook, objectives):
     header_format = workbook.add_format()
     header_format.set_bold()
     header_format.set_align('vcenter')
@@ -23,20 +24,20 @@ def format_headings_in_workbook(workbook, tactics):
 
     worksheet = workbook.get_worksheet_by_name('Main')
 
+    # Hide the topmost row (reserved for extension use)
+    worksheet.set_row(0, 0)
+
     # format header row and columns
-    worksheet.set_row(0, 50)
-    worksheet.set_column(0, len(tactics), 20)
+    worksheet.set_row(1, 50)
+    worksheet.set_column(0, len(objectives), 20)
 
     # write headers
-    for i in range(0,len(tactics)):
-        worksheet.write_string(0, i, tactics[i].get('name'), header_format)
-        worksheet.write_comment(0, i, tactics[i].get('description'), {'font_size': 12, 'width': 200, 'height': 200})
+    for i in range(0,len(objectives)):
+        worksheet.write_string(1, i, objectives[i].get('name'), header_format)
+        worksheet.write_comment(1, i, objectives[i].get('description'), {'font_size': 12, 'width': 200, 'height': 200})
 
     return workbook
 
-def format_techinque_sheet(worksheet):
-    worksheet.set_row(0, 40)
-    return worksheet
 
 
 if __name__ == '__main__':
@@ -92,31 +93,95 @@ if __name__ == '__main__':
 
     info_sheet = workbook.add_worksheet(name='Info')
     techniques_sheet = workbook.add_worksheet(name='Techniques')
+    techniques_sorted_sheet = workbook.add_worksheet(name='Techniques (sorted)')
     weaknesses_sheet = workbook.add_worksheet(name='Weaknesses')
     mitigations_sheet = workbook.add_worksheet(name='Mitigations')
 
+    # Adds a worksheet per technique
     for each_technique_id in sorted(kb.list_techniques()):
         technique_name = kb.get_technique(each_technique_id).get('name')
         workbook.add_worksheet(each_technique_id)
 
+    # Adds all the techniques to the main numeric technique sheet
+    techniques_sheet.write_string(0, 0, "ID")
+    techniques_sheet.write_string(0, 1, "Name")
+    techniques_sheet.write_string(0, 2, "Weaknesses")
+    techniques_sheet.write_string(0, 3, "Mitigations")
+
+    techniques_sheet.set_column(1, 1, 50)
+
     for i, each_technique in enumerate(sorted(kb.list_techniques())):
-        techniques_sheet.write_string(i, 0, each_technique)
-        techniques_sheet.write_string(i, 1, kb.get_technique(each_technique).get('name'))
-        techniques_sheet.write_number(i, 2, len(kb.get_technique(each_technique).get('weaknesses', [])))
-        total_mits = 0
-        for each_weakness in kb.get_technique(each_technique).get('weaknesses', []):
-            weakness_obj = kb.get_weakness(each_weakness)
-            if weakness_obj is None:
-                logging.error(f'Weakness {each_weakness} not found for technique {each_technique} - Excel generation failed')
-                sys.exit(-1)
-            else:
-                total_mits += len(weakness_obj.get('mitigations', []))
-        techniques_sheet.write_number(i, 3, total_mits)
-        techniques_sheet.write_string(0, 2, "Weaknesses")
-        techniques_sheet.write_string(0, 3, "Mitigations")
+        if each_technique != "T1000":
+            techniques_sheet.write_url(i, 0, 'internal:{}!A1'.format(each_technique),
+                                             string=each_technique)
+            techniques_sheet.write_string(i, 1, kb.get_technique(each_technique).get('name'))
+            techniques_sheet.write_number(i, 2, len(kb.get_technique(each_technique).get('weaknesses', [])))
+            total_mits = 0
+            for each_weakness in kb.get_technique(each_technique).get('weaknesses', []):
+                weakness_obj = kb.get_weakness(each_weakness)
+                if weakness_obj is None:
+                    logging.error(f'Weakness {each_weakness} not found for technique {each_technique} - Excel generation failed')
+                    sys.exit(-1)
+                else:
+                    total_mits += len(weakness_obj.get('mitigations', []))
+            techniques_sheet.write_number(i, 3, total_mits)
 
     print("- populated 'all techniques' worksheet")
 
+    # Adds all the techniques to the sorted technique list sheet
+    techniques_sorted_sheet.write_string(0, 0, "Objective")
+    techniques_sorted_sheet.write_string(0, 1, "ID")
+    techniques_sorted_sheet.write_string(0, 2, "Name")
+    techniques_sorted_sheet.write_string(0, 3, "Description")
+
+    techniques_sorted_sheet.set_column(0, 0, 50)
+    techniques_sorted_sheet.set_column(2, 2, 50)
+    techniques_sorted_sheet.set_column(3, 3, 100)
+
+    objectives = kb.list_objectives()
+    i = 1
+    for each_objective in objectives:
+        for each_technique_id in each_objective.get('techniques'):
+            t = kb.get_technique(each_technique_id)
+
+            techniques_sorted_sheet.write_string(i, 0, each_objective.get('name'))
+            techniques_sorted_sheet.write_url(i, 1, 'internal:{}!A1'.format(each_technique_id), string=each_technique_id)
+            techniques_sorted_sheet.write_string(i, 2, kb.get_technique(each_technique_id).get('name'))
+            techniques_sorted_sheet.write_string(i, 3, kb.get_technique(each_technique_id).get('description'))            
+            i = i + 1
+
+            # process subtechniques too
+            for each_sub_id in t.get('subtechniques'):
+                s = kb.get_technique(each_sub_id)                
+                techniques_sorted_sheet.write_string(i, 0, each_objective.get('name'))
+                techniques_sorted_sheet.write_url(i, 1, 'internal:{}!A1'.format(each_sub_id), string=each_sub_id + '(s)')
+                techniques_sorted_sheet.write_string(i, 2, kb.get_technique(each_sub_id).get('name'))
+                techniques_sorted_sheet.write_string(i, 3, kb.get_technique(each_sub_id).get('description'))            
+                i = i + 1
+
+    print("- populated 'all techniques (sorted)' worksheet")
+
+
+    for i, each_technique in enumerate(sorted(kb.list_techniques())):
+        if each_technique != "T1000":
+            techniques_sheet.write_url(i, 0, 'internal:{}!A1'.format(each_technique),
+                                             string=each_technique)
+            techniques_sheet.write_string(i, 1, kb.get_technique(each_technique).get('name'))
+            techniques_sheet.write_number(i, 2, len(kb.get_technique(each_technique).get('weaknesses', [])))
+            total_mits = 0
+            for each_weakness in kb.get_technique(each_technique).get('weaknesses', []):
+                weakness_obj = kb.get_weakness(each_weakness)
+                if weakness_obj is None:
+                    logging.error(f'Weakness {each_weakness} not found for technique {each_technique} - Excel generation failed')
+                    sys.exit(-1)
+                else:
+                    total_mits += len(weakness_obj.get('mitigations', []))
+            techniques_sheet.write_number(i, 3, total_mits)
+
+    print("- populated 'all techniques' worksheet")
+
+
+    # Adds all the weaknesses to the main weakness sheet
     for i, each_weakness in enumerate(sorted(kb.list_weaknesses())):
         weaknesses_sheet.write_string(i+1, 0, each_weakness)
         weaknesses_sheet.write_string(i+1, 1, kb.get_weakness(each_weakness).get('name'))
@@ -155,6 +220,7 @@ if __name__ == '__main__':
 
     print("- populated 'all weaknesses' worksheet")
 
+    # Adds all the mitigations to the main mitigation sheet
     for i, each_mitigation in enumerate(sorted(kb.list_mitigations())):
         mitigations_sheet.write_string(i+1, 0, each_mitigation)
         mit_obj = kb.get_mitigation(each_mitigation)
@@ -171,19 +237,19 @@ if __name__ == '__main__':
         mitigations_sheet.write_string(i+1, 3, str(weakness_ids))
         mitigations_sheet.write_number(i + 1, 4, len(weakness_ids))
 
-    # write some headers for weakness sheet
+    # write some headers for mitigations sheet
     mitigations_sheet.write_string(0, 0, "ID")
     mitigations_sheet.write_string(0, 1, "Description")
     mitigations_sheet.write_string(0, 2, "In techniques")
     mitigations_sheet.write_string(0, 3, "In weakness")
     mitigations_sheet.write_string(0, 4, "Weakness occurrences")
 
-    print("- populated 'all techniques' worksheet")
+    print("- populated 'all mitigations' worksheet")
 
     # records max row written so far for populating techniques in main
-    tactics_row_indexes = {}
+    objectives_row_indexes = {}
     for each in kb.list_tactics():
-        tactics_row_indexes[each] = 1
+        objectives_row_indexes[each] = 1
 
     # set format for techniques in main
     technique_format = workbook.add_format()
@@ -212,7 +278,6 @@ if __name__ == '__main__':
     sub_technique_format1.set_text_wrap()
     sub_technique_format1.set_indent(3)
 
-
     # set format for centralised x marks
     weakness_type_format = workbook.add_format()
     weakness_type_format.set_align('center')
@@ -228,22 +293,22 @@ if __name__ == '__main__':
 
     total_techniques_with_weaknesses = 0
 
-    for each_tactic in kb.tactics:
-        tactic = each_tactic.get('name')
-        column = tactics_name_list.index(tactic)
+    for each_objective in kb.tactics:
+        objective = each_objective.get('name')
+        column = tactics_name_list.index(objective)
 
-        for each_technique_id in sorted(each_tactic.get('techniques')):
+        for each_technique_id in sorted(each_objective.get('techniques')):
             if each_technique_id not in techniques_added:
                 each_technique = kb.get_technique(each_technique_id)
                 if each_technique is None:
-                    raise ValueError("Technique {} not found (referred to in {} (under \"{}\"))".format(each_technique_id, config_file, tactic))
+                    raise ValueError("Technique {} not found (referred to in {} (under \"{}\"))".format(each_technique_id, config_file, objective))
 
                 technique_name = each_technique.get('name')
                 subtechniques = each_technique.get('subtechniques')
 
-                # Does the formatting based on if weaknesses are present or not
+                # Performs the formatting based on if weaknesses are present or not
                 try:
-                    row = tactics_row_indexes[tactic]
+                    row = objectives_row_indexes[objective] + 1
                     if len(each_technique['weaknesses']) == 0:
                         the_format = technique_format
                     else:
@@ -254,11 +319,11 @@ if __name__ == '__main__':
                                              string=technique_name + '\n' + each_technique_id,
                                              cell_format=the_format)
                     techniques_added.append(each_technique_id)
-                    tactics_row_indexes[tactic] += 1
+                    objectives_row_indexes[objective] += 1
 
-                    # check for subtechqniues and do those first before moving on
+                    # check for subtechniques and do those first before moving on
                     for each_subtechnique_id in subtechniques:
-                        row = tactics_row_indexes[tactic]
+                        row = objectives_row_indexes[objective] + 1
                         each_subtechnique = kb.get_technique(each_subtechnique_id)
                         if each_subtechnique is None:
                             raise ValueError(f'Subtechnqiue {each_subtechnique_id} not found (referred to in {each_technique_id}).')
@@ -279,12 +344,12 @@ if __name__ == '__main__':
                         if len(each_subtechnique.get('weaknesses')) > 0:
                             total_techniques_with_weaknesses += 1
 
-                        tactics_row_indexes[tactic] += 1
+                        objectives_row_indexes[objective] += 1
 
                 except KeyError:
                     print('Technique {} ({}) had a tactic not found in the tactics ({})'.format(each_technique_id,
                                                                                                 technique_name,
-                                                                                                tactic))
+                                                                                                objective))
     print("- 'main' worksheet updated")
     # ---------------------------------------------------------------------------------------------------------------
     # check if any are missed from index sheet
@@ -301,9 +366,9 @@ if __name__ == '__main__':
 
         # find tactics that it belongs to
         parent_tactics = []
-        for each_tactic in kb.tactics:
-            if each_technique_id in each_tactic.get('techniques'):
-                parent_tactics.append(each_tactic.get('name'))
+        for each_objective in kb.tactics:
+            if each_technique_id in each_objective.get('techniques'):
+                parent_tactics.append(each_objective.get('name'))
 
         worksheet = workbook.get_worksheet_by_name(each_technique_id)
 
@@ -479,6 +544,14 @@ if __name__ == '__main__':
             worksheet.write_string(refs_start + i, 1, each_reference, cell_format=technique_list_format)
             worksheet.write_string(refs_start + i, 8, str(references.get(each_reference)), cell_format=technique_list_format)
             i += 1
+
+        final_row = refs_start + i
+
+        # Handle adding data from SOLVE-IT-X      
+        worksheet = solve_it_x.edit_excel_technique(each_technique_id, workbook, worksheet, start_row=final_row + 2)
+        
+        logging.debug(f'Completed editing of worksheet for {each_technique_id}')
+
     print("- all individual techniques worksheets updated")
 
 

@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples":  [],
     "weaknesses": ["W1149", "W1150"],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["core:startTime", "core:endTime", "core:confidence"],
     "references": []
 }

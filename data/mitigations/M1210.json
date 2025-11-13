@@ -1,5 +1,5 @@
 {
     "id": "M1210",
     "name": "Use a forensic image format with internal integrity and continuity metadata",
-    "references" : []
+    "references" : ["Cohen, M., Garfinkel, S. and Schatz, B., 2009. Extending the advanced forensic format to accommodate multiple data sources, logical evidence, arbitrary information and forensic workflow. digital investigation, 6, pp.S57-S68."]
 }

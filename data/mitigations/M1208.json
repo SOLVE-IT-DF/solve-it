@@ -1,0 +1,5 @@
+{
+    "id": "M1208",
+    "name": "Review critical findings from tools to ensure they are facts, or if they are an automated interpretation, ensure that any uncertainty is considered",    
+    "references" : ["International Organization for Standardization (ISO) (2015) ISO/IEC 27042:2015 Guidelines for the analysis and interpretation of digital evidence."]
+}

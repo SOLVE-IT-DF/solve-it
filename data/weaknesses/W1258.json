@@ -1,0 +1,12 @@
+{
+    "id": "W1258",
+    "name": "Failure to present uncertainty associated with automated interpretation of data into artifacts",
+    "INCOMP": "",
+    "INAC-EX": "X",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": ["M1206", "M1207", "M1208", "M1209"],
+    "references": []
+}

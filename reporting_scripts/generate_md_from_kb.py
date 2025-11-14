@@ -293,7 +293,7 @@ def write_all_weakness_files(kb, outpath, extension_config):
             for each_mit in weakness.get('mitigations'):
                 mitigation = kb.get_mitigation(each_mit)
                 if mitigation is None:
-                    logging.error(f'Mitigation {each_mit} not found (referred to from weakness {weakness_id})')
+                    logging.error(f'Mitigation {each_mit} not found (referred to from weakness {each_weakness_id})')
                     sys.exit(-1)
                 if mitigation.get('technique') is None:
                     weakness_md_file.write(f"- {each_mit}: {mitigation.get('name')} \n")

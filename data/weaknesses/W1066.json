@@ -1,6 +1,6 @@
 {
     "id": "W1066",
-    "name": "Missing deleted but recoverable partitions ",
+    "name": "Missing deleted but recoverable partitions from unpartitioned space",
     "INCOMP": "X",
     "INAC-EX": "",
     "INAC-AS": "",

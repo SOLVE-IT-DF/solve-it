@@ -1,0 +1,13 @@
+{
+    "id": "T1155",
+    "name": "Operation-based event reconstruction",
+    "description": "The process of reconstructing that an operation occurred on a digital system",
+    "synonyms": ["Activity-based event reconstruction", "Action-based event reconstruction"],
+    "details": "While some event reconstruction needs a time component, there are some questions that are simply explaining what happened, or if something happened. The time component may need to investigated later, or may be learned as a byproduct of reconstructing the event, but isn't intrinsic to the question being asked.\ne.g. Was this file opened? How many times was this file opened? What data has been exfiltrated?",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_output_classes": ["core:confidence"],
+    "references": []
+}
+

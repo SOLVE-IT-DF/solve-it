@@ -2,11 +2,11 @@
     "id": "T1117",
     "name": "Time-based event reconstruction",
     "description": "The process of assigning a time component to a reconstructed event",
-    "synonyms": [],
+    "synonyms": ["Temporal-based event reconstruction"],
     "details": "",
     "subtechniques": [],
     "examples":  [],
     "weaknesses": ["W1149", "W1150"],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["core:startTime", "core:endTime", "core:confidence"],
     "references": []
 }

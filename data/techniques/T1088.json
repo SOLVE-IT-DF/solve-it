@@ -1,12 +1,12 @@
 {
     "id": "T1088",
-    "name": "Connection-based event reconstruction",
-    "description": "The process of assigning connection properties to a reconstructed event",
-    "synonyms": ["Relational analysis"],
+    "name": "Relational-based event reconstruction",
+    "description": "The process of determining the existence and nature of relationships between entities during event reconstruction",
+    "synonyms": ["Relational analysis", "Connection-based event reconstruction"],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["core:Relationship", "core:kindOfRelationship", "core:confidence"],
     "references": ["Casey, E., 2011. Digital evidence and computer crime: Forensic science, computers, and the internet. Academic press, Section 8.1.3"]
 }

@@ -1,0 +1,16 @@
+{
+    "id": "T1156",
+    "name": "Functional-based event reconstruction",
+    "description": "Reconstructing the configuration or capabilities of a system at the time of an event",
+    "synonyms": [],
+    "details": "Considering how a system works and what conditions were necessary for an event to be possible, i.e. supporting or refuting if a hypothesis is feasible.\n\nThis might involve questions such as:\n- is a program or system capable of performing some action\n- how was the program or system configured (to determine if an operation was possible)",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_output_classes": [
+            "configuration:Configuration", 
+            "configuration:dependencies",
+            "core:confidence"
+    ],
+    "references": []
+}

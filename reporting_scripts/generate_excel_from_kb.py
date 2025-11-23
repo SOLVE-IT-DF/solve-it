@@ -69,6 +69,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Generate an Excel version of the SOLVE-IT knowledge base")
     parser.add_argument('-o', action='store', type=str, dest='output_file',
                         help="output path for spreadsheet.")
+    parser.add_argument('--ignore_unindexed_techniques', action='store_true',
+                        help="bypass the check for techniques that exist but are not indexed in the sheet.")
     args = parser.parse_args()
 
 
@@ -399,8 +401,10 @@ if __name__ == '__main__':
 
     for each in kb.list_techniques():
         if each not in techniques_added and each != "T1000":  # T1000 is demo technique so not expected to be referenced
-            raise SOLVEITDataError("Technique {} exists, but is not indexed in sheet".format(each))
-                        
+            if not args.ignore_unindexed_techniques:
+                raise SOLVEITDataError(f"Technique {each} exists, but is not indexed in sheet")
+            else:
+                print('WANRNING: ' + f"Technique {each} exists, but is not indexed in sheet")
 
     # ----------------------------------------------------------------------------------------------------------------
     print('Adding the individual techniques sheets...')

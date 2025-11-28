@@ -1,0 +1,5 @@
+{
+    "id": "M1206",
+    "name": "Ensure that tools used clearly separate fact from interpretation",    
+    "references" : ["International Organization for Standardization (ISO) (2015) ISO/IEC 27042:2015 Guidelines for the analysis and interpretation of digital evidence."]
+}

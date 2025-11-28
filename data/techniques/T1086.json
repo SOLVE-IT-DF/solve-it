@@ -1,7 +1,7 @@
 {
     "id": "T1086",
     "name": "Timeline analysis",
-    "description": "The process of moving from a set of timeline entries to reconstructed events, or to identify times of interest (adapted from Breitinger et al. 2025).",
+    "description": "The process of searching, filtering, sorting, highlighting, or aggregating relevant timeline entries to determine which are relevant for event reconstruction, or to identify times of interest (adapted from Breitinger et al. 2025)",
     "synonyms": ["Temporal Analysis"],
     "details": "This can involve refinement approaches such as: filtering irrelevant entries, highlighting key entries, or aggregating entries into more meaningful events",
     "subtechniques": ["T1134"],

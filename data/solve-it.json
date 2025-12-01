@@ -100,7 +100,7 @@
 
     {"name":"Reconstruct events",
     "description": "Use available digital evidence to formulate and test hypotheses about events.",
-    "techniques": ["T1087", "T1088", "T1117"]
+    "techniques": ["T1087", "T1088", "T1117", "T1154", "T1155", "T1156"]
     },
 
     {"name":"Conduct research",

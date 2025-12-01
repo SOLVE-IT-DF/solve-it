@@ -2,7 +2,7 @@
     "id": "T1117",
     "name": "Time-based event reconstruction",
     "description": "The process of assigning a time component to a reconstructed event",
-    "synonyms": [],
+    "synonyms": ["Temporal-based event reconstruction"],
     "details": "",
     "subtechniques": [],
     "examples":  [],

@@ -1,9 +1,9 @@
 {
     "id": "W1149",
     "name": "Failure to consider timestamp inaccuracy at time of inferred event",
-    "INCOMP": "",
+    "INCOMP": "x",
     "INAC-EX": "x",
-    "INAC-AS": "",
+    "INAC-AS": "x",
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "x",

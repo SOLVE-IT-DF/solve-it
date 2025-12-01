@@ -1,6 +1,5 @@
 {
     "id": "M1103",
-    "name": "Use 'Time Anchors' to assess clock accuracy at time of inferred event",
-    "technique": "T1134",
-    "references" : ["Céline Vanini, Christopher J. Hargreaves, Harm van Beek, Frank Breitinger, 2024. Was the clock correct? Exploring timestamp interpretation through time anchors for digital forensic event reconstruction. Digital Investigation, 49."]
+    "name": "Check that analysis of timestamp accuracy on which event reconstruction is based has been performed",    
+    "references" : []
 }

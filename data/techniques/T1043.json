@@ -1,12 +1,12 @@
 {
     "id": "T1043",
-    "name": "Forensic image format decoding",
+    "name": "Decode forensic image format",
     "description": "The decoding of a forensic format such as EWF such that the raw sectors can be accessed by a forensic tool (typically performed on-the-fly internally in a tool.)",
-    "synonyms": [],
+    "synonyms": ["Read forensic format", "Read forensic image"],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": ["Expert Witness Format (EWF)", "Advanced Forensic Format (AFF)"],
     "weaknesses": ["W1121", "W1122", "W1123", "W1259"],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes" : ["observable:Image"],
+    "references": ["Cohen, M., Garfinkel, S. and Schatz, B., 2009. Extending the advanced forensic format to accommodate multiple data sources, logical evidence, arbitrary information and forensic workflow. digital investigation, 6, pp.S57-S68."]
 }

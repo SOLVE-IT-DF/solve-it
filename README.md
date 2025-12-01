@@ -7,7 +7,7 @@
 - [View educational resources](https://github.com/SOLVE-IT-DF/solve-it-education)
 
 ## Introduction
-The SOLVE-IT knowledge base (Systematic Objective-based Listing of Various Established digital Investigation Techniques) is conceptually inspired by [MITRE ATT&CK](https://attack.mitre.org/matrices/enterprise/) and aims to capture digital forensic techniques that can be used in investigations. It includes details about each technique, examples, potential ways the technique can go wrong (weaknesses), and mitigations to either avoid, detect, or minimize the consequences of a weakness if it does occur.
+The SOLVE-IT knowledge base (Systematic Objective-based Listing of Various Established digital Investigation Techniques) is conceptually inspired by [MITRE ATT&CK](https://attack.mitre.org/matrices/enterprise/) and aims to capture digital forensic techniques that can be used in investigations. It includes details about each technique, examples, potential ways the technique can go wrong (weaknesses), and potential mitigations to either avoid, detect, or minimize the consequences of a weakness if it does occur.
 
 SOLVE-IT was introduced at [DFRWS EU 2025](https://dfrws.org/presentation/solve-it-a-proposed-digital-forensic-knowledge-base-inspired-by-mitre-attck/). The associated academic paper in [FSI:Digital Investigation](https://www.sciencedirect.com/science/article/pii/S2666281725000034) can be cited as:
 
@@ -18,7 +18,7 @@ This is a community project so please see [CONTRIBUTING.md](CONTRIBUTING.md) for
 <img width="1772" height="1080" alt="A high-level view of the SOLVE-IT knowledge base showing the technqiues in table form, organised by objective along the top." src="https://github.com/user-attachments/assets/582678e7-53fd-40de-9f64-b7329a1f3c9e" />
 
 
-<img width="2554" height="1384" alt="A view of one of the techniques (T1002: Disk Imaging), illustrating the fields recorded for each technique including weaknesses and mitigations." src="https://github.com/user-attachments/assets/fbf0f312-9c5d-41c5-81bc-442162854643" />
+<img width="2554" height="1384" alt="A view of one of the techniques (T1002: Disk Imaging), illustrating the fields recorded for each technique including weaknesses and potential mitigations." src="https://github.com/user-attachments/assets/fbf0f312-9c5d-41c5-81bc-442162854643" />
 
 
 ## Concepts and structure
@@ -28,9 +28,9 @@ The high-level concepts are:
 
 **Techniques**: "how one might achieve an objective in digital forensics by performing an action", e.g. for the objective of 'acquire data', the technique 'create disk image' could be used.
 
-**Potential Weaknesses**: these represent potential problems resulting from using a technique. They are classified according to the error categories in ASTM E3016-18, the Standard Guide for Establishing Confidence in Digital and Multimedia Evidence Forensic Results by Error Mitigation Analysis.
+**Weaknesses**: these represent *potential* problems resulting from using a technique. They are classified according to the error categories in ASTM E3016-18, the Standard Guide for Establishing Confidence in Digital and Multimedia Evidence Forensic Results by Error Mitigation Analysis.
 
-**Mitigations**: something that can be done to prevent a weakness from occurring, or to minimise its impact.
+**Mitigations**: something that can be done to *attempt* to prevent a weakness from occurring, or to *attempt* to minimise its impact.
 
 
 Each of these concepts are contained in subfolders within the [\data](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data) subfolder. Each technique, weakness, and mitigation is represented as a JSON file that can be directly viewed.

@@ -232,7 +232,7 @@ def write_all_technique_files(kb, outpath, extension_config):
                 technique_md_file.write(f"\n\n")
 
             if extension_config is not None and extension_config.get('technique_fields').get('weaknesses'):
-                technique_md_file.write(f"**Potential weaknesses and mitigations:**\n\n")
+                technique_md_file.write(f"**Potential weaknesses and potential mitigations:**\n\n")
                 for weakness_id in technique.get('weaknesses'):
                     weakness = kb.get_weakness(weakness_id)
                     if weakness is None:
@@ -289,7 +289,7 @@ def write_all_weakness_files(kb, outpath, extension_config):
             weakness_md_file.write(f"**Details:** {weakness.get('details')}\n\n")
 
             # This adds all the mitigations
-            weakness_md_file.write(f"**Mitigations:**\n\n")
+            weakness_md_file.write(f"**Potential mitigations:**\n\n")
             for each_mit in weakness.get('mitigations'):
                 mitigation = kb.get_mitigation(each_mit)
                 if mitigation is None:

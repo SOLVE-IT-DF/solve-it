@@ -594,8 +594,8 @@ if __name__ == '__main__':
 
         final_row = refs_start + i
 
-        # Handle adding data from SOLVE-IT-X      
-        worksheet = solve_it_x.edit_excel_technique(each_technique_id, workbook, worksheet, start_row=final_row + 2)
+        # Handle adding data from SOLVE-IT-X
+        worksheet = solve_it_x.edit_excel_technique(each_technique_id, workbook, worksheet, start_row=final_row + 2, kb=kb)
         
         logging.debug(f'Completed editing of worksheet for {each_technique_id}')
 

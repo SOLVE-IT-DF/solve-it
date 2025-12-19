@@ -71,6 +71,60 @@ def load_extension_module(extension_folder, project_root):
         logging.error(f'Extension code not found at {extension_code_path} ({os.path.abspath(extension_code_path)})')
         sys.exit(-1)
 
+
+def display_extension_info(project_root):
+    """Display information about configured extensions and technique_fields settings.
+
+    Args:
+        project_root: The project root directory
+    """
+    extension_config = get_extension_config(project_root)
+
+    if extension_config is None:
+        print("No extensions configured")
+        return
+
+    # Display technique_fields visibility settings
+    if 'technique_fields' in extension_config:
+        for each_visibility_setting in extension_config.get('technique_fields'):
+            if extension_config.get('technique_fields').get(each_visibility_setting) is False:
+                print(f"- config: field '{each_visibility_setting}' display set to false")
+    else:
+        print('Config file in incorrect format (no technique_fields field)')
+        sys.exit(-1)
+
+    # Display configured extensions
+    extension_dict = extension_config.get('extensions')
+    if len(extension_dict) > 0:
+        print("Extensions configured:")
+        for each_extension_name in extension_dict:
+            each_extension = extension_dict.get(each_extension_name)
+            print(f" - {each_extension_name} ({each_extension.get('description')}, path={each_extension.get('folder_path')})")
+    else:
+        print("No extensions configured")
+
+
+def should_display_field(field_name, project_root):
+    """Check if a technique field should be displayed based on configuration.
+
+    Args:
+        field_name: The name of the field to check (e.g., 'id', 'name', 'description')
+        project_root: The project root directory
+
+    Returns:
+        Boolean indicating whether the field should be displayed
+    """
+    extension_config = get_extension_config(project_root)
+
+    if extension_config is None:
+        return True  # Default to showing all fields if no config
+
+    if 'technique_fields' not in extension_config:
+        return True  # Default to showing all fields if technique_fields not configured
+
+    # Return the field's visibility setting, defaulting to True if not specified
+    return extension_config.get('technique_fields').get(field_name, True)
+
 # ------------------
 # Markdown functions
 # ------------------
@@ -226,8 +280,8 @@ def add_html_to_mitigation(m_id):
 # Excel functions
 # ---------------
 
-def edit_excel_technique(t_id, workbook, worksheet, start_row):
-    logging.debug('Called solve-it-x technique Excel code')    
+def edit_excel_technique(t_id, workbook, worksheet, start_row, kb=None):
+    logging.debug('Called solve-it-x technique Excel code')
 
     project_root = Path(__file__).parent.parent
     extension_config = get_extension_config(project_root)
@@ -247,7 +301,7 @@ def edit_excel_technique(t_id, workbook, worksheet, start_row):
         extension_module = load_extension_module(extension_folder, project_root)
 
         if hasattr(extension_module, 'get_excel_for_technique'):
-            worksheet = extension_module.get_excel_for_technique(t_id, worksheet, start_row+2)
+            worksheet = extension_module.get_excel_for_technique(t_id, worksheet, start_row+2, kb=kb)
 
     return worksheet
 

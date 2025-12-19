@@ -13,7 +13,7 @@ def get_colour_for_technique(kb, t_id):
     # technique is)
 
     if len(t.get('weaknesses')) == 0:
-        return "#F4CCCC" # consider this as placholder
+        return "#F4CCCC" # consider this as placeholder
     elif (t.get('description') is None or t.get('description') == "") or len(kb.get_mit_list_for_technique(t_id)) == 0:
         return "#FCE5CD" # consider this as partially populated
     else:
@@ -27,7 +27,7 @@ def get_technique_prefix(kb, t_id):
     t = kb.get_technique(t_id)
 
     if len(t.get('weaknesses')) == 0:
-        return "🔴 " # consider this as placholder
+        return "🔴 " # consider this as placeholder
     elif (t.get('description') is None or t.get('description') == "") or len(kb.get_mit_list_for_technique(t_id)) == 0:
         return "🟡 " # consider this as partially populated
     else:

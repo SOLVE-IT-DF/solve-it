@@ -8,6 +8,7 @@ access to the SOLVE-IT data (techniques, weaknesses, mitigations).
 import os
 import json
 import logging
+import importlib.util
 from typing import Dict, Any, Optional, List, Type, Union, Tuple
 from pydantic import ValidationError
 
@@ -39,16 +40,22 @@ class KnowledgeBase:
             objective mappings, keyed by mapping filename (e.g., "solve-it.json").
         current_mapping_name (Optional[str]): The name of the currently active objective
             mapping file.
+        extension_config (Optional[Dict[str, Any]]): Loaded extension configuration, or None
+            if no extensions are loaded.
+        extension_modules (Dict[str, Any]): Dictionary of loaded extension modules, keyed by
+            extension name.
     """
     DEFAULT_MAPPING_FILE = "solve-it.json"
 
-    def __init__(self, base_path: str, mapping_file: str = DEFAULT_MAPPING_FILE):
+    def __init__(self, base_path: str, mapping_file: str = DEFAULT_MAPPING_FILE, enable_extensions: bool = True):
         """
         Initializes the KnowledgeBase by loading data from the specified path.
 
         Args:
             base_path (str): The path to the root directory of the solve-it
                 repository clone (containing the 'data' folder).
+            mapping_file (str): The name of the objective mapping file to load.
+            enable_extensions (bool): Whether to load SOLVE-IT-X extensions. Default is True.
 
         Raises:
             FileNotFoundError: If the base_path or essential subdirectories
@@ -81,11 +88,17 @@ class KnowledgeBase:
         self._mitigation_to_weaknesses: Dict[str, List[str]] = {}
         self._mitigation_to_techniques: Dict[str, List[str]] = {}
 
+        # Initialize extension storage
+        self.extension_config: Optional[Dict[str, Any]] = None
+        self.extension_modules: Dict[str, Any] = {}
+        self._extensions_enabled: bool = enable_extensions
+        self.global_config: Optional[Any] = None
+
         # Load core data
         self._load_techniques()
         self._load_weaknesses()
         self._load_mitigations()
-        
+
         # Build reverse indices for performance optimization
         self._build_reverse_indices()
 
@@ -101,6 +114,12 @@ class KnowledgeBase:
                     "Could not load default mapping '%s'. No objective mapping active.",
                     self.DEFAULT_MAPPING_FILE
                 )
+
+        # Load extensions if enabled
+        if enable_extensions:
+            self._load_extensions()
+            self._load_global_config()
+            self._load_extension_data_for_items()
 
     def _load_json_files(self, directory_path: str, model_class: Type[Union[Technique, Weakness, Mitigation]]) -> Dict[str, Dict[str, Any]]:
         """
@@ -1026,6 +1045,50 @@ class KnowledgeBase:
         """
         return self.list_objectives()
 
+    def get_objectives_for_technique(self, technique_id: str, mapping_name: Optional[str] = None) -> List[str]:
+        """
+        Retrieves all objective names that contain the specified technique.
+        For subtechniques, returns the parent technique's objectives if the subtechnique
+        itself is not directly listed in any objectives.
+
+        Args:
+            technique_id (str): The ID of the technique
+            mapping_name (Optional[str]): The filename of the mapping to use.
+                                          If None, uses the currently loaded mapping.
+
+        Returns:
+            List[str]: A list of objective names containing this technique.
+                      Returns an empty list if technique is not in any objectives.
+        """
+        active_mapping_name = mapping_name or self.current_mapping_name
+        objectives = self.list_objectives(active_mapping_name)
+        if not objectives:
+            return []
+
+        # Find objectives containing this technique
+        objective_names = []
+        for obj in objectives:
+            if technique_id in obj.get('techniques', []):
+                objective_names.append(obj.get('name'))
+
+        # If no objectives found, this might be a subtechnique - find parent
+        if not objective_names:
+            # Find parent by checking which technique has this ID in its subtechniques
+            parent_id = None
+            for t_id in self.list_techniques():
+                t = self.get_technique(t_id)
+                if t and technique_id in t.get('subtechniques', []):
+                    parent_id = t_id
+                    break
+
+            # If we found a parent, get its objectives
+            if parent_id:
+                for obj in objectives:
+                    if parent_id in obj.get('techniques', []):
+                        objective_names.append(obj.get('name'))
+
+        return objective_names
+
     def list_techniques(self) -> List[str]:
         """
         Returns a sorted list of all technique IDs.
@@ -1076,7 +1139,7 @@ class KnowledgeBase:
 
         # Lookup using pre-computed reverse index
         technique_ids = self._mitigation_to_techniques.get(mitigation_id, [])
-        
+
         # Convert IDs to full technique objects
         associated_techniques = []
         for technique_id in technique_ids:
@@ -1090,6 +1153,625 @@ class KnowledgeBase:
             logger.debug("No techniques found that reference mitigation %s.", mitigation_id)
 
         return associated_techniques
+
+    # --- Extension Methods ---
+
+    def _load_extensions(self):
+        """
+        Loads SOLVE-IT-X extensions from the extension_data directory.
+
+        This method loads the extension configuration file and dynamically imports
+        extension modules, making them available for use throughout the knowledge base.
+        """
+        extension_data_path = os.path.join(self.base_path, 'extension_data')
+        extension_config_path = os.path.join(extension_data_path, 'extension_config.json')
+
+        if not os.path.exists(extension_config_path):
+            logger.debug("No extension_config.json found at %s. Extensions disabled.", extension_config_path)
+            return
+
+        try:
+            with open(extension_config_path, 'r', encoding='utf-8') as f:
+                self.extension_config = json.load(f)
+
+            # Validate config structure
+            if 'extensions' not in self.extension_config:
+                logger.error("Extension config file missing 'extensions' field. Extensions disabled.")
+                self.extension_config = None
+                return
+
+            if 'technique_fields' not in self.extension_config:
+                logger.error("Extension config file missing 'technique_fields' field. Extensions disabled.")
+                self.extension_config = None
+                return
+
+            # Load each extension module
+            extension_dict = self.extension_config.get('extensions', {})
+            for extension_name, extension_info in extension_dict.items():
+                try:
+                    folder_path = extension_info.get('folder_path')
+                    if not folder_path:
+                        logger.warning("Extension '%s' has no folder_path specified. Skipping.", extension_name)
+                        continue
+
+                    module = self._load_extension_module(folder_path, extension_name)
+                    if module:
+                        self.extension_modules[extension_name] = module
+                        logger.info(
+                            "Loaded extension '%s' from %s: %s",
+                            extension_name,
+                            folder_path,
+                            extension_info.get('description', 'No description')
+                        )
+                except Exception as e:
+                    logger.error("Failed to load extension '%s': %s", extension_name, e)
+
+            logger.info("Loaded %d extension(s).", len(self.extension_modules))
+
+        except json.JSONDecodeError as e:
+            logger.error("Could not decode extension config JSON: %s", e)
+            self.extension_config = None
+        except IOError as e:
+            logger.error("Could not read extension config file: %s", e)
+            self.extension_config = None
+
+    def _load_global_config(self):
+        """
+        Load the global_solveit_config module from the extension_data directory.
+
+        This module provides customizable functions for technique display (colors, prefixes, suffixes).
+        """
+        global_config_path = os.path.join(self.base_path, 'extension_data', 'global_solveit_config.py')
+
+        if not os.path.exists(global_config_path):
+            logger.debug("No global_solveit_config.py found at %s. Using defaults.", global_config_path)
+            return
+
+        try:
+            spec = importlib.util.spec_from_file_location("global_solveit_config", global_config_path)
+            if spec and spec.loader:
+                self.global_config = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(self.global_config)
+                logger.info("Loaded global configuration from %s", global_config_path)
+            else:
+                logger.error("Could not create module spec for %s", global_config_path)
+        except Exception as e:
+            logger.error("Error loading global config from %s: %s", global_config_path, e)
+
+    def _load_extension_data_for_items(self):
+        """
+        Load extension_data.json files from extension folders for techniques, weaknesses, and mitigations.
+
+        For each loaded extension, checks for extension_data.json files in:
+        - extension_folder/techniques/{technique_id}/extension_data.json
+        - extension_folder/weaknesses/{weakness_id}/extension_data.json
+        - extension_folder/mitigations/{mitigation_id}/extension_data.json
+
+        Loaded data is added to each item's dict under extension_data[extension_name].
+        """
+        if not self.has_extensions():
+            return
+
+        for extension_name, extension_info in self.extension_config.get('extensions', {}).items():
+            folder_path = extension_info.get('folder_path')
+            if not folder_path:
+                continue
+
+            resolved_path = self._resolve_extension_path(folder_path)
+            if not resolved_path:
+                logger.warning("Could not resolve extension path for '%s': %s", extension_name, folder_path)
+                continue
+
+            # Load extension data for techniques
+            self._load_extension_data_for_item_type(
+                resolved_path, extension_name, 'techniques', self.techniques
+            )
+
+            # Load extension data for weaknesses
+            self._load_extension_data_for_item_type(
+                resolved_path, extension_name, 'weaknesses', self.weaknesses
+            )
+
+            # Load extension data for mitigations
+            self._load_extension_data_for_item_type(
+                resolved_path, extension_name, 'mitigations', self.mitigations
+            )
+
+    def _load_extension_data_for_item_type(
+        self, extension_path: str, extension_name: str, item_type: str, items_dict: Dict[str, Dict[str, Any]]
+    ):
+        """
+        Load extension_data.json files for a specific item type (techniques/weaknesses/mitigations).
+
+        Args:
+            extension_path: Resolved path to the extension folder
+            extension_name: Name of the extension
+            item_type: Type of items ('techniques', 'weaknesses', or 'mitigations')
+            items_dict: Dictionary of loaded items to augment with extension data
+        """
+        item_type_path = os.path.join(extension_path, item_type)
+        if not os.path.exists(item_type_path):
+            return
+
+        for item_id in items_dict.keys():
+            extension_data_file = os.path.join(item_type_path, item_id, 'extension_data.json')
+            if os.path.exists(extension_data_file):
+                try:
+                    with open(extension_data_file, 'r', encoding='utf-8') as f:
+                        extension_data = json.load(f)
+
+                    # Initialize extension_data dict if it doesn't exist
+                    if 'extension_data' not in items_dict[item_id]:
+                        items_dict[item_id]['extension_data'] = {}
+
+                    # Add this extension's data
+                    items_dict[item_id]['extension_data'][extension_name] = extension_data
+                    logger.debug(
+                        "Loaded extension_data.json for %s '%s' from extension '%s'",
+                        item_type[:-1],  # Remove trailing 's'
+                        item_id,
+                        extension_name
+                    )
+
+                except json.JSONDecodeError as e:
+                    logger.warning(
+                        "Failed to decode extension_data.json for %s '%s' in extension '%s': %s",
+                        item_type[:-1],
+                        item_id,
+                        extension_name,
+                        e
+                    )
+                except IOError as e:
+                    logger.warning(
+                        "Failed to read extension_data.json for %s '%s' in extension '%s': %s",
+                        item_type[:-1],
+                        item_id,
+                        extension_name,
+                        e
+                    )
+
+    def _resolve_extension_path(self, extension_path: str) -> Optional[str]:
+        """
+        Resolve extension path, trying absolute then relative to extension_data.
+
+        Args:
+            extension_path: The folder path from extension config (absolute or relative)
+
+        Returns:
+            The resolved absolute path, or None if not found
+        """
+        # Try direct access in case it's an absolute path
+        if os.path.exists(extension_path):
+            return extension_path
+
+        # Try assuming it's a relative path in the extension_data folder
+        extension_data_path = os.path.join(self.base_path, 'extension_data', extension_path)
+        if os.path.exists(extension_data_path):
+            return extension_data_path
+
+        return None
+
+    def _load_extension_module(self, extension_folder: str, module_name: str):
+        """
+        Dynamically load an extension module from its folder path.
+
+        Args:
+            extension_folder: The folder path from extension config (absolute or relative)
+            module_name: A unique name for the module
+
+        Returns:
+            The loaded extension module object, or None if loading failed
+        """
+        workable_path = self._resolve_extension_path(extension_folder)
+        if not workable_path:
+            logger.error("Extension path '%s' could not be found.", extension_folder)
+            return None
+
+        extension_code_path = os.path.join(workable_path, 'extension_code.py')
+
+        if not os.path.exists(extension_code_path):
+            logger.error("Extension code not found at %s", extension_code_path)
+            return None
+
+        try:
+            spec = importlib.util.spec_from_file_location(module_name, extension_code_path)
+            if spec and spec.loader:
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+                return module
+            else:
+                logger.error("Could not create module spec for %s", extension_code_path)
+                return None
+        except Exception as e:
+            logger.error("Error loading extension module from %s: %s", extension_code_path, e)
+            return None
+
+    def has_extensions(self) -> bool:
+        """
+        Check if any extensions are loaded.
+
+        Returns:
+            bool: True if extensions are loaded, False otherwise
+        """
+        return self._extensions_enabled and self.extension_config is not None and len(self.extension_modules) > 0
+
+    def list_loaded_extensions(self) -> List[Dict[str, str]]:
+        """
+        Get information about loaded extensions.
+
+        Returns:
+            List[Dict[str, str]]: List of dicts with 'name', 'description', and 'folder_path' for each extension
+        """
+        if not self.has_extensions():
+            return []
+
+        extensions_info = []
+        for extension_name in self.extension_modules.keys():
+            extension_data = self.extension_config['extensions'].get(extension_name, {})
+            extensions_info.append({
+                'name': extension_name,
+                'description': extension_data.get('description', ''),
+                'folder_path': extension_data.get('folder_path', '')
+            })
+
+        return extensions_info
+
+    def get_extension_module(self, extension_name: str):
+        """
+        Get a loaded extension module by name.
+
+        Args:
+            extension_name: The name of the extension
+
+        Returns:
+            The extension module object, or None if not found
+        """
+        return self.extension_modules.get(extension_name)
+
+    def call_extension_function(self, function_name: str, *args, **kwargs):
+        """
+        Call a function across all loaded extensions and combine results.
+
+        For string returns (markdown/HTML): concatenates results from all extensions.
+        For object returns (Excel worksheets): chains results, passing output of one extension as input to the next.
+
+        Args:
+            function_name: The name of the function to call in each extension
+            *args: Positional arguments to pass to the function
+            **kwargs: Keyword arguments to pass to the function
+
+        Returns:
+            Combined results from all extensions that have the function.
+            Empty string if no extensions have the function or return empty results.
+        """
+        if not self.has_extensions():
+            return ""
+
+        result = None
+        first_result = True
+
+        for extension_name, module in self.extension_modules.items():
+            if hasattr(module, function_name):
+                try:
+                    func_result = getattr(module, function_name)(*args, **kwargs)
+
+                    if func_result is not None:
+                        if first_result:
+                            result = func_result
+                            first_result = False
+                        else:
+                            # If result is a string, concatenate; otherwise, chain (for Excel)
+                            if isinstance(result, str):
+                                result += str(func_result)
+                            else:
+                                # For non-string results (like Excel worksheets), use the latest result
+                                # The extension should have modified and returned the object
+                                result = func_result
+                except Exception as e:
+                    logger.error(
+                        "Error calling %s in extension '%s': %s",
+                        function_name,
+                        extension_name,
+                        e
+                    )
+
+        return result if result is not None else ""
+
+    def display_extension_info(self):
+        """
+        Display information about configured extensions and technique_fields settings.
+
+        Prints configuration details to console including:
+        - technique_fields visibility settings
+        - List of loaded extensions with descriptions
+        """
+        if not self._extensions_enabled or self.extension_config is None:
+            print("No extensions configured")
+            return
+
+        # Display technique_fields visibility settings
+        if 'technique_fields' in self.extension_config:
+            for field_name, is_visible in self.extension_config.get('technique_fields').items():
+                if is_visible is False:
+                    print(f"- config: field '{field_name}' display set to false")
+
+        # Display configured extensions
+        extensions_info = self.list_loaded_extensions()
+        if len(extensions_info) > 0:
+            print("Extensions configured:")
+            for ext in extensions_info:
+                print(f" - {ext['name']} ({ext['description']}, path={ext['folder_path']})")
+        else:
+            print("No extensions configured")
+
+    def should_display_field(self, field_name: str) -> bool:
+        """
+        Check if a technique field should be displayed based on configuration.
+
+        Args:
+            field_name: The name of the field to check (e.g., 'id', 'name', 'description')
+
+        Returns:
+            bool: True if the field should be displayed, False otherwise
+        """
+        if not self._extensions_enabled or self.extension_config is None:
+            return True  # Default to showing all fields if no config
+
+        if 'technique_fields' not in self.extension_config:
+            return True  # Default to showing all fields if technique_fields not configured
+
+        # Return the field's visibility setting, defaulting to True if not specified
+        return self.extension_config.get('technique_fields').get(field_name, True)
+
+    def add_markdown_to_main_page(self) -> str:
+        """
+        Get markdown content to add to the main page from all extensions.
+
+        Returns:
+            str: Concatenated markdown content from all extensions
+        """
+        return self.call_extension_function('get_markdown_generic', kb=self)
+
+    def add_markdown_to_technique(self, technique_id: str) -> str:
+        """
+        Get markdown content to add to a technique page from all extensions.
+
+        Args:
+            technique_id: The ID of the technique
+
+        Returns:
+            str: Concatenated markdown content from all extensions
+        """
+        return self.call_extension_function('get_markdown_for_technique', technique_id, kb=self)
+
+    def add_markdown_to_technique_preview_suffix(self, technique_id: str) -> str:
+        """
+        Get markdown content to add as suffix to a technique preview from all extensions.
+
+        Args:
+            technique_id: The ID of the technique
+
+        Returns:
+            str: Concatenated markdown content from all extensions
+        """
+        return self.call_extension_function('get_markdown_for_technique_suffix', technique_id, kb=self)
+
+    def add_markdown_to_weakness(self, weakness_id: str) -> str:
+        """
+        Get markdown content to add to a weakness page from all extensions.
+
+        Args:
+            weakness_id: The ID of the weakness
+
+        Returns:
+            str: Concatenated markdown content from all extensions
+        """
+        return self.call_extension_function('get_markdown_for_weakness', weakness_id, kb=self)
+
+    def add_markdown_to_weakness_preview_prefix(self, weakness_id: str) -> str:
+        """
+        Get markdown content to add as prefix to a weakness preview from all extensions.
+
+        Args:
+            weakness_id: The ID of the weakness
+
+        Returns:
+            str: Concatenated markdown content from all extensions
+        """
+        return self.call_extension_function('get_markdown_for_weakness_prefix', weakness_id, kb=self)
+
+    def add_markdown_to_weakness_preview_suffix(self, weakness_id: str) -> str:
+        """
+        Get markdown content to add as suffix to a weakness preview from all extensions.
+
+        Args:
+            weakness_id: The ID of the weakness
+
+        Returns:
+            str: Concatenated markdown content from all extensions
+        """
+        return self.call_extension_function('get_markdown_for_weakness_suffix', weakness_id, kb=self)
+
+    def add_markdown_to_mitigation(self, mitigation_id: str) -> str:
+        """
+        Get markdown content to add to a mitigation page from all extensions.
+
+        Args:
+            mitigation_id: The ID of the mitigation
+
+        Returns:
+            str: Concatenated markdown content from all extensions
+        """
+        return self.call_extension_function('get_markdown_for_mitigation', mitigation_id, kb=self)
+
+    def add_markdown_to_mitigation_preview_prefix(self, mitigation_id: str) -> str:
+        """
+        Get markdown content to add as prefix to a mitigation preview from all extensions.
+
+        Args:
+            mitigation_id: The ID of the mitigation
+
+        Returns:
+            str: Concatenated markdown content from all extensions
+        """
+        return self.call_extension_function('get_markdown_for_mitigation_prefix', mitigation_id, kb=self)
+
+    def add_markdown_to_mitigation_preview_suffix(self, mitigation_id: str) -> str:
+        """
+        Get markdown content to add as suffix to a mitigation preview from all extensions.
+
+        Args:
+            mitigation_id: The ID of the mitigation
+
+        Returns:
+            str: Concatenated markdown content from all extensions
+        """
+        return self.call_extension_function('get_markdown_for_mitigation_suffix', mitigation_id, kb=self)
+
+    def add_excel_to_generic(self, excel_worksheet, start_row):
+        """
+        Get Excel modifications from all extensions for the main workbook.
+
+        Args:
+            excel_worksheet: The Excel worksheet object to modify
+            start_row: The starting row number
+
+        Returns:
+            The modified Excel worksheet object
+        """
+        result = self.call_extension_function('get_excel_generic', excel_worksheet, start_row, kb=self)
+        return result if result else excel_worksheet
+
+    def add_excel_to_technique(self, technique_id: str, excel_worksheet, start_row):
+        """
+        Get Excel modifications from all extensions for a technique.
+
+        Args:
+            technique_id: The ID of the technique
+            excel_worksheet: The Excel worksheet object to modify
+            start_row: The starting row number
+
+        Returns:
+            The modified Excel worksheet object
+        """
+        result = self.call_extension_function('get_excel_for_technique', technique_id, excel_worksheet, start_row, kb=self)
+        return result if result else excel_worksheet
+
+    def add_excel_to_weakness(self, weakness_id: str, excel_worksheet, start_row):
+        """
+        Get Excel modifications from all extensions for a weakness.
+
+        Args:
+            weakness_id: The ID of the weakness
+            excel_worksheet: The Excel worksheet object to modify
+            start_row: The starting row number
+
+        Returns:
+            The modified Excel worksheet object
+        """
+        result = self.call_extension_function('get_excel_for_weakness', weakness_id, excel_worksheet, start_row, kb=self)
+        return result if result else excel_worksheet
+
+    def add_excel_to_mitigation(self, mitigation_id: str, excel_worksheet, start_row):
+        """
+        Get Excel modifications from all extensions for a mitigation.
+
+        Args:
+            mitigation_id: The ID of the mitigation
+            excel_worksheet: The Excel worksheet object to modify
+            start_row: The starting row number
+
+        Returns:
+            The modified Excel worksheet object
+        """
+        result = self.call_extension_function('get_excel_for_mitigation', mitigation_id, excel_worksheet, start_row, kb=self)
+        return result if result else excel_worksheet
+
+    def get_colour_for_technique(self, technique_id: str) -> str:
+        """
+        Get the color code for a technique based on its completeness.
+
+        Delegates to the global_solveit_config module if loaded, otherwise uses default logic.
+
+        Color codes indicate technique development status:
+        - #F4CCCC (light red): Placeholder - no weaknesses defined
+        - #FCE5CD (light orange): Partially populated - missing description or mitigations
+        - #D9EAD3 (light green): Release candidate - fully populated
+
+        Args:
+            technique_id: The ID of the technique
+
+        Returns:
+            str: Hex color code for the technique
+        """
+        if self.global_config and hasattr(self.global_config, 'get_colour_for_technique'):
+            return self.global_config.get_colour_for_technique(self, technique_id)
+
+        # Default implementation if no config is loaded
+        technique = self.get_technique(technique_id)
+        if not technique:
+            return "#F4CCCC"
+
+        if len(technique.get('weaknesses', [])) == 0:
+            return "#F4CCCC"
+
+        description = technique.get('description', '')
+        if not description or len(self.get_mit_list_for_technique(technique_id)) == 0:
+            return "#FCE5CD"
+
+        return "#D9EAD3"
+
+    def get_technique_prefix(self, technique_id: str) -> str:
+        """
+        Get the prefix emoji for a technique based on its completeness.
+
+        Delegates to the global_solveit_config module if loaded, otherwise uses default logic.
+
+        Prefix emojis indicate technique development status:
+        - 🔴 Red circle: Placeholder - no weaknesses defined
+        - 🟡 Yellow circle: Partially populated - missing description or mitigations
+        - 🟢 Green circle: Release candidate - fully populated
+
+        Args:
+            technique_id: The ID of the technique
+
+        Returns:
+            str: Emoji prefix for the technique (includes trailing space)
+        """
+        if self.global_config and hasattr(self.global_config, 'get_technique_prefix'):
+            return self.global_config.get_technique_prefix(self, technique_id)
+
+        # Default implementation if no config is loaded
+        technique = self.get_technique(technique_id)
+        if not technique:
+            return "🔴 "
+
+        if len(technique.get('weaknesses', [])) == 0:
+            return "🔴 "
+
+        description = technique.get('description', '')
+        if not description or len(self.get_mit_list_for_technique(technique_id)) == 0:
+            return "🟡 "
+
+        return "🟢 "
+
+    def get_technique_suffix(self, technique_id: str) -> str:
+        """
+        Get the suffix for a technique.
+
+        Delegates to the global_solveit_config module if loaded, otherwise returns empty string.
+
+        Args:
+            technique_id: The ID of the technique
+
+        Returns:
+            str: Suffix for the technique
+        """
+        if self.global_config and hasattr(self.global_config, 'get_technique_suffix'):
+            return self.global_config.get_technique_suffix(self, technique_id)
+
+        # Default implementation
+        return ""
 
 
 class SOLVEITDataError(Exception):

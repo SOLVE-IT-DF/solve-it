@@ -1,12 +1,22 @@
 {
     "id": "T1065",
     "name": "Content indexer examination (OS)",
-    "description": "Examine information from operating system artefacts relating to content indexing and search capabilities e.g. Windows Desktop Search",
+    "description": "Examine information from operating system artifacts relating to content indexing and search capabilities e.g. Windows Desktop Search",
     "synonyms": [],
-    "details": "",
+    "details": "For example the Windows Search database '...contains vast amount of values about various of artifacts found on a Windows system, e.g. files and directories, emails, appointments, attachments, images, audio and video' (Metz 2011)",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "Windows Search",
+        "Spotlight",
+        "Zeitgeist"
+    ],
     "weaknesses": [],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/fileName",
+        "https://ontology.unifiedcyberontology.org/uco/observable/filePath"
+    ],
+    "references": [
+        "Metz (2011), Windows Search forensics, https://www.forensicfocus.com/articles/windows-search-forensics/",
+        "The Zeitgeist Project (2021) https://zeitgeist.freedesktop.org"
+    ]
 }

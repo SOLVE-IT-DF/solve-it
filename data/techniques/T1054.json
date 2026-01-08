@@ -1,12 +1,13 @@
 {
     "id": "T1054",
     "name": "Manual content review for relevant material",
-    "description": "",
+    "description": "Manual examination of files or artifacts to determine their relevance to the investigation.",
     "synonyms": [],
-    "details": "",
+    "details": "The result of this process is a classification, which may be 'relevant', or could be more specific, e.g. 'contains reference to x'. This technique is likely paired with T1091 (Bookmark artifacts) but they could be recorded in other ways. This manual review could be of the content of files (T1058), or of content extracted from within files e.g. images (T1081), video (T1080), or audio (T1079).",
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1060", "W1061", "W1062"],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification",
+                              "https://ontology.unifiedcyberontology.org/uco/observable/path"],
     "references": []
 }

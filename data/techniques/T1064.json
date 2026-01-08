@@ -1,17 +1,23 @@
 {
     "id": "T1064",
     "name": "File carving",
-    "description": "",
+    "description": "The process of recovering files from non-allocated space using only the structural properties of files.",
     "synonyms": [],
-    "details": "",
+    "details": "File carving should result in not just the file content, but the offset in which it was found and the offset base (i.e. the disk, volume, or offset within another file). This approach uses internal files structural information only - if residual file system metadata is used then the complementary technique T1150 is more applicable.",
     "subtechniques": [],
-    "examples": [],
+    "examples": ["Photorec (Grenier 2023)", "scalpel", "foremost"],
     "weaknesses": ["W1103", "W1104", "W1105", "W1106", "W1107"],
     "CASE_output_classes" : [
-            "observable:File",
-            "observable:rangeOffset",
-            "observable:rangeOffsetType"],
-    "references": []
+            "https://ontology.unifiedcyberontology.org/uco/core/confidence",
+
+            "https://ontology.unifiedcyberontology.org/uco/observable/File",
+
+            "https://ontology.unifiedcyberontology.org/uco/observable/rangeOffset",
+            "https://ontology.unifiedcyberontology.org/uco/observable/rangeOffsetType"],
+
+    "references": ["Basis Technology 2025, PhotoRec Carver Module, https://sleuthkit.org/autopsy/docs/user-docs/4.22.0/photorec_carver_page.html",
+                   "Grenier (2023) PhotoRec, https://www.cgsecurity.org/wiki/PhotoRec"
+                    ]
 }
 
 

@@ -1,12 +1,12 @@
 {
     "id": "T1038",
-    "name": "Rainbow tables",
+    "name": "Rainbow table-based password attack",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/password"],
     "references": ["todo"]
 }

@@ -6,7 +6,12 @@
     "details": "Collection of the time of a device clock compared with the correct time, allowing an offset to be calculated *for the point in time when the clock was observed*.",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": ["W1173"],
-    "CASE_output_classes" : ["observable:systemTime"],
+    "weaknesses": [
+        "W1173"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/systemTime",
+        "https://ontology.solveit-df.org/solveit/observable/ClockOffset"
+    ],
     "references": []
 }

@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1247"],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/BrowserBookmark"],
     "references": []
 }

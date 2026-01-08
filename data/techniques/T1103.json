@@ -1,7 +1,7 @@
 {
     "id": "T1103",
     "name": "Virtualise suspect system for previewing",
-    "description": "A suspect disk image can be configured to boot as a virtual machine, which allows screenshots to be taken showing how the user's destktop looked for example.",
+    "description": "A suspect disk image can be configured to boot as a virtual machine, which allows screenshots to be taken showing how the user's desktop looked for example.",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

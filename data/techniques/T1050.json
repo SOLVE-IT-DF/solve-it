@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1132"],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/File",
+                             "https://ontology.unifiedcyberontology.org/uco/analysis/classification"],
     "references": ["todo"]
 }

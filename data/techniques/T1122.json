@@ -5,8 +5,15 @@
     "synonyms": [],
     "details": "This complements case-specific wordlists (T1123) created for the individual case.",
     "subtechniques": [],
-    "examples":  ["Example word lists https://www.dfir.training/downloads/search-terms"],
-    "weaknesses": ["W1057", "W1059"],
-    "CASE_output_classes" : [],
+    "examples": [
+        "Example word lists https://www.dfir.training/downloads/search-terms"
+    ],
+    "weaknesses": [
+        "W1057",
+        "W1059"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult"
+    ],
     "references": []
 }

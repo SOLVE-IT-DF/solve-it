@@ -8,9 +8,9 @@
     "examples": [],
     "weaknesses": [],
     "CASE_output_classes": [
-            "configuration:Configuration", 
-            "configuration:dependencies",
-            "core:confidence"
+            "https://ontology.unifiedcyberontology.org/uco/configuration/Configuration", 
+            "https://ontology.unifiedcyberontology.org/uco/configuration/dependencies",
+            "https://ontology.unifiedcyberontology.org/uco/core/confidence"
     ],
     "references": []
 }

@@ -226,9 +226,9 @@ def write_all_technique_files(kb, outpath, extension_config):
                 technique_md_file.write(f"\n\n")
 
             if extension_config is not None and extension_config.get('technique_fields').get('CASE_output_classes'):
-                technique_md_file.write(f"**CASE Output Classes:**\n\n")
+                technique_md_file.write(f"**Output Classes:**\n\n")
                 for each_case_class in technique.get('CASE_output_classes'):
-                    technique_md_file.write(f"    - {each_case_class}\n")
+                    technique_md_file.write(f"- [{each_case_class}]({each_case_class})\n")
                 technique_md_file.write(f"\n\n")
 
             if extension_config is not None and extension_config.get('technique_fields').get('weaknesses'):

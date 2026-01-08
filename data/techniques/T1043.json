@@ -3,10 +3,12 @@
     "name": "Decode forensic image format",
     "description": "The decoding of a forensic format such as EWF such that the raw sectors can be accessed by a forensic tool (typically performed on-the-fly internally in a tool.)",
     "synonyms": ["Read forensic format", "Read forensic image"],
-    "details": "",
+    "details": "For example a EWF (Expert Witness Format) needs to be processed to expose the equivalent RAW image sectors. Therefore both the input and output types here are [https://ontology.unifiedcyberontology.org/uco/observable/Image]. This technique would not need to be used when working with a RAW image format directly. This also includes decoding logical formats such as L01, AD1, CTR, or AFF4-L. The output here is not an image file but rather a set of files and their metadata",
     "subtechniques": [],
     "examples": ["Expert Witness Format (EWF)", "Advanced Forensic Format (AFF)"],
     "weaknesses": ["W1121", "W1122", "W1123", "W1259"],
-    "CASE_output_classes" : ["observable:Image"],
-    "references": ["Cohen, M., Garfinkel, S. and Schatz, B., 2009. Extending the advanced forensic format to accommodate multiple data sources, logical evidence, arbitrary information and forensic workflow. digital investigation, 6, pp.S57-S68."]
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Image",
+                                "https://ontology.unifiedcyberontology.org/uco/observable/File"],
+    "references": ["Cohen, M., Garfinkel, S. and Schatz, B., 2009. Extending the advanced forensic format to accommodate multiple data sources, logical evidence, arbitrary information and forensic workflow. digital investigation, 6, pp.S57-S68.",
+                   "Im, S., Park, H., Joun, J., Lee, S. and Park, J., 2024. Revisiting logical image formats for future digital forensics: A comprehensive analysis on L01 and AFF4-L. Forensic Science International: Digital Investigation, 50"]
 }

@@ -7,6 +7,10 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : ["core:confidence"],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/core/confidence",
+        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent",
+        "https://ontology.unifiedcyberontology.org/uco/location/Location"
+    ],
     "references": []
 }

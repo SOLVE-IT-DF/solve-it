@@ -14,9 +14,9 @@
     ],
     "weaknesses": [],
     "CASE_output_classes": [
-        "observable:File",
-        "observable:version",
-        "observable:modifiedTime"
+        "https://ontology.unifiedcyberontology.org/uco/observable/File",
+        "https://ontology.unifiedcyberontology.org/uco/observable/version",
+        "https://ontology.unifiedcyberontology.org/uco/observable/modifiedTime"
     ],
     "references": [
         "Apple (2025) View and restore past versions of documents on Mac https://support.apple.com/en-gb/guide/mac-help/mh40710/mac",

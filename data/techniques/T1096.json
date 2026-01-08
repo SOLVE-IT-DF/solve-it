@@ -1,12 +1,14 @@
 {
     "id": "T1096",
     "name": "Run programs identification (OS)",
-    "description": "Extraction and analysis of information that allows programs that have been run on an OS to be identified.",
+    "description": "The process of examining operating system files to extract artifacts that may indicate a program has been run.",
     "synonyms": [],
-    "details": "",
+    "details": "While this technique may result in executable or script paths and timestamps, to evaluate a hypothesis that a program was run requires use of T1155 to evaluate if this occurred, and optionally T1117 if the time of access is relevant.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/execProgramPath",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/timesExecuted",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/execProgramHashes"],
     "references": ["todo"]
 }

@@ -7,6 +7,8 @@
     "subtechniques": [],
     "examples":  [],
     "weaknesses": ["W1148","W1149","W1266"],
-    "CASE_output_classes" : ["core:startTime", "core:endTime", "core:confidence"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/core/startTime", 
+                             "https://ontology.unifiedcyberontology.org/uco/core/endTime", 
+                             "https://ontology.unifiedcyberontology.org/uco/core/confidence"],
     "references": []
 }

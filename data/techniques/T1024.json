@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"],
     "references": ["todo"]
 }

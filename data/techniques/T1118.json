@@ -5,9 +5,10 @@
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples":  ["Autopsy Interesting Files module"
+    "examples":  ["Autopsy Interesting Files module",
+                  "Pattern matching in ALEAPP/iLEAPP to trigger specific plugins"
                   ],
     "weaknesses": ["W1186", "W1187", "W1188"],
-    "CASE_output_classes" : ["observable:File"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/File"],
     "references": ["Autopsy Interesting File module, https://sleuthkit.org/autopsy/docs/user-docs/3.1/interesting_page.html"]
 }

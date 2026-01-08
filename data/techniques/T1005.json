@@ -7,6 +7,11 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1114"],
-    "CASE_output_classes" : ["observable:Device", "observable:Computer", "observable:MobileDevice", "observable:SmartDevice", "observable:WearableDevice", "observable:location"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Device", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/Computer", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/SmartDevice", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/WearableDevice", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/location"],
     "references": ["Birzer, M.L., 2018. Crime Scene Search. Introduction to Criminal Investigation, p.35."]
 }

@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes" : ["https://cacontology.projectvic.org/case-management#ExpertReport"],
+    "references": []
 }

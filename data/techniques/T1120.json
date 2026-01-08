@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples": ["iLEAPP", "aLEAPP", "Axiom", "Hansken"],
     "weaknesses": ["W1189", "W1190", "W1258"],
-    "CASE_output_classes" : ["analysis:AnalyticResult"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/analysis/AnalyticResult"],
     "references": []
 }

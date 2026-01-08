@@ -6,7 +6,14 @@
     "details": "",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": ["W1132"],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "weaknesses": [
+        "W1132"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/analysis/classification",
+        "https://ontology.solveit-df.org/solveit/observable/RedactedFileSet"
+    ],
+    "references": [
+        "todo"
+    ]
 }

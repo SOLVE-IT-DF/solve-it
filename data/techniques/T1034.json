@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1140", "W1141", "W1142"],
-    "CASE_output_classes" : ["observable:password"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/password"],
     "references": ["Kanta, A., Coray, S., Coisel, I. and Scanlon, M., 2021. How viable is password cracking in digital forensic investigation? Analyzing the guessability of over 3.9 billion real-world accounts. Forensic Science International: Digital Investigation, 37, p.301186."]
 }

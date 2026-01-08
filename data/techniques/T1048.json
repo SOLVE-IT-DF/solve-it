@@ -1,12 +1,16 @@
 {
     "id": "T1048",
     "name": "Privacy protection via partial processing",
-    "description": "",
+    "description": "Limiting the scope of file processing based on type, date or other criteria to protect privacy.",
     "synonyms": [],
-    "details": "",
+    "details": "The files may still be present in the data set or removed, or made in accessible but the core of the technique to to provide a limited set of artifacts, compared with full processing.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/RedactedArtifactSet"
+    ],
+    "references": [
+        "Dickinson (2020) \u2018Privacy by design \u2013 10 ways MSAB can help you meet the challenges.\u2019 MSAB Blog. Available at: https://www.msab.com/blog/privacy-by-design-10-ways-msab-can-help-you-meet-the-challenges/"
+    ]
 }

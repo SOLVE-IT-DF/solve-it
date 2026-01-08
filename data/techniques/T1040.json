@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples": ["Checkra1n, https://checkra.in", ""],
     "weaknesses": ["W1157", "W1158"],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/isPrivileged"],
     "references": ["Grover, J., 2013. Android forensics: Automated data collection and reporting from a mobile device. Digital Investigation, 10, pp.S12-S20."]
 }

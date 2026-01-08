@@ -7,7 +7,8 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1129", "W1130", "W1131"],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/mimeType"],
     "references": ["Dubettier, A., Gernot, T., Giguet, E. and Rosenberger, C., 2023. File type identification tools for digital investigations. Forensic Science International: Digital Investigation, 46, p.301574.",
                    "Hargreaves, C., Nelson, A. and Casey, E., 2024. An abstract model for digital forensic analysis tools-A foundation for systematic error mitigation analysis. Forensic Science International: Digital Investigation, 48, p.301679."]
 }

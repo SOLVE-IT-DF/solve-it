@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": ["Examination of setupapi.dev.log", "Examination of syslog"],
     "weaknesses": ["W1228", "W1229", "W1230", "W1231", "W1232", "W1233", "W1234", "W1235", "W1236"],
-    "CASE_output_classes" : ["observable:EventLog", "core:eventType"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/EventLog", 
+                             "https://ontology.unifiedcyberontology.org/uco/core/eventType"],
     "references": []
 }

@@ -35,6 +35,15 @@
         "W1226",
         "W1227"
     ],
-    "CASE_output_classes": ["observable:Message", "observable:Call", "observable:callType", "observable:creationTime", "observable:messageType", "observable:Account", "observable:emailAddress", "observable:phoneNumber", "configuration:Configuration"],
+    "CASE_output_classes": ["https://ontology.unifiedcyberontology.org/uco/observable/Message", 
+                            "https://ontology.unifiedcyberontology.org/uco/observable/Call", 
+                            "https://ontology.unifiedcyberontology.org/uco/observable/callType", 
+                            "https://ontology.unifiedcyberontology.org/uco/observable/sentTime", 
+                            "https://ontology.unifiedcyberontology.org/uco/observable/receivedTime",
+                            "https://ontology.unifiedcyberontology.org/uco/observable/messageType", 
+                            "https://ontology.unifiedcyberontology.org/uco/observable/Account", 
+                            "https://ontology.unifiedcyberontology.org/uco/observable/emailAddress", 
+                            "https://ontology.unifiedcyberontology.org/uco/observable/phoneNumber", 
+                            "https://ontology.unifiedcyberontology.org/uco/configuration/Configuration"],
     "references": ["Hargreaves & Drury, 2025, Forensic Analysis of AI Applications: A Replika \"AI Companion\" example, WSDF 2025", "Bayor, L., Weinert, C., Maier, C. and Weitzel, T., 2025. Social-Oriented Communication with AI Companions: Benefits, Costs, and Contextual Patterns. Business & Information Systems Engineering, pp.1-19."]
 }

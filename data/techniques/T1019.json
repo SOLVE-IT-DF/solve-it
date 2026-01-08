@@ -8,6 +8,6 @@
     "examples": ["Magnet Acquire - A quick acquisition using this product collects an iOS backup, along with some other data. ",
                  "Elcomsoft iOS Forensic Toolkit - can trigger an iOS backup"],
     "weaknesses": ["W1037", "W1038", "W1039", "W1040", "W1041"],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"],
     "references": ["todo"]
 }

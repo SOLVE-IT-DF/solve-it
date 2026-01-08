@@ -2,13 +2,21 @@
     "id": "T1138",
     "name": "Browser cache examination",
     "description": "The examination of the content saved locally by browsers to improve performance",
-    "synonyms": ["web cache examination",
-                 "internet cache examination"],
+    "synonyms": [
+        "web cache examination",
+        "internet cache examination"
+    ],
     "details": "",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": ["W1252"],
-    "CASE_output_classes" : ["observable:File",  
-                             "observable:SQLiteBlob"],
+    "weaknesses": [
+        "W1252"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/File",
+        "https://ontology.unifiedcyberontology.org/uco/observable/SQLiteBlob",
+        "https://ontology.unifiedcyberontology.org/uco/observable/httpRequestHeader",
+        "https://ontology.solveit-df.org/solveit/observable/httpResponseHeader"
+    ],
     "references": []
 }

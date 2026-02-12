@@ -2,12 +2,30 @@
     "id": "T1052",
     "name": "Timeline generation",
     "description": "The extraction and normalisation of timestamps from a data source into a set of timeline entries",
-    "synonyms": ["timelining"],
+    "synonyms": [
+        "timelining"
+    ],
     "details": "",
-    "subtechniques": ["T1153"],
-    "examples": ["plaso"],
-    "weaknesses": ["W1144", "W1145", "W1146", "W1147", "W1151", "W1269"],
-    "CASE_output_classes" : [],
-    "references": ["Hargreaves, C. and Patterson, J., 2012. An automated timeline reconstruction approach for digital forensic investigations. Digital Investigation, 9, pp.S69-S79.",
-                    "Dreier, L.M., Vanini, C., Hargreaves, C.J., Breitinger, F. and Freiling, F., 2024. Beyond timestamps: Integrating implicit timing information into digital forensic timelines. Forensic Science International: Digital Investigation, 49, p.301755."]
+    "subtechniques": [
+        "T1153"
+    ],
+    "examples": [
+        "plaso"
+    ],
+    "weaknesses": [
+        "W1144",
+        "W1145",
+        "W1146",
+        "W1147",
+        "W1151",
+        "W1269"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/Timeline",
+        "https://ontology.solveit-df.org/solveit/observable/TimelineEntry"
+    ],
+    "references": [
+        "Hargreaves, C. and Patterson, J., 2012. An automated timeline reconstruction approach for digital forensic investigations. Digital Investigation, 9, pp.S69-S79.",
+        "Dreier, L.M., Vanini, C., Hargreaves, C.J., Breitinger, F. and Freiling, F., 2024. Beyond timestamps: Integrating implicit timing information into digital forensic timelines. Forensic Science International: Digital Investigation, 49, p.301755."
+    ]
 }

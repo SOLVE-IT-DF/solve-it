@@ -13,9 +13,9 @@
                    "W1245", 
                    "W1246",
                 "W1109", "W1110", "W1111", "W1112"],
-    "CASE_output_classes" : ["observable:URLHistory",
-                             "observable:URLVisit",
-                             "observable:URLHistoryEntry",
-                             "observable:visitTime"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/URLHistory",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/URLVisit",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/URLHistoryEntry",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/visitTime"],
     "references": []
 }

@@ -17,8 +17,8 @@ M1015	Use tools only if changes made are to locations where relevant evidence is
 M1016	Alert user that the data collected is a partial set of data stored on the device
 M1017	Check for physical presence of SD card
 M1018	Check if presence of SD card is expected
-M1019	Consider if file system acquisition is possible/permitted
-M1020	Compare app data extracted with full list of installed apps
+M1019	Consider if file system acquisition is possible/permitted (T1020)
+M1020	Compare data extracted with full list of installed apps
 M1021	Verify the disk image integrity with multiple hash algorithms e.g. MD5 and SHA1 (Kessler 2016)
 M1022	Restrict access to stored disk images
 M1023	Ensure and check logs of access to stored disk images
@@ -95,7 +95,7 @@ M1093	Use mangling rules to generate variants of candidate passwords
 M1094	Include contextual information when assembling the dictionary
 M1095	Order dictionary to test the most likely candidates first
 M1096	Apply additional resources to dictionary attack
-M1097	Attempt to obtain password from the suspect
+M1097	Attempt to obtain password/passcode from the device owner (T1037)
 M1098	Optimise the brute force search space
 M1099	Use a dictionary attack instead (T1035)
 M1100	Apply additional resources to brute force attack
@@ -223,3 +223,10 @@ M1227	Search for indicators of clock tampering (T1129)
 M1228	Record system clock offset (T1111)
 M1229	Determine last timezone used on system
 M1230	Ensure that daylight savings offsets that are applied to timestamps are correct
+M1231	Obtain possible passwords/PIN codes from other devices with limited security (T1033)
+M1232	Configure device to enable required service (T1158)
+M1233	Test data extraction methods against reference data with known timestamps
+M1234	Exploit device to facilitate password/pincode attacks (T1040)
+M1235	Attempt to obtain password/pincode with brute force attacks (T1034)
+M1236	Attempt to obtain password/pincode with dictionary attacks (T1035)
+M1237	Ensure that archive format used can handle sufficiently large files

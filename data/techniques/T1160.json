@@ -1,0 +1,14 @@
+{
+    "id": "T1160",
+    "name": "Collect data with 'cloud backup restore' approach",
+    "description": "Restore a device's cloud backup to a donor device, then subsequently use a local acquisition approach on that donor device, e.g. T1019/T1020",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/SmartDevice"
+    ],
+    "references": ["Geus, J., Gruber, J., Wozar, J. and Freiling, F., 2025. From sync to seizure: A binary instrumentation-based evaluation of the iCloud backup process. Forensic Science International: Digital Investigation, 54, p.301978."]
+}

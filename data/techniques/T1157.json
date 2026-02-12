@@ -1,0 +1,21 @@
+{
+    "id": "T1157",
+    "name": "Extract device data using exposed service",
+    "description": "Use an exposed service on a device to extract data. This represents several of the mobile data extraction methods e.g. Query content providers (android), AFC (iOS).",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": ["T1019"],
+    "examples": ["Extraction of data using AFC on iOS",
+                 "Android Debug Bridge (ADB) provides command line access when USB debugging is enabled on Android devices",
+                 "Extraction of data by querying Content Providers on Android (via ADB)",
+                 "Media Transfer Protocol (MTP)"],
+    "weaknesses": ["W1037", "W1041", "W1040", "W1271", "W1272", "W1273"],
+    "CASE_output_classes": [
+      "https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile",
+      "https://ontology.unifiedcyberontology.org/uco/observable/File",
+      "https://ontology.unifiedcyberontology.org/uco/observable/Contact",
+      "https://ontology.unifiedcyberontology.org/uco/observable/Call",
+      "https://ontology.unifiedcyberontology.org/uco/observable/SMSMessage"
+    ],
+    "references": []
+}

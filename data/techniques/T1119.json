@@ -7,7 +7,10 @@
     "subtechniques": [],
     "examples": ["Discussed in 'Puma: Automatically generating digital forensic reference data triggered by mobile application updates' (Claij-Swart et al. 2025)"],
     "weaknesses": ["W1191"],
-    "CASE_output_classes" : ["observable:hasChanged", "observable:filePath", "observable:tableSchema", "observable:TableField"],
-    "references": ["Claij-Swart et al. (2025) Puma: Automatically generating digital forensic reference data triggered by mobile application updates, APAC 2025 (full reference TBC)",
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/hasChanged", 
+                                "https://ontology.unifiedcyberontology.org/uco/observable/filePath", 
+                                "https://ontology.unifiedcyberontology.org/uco/observable/tableSchema", 
+                                "https://ontology.unifiedcyberontology.org/uco/observable/TableField"],
+    "references": ["Claij-Swart, A.A., Oudsen, E., Timbermont, B., Hargreaves, C. and Voigt, L.L., 2025. Automatically generating digital forensic reference data triggered by mobile application updates. Forensic Science International: Digital Investigation, 54, p.301985.",
         "Claij-Swart et al. (2025), PUMA (Programmable Utility for Mobile Automation), https://github.com/NetherlandsForensicInstitute/puma"]
 }

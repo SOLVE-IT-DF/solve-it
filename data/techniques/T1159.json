@@ -1,0 +1,15 @@
+{
+    "id": "T1159",
+    "name": "Extract mobile data via deployed agent",
+    "description": "Deploy software to a mobile device that can carry out some function, either collect data with available permissions or attempt further exploitation e.g. sandbox escape.",
+    "synonyms": [],
+    "details": "While Android agents can be sideloaded with adb, deploying agents on iOS may require a developer account. Output may be equivalent of a file system acquisition if an exploit is successful. Otherwise data such as contacts would be extracted.",
+    "subtechniques": [],
+    "examples": ["Elcomsoft",
+                 "Belkasoft"],
+    "weaknesses": ["W1276"],
+    "CASE_output_classes": [
+    ],
+    "references": ["Elcomsoft 20203 https://blog.elcomsoft.com/2023/07/ios-device-acquisition-installing-the-extraction-agent/",
+                    "Belkasoft https://belkasoft.com/agent_based_ios_acquisition"]
+}

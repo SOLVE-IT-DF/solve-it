@@ -1,0 +1,16 @@
+{
+  "id": "W1274",
+  "name": "Inability to enable required service due to locked device",
+  "details": "",
+  "INCOMP": "x",
+  "INAC-EX": "",
+  "INAC-ALT": "",
+  "INAC-AS": "",
+  "INAC-COR": "",
+  "MISINT": "",  
+  "mitigations": [
+      "M1097", "M1234", "M1235", "M1236"
+          ],
+  "references": [          
+              ]
+}

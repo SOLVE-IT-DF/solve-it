@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples": ["dcfldd", "FTK Imager", "Magnet ACQUIRE"],
     "weaknesses": ["W1004", "W1006", "W1007", "W1013", "W1014", "W1015", "W1016", "W1136", "W1143"],
-    "CASE_output_classes" : ["observable:Image"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Image"],
     "references": ["Nikkel, B., 2016. Practical forensic imaging: securing digital evidence with Linux tools. No Starch Press, Chapter 6, “Forensic Image Acquisition"]
 }

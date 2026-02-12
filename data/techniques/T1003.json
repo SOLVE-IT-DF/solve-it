@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples": ["FTK Imager - Can capture both RAM and the pagefile of the system"],
     "weaknesses": ["W1029", "W1030", "W1031", "W1032", "W1033"],
-    "CASE_output_classes" : ["observable:Image"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Image"],
     "references": ["Case, A. and Richard III, G. G., 2017. Memory forensics: The path forward. Digital investigation, 20, 23-33.","Latzo, T., Palutke, R. and Freiling, F., 2019. A universal taxonomy and survey of forensic memory acquisition techniques. Digital Investigation, 28, 56-69."]
 }

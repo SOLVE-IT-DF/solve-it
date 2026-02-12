@@ -7,6 +7,8 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : ["core:Relationship", "core:kindOfRelationship", "core:confidence"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/core/Relationship", 
+                             "https://ontology.unifiedcyberontology.org/uco/core/kindOfRelationship", 
+                             "https://ontology.unifiedcyberontology.org/uco/core/confidence"],
     "references": ["Casey, E., 2011. Digital evidence and computer crime: Forensic science, computers, and the internet. Academic press, Section 8.1.3"]
 }

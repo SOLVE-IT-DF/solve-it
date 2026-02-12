@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1005"],
-    "CASE_output_classes" : ["observable:location", "observable:Device"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/location", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/Device"],
     "references": ["Petersen, S.J. and Schoon, A., 2022. Dogs as Detectors for Hidden Digital Storage Devices: A Pilot Study from the National Police of The Netherlands. In Canines (pp. 535-557). Jenny Stanford Publishing."]
 }

@@ -18,22 +18,27 @@
     "description": "Collect data from the identified evidence sources.",
     "techniques": ["T1112", "T1113",
                     "T1111",
-                    "T1028", "T1029", "T1030", "T1027",
+                    "T1028", "T1029", "T1030",
                     "T1002",
                     "T1003", "T1114", "T1016",
-                    "T1019", "T1020", "T1022",
+                    "T1020", "T1022",
                     "T1023", "T1024",
                     "T1018",
                     "T1017",
                     "T1104",
                     "T1004", "T1015",
-                    "T1025", "T1026"]
+                    "T1025", "T1026",
+                    "T1157",
+                    "T1159",
+                    "T1160", 
+                    "T1162", 
+                    "T1163"]
     },
 
     {"name":"Gain access",
     "description": "Attempt to gain access to protected data sources or other restricted data.",
     "techniques": ["T1039", "T1034", "T1035", "T1033", "T1031",
-                    "T1041", "T1038", "T1032", "T1036", "T1037","T1040"]
+                    "T1041", "T1038", "T1032", "T1036", "T1037","T1040", "T1158"]
     },
 
     {"name":"Read data from digital evidence storage formats",

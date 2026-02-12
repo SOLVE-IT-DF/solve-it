@@ -1,12 +1,12 @@
 {
     "id": "T1033",
-    "name": "Extraction of account details from an accessible device",
-    "description": "",
+    "name": "Extraction of credential from an accessible device",
+    "description": "Accessing a device with limited or no security to obtain a credential (e.g. password, PIN, token) that can be used to access another device or service.",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Account"],
+    "references": []
 }

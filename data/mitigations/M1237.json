@@ -1,0 +1,6 @@
+{
+  "id": "M1237",
+  "name": "Ensure that archive format used can handle sufficiently large files",
+  "details": "",
+  "references": ["Wikipedia (2026), ZIP (file format), https://en.wikipedia.org/wiki/ZIP_(file_format)#ZIP64"]
+}

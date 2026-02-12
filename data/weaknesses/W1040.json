@@ -1,6 +1,6 @@
 {
     "id": "W1040",
-    "name": "Not considering SD Card acquisition in addition to backup",
+    "name": "Not considering SD Card acquisition in addition to other extractions performed",
     "INCOMP": "x",
     "INAC-EX": "",
     "INAC-AS": "",

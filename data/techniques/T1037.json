@@ -1,12 +1,12 @@
 {
     "id": "T1037",
-    "name": "Obtain password from suspect",
+    "name": "Obtain password from the device owner",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/password"],
+    "references": []
 }

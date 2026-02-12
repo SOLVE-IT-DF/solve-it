@@ -1,12 +1,13 @@
 {
     "id": "T1058",
     "name": "Search for mismatched file extensions",
-    "description": "",
+    "description": "Checking the content of a file against its file extension to identify mismatches.",
     "synonyms": [],
-    "details": "",
+    "details": "This results in a file path of an identified file, but also highlights the extension that the file has, and the file extension(s) that are expected",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/filePath",
+                            "https://ontology.unifiedcyberontology.org/uco/observable/extension"],
+    "references": ["Basis Technology (2015), Extension Mismatch Detector Module, https://sleuthkit.org/autopsy/docs/user-docs/3.1/extension_mismatch_detector_page.html"]
 }

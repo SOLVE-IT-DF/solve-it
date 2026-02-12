@@ -1,155 +1,422 @@
 ID	Name
-T1000	Placeholder	[]
-T1001	Triage	[]
-T1002	Disk imaging	['observable:Image']
-T1003	Memory imaging	['observable:Image']
-T1004	Selective data acquisition	[]
-T1005	Crime scene searching	['observable:Device', 'observable:Computer', 'observable:MobileDevice', 'observable:SmartDevice', 'observable:WearableDevice', 'observable:location']
-T1006	Digital sniffer dogs	['observable:location', 'observable:Device']
-T1007	SyncTriage-based approach	['observable:Device', 'observable:Computer', 'observable:MobileDevice', 'observable:SmartDevice', 'observable:WearableDevice']
-T1008	Profiling network traffic	[]
-T1009	Locate cloud account identifiers	[]
-T1010	Place device in faraday environment	[]
-T1011	Store seized devices in evidence bags	[]
-T1012	Hardware write blockers	[]
-T1013	Software write blockers	[]
-T1014	Chain of custody documentation	[]
-T1015	Privacy preserving selective extraction	[]
-T1016	Live data collection	['observable:Process', 'observable:NetworkConnection', 'observable:IPAddress', 'observable:MACAddress', 'observable:UserAccount']
-T1017	Network packet capture	[]
-T1018	Remote data collection	[]
-T1019	Mobile backup extraction	[]
-T1020	Mobile file system extraction	['observable:ArchiveFile']
-T1021	Configuration file examination	['configuration:Configuration', 'configuration:ConfigurationEntry']
-T1022	Mobile device screenshot based capture	[]
-T1023	Cloud data collection using account details	[]
-T1024	Cloud data collection via request	[]
-T1025	Writing data to a forensic image format	[]
-T1026	Writing data in standard archive format	['observable:ArchiveFile']
-T1027	Data read using JTAG	[]
-T1028	Chip-off	[]
-T1029	Data read from desoldered eMMC	[]
-T1030	Data read from unmanaged NAND	[]
-T1031	Key recovery from memory	[]
-T1032	Side channel	[]
-T1033	Extraction of account details from an accessible device	[]
-T1034	Brute force attack	['observable:password']
-T1035	Dictionary attack	['observable:password']
-T1036	Smudge attack	[]
-T1037	Obtain password from suspect	[]
-T1038	Rainbow tables	[]
-T1039	App downgrade	[]
-T1040	Use mobile device exploit	[]
-T1041	Pin2Pwn	[]
-T1042	Disk image hash verification	[]
-T1043	Decode forensic image format	['observable:Image']
-T1044	Mobile backup decoding	[]
-T1045	Decode standard archive format	['observable:File']
-T1046	Privileged material protection	[]
-T1047	Hash matching (reduce)	[]
-T1048	Privacy protection via partial processing	[]
-T1049	Keyword searching	[]
-T1050	Hash matching (locate)	[]
-T1051	Fuzzy hash matching	[]
-T1052	Timeline generation	[]
-T1053	Entity extraction	[]
-T1054	Manual content review for relevant material	[]
-T1055	File system content inspection	[]
-T1056	Entity connection enumeration	[]
-T1057	Search for indicators of steganography	[]
-T1058	Search for mismatched file extensions	[]
-T1059	Identify partitions	['observable:DiskPartition']
-T1060	Enumerate allocated files and folders	['observable:File', 'observable:Directory', 'observable:accessedTime', 'observable:creationTime', 'observable:modifiedTime', 'observable:metadataChangeTime', 'observable:mftFileNameAccessedTime', 'observable:mftFileNameCreatedTime', 'observable:mftFileNameModifiedTime', 'observable:mftFileNameRecordChangeTime', 'observable:mftRecordChangeTime', 'observable:mftFileID', 'observable:filePath', 'observable:fileName', 'observable:ntfsOwnerID', 'observable:ntfsOwnerSID', 'observable:ownerSID', 'observable:allocationStatus']
-T1061	Recover non-allocated files	['observable:File', 'observable:Directory', 'observable:accessedTime', 'observable:creationTime', 'observable:modifiedTime', 'observable:metadataChangeTime', 'observable:mftFileNameAccessedTime', 'observable:mftFileNameCreatedTime', 'observable:mftFileNameModifiedTime', 'observable:mftFileNameRecordChangeTime', 'observable:mftRecordChangeTime', 'observable:mftFileID', 'observable:filePath', 'observable:fileName', 'observable:ntfsOwnerID', 'observable:ntfsOwnerSID', 'observable:ownerSID', 'observable:allocationStatus', 'core:confidence']
-T1062	Decryption of encrypted file systems/volumes	[]
-T1063	Identify file types	[]
-T1064	File carving	['observable:File', 'observable:rangeOffset', 'observable:rangeOffsetType']
-T1065	Content indexer examination (OS)	[]
-T1066	Log file examination (OS)	[]
-T1067	Cloud synchronisation feature examination (OS)	[]
-T1068	Recently used file identification (OS)	[]
-T1069	Browser examination	['observable:URLHistory', 'observable:CookieHistory', 'observable:BrowserBookmark', 'observable:BrowserCookie', 'observable:URLVisit', 'observable:URLHistoryEntry']
-T1070	Email examination	[]
-T1071	Database examination	['observable:recordFieldName', 'observable:recordFieldValue', 'observable:recordRowID', 'observable:SQLiteBlob']
-T1072	Chat app examination	['observable:Message', 'observable:SMSMessage']
-T1073	Calendar app examination	[]
-T1074	Social network app examination	[]
-T1075	Maps/travel app examination	[]
-T1076	Log file examination	['observable:EventLog', 'core:eventType']
-T1077	Photos app examination	[]
-T1078	Cloud sync app examination	[]
-T1079	Audio content analysis	[]
-T1080	Video content analysis	[]
-T1081	Image content analysis	[]
-T1082	Document content analysis	[]
-T1083	Memory examination (OS-level)	[]
-T1084	Extraction of user accounts	[]
-T1085	Identify conflation	[]
-T1086	Timeline analysis	[]
-T1087	Location-based event reconstruction	['core:confidence']
-T1088	Relational-based event reconstruction	['core:Relationship', 'core:kindOfRelationship', 'core:confidence']
-T1089	Source code review	[]
-T1090	Experimentation	[]
-T1091	Bookmark artifacts	[]
-T1092	Produce bookmark-based automated report	[]
-T1093	Write expert report	[]
-T1094	Disclosure	[]
-T1095	Instrumentation	[]
-T1096	Run programs identification (OS)	[]
-T1097	Installed programs identification (OS)	[]
-T1098	User account analysis (OS)	[]
-T1099	File repair with grafting	[]
-T1100	EXIF data extraction	[]
-T1101	Cell site survey	[]
-T1102	Decode data from image from unmanaged NAND	[]
-T1103	Virtualise suspect system for previewing	[]
-T1104	Collect data using open source intelligence	[]
-T1105	Memory examination (application-level)	[]
-T1106	Deep fake detection (video)	[]
-T1107	Health/Fitness app examination	[]
-T1108	Reminders app examination	[]
-T1109	Payment app examination	[]
-T1110	Preserving reference data	[]
-T1111	Recording system clock offset	['observable:systemTime']
-T1112	Physical disk identification and removal	[]
-T1113	Access internal storage via bootable environment	[]
-T1114	Memory Acquisition via Cold Boot Attack	['observable:Image']
-T1115	Visualisation of geolocation information	[]
-T1116	Determine connected devices	['observable:Device', 'observable:Computer', 'observable:MobileDevice', 'observable:SmartDevice', 'observable:WearableDevice']
-T1117	Time-based event reconstruction	['core:startTime', 'core:endTime', 'core:confidence']
-T1118	Locate relevant files by path	['observable:File']
-T1119	Automatically scan for artifact changes caused by app updates	['observable:hasChanged', 'observable:filePath', 'observable:tableSchema', 'observable:TableField']
-T1120	Automated artifact extraction	['analysis:AnalyticResult']
-T1121	Keyword indexing	[]
-T1122	Keyword search (case-type wordlists)	[]
-T1123	Keyword search (case-specific wordlists)	[]
-T1124	Keyword search (indexed)	[]
-T1125	Keyword search (live)	[]
-T1126	Keyword search (live) (physical)	[]
-T1127	Keyword search (live) (logical)	[]
-T1128	Search for indicators of malware	[]
-T1129	Search for indicators of clock tampering	[]
-T1130	Search for indicators of encrypted data	[]
-T1131	Search for indicators of trail obfuscation	[]
-T1132	Search for indicators of artifact wiping	[]
-T1133	AI companion app examination	['observable:Message', 'observable:Call', 'observable:callType', 'observable:creationTime', 'observable:messageType', 'observable:Account', 'observable:emailAddress', 'observable:phoneNumber', 'configuration:Configuration']
-T1134	Use time anchors to estimate clock offset	[]
-T1137	Browser history examination	['observable:URLHistory', 'observable:URLVisit', 'observable:URLHistoryEntry', 'observable:visitTime']
-T1138	Browser cache examination	['observable:File', 'observable:SQLiteBlob']
-T1139	Browser session examination	[]
-T1140	Browser autofill examination	[]
-T1141	Browser bookmarks examination	[]
-T1142	Browser downloads examination	[]
-T1143	Browser configuration examination	[]
-T1144	Browser profile enumeration	[]
-T1145	Browser extensions examination	[]
-T1146	Browser synchronization feature examination	[]
-T1147	Browser cookie examination	[]
-T1148	Browser web storage examination	[]
-T1149	File versioning feature examination	['observable:File', 'observable:version', 'observable:modifiedTime']
-T1150	Recover non-allocated files using residual file metadata	['observable:File', 'observable:Directory', 'observable:accessedTime', 'observable:creationTime', 'observable:modifiedTime', 'observable:metadataChangeTime', 'observable:mftFileNameAccessedTime', 'observable:mftFileNameCreatedTime', 'observable:mftFileNameModifiedTime', 'observable:mftFileNameRecordChangeTime', 'observable:mftRecordChangeTime', 'observable:mftFileID', 'observable:filePath', 'observable:fileName', 'observable:ntfsOwnerID', 'observable:ntfsOwnerSID', 'observable:ownerSID', 'observable:allocationStatus']
-T1151	Keyword search (over extracted artifacts)	[]
-T1153	Apply offset to a timestamp	[]
-T1154	Identity-based event reconstruction	['identity:Person', 'observable:Account', 'core:confidence']
-T1155	Operation-based event reconstruction	['core:confidence']
-T1156	Functional-based event reconstruction	['configuration:Configuration', 'configuration:dependencies', 'core:confidence']
+T1000	Placeholder	
+T1001	Triage	
+			https://cacontology.projectvic.org/forensics#priorityClassification
+T1002	Disk imaging	
+			https://ontology.unifiedcyberontology.org/uco/observable/Image
+T1003	Memory imaging	
+			https://ontology.unifiedcyberontology.org/uco/observable/Image
+T1004	Selective data acquisition	
+T1005	Crime scene searching	
+			https://ontology.unifiedcyberontology.org/uco/observable/Device
+			https://ontology.unifiedcyberontology.org/uco/observable/Computer
+			https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
+			https://ontology.unifiedcyberontology.org/uco/observable/SmartDevice
+			https://ontology.unifiedcyberontology.org/uco/observable/WearableDevice
+			https://ontology.unifiedcyberontology.org/uco/observable/location
+T1006	Digital sniffer dogs	
+			https://ontology.unifiedcyberontology.org/uco/observable/location
+			https://ontology.unifiedcyberontology.org/uco/observable/Device
+T1007	SyncTriage-based approach	
+			https://ontology.unifiedcyberontology.org/uco/observable/Device
+			https://ontology.unifiedcyberontology.org/uco/observable/Computer
+			https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
+			https://ontology.unifiedcyberontology.org/uco/observable/SmartDevice
+			https://ontology.unifiedcyberontology.org/uco/observable/WearableDevice
+T1008	Profiling network traffic	
+T1009	Locate cloud account identifiers	
+T1010	Place device in faraday environment	
+T1011	Store seized devices in evidence bags	
+T1012	Hardware write blockers	
+T1013	Software write blockers	
+T1014	Chain of custody documentation	
+T1015	Privacy preserving selective extraction	
+T1016	Live data collection	
+			https://ontology.unifiedcyberontology.org/uco/observable/Process
+			https://ontology.unifiedcyberontology.org/uco/observable/NetworkConnection
+			https://ontology.unifiedcyberontology.org/uco/observable/IPAddress
+			https://ontology.unifiedcyberontology.org/uco/observable/MACAddress
+			https://ontology.unifiedcyberontology.org/uco/observable/UserAccount
+T1017	Network packet capture	
+			https://ontology.solveit-df.org/solveit/observable/NetworkPacketCapture
+T1018	Remote data collection	
+			https://ontology.unifiedcyberontology.org/uco/observable/Image
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+T1019	Mobile backup extraction	
+			https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
+T1020	Mobile file system extraction	
+			https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
+T1021	Configuration file examination	
+			https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
+			https://ontology.unifiedcyberontology.org/uco/configuration/ConfigurationEntry
+T1022	Mobile device screenshot based capture	
+T1023	Cloud data collection to access data via a live web page using credentials	
+			https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
+T1024	Cloud data collection via submission of request to service provider	
+			https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
+T1025	Writing data to a forensic image format	
+			https://ontology.unifiedcyberontology.org/uco/observable/Image
+T1026	Writing data to standard archive format	
+			https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
+T1027	Data read using JTAG	
+T1028	Chip-off	
+T1029	Data read from desoldered eMMC	
+			https://ontology.unifiedcyberontology.org/uco/observable/Image
+T1030	Data read from unmanaged NAND	
+T1031	Key recovery from memory	
+			https://ontology.solveit-df.org/solveit/observable/DecryptionKey
+T1032	Side channel	
+T1033	Extraction of credential from an accessible device	
+			https://ontology.unifiedcyberontology.org/uco/observable/Account
+T1034	Brute force attack	
+			https://ontology.unifiedcyberontology.org/uco/observable/password
+T1035	Dictionary attack	
+			https://ontology.unifiedcyberontology.org/uco/observable/password
+T1036	Smudge attack	
+			https://ontology.solveit-df.org/solveit/observable/UnlockPattern
+T1037	Obtain password from the device owner	
+			https://ontology.unifiedcyberontology.org/uco/observable/password
+T1038	Rainbow table-based password attack	
+			https://ontology.unifiedcyberontology.org/uco/observable/password
+T1039	App downgrade	
+T1040	Use mobile device exploit	
+			https://ontology.unifiedcyberontology.org/uco/observable/isPrivileged
+T1041	Pin2Pwn	
+T1042	Disk image hash verification	
+			https://ontology.unifiedcyberontology.org/uco/observable/hash
+T1043	Decode forensic image format	
+			https://ontology.unifiedcyberontology.org/uco/observable/Image
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+T1044	Mobile backup decoding	
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/observable/filePath
+T1045	Decode standard archive format	
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+T1046	Privileged material protection	
+			https://ontology.solveit-df.org/solveit/observable/RedactedFileSet
+			https://ontology.solveit-df.org/solveit/observable/RedactedArtifactSet
+T1047	Hash matching (reduce)	
+			https://ontology.unifiedcyberontology.org/uco/analysis/classification
+			https://ontology.solveit-df.org/solveit/observable/RedactedFileSet
+T1048	Privacy protection via partial processing	
+			https://ontology.solveit-df.org/solveit/observable/RedactedArtifactSet
+T1049	Keyword searching	
+			https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
+T1050	Hash matching (locate)	
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/analysis/classification
+T1051	Fuzzy hash matching	
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/analysis/classification
+T1052	Timeline generation	
+			https://ontology.solveit-df.org/solveit/observable/Timeline
+			https://ontology.solveit-df.org/solveit/observable/TimelineEntry
+T1053	Entity extraction	
+T1054	Manual content review for relevant material	
+			https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
+			https://ontology.unifiedcyberontology.org/uco/observable/path
+T1055	File system content inspection	
+T1056	Entity connection enumeration	
+			https://ontology.unifiedcyberontology.org/uco/observable/ObservableRelationship
+T1057	Search for indicators of steganography	
+			https://ontology.unifiedcyberontology.org/uco/observable/path
+			https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
+T1058	Search for mismatched file extensions	
+			https://ontology.unifiedcyberontology.org/uco/observable/filePath
+			https://ontology.unifiedcyberontology.org/uco/observable/extension
+T1059	Identify partitions	
+			https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition
+			https://ontology.unifiedcyberontology.org/uco/observable/partitionOffset
+			https://ontology.unifiedcyberontology.org/uco/observable/partitionLength
+T1060	Enumerate allocated files and folders	
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/observable/Directory
+			https://ontology.unifiedcyberontology.org/uco/observable/allocationStatus
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileID
+			https://ontology.unifiedcyberontology.org/uco/observable/extInodeID
+			https://ontology.unifiedcyberontology.org/uco/observable/filePath
+			https://ontology.unifiedcyberontology.org/uco/observable/fileName
+			https://ontology.unifiedcyberontology.org/uco/observable/modifiedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/accessedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/creationTime
+			https://ontology.unifiedcyberontology.org/uco/observable/metadataChangeTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftRecordChangeTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameModifiedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameAccessedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameCreatedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameRecordChangeTime
+			https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerID
+			https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerSID
+			https://ontology.unifiedcyberontology.org/uco/observable/ownerSID
+T1061	Recover non-allocated files	
+			https://ontology.unifiedcyberontology.org/uco/core/confidence
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/observable/Directory
+			https://ontology.unifiedcyberontology.org/uco/observable/allocationStatus
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileID
+			https://ontology.unifiedcyberontology.org/uco/observable/extInodeID
+			https://ontology.unifiedcyberontology.org/uco/observable/filePath
+			https://ontology.unifiedcyberontology.org/uco/observable/fileName
+			https://ontology.unifiedcyberontology.org/uco/observable/modifiedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/accessedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/creationTime
+			https://ontology.unifiedcyberontology.org/uco/observable/metadataChangeTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftRecordChangeTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameModifiedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameAccessedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameCreatedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameRecordChangeTime
+			https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerID
+			https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerSID
+			https://ontology.unifiedcyberontology.org/uco/observable/ownerSID
+T1062	Decryption of encrypted file systems/volumes	
+			https://ontology.unifiedcyberontology.org/uco/observable/Volume
+			https://ontology.unifiedcyberontology.org/uco/observable/Image
+T1063	Identify file types	
+			https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
+			https://ontology.unifiedcyberontology.org/uco/observable/mimeType
+T1064	File carving	
+			https://ontology.unifiedcyberontology.org/uco/core/confidence
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/observable/rangeOffset
+			https://ontology.unifiedcyberontology.org/uco/observable/rangeOffsetType
+T1065	Content indexer examination (OS)	
+			https://ontology.unifiedcyberontology.org/uco/observable/fileName
+			https://ontology.unifiedcyberontology.org/uco/observable/filePath
+T1066	Log file examination (OS)	
+			https://ontology.unifiedcyberontology.org/uco/observable/EventLog
+T1067	Cloud synchronisation feature examination (OS)	
+T1068	Recently used file identification (OS)	
+			https://ontology.unifiedcyberontology.org/uco/observable/filePath
+			https://ontology.unifiedcyberontology.org/uco/observable/accessedTime
+T1069	Browser examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/URLHistory
+			https://ontology.unifiedcyberontology.org/uco/observable/CookieHistory
+			https://ontology.unifiedcyberontology.org/uco/observable/BrowserBookmark
+			https://ontology.unifiedcyberontology.org/uco/observable/BrowserCookie
+			https://ontology.unifiedcyberontology.org/uco/observable/URLVisit
+			https://ontology.unifiedcyberontology.org/uco/observable/URLHistoryEntry
+T1070	Email examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/EmailAccount
+			https://ontology.unifiedcyberontology.org/uco/observable/EmailMessage
+T1071	Database examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/recordFieldName
+			https://ontology.unifiedcyberontology.org/uco/observable/recordFieldValue
+			https://ontology.unifiedcyberontology.org/uco/observable/recordRowID
+			https://ontology.unifiedcyberontology.org/uco/observable/SQLiteBlob
+T1072	Chat app examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/Message
+			https://ontology.unifiedcyberontology.org/uco/observable/SMSMessage
+T1073	Calendar app examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/Calendar
+			https://ontology.unifiedcyberontology.org/uco/observable/CalendarEntry
+T1074	Social network app examination	
+T1075	Maps/travel app examination	
+T1076	Log file examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/EventLog
+			https://ontology.unifiedcyberontology.org/uco/core/eventType
+T1077	Photos app examination	
+T1078	Cloud sync app examination	
+T1079	Audio content analysis	
+T1080	Video content analysis	
+T1081	Image content analysis	
+T1082	Document content analysis	
+T1083	Memory examination (OS-level)	
+T1084	Extraction of user accounts	
+T1085	Identify conflation	
+T1086	Timeline analysis	
+			https://ontology.solveit-df.org/solveit/observable/Timeline
+			https://ontology.solveit-df.org/solveit/observable/TimelineEntry
+T1087	Location-based event reconstruction	
+			https://ontology.unifiedcyberontology.org/uco/core/confidence
+			https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent
+			https://ontology.unifiedcyberontology.org/uco/location/Location
+T1088	Relational-based event reconstruction	
+			https://ontology.unifiedcyberontology.org/uco/core/Relationship
+			https://ontology.unifiedcyberontology.org/uco/core/kindOfRelationship
+			https://ontology.unifiedcyberontology.org/uco/core/confidence
+T1089	Source code review	
+T1090	Experimentation	
+T1091	Bookmark artifacts	
+			https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
+			https://ontology.unifiedcyberontology.org/uco/core/Annotation
+T1092	Produce tag-based automated report	
+			https://ontology.solveit-df.org/solveit/analysis/ForensicToolTagBasedReport
+T1093	Write expert report	
+			https://cacontology.projectvic.org/case-management#ExpertReport
+T1094	Disclosure	
+T1095	Instrumentation	
+T1096	Run programs identification (OS)	
+			https://ontology.unifiedcyberontology.org/uco/observable/execProgramPath
+			https://ontology.unifiedcyberontology.org/uco/observable/timesExecuted
+			https://ontology.unifiedcyberontology.org/uco/observable/execProgramHashes
+T1097	Installed programs identification (OS)	
+			https://ontology.unifiedcyberontology.org/uco/observable/Application
+			https://ontology.unifiedcyberontology.org/uco/observable/ApplicationVersion
+T1098	User account analysis (OS)	
+			https://ontology.unifiedcyberontology.org/uco/observable/UserAccount
+			https://ontology.unifiedcyberontology.org/uco/observable/accountType
+T1099	File repair with grafting	
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+T1100	EXIF data extraction	
+			https://ontology.unifiedcyberontology.org/uco/observable/exifData
+T1101	Cell site survey	
+T1102	Decode data from image from unmanaged NAND	
+T1103	Virtualise suspect system for previewing	
+T1104	Collect data using open source intelligence	
+T1105	Memory examination (application-level)	
+T1106	Deep fake detection (video)	
+			https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
+			https://ontology.unifiedcyberontology.org/uco/analysis/classificationConfidence
+T1107	Health/Fitness app examination	
+T1108	Reminders app examination	
+T1109	Payment app examination	
+T1110	Preserving reference data	
+T1111	Recording system clock offset	
+			https://ontology.unifiedcyberontology.org/uco/observable/systemTime
+			https://ontology.solveit-df.org/solveit/observable/ClockOffset
+T1112	Physical disk identification and removal	
+			https://ontology.unifiedcyberontology.org/uco/observable/Disk
+			https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium
+T1113	Access internal storage via bootable environment	
+			https://ontology.unifiedcyberontology.org/uco/observable/BlockDeviceNode
+T1114	Memory Acquisition via Cold Boot Attack	
+			https://ontology.unifiedcyberontology.org/uco/observable/Image
+T1115	Visualisation of geolocation information	
+T1116	Determine connected devices	
+			https://ontology.unifiedcyberontology.org/uco/observable/Device
+			https://ontology.unifiedcyberontology.org/uco/observable/Computer
+			https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
+			https://ontology.unifiedcyberontology.org/uco/observable/SmartDevice
+			https://ontology.unifiedcyberontology.org/uco/observable/WearableDevice
+T1117	Time-based event reconstruction	
+			https://ontology.unifiedcyberontology.org/uco/core/startTime
+			https://ontology.unifiedcyberontology.org/uco/core/endTime
+			https://ontology.unifiedcyberontology.org/uco/core/confidence
+T1118	Locate relevant files by path	
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+T1119	Automatically scan for artifact changes caused by app updates	
+			https://ontology.unifiedcyberontology.org/uco/observable/hasChanged
+			https://ontology.unifiedcyberontology.org/uco/observable/filePath
+			https://ontology.unifiedcyberontology.org/uco/observable/tableSchema
+			https://ontology.unifiedcyberontology.org/uco/observable/TableField
+T1120	Automated artifact extraction	
+			https://ontology.unifiedcyberontology.org/uco/analysis/AnalyticResult
+T1121	Keyword indexing	
+			https://ontology.solveit-df.org/solveit/observable/KeywordIndex
+			https://ontology.solveit-df.org/solveit/observable/KeywordIndexingConfiguration
+T1122	Keyword search (case-type wordlists)	
+			https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
+T1123	Keyword search (case-specific wordlists)	
+			https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
+T1124	Keyword search (indexed)	
+			https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
+T1125	Keyword search (live)	
+			https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
+T1126	Keyword search (live) (physical)	
+			https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
+T1127	Keyword search (live) (logical)	
+			https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
+T1128	Search for indicators of malware	
+T1129	Search for indicators of clock tampering	
+T1130	Search for indicators of encrypted data	
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/observable/Application
+T1131	Search for indicators of trail obfuscation	
+			https://ontology.unifiedcyberontology.org/uco/observable/Application
+T1132	Search for indicators of artifact wiping	
+			https://ontology.unifiedcyberontology.org/uco/observable/Application
+T1133	AI companion app examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/Message
+			https://ontology.unifiedcyberontology.org/uco/observable/Call
+			https://ontology.unifiedcyberontology.org/uco/observable/callType
+			https://ontology.unifiedcyberontology.org/uco/observable/sentTime
+			https://ontology.unifiedcyberontology.org/uco/observable/receivedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/messageType
+			https://ontology.unifiedcyberontology.org/uco/observable/Account
+			https://ontology.unifiedcyberontology.org/uco/observable/emailAddress
+			https://ontology.unifiedcyberontology.org/uco/observable/phoneNumber
+			https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
+T1134	Use time anchors to estimate clock offset	
+			https://ontology.solveit-df.org/solveit/observable/ClockOffset
+T1137	Browser history examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/URLHistory
+			https://ontology.unifiedcyberontology.org/uco/observable/URLVisit
+			https://ontology.unifiedcyberontology.org/uco/observable/URLHistoryEntry
+			https://ontology.unifiedcyberontology.org/uco/observable/visitTime
+T1138	Browser cache examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/observable/SQLiteBlob
+			https://ontology.unifiedcyberontology.org/uco/observable/httpRequestHeader
+			https://ontology.solveit-df.org/solveit/observable/httpResponseHeader
+T1139	Browser session examination	
+T1140	Browser autofill examination	
+T1141	Browser bookmarks examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/BrowserBookmark
+T1142	Browser downloads examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/URL
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+T1143	Browser configuration examination	
+			https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
+T1144	Browser profile enumeration	
+T1145	Browser extensions examination	
+T1146	Browser synchronization feature examination	
+			https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
+T1147	Browser cookie examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/CookieHistory
+			https://ontology.unifiedcyberontology.org/uco/observable/BrowserCookie
+T1148	Browser web storage examination	
+T1149	File versioning feature examination	
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/observable/version
+			https://ontology.unifiedcyberontology.org/uco/observable/modifiedTime
+T1150	Recover non-allocated files using residual file metadata	
+			https://ontology.unifiedcyberontology.org/uco/core/confidence
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/observable/Directory
+			https://ontology.unifiedcyberontology.org/uco/observable/allocationStatus
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileID
+			https://ontology.unifiedcyberontology.org/uco/observable/extInodeID
+			https://ontology.unifiedcyberontology.org/uco/observable/filePath
+			https://ontology.unifiedcyberontology.org/uco/observable/fileName
+			https://ontology.unifiedcyberontology.org/uco/observable/modifiedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/accessedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/creationTime
+			https://ontology.unifiedcyberontology.org/uco/observable/metadataChangeTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftRecordChangeTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameModifiedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameAccessedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameCreatedTime
+			https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameRecordChangeTime
+			https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerID
+			https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerSID
+			https://ontology.unifiedcyberontology.org/uco/observable/ownerSID
+T1151	Keyword search (over extracted artifacts)	
+			https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
+T1153	Apply offset to a timestamp	
+			https://ontology.solveit-df.org/solveit/observable/DateTimeStamp
+			https://ontology.solveit-df.org/solveit/observable/TimelineEntry
+T1154	Identity-based event reconstruction	
+			https://ontology.unifiedcyberontology.org/uco/identity/Person
+			https://ontology.unifiedcyberontology.org/uco/observable/Account
+			https://ontology.unifiedcyberontology.org/uco/core/confidence
+T1155	Operation-based event reconstruction	
+			https://ontology.unifiedcyberontology.org/uco/core/confidence
+T1156	Functional-based event reconstruction	
+			https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
+			https://ontology.unifiedcyberontology.org/uco/configuration/dependencies
+			https://ontology.unifiedcyberontology.org/uco/core/confidence
+T1157	Extract device data using exposed service	
+			https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
+			https://ontology.unifiedcyberontology.org/uco/observable/File
+			https://ontology.unifiedcyberontology.org/uco/observable/Contact
+			https://ontology.unifiedcyberontology.org/uco/observable/Call
+			https://ontology.unifiedcyberontology.org/uco/observable/SMSMessage
+T1158	Configure device to enable a service needed for data extraction	
+T1159	Extract mobile data via deployed agent	
+T1160	Collect data with 'cloud backup restore' approach	
+			https://ontology.unifiedcyberontology.org/uco/observable/SmartDevice
+T1162	Read data from a device via In-System Programming (ISP)	
+			https://ontology.unifiedcyberontology.org/uco/observable/Image
+T1163	Automated screenshot-based capture of a mobile device	
+			https://ontology.solveit-df.org/solveit/observable/DeviceScreenshot

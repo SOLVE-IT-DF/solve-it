@@ -5,8 +5,17 @@
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples":  [],
-    "weaknesses": ["W1054", "W1055", "W1056", "W1197", "W1198"],
-    "CASE_output_classes" : [],
+    "examples": [],
+    "weaknesses": [
+        "W1054",
+        "W1055",
+        "W1056",
+        "W1197",
+        "W1198"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/KeywordIndex",
+        "https://ontology.solveit-df.org/solveit/observable/KeywordIndexingConfiguration"
+    ],
     "references": []
 }

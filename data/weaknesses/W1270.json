@@ -1,0 +1,15 @@
+{
+  "id": "W1270",
+  "name": "Inability to create a device backup due to locked device",
+  "details": "In most cases to create a backup the passcode must be provided to unlock the device.",
+  "INCOMP": "x",
+  "INAC-EX": "",
+  "INAC-ALT": "",
+  "INAC-AS": "",
+  "INAC-COR": "",
+  "MISINT": "",  
+  "mitigations": [
+    "M1097", "M1234", "M1235", "M1236"
+  ],
+  "references": []
+}

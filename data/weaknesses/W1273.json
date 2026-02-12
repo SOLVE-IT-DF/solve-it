@@ -1,0 +1,16 @@
+{
+  "id": "W1273",
+  "name": "Failure to preserve full resolution of all relevant timestamps of files obtained using exposed services on a device",
+  "details": "",
+  "INCOMP": "x",
+  "INAC-EX": "",
+  "INAC-ALT": "",
+  "INAC-AS": "",
+  "INAC-COR": "",
+  "MISINT": "",  
+  "mitigations": [
+      "M1233"
+          ],
+  "references": [          
+              ]
+}

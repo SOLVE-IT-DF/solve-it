@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1137", "W1138", "W1139"],
-    "CASE_output_classes" : ["observable:password"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/password"],
     "references": ["Kanta, A., Coisel, I. and Scanlon, M., 2021, December. PCWQ: A framework for evaluating password cracking wordlist quality. In International Conference on Digital Forensics and Cyber Crime (pp. 159-175). Cham: Springer International Publishing."]
 }

@@ -18,7 +18,13 @@
                      "T1148"],
     "examples": [],
     "weaknesses": ["W1113", "W1250", "W1251"],
-    "CASE_output_classes" : ["observable:URLHistory", "observable:CookieHistory", "observable:BrowserBookmark", "observable:BrowserCookie", "observable:URLVisit", "observable:URLHistoryEntry"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/URLHistory", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/CookieHistory", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/BrowserBookmark", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/BrowserCookie", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/URLVisit", 
+                             "https://ontology.unifiedcyberontology.org/uco/observable/URLHistoryEntry"
+                            ],
     "references": ["Digital Detective Knowledgebase https://kb.digital-detective.net/display/BF",
-                    "Oh, J., Lee, S. and Lee, S., 2011. Advanced evidence collection and analysis of web browser activity. Digital investigation, 8, pp.S62-S70."]
+                   "Oh, J., Lee, S. and Lee, S., 2011. Advanced evidence collection and analysis of web browser activity. Digital investigation, 8, pp.S62-S70."]
 }

@@ -1,0 +1,13 @@
+{
+    "id": "T1158",
+    "name": "Configure device to enable a service needed for data extraction",
+    "description": "Change a setting on a device such that a service needed for data extraction is enabled. This may require a user PIN that can be obtained using other techniques.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": ["Turn on developer mode to make use of Android Debug Bridge (ADB)"],
+    "weaknesses": ["W1274"],
+    "CASE_output_classes": [      
+    ],
+    "references": ["Android (2025), How to Enable Android Developer Settings: Unlock your Device’s Hidden Potential, https://www.android.com/intl/en_uk/articles/enable-android-developer-settings/"]
+}

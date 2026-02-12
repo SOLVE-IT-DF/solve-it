@@ -1,0 +1,16 @@
+{
+  "id": "W1275",
+  "name": "Failure to store data due to size limitations of archive format used",
+  "details": "Some archive file formats have limitations on the size of files that can be contained within them (Wikipedia 2026). If this is not considered and compensated for then large files that need to be stored may be skipped or cause other errors.",
+  "INCOMP": "x",
+  "INAC-EX": "",
+  "INAC-ALT": "",
+  "INAC-AS": "",
+  "INAC-COR": "",
+  "MISINT": "",  
+  "mitigations": [
+      "M1237"
+          ],
+  "references": [   "Wikipedia (2026), ZIP (file format), https://en.wikipedia.org/wiki/ZIP_(file_format)#ZIP64"       
+              ]
+}

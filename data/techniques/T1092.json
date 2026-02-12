@@ -1,12 +1,23 @@
 {
     "id": "T1092",
-    "name": "Produce bookmark-based automated report",
-    "description": "Generate a report in PDF, HTML or other format that compiles bookmarked items from a case into a package that can be reviewed.",
-    "synonyms": [],
+    "name": "Produce tag-based automated report",
+    "description": "Generate a report in PDF, HTML or other format that compiles tagged (or bookmarked) items from a case into a package that can be reviewed.",
+    "synonyms": [
+        "Produce bookmark-based automated report"
+    ],
     "details": "",
     "subtechniques": [],
-    "examples": ["Autopsy", "Axiom"],
-    "weaknesses": ["W1152", "W1153", "W1154"],
-    "CASE_output_classes" : [],
-    "references": []
+    "examples": [],
+    "weaknesses": [
+        "W1152",
+        "W1153",
+        "W1154"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/analysis/ForensicToolTagBasedReport"
+    ],
+    "references": [
+        "Basis Technology 2019, Tagging, https://sleuthkit.org/autopsy/docs/user-docs/4.12.0/tagging_page.html",
+        "Basis Technology 2019, Reporting, https://sleuthkit.org/autopsy/docs/user-docs/4.12.0/reporting_page.html"
+    ]
 }

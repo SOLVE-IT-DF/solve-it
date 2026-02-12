@@ -1,12 +1,12 @@
 {
     "id": "T1024",
-    "name": "Cloud data collection via request",
+    "name": "Cloud data collection via submission of request to service provider",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"],
+    "references": []
 }

@@ -10,6 +10,6 @@
     "Magnet Acquire: This tool can be used to acquire data from block devices in various image formats including RAW and EWF.",
     "libewf: This open source library allows access to the EWF format. The accompanying ewftools proves tools to verify, inspect and create EWF images. "],
     "weaknesses": ["W1043"],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Image"],
     "references": ["todo"]
 }

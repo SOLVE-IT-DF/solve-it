@@ -16,34 +16,40 @@ Acquire data	T1111	Recording system clock offset
 Acquire data	T1028	Chip-off
 Acquire data	T1029	Data read from desoldered eMMC
 Acquire data	T1030	Data read from unmanaged NAND
-Acquire data	T1027	Data read using JTAG
 Acquire data	T1002	Disk imaging
 Acquire data	T1003	Memory imaging
 Acquire data	T1114	Memory Acquisition via Cold Boot Attack
 Acquire data	T1016	Live data collection
-Acquire data	T1019	Mobile backup extraction
 Acquire data	T1020	Mobile file system extraction
 Acquire data	T1022	Mobile device screenshot based capture
-Acquire data	T1023	Cloud data collection using account details
-Acquire data	T1024	Cloud data collection via request
+Acquire data	T1023	Cloud data collection to access data via a live web page using credentials
+Acquire data	T1024	Cloud data collection via submission of request to service provider
 Acquire data	T1018	Remote data collection
 Acquire data	T1017	Network packet capture
 Acquire data	T1104	Collect data using open source intelligence
 Acquire data	T1004	Selective data acquisition
 Acquire data	T1015	Privacy preserving selective extraction
 Acquire data	T1025	Writing data to a forensic image format
-Acquire data	T1026	Writing data in standard archive format
+Acquire data	T1026	Writing data to standard archive format
+Acquire data	T1157	Extract device data using exposed service
+Acquire data	T1019	Mobile backup extraction (s)
+Acquire data	T1159	Extract mobile data via deployed agent
+Acquire data	T1160	Collect data with 'cloud backup restore' approach
+Acquire data	T1162	Read data from a device via In-System Programming (ISP)
+Acquire data	T1027	Data read using JTAG (s)
+Acquire data	T1163	Automated screenshot-based capture of a mobile device
 Gain access	T1039	App downgrade
 Gain access	T1034	Brute force attack
 Gain access	T1035	Dictionary attack
-Gain access	T1033	Extraction of account details from an accessible device
+Gain access	T1033	Extraction of credential from an accessible device
 Gain access	T1031	Key recovery from memory
 Gain access	T1041	Pin2Pwn
-Gain access	T1038	Rainbow tables
+Gain access	T1038	Rainbow table-based password attack
 Gain access	T1032	Side channel
 Gain access	T1036	Smudge attack
-Gain access	T1037	Obtain password from suspect
+Gain access	T1037	Obtain password from the device owner
 Gain access	T1040	Use mobile device exploit
+Gain access	T1158	Configure device to enable a service needed for data extraction
 Read data from digital evidence storage formats	T1045	Decode standard archive format
 Read data from digital evidence storage formats	T1042	Disk image hash verification
 Read data from digital evidence storage formats	T1043	Decode forensic image format
@@ -149,6 +155,6 @@ Conduct research	T1101	Cell site survey
 Conduct research	T1119	Automatically scan for artifact changes caused by app updates
 Produce documentation	T1091	Bookmark artifacts
 Produce documentation	T1094	Disclosure
-Produce documentation	T1092	Produce bookmark-based automated report
+Produce documentation	T1092	Produce tag-based automated report
 Produce documentation	T1093	Write expert report
 Produce documentation	T1014	Chain of custody documentation

@@ -1,12 +1,12 @@
 {
     "id": "T1023",
-    "name": "Cloud data collection using account details",
+    "name": "Cloud data collection to access data via a live web page using credentials",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"],
+    "references": []
 }

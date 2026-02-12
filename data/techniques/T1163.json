@@ -1,0 +1,15 @@
+{
+    "id": "T1163",
+    "name": "Automated screenshot-based capture of a mobile device",
+    "description": "Programmatically controlling a mobile device while capturing screenshots of the display.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/DeviceScreenshot"
+    ],
+    "references": ["https://github.com/prosch88/UFADE",
+                    "https://github.com/prosch88/ALEX"]
+}

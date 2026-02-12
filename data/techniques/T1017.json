@@ -7,6 +7,9 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/NetworkPacketCapture"
+    ],
+    "references": [        
+    ]
 }

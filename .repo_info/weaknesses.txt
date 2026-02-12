@@ -38,7 +38,7 @@ W1036	Overwriting relevant data with changes caused by running the live tools
 W1037	Presenting data as complete, that is in reality a partial set
 W1038	Backup process returns an incomplete set of backup data
 W1039	Backup data collection overwrites important data
-W1040	Not considering SD Card acquisition in addition to backup
+W1040	Not considering SD Card acquisition in addition to other extractions performed
 W1041	Not considering file system acquisition as alternative
 W1042	Disk image was tampered with, but manipulated to have a collision with original hash
 W1043	Data is written to forensic format that does not preserve the original raw data
@@ -262,3 +262,10 @@ W1266	Timestamp used is an inaccurate representation of the real world time due 
 W1267	Offset applied to timestamp is incorrect due to variations in clock offset over the history of data source
 W1268	Offset applied to timestamp is incorrect due to incorrect daylight savings configuration used
 W1269	Failure to apply time offset to a timeline entry
+W1270	Inability to create a device backup due to locked device
+W1271	Inability to access required service as it is not enabled
+W1272	Failure to preserve all relevant timestamps of files obtained using exposed services on a device
+W1273	Failure to preserve full resolution of all relevant timestamps of files obtained using exposed services on a device
+W1274	Inability to enable required service due to locked device
+W1275	Failure to store data due to size limitations of archive format used
+W1276	Relevant data is overwritten by deploying an agent to a mobile device

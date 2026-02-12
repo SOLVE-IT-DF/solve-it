@@ -1,12 +1,13 @@
 {
     "id": "T1068",
     "name": "Recently used file identification (OS)",
-    "description": "",
+    "description": "The process of examining operating system files to extract artifacts that may indicate file accesses.",
     "synonyms": [],
-    "details": "",
+    "details": "While this technique may result in file paths and timestamps, to evaluate a hypothesis that a file was accessed requires use of T1155 to evaluate if this access occurred, and optionally T1117 if the time of access is relevant.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/filePath",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/accessedTime"],
     "references": ["todo"]
 }

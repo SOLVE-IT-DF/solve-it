@@ -8,9 +8,9 @@
     "examples": [],
     "weaknesses": [],
     "CASE_output_classes": [
-        "identity:Person",
-        "observable:Account",
-        "core:confidence"
+        "https://ontology.unifiedcyberontology.org/uco/identity/Person",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Account",
+        "https://ontology.unifiedcyberontology.org/uco/core/confidence"
     ],
     "references": [
         "Casey, E. and Jaquet-Chiffelle, D.O., 2019. Do identities matter?. Policing: A Journal of Policy and Practice, 13(1), pp.21-34.",  

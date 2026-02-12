@@ -1,12 +1,13 @@
 {
     "id": "T1062",
     "name": "Decryption of encrypted file systems/volumes",
-    "description": "",
+    "description": "The process of decrypting an encrypted file system/volume to make its contents accessible for analysis.",
     "synonyms": [],
-    "details": "",
+    "details": "The output of this process will vary depending on the encryption implementation in place. If encryption is at the sector level then it would result in a decrypted forensic image, but if it uses file-based encryption then the process would result in an equivalent volume but with the file content/metadata decrypted.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Volume",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/Image"],
     "references": ["todo"]
 }

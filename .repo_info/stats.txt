@@ -1,4 +1,4 @@
-{'num_mitigations': 224,
+{'num_mitigations': 231,
  'num_objectives': 19,
- 'num_techniques': 154,
- 'num_weaknesses': 263}
+ 'num_techniques': 160,
+ 'num_weaknesses': 270}

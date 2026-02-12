@@ -7,7 +7,9 @@
     "subtechniques": [],
     "examples": ["Hargreaves, Nelson and Casey (2024) provides a dataset with a deleted but recoverable partition that can be used for tool evaluation."],
     "weaknesses": ["W1063", "W1064", "W1065", "W1066", "W1067"],
-    "CASE_output_classes" : ["observable:DiskPartition"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/partitionOffset",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/partitionLength"],
     "references": ["Nikkel, B., 2009. Forensic analysis of GPT disks and GUID partition tables. Digital Investigation, 6(1-2), pp.39-47.",
                     "Carrier, B., 2005. File system forensic analysis. Addison-Wesley Professional."
                 ]

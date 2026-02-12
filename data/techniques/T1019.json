@@ -1,13 +1,13 @@
 {
     "id": "T1019",
     "name": "Mobile backup extraction",
-    "description": "Using the backup capability of the device to extract data from a mobile device (todo better definition)",
+    "description": "Using the backup capability of a device to extract a subset of its contents",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": ["Magnet Acquire - A quick acquisition using this product collects an iOS backup, along with some other data. ",
-                 "Elcomsoft iOS Forensic Toolkit - can trigger an iOS backup"],
-    "weaknesses": ["W1037", "W1038", "W1039", "W1040", "W1041"],
-    "CASE_output_classes" : [],
-    "references": ["todo"]
+    "examples": ["Use of ADB to generate an Android backup",
+                 "Extraction of an iOS backup"],
+    "weaknesses": ["W1037", "W1038", "W1039", "W1040", "W1041", "W1270"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"],
+    "references": []
 }

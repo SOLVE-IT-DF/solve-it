@@ -1,12 +1,12 @@
 {
     "id": "T1026",
-    "name": "Writing data in standard archive format",
+    "name": "Writing data to standard archive format",
     "description": "Storing acquired data in a standard archive format such as rar, tar or zip",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": ["W1165"],
-    "CASE_output_classes" : ["observable:ArchiveFile"],
+    "weaknesses": ["W1165", "W1275"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"],
     "references": []
 }

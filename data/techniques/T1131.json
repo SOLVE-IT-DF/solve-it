@@ -7,6 +7,6 @@
     "subtechniques": [],
     "examples":  [],
     "weaknesses": [],
-    "CASE_output_classes" : [],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Application"],
     "references": ["Kessler, G.C., 2007. Anti-forensics and the digital investigator."]
 }

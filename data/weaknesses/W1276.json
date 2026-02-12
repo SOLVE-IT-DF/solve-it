@@ -1,0 +1,15 @@
+{
+  "id": "W1276",
+  "name": "Relevant data is overwritten by deploying an agent to a mobile device",
+  "details": "",
+  "INCOMP": "x",
+  "INAC-EX": "",
+  "INAC-ALT": "",
+  "INAC-AS": "",
+  "INAC-COR": "",
+  "MISINT": "",  
+  "mitigations": ["M1014" 
+          ],
+  "references": [ 
+              ]
+}

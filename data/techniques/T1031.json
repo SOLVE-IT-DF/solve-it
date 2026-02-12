@@ -5,11 +5,20 @@
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": ["Bulk Extractor - of the many scanners within bulk extractor, one of which attempts to locate AES keys.",
-                 "Volatility - the plug in ‘trucryptmaster’ attempts to recover Truecrypt 7.1a master keys."],
-    "weaknesses": ["W1044", "W1045"],
-    "CASE_output_classes" : [],
-    "references": ["Hargreaves, C. and Chivers, H., 2008, March. Recovery of encryption keys from memory using a linear scan. In 2008 Third International Conference on Availability, Reliability and Security (pp. 1369-1376). IEEE.",
-                   "Hargreaves & Chivers 2008b. Avoiding Live Imaging of Large Encrypted Volumes by Recovering Keys from Memory, Proceedings from 3rd Advances in Computer Security and Forensics ",
-                   "Halderman, J.A., Schoen, S.D., Heninger, N., Clarkson, W., Paul, W., Calandrino, J.A., Feldman, A.J., Appelbaum, J. and Felten, E.W., 2009. Lest we remember: cold-boot attacks on encryption keys. Communications of the ACM, 52(5), pp.91-98."]
+    "examples": [
+        "Bulk Extractor - of the many scanners within bulk extractor, one of which attempts to locate AES keys.",
+        "Volatility - the plug in \u2018trucryptmaster\u2019 attempts to recover Truecrypt 7.1a master keys."
+    ],
+    "weaknesses": [
+        "W1044",
+        "W1045"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/DecryptionKey"
+    ],
+    "references": [
+        "Hargreaves, C. and Chivers, H., 2008, March. Recovery of encryption keys from memory using a linear scan. In 2008 Third International Conference on Availability, Reliability and Security (pp. 1369-1376). IEEE.",
+        "Hargreaves & Chivers 2008b. Avoiding Live Imaging of Large Encrypted Volumes by Recovering Keys from Memory, Proceedings from 3rd Advances in Computer Security and Forensics ",
+        "Halderman, J.A., Schoen, S.D., Heninger, N., Clarkson, W., Paul, W., Calandrino, J.A., Feldman, A.J., Appelbaum, J. and Felten, E.W., 2009. Lest we remember: cold-boot attacks on encryption keys. Communications of the ACM, 52(5), pp.91-98."
+    ]
 }

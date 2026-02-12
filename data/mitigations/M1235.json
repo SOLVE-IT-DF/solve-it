@@ -1,0 +1,7 @@
+{
+  "id": "M1235",
+  "name": "Attempt to obtain password/pincode with brute force attacks",
+  "details": "",
+  "technique": "T1034",
+  "references": []
+}

@@ -1,6 +1,6 @@
 {
     "id": "M1069",
-    "name": "Use of SyncTriage approach to determine existence other syncronised devices",
+    "name": "Use a SyncTriage style approach to determine existence other synchronized devices",
     "technique": "T1007",
     "references" : ["Hargreaves, C. and Marshall, A., 2019. SyncTriage: Using synchronisation artefacts to optimise acquisition order. Digital Investigation, 28, pp.S134-S140."]
 }

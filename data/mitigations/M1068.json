@@ -1,6 +1,6 @@
 {
     "id": "M1068",
-    "name": "Use of digital sniffer dogs",
+    "name": "Use digital sniffer dogs to assist in locating evidence",
     "technique": "T1006",
     "references" : ["Petersen, S.J. and Schoon, A., 2022. Dogs as Detectors for Hidden Digital Storage Devices: A Pilot Study from the National Police of The Netherlands. In Canines (pp. 535-557). Jenny Stanford Publishing."]
 }

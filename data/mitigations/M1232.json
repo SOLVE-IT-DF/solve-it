@@ -1,10 +1,6 @@
 {
   "id": "M1232",
-  "name": "Configure device to enable required service",
-  "details": "For example turning on Developer Mode on Android to enable ADB",
-  "technique": "T1158",
-  "references": [
-    "Android (2025), Android Debug Bridge (adb), https://developer.android.com/tools/adb",
-    "Android (2025), How to Enable Android Developer Settings: Unlock your Device’s Hidden Potential, https://www.android.com/intl/en_uk/articles/enable-android-developer-settings/"
-    ]
+  "name": "Adopt a systematic search pattern",
+  "description": "According to Fisher & Fisher (2012): \"Criminal investigation texts recommend a variety of search patterns: the strip or lane search, grid search, spiral search, and quadrant search. \" ",
+  "references": ["Fisher & Fisher. 2012, Techniques of Crime Scene Investigation, Eighth Edition, p82"]
 }

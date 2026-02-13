@@ -230,3 +230,5 @@ M1234	Exploit device to facilitate password/pincode attacks (T1040)
 M1235	Attempt to obtain password/pincode with brute force attacks (T1034)
 M1236	Attempt to obtain password/pincode with dictionary attacks (T1035)
 M1237	Ensure that archive format used can handle sufficiently large files
+M1238	Configure device to enable required service (T1158)
+M1239	Obtain possible passwords/PIN codes from other devices with limited security (T1033)

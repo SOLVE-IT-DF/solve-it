@@ -3,7 +3,7 @@ T1001	Triage
 T1002	Disk imaging	
 T1003	Memory imaging	
 T1004	Selective data acquisition	
-T1005	Crime scene searching	
+T1005	Conduct a search of a crime scene	
 T1006	Digital sniffer dogs	
 T1007	SyncTriage-based approach	
 T1008	Profiling network traffic	

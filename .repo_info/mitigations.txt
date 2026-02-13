@@ -66,8 +66,8 @@ M1064	Verify that salvaged content is renderable using visual inspection of disp
 M1065	Render salvaged content by reconstructing a container around fragment(s) based on detected video frame and audio sample locations and (if available) a reference video file with similar parameters.
 M1066	Attempt to reconstruct browser activity from other areas of disk
 M1067	Analyze web browser memory for web browsing activity (T1105)
-M1068	Use of digital sniffer dogs (T1006)
-M1069	Use of SyncTriage approach to determine existence other syncronised devices (T1007)
+M1068	Use digital sniffer dogs to assist in locating evidence (T1006)
+M1069	Use a SyncTriage style approach to determine existence other synchronized devices (T1007)
 M1070	Ensure hash algorithm(s) used are resistant to collisions through data manipulation
 M1071	Thorough testing of write blocker against multiple targets to ensure that writes are not possible.
 M1072	Regular checks for hardware write blocker firmware updates.
@@ -223,8 +223,8 @@ M1227	Search for indicators of clock tampering (T1129)
 M1228	Record system clock offset (T1111)
 M1229	Determine last timezone used on system
 M1230	Ensure that daylight savings offsets that are applied to timestamps are correct
-M1231	Obtain possible passwords/PIN codes from other devices with limited security (T1033)
-M1232	Configure device to enable required service (T1158)
+M1231	Make use of 'paired searching'
+M1232	Adopt a systematic search pattern
 M1233	Test data extraction methods against reference data with known timestamps
 M1234	Exploit device to facilitate password/pincode attacks (T1040)
 M1235	Attempt to obtain password/pincode with brute force attacks (T1034)

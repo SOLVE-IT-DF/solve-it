@@ -1,10 +1,10 @@
 {
     "id": "T1002",
     "name": "Disk imaging",
-    "description": "Copying of sectors from a storage media, typically LBA~0~ to LBA~max~ into an imaging format. The could be from a traditional hard disk, SSD, USB stick, or data from an eMMC chip that has been desoldered and placed in a reader. ",
+    "description": "Copying of sectors from a storage media, typically LBA~0~ to LBA~max~ to a bitstream that can be stored in a image format (T1025). ",
     "synonyms": [],
-    "details": "",
-    "subtechniques": [],
+    "details": "The process could be applied to a traditional hard disk, SSD, USB stick, or data from an eMMC chip that has been desoldered and placed in a reader. This data needs to be stored as a container file (T1025). Logs would also usually be created recording the details of the imaging process and any errors that occured.",
+    "subtechniques": [""],
     "examples": [
                 "dcfldd", 
                 "FTK Imager", 
@@ -16,10 +16,7 @@
                     "https://ontology.solveit-df.org/solveit/observable/DeviceInterface"
                     ],
     "CASE_output_classes" : [
-                             "https://ontology.solveit-df.org/solveit/observable/ForensicImageContainer",
-                             "https://ontology.solveit-df.org/solveit/observable/RawImageFile",
-                             "https://ontology.solveit-df.org/solveit/observable/AcquisitionRecordFile",
-                             "https://ontology.solveit-df.org/solveit/observable/RawImageInfoFile"
+                             "https://ontology.solveit-df.org/solveit/observable/BitstreamData"
                             ],
     "references": ["Nikkel, B., 2016. Practical forensic imaging: securing digital evidence with Linux tools. No Starch Press, Chapter 6, “Forensic Image Acquisition"]
 }

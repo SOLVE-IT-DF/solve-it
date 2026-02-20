@@ -7,6 +7,7 @@
     "subtechniques": ["T1150", "T1064"],
     "examples": [],
     "weaknesses": ["W1133"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : [
                             "https://ontology.unifiedcyberontology.org/uco/core/confidence",
 

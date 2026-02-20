@@ -13,6 +13,7 @@
         "W1194",
         "W1195"
     ],
+    "CASE_input_classes" : [],
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult"
     ],

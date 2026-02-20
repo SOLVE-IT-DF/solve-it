@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1118", "W1119", "W1120"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : [],
     "references": ["Lyle, J.R., 2006. A strategy for testing hardware write block devices. digital investigation, 3, pp.3-9."]
 }

@@ -17,6 +17,7 @@
         "W1148",
         "W1266"
     ],
+    "CASE_input_classes" : [],
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/observable/Timeline",
         "https://ontology.solveit-df.org/solveit/observable/TimelineEntry"

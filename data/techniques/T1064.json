@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": ["Photorec (Grenier 2023)", "scalpel", "foremost"],
     "weaknesses": ["W1103", "W1104", "W1105", "W1106", "W1107"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : [
             "https://ontology.unifiedcyberontology.org/uco/core/confidence",
 

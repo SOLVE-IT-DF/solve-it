@@ -9,6 +9,7 @@
                   "Magnet Axiom 'World map view' (Magnet 2020)"
                   ],
     "weaknesses": [],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : [],
     "references": ["Magnet 2020, Using the Geolocation Data Filter in Magnet AXIOM & AXIOM Cyber, https://www.magnetforensics.com/blog/using-the-geolocation-data-filter-in-magnet-axiom-axiom-cyber/",
                 "Magnet 2024, Moving in the right direction with Animated maps, https://www.magnetforensics.com/blog/moving-in-the-right-direction-with-animated-maps/",

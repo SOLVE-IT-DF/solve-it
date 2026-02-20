@@ -35,6 +35,7 @@
         "W1226",
         "W1227"
     ],
+    "CASE_input_classes" : [],
     "CASE_output_classes": ["https://ontology.unifiedcyberontology.org/uco/observable/Message", 
                             "https://ontology.unifiedcyberontology.org/uco/observable/Call", 
                             "https://ontology.unifiedcyberontology.org/uco/observable/callType", 

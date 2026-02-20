@@ -18,6 +18,7 @@
                      "T1148"],
     "examples": [],
     "weaknesses": ["W1113", "W1250", "W1251"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/URLHistory", 
                              "https://ontology.unifiedcyberontology.org/uco/observable/CookieHistory", 
                              "https://ontology.unifiedcyberontology.org/uco/observable/BrowserBookmark", 

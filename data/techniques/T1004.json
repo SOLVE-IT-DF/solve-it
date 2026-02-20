@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": ["FTK Imager - allows an AD1 logical container to be created of a selected subset of files within a previewed data source."],
     "weaknesses": ["W1017", "W1018", "W1019", "W1020", "W1021", "W1022", "W1023", "W1024"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : [],
     "references": ["todo"]
 }

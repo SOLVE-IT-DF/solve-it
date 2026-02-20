@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/core/Relationship", 
                              "https://ontology.unifiedcyberontology.org/uco/core/kindOfRelationship", 
                              "https://ontology.unifiedcyberontology.org/uco/core/confidence"],

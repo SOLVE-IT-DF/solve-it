@@ -457,30 +457,34 @@ if __name__ == '__main__':
         sub_techniques_out = [sub_t + ':' + kb.get_technique(sub_t).get('name') for sub_t in subtechniques]
         worksheet.write_string(6, 1, pprint.pformat(sub_techniques_out), cell_format=technique_list_format)
 
-        worksheet.write_string(7, 0, 'CASE output entities: ', bold_format)        
+        worksheet.write_string(7, 0, 'CASE input entities: ', bold_format)
+        case_input = kb.get_technique(each_technique_id).get('CASE_input_classes') or []
+        worksheet.write_string(7, 1, pprint.pformat(case_input), cell_format=technique_list_format)
+
+        worksheet.write_string(8, 0, 'CASE output entities: ', bold_format)
         case_output = kb.get_technique(each_technique_id).get('CASE_output_classes') or []
-        worksheet.write_string(7, 1, pprint.pformat(case_output), cell_format=technique_list_format)
+        worksheet.write_string(8, 1, pprint.pformat(case_output), cell_format=technique_list_format)
 
-        worksheet.write_string(8, 0, 'Examples: ', bold_format)
+        worksheet.write_string(9, 0, 'Examples: ', bold_format)
         examples = kb.get_technique(each_technique_id).get('examples') or []
-        worksheet.write_string(8, 1, pprint.pformat(examples), cell_format=technique_list_format)
+        worksheet.write_string(9, 1, pprint.pformat(examples), cell_format=technique_list_format)
 
-        worksheet.write_string(10, 0, 'Potential Weaknesses:', bold_format)
+        worksheet.write_string(11, 0, 'Potential Weaknesses:', bold_format)
 
-        worksheet.write_string(11, 0, 'Weakness ID:', bold_format)
-        worksheet.write_string(11, 1, 'Detail:', bold_format)
-        worksheet.write_string(11, 2, 'INCOMP', bold_format)
-        worksheet.write_string(11, 3, 'INAC-EX', bold_format)
-        worksheet.write_string(11, 4, 'INAC-AS', bold_format)
-        worksheet.write_string(11, 5, 'INAC-ALT', bold_format)
-        worksheet.write_string(11, 6, 'INAC-COR', bold_format)
-        worksheet.write_string(11, 7, 'MISINT', bold_format)
-        worksheet.write_string(11, 8, 'Potential Mitigations', bold_format)
-        worksheet.write_string(11, 9, 'Potential Mitigations (details)', bold_format)
+        worksheet.write_string(12, 0, 'Weakness ID:', bold_format)
+        worksheet.write_string(12, 1, 'Detail:', bold_format)
+        worksheet.write_string(12, 2, 'INCOMP', bold_format)
+        worksheet.write_string(12, 3, 'INAC-EX', bold_format)
+        worksheet.write_string(12, 4, 'INAC-AS', bold_format)
+        worksheet.write_string(12, 5, 'INAC-ALT', bold_format)
+        worksheet.write_string(12, 6, 'INAC-COR', bold_format)
+        worksheet.write_string(12, 7, 'MISINT', bold_format)
+        worksheet.write_string(12, 8, 'Potential Mitigations', bold_format)
+        worksheet.write_string(12, 9, 'Potential Mitigations (details)', bold_format)
 
         i = 0
         mit_list_for_this_technique = []
-        err_list_start_row = 12
+        err_list_start_row = 13
         for each_weakness in kb.get_technique(each_technique_id).get('weaknesses'):
             weakness_info = kb.get_weakness(each_weakness)
 

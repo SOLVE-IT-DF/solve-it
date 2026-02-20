@@ -6,4 +6,5 @@ details	Details of test technique with blank ID
 subtechniques	[]
 examples	Example1 of test technique, Example 2 of test technique, Example 3 of test technique,
 references	"Reference 1, details",  "Reference 2, details", "Reference 3, details"
+CASE_input_classes	case:inputclass1, case:inputclass2
 CASE_output_classes	case:class1, case:class2, case class3, case:class4

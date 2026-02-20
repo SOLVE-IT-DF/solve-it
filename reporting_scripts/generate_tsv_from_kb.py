@@ -128,9 +128,11 @@ def print_case_mapping(kb, long):
     print('ID\tName')
     for each_techniques in kb.list_techniques():
         t = kb.get_technique(each_techniques)
-        print("{}\t{}\t".format(each_techniques, t.get('name')), end='')        
+        print("{}\t{}\t".format(each_techniques, t.get('name')), end='')
+        for each_class in t.get('CASE_input_classes'):
+            print('\n' + '\t\t\tInput: ' + f"{each_class}", end='')
         for each_class in t.get('CASE_output_classes'):
-            print('\n' + '\t\t\t' + f"{each_class}", end='')
+            print('\n' + '\t\t\tOutput: ' + f"{each_class}", end='')
         print()
         
 def main():

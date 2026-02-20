@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": ["sqlite-forensic-corpus (2018), https://faui1-files.cs.fau.de/public/sqlite-forensic-corpus/"],
     "weaknesses": ["W1166","W1167","W1168","W1169", "W1170", "W1171"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/recordFieldName", 
                              "https://ontology.unifiedcyberontology.org/uco/observable/recordFieldValue", 
                              "https://ontology.unifiedcyberontology.org/uco/observable/recordRowID", 

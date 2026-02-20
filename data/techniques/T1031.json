@@ -13,6 +13,7 @@
         "W1044",
         "W1045"
     ],
+    "CASE_input_classes" : [],
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/observable/DecryptionKey"
     ],

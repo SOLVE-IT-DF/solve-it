@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": ["Discussed in 'Puma: Automatically generating digital forensic reference data triggered by mobile application updates' (Claij-Swart et al. 2025)"],
     "weaknesses": ["W1191"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/hasChanged", 
                                 "https://ontology.unifiedcyberontology.org/uco/observable/filePath", 
                                 "https://ontology.unifiedcyberontology.org/uco/observable/tableSchema", 

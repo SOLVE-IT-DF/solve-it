@@ -207,6 +207,12 @@ def write_all_technique_files(kb, outpath):
                     technique_md_file.write(f"- {each_example}\n")
                 technique_md_file.write(f"\n\n")
 
+            if kb.should_display_field('CASE_input_classes'):
+                technique_md_file.write(f"**Input Classes:**\n\n")
+                for each_case_class in technique.get('CASE_input_classes'):
+                    technique_md_file.write(f"- [{each_case_class}]({each_case_class})\n")
+                technique_md_file.write(f"\n\n")
+
             if kb.should_display_field('CASE_output_classes'):
                 technique_md_file.write(f"**Output Classes:**\n\n")
                 for each_case_class in technique.get('CASE_output_classes'):

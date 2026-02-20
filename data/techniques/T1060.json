@@ -10,6 +10,7 @@
     "weaknesses": ["W1068", "W1069", "W1070", "W1071", "W1072", "W1073",
                     "W1074", "W1075", "W1076", "W1077", "W1078", "W1079",
                     "W1080", "W1081", "W1082", "W1083", "W1084"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : [
                             "https://ontology.unifiedcyberontology.org/uco/observable/File",
                             "https://ontology.unifiedcyberontology.org/uco/observable/Directory",

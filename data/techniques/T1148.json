@@ -11,5 +11,6 @@
     "examples": [],
     "weaknesses": [],
     "CASE_output_classes" : [],
+    "CASE_input_classes" : [],
     "references": ["Mendoza, A., Kumar, A., Midcap, D., Cho, H. and Varol, C., 2015. BrowStEx: A tool to aggregate browser storage artifacts for forensic analysis. Digital investigation, 14, pp.63-75."]
 }

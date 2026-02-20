@@ -13,6 +13,7 @@
         "W1153",
         "W1154"
     ],
+    "CASE_input_classes" : [],
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/analysis/ForensicToolTagBasedReport"
     ],

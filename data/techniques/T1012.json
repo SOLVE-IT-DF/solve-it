@@ -1,13 +1,13 @@
 {
     "id": "T1012",
-    "name": "Hardware write blockers",
+    "name": "Connect storage medium via hardware write blocker",
     "description": "A hardware write blocking device [should] prevent any change to data in the user area of a hard drive while allowing access to all data on a hard drive. (Lyle 2006)",
     "synonyms": [],
     "details": "Note that \"Sometimes it may be desirable to change a drive configuration to obtain access to otherwise hidden sectors, for example, such as within an HPA (host protected area).\" (Lyle 2006) ",
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1118", "W1119", "W1120"],
-    "CASE_input_classes" : [],
-    "CASE_output_classes" : [],
+    "CASE_input_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium"],
+    "CASE_output_classes" : ["https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface"],
     "references": ["Lyle, J.R., 2006. A strategy for testing hardware write block devices. digital investigation, 3, pp.3-9."]
 }

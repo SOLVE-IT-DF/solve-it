@@ -1,6 +1,6 @@
 {
     "id": "T1029",
-    "name": "Data read from desoldered eMMC",
+    "name": "Access data from a desoldered eMMC via a chip reader",
     "description": "",
     "synonyms": [],
     "details": "",
@@ -8,6 +8,6 @@
     "examples": [],
     "weaknesses": [],
     "CASE_input_classes" : [],
-    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Image"],
-    "references": ["todo"]
+    "CASE_output_classes" : ["https://ontology.solveit-df.org/solveit/observable/BitstreamData"],
+    "references": []
 }

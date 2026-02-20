@@ -4,7 +4,7 @@
     "description": "Identifying physical storage media within devices and removing them",
     "synonyms": [],
     "details": "",
-    "subtechniques": ["T1028"],
+    "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1174", "W1175", "W1176"],
     "CASE_input_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Computer"],

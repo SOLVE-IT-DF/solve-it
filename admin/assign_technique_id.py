@@ -2,8 +2,9 @@
 """
 Assigns the next available technique ID to a proposed technique issue.
 
-Finds the preview comment (containing "T____"), replaces the placeholder
-with the real ID, updates the comment in place, and posts a confirmation.
+Finds the preview comment (containing "T____"), posts a confirmation of
+the assigned ID, then posts the revised JSON with the real ID.
+The original preview comment is left untouched.
 
 Usage:
     python3 admin/assign_technique_id.py --issue-number 42
@@ -68,20 +69,6 @@ def find_preview_comment(comments):
     return None
 
 
-def update_comment(comment_id, new_body):
-    """Update an existing issue comment via the GitHub API."""
-    # gh api accepts --field for the body
-    subprocess.run(
-        [
-            "gh", "api",
-            "--method", "PATCH",
-            f"repos/{{owner}}/{{repo}}/issues/comments/{comment_id}",
-            "--field", f"body={new_body}",
-        ],
-        capture_output=True, text=True, check=True,
-    )
-
-
 def post_comment(issue_number, body):
     """Post a new comment on an issue."""
     subprocess.run(
@@ -118,30 +105,26 @@ def main():
               file=sys.stderr)
         sys.exit(1)
 
-    comment_id = preview["id"]
     old_body = preview["body"]
 
-    # 3. Replace placeholder with real ID
-    new_body = old_body.replace("T____", technique_id)
-
-    # Also update the footer note about assignment
-    new_body = new_body.replace(
+    # 3. Build revised JSON with real ID
+    revised_body = old_body.replace("T____", technique_id)
+    revised_body = revised_body.replace(
         "The technique ID (T____) will be assigned during review.",
         f"Technique ID **{technique_id}** has been assigned.",
     )
 
-    if new_body == old_body:
+    if revised_body == old_body:
         print("Error: replacement produced no changes — is T____ already replaced?",
               file=sys.stderr)
         sys.exit(1)
 
-    # 4. Update the comment in place
-    print(f"Updating comment {comment_id} with ID {technique_id}...", file=sys.stderr)
-    update_comment(comment_id, new_body)
-
-    # 5. Post a confirmation comment
+    # 4. Post confirmation comment, then revised JSON
     confirmation = f"Assigned technique ID: **{technique_id}**"
+    print(f"Posting confirmation and revised JSON for {technique_id}...",
+          file=sys.stderr)
     post_comment(args.issue_number, confirmation)
+    post_comment(args.issue_number, revised_body)
 
     # 6. Print assigned ID to stdout (for workflow to capture if needed)
     print(technique_id)

@@ -106,7 +106,7 @@ body:
       label: CASE input classes
       description: |
         Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
-        or the [SOLVE-IT Ontology](https://github.com/SOLVE-IT-DF/solve-it-ontology) for suitable classes.
+        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.
       render: text
       placeholder: e.g. https://ontology.unifiedcyberontology.org/uco/observable/File
   - type: textarea
@@ -115,7 +115,7 @@ body:
       label: CASE output classes
       description: |
         Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
-        or the [SOLVE-IT Ontology](https://github.com/SOLVE-IT-DF/solve-it-ontology) for suitable classes.
+        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.
       render: text
       placeholder: e.g. https://ontology.unifiedcyberontology.org/uco/observable/Message
   - type: textarea

@@ -137,7 +137,7 @@ def main():
     lines.append("      label: CASE input classes")
     lines.append("      description: |")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
-    lines.append("        or the [SOLVE-IT Ontology](https://github.com/SOLVE-IT-DF/solve-it-ontology) for suitable classes.")
+    lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
     lines.append("      render: text")
     lines.append("      placeholder: e.g. https://ontology.unifiedcyberontology.org/uco/observable/File")
 
@@ -148,7 +148,7 @@ def main():
     lines.append("      label: CASE output classes")
     lines.append("      description: |")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
-    lines.append("        or the [SOLVE-IT Ontology](https://github.com/SOLVE-IT-DF/solve-it-ontology) for suitable classes.")
+    lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
     lines.append("      render: text")
     lines.append("      placeholder: e.g. https://ontology.unifiedcyberontology.org/uco/observable/Message")
 

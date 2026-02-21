@@ -27,7 +27,7 @@ def main():
     lines.append("name: \"Propose New Technique (Form)\"")
     lines.append("description: Propose a new technique using a structured form")
     lines.append("title: \"Create new technique: [technique name]\"")
-    lines.append("labels: [\"content: new technique\", \"content: technique form\"]")
+    lines.append("labels: [\"content: new technique\", \"form input\"]")
     lines.append("body:")
 
     # --- Technique name ---

@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   preview:
-    if: "${{ contains(github.event.issue.labels.*.name, 'content: technique form') }}"
+    if: "${{ contains(github.event.issue.labels.*.name, 'content: new technique') && contains(github.event.issue.labels.*.name, 'form input') }}"
     runs-on: ubuntu-latest
 
     steps:

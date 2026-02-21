@@ -1,7 +1,7 @@
 name: "Propose New Technique (Form)"
 description: Propose a new technique using a structured form
 title: "Create new technique: [technique name]"
-labels: ["content: new technique", "content: technique form"]
+labels: ["content: new technique", "form input"]
 body:
   - type: input
     id: technique-name

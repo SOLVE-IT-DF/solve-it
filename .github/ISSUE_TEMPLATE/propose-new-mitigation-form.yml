@@ -15,6 +15,13 @@ body:
     attributes:
       label: Description
       description: A longer description of the mitigation.
+      render: text
+  - type: textarea
+    id: existing-weaknesses
+    attributes:
+      label: Existing weakness IDs
+      description: IDs of existing weaknesses this mitigation applies to (one per line, e.g. W1001, W1014).
+      render: text
   - type: input
     id: linked-technique
     attributes:

@@ -33,6 +33,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Description")
     lines.append("      description: A longer description of the nature of the weakness.")
+    lines.append("      render: text")
 
     # --- ASTM error classes ---
     lines.append("  - type: checkboxes")
@@ -41,12 +42,12 @@ def main():
     lines.append("      label: ASTM error classes")
     lines.append("      description: Select all ASTM error classes that apply to this weakness.")
     lines.append("      options:")
-    lines.append("        - label: \"INCOMP - Incomplete extraction or examination of digital evidence\"")
-    lines.append("        - label: \"INAC-EX - Inaccurate examination or interpretation of extracted data\"")
-    lines.append("        - label: \"INAC-AS - Using inappropriate or inaccurate assumptions to draw inferences\"")
-    lines.append("        - label: \"INAC-ALT - Failure to consider alternative explanations\"")
-    lines.append("        - label: \"INAC-COR - Inaccurate correlation of data from multiple sources\"")
-    lines.append("        - label: \"MISINT - Misinterpretation of results by others\"")
+    lines.append("        - label: \"INCOMP - Incompleteness (e.g. failure to recover live or deleted artefacts, other reasons why an artefact might be missed)\"")
+    lines.append("        - label: \"INAC-EX - Inaccuracy: Existence (e.g. presenting an artefact for something that does not exist)\"")
+    lines.append("        - label: \"INAC-AS - Inaccuracy: Association (e.g. presenting live data as deleted and vice versa)\"")
+    lines.append("        - label: \"INAC-ALT - Inaccuracy: Alteration (e.g. modifying the content of some digital data)\"")
+    lines.append("        - label: \"INAC-COR - Inaccuracy: Corruption (e.g. could the process corrupt data, could the process fail to detect corrupt data)\"")
+    lines.append("        - label: \"MISINT - Misinterpretation (e.g. could results be presented in a way that encourages misinterpretation)\"")
 
     # --- Existing mitigation IDs ---
     lines.append("  - type: textarea")

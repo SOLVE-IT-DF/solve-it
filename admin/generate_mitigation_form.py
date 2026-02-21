@@ -33,6 +33,15 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Description")
     lines.append("      description: A longer description of the mitigation.")
+    lines.append("      render: text")
+
+    # --- Existing weakness IDs ---
+    lines.append("  - type: textarea")
+    lines.append("    id: existing-weaknesses")
+    lines.append("    attributes:")
+    lines.append("      label: Existing weakness IDs")
+    lines.append("      description: IDs of existing weaknesses this mitigation applies to (one per line, e.g. W1001, W1014).")
+    lines.append("      render: text")
 
     # --- Linked technique ---
     lines.append("  - type: input")

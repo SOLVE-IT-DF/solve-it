@@ -15,18 +15,19 @@ body:
     attributes:
       label: Description
       description: A longer description of the nature of the weakness.
+      render: text
   - type: checkboxes
     id: astm-error-classes
     attributes:
       label: ASTM error classes
       description: Select all ASTM error classes that apply to this weakness.
       options:
-        - label: "INCOMP - Incomplete extraction or examination of digital evidence"
-        - label: "INAC-EX - Inaccurate examination or interpretation of extracted data"
-        - label: "INAC-AS - Using inappropriate or inaccurate assumptions to draw inferences"
-        - label: "INAC-ALT - Failure to consider alternative explanations"
-        - label: "INAC-COR - Inaccurate correlation of data from multiple sources"
-        - label: "MISINT - Misinterpretation of results by others"
+        - label: "INCOMP - Incompleteness (e.g. failure to recover live or deleted artefacts, other reasons why an artefact might be missed)"
+        - label: "INAC-EX - Inaccuracy: Existence (e.g. presenting an artefact for something that does not exist)"
+        - label: "INAC-AS - Inaccuracy: Association (e.g. presenting live data as deleted and vice versa)"
+        - label: "INAC-ALT - Inaccuracy: Alteration (e.g. modifying the content of some digital data)"
+        - label: "INAC-COR - Inaccuracy: Corruption (e.g. could the process corrupt data, could the process fail to detect corrupt data)"
+        - label: "MISINT - Misinterpretation (e.g. could results be presented in a way that encourages misinterpretation)"
   - type: textarea
     id: existing-mitigations
     attributes:

@@ -1,0 +1,34 @@
+name: "Propose New Mitigation (Form)"
+description: Propose a new mitigation using a structured form
+title: "Create new mitigation: [mitigation name]"
+labels: ["content: new mitigation", "form input"]
+body:
+  - type: input
+    id: mitigation-name
+    attributes:
+      label: Mitigation name
+      placeholder: Give this mitigation a name
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A longer description of the mitigation.
+  - type: input
+    id: linked-technique
+    attributes:
+      label: Linked technique
+      description: Some mitigations are links to techniques. Provide the technique ID if applicable (e.g. T1028).
+      placeholder: Technique ID (if applicable)
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Academic or other references to support the mitigation (one per line).
+      render: text
+  - type: textarea
+    id: other-notes
+    attributes:
+      label: Any other notes
+      description: Any additional information or context you'd like to provide.

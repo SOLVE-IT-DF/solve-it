@@ -110,6 +110,10 @@ def main():
     # 3. Build revised JSON with real ID
     revised_body = old_body.replace("T____", technique_id)
     revised_body = revised_body.replace(
+        "Thanks for proposing a new technique! Here's what it would look like as JSON:",
+        "Your technique has been assigned an ID. Here is an updated copy of the JSON data with the ID completed:",
+    )
+    revised_body = revised_body.replace(
         "The technique ID (T____) will be assigned during review.",
         f"Technique ID **{technique_id}** has been assigned.",
     )

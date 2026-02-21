@@ -7,7 +7,7 @@ body:
     id: technique-name
     attributes:
       label: Technique name
-      placeholder: e.g. Disk imaging
+      placeholder: Give this technique a name
     validations:
       required: true
   - type: textarea
@@ -23,11 +23,8 @@ body:
     id: synonyms
     attributes:
       label: Synonyms
-      description: Other names that might be used for this technique (one per line).
+      description: Other names that might be used for this technique (one per line, e.g. RAM dump, memory dump).
       render: text
-      placeholder: |
-        RAM dump
-        memory dump
   - type: textarea
     id: details
     attributes:
@@ -38,11 +35,8 @@ body:
     id: examples
     attributes:
       label: Examples
-      description: Tools or cases where this technique is used (one per line).
+      description: Tools or cases where this technique is used (one per line, e.g. FTK Imager, Magnet ACQUIRE).
       render: text
-      placeholder: |
-        FTK Imager
-        Magnet ACQUIRE
   - type: dropdown
     id: objective
     attributes:
@@ -86,41 +80,38 @@ body:
     id: existing-weaknesses
     attributes:
       label: Existing weakness IDs
-      description: IDs of existing weaknesses that apply to this technique (one per line).
+      description: IDs of existing weaknesses that apply to this technique (one per line, e.g. W1004, W1014).
       render: text
-      placeholder: |
-        W1004
-        W1014
   - type: textarea
     id: new-weaknesses
     attributes:
       label: Propose new weaknesses
-      description: Describe new weaknesses for this technique (one per line).
+      description: Describe new weaknesses for this technique (one per line, e.g. Imaging process may miss data in hidden areas).
       render: text
-      placeholder: |
-        Imaging process may miss data in hidden areas
-        Tool does not support newer file system versions
   - type: textarea
     id: case-input
     attributes:
       label: CASE input classes
       description: |
         Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
-        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.
+        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).
       render: text
-      placeholder: e.g. https://ontology.unifiedcyberontology.org/uco/observable/File
   - type: textarea
     id: case-output
     attributes:
       label: CASE output classes
       description: |
         Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
-        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.
+        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).
       render: text
-      placeholder: e.g. https://ontology.unifiedcyberontology.org/uco/observable/Message
   - type: textarea
     id: references
     attributes:
       label: References
       description: Academic or other references to support the technique (one per line).
       render: text
+  - type: textarea
+    id: other-notes
+    attributes:
+      label: Any other notes
+      description: Any additional information or context you'd like to provide.

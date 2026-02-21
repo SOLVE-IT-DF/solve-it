@@ -5,7 +5,7 @@ Reads objectives from solve-it.json to populate the objective dropdown.
 Re-run this script whenever objectives are added to keep the form in sync.
 
 Usage:
-    python3 admin/generate_issue_form.py
+    python3 admin/generate_technique_form.py
 """
 
 import os
@@ -35,7 +35,7 @@ def main():
     lines.append("    id: technique-name")
     lines.append("    attributes:")
     lines.append("      label: Technique name")
-    lines.append("      placeholder: e.g. Disk imaging")
+    lines.append("      placeholder: Give this technique a name")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -55,11 +55,8 @@ def main():
     lines.append("    id: synonyms")
     lines.append("    attributes:")
     lines.append("      label: Synonyms")
-    lines.append("      description: Other names that might be used for this technique (one per line).")
+    lines.append("      description: Other names that might be used for this technique (one per line, e.g. RAM dump, memory dump).")
     lines.append("      render: text")
-    lines.append("      placeholder: |")
-    lines.append("        RAM dump")
-    lines.append("        memory dump")
 
     # --- Details ---
     lines.append("  - type: textarea")
@@ -74,11 +71,8 @@ def main():
     lines.append("    id: examples")
     lines.append("    attributes:")
     lines.append("      label: Examples")
-    lines.append("      description: Tools or cases where this technique is used (one per line).")
+    lines.append("      description: Tools or cases where this technique is used (one per line, e.g. FTK Imager, Magnet ACQUIRE).")
     lines.append("      render: text")
-    lines.append("      placeholder: |")
-    lines.append("        FTK Imager")
-    lines.append("        Magnet ACQUIRE")
 
     # --- Objective dropdown ---
     lines.append("  - type: dropdown")
@@ -113,22 +107,16 @@ def main():
     lines.append("    id: existing-weaknesses")
     lines.append("    attributes:")
     lines.append("      label: Existing weakness IDs")
-    lines.append("      description: IDs of existing weaknesses that apply to this technique (one per line).")
+    lines.append("      description: IDs of existing weaknesses that apply to this technique (one per line, e.g. W1004, W1014).")
     lines.append("      render: text")
-    lines.append("      placeholder: |")
-    lines.append("        W1004")
-    lines.append("        W1014")
 
     # --- Proposed new weaknesses ---
     lines.append("  - type: textarea")
     lines.append("    id: new-weaknesses")
     lines.append("    attributes:")
     lines.append("      label: Propose new weaknesses")
-    lines.append("      description: Describe new weaknesses for this technique (one per line).")
+    lines.append("      description: Describe new weaknesses for this technique (one per line, e.g. Imaging process may miss data in hidden areas).")
     lines.append("      render: text")
-    lines.append("      placeholder: |")
-    lines.append("        Imaging process may miss data in hidden areas")
-    lines.append("        Tool does not support newer file system versions")
 
     # --- CASE input classes ---
     lines.append("  - type: textarea")
@@ -137,9 +125,8 @@ def main():
     lines.append("      label: CASE input classes")
     lines.append("      description: |")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
-    lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
+    lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
     lines.append("      render: text")
-    lines.append("      placeholder: e.g. https://ontology.unifiedcyberontology.org/uco/observable/File")
 
     # --- CASE output classes ---
     lines.append("  - type: textarea")
@@ -148,9 +135,8 @@ def main():
     lines.append("      label: CASE output classes")
     lines.append("      description: |")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
-    lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
+    lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
     lines.append("      render: text")
-    lines.append("      placeholder: e.g. https://ontology.unifiedcyberontology.org/uco/observable/Message")
 
     # --- References ---
     lines.append("  - type: textarea")
@@ -159,6 +145,13 @@ def main():
     lines.append("      label: References")
     lines.append("      description: Academic or other references to support the technique (one per line).")
     lines.append("      render: text")
+
+    # --- Any other notes ---
+    lines.append("  - type: textarea")
+    lines.append("    id: other-notes")
+    lines.append("    attributes:")
+    lines.append("      label: Any other notes")
+    lines.append("      description: Any additional information or context you'd like to provide.")
 
     # Write output
     output_path = os.path.join(base_path, '.github', 'ISSUE_TEMPLATE', 'propose-new-technique-form.yml')

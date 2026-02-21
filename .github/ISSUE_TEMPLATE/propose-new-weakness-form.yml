@@ -1,0 +1,58 @@
+name: "Propose New Weakness (Form)"
+description: Propose a new weakness using a structured form
+title: "Create new weakness: [weakness name]"
+labels: ["content: new weakness", "form input"]
+body:
+  - type: input
+    id: weakness-name
+    attributes:
+      label: Weakness name
+      placeholder: Give this weakness a name
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A longer description of the nature of the weakness.
+  - type: checkboxes
+    id: astm-error-classes
+    attributes:
+      label: ASTM error classes
+      description: Select all ASTM error classes that apply to this weakness.
+      options:
+        - label: "INCOMP - Incomplete extraction or examination of digital evidence"
+        - label: "INAC-EX - Inaccurate examination or interpretation of extracted data"
+        - label: "INAC-AS - Using inappropriate or inaccurate assumptions to draw inferences"
+        - label: "INAC-ALT - Failure to consider alternative explanations"
+        - label: "INAC-COR - Inaccurate correlation of data from multiple sources"
+        - label: "MISINT - Misinterpretation of results by others"
+  - type: textarea
+    id: existing-mitigations
+    attributes:
+      label: Existing mitigation IDs
+      description: IDs of existing mitigations that apply to this weakness (one per line, e.g. M1001, M1012).
+      render: text
+  - type: textarea
+    id: new-mitigations
+    attributes:
+      label: Propose new mitigations
+      description: Describe new mitigations for this weakness (one per line).
+      render: text
+  - type: textarea
+    id: relevant-techniques
+    attributes:
+      label: Relevant technique IDs
+      description: Techniques that this weakness applies to (one per line, e.g. T1001, T1028).
+      render: text
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Academic or other references to support the weakness (one per line).
+      render: text
+  - type: textarea
+    id: other-notes
+    attributes:
+      label: Any other notes
+      description: Any additional information or context you'd like to provide.

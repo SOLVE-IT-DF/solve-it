@@ -80,7 +80,7 @@ body:
     attributes:
       label: "Existing weakness 1"
       options:
-        - None
+        - "N/A"
         - "W1001: Excluding a device that contains relevant information"
         - "W1002: Use of triage technology results in changes to the target media"
         - "W1003: Triage tool applies a simplification that does not correctly represent the meaning of the digital data"
@@ -356,7 +356,7 @@ body:
     attributes:
       label: "Existing weakness 2"
       options:
-        - None
+        - "N/A"
         - "W1001: Excluding a device that contains relevant information"
         - "W1002: Use of triage technology results in changes to the target media"
         - "W1003: Triage tool applies a simplification that does not correctly represent the meaning of the digital data"
@@ -632,7 +632,7 @@ body:
     attributes:
       label: "Existing weakness 3"
       options:
-        - None
+        - "N/A"
         - "W1001: Excluding a device that contains relevant information"
         - "W1002: Use of triage technology results in changes to the target media"
         - "W1003: Triage tool applies a simplification that does not correctly represent the meaning of the digital data"
@@ -908,7 +908,7 @@ body:
     attributes:
       label: "Existing weakness 4"
       options:
-        - None
+        - "N/A"
         - "W1001: Excluding a device that contains relevant information"
         - "W1002: Use of triage technology results in changes to the target media"
         - "W1003: Triage tool applies a simplification that does not correctly represent the meaning of the digital data"
@@ -1184,7 +1184,7 @@ body:
     attributes:
       label: "Existing weakness 5"
       options:
-        - None
+        - "N/A"
         - "W1001: Excluding a device that contains relevant information"
         - "W1002: Use of triage technology results in changes to the target media"
         - "W1003: Triage tool applies a simplification that does not correctly represent the meaning of the digital data"

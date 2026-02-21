@@ -115,7 +115,7 @@ def main():
         lines.append(f"    attributes:")
         lines.append(f"      label: \"Existing weakness {i}\"")
         lines.append(f"      options:")
-        lines.append(f"        - None")
+        lines.append(f"        - \"N/A\"")
         for w in weaknesses:
             # Escape any double quotes in weakness names
             escaped = w.replace('"', '\\"')

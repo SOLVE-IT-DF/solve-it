@@ -17,6 +17,7 @@
     "references": [
         "C. Vanini, C. Hargreaves, H. van Beek, F. Breitinger, 2024, Was the clock correct? Exploring timestamp interpretation through time anchors for digital forensic event reconstruction, Forensic Science International: Digital Investigation, 10.1016/j.fsidi.2024.301759"
     ],
+    "CASE_input_classes" : [],
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/observable/ClockOffset"
     ],

@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": ["Hargreaves, Nelson and Casey (2024) provides a dataset with a deleted but recoverable partition that can be used for tool evaluation."],
     "weaknesses": ["W1063", "W1064", "W1065", "W1066", "W1067"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition",
                              "https://ontology.unifiedcyberontology.org/uco/observable/partitionOffset",
                              "https://ontology.unifiedcyberontology.org/uco/observable/partitionLength"],

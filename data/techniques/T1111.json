@@ -9,6 +9,7 @@
     "weaknesses": [
         "W1173"
     ],
+    "CASE_input_classes" : [],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/systemTime",
         "https://ontology.solveit-df.org/solveit/observable/ClockOffset"

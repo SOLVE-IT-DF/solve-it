@@ -43,11 +43,14 @@ The name for the technique (synonyms can be provided later)
 ...
 
 
-### CASE output entity:
-* Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html) to see if any suitable CASE entities exist to model the output of the technique. 
+### CASE input entity:
+* Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html) to see if any suitable CASE entities exist to model the input required by the technique.
 
-### Proposed CASE output entity (if none are suitable):
-You can propose a CASE output entity here if you think it would be useful to model in CASE. You can also submit a proposed class directly via the [CASE Issue Tracker](https://github.com/casework/CASE/issues)
+### CASE output entity:
+* Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html) to see if any suitable CASE entities exist to model the output of the technique.
+
+### Proposed CASE input/output entity (if none are suitable):
+You can propose a CASE entity here if you think it would be useful to model in CASE. You can also submit a proposed class directly via the [CASE Issue Tracker](https://github.com/casework/CASE/issues)
 
 ### References
 A list of references to support any details provided above. Harvard is used for now but we will move to bibtex representations in future.

@@ -8,6 +8,7 @@
     "subtechniques": [],
     "examples": ["pslist", "procdump", "psloggedon", "ipconfig", "netstat"],
     "weaknesses": ["W1034", "W1035", "W1036"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : [ "https://ontology.unifiedcyberontology.org/uco/observable/Process",
                               "https://ontology.unifiedcyberontology.org/uco/observable/NetworkConnection",
                               "https://ontology.unifiedcyberontology.org/uco/observable/IPAddress",

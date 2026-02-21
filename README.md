@@ -43,7 +43,21 @@ Each of these concepts are contained in subfolders within the [\data](https://gi
 
 A markdown version of the knowledge base is generated with every commit. You can therefore find the most up-to-date version in the `.repo_info` folder [here](https://github.com/SOLVE-IT-DF/solve-it/blob/main/.repo_info/solve-it.md). 
 
-This markdown version is produced automatically using `reporting_scripts/generate_md_from_kb.py` (requires python >=3.12), and this can be run manually if required. 
+This markdown version is produced automatically using `reporting_scripts/generate_md_from_kb.py` (requires python >=3.12), and this can be run manually if required.
+
+The markdown generator can optionally enrich CASE input/output classes with details from the ontology (descriptions, superclasses, relationships, and data properties), shown as collapsible sections under each class. To enable this, supply either a local path or URL to the [SOLVE-IT ontology](https://github.com/SOLVE-IT-DF/solve-it-ontology):
+
+```bash
+# Using a local clone of the solve-it-ontology repository
+python3 reporting_scripts/generate_md_from_kb.py --ontology-path /path/to/solve-it-ontology
+
+# Using the ontology directly from GitHub (no local clone needed, defaults to
+# https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-ontology/main/)
+python3 reporting_scripts/generate_md_from_kb.py --ontology-url
+
+# Additionally enrich UCO/CASE classes (downloaded and cached in ~/.cache/solveit-ontology/)
+python3 reporting_scripts/generate_md_from_kb.py --ontology-url --load-case-uco
+```
 
 ### Viewing in Excel
 

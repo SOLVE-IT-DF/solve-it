@@ -144,6 +144,10 @@ def add_techniques_to_graph(g, kb):
             weakness_uri = SOLVEIT_DATA[f"weakness{weakness_id}"]
             g.add((tech_uri, SOLVEIT_CORE.hasPotentialWeakness, weakness_uri))
 
+        # Add CASE input classes (as xsd:anyURI typed literals)
+        for case_class_uri in tech.get('CASE_input_classes', []):
+            g.add((tech_uri, SOLVEIT_CORE.hasCASEInputClass, Literal(case_class_uri, datatype=XSD.anyURI)))
+
         # Add CASE output classes (as xsd:anyURI typed literals)
         for case_class_uri in tech.get('CASE_output_classes', []):
             # CASE_output_classes are already full URIs in the JSON
@@ -276,7 +280,7 @@ def save_graph(g, output_dir, format_type='both'):
         output_dir: Directory path to write files
         format_type: 'ttl', 'jsonld', or 'both'
     """
-    output_path = Path(output_dir)
+    output_path = Path(output_dir).resolve()
     output_path.mkdir(parents=True, exist_ok=True)
 
     if format_type in ['ttl', 'both']:

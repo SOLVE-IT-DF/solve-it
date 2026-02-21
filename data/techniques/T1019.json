@@ -8,6 +8,7 @@
     "examples": ["Use of ADB to generate an Android backup",
                  "Extraction of an iOS backup"],
     "weaknesses": ["W1037", "W1038", "W1039", "W1040", "W1041", "W1270"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"],
     "references": []
 }

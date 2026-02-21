@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : [],
     "references": ["Tart, M., Brodie, I., Gleed, N. and Matthews, J., 2012. Historic cell site analysis–Overview of principles and survey methodologies. Digital Investigation, 8(3-4), pp.185-193.","Hoy, J., 2023. Forensic radio survey techniques for cell site analysis. John Wiley & Sons."]
 }

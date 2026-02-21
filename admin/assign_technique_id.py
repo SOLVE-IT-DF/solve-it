@@ -39,13 +39,20 @@ def get_next_technique_id(project_root=None):
 
 
 def get_issue_comments(issue_number):
-    """Fetch all comments on an issue via the gh CLI."""
+    """Fetch all comments on an issue via the REST API.
+
+    Uses the REST endpoint (not gh issue view) so that comment IDs are
+    numeric, which is required for the PATCH endpoint.
+    """
     result = subprocess.run(
-        ["gh", "issue", "view", str(issue_number), "--json", "comments"],
+        [
+            "gh", "api",
+            f"repos/{{owner}}/{{repo}}/issues/{issue_number}/comments",
+            "--paginate",
+        ],
         capture_output=True, text=True, check=True,
     )
-    data = json.loads(result.stdout)
-    return data.get("comments", [])
+    return json.loads(result.stdout)
 
 
 def find_preview_comment(comments):

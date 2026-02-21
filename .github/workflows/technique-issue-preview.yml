@@ -2,7 +2,7 @@ name: Technique Issue Preview
 
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
 
 permissions:
   issues: write

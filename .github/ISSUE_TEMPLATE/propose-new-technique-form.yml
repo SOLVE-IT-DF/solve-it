@@ -7,6 +7,7 @@ body:
     id: technique-name
     attributes:
       label: Technique name
+      description: The name for the technique (synonyms can be provided below).
       placeholder: Give this technique a name
     validations:
       required: true
@@ -14,7 +15,7 @@ body:
     id: description
     attributes:
       label: Description
-      description: A short description of the technique.
+      description: A short description of the technique (extended details can be provided below).
       render: text
       placeholder: Describe what this technique does
     validations:
@@ -29,13 +30,13 @@ body:
     id: details
     attributes:
       label: Details
-      description: Extended details about the technique.
+      description: A longer set of details can be provided to describe the technique.
       render: text
   - type: textarea
     id: examples
     attributes:
       label: Examples
-      description: Tools or cases where this technique is used (one per line, e.g. FTK Imager, Magnet ACQUIRE).
+      description: Examples of cases where the technique can be used, or tools that offer the technique (one per line, e.g. FTK Imager, Magnet ACQUIRE).
       render: text
   - type: dropdown
     id: objective
@@ -103,12 +104,13 @@ body:
       description: |
         Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
         or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).
+        You can also propose a new CASE class via the [CASE Issue Tracker](https://github.com/casework/CASE/issues).
       render: text
   - type: textarea
     id: references
     attributes:
       label: References
-      description: Academic or other references to support the technique (one per line).
+      description: References to support any details provided above (one per line).
       render: text
   - type: textarea
     id: other-notes

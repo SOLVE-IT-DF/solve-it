@@ -1,0 +1,61 @@
+name: "Update Weakness (Form)"
+description: Propose changes to an existing weakness
+title: "Update weakness: [Wxxxx]"
+labels: ["content: update weakness", "form input"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Update an existing weakness
+        Use this form to propose changes to an existing weakness.
+        **Leave fields blank (or all unchecked) to keep current values.** Only fill in fields you want to change.
+        Existing weaknesses (W1001–W1276) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
+  - type: input
+    id: weakness-id
+    attributes:
+      label: Weakness ID
+      description: The ID of the weakness to update (e.g. W1001).
+      placeholder: W1001
+    validations:
+      required: true
+  - type: input
+    id: new-weakness-name
+    attributes:
+      label: New weakness name
+      description: Leave blank to keep the current name.
+  - type: checkboxes
+    id: astm-error-classes
+    attributes:
+      label: ASTM error classes
+      description: |
+        Select the ASTM error classes that should apply.
+        **Leave ALL unchecked to keep current values.** If any are checked, the selection replaces the current set.
+      options:
+        - label: "INCOMP - Incompleteness (e.g. failure to recover live or deleted artefacts, other reasons why an artefact might be missed)"
+        - label: "INAC-EX - Inaccuracy: Existence (e.g. presenting an artefact for something that does not exist)"
+        - label: "INAC-AS - Inaccuracy: Association (e.g. presenting live data as deleted and vice versa)"
+        - label: "INAC-ALT - Inaccuracy: Alteration (e.g. modifying the content of some digital data)"
+        - label: "INAC-COR - Inaccuracy: Corruption (e.g. could the process corrupt data, could the process fail to detect corrupt data)"
+        - label: "MISINT - Misinterpretation (e.g. could results be presented in a way that encourages misinterpretation)"
+  - type: textarea
+    id: mitigation-ids
+    attributes:
+      label: Mitigation IDs
+      description: |
+        The complete new list of mitigation IDs (one per line, e.g. M1001, M1012).
+        Leave blank to keep the current list. If populated, this replaces the entire list.
+        Existing mitigations can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).
+      render: text
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: |
+        The complete new list of references (one per line).
+        Leave blank to keep the current list. If populated, this replaces the entire list.
+      render: text
+  - type: textarea
+    id: other-notes
+    attributes:
+      label: Any other notes
+      description: Any additional information or context for the proposed changes.

@@ -35,6 +35,7 @@ def main():
     lines.append("    id: technique-name")
     lines.append("    attributes:")
     lines.append("      label: Technique name")
+    lines.append("      description: The name for the technique (synonyms can be provided below).")
     lines.append("      placeholder: Give this technique a name")
     lines.append("    validations:")
     lines.append("      required: true")
@@ -44,7 +45,7 @@ def main():
     lines.append("    id: description")
     lines.append("    attributes:")
     lines.append("      label: Description")
-    lines.append("      description: A short description of the technique.")
+    lines.append("      description: A short description of the technique (extended details can be provided below).")
     lines.append("      render: text")
     lines.append("      placeholder: Describe what this technique does")
     lines.append("    validations:")
@@ -63,7 +64,7 @@ def main():
     lines.append("    id: details")
     lines.append("    attributes:")
     lines.append("      label: Details")
-    lines.append("      description: Extended details about the technique.")
+    lines.append("      description: A longer set of details can be provided to describe the technique.")
     lines.append("      render: text")
 
     # --- Examples ---
@@ -71,7 +72,7 @@ def main():
     lines.append("    id: examples")
     lines.append("    attributes:")
     lines.append("      label: Examples")
-    lines.append("      description: Tools or cases where this technique is used (one per line, e.g. FTK Imager, Magnet ACQUIRE).")
+    lines.append("      description: Examples of cases where the technique can be used, or tools that offer the technique (one per line, e.g. FTK Imager, Magnet ACQUIRE).")
     lines.append("      render: text")
 
     # --- Objective dropdown ---
@@ -136,6 +137,7 @@ def main():
     lines.append("      description: |")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
+    lines.append("        You can also propose a new CASE class via the [CASE Issue Tracker](https://github.com/casework/CASE/issues).")
     lines.append("      render: text")
 
     # --- References ---
@@ -143,7 +145,7 @@ def main():
     lines.append("    id: references")
     lines.append("    attributes:")
     lines.append("      label: References")
-    lines.append("      description: Academic or other references to support the technique (one per line).")
+    lines.append("      description: References to support any details provided above (one per line).")
     lines.append("      render: text")
 
     # --- Any other notes ---

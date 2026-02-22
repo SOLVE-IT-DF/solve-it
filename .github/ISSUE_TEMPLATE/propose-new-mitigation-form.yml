@@ -26,13 +26,15 @@ body:
     id: linked-technique
     attributes:
       label: Linked technique
-      description: Some mitigations are links to techniques. Provide the technique ID if applicable (e.g. T1028).
+      description: |
+        Some mitigations are links to techniques. This happens when they are complex enough to need longer descriptions, and have their own weaknesses.
+        Provide the technique ID if applicable. See [M1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/M1007.json) for an example.
       placeholder: Technique ID (if applicable)
   - type: textarea
     id: references
     attributes:
       label: References
-      description: Academic or other references to support the mitigation (one per line).
+      description: References to support the details provided above (one per line).
       render: text
   - type: textarea
     id: other-notes

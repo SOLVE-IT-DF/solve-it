@@ -1,0 +1,57 @@
+name: "Update Mitigation (Form)"
+description: Propose changes to an existing mitigation
+title: "Update mitigation: [Mxxxx]"
+labels: ["content: update mitigation", "form input"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Update an existing mitigation
+        Use this form to propose changes to an existing mitigation.
+        **Leave fields blank to keep current values.** Only fill in fields you want to change.
+        Existing mitigations (M1001–M1239) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).
+  - type: input
+    id: mitigation-id
+    attributes:
+      label: Mitigation ID
+      description: The ID of the mitigation to update (e.g. M1001).
+      placeholder: M1001
+    validations:
+      required: true
+  - type: input
+    id: new-mitigation-name
+    attributes:
+      label: New mitigation name
+      description: Leave blank to keep the current name.
+  - type: dropdown
+    id: linked-technique-action
+    attributes:
+      label: Linked technique action
+      description: |
+        Some mitigations link to a technique. Choose what to do with the linked technique.
+        See [M1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/M1007.json) for an example.
+      options:
+        - "No change"
+        - "Set new value (provide ID below)"
+        - "Remove current link"
+    validations:
+      required: true
+  - type: input
+    id: linked-technique-id
+    attributes:
+      label: Linked technique ID
+      description: Only used if 'Set new value' is selected above. Provide the technique ID (e.g. T1002).
+      placeholder: T1002
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: |
+        The complete new list of references (one per line).
+        Leave blank to keep the current list. If populated, this replaces the entire list.
+      render: text
+  - type: textarea
+    id: other-notes
+    attributes:
+      label: Any other notes
+      description: Any additional information or context for the proposed changes.

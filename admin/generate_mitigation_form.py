@@ -48,7 +48,9 @@ def main():
     lines.append("    id: linked-technique")
     lines.append("    attributes:")
     lines.append("      label: Linked technique")
-    lines.append("      description: Some mitigations are links to techniques. Provide the technique ID if applicable (e.g. T1028).")
+    lines.append("      description: |")
+    lines.append("        Some mitigations are links to techniques. This happens when they are complex enough to need longer descriptions, and have their own weaknesses.")
+    lines.append("        Provide the technique ID if applicable. See [M1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/M1007.json) for an example.")
     lines.append("      placeholder: Technique ID (if applicable)")
 
     # --- References ---
@@ -56,7 +58,7 @@ def main():
     lines.append("    id: references")
     lines.append("    attributes:")
     lines.append("      label: References")
-    lines.append("      description: Academic or other references to support the mitigation (one per line).")
+    lines.append("      description: References to support the details provided above (one per line).")
     lines.append("      render: text")
 
     # --- Any other notes ---

@@ -23,6 +23,7 @@ def main():
     lines.append("    id: weakness-name")
     lines.append("    attributes:")
     lines.append("      label: Weakness name")
+    lines.append("      description: A suggested, fairly short name for the weakness.")
     lines.append("      placeholder: Give this weakness a name")
     lines.append("    validations:")
     lines.append("      required: true")
@@ -40,7 +41,9 @@ def main():
     lines.append("    id: astm-error-classes")
     lines.append("    attributes:")
     lines.append("      label: ASTM error classes")
-    lines.append("      description: Select all ASTM error classes that apply to this weakness.")
+    lines.append("      description: |")
+    lines.append("        Select all ASTM error classes that apply to this weakness.")
+    lines.append("        If this is unclear just note if this affects any of the following properties of the results: authenticity, accuracy, completeness.")
     lines.append("      options:")
     lines.append("        - label: \"INCOMP - Incompleteness (e.g. failure to recover live or deleted artefacts, other reasons why an artefact might be missed)\"")
     lines.append("        - label: \"INAC-EX - Inaccuracy: Existence (e.g. presenting an artefact for something that does not exist)\"")
@@ -78,7 +81,7 @@ def main():
     lines.append("    id: references")
     lines.append("    attributes:")
     lines.append("      label: References")
-    lines.append("      description: Academic or other references to support the weakness (one per line).")
+    lines.append("      description: References to support the details provided above (one per line).")
     lines.append("      render: text")
 
     # --- Any other notes ---

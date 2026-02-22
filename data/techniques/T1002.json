@@ -4,7 +4,7 @@
     "description": "Copying of sectors from a storage media, typically LBA~0~ to LBA~max~ to a bitstream that can be stored in a image format (T1025). ",
     "synonyms": [],
     "details": "The process could be applied to a traditional hard disk, SSD, USB stick, or data from an eMMC chip that has been desoldered and placed in a reader. This data needs to be stored as a container file (T1025). Logs would also usually be created recording the details of the imaging process and any errors that occured.",
-    "subtechniques": [""],
+    "subtechniques": [],
     "examples": [
                 "dcfldd", 
                 "FTK Imager", 

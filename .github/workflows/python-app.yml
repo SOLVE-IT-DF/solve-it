@@ -39,8 +39,7 @@ jobs:
         python reporting_scripts/generate_tsv_from_kb.py -m > .repo_info/mitigations.txt
         python reporting_scripts/generate_tsv_from_kb.py -c > .repo_info/CASE_mapping.txt
         python reporting_scripts/generate_excel_from_kb.py -o .repo_info/solve-it-latest.xlsx
-        python reporting_scripts/generate_md_from_kb.py -o .repo_info/solve-it.md
-        python reporting_scripts/generate_html_from_kb.py --local . --output .repo_info/solveit-viewer.html
+        python reporting_scripts/generate_md_from_kb.py -o .repo_info/solve-it.md        
     - name: Run these to make sure nothing breaks
       run: |
         python reporting_scripts/generate_evaluation.py -o .repo_info/test_eval.xlxs

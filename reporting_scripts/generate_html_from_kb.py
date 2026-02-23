@@ -222,11 +222,12 @@ def weakness_cats(w: dict) -> list[str]:
 
 def generate_html(db: dict, idx: dict) -> str:
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
-    data_json    = json.dumps(db, separators=(",", ":"), ensure_ascii=False)
+    # Sanitise </script> sequences to prevent early tag closure when embedded in HTML
+    data_json    = json.dumps(db, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
     idx_json     = json.dumps({
         "weakness_to_techniques":  idx["weakness_to_techniques"],
         "mitigation_to_weaknesses": idx["mitigation_to_weaknesses"],
-    }, separators=(",", ":"), ensure_ascii=False)
+    }, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
 
     n_t = len(db["techniques"])
     n_w = len(db["weaknesses"])
@@ -700,6 +701,22 @@ button {{ font-family: inherit; cursor: pointer; }}
   text-align: left;
   white-space: nowrap;
 }}
+.attck-table th.sortable {{
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 22px;
+}}
+.attck-table th.sortable:hover {{ background: var(--navy-mid); }}
+.sort-arrow {{
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: .6rem;
+  opacity: .4;
+}}
+.attck-table th.sortable.active .sort-arrow {{ opacity: 1; }}
 .attck-table td {{
   padding: 9px 12px;
   border-bottom: 1px solid var(--gray-100);
@@ -822,6 +839,38 @@ button {{ font-family: inherit; cursor: pointer; }}
   transition: var(--transition);
 }}
 .detail-close:hover {{ background: rgba(255,255,255,.2); color: #fff; }}
+.detail-back {{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: var(--transition);
+}}
+.detail-back:hover {{ background: rgba(255,255,255,.2); color: #fff; }}
+.detail-link {{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: var(--transition);
+  position: relative;
+}}
+.detail-link:hover {{ background: rgba(255,255,255,.2); color: #fff; }}
+.detail-link.copied {{ background: var(--green); border-color: var(--green); color: #fff; }}
 
 .detail-body {{
   flex: 1;
@@ -911,6 +960,26 @@ button {{ font-family: inherit; cursor: pointer; }}
   font-style: italic;
 }}
 
+/* ── Propose update button ─────────────────────────────────── */
+.propose-update-btn {{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: .78rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+}}
+.propose-update-btn:hover {{ background: var(--blue-lt); text-decoration: none; color: #fff; }}
+.propose-update-btn svg {{ flex-shrink: 0; }}
+
 /* Transitions */
 .view {{ animation: fadeIn .2s ease; }}
 @keyframes fadeIn {{ from{{ opacity:0; }} to{{ opacity:1; }} }}
@@ -998,7 +1067,7 @@ button {{ font-family: inherit; cursor: pointer; }}
 
 <!-- ───────────────── Top navigation ───────────────── -->
 <nav class="topnav">
-  <a class="topnav-brand" href="#">
+  <a class="topnav-brand" href="https://solveit-df.org" target="_blank">
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
       <rect width="28" height="28" rx="5" fill="#6eb4ff" fill-opacity=".15"/>
       <path d="M7 21L14 7l7 14" stroke="#6eb4ff" stroke-width="2" stroke-linecap="round"/>
@@ -1065,15 +1134,15 @@ button {{ font-family: inherit; cursor: pointer; }}
     </div>
   </div>
   <!-- Weakness filters -->
-  <div id="fb-weaknesses" class="hidden" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
+  <div id="fb-weaknesses" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="filterbar-label">Category</span>
     <button class="filter-chip active" data-wf="all">All</button>
-    <button class="filter-chip" data-wf="INCOMP">INCOMP</button>
-    <button class="filter-chip" data-wf="INAC-EX">INAC-EX</button>
-    <button class="filter-chip" data-wf="INAC-AS">INAC-AS</button>
-    <button class="filter-chip" data-wf="INAC-ALT">INAC-ALT</button>
-    <button class="filter-chip" data-wf="INAC-COR">INAC-COR</button>
-    <button class="filter-chip" data-wf="MISINT">MISINT</button>
+    <button class="filter-chip active" data-wf="INCOMP">INCOMP</button>
+    <button class="filter-chip active" data-wf="INAC-EX">INAC-EX</button>
+    <button class="filter-chip active" data-wf="INAC-AS">INAC-AS</button>
+    <button class="filter-chip active" data-wf="INAC-ALT">INAC-ALT</button>
+    <button class="filter-chip active" data-wf="INAC-COR">INAC-COR</button>
+    <button class="filter-chip active" data-wf="MISINT">MISINT</button>
     <div class="filterbar-sep"></div>
     <span class="filterbar-label">Mitigations</span>
     <button class="filter-chip active" data-mf="all">All</button>
@@ -1083,17 +1152,11 @@ button {{ font-family: inherit; cursor: pointer; }}
     <span class="result-count" id="w-count"></span>
   </div>
   <!-- Mitigation filters -->
-  <div id="fb-mitigations" class="hidden" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
-    <span class="filterbar-label">Sort by</span>
-    <button class="filter-chip active" data-sf="weaknesses">Most Weaknesses</button>
-    <button class="filter-chip" data-sf="techniques">Most Techniques</button>
-    <button class="filter-chip" data-sf="id">ID</button>
-    <button class="filter-chip" data-sf="name">Name</button>
-    <div class="filterbar-sep"></div>
+  <div id="fb-mitigations" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="result-count" id="m-count"></span>
   </div>
   <!-- Reference filters -->
-  <div id="fb-references" class="hidden" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
+  <div id="fb-references" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="filterbar-label">Sort by</span>
     <button class="filter-chip active" data-rf="cited">Most Cited</button>
     <button class="filter-chip" data-rf="alpha">A–Z</button>
@@ -1133,10 +1196,16 @@ button {{ font-family: inherit; cursor: pointer; }}
   <!-- Detail panel -->
   <div class="detail-panel" id="detailPanel">
     <div class="detail-topbar">
+      <button class="detail-back hidden" id="dpBack" title="Back">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.56 7.25H13a.75.75 0 010 1.5H4.56l3.22 3.22a.75.75 0 010 1.06z"/></svg>
+      </button>
       <div class="detail-topbar-meta">
         <div class="detail-topbar-id" id="dp-id"></div>
         <div class="detail-topbar-name" id="dp-name"></div>
       </div>
+      <button class="detail-link" id="dpLink" title="Copy link">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.715 6.542L3.343 7.914a3 3 0 104.243 4.243l1.828-1.829A3 3 0 008.586 5.5L8 6.086a1.002 1.002 0 00-.154.199 2 2 0 01.861 3.337L6.88 11.45a2 2 0 11-2.83-2.83l.793-.792a4.018 4.018 0 01-.128-1.287z"/><path d="M11.285 9.458l1.372-1.372a3 3 0 10-4.243-4.243L6.586 5.671A3 3 0 007.414 10.5l.586-.586a1.002 1.002 0 00.154-.199 2 2 0 01-.861-3.337L9.12 4.55a2 2 0 112.83 2.83l-.793.792c.112.42.155.855.128 1.287z"/></svg>
+      </button>
       <button class="detail-close" id="dpClose" title="Close (Esc)">&#10005;</button>
     </div>
     <div class="detail-body" id="dp-body"></div>
@@ -1169,13 +1238,17 @@ DB.mitigations.forEach(m => {{
 }});
 
 // ── State ────────────────────────────────────────────────────────────
+const detailHistory = [];
 const S = {{
   view:    'techniques',
   search:  '',
   tf:      'all',   // technique status filter
-  wf:      'all',   // weakness category filter
+  wf:      new Set(['INCOMP','INAC-EX','INAC-AS','INAC-ALT','INAC-COR','MISINT']),   // weakness category filter
   mf:      'all',   // mitigation filter (has/none)
-  sf:      'weaknesses', // mitigation sort
+  ws:      'id',    // weakness sort column
+  wsDir:   1,       // weakness sort direction (1=asc, -1=desc)
+  sf:      'weaknesses', // mitigation sort column
+  sfDir:   -1,      // mitigation sort direction (1=asc, -1=desc)
   rf:      'cited',  // reference sort
   rtype:   'all',    // reference type filter
   selected: null,   // {{id, type}}
@@ -1198,6 +1271,13 @@ const CAT_LABELS = {{
   'MISINT':   'Misinterpretation',
 }};
 
+function sortTh(label, key, stateKey, stateDirKey, style) {{
+  const active = S[stateKey] === key;
+  const arrow = active ? (S[stateDirKey] === 1 ? '&#9650;' : '&#9660;') : '&#9650;';
+  const cls = 'sortable' + (active ? ' active' : '');
+  return `<th class="${{cls}}" data-sort-key="${{key}}" data-sort-group="${{stateKey}}" style="${{style||''}}">${{label}}<span class="sort-arrow">${{arrow}}</span></th>`;
+}}
+
 function wCats(w) {{
   return CATS.filter(c => w[c] && String(w[c]).trim());
 }}
@@ -1208,6 +1288,65 @@ function matchesSearch(item) {{
   return (item.id||'').toLowerCase().includes(q)
       || (item.name||'').toLowerCase().includes(q)
       || (item.description||'').toLowerCase().includes(q);
+}}
+
+const REPO_URL = 'https://github.com/SOLVE-IT-DF/solve-it';
+function joinLines(arr) {{ return (arr||[]).join('\\n'); }}
+function updateFormUrl(type, obj) {{
+  const templates = {{
+    technique:  '2a_update-technique-form.yml',
+    weakness:   '2b_update-weakness-form.yml',
+    mitigation: '2c_update-mitigation-form.yml',
+  }};
+  const labels = {{
+    technique:  'content: update technique,form input',
+    weakness:   'content: update weakness,form input',
+    mitigation: 'content: update mitigation,form input',
+  }};
+  if (!templates[type]) return '#';
+
+  const p = new URLSearchParams();
+  p.set('template', templates[type]);
+  p.set('title', `Update ${{type}}: ${{obj.id}}`);
+  p.set('labels', labels[type]);
+
+  if (type === 'technique') {{
+    p.set('technique-id', obj.id);
+    p.set('new-technique-name', obj.name || '');
+    p.set('new-description', obj.description || '');
+    p.set('new-details', obj.details || '');
+    p.set('synonyms', joinLines(obj.synonyms));
+    p.set('examples', joinLines(obj.examples));
+    p.set('weakness-ids', joinLines(obj.weaknesses));
+    p.set('case-output', joinLines(obj.CASE_output_classes));
+    p.set('references', joinLines(obj.references));
+  }} else if (type === 'weakness') {{
+    p.set('weakness-id', obj.id);
+    p.set('new-weakness-name', obj.name || '');
+    p.set('mitigation-ids', joinLines(obj.mitigations));
+    p.set('references', joinLines(obj.references));
+  }} else if (type === 'mitigation') {{
+    p.set('mitigation-id', obj.id);
+    p.set('new-mitigation-name', obj.name || '');
+    if (obj.technique) p.set('linked-technique-id', obj.technique);
+    p.set('references', joinLines(obj.references));
+  }}
+
+  return `${{REPO_URL}}/issues/new?${{p.toString()}}`;
+}}
+function updateBtn(type, obj) {{
+  const url = updateFormUrl(type, obj);
+  const btnColor = {{technique:'var(--blue)', weakness:'var(--red)', mitigation:'var(--green)'}}[type] || 'var(--blue)';
+  const btnHover = {{technique:'var(--blue-lt)', weakness:'#e74c3c', mitigation:'#22a05b'}}[type] || 'var(--blue-lt)';
+  const label = {{technique:'technique', weakness:'weakness', mitigation:'mitigation'}}[type] || type;
+  return `<div class="detail-section" style="padding:12px 18px">
+    <a href="${{url}}" target="_blank" rel="noopener" class="propose-update-btn"
+       style="background:${{btnColor}}"
+       onmouseover="this.style.background='${{btnHover}}'" onmouseout="this.style.background='${{btnColor}}'">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M11.013 1.427a1.75 1.75 0 012.474 0l1.086 1.086a1.75 1.75 0 010 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 01-.927-.928l.929-3.25a1.75 1.75 0 01.445-.758l8.61-8.61zm1.414 1.06a.25.25 0 00-.354 0L3.463 11.098a.25.25 0 00-.064.108l-.558 1.953 1.953-.558a.25.25 0 00.108-.064l8.61-8.61a.25.25 0 000-.354L12.427 2.487z"/></svg>
+      Propose an update to this ${{label}}
+    </a>
+  </div>`;
 }}
 
 function techStatus(t) {{
@@ -1233,12 +1372,14 @@ function renderMatrix() {{
   }});
 
   let totalShown = 0;
+  const subIds = new Set();
   let colIdx = 0;
 
   objs.forEach((obj, i) => {{
     const techs = filteredTechniques(obj.techniques || []);
     if (techs.length === 0 && S.search) return;
     totalShown += techs.length;
+    techs.forEach(tid => {{ const t = TMap[tid]; if (t) (t.subtechniques || []).forEach(s => subIds.add(s)); }});
 
     const col = document.createElement('div');
     col.className = 'tactic-col';
@@ -1255,6 +1396,7 @@ function renderMatrix() {{
     grid.appendChild(col);
 
     const cellsDiv = col.querySelector(`#cells-${{i}}`);
+    techs.sort((a,b) => ((TMap[a]||{{}}).name||'').localeCompare((TMap[b]||{{}}).name||''));
     techs.forEach(tid => {{
       const t = TMap[tid];
       if (!t) return;
@@ -1277,7 +1419,14 @@ function renderMatrix() {{
     }});
   }});
 
-  document.getElementById('t-count').textContent = `${{totalShown}} shown`;
+  const nSubs = subIds.size;
+  document.getElementById('t-count').textContent = `${{totalShown}} shown` + (nSubs > 0 ? ` (${{nSubs}} sub-technique${{nSubs!==1?'s':''}} not shown)` : '');
+
+  // Equalise tactic header heights to the tallest one
+  const headers = grid.querySelectorAll('.tactic-header');
+  headers.forEach(h => h.style.height = 'auto');
+  const maxH = Math.max(...Array.from(headers, h => h.offsetHeight));
+  if (maxH > 0) headers.forEach(h => h.style.height = maxH + 'px');
 }};
 
 function filteredTechniques(ids) {{
@@ -1293,68 +1442,61 @@ function filteredTechniques(ids) {{
 // ── Rendering: Weaknesses table ──────────────────────────────────────
 function renderWeaknesses() {{
   const el = document.getElementById('view-weaknesses');
-  const groups = {{}};
-  CATS.forEach(c => groups[c] = []);
-  let total = 0;
-
-  DB.weaknesses.forEach(w => {{
-    if (!matchesSearch(w)) return;
+  let items = DB.weaknesses.filter(w => {{
+    if (!matchesSearch(w)) return false;
     const cats = wCats(w);
     const hasMit = (w.mitigations || []).length > 0;
-    if (S.wf !== 'all' && !cats.includes(S.wf)) return;
-    if (S.mf === 'has'  && !hasMit) return;
-    if (S.mf === 'none' && hasMit)  return;
-
-    const renderCats = S.wf === 'all' ? cats : [S.wf];
-    const seen = new Set();
-    renderCats.forEach(c => {{
-      if (seen.has(w.id)) return;
-      seen.add(w.id);
-      groups[c].push(w);
-    }});
-    total++;
+    if (!cats.some(c => S.wf.has(c))) return false;
+    if (S.mf === 'has'  && !hasMit) return false;
+    if (S.mf === 'none' && hasMit)  return false;
+    return true;
   }});
 
-  document.getElementById('w-count').textContent = `${{total}} shown`;
+  const wSortFns = {{
+    id:   (a,b) => a.id.localeCompare(b.id),
+    name: (a,b) => (a.name||'').localeCompare(b.name||''),
+    cats: (a,b) => wCats(a).length - wCats(b).length,
+    mits: (a,b) => (a.mitigations||[]).length - (b.mitigations||[]).length,
+  }};
+  const fn = wSortFns[S.ws] || wSortFns.id;
+  items.sort((a,b) => fn(a,b) * S.wsDir);
 
-  const catsToShow = S.wf === 'all' ? CATS : [S.wf];
-  let html = '';
+  document.getElementById('w-count').textContent = `${{items.length}} shown`;
 
-  catsToShow.forEach(cat => {{
-    const items = groups[cat];
-    if (!items.length) return;
-    html += `
-      <div class="table-section">
-        <div class="table-section-header">
-          <span class="table-section-title">${{esc(CAT_LABELS[cat] || cat)}}</span>
-          <span class="table-section-count">${{items.length}} weakness${{items.length!==1?'es':''}}</span>
-        </div>
-        <table class="attck-table">
-          <thead><tr>
-            <th style="width:80px">ID</th>
-            <th>Name</th>
-            <th style="width:90px">Categories</th>
-            <th style="width:80px">Mitigations</th>
-          </tr></thead>
-          <tbody>
-            ${{items.map(w => {{
-              const cats = wCats(w);
-              const mitCount = (w.mitigations||[]).length;
-              const sel = S.selected && S.selected.id === w.id;
-              return `<tr class="${{sel?'selected':''}}" data-wid="${{w.id}}" onclick="showDetail('${{w.id}}','weakness')">
-                <td><span class="wid">${{esc(w.id)}}</span></td>
-                <td>${{esc(w.name)}}</td>
-                <td><div class="cat-grid">${{cats.map(c=>`<span class="cat-tag">${{c}}</span>`).join('')}}</div></td>
-                <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{mitCount||'—'}}</td>
-              </tr>`;
-            }}).join('')}}
-          </tbody>
-        </table>
+  if (!items.length) {{
+    el.innerHTML = '<div class="no-results">No weaknesses match your filters.</div>';
+    return;
+  }}
+
+  el.innerHTML = `
+    <div class="table-section">
+      <div class="table-section-header">
+        <span class="table-section-title">${{S.wf.size === CATS.length ? 'All Weaknesses' : S.wf.size === 0 ? 'No Categories Selected' : Array.from(S.wf).map(c => esc(c)).join(' + ')}}</span>
+        <span class="table-section-count">${{items.length}}</span>
       </div>
-    `;
-  }});
-
-  el.innerHTML = html || '<div class="no-results">No weaknesses match your filters.</div>';
+      <table class="attck-table">
+        <thead><tr>
+          ${{sortTh('ID','id','ws','wsDir','width:80px')}}
+          ${{sortTh('Name','name','ws','wsDir','')}}
+          ${{sortTh('Categories','cats','ws','wsDir','width:90px')}}
+          ${{sortTh('Mitigations','mits','ws','wsDir','width:80px')}}
+        </tr></thead>
+        <tbody>
+          ${{items.map(w => {{
+            const cats = wCats(w);
+            const mitCount = (w.mitigations||[]).length;
+            const sel = S.selected && S.selected.id === w.id;
+            return `<tr class="${{sel?'selected':''}}" data-wid="${{w.id}}" data-show-id="${{esc(w.id)}}" data-show-type="weakness">
+              <td><span class="wid">${{esc(w.id)}}</span></td>
+              <td>${{esc(w.name)}}</td>
+              <td><div class="cat-grid">${{cats.map(c=>`<span class="cat-tag">${{c}}</span>`).join('')}}</div></td>
+              <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{mitCount}}</td>
+            </tr>`;
+          }}).join('')}}
+        </tbody>
+      </table>
+    </div>
+  `;
 }}
 
 // ── Rendering: Mitigations table ─────────────────────────────────────
@@ -1363,12 +1505,13 @@ function renderMitigations() {{
   let items = DB.mitigations.filter(m => matchesSearch(m));
 
   const sortFns = {{
-    weaknesses: (a,b) => b._wcount - a._wcount,
-    techniques: (a,b) => b._tcount - a._tcount,
+    weaknesses: (a,b) => a._wcount - b._wcount,
+    techniques: (a,b) => a._tcount - b._tcount,
     id:   (a,b) => a.id.localeCompare(b.id),
     name: (a,b) => a.name.localeCompare(b.name),
   }};
-  items.sort(sortFns[S.sf] || sortFns.id);
+  const fn = sortFns[S.sf] || sortFns.id;
+  items.sort((a,b) => fn(a,b) * S.sfDir);
 
   document.getElementById('m-count').textContent = `${{items.length}} shown`;
 
@@ -1385,15 +1528,15 @@ function renderMitigations() {{
       </div>
       <table class="attck-table">
         <thead><tr>
-          <th style="width:80px">ID</th>
-          <th>Name</th>
-          <th style="width:100px;text-align:center">Weaknesses</th>
-          <th style="width:100px;text-align:center">Techniques</th>
+          ${{sortTh('ID','id','sf','sfDir','width:80px')}}
+          ${{sortTh('Name','name','sf','sfDir','')}}
+          ${{sortTh('Weaknesses','weaknesses','sf','sfDir','width:100px;text-align:center')}}
+          ${{sortTh('Techniques','techniques','sf','sfDir','width:100px;text-align:center')}}
         </tr></thead>
         <tbody>
           ${{items.map(m => {{
             const sel = S.selected && S.selected.id === m.id;
-            return `<tr class="${{sel?'selected':''}}" onclick="showDetail('${{m.id}}','mitigation')">
+            return `<tr class="${{sel?'selected':''}}" data-show-id="${{esc(m.id)}}" data-show-type="mitigation">
               <td><span class="mid">${{esc(m.id)}}</span></td>
               <td>${{esc(m.name)}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{m._wcount||'—'}}</td>
@@ -1407,9 +1550,13 @@ function renderMitigations() {{
 }}
 
 // ── Detail panel ─────────────────────────────────────────────────────
-function showDetail(id, type) {{
+function showDetail(id, type, skipHash) {{
+  // Push current selection onto history before navigating
+  if (S.selected) detailHistory.push({{...S.selected}});
   S.selected = {{id, type}};
+  if (!skipHash) history.replaceState(null, '', '#' + id);
   updateSelectionHighlights();
+  updateBackButton();
 
   const obj = type === 'technique'  ? TMap[id]
             : type === 'weakness'   ? WMap[id]
@@ -1442,7 +1589,7 @@ function showDetail(id, type) {{
 }}
 
 function buildTechniqueDetail(t) {{
-  let html = '';
+  let html = updateBtn('technique', t);
 
   if (t.description) {{
     html += `<div class="detail-section">
@@ -1486,7 +1633,7 @@ function buildTechniqueDetail(t) {{
       <div class="detail-list">
         ${{t.subtechniques.map(sid => {{
           const st = TMap[sid];
-          return `<div class="detail-row" onclick="showDetail('${{sid}}','technique')">
+          return `<div class="detail-row" data-show-id="${{esc(sid)}}" data-show-type="technique">
             <span class="detail-row-id t">${{esc(sid)}}</span>
             <span class="detail-row-name">${{esc(st ? st.name : sid)}}</span>
           </div>`;
@@ -1504,7 +1651,7 @@ function buildTechniqueDetail(t) {{
       ${{wids.map(wid => {{
         const w = WMap[wid];
         const cats = w ? wCats(w) : [];
-        return `<div class="detail-row" onclick="showDetail('${{wid}}','weakness')">
+        return `<div class="detail-row" data-show-id="${{esc(wid)}}" data-show-type="weakness">
           <span class="detail-row-id w">${{esc(wid)}}</span>
           <span class="detail-row-name">
             ${{w ? esc(w.name) : esc(wid)}}
@@ -1527,7 +1674,7 @@ function buildTechniqueDetail(t) {{
 }}
 
 function buildWeaknessDetail(w) {{
-  let html = '';
+  let html = updateBtn('weakness', w);
 
   const cats = wCats(w);
   if (cats.length) {{
@@ -1547,7 +1694,7 @@ function buildWeaknessDetail(w) {{
     <div class="detail-list">
       ${{tids.map(tid => {{
         const t = TMap[tid];
-        return `<div class="detail-row" onclick="showDetail('${{tid}}','technique')">
+        return `<div class="detail-row" data-show-id="${{esc(tid)}}" data-show-type="technique">
           <span class="detail-row-id t">${{esc(tid)}}</span>
           <span class="detail-row-name">${{esc(t ? t.name : tid)}}</span>
         </div>`;
@@ -1563,7 +1710,7 @@ function buildWeaknessDetail(w) {{
     <div class="detail-list">
       ${{mids.map(mid => {{
         const m = MMap[mid];
-        return `<div class="detail-row" onclick="showDetail('${{mid}}','mitigation')">
+        return `<div class="detail-row" data-show-id="${{esc(mid)}}" data-show-type="mitigation">
           <span class="detail-row-id m">${{esc(mid)}}</span>
           <span class="detail-row-name">${{esc(m ? m.name : mid)}}</span>
         </div>`;
@@ -1582,7 +1729,7 @@ function buildWeaknessDetail(w) {{
 }}
 
 function buildMitigationDetail(m) {{
-  let html = '';
+  let html = updateBtn('mitigation', m);
 
   // Weaknesses addressed
   const wids = IDX.mitigation_to_weaknesses[m.id] || [];
@@ -1593,7 +1740,7 @@ function buildMitigationDetail(m) {{
       ${{wids.map(wid => {{
         const w = WMap[wid];
         const cats = w ? wCats(w) : [];
-        return `<div class="detail-row" onclick="showDetail('${{wid}}','weakness')">
+        return `<div class="detail-row" data-show-id="${{esc(wid)}}" data-show-type="weakness">
           <span class="detail-row-id w">${{esc(wid)}}</span>
           <span class="detail-row-name">
             ${{esc(w ? w.name : wid)}}
@@ -1614,7 +1761,7 @@ function buildMitigationDetail(m) {{
     <div class="detail-list">
       ${{tids.map(tid => {{
         const t = TMap[tid];
-        return `<div class="detail-row" onclick="showDetail('${{tid}}','technique')">
+        return `<div class="detail-row" data-show-id="${{esc(tid)}}" data-show-type="technique">
           <span class="detail-row-id t">${{esc(tid)}}</span>
           <span class="detail-row-name">${{esc(t ? t.name : tid)}}</span>
         </div>`;
@@ -1625,7 +1772,7 @@ function buildMitigationDetail(m) {{
   if (m.technique) {{
     html += `<div class="detail-section">
       <div class="detail-section-title">Implemented By Technique</div>
-      <div class="detail-row" onclick="showDetail('${{m.technique}}','technique')">
+      <div class="detail-row" data-show-id="${{esc(m.technique)}}" data-show-type="technique">
         <span class="detail-row-id t">${{esc(m.technique)}}</span>
         <span class="detail-row-name">${{esc(TMap[m.technique] ? TMap[m.technique].name : m.technique)}}</span>
       </div>
@@ -1642,11 +1789,47 @@ function buildMitigationDetail(m) {{
   return html;
 }}
 
-function closeDetail() {{
+function closeDetail(skipHash) {{
   S.selected = null;
+  detailHistory.length = 0;
   document.getElementById('detailPanel').classList.remove('open');
   document.getElementById('mainArea').classList.remove('shifted');
+  if (!skipHash) history.replaceState(null, '', location.pathname);
   updateSelectionHighlights();
+  updateBackButton();
+}}
+
+function goBack() {{
+  const prev = detailHistory.pop();
+  if (!prev) return closeDetail();
+  // Navigate without pushing to history (avoid showDetail's push)
+  S.selected = prev;
+  updateSelectionHighlights();
+  updateBackButton();
+
+  const obj = prev.type === 'technique'  ? TMap[prev.id]
+            : prev.type === 'weakness'   ? WMap[prev.id]
+            : prev.type === 'mitigation' ? MMap[prev.id]
+            : null;
+  if (!obj) return;
+
+  const typeLabel = {{technique:'Technique',weakness:'Weakness',mitigation:'Mitigation'}}[prev.type]||prev.type;
+  const idColor   = {{technique:'#6eb4ff',weakness:'#f4a839',mitigation:'#4cba7c'}}[prev.type]||'#6eb4ff';
+  document.getElementById('dp-id').innerHTML =
+    `<span style="color:${{idColor}}">${{esc(prev.id)}}</span>
+     <span class="type-label">${{typeLabel}}</span>
+     ${{prev.type==='technique' ? statusBadge(techStatus(obj)) : ''}}`;
+  document.getElementById('dp-name').textContent = obj.name || '';
+
+  let body = '';
+  if (prev.type === 'technique') body = buildTechniqueDetail(obj);
+  else if (prev.type === 'weakness') body = buildWeaknessDetail(obj);
+  else if (prev.type === 'mitigation') body = buildMitigationDetail(obj);
+  document.getElementById('dp-body').innerHTML = body;
+}}
+
+function updateBackButton() {{
+  document.getElementById('dpBack').classList.toggle('hidden', detailHistory.length === 0);
 }}
 
 function updateSelectionHighlights() {{
@@ -1664,9 +1847,16 @@ function updateSelectionHighlights() {{
 
 // ── Rendering: References table ─────────────────────────────────────
 function linkify(text) {{
-  const escaped = esc(text);
-  return escaped.replace(/(https?:\/\/[^\s,;\)"]+)/g,
-    '<a href="$1" target="_blank" rel="noopener" class="ref-url">$1</a>');
+  if (!text) return '';
+  const urlRe = /(https?:\\/\\/[^\\s,;\\)"]+)/g;
+  let result = '', last = 0, m;
+  while ((m = urlRe.exec(text)) !== null) {{
+    result += esc(text.slice(last, m.index));
+    result += '<a href="' + esc(m[1]) + '" target="_blank" rel="noopener" class="ref-url">' + esc(m[1]) + '</a>';
+    last = urlRe.lastIndex;
+  }}
+  result += esc(text.slice(last));
+  return result;
 }}
 
 function renderReferences() {{
@@ -1723,7 +1913,7 @@ function renderReferences() {{
         const item = type==='techniques'?TMap[id]:type==='weaknesses'?WMap[id]:MMap[id];
         const name = esc((item||{{}}).name||id);
         return `<span class="ref-chip ${{tClass[type]}}" title="${{name}}"
-          onclick="showDetail('${{esc(id)}}','${{tDetail[type]}}')">${{esc(tLabel[type]+':'+id)}}</span>`;
+          data-show-id="${{esc(id)}}" data-show-type="${{tDetail[type]}}">${{esc(tLabel[type]+':'+id)}}</span>`;
       }})).join('');
     html += `<tr><td class="ref-cell">${{linkify(ref)}}</td><td class="ref-cited-cell">${{chips}}</td></tr>`;
   }});
@@ -1733,10 +1923,11 @@ function renderReferences() {{
 }}
 
 // ── View switching ────────────────────────────────────────────────────
-function switchView(view) {{
+function switchView(view, skipHash) {{
   S.view = view;
   S.selected = null;
-  closeDetail();
+  closeDetail(true);
+  if (!skipHash) history.replaceState(null, '', view === 'techniques' ? location.pathname : '#' + view);
 
   document.querySelectorAll('.topnav-tab').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.view === view));
@@ -1774,9 +1965,21 @@ document.querySelectorAll('[data-tf]').forEach(btn =>
 
 document.querySelectorAll('[data-wf]').forEach(btn =>
   btn.addEventListener('click', () => {{
-    document.querySelectorAll('[data-wf]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    S.wf = btn.dataset.wf;
+    const val = btn.dataset.wf;
+    if (val === 'all') {{
+      // Toggle all on/off
+      if (S.wf.size === CATS.length) S.wf.clear();
+      else CATS.forEach(c => S.wf.add(c));
+    }} else if (S.wf.has(val)) {{
+      S.wf.delete(val);
+    }} else {{
+      S.wf.add(val);
+    }}
+    // Update active states
+    document.querySelectorAll('[data-wf]').forEach(b => {{
+      if (b.dataset.wf === 'all') b.classList.toggle('active', S.wf.size === CATS.length);
+      else b.classList.toggle('active', S.wf.has(b.dataset.wf));
+    }});
     render();
   }}));
 
@@ -1785,14 +1988,6 @@ document.querySelectorAll('[data-mf]').forEach(btn =>
     document.querySelectorAll('[data-mf]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     S.mf = btn.dataset.mf;
-    render();
-  }}));
-
-document.querySelectorAll('[data-sf]').forEach(btn =>
-  btn.addEventListener('click', () => {{
-    document.querySelectorAll('[data-sf]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    S.sf = btn.dataset.sf;
     render();
   }}));
 
@@ -1814,7 +2009,41 @@ searchClear.addEventListener('click', () => {{
   render();
 }});
 
-document.getElementById('dpClose').addEventListener('click', closeDetail);
+document.getElementById('dpClose').addEventListener('click', () => closeDetail());
+document.getElementById('dpBack').addEventListener('click', goBack);
+document.getElementById('dpLink').addEventListener('click', () => {{
+  const url = location.href;
+  navigator.clipboard.writeText(url).then(() => {{
+    const btn = document.getElementById('dpLink');
+    btn.classList.add('copied');
+    btn.title = 'Copied!';
+    setTimeout(() => {{ btn.classList.remove('copied'); btn.title = 'Copy link'; }}, 1500);
+  }});
+}});
+
+// Delegated click handler for sortable column headers
+document.addEventListener('click', function(e) {{
+  const th = e.target.closest('th.sortable');
+  if (th) {{
+    const key = th.dataset.sortKey;
+    const group = th.dataset.sortGroup;
+    const dirKey = group + 'Dir';
+    if (S[group] === key) {{
+      S[dirKey] = S[dirKey] * -1;
+    }} else {{
+      S[group] = key;
+      S[dirKey] = (key === 'id' || key === 'name') ? 1 : -1;
+    }}
+    render();
+    return;
+  }}
+}});
+
+// Delegated click handler for data-show-id/data-show-type attributes (avoids inline onclick XSS risk)
+document.addEventListener('click', function(e) {{
+  const el = e.target.closest('[data-show-id]');
+  if (el) showDetail(el.dataset.showId, el.dataset.showType);
+}});
 
 document.addEventListener('keydown', e => {{
   if (e.key === 'Escape') {{ closeDetail(); }}
@@ -1842,7 +2071,32 @@ document.querySelectorAll('[data-rtype]').forEach(btn =>
   }}));
 
 // ── Bootstrap ────────────────────────────────────────────────────────
+function handleHash() {{
+  const hash = location.hash.slice(1);
+  if (!hash) return;
+  // Tab views
+  if (['techniques','weaknesses','mitigations','references'].includes(hash)) {{
+    switchView(hash, true);
+    return;
+  }}
+  // Item IDs — determine type from prefix
+  const type = hash.startsWith('T') ? 'technique'
+             : hash.startsWith('W') ? 'weakness'
+             : hash.startsWith('M') ? 'mitigation'
+             : null;
+  if (type) {{
+    const map = {{technique:TMap, weakness:WMap, mitigation:MMap}};
+    if (map[type][hash]) {{
+      // Switch to the right tab first
+      const viewMap = {{technique:'techniques', weakness:'weaknesses', mitigation:'mitigations'}};
+      switchView(viewMap[type], true);
+      showDetail(hash, type, true);
+    }}
+  }}
+}}
 render();
+handleHash();
+window.addEventListener('hashchange', handleHash);
 </script>
 </body>
 </html>"""

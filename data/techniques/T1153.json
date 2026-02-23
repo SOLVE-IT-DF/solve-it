@@ -4,6 +4,7 @@
     "description": "Application of a time offset to a timestamp",
     "details": "This could be a clock offset, a timezone or other reason for a timestamp correction",
     "subtechniques": [],
+    "CASE_input_classes" : [],
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/observable/DateTimeStamp",
         "https://ontology.solveit-df.org/solveit/observable/TimelineEntry"

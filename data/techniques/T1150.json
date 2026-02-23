@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1134", "W1135", "W1253", "W1254", "W1255", "W1256"],
+    "CASE_input_classes" : [],
     "CASE_output_classes": [
                             "https://ontology.unifiedcyberontology.org/uco/core/confidence",
 

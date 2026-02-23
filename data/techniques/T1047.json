@@ -9,6 +9,7 @@
     "weaknesses": [
         "W1132"
     ],
+    "CASE_input_classes" : [],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/analysis/classification",
         "https://ontology.solveit-df.org/solveit/observable/RedactedFileSet"

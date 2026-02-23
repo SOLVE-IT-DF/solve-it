@@ -21,8 +21,8 @@ A Python library providing a comprehensive interface for loading, parsing, and q
 
 The SOLVE-IT knowledge base consists of four primary data models:
 
-1. **Technique**: A digital forensic technique used in investigations
-2. **Weakness**: A limitation or vulnerability of a technique  
+1. **Technique**: A digital forensic technique used in investigations (includes `CASE_input_classes` and `CASE_output_classes` for CASE/UCO ontology mappings)
+2. **Weakness**: A limitation or vulnerability of a technique
 3. **Mitigation**: An approach to address or mitigate a weakness
 4. **Objective**: A category or goal that organizes techniques (e.g., by investigation phase)
 

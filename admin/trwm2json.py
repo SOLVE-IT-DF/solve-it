@@ -113,7 +113,7 @@ def technique_tsv_to_json(tsv_path):
                 field_name = parts[0].strip().rstrip(':')
                 data = parts[1].strip()
                 
-                fields_to_process_as_lists = ['synonyms', 'subtechniques', 'examples', 'references', 'case_output_classes']
+                fields_to_process_as_lists = ['synonyms', 'subtechniques', 'examples', 'references', 'case_input_classes', 'case_output_classes']
                 if field_name.lower() in fields_to_process_as_lists:                    
                     result[field_name] = parse_field_data(field_name, data)                        
                 else:

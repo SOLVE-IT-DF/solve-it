@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1115", "W1116", "W1117"],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : [],
     "references": ["Lennox-Steele, A., & Nisbet, A. (2016). A forensic examination of several mobile device Faraday bags & materials to test their effectiveness. In Valli, C. (Ed.). (2016). The Proceedings of 14th Australian Digital Forensics Conference, 5-6 December 2016, Edith Cowan University, Perth, Australia. (pp 34-41)."]
 }

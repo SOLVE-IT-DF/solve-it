@@ -13,6 +13,7 @@
         "subtechniques": true,
         "examples": true,
         "weaknesses": true,
+        "CASE_input_classes" : true,
         "CASE_output_classes" : true,
         "references": true
     },

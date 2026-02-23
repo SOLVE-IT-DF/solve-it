@@ -54,6 +54,7 @@ class Technique(BaseModel):
         subtechniques (List[str]): A list of sub-technique identifiers.
         examples (List[str]): Examples of tools or implementations.
         weaknesses (List[str]): A list of weakness IDs associated with the technique.
+        CASE_input_classes (List[str]): CASE ontology input classes.
         CASE_output_classes (List[str]): CASE ontology output classes.
         references (List[str]): Reference sources for this technique.
     """
@@ -65,6 +66,7 @@ class Technique(BaseModel):
     subtechniques: List[str] = Field(default_factory=list, description="List of sub-technique identifiers")
     examples: List[str] = Field(default_factory=list, description="Examples of tools or implementations")
     weaknesses: List[str] = Field(default_factory=list, description="List of weakness IDs associated with the technique")
+    CASE_input_classes: List[str] = Field(default_factory=list, description="CASE ontology input classes")
     CASE_output_classes: List[str] = Field(default_factory=list, description="CASE ontology output classes")
     references: List[str] = Field(default_factory=list, description="Reference sources for this technique")
 

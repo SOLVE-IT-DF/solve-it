@@ -8,6 +8,7 @@
     "examples": ["Elcomsoft",
                  "Belkasoft"],
     "weaknesses": ["W1276"],
+    "CASE_input_classes" : [],
     "CASE_output_classes": [
     ],
     "references": ["Elcomsoft 20203 https://blog.elcomsoft.com/2023/07/ios-device-acquisition-installing-the-extraction-agent/",

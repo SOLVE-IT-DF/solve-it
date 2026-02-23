@@ -8,5 +8,6 @@
     "examples": [],
     "weaknesses": [],
     "CASE_output_classes" : [],
+    "CASE_input_classes" : [],
     "references": ["Fukami, A., Stoykova, R. and Geradts, Z., 2021. A new model for forensic data extraction from encrypted mobile devices. Forensic Science International: Digital Investigation, 38, p.301169."]
 }

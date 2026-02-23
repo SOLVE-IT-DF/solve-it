@@ -7,6 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
+    "CASE_input_classes" : [],
     "CASE_output_classes" : [],
     "references": ["https://support.mobiledit.com/portal/en/kb/articles/app-downgrade", "https://www.oxygenforensics.com/en/resources/downgrade-method-what-should-be-known-before-the-procedure/"
     ]

@@ -367,6 +367,7 @@ button {{ font-family: inherit; cursor: pointer; }}
 .topnav-tab:hover {{ color: #fff; background: rgba(255,255,255,.06); }}
 .topnav-tab.active {{ color: #fff; border-bottom-color: #6eb4ff; }}
 .topnav-tab.active.tab-t {{ border-bottom-color: #6eb4ff; }}
+.topnav-tab.active.tab-t2 {{ border-bottom-color: #6eb4ff; }}
 .topnav-tab.active.tab-w {{ border-bottom-color: #f4a839; }}
 .topnav-tab.active.tab-m {{ border-bottom-color: #4cba7c; }}
 
@@ -1076,7 +1077,12 @@ button {{ font-family: inherit; cursor: pointer; }}
     <span class="topnav-brand-name">SOLVE<span>-IT</span></span>
   </a>
   <div class="topnav-tabs">
-    <button class="topnav-tab tab-t active" data-view="techniques">
+    <button class="topnav-tab tab-t active" data-view="matrix">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2h4v4H1V2zm5 0h4v4H6V2zm5 0h4v4h-4V2zM1 7h4v4H1V7zm5 0h4v4H6V7zm5 0h4v4h-4V7z"/></svg>
+      <span class="topnav-tab-label">Matrix</span>
+      <span class="tab-badge" id="badge-o">{n_o}</span>
+    </button>
+    <button class="topnav-tab tab-t2" data-view="techniques">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3h12v2H2V3zm0 4h12v2H2V7zm0 4h8v2H2v-2z"/></svg>
       <span class="topnav-tab-label">Techniques</span>
       <span class="tab-badge" id="badge-t">{n_t}</span>
@@ -1113,8 +1119,8 @@ button {{ font-family: inherit; cursor: pointer; }}
 
 <!-- ───────────────── Filter bar ───────────────── -->
 <div class="filterbar" id="filterbar">
-  <!-- Technique filters -->
-  <div id="fb-techniques" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+  <!-- Matrix filters -->
+  <div id="fb-matrix" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="filterbar-label">Status</span>
     <button class="filter-chip active" data-tf="all">All</button>
     <button class="filter-chip chip-green" data-tf="complete">Complete</button>
@@ -1132,6 +1138,27 @@ button {{ font-family: inherit; cursor: pointer; }}
       <div class="filterbar-sep"></div>
       <span class="result-count" id="t-count"></span>
     </div>
+  </div>
+  <!-- Technique table filters -->
+  <div id="fb-techniques" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
+    <span class="filterbar-label">Status</span>
+    <button class="filter-chip active" data-t2f="all">All</button>
+    <button class="filter-chip chip-green" data-t2f="complete">Complete</button>
+    <button class="filter-chip chip-yellow" data-t2f="partial">Partial</button>
+    <button class="filter-chip chip-red" data-t2f="placeholder">Placeholder</button>
+    <div class="filterbar-sep"></div>
+    <span class="filterbar-label">Type</span>
+    <button class="filter-chip active" data-t2t="all">All</button>
+    <button class="filter-chip" data-t2t="parent">Parent</button>
+    <button class="filter-chip" data-t2t="sub">Sub</button>
+    <button class="filter-chip" data-t2t="standalone">Standalone</button>
+    <div class="filterbar-sep"></div>
+    <span class="filterbar-label">Objective</span>
+    <select id="t2-obj-filter" style="font-size:.8rem;padding:3px 8px;border:1px solid var(--gray-300);border-radius:6px;background:#fff;color:var(--gray-800);max-width:260px;">
+      <option value="all">All objectives</option>
+    </select>
+    <div class="filterbar-sep"></div>
+    <span class="result-count" id="t2-count"></span>
   </div>
   <!-- Weakness filters -->
   <div id="fb-weaknesses" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -1175,12 +1202,15 @@ button {{ font-family: inherit; cursor: pointer; }}
 <div class="page-layout">
   <div class="main-area" id="mainArea">
 
-    <!-- Techniques view -->
-    <div id="view-techniques" class="view">
+    <!-- Matrix view -->
+    <div id="view-matrix" class="view">
       <div class="matrix-container">
         <div class="matrix" id="matrix"></div>
       </div>
     </div>
+
+    <!-- Techniques table view -->
+    <div id="view-techniques" class="view hidden"></div>
 
     <!-- Weaknesses view -->
     <div id="view-weaknesses" class="view hidden"></div>
@@ -1237,12 +1267,37 @@ DB.mitigations.forEach(m => {{
   m._tcount   = tset.size;
 }});
 
+// Build technique-to-objective map and enrichment
+const T2Obj = {{}};
+DB.objectives.forEach((obj, idx) => {{
+  obj._idx = idx;
+  (obj.techniques || []).forEach(tid => {{ T2Obj[tid] = obj; }});
+}});
+DB.techniques.forEach(t => {{
+  t._isSub = false;
+  t._parentId = null;
+  (t.subtechniques || []).forEach(sid => {{
+    if (!T2Obj[sid] && T2Obj[t.id]) T2Obj[sid] = T2Obj[t.id];
+  }});
+}});
+DB.techniques.forEach(t => {{
+  (t.subtechniques || []).forEach(sid => {{
+    const st = TMap[sid];
+    if (st) {{ st._isSub = true; st._parentId = t.id; }}
+  }});
+}});
+
 // ── State ────────────────────────────────────────────────────────────
 const detailHistory = [];
 const S = {{
-  view:    'techniques',
+  view:    'matrix',
   search:  '',
-  tf:      'all',   // technique status filter
+  tf:      'all',   // matrix status filter
+  t2f:     'all',   // technique table status filter
+  t2o:     'all',   // technique table objective filter
+  t2t:     'all',   // technique table type filter
+  ts:      'id',    // technique table sort column
+  tsDir:   1,       // technique table sort direction
   wf:      new Set(['INCOMP','INAC-EX','INAC-AS','INAC-ALT','INAC-COR','MISINT']),   // weakness category filter
   mf:      'all',   // mitigation filter (has/none)
   ws:      'id',    // weakness sort column
@@ -1439,6 +1494,95 @@ function filteredTechniques(ids) {{
   }});
 }}
 
+// ── Rendering: Techniques table ──────────────────────────────────────
+function renderTechniquesTable() {{
+  const el = document.getElementById('view-techniques');
+  let items = DB.techniques.filter(t => {{
+    if (!matchesSearch(t)) return false;
+    if (S.t2f !== 'all' && techStatus(t) !== S.t2f) return false;
+    if (S.t2o !== 'all') {{
+      const obj = T2Obj[t.id];
+      if (!obj || String(obj._idx) !== S.t2o) return false;
+    }}
+    if (S.t2t !== 'all') {{
+      const isSub = t._isSub;
+      const isParent = !isSub && (t.subtechniques||[]).length > 0;
+      const isStandalone = !isSub && !isParent;
+      if (S.t2t === 'sub' && !isSub) return false;
+      if (S.t2t === 'parent' && !isParent) return false;
+      if (S.t2t === 'standalone' && !isStandalone) return false;
+    }}
+    return true;
+  }});
+
+  const tSortFns = {{
+    id:      (a,b) => a.id.localeCompare(b.id),
+    name:    (a,b) => (a.name||'').localeCompare(b.name||''),
+    obj:     (a,b) => ((T2Obj[a.id]||{{}}).name||'').localeCompare((T2Obj[b.id]||{{}}).name||''),
+    type:    (a,b) => (a._isSub?1:0) - (b._isSub?1:0),
+    status:  (a,b) => techStatus(a).localeCompare(techStatus(b)),
+    desc:    (a,b) => (a.description?1:0) - (b.description?1:0),
+    details: (a,b) => (a.details?1:0) - (b.details?1:0),
+    weaks:   (a,b) => (a.weaknesses||[]).length - (b.weaknesses||[]).length,
+    refs:    (a,b) => (a.references||[]).length - (b.references||[]).length,
+    cout:    (a,b) => (a.CASE_output_classes||[]).length - (b.CASE_output_classes||[]).length,
+    cin:     (a,b) => (a.CASE_input_classes||[]).length - (b.CASE_input_classes||[]).length,
+  }};
+  const fn = tSortFns[S.ts] || tSortFns.id;
+  items.sort((a,b) => fn(a,b) * S.tsDir);
+
+  document.getElementById('t2-count').textContent = `${{items.length}} shown`;
+
+  if (!items.length) {{
+    el.innerHTML = '<div class="no-results">No techniques match your filters.</div>';
+    return;
+  }}
+
+  el.innerHTML = `
+    <div class="table-section">
+      <div class="table-section-header">
+        <span class="table-section-title">All Techniques</span>
+        <span class="table-section-count">${{items.length}}</span>
+      </div>
+      <table class="attck-table">
+        <thead><tr>
+          ${{sortTh('ID','id','ts','tsDir','width:70px')}}
+          ${{sortTh('Name','name','ts','tsDir','')}}
+          ${{sortTh('Objective','obj','ts','tsDir','')}}
+          ${{sortTh('Type','type','ts','tsDir','width:70px')}}
+          ${{sortTh('Status','status','ts','tsDir','width:80px')}}
+          ${{sortTh('Desc','desc','ts','tsDir','width:50px;text-align:center')}}
+          ${{sortTh('Details','details','ts','tsDir','width:55px;text-align:center')}}
+          ${{sortTh('Weak.','weaks','ts','tsDir','width:55px;text-align:center')}}
+          ${{sortTh('Refs','refs','ts','tsDir','width:50px;text-align:center')}}
+          ${{sortTh('CASE In','cin','ts','tsDir','width:65px;text-align:center')}}
+          ${{sortTh('CASE Out','cout','ts','tsDir','width:70px;text-align:center')}}
+        </tr></thead>
+        <tbody>
+          ${{items.map(t => {{
+            const sel = S.selected && S.selected.id === t.id && S.selected.type === 'technique';
+            const obj = T2Obj[t.id];
+            const typeLabel = t._isSub ? `<span style="font-size:.7rem;color:var(--gray-500)">sub</span>` : (t.subtechniques||[]).length > 0 ? `<span style="font-size:.7rem;color:var(--blue)">parent</span>` : '';
+            return `<tr class="${{sel?'selected':''}}" data-show-id="${{esc(t.id)}}" data-show-type="technique">
+              <td><span class="tid">${{esc(t.id)}}</span></td>
+              <td>${{esc(t.name)}}</td>
+              <td style="font-size:.78rem;color:var(--gray-700)">${{obj ? esc(obj.name) : '<span class="empty-message">—</span>'}}</td>
+              <td style="text-align:center">${{typeLabel}}</td>
+              <td>${{statusBadge(techStatus(t))}}</td>
+              <td style="text-align:center;font-size:.8rem">${{t.description ? '&#10003;' : ''}}</td>
+              <td style="text-align:center;font-size:.8rem">${{t.details ? '&#10003;' : ''}}</td>
+              <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.weaknesses||[]).length}}</td>
+              <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.references||[]).length}}</td>
+              <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.CASE_input_classes||[]).length}}</td>
+              <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.CASE_output_classes||[]).length}}</td>
+            </tr>`;
+          }}).join('')}}
+        </tbody>
+      </table>
+    </div>
+  `;
+}}
+
 // ── Rendering: Weaknesses table ──────────────────────────────────────
 function renderWeaknesses() {{
   const el = document.getElementById('view-weaknesses');
@@ -1591,56 +1735,55 @@ function showDetail(id, type, skipHash) {{
 function buildTechniqueDetail(t) {{
   let html = updateBtn('technique', t);
 
-  if (t.description) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">Description</div>
-      <div class="detail-text">${{esc(t.description)}}</div>
-    </div>`;
-  }}
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Description</div>
+    ${{t.description ? `<div class="detail-text">${{esc(t.description)}}</div>` : '<div class="empty-message">No description.</div>'}}
+  </div>`;
 
-  if (t.details) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">Details</div>
-      <div class="detail-text">${{esc(t.details)}}</div>
-    </div>`;
-  }}
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Details</div>
+    ${{t.details ? `<div class="detail-text">${{esc(t.details)}}</div>` : '<div class="empty-message">No details.</div>'}}
+  </div>`;
 
-  if ((t.synonyms||[]).length) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">Also Known As</div>
-      <div class="detail-tags">${{t.synonyms.map(s=>`<span class="detail-tag">${{esc(s)}}</span>`).join('')}}</div>
-    </div>`;
-  }}
+  const syns = t.synonyms || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Also Known As <span class="badge">${{syns.length}}</span></div>
+    ${{syns.length ? `<div class="detail-tags">${{syns.map(s=>`<span class="detail-tag">${{esc(s)}}</span>`).join('')}}</div>` : '<div class="empty-message">No synonyms.</div>'}}
+  </div>`;
 
-  if ((t.examples||[]).length) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">Examples <span class="badge">${{t.examples.length}}</span></div>
-      ${{t.examples.map(e=>`<div class="detail-text" style="padding:3px 0;border-bottom:1px solid #f0f0f0">${{esc(e)}}</div>`).join('')}}
-    </div>`;
-  }}
+  const exs = t.examples || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Examples <span class="badge">${{exs.length}}</span></div>
+    ${{exs.length ? exs.map(e=>`<div class="detail-text" style="padding:3px 0;border-bottom:1px solid #f0f0f0">${{esc(e)}}</div>`).join('') : '<div class="empty-message">No examples.</div>'}}
+  </div>`;
 
-  if ((t.CASE_output_classes||[]).length) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">CASE Output Classes</div>
-      <div class="detail-tags">${{t.CASE_output_classes.map(c=>`<span class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem">${{esc(c)}}</span>`).join('')}}</div>
-    </div>`;
-  }}
+  const cin = t.CASE_input_classes || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">CASE Input Classes <span class="badge">${{cin.length}}</span></div>
+    ${{cin.length ? `<div class="detail-tags">${{cin.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE input classes.</div>'}}
+  </div>`;
+
+  const cout = t.CASE_output_classes || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">CASE Output Classes <span class="badge">${{cout.length}}</span></div>
+    ${{cout.length ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE output classes.</div>'}}
+  </div>`;
 
   // Sub-techniques
-  if ((t.subtechniques||[]).length) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">Sub-techniques <span class="badge">${{t.subtechniques.length}}</span></div>
-      <div class="detail-list">
-        ${{t.subtechniques.map(sid => {{
-          const st = TMap[sid];
-          return `<div class="detail-row" data-show-id="${{esc(sid)}}" data-show-type="technique">
-            <span class="detail-row-id t">${{esc(sid)}}</span>
-            <span class="detail-row-name">${{esc(st ? st.name : sid)}}</span>
-          </div>`;
-        }}).join('')}}
-      </div>
-    </div>`;
-  }}
+  const subs = t.subtechniques || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Sub-techniques <span class="badge">${{subs.length}}</span></div>
+    ${{!subs.length ? '<div class="empty-message">No sub-techniques.</div>' : ''}}
+    <div class="detail-list">
+      ${{subs.map(sid => {{
+        const st = TMap[sid];
+        return `<div class="detail-row" data-show-id="${{esc(sid)}}" data-show-type="technique">
+          <span class="detail-row-id t">${{esc(sid)}}</span>
+          <span class="detail-row-name">${{esc(st ? st.name : sid)}}</span>
+        </div>`;
+      }}).join('')}}
+    </div>
+  </div>`;
 
   // Weaknesses
   const wids = t.weaknesses || [];
@@ -1663,12 +1806,11 @@ function buildTechniqueDetail(t) {{
   </div>`;
 
   // References
-  if ((t.references||[]).length) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">References <span class="badge">${{t.references.length}}</span></div>
-      ${{t.references.map(r => `<div class="ref-item">${{esc(r)}}</div>`).join('')}}
-    </div>`;
-  }}
+  const refs = t.references || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">References <span class="badge">${{refs.length}}</span></div>
+    ${{refs.length ? refs.map(r => `<div class="ref-item">${{linkify(r)}}</div>`).join('') : '<div class="empty-message">No references.</div>'}}
+  </div>`;
 
   return html;
 }}
@@ -1677,14 +1819,12 @@ function buildWeaknessDetail(w) {{
   let html = updateBtn('weakness', w);
 
   const cats = wCats(w);
-  if (cats.length) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">Error Categories</div>
-      <div class="cat-grid">
-        ${{cats.map(c => `<span class="cat-tag" style="font-size:.78rem;padding:4px 10px">${{esc(c)}}<br><small style="font-weight:400;font-family:var(--font-body)">${{esc(CAT_LABELS[c]||'')}}</small></span>`).join('')}}
-      </div>
-    </div>`;
-  }}
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Error Categories <span class="badge">${{cats.length}}</span></div>
+    ${{cats.length ? `<div class="cat-grid">
+      ${{cats.map(c => `<span class="cat-tag" style="font-size:.78rem;padding:4px 10px">${{esc(c)}}<br><small style="font-weight:400;font-family:var(--font-body)">${{esc(CAT_LABELS[c]||'')}}</small></span>`).join('')}}
+    </div>` : '<div class="empty-message">No error categories.</div>'}}
+  </div>`;
 
   // Techniques that include this weakness
   const tids = IDX.weakness_to_techniques[w.id] || [];
@@ -1718,12 +1858,11 @@ function buildWeaknessDetail(w) {{
     </div>
   </div>`;
 
-  if ((w.references||[]).length) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">References <span class="badge">${{w.references.length}}</span></div>
-      ${{w.references.map(r => `<div class="ref-item">${{esc(r)}}</div>`).join('')}}
-    </div>`;
-  }}
+  const wrefs = w.references || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">References <span class="badge">${{wrefs.length}}</span></div>
+    ${{wrefs.length ? wrefs.map(r => `<div class="ref-item">${{linkify(r)}}</div>`).join('') : '<div class="empty-message">No references.</div>'}}
+  </div>`;
 
   return html;
 }}
@@ -1769,22 +1908,19 @@ function buildMitigationDetail(m) {{
     </div>
   </div>`;
 
-  if (m.technique) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">Implemented By Technique</div>
-      <div class="detail-row" data-show-id="${{esc(m.technique)}}" data-show-type="technique">
-        <span class="detail-row-id t">${{esc(m.technique)}}</span>
-        <span class="detail-row-name">${{esc(TMap[m.technique] ? TMap[m.technique].name : m.technique)}}</span>
-      </div>
-    </div>`;
-  }}
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Implemented By Technique</div>
+    ${{m.technique ? `<div class="detail-row" data-show-id="${{esc(m.technique)}}" data-show-type="technique">
+      <span class="detail-row-id t">${{esc(m.technique)}}</span>
+      <span class="detail-row-name">${{esc(TMap[m.technique] ? TMap[m.technique].name : m.technique)}}</span>
+    </div>` : '<div class="empty-message">No linked technique.</div>'}}
+  </div>`;
 
-  if ((m.references||[]).length) {{
-    html += `<div class="detail-section">
-      <div class="detail-section-title">References <span class="badge">${{m.references.length}}</span></div>
-      ${{m.references.map(r => `<div class="ref-item">${{esc(r)}}</div>`).join('')}}
-    </div>`;
-  }}
+  const mrefs = m.references || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">References <span class="badge">${{mrefs.length}}</span></div>
+    ${{mrefs.length ? mrefs.map(r => `<div class="ref-item">${{linkify(r)}}</div>`).join('') : '<div class="empty-message">No references.</div>'}}
+  </div>`;
 
   return html;
 }}
@@ -1927,7 +2063,7 @@ function switchView(view, skipHash) {{
   S.view = view;
   S.selected = null;
   closeDetail(true);
-  if (!skipHash) history.replaceState(null, '', view === 'techniques' ? location.pathname : '#' + view);
+  if (!skipHash) history.replaceState(null, '', view === 'matrix' ? location.pathname : '#' + view);
 
   document.querySelectorAll('.topnav-tab').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.view === view));
@@ -1935,6 +2071,7 @@ function switchView(view, skipHash) {{
   document.querySelectorAll('.view').forEach(el =>
     el.classList.toggle('hidden', el.id !== `view-${{view}}`));
 
+  document.getElementById('fb-matrix').style.display      = view === 'matrix'      ? 'flex' : 'none';
   document.getElementById('fb-techniques').style.display  = view === 'techniques'  ? 'flex' : 'none';
   document.getElementById('fb-weaknesses').style.display  = view === 'weaknesses'  ? 'flex' : 'none';
   document.getElementById('fb-mitigations').style.display = view === 'mitigations' ? 'flex' : 'none';
@@ -1945,7 +2082,8 @@ function switchView(view, skipHash) {{
 
 // ── Main render dispatcher ────────────────────────────────────────────
 function render() {{
-  if (S.view === 'techniques')  renderMatrix();
+  if (S.view === 'matrix')      renderMatrix();
+  if (S.view === 'techniques')  renderTechniquesTable();
   if (S.view === 'weaknesses')  renderWeaknesses();
   if (S.view === 'mitigations') renderMitigations();
   if (S.view === 'references')  renderReferences();
@@ -1962,6 +2100,37 @@ document.querySelectorAll('[data-tf]').forEach(btn =>
     S.tf = btn.dataset.tf;
     render();
   }}));
+
+document.querySelectorAll('[data-t2f]').forEach(btn =>
+  btn.addEventListener('click', () => {{
+    document.querySelectorAll('[data-t2f]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    S.t2f = btn.dataset.t2f;
+    render();
+  }}));
+
+document.querySelectorAll('[data-t2t]').forEach(btn =>
+  btn.addEventListener('click', () => {{
+    document.querySelectorAll('[data-t2t]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    S.t2t = btn.dataset.t2t;
+    render();
+  }}));
+
+// Populate objective dropdown
+(function() {{
+  const sel = document.getElementById('t2-obj-filter');
+  DB.objectives.forEach((obj, idx) => {{
+    const opt = document.createElement('option');
+    opt.value = String(idx);
+    opt.textContent = (idx + 1) + '. ' + obj.name;
+    sel.appendChild(opt);
+  }});
+  sel.addEventListener('change', () => {{
+    S.t2o = sel.value;
+    render();
+  }});
+}})();
 
 document.querySelectorAll('[data-wf]').forEach(btn =>
   btn.addEventListener('click', () => {{
@@ -2075,7 +2244,7 @@ function handleHash() {{
   const hash = location.hash.slice(1);
   if (!hash) return;
   // Tab views
-  if (['techniques','weaknesses','mitigations','references'].includes(hash)) {{
+  if (['matrix','techniques','weaknesses','mitigations','references'].includes(hash)) {{
     switchView(hash, true);
     return;
   }}
@@ -2088,7 +2257,7 @@ function handleHash() {{
     const map = {{technique:TMap, weakness:WMap, mitigation:MMap}};
     if (map[type][hash]) {{
       // Switch to the right tab first
-      const viewMap = {{technique:'techniques', weakness:'weaknesses', mitigation:'mitigations'}};
+      const viewMap = {{technique:'matrix', weakness:'weaknesses', mitigation:'mitigations'}};
       switchView(viewMap[type], true);
       showDetail(hash, type, true);
     }}

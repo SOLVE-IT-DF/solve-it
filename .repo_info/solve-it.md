@@ -32,7 +32,7 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 - 🟢 [T1005 - Conduct a search of a crime scene](md_content/T1005.md)
 - 🟡 [T1006 - Digital sniffer dogs](md_content/T1006.md)
-- 🟢 [T1007 - SyncTriage-based approach](md_content/T1007.md)
+- 🟢 [T1007 - Use a SyncTriage-based approach to detect existence of devices](md_content/T1007.md)
 - 🔴 [T1008 - Profiling network traffic](md_content/T1008.md)
 - 🔴 [T1009 - Locate cloud account identifiers](md_content/T1009.md)
 <a id="prioritize-digital-evidence-sources"></a>
@@ -46,8 +46,8 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 - 🟢 [T1010 - Place device in faraday environment](md_content/T1010.md)
 - 🔴 [T1011 - Store seized devices in evidence bags](md_content/T1011.md)
-- 🟢 [T1012 - Hardware write blockers](md_content/T1012.md)
-- 🔴 [T1013 - Software write blockers](md_content/T1013.md)
+- 🟢 [T1012 - Connect storage medium via hardware write blocker](md_content/T1012.md)
+- 🔴 [T1013 - Use software write blockers to provide read only access to storage media](md_content/T1013.md)
 - 🟡 [T1110 - Preserving reference data](md_content/T1110.md)
 <a id="acquire-data"></a>
 ### Acquire data
@@ -55,7 +55,7 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 - 🟢 [T1002 - Disk imaging](md_content/T1002.md)
 - 🟢 [T1003 - Memory imaging](md_content/T1003.md)
-- 🟢 [T1004 - Selective data acquisition](md_content/T1004.md)
+- 🟢 [T1004 - Selective file acquisition](md_content/T1004.md)
 - 🟢 [T1015 - Privacy preserving selective extraction](md_content/T1015.md)
 - 🟢 [T1016 - Live data collection](md_content/T1016.md)
 - 🔴 [T1017 - Network packet capture](md_content/T1017.md)
@@ -67,7 +67,7 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - 🟢 [T1025 - Writing data to a forensic image format](md_content/T1025.md)
 - 🟢 [T1026 - Writing data to standard archive format](md_content/T1026.md)
 - 🔴 [T1028 - Chip-off](md_content/T1028.md)
-- 🔴 [T1029 - Data read from desoldered eMMC](md_content/T1029.md)
+- 🔴 [T1029 - Access data from a desoldered eMMC via a chip reader](md_content/T1029.md)
 - 🔴 [T1030 - Data read from unmanaged NAND](md_content/T1030.md)
 - 🔴 [T1104 - Collect data using open source intelligence](md_content/T1104.md)
 - 🟡 [T1111 - Recording system clock offset](md_content/T1111.md)
@@ -265,4 +265,4 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 ---
 
-*Markdown generated: 2026-02-23 02:06:38*
+*Markdown generated: 2026-02-23 02:07:16*

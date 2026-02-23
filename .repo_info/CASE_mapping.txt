@@ -1,34 +1,39 @@
 ID	Name
 T1000	Placeholder	
 T1001	Triage	
-			Output: https://cacontology.projectvic.org/forensics#priorityClassification
+			Input: https://ontology.solveit-df.org/solveit/observable/DeviceSet
+			Output: https://ontology.solveit-df.org/solveit/observable/PrioritizedDeviceSet
 T1002	Disk imaging	
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
+			Input: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
+			Input: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
+			Output: https://ontology.solveit-df.org/solveit/observable/BitstreamData
 T1003	Memory imaging	
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
-T1004	Selective data acquisition	
+			Input: https://ontology.unifiedcyberontology.org/uco/observable/Memory
+			Output: https://ontology.solveit-df.org/solveit/observable/RawImageFile
+			Output: https://ontology.solveit-df.org/solveit/observable/RawImageInfoFile
+T1004	Selective file acquisition	
+			Input: https://ontology.unifiedcyberontology.org/uco/observable/FileSystem
+			Output: https://ontology.solveit-df.org/solveit/observable/FilteredFileSet
+			Output: https://ontology.solveit-df.org/solveit/observable/ForensicImageContainer
 T1005	Conduct a search of a crime scene	
+			Output: https://ontology.solveit-df.org/solveit/observable/DeviceSet
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Device
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/Computer
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/SmartDevice
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/WearableDevice
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/location
 T1006	Digital sniffer dogs	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/location
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Device
-T1007	SyncTriage-based approach	
+T1007	Use a SyncTriage-based approach to detect existence of devices	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Device
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/Computer
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/SmartDevice
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/WearableDevice
 T1008	Profiling network traffic	
 T1009	Locate cloud account identifiers	
 T1010	Place device in faraday environment	
 T1011	Store seized devices in evidence bags	
-T1012	Hardware write blockers	
-T1013	Software write blockers	
+T1012	Connect storage medium via hardware write blocker	
+			Input: https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium
+			Output: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
+T1013	Use software write blockers to provide read only access to storage media	
+			Input: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
+			Output: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
 T1014	Chain of custody documentation	
 T1015	Privacy preserving selective extraction	
 T1016	Live data collection	
@@ -55,13 +60,16 @@ T1023	Cloud data collection to access data via a live web page using credentials
 T1024	Cloud data collection via submission of request to service provider	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
 T1025	Writing data to a forensic image format	
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
+			Input: https://ontology.solveit-df.org/solveit/observable/BitstreamData
+			Input: https://ontology.solveit-df.org/solveit/observable/FileSet
+			Output: https://ontology.solveit-df.org/solveit/observable/ForensicImageContainer
+			Output: https://ontology.solveit-df.org/solveit/observable/RawImageFile
 T1026	Writing data to standard archive format	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
 T1027	Data read using JTAG	
 T1028	Chip-off	
-T1029	Data read from desoldered eMMC	
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
+T1029	Access data from a desoldered eMMC via a chip reader	
+			Output: https://ontology.solveit-df.org/solveit/observable/BitstreamData
 T1030	Data read from unmanaged NAND	
 T1031	Key recovery from memory	
 			Output: https://ontology.solveit-df.org/solveit/observable/DecryptionKey
@@ -276,10 +284,11 @@ T1111	Recording system clock offset
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/systemTime
 			Output: https://ontology.solveit-df.org/solveit/observable/ClockOffset
 T1112	Physical disk identification and removal	
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/Disk
+			Input: https://ontology.unifiedcyberontology.org/uco/observable/Computer
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium
 T1113	Access internal storage via bootable environment	
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/BlockDeviceNode
+			Input: https://ontology.unifiedcyberontology.org/uco/observable/Computer
+			Output: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
 T1114	Memory Acquisition via Cold Boot Attack	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
 T1115	Visualisation of geolocation information	

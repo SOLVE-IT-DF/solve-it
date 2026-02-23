@@ -3,18 +3,18 @@ Find potential digital evidence sources	T1005	Conduct a search of a crime scene
 Find potential digital evidence sources	T1006	Digital sniffer dogs
 Find potential digital evidence sources	T1009	Locate cloud account identifiers
 Find potential digital evidence sources	T1008	Profiling network traffic
-Find potential digital evidence sources	T1007	SyncTriage-based approach
+Find potential digital evidence sources	T1007	Use a SyncTriage-based approach to detect existence of devices
 Prioritize digital evidence sources	T1001	Triage
 Preserve digital evidence	T1011	Store seized devices in evidence bags
 Preserve digital evidence	T1010	Place device in faraday environment
-Preserve digital evidence	T1012	Hardware write blockers
-Preserve digital evidence	T1013	Software write blockers
+Preserve digital evidence	T1012	Connect storage medium via hardware write blocker
+Preserve digital evidence	T1013	Use software write blockers to provide read only access to storage media
 Preserve digital evidence	T1110	Preserving reference data
 Acquire data	T1112	Physical disk identification and removal
 Acquire data	T1113	Access internal storage via bootable environment
 Acquire data	T1111	Recording system clock offset
 Acquire data	T1028	Chip-off
-Acquire data	T1029	Data read from desoldered eMMC
+Acquire data	T1029	Access data from a desoldered eMMC via a chip reader
 Acquire data	T1030	Data read from unmanaged NAND
 Acquire data	T1002	Disk imaging
 Acquire data	T1003	Memory imaging
@@ -27,7 +27,7 @@ Acquire data	T1024	Cloud data collection via submission of request to service pr
 Acquire data	T1018	Remote data collection
 Acquire data	T1017	Network packet capture
 Acquire data	T1104	Collect data using open source intelligence
-Acquire data	T1004	Selective data acquisition
+Acquire data	T1004	Selective file acquisition
 Acquire data	T1015	Privacy preserving selective extraction
 Acquire data	T1025	Writing data to a forensic image format
 Acquire data	T1026	Writing data to standard archive format

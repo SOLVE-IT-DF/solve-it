@@ -2,16 +2,16 @@ ID	Name
 T1001	Triage	
 T1002	Disk imaging	
 T1003	Memory imaging	
-T1004	Selective data acquisition	
+T1004	Selective file acquisition	
 T1005	Conduct a search of a crime scene	
 T1006	Digital sniffer dogs	
-T1007	SyncTriage-based approach	
+T1007	Use a SyncTriage-based approach to detect existence of devices	
 T1008	Profiling network traffic	
 T1009	Locate cloud account identifiers	
 T1010	Place device in faraday environment	
 T1011	Store seized devices in evidence bags	
-T1012	Hardware write blockers	
-T1013	Software write blockers	
+T1012	Connect storage medium via hardware write blocker	
+T1013	Use software write blockers to provide read only access to storage media	
 T1014	Chain of custody documentation	
 T1015	Privacy preserving selective extraction	
 T1016	Live data collection	
@@ -27,7 +27,7 @@ T1025	Writing data to a forensic image format
 T1026	Writing data to standard archive format	
 T1027	Data read using JTAG	
 T1028	Chip-off	
-T1029	Data read from desoldered eMMC	
+T1029	Access data from a desoldered eMMC via a chip reader	
 T1030	Data read from unmanaged NAND	
 T1031	Key recovery from memory	
 T1032	Side channel	

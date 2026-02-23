@@ -176,11 +176,14 @@ if __name__ == '__main__':
 
             # process subtechniques too
             for each_sub_id in t.get('subtechniques'):
-                s = kb.get_technique(each_sub_id)                
+                s = kb.get_technique(each_sub_id)        
+                if s is None:
+                    print(f"Subtechnique '{each_sub_id}' (from {each_technique_id}) not found")
+                    sys.exit(-1)                
                 techniques_sorted_sheet.write_string(i, 0, each_objective.get('name'))
                 techniques_sorted_sheet.write_url(i, 1, 'internal:{}!A1'.format(each_sub_id), string=each_sub_id + '(s)')
-                techniques_sorted_sheet.write_string(i, 2, kb.get_technique(each_sub_id).get('name'))
-                techniques_sorted_sheet.write_string(i, 3, kb.get_technique(each_sub_id).get('description'))            
+                techniques_sorted_sheet.write_string(i, 2, s.get('name'))
+                techniques_sorted_sheet.write_string(i, 3, s.get('description'))            
                 i = i + 1
 
     print("- populated 'all techniques (sorted)' worksheet")

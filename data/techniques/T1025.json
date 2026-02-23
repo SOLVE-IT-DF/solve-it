@@ -1,16 +1,20 @@
 {
     "id": "T1025",
     "name": "Writing data to a forensic image format",
-    "description": "Storage of data recovered from a digital device. Popular formats are RAW, EWF, AFF4 and some proprietary logical formats from other tool vendors. ",
+    "description": "Storage of data recovered from a digital device in various formats which might include bitstream data or a logical set of files",
     "synonyms": ["Disk image container", "image file"],
-    "details": "Formats:\n\nRaw: \n\nEWF:\n\nAFF: \n\n\nThe imaged data may be split into several linked container formats. e.g. e01, e02 e03 etc.",
+    "details": "Bitstream data that would result from disk imaging would be stored in formats such as: RAW, EWF, AFF4. For sets of files that are extracted there are proprietary logical formats from tool vendors. The imaged data may be split into several linked container formats. e.g. e01, e02 e03 etc.",
     "subtechniques": [],
     "examples": ["2009 M57-Jean - Data is supplied as a ‘multi-volume Expert Witness file’ - i.e. split EnCase E01 & E02 image files (https://digitalcorpora.org/corpora/scenarios/m57-jean/)",
     "FTK Imager: This tool can be used to acquire data from block devices in various image formats including RAW, EWF, and AFF",
     "Magnet Acquire: This tool can be used to acquire data from block devices in various image formats including RAW and EWF.",
     "libewf: This open source library allows access to the EWF format. The accompanying ewftools proves tools to verify, inspect and create EWF images. "],
     "weaknesses": ["W1043"],
-    "CASE_input_classes" : [],
-    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Image"],
-    "references": ["todo"]
+    "CASE_input_classes" : ["https://ontology.solveit-df.org/solveit/observable/BitstreamData",
+                            "https://ontology.solveit-df.org/solveit/observable/FileSet"],
+    "CASE_output_classes" : [
+                             "https://ontology.solveit-df.org/solveit/observable/ForensicImageContainer",
+                             "https://ontology.solveit-df.org/solveit/observable/RawImageFile"                             
+                            ],
+    "references": []
 }

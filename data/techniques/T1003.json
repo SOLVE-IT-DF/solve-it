@@ -3,11 +3,13 @@
     "name": "Memory imaging",
     "description": "Involves creating a copy of the live memory data of a running system",
     "synonyms": ["RAM dump", "RAM imaging", "memory dump"],
-    "details": "",
+    "details": "Collection of Pagefile may also be useful (Kornblum 2007).",
     "subtechniques": [],
-    "examples": ["FTK Imager - Can capture both RAM and the pagefile of the system"],
+    "examples": ["FTK Imager"],
     "weaknesses": ["W1029", "W1030", "W1031", "W1032", "W1033"],
-    "CASE_input_classes" : [],
-    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Image"],
-    "references": ["Case, A. and Richard III, G. G., 2017. Memory forensics: The path forward. Digital investigation, 20, 23-33.","Latzo, T., Palutke, R. and Freiling, F., 2019. A universal taxonomy and survey of forensic memory acquisition techniques. Digital Investigation, 28, 56-69."]
+    "CASE_input_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Memory"],
+    "CASE_output_classes" : ["https://ontology.solveit-df.org/solveit/observable/RawImageFile",
+                             "https://ontology.solveit-df.org/solveit/observable/RawImageInfoFile"],
+    "references": ["Case, A. and Richard III, G. G., 2017. Memory forensics: The path forward. Digital investigation, 20, 23-33.","Latzo, T., Palutke, R. and Freiling, F., 2019. A universal taxonomy and survey of forensic memory acquisition techniques. Digital Investigation, 28, 56-69.",
+                   "Kornblum, J.D., 2007. Using every part of the buffalo in Windows memory analysis. Digital Investigation, 4(1), pp.24-29."]
 }

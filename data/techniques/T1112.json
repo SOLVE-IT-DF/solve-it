@@ -7,8 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1174", "W1175", "W1176"],
-    "CASE_input_classes" : [],
-    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Disk",
-                             "https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium"],
+    "CASE_input_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Computer"],
+    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium"],
     "references": []
 }

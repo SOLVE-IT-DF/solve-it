@@ -280,7 +280,7 @@ def save_graph(g, output_dir, format_type='both'):
         output_dir: Directory path to write files
         format_type: 'ttl', 'jsonld', or 'both'
     """
-    output_path = Path(output_dir)
+    output_path = Path(output_dir).resolve()
     output_path.mkdir(parents=True, exist_ok=True)
 
     if format_type in ['ttl', 'both']:

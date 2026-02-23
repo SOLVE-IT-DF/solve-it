@@ -7,6 +7,7 @@ import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from solve_it_library import KnowledgeBase, SOLVEITDataError
+from solve_it_library.ontology_utils import OntologyLookup, SOLVEIT_ONTOLOGY_DEFAULT_URL
 
 
 def main():
@@ -15,6 +16,14 @@ def main():
     parser = argparse.ArgumentParser(description="Generate a Markdown version of the SOLVE-IT knowledge base")
     parser.add_argument('-o', action='store', type=str, dest='output_file',
                         help="output path for markdown file.")
+    parser.add_argument('--ontology-path', type=str, dest='ontology_path',
+                        default=os.environ.get('SOLVEIT_ONTOLOGY_PATH'),
+                        help="path to local solve-it-ontology repository (or set SOLVEIT_ONTOLOGY_PATH env var)")
+    parser.add_argument('--ontology-url', type=str, dest='ontology_url',
+                        nargs='?', const=SOLVEIT_ONTOLOGY_DEFAULT_URL,
+                        help="URL base for SOLVE-IT ontology TTL files (defaults to GitHub main branch if no URL given)")
+    parser.add_argument('--load-case-uco', action='store_true', dest='load_case_uco',
+                        help="also download and cache CASE/UCO ontology modules")
     args = parser.parse_args()
 
 
@@ -51,11 +60,26 @@ def main():
     # Create subfolder for technique, weakness, and mitigation files
     os.makedirs(os.path.join(out_folder, "md_content"), exist_ok=True)
 
+    # Load ontology for class enrichment (optional)
+    ontology = None
+    if args.ontology_path or args.ontology_url:
+        try:
+            ontology = OntologyLookup(
+                solve_it_ontology_path=args.ontology_path,
+                solve_it_ontology_url=args.ontology_url,
+                load_case_uco=args.load_case_uco,
+            )
+            print(f"Ontology loaded: {len(ontology.graph)} triples")
+        except Exception as e:
+            logging.warning(f"Failed to load ontology, continuing without enrichment: {e}")
+    else:
+        print("No --ontology-path or --ontology-url provided, skipping ontology enrichment for CASE classes.")
+
     # This section does the MD generation:
 
     create_main_markdown(kb, outpath)
 
-    write_all_technique_files(kb, outpath)
+    write_all_technique_files(kb, outpath, ontology=ontology)
     write_all_weakness_files(kb, outpath)
     write_all_mitigation_files(kb, outpath)
 
@@ -153,7 +177,7 @@ def create_main_markdown(kb, outpath):
         mdfile.write(f"*Markdown generated: {generation_time}*\n")
 
 
-def write_all_technique_files(kb, outpath):
+def write_all_technique_files(kb, outpath, ontology=None):
     generation_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     for each_technique_id in kb.list_techniques():
@@ -211,12 +235,20 @@ def write_all_technique_files(kb, outpath):
                 technique_md_file.write(f"**Input Classes:**\n\n")
                 for each_case_class in technique.get('CASE_input_classes'):
                     technique_md_file.write(f"- [{each_case_class}]({each_case_class})\n")
+                    if ontology:
+                        details_md = ontology.format_markdown_details(each_case_class)
+                        if details_md:
+                            technique_md_file.write(f"{details_md}\n")
                 technique_md_file.write(f"\n\n")
 
             if kb.should_display_field('CASE_output_classes'):
                 technique_md_file.write(f"**Output Classes:**\n\n")
                 for each_case_class in technique.get('CASE_output_classes'):
                     technique_md_file.write(f"- [{each_case_class}]({each_case_class})\n")
+                    if ontology:
+                        details_md = ontology.format_markdown_details(each_case_class)
+                        if details_md:
+                            technique_md_file.write(f"{details_md}\n")
                 technique_md_file.write(f"\n\n")
 
             if kb.should_display_field('weaknesses'):

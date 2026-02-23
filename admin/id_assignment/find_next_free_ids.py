@@ -16,9 +16,9 @@ from typing import Set, Dict, List, Tuple
 
 class IDScanner:
     def __init__(self, project_root: str = None):
-        # If no project_root specified, assume we're in reporting_scripts and go up one level
+        # If no project_root specified, go up to the repo root
         if project_root is None:
-            project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         self.project_root = project_root
         self.technique_ids: Set[int] = set()
         self.mitigation_ids: Set[int] = set()

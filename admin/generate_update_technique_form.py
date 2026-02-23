@@ -100,6 +100,18 @@ def main():
     lines.append("        Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).")
     lines.append("      render: text")
 
+    # --- CASE input classes ---
+    lines.append("  - type: textarea")
+    lines.append("    id: case-input")
+    lines.append("    attributes:")
+    lines.append("      label: CASE input classes")
+    lines.append("      description: |")
+    lines.append("        The complete new list of CASE input classes (one per line).")
+    lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
+    lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
+    lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
+    lines.append("      render: text")
+
     # --- CASE output classes ---
     lines.append("  - type: textarea")
     lines.append("    id: case-output")

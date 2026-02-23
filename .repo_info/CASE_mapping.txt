@@ -1,5 +1,4 @@
 ID	Name
-T1000	Placeholder	
 T1001	Triage	
 			Input: https://ontology.solveit-df.org/solveit/observable/DeviceSet
 			Output: https://ontology.solveit-df.org/solveit/observable/PrioritizedDeviceSet

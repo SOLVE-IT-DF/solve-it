@@ -40,6 +40,7 @@ jobs:
         python reporting_scripts/generate_tsv_from_kb.py -c > .repo_info/CASE_mapping.txt
         python reporting_scripts/generate_excel_from_kb.py -o .repo_info/solve-it-latest.xlsx
         python reporting_scripts/generate_md_from_kb.py -o .repo_info/solve-it.md
+        python reporting_scripts/generate_html_from_kb.py --local . --output .repo_info/solveit-viewer.html
     - name: Run these to make sure nothing breaks
       run: |
         python reporting_scripts/generate_evaluation.py -o .repo_info/test_eval.xlxs
@@ -60,6 +61,7 @@ jobs:
         git add .repo_info/CASE_mapping.txt
         git add .repo_info/solve-it-latest.xlsx
         git add .repo_info/solve-it.md
+        git add .repo_info/solveit-viewer.html
         git add .repo_info/md_content/*
         git commit -m "Automated update to .repo_info folder [skip ci]" || echo "No changes to commit"
         git push

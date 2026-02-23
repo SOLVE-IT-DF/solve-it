@@ -27,7 +27,7 @@ jobs:
 
     - name: Generate JSON preview comment
       run: |
-        python3 admin/parse_technique_issue.py \
+        python3 admin/issue_parsers/parse_technique_issue.py \
           --issue-body-file issue_body.md \
           --output comment.md
 
@@ -57,7 +57,7 @@ jobs:
 
     - name: Generate JSON preview comment
       run: |
-        python3 admin/parse_weakness_issue.py \
+        python3 admin/issue_parsers/parse_weakness_issue.py \
           --issue-body-file issue_body.md \
           --output comment.md
 
@@ -87,7 +87,7 @@ jobs:
 
     - name: Generate JSON preview comment
       run: |
-        python3 admin/parse_mitigation_issue.py \
+        python3 admin/issue_parsers/parse_mitigation_issue.py \
           --issue-body-file issue_body.md \
           --output comment.md
 
@@ -120,7 +120,7 @@ jobs:
 
     - name: Generate update preview comment
       run: |
-        python3 admin/parse_update_technique_issue.py \
+        python3 admin/issue_parsers/parse_update_technique_issue.py \
           --issue-body-file issue_body.md \
           --output comment.md
 
@@ -153,7 +153,7 @@ jobs:
 
     - name: Generate update preview comment
       run: |
-        python3 admin/parse_update_weakness_issue.py \
+        python3 admin/issue_parsers/parse_update_weakness_issue.py \
           --issue-body-file issue_body.md \
           --output comment.md
 
@@ -186,7 +186,7 @@ jobs:
 
     - name: Generate update preview comment
       run: |
-        python3 admin/parse_update_mitigation_issue.py \
+        python3 admin/issue_parsers/parse_update_mitigation_issue.py \
           --issue-body-file issue_body.md \
           --output comment.md
 

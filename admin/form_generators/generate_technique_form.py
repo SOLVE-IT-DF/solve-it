@@ -11,12 +11,12 @@ Usage:
 import os
 import sys
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from solve_it_library import KnowledgeBase
 
 
 def main():
-    base_path = os.path.join(os.path.dirname(__file__), '..')
+    base_path = os.path.join(os.path.dirname(__file__), '..', '..')
     kb = KnowledgeBase(base_path, 'solve-it.json')
 
     # Collect objectives
@@ -156,7 +156,7 @@ def main():
     lines.append("      description: Any additional information or context you'd like to provide.")
 
     # Write output
-    output_path = os.path.join(base_path, '.github', 'ISSUE_TEMPLATE', 'propose-new-technique-form.yml')
+    output_path = os.path.join(base_path, '.github', 'ISSUE_TEMPLATE', '1a_propose-new-technique-form.yml')
     with open(output_path, 'w') as f:
         f.write('\n'.join(lines) + '\n')
 

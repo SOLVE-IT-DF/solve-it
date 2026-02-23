@@ -1,4 +1,4 @@
-name: "Update Mitigation"
+name: "Update Mitigation (Form)"
 description: Propose changes to an existing mitigation
 title: "Update mitigation: [Mxxxx]"
 labels: ["content: update mitigation", "form input"]
@@ -8,8 +8,8 @@ body:
       value: |
         ## Update an existing mitigation
         Use this form to propose changes to an existing mitigation.
-        **Leave fields blank to keep current values.** 
-        Existing mitigations can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).
+        **Leave fields blank to keep current values.** Only fill in fields you want to change.
+        Existing mitigations (M1001–M1239) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).
   - type: input
     id: mitigation-id
     attributes:

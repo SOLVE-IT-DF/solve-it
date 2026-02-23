@@ -16,7 +16,7 @@ import os
 import re
 import sys
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from parse_technique_issue import parse_issue_body, lines_to_list
 from update_utils import is_no_response, build_error_comment, build_update_comment
@@ -94,7 +94,7 @@ def main():
         sys.exit(1)
 
     # Load from knowledge base
-    base_path = os.path.join(os.path.dirname(__file__), '..')
+    base_path = os.path.join(os.path.dirname(__file__), '..', '..')
     kb = KnowledgeBase(base_path, 'solve-it.json')
     current = kb.get_technique(technique_id)
 

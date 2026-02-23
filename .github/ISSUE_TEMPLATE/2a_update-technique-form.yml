@@ -1,4 +1,4 @@
-name: "Update Technique"
+name: "Update Technique (Form)"
 description: Propose changes to an existing technique
 title: "Update technique: [Txxxx]"
 labels: ["content: update technique", "form input"]
@@ -8,8 +8,8 @@ body:
       value: |
         ## Update an existing technique
         Use this form to propose changes to an existing technique.
-        **Leave fields blank to keep current values.** 
-        Existing techniques can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
+        **Leave fields blank to keep current values.** Only fill in fields you want to change.
+        Existing techniques (T1001–T1163) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
   - type: input
     id: technique-id
     attributes:
@@ -59,6 +59,16 @@ body:
         The complete new list of weakness IDs (one per line, e.g. W1004, W1014).
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
+      render: text
+  - type: textarea
+    id: case-input
+    attributes:
+      label: CASE input classes
+      description: |
+        The complete new list of CASE input classes (one per line).
+        Leave blank to keep the current list. If populated, this replaces the entire list.
+        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
+        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.
       render: text
   - type: textarea
     id: case-output

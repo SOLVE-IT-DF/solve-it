@@ -8,12 +8,12 @@ Usage:
 import os
 import sys
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from solve_it_library import KnowledgeBase
 
 
 def main():
-    base_path = os.path.join(os.path.dirname(__file__), '..')
+    base_path = os.path.join(os.path.dirname(__file__), '..', '..')
     kb = KnowledgeBase(base_path, 'solve-it.json')
 
     # Collect technique IDs for the description text
@@ -142,7 +142,7 @@ def main():
     lines.append("      description: Any additional information or context for the proposed changes.")
 
     # Write output
-    output_path = os.path.join(base_path, '.github', 'ISSUE_TEMPLATE', 'update-technique-form.yml')
+    output_path = os.path.join(base_path, '.github', 'ISSUE_TEMPLATE', '2a_update-technique-form.yml')
     with open(output_path, 'w') as f:
         f.write('\n'.join(lines) + '\n')
 

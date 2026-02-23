@@ -9,7 +9,7 @@ import os
 
 
 def main():
-    base_path = os.path.join(os.path.dirname(__file__), '..')
+    base_path = os.path.join(os.path.dirname(__file__), '..', '..')
 
     lines = []
     lines.append('name: "Propose New Mitigation (Form)"')
@@ -69,7 +69,7 @@ def main():
     lines.append("      description: Any additional information or context you'd like to provide.")
 
     # Write output
-    output_path = os.path.join(base_path, '.github', 'ISSUE_TEMPLATE', 'propose-new-mitigation-form.yml')
+    output_path = os.path.join(base_path, '.github', 'ISSUE_TEMPLATE', '1c_propose-new-mitigation-form.yml')
     with open(output_path, 'w') as f:
         f.write('\n'.join(lines) + '\n')
 

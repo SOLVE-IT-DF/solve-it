@@ -1,4 +1,4 @@
-name: "New Weakness"
+name: "Propose New Weakness (Form)"
 description: Propose a new weakness using a structured form
 title: "Create new weakness: [weakness name]"
 labels: ["content: new weakness", "form input"]
@@ -23,7 +23,7 @@ body:
       label: ASTM error classes
       description: |
         Select all ASTM error classes that apply to this weakness.
-        If this is unclear just leave this section blank.
+        If this is unclear just note if this affects any of the following properties of the results: authenticity, accuracy, completeness.
       options:
         - label: "INCOMP - Incompleteness (e.g. failure to recover live or deleted artefacts, other reasons why an artefact might be missed)"
         - label: "INAC-EX - Inaccuracy: Existence (e.g. presenting an artefact for something that does not exist)"
@@ -35,7 +35,7 @@ body:
     id: existing-mitigations
     attributes:
       label: Existing mitigation IDs
-      description: IDs of any existing mitigations that apply to this weakness (one per line, e.g. M1001, M1012).
+      description: IDs of existing mitigations that apply to this weakness (one per line, e.g. M1001, M1012).
       render: text
   - type: textarea
     id: new-mitigations

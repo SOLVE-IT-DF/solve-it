@@ -8,7 +8,7 @@ body:
       value: |
         ## Update an existing mitigation
         Use this form to propose changes to an existing mitigation.
-        **Leave fields blank to keep current values.** Only fill in fields you want to change.
+        **Leave fields blank to keep current values.** 
         Existing mitigations can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).
   - type: input
     id: mitigation-id

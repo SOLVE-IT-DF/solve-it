@@ -8,7 +8,7 @@ body:
       value: |
         ## Update an existing weakness
         Use this form to propose changes to an existing weakness.
-        **Leave fields blank (or all unchecked) to keep current values.** Only fill in fields you want to change.
+        **Leave fields blank (or all unchecked) to keep current values.** 
         Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
   - type: input
     id: weakness-id

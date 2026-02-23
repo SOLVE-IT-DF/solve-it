@@ -1,4 +1,4 @@
-name: "Propose New Weakness (Form)"
+name: "1b New Weakness"
 description: Propose a new weakness using a structured form
 title: "Create new weakness: [weakness name]"
 labels: ["content: new weakness", "form input"]

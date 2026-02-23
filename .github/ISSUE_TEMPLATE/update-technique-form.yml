@@ -1,4 +1,4 @@
-name: "Update Technique (Form)"
+name: "2a Update Technique"
 description: Propose changes to an existing technique
 title: "Update technique: [Txxxx]"
 labels: ["content: update technique", "form input"]
@@ -9,7 +9,7 @@ body:
         ## Update an existing technique
         Use this form to propose changes to an existing technique.
         **Leave fields blank to keep current values.** Only fill in fields you want to change.
-        Existing techniques (T1000–T1163) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
+        Existing techniques can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
   - type: input
     id: technique-id
     attributes:

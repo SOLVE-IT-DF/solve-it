@@ -1,4 +1,4 @@
-name: "Update Weakness (Form)"
+name: "2b Update Weakness"
 description: Propose changes to an existing weakness
 title: "Update weakness: [Wxxxx]"
 labels: ["content: update weakness", "form input"]
@@ -9,7 +9,7 @@ body:
         ## Update an existing weakness
         Use this form to propose changes to an existing weakness.
         **Leave fields blank (or all unchecked) to keep current values.** Only fill in fields you want to change.
-        Existing weaknesses (W1001–W1276) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
+        Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
   - type: input
     id: weakness-id
     attributes:
@@ -31,7 +31,7 @@ body:
         Select the ASTM error classes that should apply.
         **Leave ALL unchecked to keep current values.** If any are checked, the selection replaces the current set.
       options:
-        - label: "INCOMP - Incompleteness (e.g. failure to recover live or deleted artefacts, other reasons why an artefact might be missed)"
+        - label: "INCOMP - Incompleteness (e.g. failure to recover live or deleted artifacts, other reasons why an artefact might be missed)"
         - label: "INAC-EX - Inaccuracy: Existence (e.g. presenting an artefact for something that does not exist)"
         - label: "INAC-AS - Inaccuracy: Association (e.g. presenting live data as deleted and vice versa)"
         - label: "INAC-ALT - Inaccuracy: Alteration (e.g. modifying the content of some digital data)"

@@ -1,5 +1,5 @@
 ---
-name: "X New Technique (TRWM)"
+name: "New Technique (TRWM)"
 about: Propose a new technique, with a systematic review and worksheet
 title: 'Create new technique: [technique name]'
 labels: 'content: new technique'

@@ -1,4 +1,4 @@
-name: "2b Update Weakness"
+name: "Update Weakness"
 description: Propose changes to an existing weakness
 title: "Update weakness: [Wxxxx]"
 labels: ["content: update weakness", "form input"]

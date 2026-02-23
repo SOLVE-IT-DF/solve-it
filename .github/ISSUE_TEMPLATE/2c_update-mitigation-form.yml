@@ -1,4 +1,4 @@
-name: "2c Update Mitigation"
+name: "Update Mitigation"
 description: Propose changes to an existing mitigation
 title: "Update mitigation: [Mxxxx]"
 labels: ["content: update mitigation", "form input"]

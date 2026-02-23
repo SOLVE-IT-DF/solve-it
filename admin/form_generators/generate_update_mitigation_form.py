@@ -21,7 +21,7 @@ def main():
     id_range = f"{mitigation_ids[0]}–{mitigation_ids[-1]}" if mitigation_ids else "M1001–M1099"
 
     lines = []
-    lines.append('name: "Update Mitigation (Form)"')
+    lines.append('name: "Update Mitigation"')
     lines.append("description: Propose changes to an existing mitigation")
     lines.append('title: "Update mitigation: [Mxxxx]"')
     lines.append('labels: ["content: update mitigation", "form input"]')

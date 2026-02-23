@@ -21,7 +21,7 @@ def main():
     id_range = f"{technique_ids[0]}–{technique_ids[-1]}" if technique_ids else "T1001–T1099"
 
     lines = []
-    lines.append('name: "Update Technique (Form)"')
+    lines.append('name: "Update Technique"')
     lines.append("description: Propose changes to an existing technique")
     lines.append('title: "Update technique: [Txxxx]"')
     lines.append('labels: ["content: update technique", "form input"]')

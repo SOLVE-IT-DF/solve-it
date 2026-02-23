@@ -1,4 +1,4 @@
-name: "Propose New Technique (Form)"
+name: "Propose New Technique"
 description: Propose a new technique using a structured form
 title: "Create new technique: [technique name]"
 labels: ["content: new technique", "form input"]

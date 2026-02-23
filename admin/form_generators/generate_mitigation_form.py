@@ -12,7 +12,7 @@ def main():
     base_path = os.path.join(os.path.dirname(__file__), '..', '..')
 
     lines = []
-    lines.append('name: "Propose New Mitigation (Form)"')
+    lines.append('name: "Propose New Mitigation"')
     lines.append("description: Propose a new mitigation using a structured form")
     lines.append('title: "Create new mitigation: [mitigation name]"')
     lines.append('labels: ["content: new mitigation", "form input"]')

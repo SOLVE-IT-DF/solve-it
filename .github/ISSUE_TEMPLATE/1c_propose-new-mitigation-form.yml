@@ -1,4 +1,4 @@
-name: "Propose New Mitigation (Form)"
+name: "Propose New Mitigation"
 description: Propose a new mitigation using a structured form
 title: "Create new mitigation: [mitigation name]"
 labels: ["content: new mitigation", "form input"]

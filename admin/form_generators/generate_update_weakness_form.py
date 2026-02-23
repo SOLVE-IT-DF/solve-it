@@ -21,7 +21,7 @@ def main():
     id_range = f"{weakness_ids[0]}–{weakness_ids[-1]}" if weakness_ids else "W1001–W1099"
 
     lines = []
-    lines.append('name: "Update Weakness (Form)"')
+    lines.append('name: "Update Weakness"')
     lines.append("description: Propose changes to an existing weakness")
     lines.append('title: "Update weakness: [Wxxxx]"')
     lines.append('labels: ["content: update weakness", "form input"]')

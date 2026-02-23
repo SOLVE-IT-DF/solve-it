@@ -12,7 +12,7 @@ def main():
     base_path = os.path.join(os.path.dirname(__file__), '..', '..')
 
     lines = []
-    lines.append('name: "Propose New Weakness (Form)"')
+    lines.append('name: "Propose New Weakness"')
     lines.append("description: Propose a new weakness using a structured form")
     lines.append('title: "Create new weakness: [weakness name]"')
     lines.append('labels: ["content: new weakness", "form input"]')

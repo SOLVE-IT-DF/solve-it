@@ -80,6 +80,16 @@ def main():
     lines.append("        Existing mitigations can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).")
     lines.append("      render: text")
 
+    # --- Proposed new mitigations ---
+    lines.append("  - type: textarea")
+    lines.append("    id: new-mitigations")
+    lines.append("    attributes:")
+    lines.append("      label: Propose new mitigations")
+    lines.append("      description: |")
+    lines.append("        Describe new mitigations for this weakness (one per line).")
+    lines.append("        These will be created as new mitigation entries and linked to the weakness.")
+    lines.append("      render: text")
+
     # --- References ---
     lines.append("  - type: textarea")
     lines.append("    id: references")

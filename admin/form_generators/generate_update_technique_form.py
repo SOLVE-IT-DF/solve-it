@@ -100,6 +100,16 @@ def main():
     lines.append("        Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).")
     lines.append("      render: text")
 
+    # --- Proposed new weaknesses ---
+    lines.append("  - type: textarea")
+    lines.append("    id: new-weaknesses")
+    lines.append("    attributes:")
+    lines.append("      label: Propose new weaknesses")
+    lines.append("      description: |")
+    lines.append("        Describe new weaknesses for this technique (one per line, e.g. Imaging process may miss data in hidden areas).")
+    lines.append("        These will be created as new weakness entries and linked to the technique.")
+    lines.append("      render: text")
+
     # --- CASE input classes ---
     lines.append("  - type: textarea")
     lines.append("    id: case-input")

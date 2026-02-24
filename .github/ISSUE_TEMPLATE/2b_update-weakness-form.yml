@@ -47,6 +47,14 @@ body:
         Existing mitigations can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).
       render: text
   - type: textarea
+    id: new-mitigations
+    attributes:
+      label: Propose new mitigations
+      description: |
+        Describe new mitigations for this weakness (one per line).
+        These will be created as new mitigation entries and linked to the weakness.
+      render: text
+  - type: textarea
     id: references
     attributes:
       label: References

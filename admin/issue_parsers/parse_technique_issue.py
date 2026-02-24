@@ -13,6 +13,7 @@ import argparse
 import json
 import re
 import sys
+from urllib.parse import quote, urlencode
 
 
 def parse_issue_body(body):
@@ -87,6 +88,18 @@ def build_technique_json(fields):
     return technique
 
 
+REPO_URL = "https://github.com/SOLVE-IT-DF/solve-it"
+WEAKNESS_TEMPLATE = "1b_propose-new-weakness-form.yml"
+
+
+def build_weakness_link(name, technique_id=None):
+    """Build a pre-filled URL for the 'Propose New Weakness' issue form."""
+    params = {"template": WEAKNESS_TEMPLATE, "weakness-name": name}
+    if technique_id:
+        params["relevant-techniques"] = technique_id
+    return f"{REPO_URL}/issues/new?{urlencode(params, quote_via=quote)}"
+
+
 def build_comment(technique, fields):
     """Build the GitHub comment markdown."""
     lines = []
@@ -96,6 +109,20 @@ def build_comment(technique, fields):
     lines.append("```json")
     lines.append(json.dumps(technique, indent=4))
     lines.append("```")
+
+    # Proposed new weaknesses — generate pre-filled links
+    new_weaknesses = lines_to_list(fields.get("Propose new weaknesses", ""))
+    if new_weaknesses:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append(f"### Proposed new weaknesses ({len(new_weaknesses)})")
+        lines.append("")
+        lines.append("The following new weaknesses were proposed. Click each link to open a pre-filled form:")
+        lines.append("")
+        for w in new_weaknesses:
+            url = build_weakness_link(w)
+            lines.append(f"- [Create weakness: {w}]({url})")
 
     lines.append("\n---")
     lines.append("*This comment was automatically generated. The technique ID (T____) will be assigned during review.*")

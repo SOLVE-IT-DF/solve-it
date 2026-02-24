@@ -18,7 +18,7 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from parse_technique_issue import parse_issue_body, lines_to_list
+from parse_technique_issue import parse_issue_body, lines_to_list, build_weakness_link
 from update_utils import is_no_response, build_error_comment, build_update_comment
 from solve_it_library import KnowledgeBase
 
@@ -105,6 +105,20 @@ def main():
         comment = build_update_comment(
             "Technique", technique_id, current.get("name", ""), current, updated
         )
+
+        # Proposed new weaknesses — generate pre-filled links
+        new_weaknesses = lines_to_list(fields.get("Propose new weaknesses", ""))
+        if new_weaknesses:
+            lines = []
+            lines.append("")
+            lines.append(f"### Proposed new weaknesses ({len(new_weaknesses)})")
+            lines.append("")
+            lines.append("The following new weaknesses were proposed. Click each link to open a pre-filled form:")
+            lines.append("")
+            for w in new_weaknesses:
+                url = build_weakness_link(w, technique_id=technique_id)
+                lines.append(f"- [Create weakness: {w}]({url})")
+            comment += '\n'.join(lines)
 
     if args.output:
         with open(args.output, 'w') as f:

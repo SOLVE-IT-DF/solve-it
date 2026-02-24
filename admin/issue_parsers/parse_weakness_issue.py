@@ -12,6 +12,7 @@ Usage:
 import argparse
 import json
 import sys
+from urllib.parse import quote, urlencode
 
 from parse_technique_issue import parse_issue_body, lines_to_list
 
@@ -48,6 +49,18 @@ def build_weakness_json(fields):
     return weakness
 
 
+REPO_URL = "https://github.com/SOLVE-IT-DF/solve-it"
+MITIGATION_TEMPLATE = "1c_propose-new-mitigation-form.yml"
+
+
+def build_mitigation_link(name, weakness_id=None):
+    """Build a pre-filled URL for the 'Propose New Mitigation' issue form."""
+    params = {"template": MITIGATION_TEMPLATE, "mitigation-name": name}
+    if weakness_id:
+        params["existing-weaknesses"] = weakness_id
+    return f"{REPO_URL}/issues/new?{urlencode(params, quote_via=quote)}"
+
+
 def build_comment(weakness, fields):
     """Build the GitHub comment markdown."""
     lines = []
@@ -57,6 +70,20 @@ def build_comment(weakness, fields):
     lines.append("```json")
     lines.append(json.dumps(weakness, indent=4))
     lines.append("```")
+
+    # Proposed new mitigations — generate pre-filled links
+    new_mitigations = lines_to_list(fields.get("Propose new mitigations", ""))
+    if new_mitigations:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append(f"### Proposed new mitigations ({len(new_mitigations)})")
+        lines.append("")
+        lines.append("The following new mitigations were proposed. Click each link to open a pre-filled form:")
+        lines.append("")
+        for m in new_mitigations:
+            url = build_mitigation_link(m)
+            lines.append(f"- [Create mitigation: {m}]({url})")
 
     lines.append("\n---")
     lines.append("*This comment was automatically generated. The weakness ID (W____) will be assigned during review.*")

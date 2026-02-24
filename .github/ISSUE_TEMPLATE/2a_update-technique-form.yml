@@ -61,6 +61,14 @@ body:
         Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
       render: text
   - type: textarea
+    id: new-weaknesses
+    attributes:
+      label: Propose new weaknesses
+      description: |
+        Describe new weaknesses for this technique (one per line, e.g. Imaging process may miss data in hidden areas).
+        These will be created as new weakness entries and linked to the technique.
+      render: text
+  - type: textarea
     id: case-input
     attributes:
       label: CASE input classes

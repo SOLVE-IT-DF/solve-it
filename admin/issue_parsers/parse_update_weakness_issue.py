@@ -19,6 +19,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from parse_technique_issue import parse_issue_body, lines_to_list
+from parse_weakness_issue import build_mitigation_link
 from update_utils import is_no_response, build_error_comment, build_update_comment
 from solve_it_library import KnowledgeBase
 
@@ -125,6 +126,20 @@ def main():
         comment = build_update_comment(
             "Weakness", weakness_id, current.get("name", ""), current, updated
         )
+
+        # Proposed new mitigations — generate pre-filled links
+        new_mitigations = lines_to_list(fields.get("Propose new mitigations", ""))
+        if new_mitigations:
+            lines = []
+            lines.append("")
+            lines.append(f"### Proposed new mitigations ({len(new_mitigations)})")
+            lines.append("")
+            lines.append("The following new mitigations were proposed. Click each link to open a pre-filled form:")
+            lines.append("")
+            for m in new_mitigations:
+                url = build_mitigation_link(m, weakness_id=weakness_id)
+                lines.append(f"- [Create mitigation: {m}]({url})")
+            comment += '\n'.join(lines)
 
     if args.output:
         with open(args.output, 'w') as f:

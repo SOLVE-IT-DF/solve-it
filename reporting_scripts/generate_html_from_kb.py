@@ -747,12 +747,30 @@ button {{ font-family: inherit; cursor: pointer; }}
 .table-section {{ margin-bottom: 24px; }}
 .table-section-header {{
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
   padding: 0 0 8px;
   border-bottom: 2px solid var(--navy);
   margin-bottom: 8px;
 }}
+.table-section-header .propose-new-btn {{
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: .72rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+}}
+.table-section-header .propose-new-btn:hover {{ background: var(--blue-lt); text-decoration: none; color: #fff; }}
 .table-section-title {{
   font-size: 1rem;
   font-weight: 700;
@@ -1747,6 +1765,7 @@ function renderTechniquesTable() {{
       <div class="table-section-header">
         <span class="table-section-title">All Techniques</span>
         <span class="table-section-count">${{items.length}}</span>
+        <a href="${{REPO_URL}}/issues/new?template=1a_propose-new-technique-form.yml" target="_blank" rel="noopener" class="propose-new-btn">+ Propose New Technique</a>
       </div>
       <table class="attck-table">
         <thead><tr>
@@ -1824,6 +1843,7 @@ function renderWeaknesses() {{
       <div class="table-section-header">
         <span class="table-section-title">${{S.wf.size === CATS.length ? 'All Weaknesses' : S.wf.size === 0 ? 'No Categories Selected' : Array.from(S.wf).map(c => esc(c)).join(' + ')}}</span>
         <span class="table-section-count">${{items.length}}</span>
+        <a href="${{REPO_URL}}/issues/new?template=1b_propose-new-weakness-form.yml" target="_blank" rel="noopener" class="propose-new-btn">+ Propose New Weakness</a>
       </div>
       <table class="attck-table">
         <thead><tr>
@@ -1879,6 +1899,7 @@ function renderMitigations() {{
       <div class="table-section-header">
         <span class="table-section-title">All Mitigations</span>
         <span class="table-section-count">${{items.length}}</span>
+        <a href="${{REPO_URL}}/issues/new?template=1c_propose-new-mitigation-form.yml" target="_blank" rel="noopener" class="propose-new-btn">+ Propose New Mitigation</a>
       </div>
       <table class="attck-table">
         <thead><tr>

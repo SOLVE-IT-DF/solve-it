@@ -1,0 +1,18 @@
+{
+    "id": "T1166",
+    "name": "Connect directly to storage media",
+    "description": "This technique describes the occasions where it is necessary to connect directly to a disk without a hardware write blocker. This would typically then involve a subseqeunt software write blocker, which then presents a write protected interface.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": ["W1277"],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Disk",
+        "https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ReadWriteDeviceInterface"
+    ],
+    "references": []
+}

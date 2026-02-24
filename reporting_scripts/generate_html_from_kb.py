@@ -154,7 +154,7 @@ def extract_git_credits(repo_root: Path) -> dict:
     for category in ("techniques", "weaknesses", "mitigations"):
         try:
             result = subprocess.run(
-                ["git", "log", f"--format={commit_sep}%H|%an|%s", "--name-only",
+                ["git", "log", f"--format={commit_sep}%H|%an|%aI|%s", "--name-only",
                  "--diff-merges=first-parent", "--", f"data/{category}/"],
                 capture_output=True, text=True, cwd=str(repo_root), timeout=30,
             )
@@ -164,23 +164,24 @@ def extract_git_credits(repo_root: Path) -> dict:
             continue
 
         current_author = ""
+        current_date = ""
         commit_role = None  # "reviewer", "contributor", or None (skip)
         for line in result.stdout.splitlines():
             if line.startswith(commit_sep):
-                parts = line[len(commit_sep):].split("|", 2)
-                if len(parts) == 3:
+                parts = line[len(commit_sep):].split("|", 3)
+                if len(parts) == 4:
                     current_author = parts[1].strip()
-                    subject = parts[2].strip()
+                    current_date = parts[2].strip()[:10]  # YYYY-MM-DD
+                    subject = parts[3].strip()
                     if merge_pr_re.match(subject):
                         commit_role = "reviewer"
                     elif merge_branch_re.match(subject):
-                        # Branch sync merges (e.g. "Merge branch 'main' into feature")
-                        # are not contributions or reviews — skip entirely
                         commit_role = None
                     else:
                         commit_role = "contributor"
                 else:
                     current_author = ""
+                    current_date = ""
                     commit_role = None
             elif (line.strip() and current_author and commit_role
                   and not bot_re.search(current_author)):
@@ -189,8 +190,16 @@ def extract_git_credits(repo_root: Path) -> dict:
                     continue
                 item_id = Path(fname).stem
                 if item_id not in credits:
-                    credits[item_id] = {"contributors": set(), "reviewers": set()}
+                    credits[item_id] = {"contributors": set(), "reviewers": set(),
+                                        "edits": 0, "created": "", "modified": ""}
                 credits[item_id][commit_role + "s"].add(current_author)
+                if commit_role == "contributor":
+                    credits[item_id]["edits"] += 1
+                if current_date:
+                    if not credits[item_id]["created"] or current_date < credits[item_id]["created"]:
+                        credits[item_id]["created"] = current_date
+                    if not credits[item_id]["modified"] or current_date > credits[item_id]["modified"]:
+                        credits[item_id]["modified"] = current_date
 
     # Convert sets to sorted lists
     for item_id in credits:
@@ -724,8 +733,14 @@ button {{ font-family: inherit; cursor: pointer; }}
 .tech-cell:hover .tech-cell-name {{ text-decoration: underline; }}
 .tech-cell-sub {{
   font-size: .62rem;
-  color: var(--gray-500);
-  margin-top: 2px;
+  color: var(--blue);
+  font-weight: 600;
+  margin-top: 4px;
+  background: var(--blue-pale);
+  border: 1px solid rgba(26,115,232,.2);
+  border-radius: 8px;
+  padding: 2px 6px;
+  display: inline-block;
 }}
 
 /* ── Weakness/Mitigation table view ───────────────────────── */
@@ -995,7 +1010,7 @@ button {{ font-family: inherit; cursor: pointer; }}
 .detail-list {{ display: flex; flex-direction: column; gap: 4px; }}
 .detail-row {{
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
   padding: 7px 10px;
   border-radius: 4px;
@@ -1048,6 +1063,23 @@ button {{ font-family: inherit; cursor: pointer; }}
   transition: var(--transition);
 }}
 .propose-update-btn:hover {{ background: var(--blue-lt); text-decoration: none; color: #fff; }}
+.view-source-btn {{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--gray-500);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: .78rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+}}
+.view-source-btn:hover {{ background: var(--gray-700); text-decoration: none; color: #fff; }}
 .propose-update-btn svg {{ flex-shrink: 0; }}
 
 /* Transitions */
@@ -1205,7 +1237,7 @@ button {{ font-family: inherit; cursor: pointer; }}
     <button class="topnav-tab tab-t active" data-view="matrix">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2h4v4H1V2zm5 0h4v4H6V2zm5 0h4v4h-4V2zM1 7h4v4H1V7zm5 0h4v4H6V7zm5 0h4v4h-4V7z"/></svg>
       <span class="topnav-tab-label">Matrix</span>
-      <span class="topnav-tab-short">M</span>
+      <span class="topnav-tab-short">O</span>
       <span class="tab-badge" id="badge-o">{n_o}</span>
     </button>
     <button class="topnav-tab tab-t2" data-view="techniques">
@@ -1543,14 +1575,32 @@ function updateBtn(type, obj) {{
   const btnColor = {{technique:'var(--blue)', weakness:'var(--red)', mitigation:'var(--green)'}}[type] || 'var(--blue)';
   const btnHover = {{technique:'var(--blue-lt)', weakness:'#e74c3c', mitigation:'#22a05b'}}[type] || 'var(--blue-lt)';
   const label = {{technique:'technique', weakness:'weakness', mitigation:'mitigation'}}[type] || type;
-  return `<div class="detail-section" style="padding:12px 18px">
-    <a href="${{url}}" target="_blank" rel="noopener" class="propose-update-btn"
-       style="background:${{btnColor}}"
-       onmouseover="this.style.background='${{btnHover}}'" onmouseout="this.style.background='${{btnColor}}'">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M11.013 1.427a1.75 1.75 0 012.474 0l1.086 1.086a1.75 1.75 0 010 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 01-.927-.928l.929-3.25a1.75 1.75 0 01.445-.758l8.61-8.61zm1.414 1.06a.25.25 0 00-.354 0L3.463 11.098a.25.25 0 00-.064.108l-.558 1.953 1.953-.558a.25.25 0 00.108-.064l8.61-8.61a.25.25 0 000-.354L12.427 2.487z"/></svg>
-      Propose an update to this ${{label}}
-    </a>
-  </div>`;
+  const folder = {{technique:'techniques', weakness:'weaknesses', mitigation:'mitigations'}}[type];
+  const srcUrl = `${{REPO_URL}}/blob/main/data/${{folder}}/${{obj.id}}.json`;
+  const el = document.createElement('div');
+  el.className = 'detail-section';
+  el.style.cssText = 'padding:12px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap';
+
+  const a1 = document.createElement('a');
+  a1.href = url;
+  a1.target = '_blank';
+  a1.rel = 'noopener';
+  a1.className = 'propose-update-btn';
+  a1.style.background = btnColor;
+  a1.onmouseover = function(){{ this.style.background = btnHover; }};
+  a1.onmouseout = function(){{ this.style.background = btnColor; }};
+  a1.textContent = 'Propose an update to this ' + label;
+  el.appendChild(a1);
+
+  const a2 = document.createElement('a');
+  a2.href = srcUrl;
+  a2.target = '_blank';
+  a2.rel = 'noopener';
+  a2.className = 'view-source-btn';
+  a2.textContent = 'View source in GitHub';
+  el.appendChild(a2);
+
+  return el.outerHTML;
 }}
 
 function techStatus(t) {{
@@ -1575,6 +1625,9 @@ function renderMatrix() {{
     return techs.length > 0 || !S.search;
   }});
 
+  const totalObjs = DB.objectives.length;
+  const colMaxWidth = totalObjs > 0 ? (100 / totalObjs) + '%' : 'none';
+
   let totalShown = 0;
   const subIds = new Set();
   let colIdx = 0;
@@ -1587,6 +1640,7 @@ function renderMatrix() {{
 
     const col = document.createElement('div');
     col.className = 'tactic-col';
+    col.style.maxWidth = colMaxWidth;
     col.style.animationDelay = `${{colIdx * 0.025}}s`;
     colIdx++;
 
@@ -1676,6 +1730,7 @@ function renderTechniquesTable() {{
     refs:    (a,b) => (a.references||[]).length - (b.references||[]).length,
     cout:    (a,b) => (a.CASE_output_classes||[]).length - (b.CASE_output_classes||[]).length,
     cin:     (a,b) => (a.CASE_input_classes||[]).length - (b.CASE_input_classes||[]).length,
+    edits:   (a,b) => (a._edits||0) - (b._edits||0),
   }};
   const fn = tSortFns[S.ts] || tSortFns.id;
   items.sort((a,b) => fn(a,b) * S.tsDir);
@@ -1706,6 +1761,7 @@ function renderTechniquesTable() {{
           ${{sortTh('Refs','refs','ts','tsDir','width:50px;text-align:center')}}
           ${{sortTh('CASE In','cin','ts','tsDir','width:65px;text-align:center')}}
           ${{sortTh('CASE Out','cout','ts','tsDir','width:70px;text-align:center')}}
+          ${{sortTh('Edits','edits','ts','tsDir','width:55px;text-align:center')}}
         </tr></thead>
         <tbody>
           ${{items.map(t => {{
@@ -1724,6 +1780,7 @@ function renderTechniquesTable() {{
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.references||[]).length}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.CASE_input_classes||[]).length}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.CASE_output_classes||[]).length}}</td>
+              <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{t._edits||0}}</td>
             </tr>`;
           }}).join('')}}
         </tbody>
@@ -1750,6 +1807,7 @@ function renderWeaknesses() {{
     name: (a,b) => (a.name||'').localeCompare(b.name||''),
     cats: (a,b) => wCats(a).length - wCats(b).length,
     mits: (a,b) => (a.mitigations||[]).length - (b.mitigations||[]).length,
+    edits: (a,b) => (a._edits||0) - (b._edits||0),
   }};
   const fn = wSortFns[S.ws] || wSortFns.id;
   items.sort((a,b) => fn(a,b) * S.wsDir);
@@ -1773,6 +1831,7 @@ function renderWeaknesses() {{
           ${{sortTh('Name','name','ws','wsDir','')}}
           ${{sortTh('Categories','cats','ws','wsDir','width:90px')}}
           ${{sortTh('Mitigations','mits','ws','wsDir','width:80px')}}
+          ${{sortTh('Edits','edits','ws','wsDir','width:55px;text-align:center')}}
         </tr></thead>
         <tbody>
           ${{items.map(w => {{
@@ -1784,6 +1843,7 @@ function renderWeaknesses() {{
               <td>${{esc(w.name)}}</td>
               <td><div class="cat-grid">${{cats.map(c=>`<span class="cat-tag">${{c}}</span>`).join('')}}</div></td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{mitCount}}</td>
+              <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{w._edits||0}}</td>
             </tr>`;
           }}).join('')}}
         </tbody>
@@ -1802,6 +1862,7 @@ function renderMitigations() {{
     techniques: (a,b) => a._tcount - b._tcount,
     id:   (a,b) => a.id.localeCompare(b.id),
     name: (a,b) => a.name.localeCompare(b.name),
+    edits: (a,b) => (a._edits||0) - (b._edits||0),
   }};
   const fn = sortFns[S.sf] || sortFns.id;
   items.sort((a,b) => fn(a,b) * S.sfDir);
@@ -1825,6 +1886,7 @@ function renderMitigations() {{
           ${{sortTh('Name','name','sf','sfDir','')}}
           ${{sortTh('Weaknesses','weaknesses','sf','sfDir','width:100px;text-align:center')}}
           ${{sortTh('Techniques','techniques','sf','sfDir','width:100px;text-align:center')}}
+          ${{sortTh('Edits','edits','sf','sfDir','width:55px;text-align:center')}}
         </tr></thead>
         <tbody>
           ${{items.map(m => {{
@@ -1834,6 +1896,7 @@ function renderMitigations() {{
               <td>${{esc(m.name)}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{m._wcount||'—'}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{m._tcount||'—'}}</td>
+              <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{m._edits||0}}</td>
             </tr>`;
           }}).join('')}}
         </tbody>
@@ -1883,9 +1946,22 @@ function showDetail(id, type, skipHash) {{
 
 function buildCreditsHtml(item) {{
   let html = '';
+  const edits = item._edits || 0;
+  const created = item._created || '';
+  const modified = item._modified || '';
   const contributors = item._contributors || [];
   const reviewers = item._reviewers || [];
-  if (!contributors.length && !reviewers.length) return '';
+  if (!edits && !created && !contributors.length && !reviewers.length) return '';
+  if (edits || created || modified) {{
+    let rows = '';
+    if (edits)    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{edits}}</td></tr>`;
+    if (created)  rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{created}}</td></tr>`;
+    if (modified) rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Last Modified</td><td>${{modified}}</td></tr>`;
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Properties</div>
+      <table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>
+    </div>`;
+  }}
   if (contributors.length) {{
     html += `<div class="detail-section">
       <div class="detail-section-title">Contributors <span class="badge">${{contributors.length}}</span></div>
@@ -1929,7 +2005,7 @@ function buildTechniqueDetail(t) {{
       ${{subs.map(sid => {{
         const st = TMap[sid];
         return `<div class="detail-row" data-show-id="${{esc(sid)}}" data-show-type="technique">
-          <span class="detail-row-id t">${{esc(sid)}}</span>
+          <span class="tech-cell-sub" style="font-size:.72rem;padding:2px 8px;min-width:52px;text-align:center">${{esc(sid)}}</span>
           <span class="detail-row-name">${{esc(st ? st.name : sid)}}</span>
         </div>`;
       }}).join('')}}
@@ -2553,6 +2629,9 @@ def main() -> None:
                 if item_id in credits:
                     item["_contributors"] = credits[item_id]["contributors"]
                     item["_reviewers"] = credits[item_id]["reviewers"]
+                    item["_edits"] = credits[item_id]["edits"]
+                    item["_created"] = credits[item_id]["created"]
+                    item["_modified"] = credits[item_id]["modified"]
 
     idx = build_indices(db)
     html = generate_html(db, idx)

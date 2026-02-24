@@ -379,6 +379,7 @@ button {{ font-family: inherit; cursor: pointer; }}
   border-radius: 10px;
   font-weight: 400;
 }}
+.topnav-tab-short {{ display: none; font-weight: 600; }}
 
 .topnav-search {{
   display: flex;
@@ -989,6 +990,8 @@ button {{ font-family: inherit; cursor: pointer; }}
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 768px) {{
   .topnav-tab-label {{ display: none; }}
+  .topnav-tab svg {{ display: none; }}
+  .topnav-tab-short {{ display: inline; }}
   .search-input {{ width: 140px; }}
   .search-input:focus {{ width: 160px; }}
   .detail-panel {{ width: 100vw; }}
@@ -1080,26 +1083,31 @@ button {{ font-family: inherit; cursor: pointer; }}
     <button class="topnav-tab tab-t active" data-view="matrix">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2h4v4H1V2zm5 0h4v4H6V2zm5 0h4v4h-4V2zM1 7h4v4H1V7zm5 0h4v4H6V7zm5 0h4v4h-4V7z"/></svg>
       <span class="topnav-tab-label">Matrix</span>
+      <span class="topnav-tab-short">M</span>
       <span class="tab-badge" id="badge-o">{n_o}</span>
     </button>
     <button class="topnav-tab tab-t2" data-view="techniques">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3h12v2H2V3zm0 4h12v2H2V7zm0 4h8v2H2v-2z"/></svg>
       <span class="topnav-tab-label">Techniques</span>
+      <span class="topnav-tab-short">T</span>
       <span class="tab-badge" id="badge-t">{n_t}</span>
     </button>
     <button class="topnav-tab tab-w" data-view="weaknesses">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.5A5.5 5.5 0 118 2.5a5.5 5.5 0 010 11zm-.5-8h1v4h-1V5.5zm0 5h1v1h-1v-1z"/></svg>
       <span class="topnav-tab-label">Weaknesses</span>
+      <span class="topnav-tab-short">W</span>
       <span class="tab-badge" id="badge-w">{n_w}</span>
     </button>
     <button class="topnav-tab tab-m" data-view="mitigations">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.5 4.5H14l-3.75 2.75 1.5 4.5L8 10l-3.75 2.75 1.5-4.5L2 5.5h4.5L8 1z"/></svg>
       <span class="topnav-tab-label">Mitigations</span>
+      <span class="topnav-tab-short">M</span>
       <span class="tab-badge" id="badge-m">{n_m}</span>
     </button>
     <button class="topnav-tab tab-r" data-view="references">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2h8a1 1 0 011 1v1h1a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1v-1H2a1 1 0 01-1-1V3a1 1 0 011-1h1zm1 1v9h8V3H4zM2 5v7h1V4H2v1zm10 8v1H4v-1h8z"/></svg>
       <span class="topnav-tab-label">References</span>
+      <span class="topnav-tab-short">R</span>
       <span class="tab-badge" id="badge-r">{n_r}</span>
     </button>
   </div>
@@ -1752,24 +1760,6 @@ function buildTechniqueDetail(t) {{
     ${{syns.length ? `<div class="detail-tags">${{syns.map(s=>`<span class="detail-tag">${{esc(s)}}</span>`).join('')}}</div>` : '<div class="empty-message">No synonyms.</div>'}}
   </div>`;
 
-  const exs = t.examples || [];
-  html += `<div class="detail-section">
-    <div class="detail-section-title">Examples <span class="badge">${{exs.length}}</span></div>
-    ${{exs.length ? exs.map(e=>`<div class="detail-text" style="padding:3px 0;border-bottom:1px solid #f0f0f0">${{esc(e)}}</div>`).join('') : '<div class="empty-message">No examples.</div>'}}
-  </div>`;
-
-  const cin = t.CASE_input_classes || [];
-  html += `<div class="detail-section">
-    <div class="detail-section-title">CASE Input Classes <span class="badge">${{cin.length}}</span></div>
-    ${{cin.length ? `<div class="detail-tags">${{cin.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE input classes.</div>'}}
-  </div>`;
-
-  const cout = t.CASE_output_classes || [];
-  html += `<div class="detail-section">
-    <div class="detail-section-title">CASE Output Classes <span class="badge">${{cout.length}}</span></div>
-    ${{cout.length ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE output classes.</div>'}}
-  </div>`;
-
   // Sub-techniques
   const subs = t.subtechniques || [];
   html += `<div class="detail-section">
@@ -1786,10 +1776,16 @@ function buildTechniqueDetail(t) {{
     </div>
   </div>`;
 
-  // Weaknesses
+  const exs = t.examples || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Examples <span class="badge">${{exs.length}}</span></div>
+    ${{exs.length ? exs.map(e=>`<div class="detail-text" style="padding:3px 0;border-bottom:1px solid #f0f0f0">${{esc(e)}}</div>`).join('') : '<div class="empty-message">No examples.</div>'}}
+  </div>`;
+
+  // Potential Weaknesses
   const wids = t.weaknesses || [];
   html += `<div class="detail-section">
-    <div class="detail-section-title">Weaknesses <span class="badge">${{wids.length}}</span></div>
+    <div class="detail-section-title">Potential Weaknesses <span class="badge">${{wids.length}}</span></div>
     ${{!wids.length ? '<div class="empty-message">No weaknesses documented.</div>' : ''}}
     <div class="detail-list">
       ${{wids.map(wid => {{
@@ -1804,6 +1800,18 @@ function buildTechniqueDetail(t) {{
         </div>`;
       }}).join('')}}
     </div>
+  </div>`;
+
+  const cin = t.CASE_input_classes || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">CASE Input Classes <span class="badge">${{cin.length}}</span></div>
+    ${{cin.length ? `<div class="detail-tags">${{cin.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE input classes.</div>'}}
+  </div>`;
+
+  const cout = t.CASE_output_classes || [];
+  html += `<div class="detail-section">
+    <div class="detail-section-title">CASE Output Classes <span class="badge">${{cout.length}}</span></div>
+    ${{cout.length ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE output classes.</div>'}}
   </div>`;
 
   // References

@@ -89,6 +89,17 @@ def main():
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("      render: text")
 
+    # --- Subtechnique IDs ---
+    lines.append("  - type: textarea")
+    lines.append("    id: subtechnique-ids")
+    lines.append("    attributes:")
+    lines.append("      label: Subtechnique IDs")
+    lines.append("      description: |")
+    lines.append("        The complete new list of subtechnique IDs (one per line, e.g. T1002.1, T1002.2).")
+    lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
+    lines.append(f"        Existing techniques ({id_range}) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).")
+    lines.append("      render: text")
+
     # --- Weakness IDs ---
     lines.append("  - type: textarea")
     lines.append("    id: weakness-ids")

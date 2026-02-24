@@ -52,6 +52,10 @@ def apply_updates(current, fields):
     if not is_no_response(examples):
         updated["examples"] = lines_to_list(examples)
 
+    subtechniques = fields.get("Subtechnique IDs", "")
+    if not is_no_response(subtechniques):
+        updated["subtechniques"] = lines_to_list(subtechniques)
+
     weaknesses = fields.get("Weakness IDs", "")
     if not is_no_response(weaknesses):
         updated["weaknesses"] = lines_to_list(weaknesses)

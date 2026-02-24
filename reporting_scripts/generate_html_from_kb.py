@@ -1570,6 +1570,7 @@ function updateFormUrl(type, obj) {{
     p.set('new-details', obj.details || '');
     p.set('synonyms', joinLines(obj.synonyms));
     p.set('examples', joinLines(obj.examples));
+    p.set('subtechnique-ids', joinLines(obj.subtechniques));
     p.set('weakness-ids', joinLines(obj.weaknesses));
     p.set('case-input', joinLines(obj.CASE_input_classes));
     p.set('case-output', joinLines(obj.CASE_output_classes));

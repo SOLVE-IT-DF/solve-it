@@ -22,6 +22,7 @@ import sys
 import re
 import ssl
 import argparse
+import subprocess
 import urllib.request
 import urllib.error
 from pathlib import Path
@@ -135,6 +136,73 @@ def load_from_local(repo_path: str) -> dict:
           f"{len(db['weaknesses'])} weaknesses, {len(db['mitigations'])} mitigations, "
           f"{len(db['objectives'])} objectives.")
     return db
+
+
+def extract_git_credits(repo_root: Path) -> dict:
+    """Extract contributor and reviewer names from git history for each data file.
+
+    Returns a dict mapping item IDs to {"contributors": [...], "reviewers": [...]}.
+    Merge-commit authors are treated as reviewers; other non-bot commit authors
+    are treated as contributors. Returns an empty dict on any failure.
+    """
+    credits: dict = {}
+    merge_pr_re = re.compile(r"^Merge pull request #\d+")
+    merge_branch_re = re.compile(r"^Merge branch ")
+    bot_re = re.compile(r"\[bot\]", re.IGNORECASE)
+    commit_sep = "===COMMIT==="
+
+    for category in ("techniques", "weaknesses", "mitigations"):
+        try:
+            result = subprocess.run(
+                ["git", "log", f"--format={commit_sep}%H|%an|%s", "--name-only",
+                 "--diff-merges=first-parent", "--", f"data/{category}/"],
+                capture_output=True, text=True, cwd=str(repo_root), timeout=30,
+            )
+            if result.returncode != 0:
+                continue
+        except Exception:
+            continue
+
+        current_author = ""
+        commit_role = None  # "reviewer", "contributor", or None (skip)
+        for line in result.stdout.splitlines():
+            if line.startswith(commit_sep):
+                parts = line[len(commit_sep):].split("|", 2)
+                if len(parts) == 3:
+                    current_author = parts[1].strip()
+                    subject = parts[2].strip()
+                    if merge_pr_re.match(subject):
+                        commit_role = "reviewer"
+                    elif merge_branch_re.match(subject):
+                        # Branch sync merges (e.g. "Merge branch 'main' into feature")
+                        # are not contributions or reviews — skip entirely
+                        commit_role = None
+                    else:
+                        commit_role = "contributor"
+                else:
+                    current_author = ""
+                    commit_role = None
+            elif (line.strip() and current_author and commit_role
+                  and not bot_re.search(current_author)):
+                fname = line.strip()
+                if not fname.endswith(".json"):
+                    continue
+                item_id = Path(fname).stem
+                if item_id not in credits:
+                    credits[item_id] = {"contributors": set(), "reviewers": set()}
+                credits[item_id][commit_role + "s"].add(current_author)
+
+    # Convert sets to sorted lists
+    for item_id in credits:
+        credits[item_id]["contributors"] = sorted(credits[item_id]["contributors"])
+        credits[item_id]["reviewers"] = sorted(credits[item_id]["reviewers"])
+
+    if credits:
+        total_c = sum(len(v["contributors"]) for v in credits.values())
+        total_r = sum(len(v["reviewers"]) for v in credits.values())
+        print(f"  Git credits: {len(credits)} items, "
+              f"{total_c} contributor entries, {total_r} reviewer entries.")
+    return credits
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1065,6 +1133,60 @@ button {{ font-family: inherit; cursor: pointer; }}
 .subtechnique-cell .tech-cell-id {{ font-size: .62rem; }}
 .col-anim-delay {{ animation-fill-mode: both; }}
 
+.credit-tag {{
+  display: inline-flex;
+  align-items: center;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: .75rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: var(--transition);
+}}
+.credit-tag:hover {{
+  background: var(--gray-200);
+}}
+.credit-popup {{
+  position: fixed;
+  z-index: 9999;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+  padding: 14px 18px;
+  min-width: 200px;
+  font-family: var(--font-body);
+  font-size: .82rem;
+}}
+.credit-popup-name {{
+  font-weight: 600;
+  font-size: .92rem;
+  margin-bottom: 10px;
+  color: var(--gray-800);
+}}
+.credit-popup-row {{
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  color: var(--gray-600);
+}}
+.credit-popup-row span:last-child {{
+  font-weight: 600;
+  color: var(--gray-800);
+}}
+.credit-popup-heading {{
+  font-weight: 600;
+  font-size: .78rem;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-top: 8px;
+  margin-bottom: 2px;
+}}
+
 </style>
 </head>
 <body>
@@ -1294,6 +1416,24 @@ DB.techniques.forEach(t => {{
     if (st) {{ st._isSub = true; st._parentId = t.id; }}
   }});
 }});
+
+// ── Person stats lookup ──────────────────────────────────────────────
+const PersonStats = {{}};
+function _addPersonStats(items, category) {{
+  items.forEach(item => {{
+    (item._contributors || []).forEach(name => {{
+      if (!PersonStats[name]) PersonStats[name] = {{tc:0,wc:0,mc:0,tr:0,wr:0,mr:0}};
+      PersonStats[name][category[0]+'c']++;
+    }});
+    (item._reviewers || []).forEach(name => {{
+      if (!PersonStats[name]) PersonStats[name] = {{tc:0,wc:0,mc:0,tr:0,wr:0,mr:0}};
+      PersonStats[name][category[0]+'r']++;
+    }});
+  }});
+}}
+_addPersonStats(DB.techniques, 'techniques');
+_addPersonStats(DB.weaknesses, 'weaknesses');
+_addPersonStats(DB.mitigations, 'mitigations');
 
 // ── State ────────────────────────────────────────────────────────────
 const detailHistory = [];
@@ -1741,6 +1881,26 @@ function showDetail(id, type, skipHash) {{
   document.getElementById('mainArea').classList.add('shifted');
 }}
 
+function buildCreditsHtml(item) {{
+  let html = '';
+  const contributors = item._contributors || [];
+  const reviewers = item._reviewers || [];
+  if (!contributors.length && !reviewers.length) return '';
+  if (contributors.length) {{
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Contributors <span class="badge">${{contributors.length}}</span></div>
+      <div class="detail-tags">${{contributors.map(n => `<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div>
+    </div>`;
+  }}
+  if (reviewers.length) {{
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Reviewers <span class="badge">${{reviewers.length}}</span></div>
+      <div class="detail-tags">${{reviewers.map(n => `<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div>
+    </div>`;
+  }}
+  return html;
+}}
+
 function buildTechniqueDetail(t) {{
   let html = updateBtn('technique', t);
 
@@ -1814,6 +1974,8 @@ function buildTechniqueDetail(t) {{
     ${{cout.length ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE output classes.</div>'}}
   </div>`;
 
+  html += buildCreditsHtml(t);
+
   // References
   const refs = t.references || [];
   html += `<div class="detail-section">
@@ -1866,6 +2028,8 @@ function buildWeaknessDetail(w) {{
       }}).join('')}}
     </div>
   </div>`;
+
+  html += buildCreditsHtml(w);
 
   const wrefs = w.references || [];
   html += `<div class="detail-section">
@@ -1924,6 +2088,8 @@ function buildMitigationDetail(m) {{
       <span class="detail-row-name">${{esc(TMap[m.technique] ? TMap[m.technique].name : m.technique)}}</span>
     </div>` : '<div class="empty-message">No linked technique.</div>'}}
   </div>`;
+
+  html += buildCreditsHtml(m);
 
   const mrefs = m.references || [];
   html += `<div class="detail-section">
@@ -2223,6 +2389,55 @@ document.addEventListener('click', function(e) {{
   if (el) showDetail(el.dataset.showId, el.dataset.showType);
 }});
 
+// Delegated click handler for contributor/reviewer name popups
+document.addEventListener('click', function(e) {{
+  // Remove any existing popup first
+  const old = document.querySelector('.credit-popup');
+  if (old) old.remove();
+
+  const tag = e.target.closest('.credit-tag[data-person]');
+  if (!tag) return;
+  e.stopPropagation();
+
+  const name = tag.dataset.person;
+  const s = PersonStats[name];
+  if (!s) return;
+
+  const popup = document.createElement('div');
+  popup.className = 'credit-popup';
+
+  let rows = `<div class="credit-popup-name">${{esc(name)}}</div>`;
+  if (s.tc || s.wc || s.mc) {{
+    rows += `<div class="credit-popup-heading">Contributions</div>`;
+    if (s.tc) rows += `<div class="credit-popup-row"><span>Techniques</span><span>${{s.tc}}</span></div>`;
+    if (s.wc) rows += `<div class="credit-popup-row"><span>Weaknesses</span><span>${{s.wc}}</span></div>`;
+    if (s.mc) rows += `<div class="credit-popup-row"><span>Mitigations</span><span>${{s.mc}}</span></div>`;
+  }}
+  const totalReviews = s.tr + s.wr + s.mr;
+  if (totalReviews) {{
+    rows += `<div class="credit-popup-heading">Reviews</div>`;
+    rows += `<div class="credit-popup-row"><span>Total</span><span>${{totalReviews}}</span></div>`;
+  }}
+  popup.innerHTML = rows;
+
+  document.body.appendChild(popup);
+  const rect = tag.getBoundingClientRect();
+  let top = rect.bottom + 6;
+  let left = rect.left;
+  if (left + popup.offsetWidth > window.innerWidth - 10) left = window.innerWidth - popup.offsetWidth - 10;
+  if (top + popup.offsetHeight > window.innerHeight - 10) top = rect.top - popup.offsetHeight - 6;
+  popup.style.top = top + 'px';
+  popup.style.left = left + 'px';
+}});
+
+// Close credit popup on outside click
+document.addEventListener('click', function(e) {{
+  if (!e.target.closest('.credit-popup') && !e.target.closest('.credit-tag')) {{
+    const p = document.querySelector('.credit-popup');
+    if (p) p.remove();
+  }}
+}});
+
 document.addEventListener('keydown', e => {{
   if (e.key === 'Escape') {{ closeDetail(); }}
   if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement !== searchInput) {{
@@ -2315,12 +2530,29 @@ def main() -> None:
 
     if args.local:
         db = load_from_local(args.local)
+        repo_root = Path(args.local).resolve()
     else:
         db = load_from_github()
+        repo_root = Path(__file__).resolve().parent.parent
+
+    # Extract git contributor/reviewer credits
+    credits: dict = {}
+    if (repo_root / ".git").exists():
+        print("  Extracting git credits …")
+        credits = extract_git_credits(repo_root)
 
     # Sort for stable output
     for key in ("techniques", "weaknesses", "mitigations"):
         db[key].sort(key=lambda x: x.get("id", ""))
+
+    # Enrich items with contributor/reviewer data
+    if credits:
+        for key in ("techniques", "weaknesses", "mitigations"):
+            for item in db[key]:
+                item_id = item.get("id", "")
+                if item_id in credits:
+                    item["_contributors"] = credits[item_id]["contributors"]
+                    item["_reviewers"] = credits[item_id]["reviewers"]
 
     idx = build_indices(db)
     html = generate_html(db, idx)

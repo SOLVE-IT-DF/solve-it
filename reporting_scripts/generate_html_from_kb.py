@@ -1560,11 +1560,12 @@ function updateFormUrl(type, obj) {{
 
   const p = new URLSearchParams();
   p.set('template', templates[type]);
-  p.set('title', `Update ${{type}}: ${{obj.id}}`);
+  p.set('title', `Update ${{type}}: ${{obj.id}}: ${{obj.name || ''}}`);
   p.set('labels', labels[type]);
 
+  const idLabel = `${{obj.id}}: ${{obj.name || ''}}`;
   if (type === 'technique') {{
-    p.set('technique-id', obj.id);
+    p.set('technique-id', idLabel);
     p.set('new-technique-name', obj.name || '');
     p.set('new-description', obj.description || '');
     p.set('new-details', obj.details || '');
@@ -1576,12 +1577,12 @@ function updateFormUrl(type, obj) {{
     p.set('case-output', joinLines(obj.CASE_output_classes));
     p.set('references', joinLines(obj.references));
   }} else if (type === 'weakness') {{
-    p.set('weakness-id', obj.id);
+    p.set('weakness-id', idLabel);
     p.set('new-weakness-name', obj.name || '');
     p.set('mitigation-ids', joinLines(obj.mitigations));
     p.set('references', joinLines(obj.references));
   }} else if (type === 'mitigation') {{
-    p.set('mitigation-id', obj.id);
+    p.set('mitigation-id', idLabel);
     p.set('new-mitigation-name', obj.name || '');
     if (obj.technique) p.set('linked-technique-id', obj.technique);
     p.set('references', joinLines(obj.references));

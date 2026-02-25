@@ -1,0 +1,18 @@
+{
+    "id": "T1168",
+    "name": "Identify volumes",
+    "description": "From a partition or data from a full disk, identify volumes and extract file systems.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/BitstreamData",
+        "https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/FileSystem"
+    ],
+    "references": []
+}

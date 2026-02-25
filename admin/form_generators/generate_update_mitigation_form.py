@@ -16,14 +16,19 @@ def main():
     base_path = os.path.join(os.path.dirname(__file__), '..', '..')
     kb = KnowledgeBase(base_path, 'solve-it.json')
 
-    # Collect mitigation IDs for the description text
+    # Collect mitigation IDs and names for the dropdown
     mitigation_ids = kb.list_mitigations()
     id_range = f"{mitigation_ids[0]}–{mitigation_ids[-1]}" if mitigation_ids else "M1001–M1099"
+    mitigation_options = []
+    for mid in mitigation_ids:
+        m = kb.get_mitigation(mid)
+        name = m.get("name", "") if m else ""
+        mitigation_options.append(f"{mid}: {name}" if name else mid)
 
     lines = []
     lines.append('name: "Update Mitigation"')
     lines.append("description: Propose changes to an existing mitigation")
-    lines.append('title: "Update mitigation: [Mxxxx]"')
+    lines.append('title: "Update mitigation: [Mxxxx: mitigation name]"')
     lines.append('labels: ["content: update mitigation", "form input"]')
     lines.append("body:")
 
@@ -37,12 +42,14 @@ def main():
     lines.append(f"        Existing mitigations ({id_range}) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).")
 
     # --- Mitigation ID ---
-    lines.append("  - type: input")
+    lines.append("  - type: dropdown")
     lines.append("    id: mitigation-id")
     lines.append("    attributes:")
     lines.append("      label: Mitigation ID")
-    lines.append("      description: The ID of the mitigation to update (e.g. M1001).")
-    lines.append("      placeholder: M1001")
+    lines.append("      description: Select the mitigation to update.")
+    lines.append("      options:")
+    for opt in mitigation_options:
+        lines.append(f'        - "{opt}"')
     lines.append("    validations:")
     lines.append("      required: true")
 

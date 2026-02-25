@@ -91,8 +91,8 @@ def main():
 
     fields = parse_issue_body(body)
 
-    # Validate technique ID
-    technique_id = fields.get("Technique ID", "").strip()
+    # Validate technique ID (dropdown value may include name, e.g. "T1043: Name")
+    technique_id = fields.get("Technique ID", "").strip().split(":")[0].strip()
     if not re.match(r'^T\d+$', technique_id):
         print(f"Error: Invalid technique ID format: '{technique_id}'", file=sys.stderr)
         sys.exit(1)

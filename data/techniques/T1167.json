@@ -1,0 +1,24 @@
+{
+    "id": "T1167",
+    "name": "Extract search terms from URLs",
+    "description": "Parsing a URL and extracting search terms from the parameters.",
+    "synonyms": [],
+    "details": "These may be `q=` strings or some other encoded parameters. \n\nThis would include web search URLs such as Google searches but could also include search terms entered into other sites such as travel or shopping sites.",
+    "subtechniques": [],
+    "examples": [
+        "Google search URLs",
+        "DuckDuckGo search URLs"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/URLHistory",
+        "https://ontology.unifiedcyberontology.org/uco/observable/urlHistoryEntry",
+        "https://ontology.unifiedcyberontology.org/uco/observable/URL"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/keywordSearchTerm"
+    ],
+    "references": [
+        "Horsman, G., 2019. A forensic examination of online search facility URL record structures. Journal of forensic sciences, 64(1), pp.236-242."
+    ]
+}

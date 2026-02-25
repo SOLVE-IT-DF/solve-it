@@ -68,8 +68,8 @@ def main():
 
     fields = parse_issue_body(body)
 
-    # Validate mitigation ID (dropdown value may include name, e.g. "M1001: Name")
-    mitigation_id = fields.get("Mitigation ID", "").strip().split(":")[0].strip()
+    # Validate mitigation ID
+    mitigation_id = fields.get("Mitigation ID", "").strip()
     if not re.match(r'^M\d+$', mitigation_id):
         print(f"Error: Invalid mitigation ID format: '{mitigation_id}'", file=sys.stderr)
         sys.exit(1)

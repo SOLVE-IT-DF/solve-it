@@ -7,7 +7,7 @@
     "subtechniques": [],
     "examples": ["Expert Witness Format (EWF)", "Advanced Forensic Format (AFF)"],
     "weaknesses": ["W1121", "W1122", "W1123", "W1259"],
-    "CASE_input_classes" : [],
+    "CASE_input_classes" : ["https://ontology.solveit-df.org/solveit/observable/ForensicImageContainer"],
     "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/Image",
                                 "https://ontology.unifiedcyberontology.org/uco/observable/File"],
     "references": ["Cohen, M., Garfinkel, S. and Schatz, B., 2009. Extending the advanced forensic format to accommodate multiple data sources, logical evidence, arbitrary information and forensic workflow. digital investigation, 6, pp.S57-S68.",

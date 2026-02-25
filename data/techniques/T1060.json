@@ -13,7 +13,7 @@
     "CASE_input_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/FileSystem"],
     "CASE_output_classes" : [
                             "https://ontology.unifiedcyberontology.org/uco/observable/File",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/Directory",                                                                         
+                            "https://ontology.unifiedcyberontology.org/uco/observable/Directory"
                         ],
     "references": ["Casey, E., Nelson, A. and Hyde, J., 2019. Standardization of file recovery classification and authentication. Digital Investigation, 31, p.100873.",
                     "Carrier, B., 2005. File system forensic analysis. Addison-Wesley Professional."]

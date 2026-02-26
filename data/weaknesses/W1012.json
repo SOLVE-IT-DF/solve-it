@@ -1,6 +1,7 @@
 {
     "id": "W1012",
-    "name": "Interaction with the target devices to read synronisation artefacts causes changes",
+    "name": "Interaction with the target devices to read data causes changes",
+    "description": "",
     "INCOMP": "",
     "INAC-EX": "",
     "INAC-AS": "",

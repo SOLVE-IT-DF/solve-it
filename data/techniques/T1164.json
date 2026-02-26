@@ -1,0 +1,18 @@
+{
+    "id": "T1164",
+    "name": "Direct data read from a block device",
+    "description": "Rather than imaging a block device, this involves accessing it directly without the expectation of saving block data to a forensic image format.",
+    "synonyms": [],
+    "details": "This would typically be followed by processing of the data that is read to then provide a live view of partitions and file systems, and facilitates logical file extraction or any other direct operations on the data.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": ["W1012"],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/DeviceInterface",
+        "https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/BitstreamData"
+    ],
+    "references": []
+}

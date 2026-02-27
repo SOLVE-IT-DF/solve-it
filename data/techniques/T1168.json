@@ -8,7 +8,7 @@
     "examples": [],
     "weaknesses": [],
     "CASE_input_classes": [
-        "https://ontology.solveit-df.org/solveit/observable/BitstreamData",
+        "https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccess",
         "https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition"
     ],
     "CASE_output_classes": [

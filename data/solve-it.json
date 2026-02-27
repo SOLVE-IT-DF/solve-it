@@ -32,7 +32,7 @@
                     "T1159",
                     "T1160", 
                     "T1162", 
-                    "T1163"]
+                    "T1163", "T1164"]
     },
 
     {"name":"Gain access",
@@ -43,7 +43,7 @@
 
     {"name":"Read data from digital evidence storage formats",
     "description": "Access data within digital evidence containers such as disk images, memory dumps, or archive formats.",
-    "techniques": ["T1045", "T1042", "T1043", "T1044", "T1102"]
+    "techniques": ["T1045", "T1042", "T1043", "T1044", "T1102", "T1170"]
     },
 
     {"name":"Reduce data under consideration",
@@ -73,7 +73,7 @@
 
     {"name":"Extract artifacts, or content of specific types",
     "description": "Process data to extract artifacts or stored content of specific types.",
-    "techniques": ["T1021", "T1071", "T1076", "T1100", "T1099", "T1052", "T1053", "T1056", "T1120", "T1167"]
+    "techniques": ["T1021", "T1071", "T1076", "T1100", "T1099", "T1052", "T1053", "T1056", "T1120", "T1167", "T1169"]
     },
 
     {"name":"Locate potentially relevant content",

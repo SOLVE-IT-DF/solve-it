@@ -59,7 +59,7 @@ def post_comment(issue_number, body):
     """Post a new comment on an issue."""
     subprocess.run(
         ["gh", "issue", "comment", str(issue_number), "--body", body],
-        capture_output=True, text=True, check=True,
+        text=True, check=True,
     )
 
 

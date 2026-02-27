@@ -1,22 +1,42 @@
 [
-    {"name":"Find potential digital evidence sources",
-    "description": "Locate sources of digital evidence that may be relevant to the investigation.",
-    "techniques": ["T1005", "T1006", "T1009", "T1008", "T1007"]
+    {
+        "id": "DFO-1015",
+        "sort_order": 0,
+        "name":"Prepare for a digital investigation",
+        "description": "Conduct activities in preparation of conducting a digital investigation",
+        "techniques": []
     },
 
-    {"name":"Prioritize digital evidence sources",
-    "description": "Rank the evidence sources based on their relevance and potential value to the investigation.",
-    "techniques": ["T1001"]
+    {
+        "id": "DFO-1014",
+        "sort_order": 1,
+        "name":"Find potential digital evidence sources",
+        "description": "Locate sources of digital evidence that may be relevant to the investigation.",
+        "techniques": ["T1005", "T1006", "T1009", "T1008", "T1007"]
     },
 
-    {"name":"Preserve digital evidence",
-    "description": "Ensure the integrity and authenticity of digital evidence is maintained.",
-    "techniques": ["T1011", "T1010", "T1012", "T1013", "T1110"]
+    {
+        "id": "DFO-1005",
+        "sort_order": 2,
+        "name":"Prioritize digital evidence sources",
+        "description": "Rank the evidence sources based on their relevance and potential value to the investigation.",
+        "techniques": ["T1001"]
     },
 
-    {"name":"Acquire data",
-    "description": "Collect data from the identified evidence sources.",
-    "techniques": ["T1112", "T1113",
+    {
+        "id": "DFO-1010",
+        "sort_order": 3,
+        "name":"Preserve digital evidence",
+        "description": "Ensure the integrity and authenticity of digital evidence is maintained.",
+        "techniques": ["T1011", "T1010", "T1012", "T1013", "T1110"]
+    },
+
+    {
+        "id": "DFO-1006",
+        "sort_order": 4,
+        "name":"Acquire data",
+        "description": "Collect data from the identified evidence sources.",
+        "techniques": ["T1112", "T1113",
                     "T1111",
                     "T1028", "T1029", "T1030",
                     "T1002",
@@ -30,91 +50,136 @@
                     "T1025", "T1026",
                     "T1157",
                     "T1159",
-                    "T1160", 
-                    "T1162", 
+                    "T1160",
+                    "T1162",
                     "T1163"]
     },
 
-    {"name":"Gain access",
-    "description": "Attempt to gain access to protected data sources or other restricted data.",
-    "techniques": ["T1039", "T1034", "T1035", "T1033", "T1031",
+    {
+        "id": "DFO-1016",
+        "sort_order": 5,
+        "name":"Gain access",
+        "description": "Attempt to gain access to protected data sources or other restricted data.",
+        "techniques": ["T1039", "T1034", "T1035", "T1033", "T1031",
                     "T1041", "T1038", "T1032", "T1036", "T1037","T1040", "T1158"]
     },
 
-    {"name":"Read data from digital evidence storage formats",
-    "description": "Access data within digital evidence containers such as disk images, memory dumps, or archive formats.",
-    "techniques": ["T1045", "T1042", "T1043", "T1044", "T1102"]
+    {
+        "id": "DFO-1018",
+        "sort_order": 6,
+        "name":"Read data from digital evidence storage formats",
+        "description": "Access data within digital evidence containers such as disk images, memory dumps, or archive formats.",
+        "techniques": ["T1045", "T1042", "T1043", "T1044", "T1102"]
     },
 
-    {"name":"Reduce data under consideration",
-    "description": "Filter the data to be considered in the investigation for practical, legal, or privacy protection reasons.",
-    "techniques": ["T1047", "T1048", "T1046"]
+    {
+        "id": "DFO-1007",
+        "sort_order": 7,
+        "name":"Reduce data under consideration",
+        "description": "Filter the data to be considered in the investigation for practical, legal, or privacy protection reasons.",
+        "techniques": ["T1047", "T1048", "T1046"]
     },
 
-    {"name":"Access partitions, volumes and file systems data",
-    "description": "Process core data storage structures such as partitions, volumes, and file systems, recovering content and metadata.",
-    "techniques": ["T1062", "T1061", "T1063",
+    {
+        "id": "DFO-1013",
+        "sort_order": 8,
+        "name":"Access partitions, volumes and file systems data",
+        "description": "Process core data storage structures such as partitions, volumes, and file systems, recovering content and metadata.",
+        "techniques": ["T1062", "T1061", "T1063",
                     "T1059", "T1060"]
     },
 
-    {"name":"Extract artifacts stored by the operating system",
-    "description": "Process data stored by the operating system to extract digital forensic artifacts.",
-    "techniques": ["T1067", "T1065", "T1097", "T1066",
+    {
+        "id": "DFO-1017",
+        "sort_order": 9,
+        "name":"Extract artifacts stored by the operating system",
+        "description": "Process data stored by the operating system to extract digital forensic artifacts.",
+        "techniques": ["T1067", "T1065", "T1097", "T1066",
                     "T1068", "T1096", "T1098", "T1083", "T1116",
                     "T1149"]
     },
 
-    {"name":"Extract artifacts stored by applications",
-    "description": "Process data stored by the applications to extract digital forensic artifacts.",
-    "techniques": ["T1069", "T1073", "T1072", "T1078",
+    {
+        "id": "DFO-1011",
+        "sort_order": 10,
+        "name":"Extract artifacts stored by applications",
+        "description": "Process data stored by the applications to extract digital forensic artifacts.",
+        "techniques": ["T1069", "T1073", "T1072", "T1078",
                     "T1070", "T1075", "T1077", "T1074", "T1105", "T1107",
                     "T1108", "T1109", "T1133"]
     },
 
-    {"name":"Extract artifacts, or content of specific types",
-    "description": "Process data to extract artifacts or stored content of specific types.",
-    "techniques": ["T1021", "T1071", "T1076", "T1100", "T1099", "T1052", "T1053", "T1056", "T1120"]
+    {
+        "id": "DFO-1002",
+        "sort_order": 11,
+        "name":"Extract artifacts, or content of specific types",
+        "description": "Process data to extract artifacts or stored content of specific types.",
+        "techniques": ["T1021", "T1071", "T1076", "T1100", "T1099", "T1052", "T1053", "T1056", "T1120"]
     },
 
-    {"name":"Locate potentially relevant content",
-    "description": "Attempt to find digital artifacts relevant to the investigation.",
-    "techniques": ["T1051", "T1050", "T1049",
+    {
+        "id": "DFO-1012",
+        "sort_order": 12,
+        "name":"Locate potentially relevant content",
+        "description": "Attempt to find digital artifacts relevant to the investigation.",
+        "techniques": ["T1051", "T1050", "T1049",
                      "T1118", "T1086"]
     },
 
 
-    {"name":"Review content for relevance",
-    "description": "Review potentially relevant content to determine its significance or meaning.",
-    "techniques": ["T1054", "T1055", "T1079", "T1080", "T1081", "T1082"]
+    {
+        "id": "DFO-1003",
+        "sort_order": 13,
+        "name":"Review content for relevance",
+        "description": "Review potentially relevant content to determine its significance or meaning.",
+        "techniques": ["T1054", "T1055", "T1079", "T1080", "T1081", "T1082"]
     },
 
-    {"name":"Detect anti-forensics and other anomalies",
-    "description": "Search for indicators of anti-forensic techniques or other anomalies such as malware, which could affect interpretation.",
-    "techniques": ["T1057", "T1058", "T1128", "T1129", "T1130", "T1131", "T1132"]
+    {
+        "id": "DFO-1019",
+        "sort_order": 14,
+        "name":"Detect anti-forensics and other anomalies",
+        "description": "Search for indicators of anti-forensic techniques or other anomalies such as malware, which could affect interpretation.",
+        "techniques": ["T1057", "T1058", "T1128", "T1129", "T1130", "T1131", "T1132"]
     },
 
-    {"name":"Establish identities",
-    "description": "Attempt to link data or devices to individuals.",
-    "techniques": ["T1084", "T1085"]
+    {
+        "id": "DFO-1008",
+        "sort_order": 15,
+        "name":"Establish identities",
+        "description": "Attempt to link data or devices to individuals.",
+        "techniques": ["T1084", "T1085"]
     },
 
-    {"name":"Create visualizations",
-    "description": "Display information using visual representations to assist with analysis.",
-    "techniques": ["T1103", "T1115"]
+    {
+        "id": "DFO-1009",
+        "sort_order": 16,
+        "name":"Create visualizations",
+        "description": "Display information using visual representations to assist with analysis.",
+        "techniques": ["T1103", "T1115"]
     },
 
-    {"name":"Reconstruct events",
-    "description": "Use available digital evidence to formulate and test hypotheses about events.",
-    "techniques": ["T1087", "T1088", "T1117", "T1154", "T1155", "T1156"]
+    {
+        "id": "DFO-1001",
+        "sort_order": 17,
+        "name":"Reconstruct events",
+        "description": "Use available digital evidence to formulate and test hypotheses about events.",
+        "techniques": ["T1087", "T1088", "T1117", "T1154", "T1155", "T1156"]
     },
 
-    {"name":"Conduct research",
-    "description": "Conduct research to gain additional knowledge to support the acquisition, extraction, or interpretation of digital evidence.",
-    "techniques": ["T1090", "T1095", "T1089", "T1101", "T1119"]
+    {
+        "id": "DFO-1004",
+        "sort_order": 18,
+        "name":"Conduct research",
+        "description": "Conduct research to gain additional knowledge to support the acquisition, extraction, or interpretation of digital evidence.",
+        "techniques": ["T1090", "T1095", "T1089", "T1101", "T1119"]
     },
 
-    {"name":"Produce documentation",
-    "description": "Create documentation about techniques used and findings.",
-    "techniques": ["T1091", "T1094", "T1092", "T1093", "T1014"]
+    {
+        "id": "DFO-1020",
+        "sort_order": 19,
+        "name":"Produce documentation",
+        "description": "Create documentation about techniques used and findings.",
+        "techniques": ["T1091", "T1094", "T1092", "T1093", "T1014"]
     }
 ]

@@ -1834,7 +1834,7 @@ function renderObjectives() {{
         <tbody>
           ${{rows.map(r => `<tr class="obj-row" data-obj-idx="${{r.idx}}" style="cursor:pointer">
             <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{r.idx + 1}}</td>
-            <td style="font-family:var(--font-mono);font-size:.8rem;color:var(--gray-500)">\u2014</td>
+            <td style="font-family:var(--font-mono);font-size:.8rem;color:var(--gray-500)">${{esc(r.obj.id || '')}}</td>
             <td style="font-weight:600">${{esc(r.obj.name)}}</td>
             <td style="font-size:.82rem;color:var(--gray-700)">${{esc(r.obj.description || '')}}</td>
             <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem;font-weight:700">${{r.techs}}</td>

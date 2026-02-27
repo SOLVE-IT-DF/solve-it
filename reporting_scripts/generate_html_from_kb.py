@@ -331,7 +331,7 @@ def generate_html(db: dict, idx: dict) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOLVE-IT Knowledge Base</title>
+<title>SOLVE-IT: the digital forensics knowledge base</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -416,7 +416,6 @@ button {{ font-family: inherit; cursor: pointer; }}
   letter-spacing: .02em;
   color: #fff;
 }}
-.topnav-brand-name span {{ color: #6eb4ff; }}
 
 .topnav-tabs {{
   display: flex;
@@ -447,6 +446,7 @@ button {{ font-family: inherit; cursor: pointer; }}
 .topnav-tab.active.tab-t2 {{ border-bottom-color: #6eb4ff; }}
 .topnav-tab.active.tab-w {{ border-bottom-color: #f4a839; }}
 .topnav-tab.active.tab-m {{ border-bottom-color: #4cba7c; }}
+.topnav-tab.active.tab-obj {{ border-bottom-color: #a78bfa; }}
 
 .tab-badge {{
   font-family: var(--font-mono);
@@ -584,6 +584,7 @@ button {{ font-family: inherit; cursor: pointer; }}
 }}
 .main-area {{
   flex: 1;
+  min-width: 0;
   overflow-y: auto;
   padding: 16px 20px 20px;
   transition: margin-right .25s ease;
@@ -875,14 +876,14 @@ button {{ font-family: inherit; cursor: pointer; }}
   height: calc(100vh - 100px);
   background: var(--white);
   border-left: 1px solid var(--gray-200);
-  box-shadow: var(--shadow-lg);
-  transition: right .25s ease;
+  transition: right .25s ease, box-shadow .25s ease, visibility 0s .25s;
   z-index: 400;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  visibility: hidden;
 }}
-.detail-panel.open {{ right: 0; }}
+.detail-panel.open {{ right: 0; box-shadow: var(--shadow-lg); visibility: visible; transition-delay: 0s; }}
 
 .detail-topbar {{
   background: var(--navy);
@@ -903,7 +904,7 @@ button {{ font-family: inherit; cursor: pointer; }}
 }}
 .detail-topbar-id {{
   font-family: var(--font-mono);
-  font-size: .8rem;
+  font-size: .95rem;
   color: #6eb4ff;
   font-weight: 600;
   display: flex;
@@ -1108,7 +1109,7 @@ button {{ font-family: inherit; cursor: pointer; }}
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 768px) {{
   .topnav-tab-label {{ display: none; }}
-  .topnav-tab svg {{ display: none; }}
+  .topnav-tab > svg {{ display: none; }}
   .topnav-tab-short {{ display: inline; }}
   .search-input {{ width: 140px; }}
   .search-input:focus {{ width: 160px; }}
@@ -1245,18 +1246,35 @@ button {{ font-family: inherit; cursor: pointer; }}
 <nav class="topnav">
   <a class="topnav-brand" href="https://solveit-df.org" target="_blank">
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <rect width="28" height="28" rx="5" fill="#6eb4ff" fill-opacity=".15"/>
-      <path d="M7 21L14 7l7 14" stroke="#6eb4ff" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="14" cy="14" r="2.5" fill="#6eb4ff"/>
+      <!-- Magnifying glass lens -->
+      <circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,.7)" stroke-width="2" fill="rgba(255,255,255,.06)"/>
+      <!-- 3x3 grid inside lens -->
+      <rect x="6.5" y="6.5" width="3" height="3" rx=".5" fill="#fff" opacity=".35"/>
+      <rect x="10.5" y="6.5" width="3" height="3" rx=".5" fill="#fff" opacity=".6"/>
+      <rect x="14.5" y="6.5" width="3" height="3" rx=".5" fill="#fff" opacity=".28"/>
+      <rect x="6.5" y="10.5" width="3" height="3" rx=".5" fill="#fff" opacity=".5"/>
+      <rect x="10.5" y="10.5" width="3" height="3" rx=".5" fill="#fff" opacity=".4"/>
+      <rect x="14.5" y="10.5" width="3" height="3" rx=".5" fill="#fff" opacity=".65"/>
+      <rect x="6.5" y="14.5" width="3" height="3" rx=".5" fill="#fff" opacity=".45"/>
+      <rect x="10.5" y="14.5" width="3" height="3" rx=".5" fill="#fff" opacity=".3"/>
+      <rect x="14.5" y="14.5" width="3" height="3" rx=".5" fill="#fff" opacity=".55"/>
+      <!-- Handle -->
+      <line x1="18.5" y1="18.5" x2="25" y2="25" stroke="rgba(255,255,255,.7)" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
-    <span class="topnav-brand-name">SOLVE<span>-IT</span></span>
+    <span class="topnav-brand-name">SOLVE-IT</span>
   </a>
   <div class="topnav-tabs">
     <button class="topnav-tab tab-t active" data-view="matrix">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2h4v4H1V2zm5 0h4v4H6V2zm5 0h4v4h-4V2zM1 7h4v4H1V7zm5 0h4v4H6V7zm5 0h4v4h-4V7z"/></svg>
       <span class="topnav-tab-label">Matrix</span>
-      <span class="topnav-tab-short">O</span>
+      <span class="topnav-tab-short"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="4" height="4"/><rect x="6" y="1" width="4" height="4"/><rect x="11" y="1" width="4" height="4"/><rect x="1" y="6" width="4" height="4"/><rect x="6" y="6" width="4" height="4"/><rect x="11" y="6" width="4" height="4"/><rect x="1" y="11" width="4" height="4"/><rect x="6" y="11" width="4" height="4"/><rect x="11" y="11" width="4" height="4"/></svg></span>
       <span class="tab-badge" id="badge-o">{n_o}</span>
+    </button>
+    <button class="topnav-tab tab-obj" data-view="objectives">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0-2A5 5 0 108 3a5 5 0 000 10zm0-2a3 3 0 100-6 3 3 0 000 6zm0-2a1 1 0 100-2 1 1 0 000 2z"/></svg>
+      <span class="topnav-tab-label">Objectives</span>
+      <span class="topnav-tab-short">O</span>
+      <span class="tab-badge" id="badge-obj">{n_o}</span>
     </button>
     <button class="topnav-tab tab-t2" data-view="techniques">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3h12v2H2V3zm0 4h12v2H2V7zm0 4h8v2H2v-2z"/></svg>
@@ -1303,12 +1321,12 @@ button {{ font-family: inherit; cursor: pointer; }}
   <div id="fb-matrix" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="filterbar-label">Status</span>
     <button class="filter-chip active" data-tf="all">All</button>
-    <button class="filter-chip chip-green" data-tf="complete">Complete</button>
+    <button class="filter-chip chip-green" data-tf="complete">Stable</button>
     <button class="filter-chip chip-yellow" data-tf="partial">Partial</button>
     <button class="filter-chip chip-red" data-tf="placeholder">Placeholder</button>
     <div class="filterbar-sep"></div>
     <div class="filterbar-stats">
-      <div class="stat-pill"><div class="stat-dot green"></div><span class="stat-num">{n_complete}</span> complete</div>
+      <div class="stat-pill"><div class="stat-dot green"></div><span class="stat-num">{n_complete}</span> stable</div>
       <div class="stat-pill"><div class="stat-dot yellow"></div><span class="stat-num">{n_partial}</span> partial</div>
       <div class="stat-pill"><div class="stat-dot red"></div><span class="stat-num">{n_placeholder}</span> placeholder</div>
       <div class="filterbar-sep"></div>
@@ -1316,14 +1334,25 @@ button {{ font-family: inherit; cursor: pointer; }}
         <span class="stat-num">{n_t}</span> techniques &nbsp;·&nbsp; <span class="stat-num">{n_o}</span> objectives
       </div>
       <div class="filterbar-sep"></div>
+      <span id="matrix-obj-indicator" style="display:none">
+        <span class="filterbar-sep"></span>
+        <span style="font-size:.8rem;color:var(--navy);font-weight:600">
+          Objective: <span id="matrix-obj-name"></span>
+        </span>
+        <button id="matrix-obj-reset" style="background:none;border:1px solid var(--gray-300);border-radius:4px;font-size:.7rem;padding:1px 6px;cursor:pointer;color:var(--gray-500);margin-left:4px" title="Show all objectives">&#10005;</button>
+      </span>
       <span class="result-count" id="t-count"></span>
     </div>
+  </div>
+  <!-- Objectives filters -->
+  <div id="fb-objectives" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
+    <span class="result-count" id="obj-count"></span>
   </div>
   <!-- Technique table filters -->
   <div id="fb-techniques" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="filterbar-label">Status</span>
     <button class="filter-chip active" data-t2f="all">All</button>
-    <button class="filter-chip chip-green" data-t2f="complete">Complete</button>
+    <button class="filter-chip chip-green" data-t2f="complete">Stable</button>
     <button class="filter-chip chip-yellow" data-t2f="partial">Partial</button>
     <button class="filter-chip chip-red" data-t2f="placeholder">Placeholder</button>
     <div class="filterbar-sep"></div>
@@ -1389,6 +1418,9 @@ button {{ font-family: inherit; cursor: pointer; }}
       </div>
     </div>
 
+    <!-- Objectives view -->
+    <div id="view-objectives" class="view hidden"></div>
+
     <!-- Techniques table view -->
     <div id="view-techniques" class="view hidden"></div>
 
@@ -1412,6 +1444,7 @@ button {{ font-family: inherit; cursor: pointer; }}
       <div class="detail-topbar-meta">
         <div class="detail-topbar-id" id="dp-id"></div>
         <div class="detail-topbar-name" id="dp-name"></div>
+        <div id="dp-objective" style="font-size:.72rem;color:rgba(255,255,255,.45);margin-top:2px;display:none"></div>
       </div>
       <button class="detail-link" id="dpLink" title="Copy link">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.715 6.542L3.343 7.914a3 3 0 104.243 4.243l1.828-1.829A3 3 0 008.586 5.5L8 6.086a1.002 1.002 0 00-.154.199 2 2 0 01.861 3.337L6.88 11.45a2 2 0 11-2.83-2.83l.793-.792a4.018 4.018 0 01-.128-1.287z"/><path d="M11.285 9.458l1.372-1.372a3 3 0 10-4.243-4.243L6.586 5.671A3 3 0 007.414 10.5l.586-.586a1.002 1.002 0 00.154-.199 2 2 0 01-.861-3.337L9.12 4.55a2 2 0 112.83 2.83l-.793.792c.112.42.155.855.128 1.287z"/></svg>
@@ -1504,6 +1537,9 @@ const S = {{
   sfDir:   -1,      // mitigation sort direction (1=asc, -1=desc)
   rf:      'cited',  // reference sort
   rtype:   'all',    // reference type filter
+  os:      'order', // objectives sort column
+  osDir:   1,       // objectives sort direction
+  matrixObj: 'all', // matrix objective filter (index or 'all')
   selected: null,   // {{id, type}}
 }};
 
@@ -1630,8 +1666,9 @@ function statusClass(s) {{
   return {{placeholder:'status-red', partial:'status-yellow', complete:'status-green'}}[s]||'status-red';
 }}
 
+const STATUS_LABEL = {{complete:'stable', partial:'partial', placeholder:'placeholder'}};
 function statusBadge(s) {{
-  return `<span class="status-badge ${{s}}">${{s}}</span>`;
+  return `<span class="status-badge ${{s}}">${{STATUS_LABEL[s]||s}}</span>`;
 }}
 
 // ── Rendering: Matrix ────────────────────────────────────────────────
@@ -1639,7 +1676,8 @@ function renderMatrix() {{
   const grid = document.getElementById('matrix');
   grid.innerHTML = '';
 
-  const objs = DB.objectives.filter(obj => {{
+  const objs = DB.objectives.filter((obj, idx) => {{
+    if (S.matrixObj !== 'all' && String(idx) !== String(S.matrixObj)) return false;
     const techs = filteredTechniques(obj.techniques || []);
     return techs.length > 0 || !S.search;
   }});
@@ -1685,7 +1723,7 @@ function renderMatrix() {{
       const cell = document.createElement('div');
       cell.className = `tech-cell ${{cls}}${{sel?' selected':''}}`;
       cell.dataset.id = t.id;
-      cell.title = `${{t.id}} — ${{t.name}} (${{st}})`;
+      cell.title = `${{t.id}} — ${{t.name}} (${{STATUS_LABEL[st]||st}})`;
       cell.innerHTML = `
         <div class="tech-cell-id">${{esc(t.id)}}</div>
         <div class="tech-cell-name">${{esc(t.name)}}</div>
@@ -1698,6 +1736,18 @@ function renderMatrix() {{
 
   const nSubs = subIds.size;
   document.getElementById('t-count').textContent = `${{totalShown}} shown` + (nSubs > 0 ? ` (${{nSubs}} sub-technique${{nSubs!==1?'s':''}} not shown)` : '');
+
+  // Update objective filter indicator
+  const objIndicator = document.getElementById('matrix-obj-indicator');
+  if (S.matrixObj !== 'all') {{
+    const objData = DB.objectives[parseInt(S.matrixObj)];
+    document.getElementById('matrix-obj-name').textContent = objData ? objData.name : '';
+    objIndicator.style.display = 'inline-flex';
+    objIndicator.style.alignItems = 'center';
+    objIndicator.style.gap = '4px';
+  }} else {{
+    objIndicator.style.display = 'none';
+  }}
 
   // Equalise tactic header heights to the tallest one
   const headers = grid.querySelectorAll('.tactic-header');
@@ -1715,6 +1765,89 @@ function filteredTechniques(ids) {{
     return true;
   }});
 }}
+
+// ── Rendering: Objectives table ───────────────────────────────────────
+function renderObjectives() {{
+  const el = document.getElementById('view-objectives');
+
+  let rows = DB.objectives.map((obj, idx) => {{
+    const tids = obj.techniques || [];
+    let complete = 0, partial = 0, placeholder = 0, subs = 0;
+    tids.forEach(tid => {{
+      const t = TMap[tid];
+      if (!t) return;
+      const st = techStatus(t);
+      if (st === 'complete') complete++;
+      else if (st === 'partial') partial++;
+      else placeholder++;
+      subs += (t.subtechniques || []).length;
+    }});
+    return {{ obj, idx, techs: tids.length, subs, complete, partial, placeholder }};
+  }});
+
+  rows = rows.filter(r => {{
+    if (!S.search) return true;
+    const q = S.search.toLowerCase();
+    return (r.obj.name||'').toLowerCase().includes(q)
+        || (r.obj.description||'').toLowerCase().includes(q);
+  }});
+
+  const sortFns = {{
+    order:       (a,b) => a.idx - b.idx,
+    id:          (a,b) => a.idx - b.idx,
+    name:        (a,b) => (a.obj.name||'').localeCompare(b.obj.name||''),
+    desc:        (a,b) => (a.obj.description||'').localeCompare(b.obj.description||''),
+    techs:       (a,b) => a.techs - b.techs,
+    subs:        (a,b) => a.subs - b.subs,
+    complete:    (a,b) => a.complete - b.complete,
+    partial:     (a,b) => a.partial - b.partial,
+    placeholder: (a,b) => a.placeholder - b.placeholder,
+  }};
+  const fn = sortFns[S.os] || sortFns.order;
+  rows.sort((a,b) => fn(a,b) * S.osDir);
+
+  document.getElementById('obj-count').textContent = `${{rows.length}} shown`;
+
+  if (!rows.length) {{
+    el.innerHTML = '<div class="no-results">No objectives match your search.</div>';
+    return;
+  }}
+
+  el.innerHTML = `
+    <div class="table-section">
+      <div class="table-section-header">
+        <span class="table-section-title">All Objectives</span>
+        <span class="table-section-count">${{rows.length}}</span>
+      </div>
+      <table class="attck-table">
+        <thead><tr>
+          ${{sortTh('#','order','os','osDir','width:45px;text-align:center')}}
+          ${{sortTh('ID','id','os','osDir','width:55px')}}
+          ${{sortTh('Name','name','os','osDir','')}}
+          ${{sortTh('Description','desc','os','osDir','')}}
+          ${{sortTh('Techniques','techs','os','osDir','width:85px;text-align:center')}}
+          ${{sortTh('Sub-tech.','subs','os','osDir','width:80px;text-align:center')}}
+          ${{sortTh('Stable','complete','os','osDir','width:80px;text-align:center')}}
+          ${{sortTh('Partial','partial','os','osDir','width:70px;text-align:center')}}
+          ${{sortTh('Placeholder','placeholder','os','osDir','width:90px;text-align:center')}}
+        </tr></thead>
+        <tbody>
+          ${{rows.map(r => `<tr class="obj-row" data-obj-idx="${{r.idx}}" style="cursor:pointer">
+            <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{r.idx + 1}}</td>
+            <td style="font-family:var(--font-mono);font-size:.8rem;color:var(--gray-500)">\u2014</td>
+            <td style="font-weight:600">${{esc(r.obj.name)}}</td>
+            <td style="font-size:.82rem;color:var(--gray-700)">${{esc(r.obj.description || '')}}</td>
+            <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem;font-weight:700">${{r.techs}}</td>
+            <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem;color:var(--gray-500)">${{r.subs}}</td>
+            <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem;color:var(--green)">${{r.complete}}</td>
+            <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem;color:var(--yellow)">${{r.partial}}</td>
+            <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem;color:var(--red)">${{r.placeholder}}</td>
+          </tr>`).join('')}}
+        </tbody>
+      </table>
+    </div>
+  `;
+}};
 
 // ── Rendering: Techniques table ──────────────────────────────────────
 function renderTechniquesTable() {{
@@ -1950,6 +2083,19 @@ function showDetail(id, type, skipHash) {{
      <span class="type-label">${{typeLabel}}</span>
      ${{type==='technique' ? statusBadge(techStatus(obj)) : ''}}`;
   document.getElementById('dp-name').textContent = obj.name || '';
+
+  const dpObj = document.getElementById('dp-objective');
+  if (type === 'technique') {{
+    const _tobj = T2Obj[id];
+    if (_tobj) {{
+      dpObj.textContent = 'Objective: ' + _tobj.name;
+      dpObj.style.display = 'block';
+    }} else {{
+      dpObj.style.display = 'none';
+    }}
+  }} else {{
+    dpObj.style.display = 'none';
+  }}
 
   let body = '';
 
@@ -2230,6 +2376,19 @@ function goBack() {{
      ${{prev.type==='technique' ? statusBadge(techStatus(obj)) : ''}}`;
   document.getElementById('dp-name').textContent = obj.name || '';
 
+  const dpObj2 = document.getElementById('dp-objective');
+  if (prev.type === 'technique') {{
+    const _tobj = T2Obj[prev.id];
+    if (_tobj) {{
+      dpObj2.textContent = 'Objective: ' + _tobj.name;
+      dpObj2.style.display = 'block';
+    }} else {{
+      dpObj2.style.display = 'none';
+    }}
+  }} else {{
+    dpObj2.style.display = 'none';
+  }}
+
   let body = '';
   if (prev.type === 'technique') body = buildTechniqueDetail(obj);
   else if (prev.type === 'weakness') body = buildWeaknessDetail(obj);
@@ -2345,6 +2504,7 @@ function switchView(view, skipHash) {{
     el.classList.toggle('hidden', el.id !== `view-${{view}}`));
 
   document.getElementById('fb-matrix').style.display      = view === 'matrix'      ? 'flex' : 'none';
+  document.getElementById('fb-objectives').style.display  = view === 'objectives'  ? 'flex' : 'none';
   document.getElementById('fb-techniques').style.display  = view === 'techniques'  ? 'flex' : 'none';
   document.getElementById('fb-weaknesses').style.display  = view === 'weaknesses'  ? 'flex' : 'none';
   document.getElementById('fb-mitigations').style.display = view === 'mitigations' ? 'flex' : 'none';
@@ -2356,6 +2516,7 @@ function switchView(view, skipHash) {{
 // ── Main render dispatcher ────────────────────────────────────────────
 function render() {{
   if (S.view === 'matrix')      renderMatrix();
+  if (S.view === 'objectives')  renderObjectives();
   if (S.view === 'techniques')  renderTechniquesTable();
   if (S.view === 'weaknesses')  renderWeaknesses();
   if (S.view === 'mitigations') renderMitigations();
@@ -2487,6 +2648,21 @@ document.addEventListener('click', function(e) {{
   if (el) showDetail(el.dataset.showId, el.dataset.showType);
 }});
 
+// Delegated click handler for objective table rows
+document.addEventListener('click', function(e) {{
+  const row = e.target.closest('.obj-row');
+  if (row) {{
+    S.matrixObj = row.dataset.objIdx;
+    switchView('matrix');
+  }}
+}});
+
+// Matrix objective filter reset button
+document.getElementById('matrix-obj-reset').addEventListener('click', function() {{
+  S.matrixObj = 'all';
+  render();
+}});
+
 // Delegated click handler for contributor/reviewer name popups
 document.addEventListener('click', function(e) {{
   // Remove any existing popup first
@@ -2566,7 +2742,7 @@ function handleHash() {{
   const hash = location.hash.slice(1);
   if (!hash) return;
   // Tab views
-  if (['matrix','techniques','weaknesses','mitigations','references'].includes(hash)) {{
+  if (['matrix','objectives','techniques','weaknesses','mitigations','references'].includes(hash)) {{
     switchView(hash, true);
     return;
   }}

@@ -12,7 +12,7 @@
         "https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface"
     ],
     "CASE_output_classes": [
-        "https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccess"
+        "https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed"
     ],
     "references": []
 }

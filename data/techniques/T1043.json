@@ -9,7 +9,7 @@
     "weaknesses": ["W1121", "W1122", "W1123", "W1259"],
     "CASE_input_classes" : ["https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer"],
     "CASE_output_classes": [
-        "https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccess"
+        "https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed"
     ],
     "references": []
 }

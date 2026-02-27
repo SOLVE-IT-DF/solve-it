@@ -149,10 +149,14 @@ class Objective(BaseModel):
     Model for a SOLVE-IT objective.
 
     Attributes:
+        id (Optional[str]): The unique identifier for the objective (e.g. DFO-1001).
+        sort_order (Optional[int]): The display ordering position of the objective.
         name (str): The name of the objective.
         description (str): A description of the objective.
         techniques (List[str]): A list of technique IDs associated with the objective.
     """
+    id: Optional[str] = Field(None, description="Unique identifier for the objective (e.g. DFO-1001)")
+    sort_order: Optional[int] = Field(None, description="Display ordering position of the objective")
     name: str = Field(..., description="Name of the objective")
     description: str = Field(..., description="Description of the objective")
     techniques: List[str] = Field(default_factory=list, description="List of technique IDs associated with the objective")

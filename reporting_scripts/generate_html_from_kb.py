@@ -2831,6 +2831,29 @@ def main() -> None:
                     item["_created"] = credits[item_id]["created"]
                     item["_modified"] = credits[item_id]["modified"]
 
+    # Build consolidated credits summary
+    people: dict = {}
+    for key in ("techniques", "weaknesses", "mitigations"):
+        cat = key  # "techniques", "weaknesses", "mitigations"
+        for item in db[key]:
+            for name in item.get("_contributors", []):
+                if name not in people:
+                    people[name] = {
+                        "techniques": {"contributed": 0, "reviewed": 0},
+                        "weaknesses": {"contributed": 0, "reviewed": 0},
+                        "mitigations": {"contributed": 0, "reviewed": 0},
+                    }
+                people[name][cat]["contributed"] += 1
+            for name in item.get("_reviewers", []):
+                if name not in people:
+                    people[name] = {
+                        "techniques": {"contributed": 0, "reviewed": 0},
+                        "weaknesses": {"contributed": 0, "reviewed": 0},
+                        "mitigations": {"contributed": 0, "reviewed": 0},
+                    }
+                people[name][cat]["reviewed"] += 1
+    db["credits"] = people
+
     idx = build_indices(db)
     html = generate_html(db, idx)
 

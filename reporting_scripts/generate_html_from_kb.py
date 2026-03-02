@@ -1465,6 +1465,8 @@ button {{ font-family: inherit; cursor: pointer; }}
 // ── Embedded data ────────────────────────────────────────────────────
 const DB  = {data_json};
 const IDX = {idx_json};
+// Expose on window for programmatic / console access
+window.DB = DB; window.IDX = IDX;
 
 // ── Build lookup maps ────────────────────────────────────────────────
 const TMap = Object.fromEntries(DB.techniques.map(t  => [t.id,  t]));

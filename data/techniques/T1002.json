@@ -16,7 +16,7 @@
                     "https://ontology.solveit-df.org/solveit/observable/DeviceInterface"
                     ],
     "CASE_output_classes" : [
-                             "https://ontology.solveit-df.org/solveit/observable/BitstreamData"
+                             "https://ontology.solveit-df.org/solveit/observable/Bitstream"
                             ],
     "references": ["Nikkel, B., 2016. Practical forensic imaging: securing digital evidence with Linux tools. No Starch Press, Chapter 6, “Forensic Image Acquisition"]
 }

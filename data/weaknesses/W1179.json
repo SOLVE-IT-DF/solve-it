@@ -1,7 +1,7 @@
 {
     "id": "W1179",
     "name": "Failure to detect internal disk from bootable environment",
-    "details": "For example this may be due to missing drivers",
+    "description": "For example this may be due to missing drivers",
     "INCOMP": "X",
     "INAC-EX": "",
     "INAC-AS": "",

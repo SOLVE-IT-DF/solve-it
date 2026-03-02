@@ -10,11 +10,11 @@
     "Magnet Acquire: This tool can be used to acquire data from block devices in various image formats including RAW and EWF.",
     "libewf: This open source library allows access to the EWF format. The accompanying ewftools proves tools to verify, inspect and create EWF images. "],
     "weaknesses": ["W1043"],
-    "CASE_input_classes" : ["https://ontology.solveit-df.org/solveit/observable/BitstreamData",
+    "CASE_input_classes" : ["https://ontology.solveit-df.org/solveit/observable/Bitstream",
                             "https://ontology.solveit-df.org/solveit/observable/FileSet"],
     "CASE_output_classes" : [
-                             "https://ontology.solveit-df.org/solveit/observable/ForensicImageContainer",
-                             "https://ontology.solveit-df.org/solveit/observable/RawImageFile"                             
+                             "https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer",
+                             "https://ontology.solveit-df.org/solveit/observable/RawImage"                             
                             ],
     "references": []
 }

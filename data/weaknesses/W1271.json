@@ -1,7 +1,7 @@
 {
   "id": "W1271",
   "name": "Inability to access required service as it is not enabled",
-  "details": "For example, Developer Mode may not be enabled on an Android device, or iOS services stopped due to USB Restricted Mode",
+  "description": "For example, Developer Mode may not be enabled on an Android device, or iOS services stopped due to USB Restricted Mode",
   "INCOMP": "x",
   "INAC-EX": "",
   "INAC-ALT": "",

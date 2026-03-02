@@ -1,7 +1,7 @@
 {
   "id": "M1234",
   "name": "Exploit device to facilitate password/pincode attacks",
-  "details": "",
+  "description": "",
   "technique": "T1040",
   "references": []
 }

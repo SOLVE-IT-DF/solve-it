@@ -12,7 +12,7 @@
     "CASE_input_classes" : [],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/systemTime",
-        "https://ontology.solveit-df.org/solveit/observable/ClockOffset"
+        "https://ontology.solveit-df.org/solveit/observable/ClockOffsetCapture"
     ],
     "references": []
 }

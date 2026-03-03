@@ -1,11 +1,11 @@
 {
     "id": "T1172",
-    "name": "Read data from raw image",
-    "description": "This technique reads data from a raw image e.g. a dd, and provides the 'raw' equivalent of reading data from a forensic image container e.g. EWF. This provides random access to the bitstream so the stored sectors can be processed further.",
+    "name": "Access raw image content",
+    "description": "This technique reads data from a raw image e.g. a dd image.",
     "synonyms": [
         "read dd file"
     ],
-    "details": "",
+    "details": "This provides the 'raw' equivalent of reading data from a forensic image container e.g. EWF. This provides random access to the bitstream so the stored sectors can be processed further.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],

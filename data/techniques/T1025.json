@@ -14,7 +14,7 @@
                             ],
     "CASE_output_classes" : [
                              "https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer",
-                             "https://ontology.solveit-df.org/solveit/observable/RawImageFile"                             
+                             "https://ontology.solveit-df.org/solveit/observable/RawImage"                             
                             ],
     "references": []
 }

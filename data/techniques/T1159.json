@@ -8,9 +8,8 @@
     "examples": ["Elcomsoft",
                  "Belkasoft"],
     "weaknesses": ["W1276"],
-    "CASE_input_classes" : [],
-    "CASE_output_classes": [
-    ],
+    "CASE_input_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice"],
+    "CASE_output_classes": ["https://ontology.solveit-df.org/solveit/observable/ServiceBasedExtractionData"],
     "references": ["Elcomsoft 20203 https://blog.elcomsoft.com/2023/07/ios-device-acquisition-installing-the-extraction-agent/",
                     "Belkasoft https://belkasoft.com/agent_based_ios_acquisition"]
 }

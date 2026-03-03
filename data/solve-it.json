@@ -32,7 +32,7 @@
                     "T1159",
                     "T1160", 
                     "T1162", 
-                    "T1163", "T1164", "T1171"]
+                    "T1163", "T1164", "T1171", "T1175"]
     },
 
     {"name":"Gain access",
@@ -43,7 +43,7 @@
 
     {"name":"Read data from digital evidence storage formats",
     "description": "Access data within digital evidence containers such as disk images, memory dumps, or archive formats.",
-    "techniques": ["T1045", "T1042", "T1043", "T1044", "T1102", "T1170", "T1172"]
+    "techniques": ["T1045", "T1042", "T1043", "T1044", "T1102", "T1170", "T1172", "T1173"]
     },
 
     {"name":"Reduce data under consideration",

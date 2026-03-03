@@ -7,7 +7,7 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": ["W1185"],
-    "CASE_input_classes" : [],
-    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/File"],
+    "CASE_input_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"],
+    "CASE_output_classes" : ["https://ontology.solveit-df.org/solveit/observable/FileSet"],
     "references": []
 }

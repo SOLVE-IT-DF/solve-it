@@ -345,7 +345,8 @@ def _get_projectvic_ttl_urls() -> List[str]:
 
 
 def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
-                     check_ontology: bool = False):
+                     check_ontology: bool = False) -> List[str]:
+    """Validate CASE/UCO class URLs. Returns list of ontology IRI mismatch messages."""
     bad = 0
     for tid, t in techniques.items():
         for field_name in ("CASE_input_classes", "CASE_output_classes"):
@@ -362,8 +363,10 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
     if bad == 0:
         result.pass_("All CASE/UCO class URLs are valid", verbose)
 
+    ontology_issues: List[str] = []
+
     if not check_ontology:
-        return
+        return ontology_issues
 
     # Load ontologies and verify each IRI exists as a class
     print("  ...loading ontologies (cached after first run)")
@@ -387,8 +390,8 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
         else:
             result.warn("Could not fetch ProjectVic ontology file list — ProjectVic IRIs will not be verified")
     except Exception as exc:
-        result.fail(f"Failed to load ontologies for class verification: {exc}")
-        return
+        result.warn(f"Failed to load ontologies for class verification: {exc}")
+        return ontology_issues
 
     bad = 0
     for tid, t in techniques.items():
@@ -396,10 +399,14 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
             for url in t.get(field_name, []):
                 desc = lookup.describe_class(url)
                 if not desc["found"]:
-                    result.fail(f"Technique {tid} {field_name}: \"{url}\" not found in loaded ontologies")
+                    msg = f"Technique {tid} {field_name}: \"{url}\" not found in loaded ontologies"
+                    result.warn(msg)
+                    ontology_issues.append(msg)
                     bad += 1
     if bad == 0:
         result.pass_("All CASE/UCO class IRIs exist in loaded ontologies", verbose)
+
+    return ontology_issues
 
 
 # ── Phase 5: Completeness warnings ───────────────────────────────────────────
@@ -544,6 +551,7 @@ WARNING_CATEGORIES = [
     ("Unreferenced mitigations", "Unreferenced mitigation"),
     ("Todo markers", "contains todo marker"),
     ("Not in any objective", "is not listed in any objective"),
+    ("Ontology IRI not found", "not found in loaded ontologies"),
 ]
 
 
@@ -603,6 +611,31 @@ def _write_markdown_summary(result: ValidationResult, filepath: str):
         fh.write("\n".join(lines) + "\n")
 
 
+def _write_ontology_summary(ontology_issues: List[str], filepath: str):
+    """Write a separate markdown report for ontology IRI mismatches."""
+    if not ontology_issues:
+        lines = [
+            "## Ontology IRI Check",
+            "",
+            "All CASE/UCO/SOLVE-IT class IRIs exist in loaded ontologies.",
+        ]
+    else:
+        lines = [
+            "## Ontology IRI Check",
+            "",
+            f"**{len(ontology_issues)} class IRI(s) not found** in the loaded ontologies.",
+            "",
+            "These IRIs may have been renamed, removed, or not yet published. "
+            "This does not block the build but should be investigated.",
+            "",
+        ]
+        for msg in ontology_issues:
+            lines.append(f"- {msg}")
+
+    with open(filepath, "w") as fh:
+        fh.write("\n".join(lines) + "\n")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -628,6 +661,12 @@ def main():
         metavar="FILE",
         help="Write a markdown summary to FILE (for use as a PR comment)",
     )
+    parser.add_argument(
+        "--ontology-summary",
+        type=str,
+        metavar="FILE",
+        help="Write ontology IRI mismatch report to FILE (for use as a separate PR comment)",
+    )
     args = parser.parse_args()
 
     result = ValidationResult()
@@ -644,7 +683,7 @@ def main():
     phase3_astm_flags(weaknesses, result, args.verbose)
 
     print_phase("Phase 4: CASE/UCO class URLs")
-    phase4_case_urls(techniques, result, args.verbose, check_ontology=args.check_ontology)
+    ontology_issues = phase4_case_urls(techniques, result, args.verbose, check_ontology=args.check_ontology)
 
     print_phase("Phase 5: Completeness warnings")
     phase5_completeness(techniques, weaknesses, mitigations, objectives, result, args.verbose)
@@ -659,6 +698,9 @@ def main():
 
     if args.markdown_summary:
         _write_markdown_summary(result, args.markdown_summary)
+
+    if args.ontology_summary:
+        _write_ontology_summary(ontology_issues, args.ontology_summary)
 
     sys.exit(0 if result.ok else 1)
 

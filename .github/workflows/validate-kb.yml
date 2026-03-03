@@ -23,9 +23,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Validate knowledge base
-        run: python admin/validate_kb.py --verbose --markdown-summary kb_validation_summary.md
-      - name: Post PR comment
+        run: >
+          python admin/validate_kb.py --verbose
+          --check-ontology
+          --markdown-summary kb_validation_summary.md
+          --ontology-summary ontology_iri_report.md
+      - name: Post validation summary
         if: github.event_name == 'pull_request' && always()
         uses: marocchino/sticky-pull-request-comment@v2
         with:
+          header: kb-validation
           path: kb_validation_summary.md
+      - name: Post ontology IRI report
+        if: github.event_name == 'pull_request' && always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: ontology-iri-check
+          path: ontology_iri_report.md

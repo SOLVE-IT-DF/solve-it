@@ -16,14 +16,9 @@ def main():
     base_path = os.path.join(os.path.dirname(__file__), '..', '..')
     kb = KnowledgeBase(base_path, 'solve-it.json')
 
-    # Collect technique IDs and names for the dropdown
+    # Collect technique IDs for the description text
     technique_ids = kb.list_techniques()
     id_range = f"{technique_ids[0]}–{technique_ids[-1]}" if technique_ids else "T1001–T1099"
-    technique_options = []
-    for tid in technique_ids:
-        t = kb.get_technique(tid)
-        name = t.get("name", "") if t else ""
-        technique_options.append(f"{tid}: {name}" if name else tid)
 
     lines = []
     lines.append('name: "Update Technique"')
@@ -42,14 +37,12 @@ def main():
     lines.append(f"        Existing techniques ({id_range}) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).")
 
     # --- Technique ID ---
-    lines.append("  - type: dropdown")
+    lines.append("  - type: input")
     lines.append("    id: technique-id")
     lines.append("    attributes:")
     lines.append("      label: Technique ID")
-    lines.append("      description: Select the technique to update.")
-    lines.append("      options:")
-    for opt in technique_options:
-        lines.append(f'        - "{opt}"')
+    lines.append("      description: The ID of the technique to update (e.g. T1002).")
+    lines.append("      placeholder: T1002")
     lines.append("    validations:")
     lines.append("      required: true")
 

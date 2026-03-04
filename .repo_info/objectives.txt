@@ -1,4 +1,5 @@
 Objective	Description
+Prepare for a digital investigation	todo
 Find potential digital evidence sources	todo
 Prioritize digital evidence sources	todo
 Preserve digital evidence	todo

@@ -10,7 +10,7 @@ W1008	Missing the existence of a device by missing synchronisation artefacts	x
 W1009	Missing the existence of a device by incorrectly parsing synchronisation artefacts	x					
 W1010	Misattributing activity to the wrong device			x			
 W1011	Suggesting the existence of a device that does not exist		x				
-W1012	Interaction with the target devices to read synronisation artefacts causes changes				x		
+W1012	Interaction with the target devices to read data causes changes				x		
 W1013	Acquisition includes extra bytes		x				
 W1014	Imaging process changes original data				x		
 W1015	Powering on SSD results in sectors being wiped by TRIM operation	x			x	x	
@@ -269,3 +269,4 @@ W1273	Failure to preserve full resolution of all relevant timestamps of files ob
 W1274	Inability to enable required service due to locked device	x					
 W1275	Failure to store data due to size limitations of archive format used	x					
 W1276	Relevant data is overwritten by deploying an agent to a mobile device	x					
+W1277	Connection over a direct media interface causes changes to the target media	x			x	x	

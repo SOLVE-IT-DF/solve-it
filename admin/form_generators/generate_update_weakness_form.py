@@ -16,14 +16,9 @@ def main():
     base_path = os.path.join(os.path.dirname(__file__), '..', '..')
     kb = KnowledgeBase(base_path, 'solve-it.json')
 
-    # Collect weakness IDs and names for the dropdown
+    # Collect weakness IDs for the description text
     weakness_ids = kb.list_weaknesses()
     id_range = f"{weakness_ids[0]}–{weakness_ids[-1]}" if weakness_ids else "W1001–W1099"
-    weakness_options = []
-    for wid in weakness_ids:
-        w = kb.get_weakness(wid)
-        name = w.get("name", "") if w else ""
-        weakness_options.append(f"{wid}: {name}" if name else wid)
 
     lines = []
     lines.append('name: "Update Weakness"')
@@ -42,14 +37,12 @@ def main():
     lines.append(f"        Existing weaknesses ({id_range}) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).")
 
     # --- Weakness ID ---
-    lines.append("  - type: dropdown")
+    lines.append("  - type: input")
     lines.append("    id: weakness-id")
     lines.append("    attributes:")
     lines.append("      label: Weakness ID")
-    lines.append("      description: Select the weakness to update.")
-    lines.append("      options:")
-    for opt in weakness_options:
-        lines.append(f'        - "{opt}"')
+    lines.append("      description: The ID of the weakness to update (e.g. W1001).")
+    lines.append("      placeholder: W1001")
     lines.append("    validations:")
     lines.append("      required: true")
 

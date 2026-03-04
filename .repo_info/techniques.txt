@@ -41,7 +41,7 @@ T1039	App downgrade
 T1040	Use mobile device exploit	
 T1041	Pin2Pwn	
 T1042	Disk image hash verification	
-T1043	Decode forensic image format	
+T1043	Decode forensic image container format	
 T1044	Mobile backup decoding	
 T1045	Decode standard archive format	
 T1046	Privileged material protection	
@@ -158,3 +158,5 @@ T1159	Extract mobile data via deployed agent
 T1160	Collect data with 'cloud backup restore' approach	
 T1162	Read data from a device via In-System Programming (ISP)	
 T1163	Automated screenshot-based capture of a mobile device	
+T1164	Direct data read from a block device	
+T1166	Connect directly to storage media	

@@ -108,8 +108,8 @@ def main():
 
     fields = parse_issue_body(body)
 
-    # Validate weakness ID (dropdown value may include name, e.g. "W1001: Name")
-    weakness_id = fields.get("Weakness ID", "").strip().split(":")[0].strip()
+    # Validate weakness ID
+    weakness_id = fields.get("Weakness ID", "").strip()
     if not re.match(r'^W\d+$', weakness_id):
         print(f"Error: Invalid weakness ID format: '{weakness_id}'", file=sys.stderr)
         sys.exit(1)

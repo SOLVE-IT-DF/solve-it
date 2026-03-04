@@ -246,24 +246,33 @@ def add_objectives_to_graph(g, kb):
     """Add investigation objectives to the RDF graph."""
     objectives = kb.list_objectives()
 
-    for idx, objective in enumerate(objectives, 1):
+    for idx, objective in enumerate(objectives):
+        obj_id = objective.get('id')
         obj_name = objective.get('name')
         obj_description = objective.get('description', '')
+        sort_order = objective.get('sort_order')
 
-        # Create URI for this objective (using numeric ID to avoid special chars)
-        obj_uri = SOLVEIT_DATA[f"objective{idx:02d}"]
+        # Create URI using the real objective ID (e.g. DFO-1001), falling back to index
+        uri_id = obj_id if obj_id else f"objective{idx + 1:02d}"
+        obj_uri = SOLVEIT_DATA[f"objective{uri_id}"]
 
         # Add type
         g.add((obj_uri, RDF.type, SOLVEIT_CORE.Objective))
 
         # Add label
-        g.add((obj_uri, RDFS.label, Literal(obj_name, lang="en")))
+        label = f"{obj_id}: {obj_name}" if obj_id else obj_name
+        g.add((obj_uri, RDFS.label, Literal(label, lang="en")))
 
         # Add properties
+        if obj_id:
+            g.add((obj_uri, SOLVEIT_CORE.objectiveID, Literal(obj_id)))
         g.add((obj_uri, SOLVEIT_CORE.objectiveName, Literal(obj_name)))
 
         if obj_description:
             g.add((obj_uri, SOLVEIT_CORE.objectiveDescription, Literal(obj_description)))
+
+        if sort_order is not None:
+            g.add((obj_uri, SOLVEIT_CORE.sortOrder, Literal(sort_order, datatype=XSD.integer)))
 
         # Link techniques to objectives
         for tech_id in objective.get('techniques', []):

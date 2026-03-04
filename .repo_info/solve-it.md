@@ -81,6 +81,7 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - 🔴 [T1162 - Read data from a device via In-System Programming (ISP)](md_content/T1162.md)
     - 🔴 [T1027 - Data read using JTAG](md_content/T1027.md)
 - 🔴 [T1163 - Automated screenshot-based capture of a mobile device](md_content/T1163.md)
+- 🟢 [T1164 - Direct data read from a block device](md_content/T1164.md)
 <a id="gain-access"></a>
 ### Gain access
 *Attempt to gain access to protected data sources or other restricted data.*
@@ -97,12 +98,13 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - 🟡 [T1040 - Use mobile device exploit](md_content/T1040.md)
 - 🔴 [T1041 - Pin2Pwn](md_content/T1041.md)
 - 🟢 [T1158 - Configure device to enable a service needed for data extraction](md_content/T1158.md)
+- 🟢 [T1166 - Connect directly to storage media](md_content/T1166.md)
 <a id="read-data-from-digital-evidence-storage-formats"></a>
 ### Read data from digital evidence storage formats
 *Access data within digital evidence containers such as disk images, memory dumps, or archive formats.*
 
 - 🟢 [T1042 - Disk image hash verification](md_content/T1042.md)
-- 🟢 [T1043 - Decode forensic image format](md_content/T1043.md)
+- 🟢 [T1043 - Decode forensic image container format](md_content/T1043.md)
 - 🟡 [T1044 - Mobile backup decoding](md_content/T1044.md)
 - 🟢 [T1045 - Decode standard archive format](md_content/T1045.md)
 - 🔴 [T1102 - Decode data from image from unmanaged NAND](md_content/T1102.md)
@@ -265,4 +267,4 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 ---
 
-*Markdown generated: 2026-02-27 14:45:33*
+*Markdown generated: 2026-03-04 01:16:00*

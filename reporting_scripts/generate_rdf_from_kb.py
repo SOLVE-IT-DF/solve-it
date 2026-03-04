@@ -295,13 +295,27 @@ def save_graph(g, output_dir, format_type='both'):
     if format_type in ['ttl', 'both']:
         ttl_file = output_path / 'solve-it-kb.ttl'
         logger.info(f"Writing Turtle output to {ttl_file}")
-        g.serialize(destination=str(ttl_file), format='turtle')
+        # rdflib Turtle serializer sorts by subject; write with consistent encoding
+        ttl_output = g.serialize(format='turtle')
+        with open(ttl_file, 'w', encoding='utf-8') as f:
+            f.write(ttl_output)
         logger.info(f"Turtle file written successfully: {ttl_file}")
 
     if format_type in ['jsonld', 'both']:
         jsonld_file = output_path / 'solve-it-kb.jsonld'
         logger.info(f"Writing JSON-LD output to {jsonld_file}")
-        g.serialize(destination=str(jsonld_file), format='json-ld')
+        # Serialize to string, then sort for deterministic output
+        import json
+        jsonld_str = g.serialize(format='json-ld')
+        jsonld_data = json.loads(jsonld_str)
+        # Sort @graph entries by @id for stable diffs
+        if isinstance(jsonld_data, list):
+            jsonld_data.sort(key=lambda x: x.get('@id', ''))
+        elif isinstance(jsonld_data, dict) and '@graph' in jsonld_data:
+            jsonld_data['@graph'].sort(key=lambda x: x.get('@id', ''))
+        with open(jsonld_file, 'w', encoding='utf-8') as f:
+            json.dump(jsonld_data, f, indent=2, sort_keys=True, ensure_ascii=False)
+            f.write('\n')
         logger.info(f"JSON-LD file written successfully: {jsonld_file}")
 
 

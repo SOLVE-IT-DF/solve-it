@@ -1,0 +1,6 @@
+{
+    "id": "M1241",
+    "name": "Avoid direct connection to media and use hardware write blocker instead",
+    "technique": "T1012",
+    "references": []
+}

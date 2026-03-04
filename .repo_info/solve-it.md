@@ -5,6 +5,7 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 
 # Objective Index
+- [Prepare for a digital investigation](#prepare-for-a-digital-investigation)
 - [Find potential digital evidence sources](#find-potential-digital-evidence-sources)
 - [Prioritize digital evidence sources](#prioritize-digital-evidence-sources)
 - [Preserve digital evidence](#preserve-digital-evidence)
@@ -26,6 +27,10 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - [Produce documentation](#produce-documentation)
 
 # Objectives and Techniques
+<a id="prepare-for-a-digital-investigation"></a>
+### Prepare for a digital investigation
+*Conduct activities in preparation of conducting a digital investigation*
+
 <a id="find-potential-digital-evidence-sources"></a>
 ### Find potential digital evidence sources
 *Locate sources of digital evidence that may be relevant to the investigation.*
@@ -82,6 +87,7 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
     - 🔴 [T1027 - Data read using JTAG](md_content/T1027.md)
 - 🔴 [T1163 - Automated screenshot-based capture of a mobile device](md_content/T1163.md)
 - 🟢 [T1164 - Direct data read from a block device](md_content/T1164.md)
+- 🟢 [T1166 - Connect directly to storage media](md_content/T1166.md)
 <a id="gain-access"></a>
 ### Gain access
 *Attempt to gain access to protected data sources or other restricted data.*
@@ -98,7 +104,6 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - 🟡 [T1040 - Use mobile device exploit](md_content/T1040.md)
 - 🔴 [T1041 - Pin2Pwn](md_content/T1041.md)
 - 🟢 [T1158 - Configure device to enable a service needed for data extraction](md_content/T1158.md)
-- 🟢 [T1166 - Connect directly to storage media](md_content/T1166.md)
 <a id="read-data-from-digital-evidence-storage-formats"></a>
 ### Read data from digital evidence storage formats
 *Access data within digital evidence containers such as disk images, memory dumps, or archive formats.*
@@ -267,4 +272,4 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 ---
 
-*Markdown generated: 2026-03-04 01:16:00*
+*Markdown generated: 2026-03-04 08:14:46*

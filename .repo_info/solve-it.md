@@ -104,7 +104,7 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 *Access data within digital evidence containers such as disk images, memory dumps, or archive formats.*
 
 - 🟢 [T1042 - Disk image hash verification](md_content/T1042.md)
-- 🟢 [T1043 - Decode forensic image format](md_content/T1043.md)
+- 🟢 [T1043 - Decode forensic image container format](md_content/T1043.md)
 - 🟡 [T1044 - Mobile backup decoding](md_content/T1044.md)
 - 🟢 [T1045 - Decode standard archive format](md_content/T1045.md)
 - 🔴 [T1102 - Decode data from image from unmanaged NAND](md_content/T1102.md)
@@ -267,4 +267,4 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 ---
 
-*Markdown generated: 2026-03-04 01:15:16*
+*Markdown generated: 2026-03-04 01:16:00*

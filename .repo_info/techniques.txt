@@ -41,7 +41,7 @@ T1039	App downgrade
 T1040	Use mobile device exploit	
 T1041	Pin2Pwn	
 T1042	Disk image hash verification	
-T1043	Decode forensic image format	
+T1043	Decode forensic image container format	
 T1044	Mobile backup decoding	
 T1045	Decode standard archive format	
 T1046	Privileged material protection	

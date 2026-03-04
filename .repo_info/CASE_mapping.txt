@@ -91,9 +91,10 @@ T1040	Use mobile device exploit
 T1041	Pin2Pwn	
 T1042	Disk image hash verification	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/hash
-T1043	Decode forensic image format	
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
+T1043	Decode forensic image container format	
+			Input: https://ontology.solveit-df.org/solveit/observable/ForensicImageContainer
+			Output: https://ontology.solveit-df.org/solveit/observable/BitstreamData
+			Output: https://ontology.solveit-df.org/solveit/observable/FileSet
 T1044	Mobile backup decoding	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/filePath

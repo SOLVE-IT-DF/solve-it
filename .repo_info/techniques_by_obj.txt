@@ -54,7 +54,7 @@ Gain access	T1158	Configure device to enable a service needed for data extractio
 Gain access	T1166	Connect directly to storage media
 Read data from digital evidence storage formats	T1045	Decode standard archive format
 Read data from digital evidence storage formats	T1042	Disk image hash verification
-Read data from digital evidence storage formats	T1043	Decode forensic image format
+Read data from digital evidence storage formats	T1043	Decode forensic image container format
 Read data from digital evidence storage formats	T1044	Mobile backup decoding
 Read data from digital evidence storage formats	T1102	Decode data from image from unmanaged NAND
 Reduce data under consideration	T1047	Hash matching (reduce)

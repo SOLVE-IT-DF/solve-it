@@ -158,3 +158,5 @@ T1159	Extract mobile data via deployed agent	Deploy software to a mobile device 
 T1160	Collect data with 'cloud backup restore' approach	Restore a device's cloud backup to a donor device, then subsequently use a local acquisition approach on that donor device, e.g. T1019/T1020	[]
 T1162	Read data from a device via In-System Programming (ISP)		['ISCP', 'In-circuit serial Programming']
 T1163	Automated screenshot-based capture of a mobile device	Programmatically controlling a mobile device while capturing screenshots of the display.	[]
+T1164	Direct data read from a block device	Rather than imaging a block device, this involves accessing it directly without the expectation of saving block data to a forensic image format.	[]
+T1166	Connect directly to storage media	This technique describes the occasions where it is necessary to connect directly to a disk without a hardware write blocker. This would typically then involve a subseqeunt software write blocker, which then presents a write protected interface.	[]

@@ -158,3 +158,5 @@ T1159	Extract mobile data via deployed agent
 T1160	Collect data with 'cloud backup restore' approach	
 T1162	Read data from a device via In-System Programming (ISP)	
 T1163	Automated screenshot-based capture of a mobile device	
+T1164	Direct data read from a block device	
+T1166	Connect directly to storage media	

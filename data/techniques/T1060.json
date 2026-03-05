@@ -10,34 +10,9 @@
     "weaknesses": ["W1068", "W1069", "W1070", "W1071", "W1072", "W1073",
                     "W1074", "W1075", "W1076", "W1077", "W1078", "W1079",
                     "W1080", "W1081", "W1082", "W1083", "W1084"],
-    "CASE_input_classes" : [],
+    "CASE_input_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/FileSystem"],
     "CASE_output_classes" : [
-                            "https://ontology.unifiedcyberontology.org/uco/observable/File",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/Directory",
-                            
-                            "https://ontology.unifiedcyberontology.org/uco/observable/allocationStatus",
-                            
-                            "https://ontology.unifiedcyberontology.org/uco/observable/mftFileID",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/extInodeID",
-
-                            "https://ontology.unifiedcyberontology.org/uco/observable/filePath",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/fileName",
-
-                            "https://ontology.unifiedcyberontology.org/uco/observable/modifiedTime",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/accessedTime",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/creationTime",                            
-                            "https://ontology.unifiedcyberontology.org/uco/observable/metadataChangeTime",
-
-                            "https://ontology.unifiedcyberontology.org/uco/observable/mftRecordChangeTime",
-                            
-                            "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameModifiedTime",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameAccessedTime",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameCreatedTime",                            
-                            "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameRecordChangeTime",
-                                                        
-                            "https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerID",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerSID",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/ownerSID"                            
+                            "https://ontology.solveit-df.org/solveit/observable/FileSet"
                         ],
     "references": ["Casey, E., Nelson, A. and Hyde, J., 2019. Standardization of file recovery classification and authentication. Digital Investigation, 31, p.100873.",
                     "Carrier, B., 2005. File system forensic analysis. Addison-Wesley Professional."]

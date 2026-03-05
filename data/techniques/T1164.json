@@ -6,13 +6,13 @@
     "details": "This would typically be followed by processing of the data that is read to then provide a live view of partitions and file systems, and facilitates logical file extraction or any other direct operations on the data.",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": ["W1012"],
+    "weaknesses": [],
     "CASE_input_classes": [
         "https://ontology.solveit-df.org/solveit/observable/DeviceInterface",
         "https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface"
     ],
     "CASE_output_classes": [
-        "https://ontology.solveit-df.org/solveit/observable/BitstreamData"
+        "https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed"
     ],
     "references": []
 }

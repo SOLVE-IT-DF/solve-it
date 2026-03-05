@@ -8,7 +8,7 @@
     "examples": [],
     "weaknesses": [],
     "CASE_input_classes" : [],
-    "CASE_output_classes": ["https://ontology.unifiedcyberontology.org/uco/core/confidence"],
+    "CASE_output_classes": ["https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent"],
     "references": []
 }
 

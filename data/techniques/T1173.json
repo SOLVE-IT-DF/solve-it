@@ -1,0 +1,18 @@
+{
+    "id": "T1173",
+    "name": "Extract data from captured screenshots",
+    "description": "Processing a screenshot captured from a device to extract data for further processing.",
+    "synonyms": [],
+    "details": "When data has been captured from devices as screenshots, data can be extracted from them using OCR techniques to incorporate into the broader case data e..g to make searchable.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/DeviceScreenshotCapture"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Message",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Contact"
+    ],
+    "references": []
+}

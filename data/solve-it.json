@@ -50,9 +50,9 @@
                     "T1025", "T1026",
                     "T1157",
                     "T1159",
-                    "T1160",
-                    "T1162",
-                    "T1163", "T1164", "T1166"]
+                    "T1160", 
+                    "T1162", 
+                    "T1163", "T1164", "T1166", "T1171", "T1175"]
     },
 
     {
@@ -63,13 +63,13 @@
         "techniques": ["T1039", "T1034", "T1035", "T1033", "T1031",
                     "T1041", "T1038", "T1032", "T1036", "T1037","T1040", "T1158"]
     },
-
     {
         "id": "DFO-1018",
         "sort_order": 6,
         "name":"Read data from digital evidence storage formats",
         "description": "Access data within digital evidence containers such as disk images, memory dumps, or archive formats.",
-        "techniques": ["T1045", "T1042", "T1043", "T1044", "T1102"]
+        "techniques": ["T1045", "T1042", "T1043", "T1044", "T1102", "T1170", "T1172", "T1173", "T1174"]
+
     },
 
     {
@@ -79,16 +79,15 @@
         "description": "Filter the data to be considered in the investigation for practical, legal, or privacy protection reasons.",
         "techniques": ["T1047", "T1048", "T1046"]
     },
-
     {
         "id": "DFO-1013",
         "sort_order": 8,
         "name":"Access partitions, volumes and file systems data",
         "description": "Process core data storage structures such as partitions, volumes, and file systems, recovering content and metadata.",
         "techniques": ["T1062", "T1061", "T1063",
-                    "T1059", "T1060"]
-    },
+                    "T1059", "T1060", "T1168"]
 
+    },
     {
         "id": "DFO-1017",
         "sort_order": 9,
@@ -108,13 +107,13 @@
                     "T1070", "T1075", "T1077", "T1074", "T1105", "T1107",
                     "T1108", "T1109", "T1133"]
     },
-
     {
         "id": "DFO-1002",
         "sort_order": 11,
         "name":"Extract artifacts, or content of specific types",
         "description": "Process data to extract artifacts or stored content of specific types.",
-        "techniques": ["T1021", "T1071", "T1076", "T1100", "T1099", "T1052", "T1053", "T1056", "T1120"]
+        "techniques": ["T1021", "T1071", "T1076", "T1100", "T1099", "T1052", "T1053", "T1056", "T1120", "T1167", "T1169"]
+
     },
 
     {

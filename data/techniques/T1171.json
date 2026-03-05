@@ -1,0 +1,17 @@
+{
+    "id": "T1171",
+    "name": "Access file system via live operating system",
+    "description": "This involves accessing a live system and relying on the operating system's parsing of the file system to access files.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Computer"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "references": []
+}

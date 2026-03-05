@@ -1,22 +1,33 @@
 {
     "id": "T1137",
     "name": "Browser history examination",
-    "description": "The examination of artifacts of webpages visited",
-    "synonyms": ["web history examination", 
-                 "internet history examination"],
-    "details": "These are typically what are displayed in the address bar, with data typically stored within a locally stored database.",
+    "description": "The examination of the history component of a web browser.",
+    "synonyms": [
+        "web history examination",
+        "internet history examination"
+    ],
+    "details": "Typically this would involve the examination of data in one or more SQLite tables.",
     "subtechniques": [],
-    "examples": [],
-    "weaknesses": ["W1243", 
-                   "W1244", 
-                   "W1108", 
-                   "W1245", 
-                   "W1246",
-                "W1109", "W1110", "W1111", "W1112"],
-    "CASE_input_classes" : [],
-    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/URLHistory",
-                             "https://ontology.unifiedcyberontology.org/uco/observable/URLVisit",
-                             "https://ontology.unifiedcyberontology.org/uco/observable/URLHistoryEntry",
-                             "https://ontology.unifiedcyberontology.org/uco/observable/visitTime"],
+    "examples": [
+        "places.sqlite for Firefox",
+        "History for Chrome"
+    ],
+    "weaknesses": [
+        "W1243",
+        "W1244",
+        "W1108",
+        "W1245",
+        "W1246",
+        "W1109",
+        "W1110",
+        "W1111",
+        "W1112"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/SQLiteDatabase"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/URLHistory"
+    ],
     "references": []
 }

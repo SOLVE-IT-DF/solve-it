@@ -1,6 +1,6 @@
 {
     "id": "M1091",
     "name": "Use a brute force attack instead",
-    "techqniue": "T1034",
+    "technique": "T1034",
     "references" : []
 }

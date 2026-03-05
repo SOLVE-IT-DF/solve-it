@@ -1,0 +1,42 @@
+name: Validate knowledge base
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v3
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Validate knowledge base
+        run: >
+          python admin/validate_kb.py --verbose
+          --check-ontology
+          --markdown-summary kb_validation_summary.md
+          --ontology-summary ontology_iri_report.md
+      - name: Post validation summary
+        if: github.event_name == 'pull_request' && always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: kb-validation
+          path: kb_validation_summary.md
+      - name: Post ontology IRI report
+        if: github.event_name == 'pull_request' && always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: ontology-iri-check
+          path: ontology_iri_report.md

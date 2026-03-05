@@ -1,7 +1,7 @@
 {
   "id": "M1238",
   "name": "Configure device to enable required service",
-  "details": "For example turning on Developer Mode on Android to enable ADB",
+  "description": "For example turning on Developer Mode on Android to enable ADB",
   "technique": "T1158",
   "references": [
     "Android (2025), Android Debug Bridge (adb), https://developer.android.com/tools/adb",

@@ -15,7 +15,9 @@ Usage:
     markdown = lookup.format_markdown_details("https://ontology.solveit-df.org/solveit/observable/DeviceSet")
 """
 
+import json
 import logging
+import urllib.request
 from pathlib import Path
 
 from rdflib import Graph, Namespace, URIRef, RDF, RDFS, OWL
@@ -40,21 +42,38 @@ NAMESPACE_PREFIXES = {
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#": "rdf",
 }
 
-# SOLVE-IT ontology TTL files to load (relative to ontology repo root or base URL)
-SOLVEIT_ONTOLOGY_FILES = [
-    "solve_it_core.ttl",
-    "solve_it_observable.ttl",
-    "solve_it_observable_acquisition.ttl",
-    "solve_it_observable_timeline.ttl",
-    "solve_it_observable_search.ttl",
-    "solve_it_analysis.ttl",
-    "solve_it_observable_shapes.ttl",
-]
-
-# Default GitHub raw URL base for SOLVE-IT ontology
+# GitHub locations for the SOLVE-IT ontology
+SOLVEIT_ONTOLOGY_GITHUB_API = (
+    "https://api.github.com/repos/SOLVE-IT-DF/solve-it-ontology/contents/"
+)
 SOLVEIT_ONTOLOGY_DEFAULT_URL = (
     "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-ontology/main/"
 )
+
+
+def _discover_solveit_ttl_files(base_api_url=SOLVEIT_ONTOLOGY_GITHUB_API):
+    """Fetch the list of solve_it*.ttl files from the SOLVE-IT ontology repo."""
+    try:
+        try:
+            import requests
+            resp = requests.get(base_api_url, timeout=15,
+                                headers={"User-Agent": "SOLVE-IT-Generator/1.0"})
+            resp.raise_for_status()
+            entries = resp.json()
+        except ImportError:
+            req = urllib.request.Request(
+                base_api_url,
+                headers={"User-Agent": "SOLVE-IT-Generator/1.0"},
+            )
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                entries = json.loads(resp.read().decode("utf-8"))
+        return sorted([
+            e["name"] for e in entries
+            if e["name"].startswith("solve_it") and e["name"].endswith(".ttl")
+        ])
+    except Exception as exc:
+        logger.warning(f"Could not discover SOLVE-IT TTL files from GitHub: {exc}")
+        return None
 
 # UCO/CASE ontology module URLs for 1.4.0
 UCO_CASE_MODULES = [
@@ -102,25 +121,28 @@ class OntologyLookup:
         logger.info(f"Ontology loaded: {len(self.graph)} triples from {len(self._loaded_sources)} sources")
 
     def _load_solveit_from_path(self, ontology_path):
-        """Load SOLVE-IT ontology TTL files from a local directory."""
-        for ttl_file in SOLVEIT_ONTOLOGY_FILES:
-            filepath = ontology_path / ttl_file
-            if filepath.exists():
-                try:
-                    self.graph.parse(str(filepath), format="turtle")
-                    self._loaded_sources.append(str(filepath))
-                    logger.debug(f"Loaded: {filepath}")
-                except Exception as e:
-                    logger.warning(f"Failed to parse {filepath}: {e}")
-            else:
-                logger.debug(f"Ontology file not found: {filepath}")
+        """Load all solve_it*.ttl files from a local directory."""
+        ttl_files = sorted(ontology_path.glob("solve_it*.ttl"))
+        if not ttl_files:
+            logger.warning(f"No solve_it*.ttl files found in {ontology_path}")
+            return
+        for filepath in ttl_files:
+            try:
+                self.graph.parse(str(filepath), format="turtle")
+                self._loaded_sources.append(str(filepath))
+                logger.debug(f"Loaded: {filepath}")
+            except Exception as e:
+                logger.warning(f"Failed to parse {filepath}: {e}")
 
     def _load_solveit_from_url(self, base_url):
         """Load SOLVE-IT ontology TTL files from a remote URL base."""
-        # Ensure trailing slash
         if not base_url.endswith("/"):
             base_url += "/"
-        urls = [base_url + f for f in SOLVEIT_ONTOLOGY_FILES]
+        ttl_files = _discover_solveit_ttl_files()
+        if not ttl_files:
+            logger.warning("TTL file discovery failed; cannot load SOLVE-IT ontology from URL")
+            return
+        urls = [base_url + f for f in ttl_files]
         self._load_remote_modules(urls)
 
     def _load_remote_modules(self, urls):

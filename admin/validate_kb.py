@@ -554,6 +554,75 @@ WARNING_CATEGORIES = [
     ("Ontology IRI not found", "not found in loaded ontologies"),
 ]
 
+# Groups for organising pass/fail checks in the summary.
+# Each entry: (display_label, pattern_to_match_in_message)
+CHECK_GROUPS = [
+    ("Data loading", [
+        ("Techniques loaded", "Loaded", "techniques"),
+        ("Weaknesses loaded", "Loaded", "weaknesses"),
+        ("Mitigations loaded", "Loaded", "mitigations"),
+        ("Objectives loaded", "Loaded", "objectives"),
+    ]),
+    ("Cross-reference integrity", [
+        ("Technique → weakness refs", "technique -> weakness"),
+        ("Technique → subtechnique refs", "technique -> subtechnique"),
+        ("Weakness → mitigation refs", "weakness -> mitigation"),
+        ("Objective → technique refs", "objective -> technique"),
+        ("Mitigation → technique refs", "mitigation -> technique"),
+        ("No duplicate references", "No duplicate references"),
+        ("No self-referencing subtechniques", "No self-referencing"),
+        ("No duplicate techniques in objectives", "No duplicate techniques"),
+    ]),
+    ("Validation checks", [
+        ("ASTM error class flags", "ASTM error class"),
+        ("CASE/UCO class URLs valid", "class URLs are valid"),
+        ("CASE/UCO class IRIs in ontology", "class IRIs exist"),
+    ]),
+    ("Generator builds", [
+        ("Statistics summary", "Generator: stat_summary"),
+        ("TSV (techniques)", "Generator: tsv (techniques)"),
+        ("TSV (weaknesses)", "Generator: tsv (weaknesses)"),
+        ("TSV (mitigations)", "Generator: tsv (mitigations)"),
+        ("TSV (objectives)", "Generator: tsv (objectives)"),
+        ("TSV (CASE mapping)", "Generator: tsv (CASE mapping)"),
+        ("Excel workbook", "Generator: excel"),
+        ("Evaluation workbook", "Generator: evaluation"),
+        ("HTML viewer", "Generator: html"),
+        ("RDF/JSON-LD", "Generator: rdf"),
+        ("Markdown", "Generator: markdown"),
+    ]),
+]
+
+
+def _build_checks_table(result: ValidationResult) -> List[str]:
+    """Build a status table showing pass/fail for each check group."""
+    all_msgs = {msg: True for msg in result.passes}
+    all_msgs.update({msg: False for msg in result.fails})
+
+    lines = []
+    for group_name, checks in CHECK_GROUPS:
+        group_results = []
+        for check in checks:
+            label = check[0]
+            patterns = check[1:]
+            # A check matches if ALL its patterns appear in any single message
+            matched = False
+            passed = False
+            for msg, is_pass in all_msgs.items():
+                if all(p.lower() in msg.lower() for p in patterns):
+                    matched = True
+                    passed = is_pass
+                    break
+            if matched:
+                icon = "&#9989;" if passed else "&#10060;"
+                group_results.append(f"| {icon} | {label} |")
+
+        if group_results:
+            lines.append(f"| | **{group_name}** |")
+            lines.extend(group_results)
+
+    return lines
+
 
 def _write_markdown_summary(result: ValidationResult, filepath: str):
     p = len(result.passes)
@@ -590,6 +659,19 @@ def _write_markdown_summary(result: ValidationResult, filepath: str):
         lines.append("")
         for msg in result.fails:
             lines.append(f"- {msg}")
+
+    # Checks passed / failed detail
+    checks_table = _build_checks_table(result)
+    if checks_table:
+        lines.append("")
+        lines.append("<details>")
+        lines.append("<summary>Checks detail</summary>")
+        lines.append("")
+        lines.append("| Status | Check |")
+        lines.append("|:------:|-------|")
+        lines.extend(checks_table)
+        lines.append("")
+        lines.append("</details>")
 
     if categories:
         lines.append("")

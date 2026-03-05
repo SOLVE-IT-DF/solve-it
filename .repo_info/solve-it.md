@@ -69,7 +69,7 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - 🔴 [T1022 - Mobile device screenshot based capture](md_content/T1022.md)
 - 🔴 [T1023 - Cloud data collection to access data via a live web page using credentials](md_content/T1023.md)
 - 🔴 [T1024 - Cloud data collection via submission of request to service provider](md_content/T1024.md)
-- 🟢 [T1025 - Writing data to a forensic image format](md_content/T1025.md)
+- 🟢 [T1025 - Writing bitstream data to a forensic image format](md_content/T1025.md)
 - 🟢 [T1026 - Writing data to standard archive format](md_content/T1026.md)
 - 🔴 [T1028 - Chip-off](md_content/T1028.md)
 - 🔴 [T1029 - Access data from a desoldered eMMC via a chip reader](md_content/T1029.md)
@@ -86,8 +86,10 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - 🔴 [T1162 - Read data from a device via In-System Programming (ISP)](md_content/T1162.md)
     - 🔴 [T1027 - Data read using JTAG](md_content/T1027.md)
 - 🔴 [T1163 - Automated screenshot-based capture of a mobile device](md_content/T1163.md)
-- 🟢 [T1164 - Direct data read from a block device](md_content/T1164.md)
+- 🔴 [T1164 - Direct data read from a block device](md_content/T1164.md)
 - 🟢 [T1166 - Connect directly to storage media](md_content/T1166.md)
+- 🔴 [T1171 - Access file system via live operating system](md_content/T1171.md)
+- 🔴 [T1175 - Extract data using content queries](md_content/T1175.md)
 <a id="gain-access"></a>
 ### Gain access
 *Attempt to gain access to protected data sources or other restricted data.*
@@ -109,10 +111,14 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 *Access data within digital evidence containers such as disk images, memory dumps, or archive formats.*
 
 - 🟢 [T1042 - Disk image hash verification](md_content/T1042.md)
-- 🟢 [T1043 - Decode forensic image container format](md_content/T1043.md)
-- 🟡 [T1044 - Mobile backup decoding](md_content/T1044.md)
+- 🟢 [T1043 - Access forensic image content (bitstream)](md_content/T1043.md)
+- 🟢 [T1044 - Mobile backup decoding](md_content/T1044.md)
 - 🟢 [T1045 - Decode standard archive format](md_content/T1045.md)
 - 🔴 [T1102 - Decode data from image from unmanaged NAND](md_content/T1102.md)
+- 🔴 [T1170 - Decode forensic image format (logical)](md_content/T1170.md)
+- 🔴 [T1172 - Access raw image content](md_content/T1172.md)
+- 🔴 [T1173 - Extract data from captured screenshots](md_content/T1173.md)
+- 🔴 [T1174 - Read evidential files stored directly on local file system](md_content/T1174.md)
 <a id="reduce-data-under-consideration"></a>
 ### Reduce data under consideration
 *Filter the data to be considered in the investigation for practical, legal, or privacy protection reasons.*
@@ -131,6 +137,7 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
     - 🟢 [T1064 - File carving](md_content/T1064.md)
 - 🔴 [T1062 - Decryption of encrypted file systems/volumes](md_content/T1062.md)
 - 🟢 [T1063 - Identify file types](md_content/T1063.md)
+- 🔴 [T1168 - Identify volumes](md_content/T1168.md)
 <a id="extract-artifacts-stored-by-the-operating-system"></a>
 ### Extract artifacts stored by the operating system
 *Process data stored by the operating system to extract digital forensic artifacts.*
@@ -183,11 +190,13 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
     - 🟢 [T1153 - Apply offset to a timestamp](md_content/T1153.md)
 - 🔴 [T1053 - Entity extraction](md_content/T1053.md)
 - 🔴 [T1056 - Entity connection enumeration](md_content/T1056.md)
-- 🟢 [T1071 - Database examination](md_content/T1071.md)
+- 🟢 [T1071 - SQLite database examination](md_content/T1071.md)
 - 🟢 [T1076 - Log file examination](md_content/T1076.md)
 - 🔴 [T1099 - File repair with grafting](md_content/T1099.md)
 - 🔴 [T1100 - EXIF data extraction](md_content/T1100.md)
-- 🟢 [T1120 - Automated artifact extraction](md_content/T1120.md)
+- 🟢 [T1120 - Automated artifact extraction from app data](md_content/T1120.md)
+- 🔴 [T1167 - Extract search terms from URLs](md_content/T1167.md)
+- 🔴 [T1169 - Filter files related to an application](md_content/T1169.md)
 <a id="locate-potentially-relevant-content"></a>
 ### Locate potentially relevant content
 *Attempt to find digital artifacts relevant to the investigation.*
@@ -272,4 +281,4 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 ---
 
-*Markdown generated: 2026-03-04 08:14:46*
+*Markdown generated: 2026-03-05 15:03:35*

@@ -23,7 +23,7 @@ T1021	Configuration file examination
 T1022	Mobile device screenshot based capture	
 T1023	Cloud data collection to access data via a live web page using credentials	
 T1024	Cloud data collection via submission of request to service provider	
-T1025	Writing data to a forensic image format	
+T1025	Writing bitstream data to a forensic image format	
 T1026	Writing data to standard archive format	
 T1027	Data read using JTAG	
 T1028	Chip-off	
@@ -41,7 +41,7 @@ T1039	App downgrade
 T1040	Use mobile device exploit	
 T1041	Pin2Pwn	
 T1042	Disk image hash verification	
-T1043	Decode forensic image container format	
+T1043	Access forensic image content (bitstream)	
 T1044	Mobile backup decoding	
 T1045	Decode standard archive format	
 T1046	Privileged material protection	
@@ -69,7 +69,7 @@ T1067	Cloud synchronisation feature examination (OS)
 T1068	Recently used file identification (OS)	
 T1069	Browser examination	
 T1070	Email examination	
-T1071	Database examination	
+T1071	SQLite database examination	
 T1072	Chat app examination	
 T1073	Calendar app examination	
 T1074	Social network app examination	
@@ -118,7 +118,7 @@ T1116	Determine connected devices
 T1117	Time-based event reconstruction	
 T1118	Locate relevant files by path	
 T1119	Automatically scan for artifact changes caused by app updates	
-T1120	Automated artifact extraction	
+T1120	Automated artifact extraction from app data	
 T1121	Keyword indexing	
 T1122	Keyword search (case-type wordlists)	
 T1123	Keyword search (case-specific wordlists)	
@@ -160,3 +160,12 @@ T1162	Read data from a device via In-System Programming (ISP)
 T1163	Automated screenshot-based capture of a mobile device	
 T1164	Direct data read from a block device	
 T1166	Connect directly to storage media	
+T1167	Extract search terms from URLs	
+T1168	Identify volumes	
+T1169	Filter files related to an application	
+T1170	Decode forensic image format (logical)	
+T1171	Access file system via live operating system	
+T1172	Access raw image content	
+T1173	Extract data from captured screenshots	
+T1174	Read evidential files stored directly on local file system	
+T1175	Extract data using content queries	

@@ -8,8 +8,7 @@ T1002	Disk imaging
 			Output: https://ontology.solveit-df.org/solveit/observable/Bitstream
 T1003	Memory imaging	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/Memory
-			Output: https://ontology.solveit-df.org/solveit/observable/RawImage
-			Output: https://ontology.solveit-df.org/solveit/observable/RawImageInfoFile
+			Output: https://ontology.solveit-df.org/solveit/observable/Bitstream
 T1004	Selective file acquisition	
 			Input: https://ontology.solveit-df.org/solveit/observable/FileSet
 			Output: https://ontology.solveit-df.org/solveit/observable/FilteredFileSet
@@ -266,7 +265,7 @@ T1109	Payment app examination
 T1110	Preserving reference data	
 T1111	Recording system clock offset	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/systemTime
-			Output: https://ontology.solveit-df.org/solveit/observable/ClockOffset
+			Output: https://ontology.solveit-df.org/solveit/observable/ClockOffsetCapture
 T1112	Physical disk identification and removal	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/Computer
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium
@@ -326,7 +325,6 @@ T1133	AI companion app examination
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/phoneNumber
 			Output: https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
 T1134	Use time anchors to estimate clock offset	
-			Output: https://ontology.solveit-df.org/solveit/observable/ClockOffset
 T1137	Browser history examination	
 			Input: https://ontology.solveit-df.org/solveit/observable/SQLiteDatabase
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/URLHistory

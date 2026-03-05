@@ -89,7 +89,7 @@ M1087	Acquire memory from outside of the target system for example using direct 
 M1088	If applicable, leverage hardware virtualization utilities to add a hypervisor to the system, i.e., virtualize the original system. This allows to either freeze the system before the acquisition or, if the system should not be completely frozen, to copy pages before they are modified.
 M1089	Attempt physical disk repair
 M1090	Compare carved results against known files (e.g. from another source)
-M1091	Use a brute force attack instead
+M1091	Use a brute force attack instead (T1034)
 M1092	Optimise dictionary
 M1093	Use mangling rules to generate variants of candidate passwords
 M1094	Include contextual information when assembling the dictionary

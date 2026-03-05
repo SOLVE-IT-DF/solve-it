@@ -2,7 +2,7 @@
 
 ## Quick Links
 - [Browse the knowledge base in markdown](https://github.com/SOLVE-IT-DF/solve-it/blob/main/.repo_info/solve-it.md)
-- [Download the knowledge base as Excel spreadsheet](https://github.com/SOLVE-IT-DF/solve-it/raw/refs/heads/main/.repo_info/solve-it-latest.xlsx)
+- [Access machine readable versions of the knowledge base](https://data.solveit-df.org)
 - [Propose an addition to the knoweldge base](https://github.com/SOLVE-IT-DF/solve-it/issues/new/choose) - see [CONTRIBUTING.md](CONTRIBUTING.md) for guidance
 - [View educational resources](https://github.com/SOLVE-IT-DF/solve-it-education)
 

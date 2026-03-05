@@ -1,3 +1,4 @@
+# Validates SOLVE-IT knowledge base on every PR and push to main
 name: Validate knowledge base
 
 on:

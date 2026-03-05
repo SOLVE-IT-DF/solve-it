@@ -1,0 +1,17 @@
+{
+    "id": "T1169",
+    "name": "Filter files related to an application",
+    "description": "This technique takes a set of files and determines which are related to a specified application.",
+    "synonyms": [],
+    "details": "A research process informs the set of files that are likely to be relevant to a particular application.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ApplicationFiles"
+    ],
+    "references": []
+}

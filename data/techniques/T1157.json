@@ -10,13 +10,7 @@
                  "Extraction of data by querying Content Providers on Android (via ADB)",
                  "Media Transfer Protocol (MTP)"],
     "weaknesses": ["W1037", "W1041", "W1040", "W1271", "W1272", "W1273"],
-    "CASE_input_classes" : [],
-    "CASE_output_classes": [
-      "https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile",
-      "https://ontology.unifiedcyberontology.org/uco/observable/File",
-      "https://ontology.unifiedcyberontology.org/uco/observable/Contact",
-      "https://ontology.unifiedcyberontology.org/uco/observable/Call",
-      "https://ontology.unifiedcyberontology.org/uco/observable/SMSMessage"
-    ],
+    "CASE_input_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice"],
+    "CASE_output_classes": ["https://ontology.solveit-df.org/solveit/observable/ServiceBasedExtractionData"],
     "references": []
 }

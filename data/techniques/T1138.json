@@ -12,10 +12,10 @@
     "weaknesses": [
         "W1252"
     ],
-    "CASE_input_classes" : [],
+    "CASE_input_classes" : ["https://ontology.solveit-df.org/solveit/observable/BrowserCacheData"],
     "CASE_output_classes": [
-        "https://ontology.unifiedcyberontology.org/uco/observable/File",
-        "https://ontology.unifiedcyberontology.org/uco/observable/SQLiteBlob",
+        "https://ontology.unifiedcyberontology.org/uco/observable/URL",
+        "https://ontology.unifiedcyberontology.org/uco/observable/File",        
         "https://ontology.unifiedcyberontology.org/uco/observable/httpRequestHeader",
         "https://ontology.solveit-df.org/solveit/observable/httpResponseHeader"
     ],

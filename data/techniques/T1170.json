@@ -1,0 +1,20 @@
+{
+    "id": "T1170",
+    "name": "Decode forensic image format (logical)",
+    "description": "Decodes logical image formats such as L01, AD1, CTR, or AFF4-L. The output here is not an image file but rather a set of files and their metadata.",
+    "synonyms": ["Logical image decoding", "Read logical image"],
+    "details": "",
+    "subtechniques": [],
+    "examples": ["L01", "AD1", "CTR", "AFF4-L"],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/LogicalImageContainer"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "references": [
+        "Cohen, M., Garfinkel, S. and Schatz, B., 2009. Extending the advanced forensic format to accommodate multiple data sources, logical evidence, arbitrary information and forensic workflow. digital investigation, 6, pp.S57-S68.",
+        "Im, S., Park, H., Joun, J., Lee, S. and Park, J., 2024. Revisiting logical image formats for future digital forensics: A comprehensive analysis on L01 and AFF4-L. Forensic Science International: Digital Investigation, 50"
+    ]
+}

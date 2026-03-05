@@ -29,7 +29,7 @@ Acquire data	T1017	Network packet capture
 Acquire data	T1104	Collect data using open source intelligence
 Acquire data	T1004	Selective file acquisition
 Acquire data	T1015	Privacy preserving selective extraction
-Acquire data	T1025	Writing data to a forensic image format
+Acquire data	T1025	Writing bitstream data to a forensic image format
 Acquire data	T1026	Writing data to standard archive format
 Acquire data	T1157	Extract device data using exposed service
 Acquire data	T1019	Mobile backup extraction (s)
@@ -38,6 +38,10 @@ Acquire data	T1160	Collect data with 'cloud backup restore' approach
 Acquire data	T1162	Read data from a device via In-System Programming (ISP)
 Acquire data	T1027	Data read using JTAG (s)
 Acquire data	T1163	Automated screenshot-based capture of a mobile device
+Acquire data	T1164	Direct data read from a block device
+Acquire data	T1166	Connect directly to storage media
+Acquire data	T1171	Access file system via live operating system
+Acquire data	T1175	Extract data using content queries
 Gain access	T1039	App downgrade
 Gain access	T1034	Brute force attack
 Gain access	T1035	Dictionary attack
@@ -52,9 +56,13 @@ Gain access	T1040	Use mobile device exploit
 Gain access	T1158	Configure device to enable a service needed for data extraction
 Read data from digital evidence storage formats	T1045	Decode standard archive format
 Read data from digital evidence storage formats	T1042	Disk image hash verification
-Read data from digital evidence storage formats	T1043	Decode forensic image format
+Read data from digital evidence storage formats	T1043	Access forensic image content (bitstream)
 Read data from digital evidence storage formats	T1044	Mobile backup decoding
 Read data from digital evidence storage formats	T1102	Decode data from image from unmanaged NAND
+Read data from digital evidence storage formats	T1170	Decode forensic image format (logical)
+Read data from digital evidence storage formats	T1172	Access raw image content
+Read data from digital evidence storage formats	T1173	Extract data from captured screenshots
+Read data from digital evidence storage formats	T1174	Read evidential files stored directly on local file system
 Reduce data under consideration	T1047	Hash matching (reduce)
 Reduce data under consideration	T1048	Privacy protection via partial processing
 Reduce data under consideration	T1046	Privileged material protection
@@ -65,6 +73,7 @@ Access partitions, volumes and file systems data	T1064	File carving (s)
 Access partitions, volumes and file systems data	T1063	Identify file types
 Access partitions, volumes and file systems data	T1059	Identify partitions
 Access partitions, volumes and file systems data	T1060	Enumerate allocated files and folders
+Access partitions, volumes and file systems data	T1168	Identify volumes
 Extract artifacts stored by the operating system	T1067	Cloud synchronisation feature examination (OS)
 Extract artifacts stored by the operating system	T1065	Content indexer examination (OS)
 Extract artifacts stored by the operating system	T1097	Installed programs identification (OS)
@@ -101,7 +110,7 @@ Extract artifacts stored by applications	T1108	Reminders app examination
 Extract artifacts stored by applications	T1109	Payment app examination
 Extract artifacts stored by applications	T1133	AI companion app examination
 Extract artifacts, or content of specific types	T1021	Configuration file examination
-Extract artifacts, or content of specific types	T1071	Database examination
+Extract artifacts, or content of specific types	T1071	SQLite database examination
 Extract artifacts, or content of specific types	T1076	Log file examination
 Extract artifacts, or content of specific types	T1100	EXIF data extraction
 Extract artifacts, or content of specific types	T1099	File repair with grafting
@@ -109,7 +118,9 @@ Extract artifacts, or content of specific types	T1052	Timeline generation
 Extract artifacts, or content of specific types	T1153	Apply offset to a timestamp (s)
 Extract artifacts, or content of specific types	T1053	Entity extraction
 Extract artifacts, or content of specific types	T1056	Entity connection enumeration
-Extract artifacts, or content of specific types	T1120	Automated artifact extraction
+Extract artifacts, or content of specific types	T1120	Automated artifact extraction from app data
+Extract artifacts, or content of specific types	T1167	Extract search terms from URLs
+Extract artifacts, or content of specific types	T1169	Filter files related to an application
 Locate potentially relevant content	T1051	Fuzzy hash matching
 Locate potentially relevant content	T1050	Hash matching (locate)
 Locate potentially relevant content	T1049	Keyword searching

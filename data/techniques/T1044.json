@@ -1,14 +1,13 @@
 {
     "id": "T1044",
     "name": "Mobile backup decoding",
-    "description": "",
+    "description": "Processing an extracted mobile device backup to access the files contained within.",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": ["adb backup decoding", "iOS backup decoding"],
     "weaknesses": ["W1046", "W1047", "W1048", "W1049", "W1050", "W1051"],
-    "CASE_input_classes" : [],
-    "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/File",
-                            "https://ontology.unifiedcyberontology.org/uco/observable/filePath"],
-     "references": ["todo"]
+    "CASE_input_classes" : ["https://ontology.solveit-df.org/solveit/observable/DeviceGeneratedBackup"],
+    "CASE_output_classes" : ["https://ontology.solveit-df.org/solveit/observable/FileSet"],
+     "references": []
 }

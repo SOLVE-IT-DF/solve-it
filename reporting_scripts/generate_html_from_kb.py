@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 SOLVE-IT Knowledge Base HTML Generator
 =======================================
@@ -1752,7 +1753,7 @@ function renderMatrix() {{
       cell.innerHTML = `
         <div class="tech-cell-id">${{esc(t.id)}}</div>
         <div class="tech-cell-name">${{esc(t.name)}}</div>
-        ${{subs > 0 ? `<div class="tech-cell-sub">${{isExpanded ? '−' : '+'}} ${{subs}} sub-technique${{subs>1?'s':''}}</div>` : ''}}
+        ${{subs > 0 ? `<div class="tech-cell-sub">${{isExpanded ? '&minus;' : '+'}} ${{subs}} sub-technique${{subs>1?'s':''}}</div>` : ''}}
       `;
       cell.addEventListener('click', (e) => {{
         if (e.target.closest('.tech-cell-sub')) return;
@@ -1794,7 +1795,7 @@ function renderMatrix() {{
               insertAfter.after(subCell);
               insertAfter = subCell;
             }});
-            badge.textContent = `− ${{subs}} sub-technique${{subs>1?'s':''}}`;
+            badge.innerHTML = `&minus; ${{subs}} sub-technique${{subs>1?'s':''}}`;
           }}
         }});
       }}

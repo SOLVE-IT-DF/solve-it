@@ -7,8 +7,9 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes" : [],
+    "CASE_input_classes" : ["https://ontology.solveit-df.org/solveit/observable/EmailAppFiles"],
     "CASE_output_classes" : ["https://ontology.unifiedcyberontology.org/uco/observable/EmailAccount",
-                             "https://ontology.unifiedcyberontology.org/uco/observable/EmailMessage" ],
+                             "https://ontology.unifiedcyberontology.org/uco/observable/EmailMessage",
+                             "https://ontology.unifiedcyberontology.org/uco/observable/Contact" ],
     "references": []
 }

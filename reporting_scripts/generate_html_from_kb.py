@@ -394,6 +394,7 @@ button {{ font-family: inherit; cursor: pointer; }}
   height: 52px;
   position: sticky;
   top: 0;
+  border-top: 1px solid var(--gray-200);
   z-index: 500;
   box-shadow: 0 2px 8px rgba(0,0,0,.25);
 }}
@@ -721,12 +722,12 @@ button {{ font-family: inherit; cursor: pointer; }}
 
 .tech-cell-id {{
   font-family: var(--font-mono);
-  font-size: .6rem;
+  font-size: .7rem;
   color: var(--gray-500);
   margin-bottom: 1px;
 }}
 .tech-cell-name {{
-  font-size: .72rem;
+  font-size: .8rem;
   font-weight: 500;
   color: var(--blue);
   line-height: 1.3;
@@ -742,7 +743,18 @@ button {{ font-family: inherit; cursor: pointer; }}
   border-radius: 8px;
   padding: 2px 6px;
   display: inline-block;
+  cursor: pointer;
 }}
+.tech-cell-sub:hover {{ background: rgba(26,115,232,.15); }}
+.tech-cell.sub-cell {{
+  margin-left: 10px;
+  font-size: .9em;
+  border-left: 3px solid var(--blue);
+  opacity: 0.92;
+  padding: 3px 6px;
+}}
+.tech-cell.sub-cell .tech-cell-id {{ font-size: .65rem; }}
+.tech-cell.sub-cell .tech-cell-name {{ font-size: .72rem; }}
 
 /* ── Weakness/Mitigation table view ───────────────────────── */
 .table-section {{ margin-bottom: 24px; }}
@@ -1542,6 +1554,7 @@ const S = {{
   os:      'order', // objectives sort column
   osDir:   1,       // objectives sort direction
   matrixObj: 'all', // matrix objective filter (index or 'all')
+  expandedSubs: new Set(), // parent technique IDs with subtechniques expanded
   selected: null,   // {{id, type}}
 }};
 
@@ -1688,6 +1701,7 @@ function renderMatrix() {{
   const colMaxWidth = totalObjs > 0 ? (100 / totalObjs) + '%' : 'none';
 
   let totalShown = 0;
+  let totalSubsShown = 0;
   const subIds = new Set();
   let colIdx = 0;
 
@@ -1714,13 +1728,22 @@ function renderMatrix() {{
 
     const cellsDiv = col.querySelector(`#cells-${{i}}`);
     techs.sort((a,b) => ((TMap[a]||{{}}).name||'').localeCompare((TMap[b]||{{}}).name||''));
+    let subsShown = 0;
     techs.forEach(tid => {{
       const t = TMap[tid];
       if (!t) return;
       const st   = techStatus(t);
       const cls  = statusClass(st);
       const sel  = S.selected && S.selected.id === t.id && S.selected.type === 'technique';
-      const subs = (t.subtechniques || []).length;
+      const subIds_t = t.subtechniques || [];
+      const subs = subIds_t.length;
+
+      // Determine if subtechniques should be shown
+      const searchMatchesSub = S.search && subIds_t.some(sid => {{
+        const sub = TMap[sid];
+        return sub && matchesSearch(sub);
+      }});
+      const isExpanded = subs > 0 && (S.expandedSubs.has(t.id) || searchMatchesSub);
 
       const cell = document.createElement('div');
       cell.className = `tech-cell ${{cls}}${{sel?' selected':''}}`;
@@ -1729,15 +1752,82 @@ function renderMatrix() {{
       cell.innerHTML = `
         <div class="tech-cell-id">${{esc(t.id)}}</div>
         <div class="tech-cell-name">${{esc(t.name)}}</div>
-        ${{subs > 0 ? `<div class="tech-cell-sub">+ ${{subs}} sub-technique${{subs>1?'s':''}}</div>` : ''}}
+        ${{subs > 0 ? `<div class="tech-cell-sub">${{isExpanded ? '−' : '+'}} ${{subs}} sub-technique${{subs>1?'s':''}}</div>` : ''}}
       `;
-      cell.addEventListener('click', () => showDetail(t.id, 'technique'));
+      cell.addEventListener('click', (e) => {{
+        if (e.target.closest('.tech-cell-sub')) return;
+        showDetail(t.id, 'technique');
+      }});
+      if (subs > 0) {{
+        cell.querySelector('.tech-cell-sub').addEventListener('click', (e) => {{
+          e.stopPropagation();
+          const badge = cell.querySelector('.tech-cell-sub');
+          if (S.expandedSubs.has(t.id)) {{
+            S.expandedSubs.delete(t.id);
+            // Remove sub-cells in-place
+            let next = cell.nextSibling;
+            while (next && next.classList && next.classList.contains('sub-cell')) {{
+              const toRemove = next;
+              next = next.nextSibling;
+              toRemove.remove();
+            }}
+            badge.textContent = `+ ${{subs}} sub-technique${{subs>1?'s':''}}`;
+          }} else {{
+            S.expandedSubs.add(t.id);
+            // Insert sub-cells in-place after parent
+            let insertAfter = cell;
+            subIds_t.forEach(sid => {{
+              const sub = TMap[sid];
+              if (!sub) return;
+              const subSt  = techStatus(sub);
+              const subCls = statusClass(subSt);
+              const subSel = S.selected && S.selected.id === sub.id && S.selected.type === 'technique';
+              const subCell = document.createElement('div');
+              subCell.className = `tech-cell sub-cell ${{subCls}}${{subSel?' selected':''}}`;
+              subCell.dataset.id = sub.id;
+              subCell.title = `${{sub.id}} — ${{sub.name}} (${{STATUS_LABEL[subSt]||subSt}})`;
+              subCell.innerHTML = `
+                <div class="tech-cell-id">${{esc(sub.id)}}</div>
+                <div class="tech-cell-name">${{esc(sub.name)}}</div>
+              `;
+              subCell.addEventListener('click', () => showDetail(sub.id, 'technique'));
+              insertAfter.after(subCell);
+              insertAfter = subCell;
+            }});
+            badge.textContent = `− ${{subs}} sub-technique${{subs>1?'s':''}}`;
+          }}
+        }});
+      }}
       cellsDiv.appendChild(cell);
+
+      // Render subtechnique cells on initial render when expanded (search match or previously toggled)
+      if (isExpanded) {{
+        subIds_t.forEach(sid => {{
+          const sub = TMap[sid];
+          if (!sub) return;
+          const subSt  = techStatus(sub);
+          const subCls = statusClass(subSt);
+          const subSel = S.selected && S.selected.id === sub.id && S.selected.type === 'technique';
+          const subCell = document.createElement('div');
+          subCell.className = `tech-cell sub-cell ${{subCls}}${{subSel?' selected':''}}`;
+          subCell.dataset.id = sub.id;
+          subCell.title = `${{sub.id}} — ${{sub.name}} (${{STATUS_LABEL[subSt]||subSt}})`;
+          subCell.innerHTML = `
+            <div class="tech-cell-id">${{esc(sub.id)}}</div>
+            <div class="tech-cell-name">${{esc(sub.name)}}</div>
+          `;
+          subCell.addEventListener('click', () => showDetail(sub.id, 'technique'));
+          cellsDiv.appendChild(subCell);
+          subsShown++;
+        }});
+      }}
     }});
+    totalSubsShown += subsShown;
   }});
 
   const nSubs = subIds.size;
-  document.getElementById('t-count').textContent = `${{totalShown}} shown` + (nSubs > 0 ? ` (${{nSubs}} sub-technique${{nSubs!==1?'s':''}} not shown)` : '');
+  const nSubsHidden = nSubs - totalSubsShown;
+  document.getElementById('t-count').textContent = `${{totalShown}} shown` + (totalSubsShown > 0 ? ` (${{totalSubsShown}} sub-technique${{totalSubsShown!==1?'s':''}} shown)` : '') + (nSubsHidden > 0 ? ` (${{nSubsHidden}} sub-technique${{nSubsHidden!==1?'s':''}} hidden)` : '');
 
   // Update objective filter indicator
   const objIndicator = document.getElementById('matrix-obj-indicator');
@@ -1763,8 +1853,13 @@ function filteredTechniques(ids) {{
     const t = TMap[tid];
     if (!t) return false;
     if (S.tf !== 'all' && techStatus(t) !== S.tf) return false;
-    if (!matchesSearch(t)) return false;
-    return true;
+    if (matchesSearch(t)) return true;
+    // Also include parent if any subtechnique matches search
+    if (S.search && (t.subtechniques || []).some(sid => {{
+      const st = TMap[sid];
+      return st && matchesSearch(st);
+    }})) return true;
+    return false;
   }});
 }}
 

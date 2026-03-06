@@ -753,26 +753,45 @@ def main():
 
     result = ValidationResult()
 
+    def phase_ok_check(before_fails, before_warns):
+        """Print 'all ok' if no new failures or warnings were added."""
+        new_fails = len(result.fails) - before_fails
+        new_warns = len(result.warnings) - before_warns
+        if new_fails == 0 and new_warns == 0:
+            print("  [OK]    All checks passed.")
+
     print_phase("Phase 1: Data loading")
+    f0, w0 = len(result.fails), len(result.warnings)
     techniques, weaknesses, mitigations, objectives = phase1_data_loading(
         PROJECT_ROOT, result, args.verbose
     )
+    phase_ok_check(f0, w0)
 
     print_phase("Phase 2: Cross-reference integrity")
+    f0, w0 = len(result.fails), len(result.warnings)
     phase2_cross_references(techniques, weaknesses, mitigations, objectives, result, args.verbose)
+    phase_ok_check(f0, w0)
 
     print_phase("Phase 3: ASTM error class flags")
+    f0, w0 = len(result.fails), len(result.warnings)
     phase3_astm_flags(weaknesses, result, args.verbose)
+    phase_ok_check(f0, w0)
 
     print_phase("Phase 4: CASE/UCO class URLs")
+    f0, w0 = len(result.fails), len(result.warnings)
     ontology_issues = phase4_case_urls(techniques, result, args.verbose, check_ontology=args.check_ontology)
+    phase_ok_check(f0, w0)
 
     print_phase("Phase 5: Completeness warnings")
+    f0, w0 = len(result.fails), len(result.warnings)
     phase5_completeness(techniques, weaknesses, mitigations, objectives, result, args.verbose)
+    phase_ok_check(f0, w0)
 
     if not args.skip_generators:
         print_phase("Phase 6: Generator smoke tests")
+        f0, w0 = len(result.fails), len(result.warnings)
         phase6_generators(PROJECT_ROOT, result, args.verbose)
+        phase_ok_check(f0, w0)
     else:
         print_phase("Phase 6: Generator smoke tests (SKIPPED)")
 

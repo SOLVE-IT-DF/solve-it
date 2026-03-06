@@ -8,7 +8,7 @@
     "examples": [],
     "weaknesses": [],
     "CASE_input_classes" : ["https://ontology.solveit-df.org/solveit/observable/MapsAppFiles",
-                            " https://ontology.solveit-df.org/solveit/observable/NavigationAppFiles"],
+                            "https://ontology.solveit-df.org/solveit/observable/NavigationAppFiles"],
     "CASE_output_classes" : [],
     "references": []
 }

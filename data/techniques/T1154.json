@@ -6,7 +6,7 @@
     "details": "",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": [],
+    "weaknesses": ["W1150"],
     "CASE_input_classes" : [],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/identity/Person",

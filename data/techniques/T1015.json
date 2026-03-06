@@ -11,5 +11,5 @@
     "weaknesses": ["W1025", "W1026", "W1027", "W1028"],
     "CASE_input_classes" : [],
     "CASE_output_classes" : [],
-    "references": ["todo"]
+    "references": []
 }

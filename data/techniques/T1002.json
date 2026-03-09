@@ -10,7 +10,18 @@
                 "FTK Imager", 
                 "Magnet ACQUIRE"
             ],
-    "weaknesses": ["W1004", "W1006", "W1007", "W1013", "W1014", "W1015", "W1016", "W1136", "W1143"],
+    "weaknesses": [
+        "W1004", 
+        "W1006", 
+        "W1007", 
+        "W1013", 
+        "W1014", 
+        "W1015", 
+        "W1016", 
+        "W1136", 
+        "W1143", 
+        "W1278"
+    ],
     "CASE_input_classes" : [
                     "https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface",                            
                     "https://ontology.solveit-df.org/solveit/observable/DeviceInterface"

@@ -510,6 +510,7 @@ GENERATORS = [
     ("excel", ["python", "reporting_scripts/generate_excel_from_kb.py", "-o", "{tmp}/test.xlsx"], True),
     ("evaluation", ["python", "reporting_scripts/generate_evaluation.py", "-o", "{tmp}/test_eval.xlsx"], True),
     ("html", ["python", "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--output", "{tmp}/test.html"], True),
+    ("html (custom)", ["python", "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--custom", "--output", "{tmp}/test_custom.html"], True),
     ("rdf", ["python", "reporting_scripts/generate_rdf_from_kb.py", "--output-dir", "{tmp}", "--format", "both"], True),
     ("markdown", ["python", "reporting_scripts/generate_md_from_kb.py", "-o", "{tmp}/test.md"], True),
 ]
@@ -587,6 +588,7 @@ CHECK_GROUPS = [
         ("TSV (CASE mapping)", "Generator: tsv (CASE mapping)"),
         ("Excel workbook", "Generator: excel"),
         ("Evaluation workbook", "Generator: evaluation"),
+        ("HTML viewer (custom)", "Generator: html (custom)"),
         ("HTML viewer", "Generator: html"),
         ("RDF/JSON-LD", "Generator: rdf"),
         ("Markdown", "Generator: markdown"),

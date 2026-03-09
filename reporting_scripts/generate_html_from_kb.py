@@ -298,7 +298,7 @@ def weakness_cats(w: dict) -> list[str]:
 # Main HTML generator
 # ─────────────────────────────────────────────────────────────────────────────
 
-def generate_html(db: dict, idx: dict) -> str:
+def generate_html(db: dict, idx: dict, custom: bool = False) -> str:
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
     # Sanitise </script> sequences to prevent early tag closure when embedded in HTML
     data_json    = json.dumps(db, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
@@ -306,6 +306,10 @@ def generate_html(db: dict, idx: dict) -> str:
         "weakness_to_techniques":  idx["weakness_to_techniques"],
         "mitigation_to_weaknesses": idx["mitigation_to_weaknesses"],
     }, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
+
+    page_title = "SOLVE-IT-X: Custom View" if custom else "SOLVE-IT: the digital forensics knowledge base"
+    brand_name = "SOLVE-IT-X: Custom View" if custom else "SOLVE-IT"
+    custom_js_flag = "true" if custom else "false"
 
     n_t = len(db["techniques"])
     n_w = len(db["weaknesses"])
@@ -332,7 +336,7 @@ def generate_html(db: dict, idx: dict) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOLVE-IT: the digital forensics knowledge base</title>
+<title>{page_title}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -384,6 +388,16 @@ body {{
 a {{ color: var(--blue); text-decoration: none; }}
 a:hover {{ text-decoration: underline; }}
 button {{ font-family: inherit; cursor: pointer; }}
+
+/* ── Custom mode overrides ────────────────────────────────── */
+body.custom-mode {{ --navy: #8b1a1a; --navy-dark: #5c1010; --navy-mid: #a02020; }}
+body.custom-mode .propose-new-btn {{ display: none; }}
+body.custom-mode .disabled-btn {{
+  opacity: .45;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: var(--gray-300);
+}}
 
 /* ── Top nav ───────────────────────────────────────────────── */
 .topnav {{
@@ -1274,7 +1288,7 @@ button {{ font-family: inherit; cursor: pointer; }}
       <!-- Handle -->
       <line x1="18.5" y1="18.5" x2="25" y2="25" stroke="rgba(255,255,255,.7)" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
-    <span class="topnav-brand-name">SOLVE-IT</span>
+    <span class="topnav-brand-name">{brand_name}</span>
   </a>
   <div class="topnav-tabs">
     <button class="topnav-tab tab-t active" data-view="matrix">
@@ -1285,7 +1299,7 @@ button {{ font-family: inherit; cursor: pointer; }}
     </button>
     <button class="topnav-tab tab-obj" data-view="objectives">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0-2A5 5 0 108 3a5 5 0 000 10zm0-2a3 3 0 100-6 3 3 0 000 6zm0-2a1 1 0 100-2 1 1 0 000 2z"/></svg>
-      <span class="topnav-tab-label">Objectives</span>
+      <span class="topnav-tab-label" id="tab-obj-label">Objectives</span>
       <span class="topnav-tab-short">O</span>
       <span class="tab-badge" id="badge-obj">{n_o}</span>
     </button>
@@ -1344,17 +1358,26 @@ button {{ font-family: inherit; cursor: pointer; }}
       <div class="stat-pill"><div class="stat-dot red"></div><span class="stat-num">{n_placeholder}</span> placeholder</div>
       <div class="filterbar-sep"></div>
       <div class="stat-pill" title="{n_t} techniques across {n_o} objectives">
-        <span class="stat-num">{n_t}</span> techniques &nbsp;·&nbsp; <span class="stat-num">{n_o}</span> objectives
+        <span class="stat-num">{n_t}</span> techniques &nbsp;·&nbsp; <span class="stat-num" id="stat-obj-count">{n_o}</span> <span id="stat-obj-label">objectives</span>
       </div>
       <div class="filterbar-sep"></div>
       <span id="matrix-obj-indicator" style="display:none">
         <span class="filterbar-sep"></span>
         <span style="font-size:.8rem;color:var(--navy);font-weight:600">
-          Objective: <span id="matrix-obj-name"></span>
+          <span id="matrix-obj-prefix">Objective</span>: <span id="matrix-obj-name"></span>
         </span>
         <button id="matrix-obj-reset" style="background:none;border:1px solid var(--gray-300);border-radius:4px;font-size:.7rem;padding:1px 6px;cursor:pointer;color:var(--gray-500);margin-left:4px" title="Show all objectives">&#10005;</button>
       </span>
       <span class="result-count" id="t-count"></span>
+      <span id="custom-controls" style="display:none">
+        <span class="filterbar-sep"></span>
+        <label class="filter-chip" style="cursor:pointer;font-weight:600" title="Upload a JSON file to reorganise techniques into custom categories">
+          &#x21e7; Upload schema
+          <input type="file" id="custom-schema-upload" accept=".json" style="display:none">
+        </label>
+        <button id="custom-schema-reset" class="filter-chip" style="display:none;font-weight:600" title="Reset to default SOLVE-IT objectives">&#x21ba; Reset</button>
+        <span id="custom-schema-name" style="font-size:.75rem;color:var(--gray-500);margin-left:4px"></span>
+      </span>
     </div>
   </div>
   <!-- Objectives filters -->
@@ -1375,9 +1398,9 @@ button {{ font-family: inherit; cursor: pointer; }}
     <button class="filter-chip" data-t2t="sub">Sub</button>
     <button class="filter-chip" data-t2t="standalone">Standalone</button>
     <div class="filterbar-sep"></div>
-    <span class="filterbar-label">Objective</span>
+    <span class="filterbar-label" id="t2-obj-label">Objective</span>
     <select id="t2-obj-filter" style="font-size:.8rem;padding:3px 8px;border:1px solid var(--gray-300);border-radius:6px;background:#fff;color:var(--gray-800);max-width:260px;">
-      <option value="all">All objectives</option>
+      <option value="all" id="t2-obj-all-option">All objectives</option>
     </select>
     <div class="filterbar-sep"></div>
     <span class="result-count" id="t2-count"></span>
@@ -1458,6 +1481,7 @@ button {{ font-family: inherit; cursor: pointer; }}
         <div class="detail-topbar-id" id="dp-id"></div>
         <div class="detail-topbar-name" id="dp-name"></div>
         <div id="dp-objective" style="font-size:.72rem;color:rgba(255,255,255,.45);margin-top:2px;display:none"></div>
+        <div id="dp-original-objective" style="font-size:.72rem;color:rgba(255,255,255,.35);margin-top:1px;display:none"></div>
       </div>
       <button class="detail-link" id="dpLink" title="Copy link">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.715 6.542L3.343 7.914a3 3 0 104.243 4.243l1.828-1.829A3 3 0 008.586 5.5L8 6.086a1.002 1.002 0 00-.154.199 2 2 0 01.861 3.337L6.88 11.45a2 2 0 11-2.83-2.83l.793-.792a4.018 4.018 0 01-.128-1.287z"/><path d="M11.285 9.458l1.372-1.372a3 3 0 10-4.243-4.243L6.586 5.671A3 3 0 007.414 10.5l.586-.586a1.002 1.002 0 00.154-.199 2 2 0 01-.861-3.337L9.12 4.55a2 2 0 112.83 2.83l-.793.792c.112.42.155.855.128 1.287z"/></svg>
@@ -1514,6 +1538,10 @@ DB.techniques.forEach(t => {{
     if (st) {{ st._isSub = true; st._parentId = t.id; }}
   }});
 }});
+
+// Original technique-to-objective map (preserved for custom mode)
+const ORIGINAL_T2Obj = {{}};
+Object.keys(T2Obj).forEach(k => {{ ORIGINAL_T2Obj[k] = T2Obj[k]; }});
 
 // ── Person stats lookup ──────────────────────────────────────────────
 const PersonStats = {{}};
@@ -1652,24 +1680,40 @@ function updateBtn(type, obj) {{
   el.className = 'detail-section';
   el.style.cssText = 'padding:12px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap';
 
-  const a1 = document.createElement('a');
-  a1.href = url;
-  a1.target = '_blank';
-  a1.rel = 'noopener';
-  a1.className = 'propose-update-btn';
-  a1.style.background = btnColor;
-  a1.onmouseover = function(){{ this.style.background = btnHover; }};
-  a1.onmouseout = function(){{ this.style.background = btnColor; }};
-  a1.textContent = 'Propose an update to this ' + label;
-  el.appendChild(a1);
+  if (CUSTOM_MODE) {{
+    const span = document.createElement('span');
+    span.className = 'propose-update-btn disabled-btn';
+    span.title = 'Editing is disabled in custom view mode';
+    span.textContent = 'Propose an update to this ' + label;
+    el.appendChild(span);
 
-  const a2 = document.createElement('a');
-  a2.href = srcUrl;
-  a2.target = '_blank';
-  a2.rel = 'noopener';
-  a2.className = 'view-source-btn';
-  a2.textContent = 'View source in GitHub';
-  el.appendChild(a2);
+    const a2 = document.createElement('a');
+    a2.href = srcUrl;
+    a2.target = '_blank';
+    a2.rel = 'noopener';
+    a2.className = 'view-source-btn';
+    a2.textContent = 'View source in GitHub';
+    el.appendChild(a2);
+  }} else {{
+    const a1 = document.createElement('a');
+    a1.href = url;
+    a1.target = '_blank';
+    a1.rel = 'noopener';
+    a1.className = 'propose-update-btn';
+    a1.style.background = btnColor;
+    a1.onmouseover = function(){{ this.style.background = btnHover; }};
+    a1.onmouseout = function(){{ this.style.background = btnColor; }};
+    a1.textContent = 'Propose an update to this ' + label;
+    el.appendChild(a1);
+
+    const a2 = document.createElement('a');
+    a2.href = srcUrl;
+    a2.target = '_blank';
+    a2.rel = 'noopener';
+    a2.className = 'view-source-btn';
+    a2.textContent = 'View source in GitHub';
+    el.appendChild(a2);
+  }}
 
   return el.outerHTML;
 }}
@@ -2183,16 +2227,25 @@ function showDetail(id, type, skipHash) {{
   document.getElementById('dp-name').textContent = obj.name || '';
 
   const dpObj = document.getElementById('dp-objective');
+  const dpOrigObj = document.getElementById('dp-original-objective');
   if (type === 'technique') {{
     const _tobj = T2Obj[id];
     if (_tobj) {{
-      dpObj.textContent = 'Objective: ' + _tobj.name;
+      dpObj.textContent = (CUSTOM_MODE ? 'Category: ' : 'Objective: ') + _tobj.name;
       dpObj.style.display = 'block';
     }} else {{
       dpObj.style.display = 'none';
     }}
+    const _origObj = ORIGINAL_T2Obj[id];
+    if (CUSTOM_MODE && _origObj) {{
+      dpOrigObj.textContent = 'SOLVE-IT Objective: ' + _origObj.name;
+      dpOrigObj.style.display = 'block';
+    }} else {{
+      dpOrigObj.style.display = 'none';
+    }}
   }} else {{
     dpObj.style.display = 'none';
+    dpOrigObj.style.display = 'none';
   }}
 
   let body = '';
@@ -2475,16 +2528,25 @@ function goBack() {{
   document.getElementById('dp-name').textContent = obj.name || '';
 
   const dpObj2 = document.getElementById('dp-objective');
+  const dpOrigObj2 = document.getElementById('dp-original-objective');
   if (prev.type === 'technique') {{
     const _tobj = T2Obj[prev.id];
     if (_tobj) {{
-      dpObj2.textContent = 'Objective: ' + _tobj.name;
+      dpObj2.textContent = (CUSTOM_MODE ? 'Category: ' : 'Objective: ') + _tobj.name;
       dpObj2.style.display = 'block';
     }} else {{
       dpObj2.style.display = 'none';
     }}
+    const _origObj2 = ORIGINAL_T2Obj[prev.id];
+    if (CUSTOM_MODE && _origObj2) {{
+      dpOrigObj2.textContent = 'SOLVE-IT Objective: ' + _origObj2.name;
+      dpOrigObj2.style.display = 'block';
+    }} else {{
+      dpOrigObj2.style.display = 'none';
+    }}
   }} else {{
     dpObj2.style.display = 'none';
+    dpOrigObj2.style.display = 'none';
   }}
 
   let body = '';
@@ -2835,6 +2897,129 @@ document.querySelectorAll('[data-rtype]').forEach(btn =>
     render();
   }}));
 
+// ── Objective count updater ──────────────────────────────────────────
+function updateObjCounts() {{
+  const n = DB.objectives.length;
+  const el = document.getElementById('stat-obj-count');
+  if (el) el.textContent = n;
+  const bo = document.getElementById('badge-o');
+  if (bo) bo.textContent = n;
+  const bobj = document.getElementById('badge-obj');
+  if (bobj) bobj.textContent = n;
+}}
+
+// ── Custom schema mode ───────────────────────────────────────────────
+const CUSTOM_MODE = {custom_js_flag};
+const ORIGINAL_OBJECTIVES = JSON.parse(JSON.stringify(DB.objectives));
+if (CUSTOM_MODE) {{
+  document.body.classList.add('custom-mode');
+  document.getElementById('custom-controls').style.display = '';
+  // Rename "objective" to "category" throughout the UI
+  const _renameToCat = [
+    ['stat-obj-label', 'categories'],
+    ['tab-obj-label', 'Categories'],
+    ['t2-obj-label', 'Category'],
+    ['t2-obj-all-option', 'All categories'],
+    ['matrix-obj-prefix', 'Category'],
+  ];
+  _renameToCat.forEach(([id, text]) => {{
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }});
+  const uploadInput = document.getElementById('custom-schema-upload');
+  const resetBtn = document.getElementById('custom-schema-reset');
+  const nameLabel = document.getElementById('custom-schema-name');
+
+  uploadInput.addEventListener('change', function(e) {{
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {{
+      try {{
+        const schema = JSON.parse(ev.target.result);
+        applyCustomSchema(schema, file.name);
+      }} catch (err) {{
+        alert('Invalid JSON file: ' + err.message);
+      }}
+    }};
+    reader.readAsText(file);
+  }});
+
+  resetBtn.addEventListener('click', function() {{
+    DB.objectives = JSON.parse(JSON.stringify(ORIGINAL_OBJECTIVES));
+    // Rebuild T2Obj
+    Object.keys(T2Obj).forEach(k => delete T2Obj[k]);
+    DB.objectives.forEach((obj, idx) => {{
+      obj._idx = idx;
+      (obj.techniques || []).forEach(tid => {{ T2Obj[tid] = obj; }});
+    }});
+    resetBtn.style.display = 'none';
+    nameLabel.textContent = '';
+    updateObjCounts();
+    render();
+  }});
+}}
+
+function applyCustomSchema(schema, filename) {{
+  // schema should be an array of objects with "name" and "techniques" (array of technique IDs)
+  // e.g. [{{"name":"Category A","techniques":["T1001","T1002"]}}, ...]
+  const categories = Array.isArray(schema) ? schema : (schema.objectives || schema.categories || []);
+  if (!Array.isArray(categories) || categories.length === 0) {{
+    alert('JSON must be an array of objects with "name" and "techniques" fields, or an object with an "objectives"/"categories" key.');
+    return;
+  }}
+
+  // Collect all technique IDs referenced in the custom schema
+  const indexed = new Set();
+  categories.forEach(cat => {{
+    (cat.techniques || []).forEach(tid => indexed.add(tid));
+  }});
+
+  // Find unindexed techniques (in the KB but not in the schema)
+  const allTechIds = DB.techniques.map(t => t.id);
+  const unindexed = allTechIds.filter(tid => !indexed.has(tid));
+
+  // Build new objectives array
+  const newObjectives = categories.map((cat, i) => ({{
+    id: cat.id || ('CUSTOM-' + (i + 1)),
+    sort_order: i,
+    name: cat.name || ('Category ' + (i + 1)),
+    description: cat.description || '',
+    techniques: (cat.techniques || []).filter(tid => TMap[tid])
+  }}));
+
+  // Add unindexed column if there are any
+  if (unindexed.length > 0) {{
+    newObjectives.push({{
+      id: 'CUSTOM-UNINDEXED',
+      sort_order: newObjectives.length,
+      name: 'Unindexed',
+      description: 'Techniques not included in the uploaded schema',
+      techniques: unindexed
+    }});
+  }}
+
+  DB.objectives = newObjectives;
+
+  // Rebuild T2Obj
+  Object.keys(T2Obj).forEach(k => delete T2Obj[k]);
+  DB.objectives.forEach((obj, idx) => {{
+    obj._idx = idx;
+    (obj.techniques || []).forEach(tid => {{ T2Obj[tid] = obj; }});
+  }});
+
+  // Update UI
+  const nameLabel = document.getElementById('custom-schema-name');
+  const resetBtn = document.getElementById('custom-schema-reset');
+  nameLabel.textContent = filename;
+  resetBtn.style.display = '';
+  updateObjCounts();
+
+  // Reset filters and re-render
+  S.matrixObj = 'all';
+  render();
+}}
+
 // ── Bootstrap ────────────────────────────────────────────────────────
 function handleHash() {{
   const hash = location.hash.slice(1);
@@ -2889,6 +3074,8 @@ Examples:
                         help="Output HTML file path (default: solveit-viewer.html).")
     parser.add_argument("--no-verify-ssl", action="store_true",
                         help="Disable SSL certificate verification (workaround for certificate errors).")
+    parser.add_argument("--custom", action="store_true",
+                        help="Enable customisation mode: allows uploading a JSON schema to reorganise techniques.")
     return parser.parse_args()
 
 
@@ -2953,7 +3140,7 @@ def main() -> None:
     db["credits"] = people
 
     idx = build_indices(db)
-    html = generate_html(db, idx)
+    html = generate_html(db, idx, custom=getattr(args, "custom", False))
 
     out = Path(args.output)
     out.write_text(html, encoding="utf-8")

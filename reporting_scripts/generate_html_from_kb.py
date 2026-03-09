@@ -2975,9 +2975,11 @@ function applyCustomSchema(schema, filename) {{
     (cat.techniques || []).forEach(tid => indexed.add(tid));
   }});
 
-  // Find unindexed techniques (in the KB but not in the schema)
+  // Find unindexed techniques (in the KB but not in the schema, excluding subtechniques)
+  const subTechIds = new Set();
+  DB.techniques.forEach(t => (t.subtechniques || []).forEach(sid => subTechIds.add(sid)));
   const allTechIds = DB.techniques.map(t => t.id);
-  const unindexed = allTechIds.filter(tid => !indexed.has(tid));
+  const unindexed = allTechIds.filter(tid => !indexed.has(tid) && !subTechIds.has(tid));
 
   // Build new objectives array
   const newObjectives = categories.map((cat, i) => ({{

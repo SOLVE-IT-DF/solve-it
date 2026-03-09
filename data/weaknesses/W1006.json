@@ -1,12 +1,18 @@
 {
     "id": "W1006",
-    "name": "Acquistion does not include data in HPA",
+    "name": "Acquisition tool does not copy data from HPA",
+    "description": "Some forensic acquisition tools do not detect or acquire data stored within the HPA (Host Protected Area), resulting in an incomplete forensic image that omits potentially evidential data. This weakness arises because accessing the HPA typically requires issuing specific ATA commands (such as SET MAX ADDRESS) to temporarily remove the protection before imaging, a capability not universally implemented across acquisition tools (Gupta, Hoeschele and Rogers, 2006).",
     "INCOMP": "x",
     "INAC-EX": "",
     "INAC-AS": "",
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "",
-    "mitigations": ["M1005"],
-    "references": ["Gupta, M.R., Hoeschele, M.D. and Rogers, M.K., 2006. Hidden disk areas: HPA and DCO. International Journal of Digital Evidence, 5(1), pp.1-8."]
+    "mitigations": [
+        "M1005",
+        "M1003"
+    ],
+    "references": [
+        "Gupta, M.R., Hoeschele, M.D. and Rogers, M.K., 2006. Hidden disk areas: HPA and DCO. International Journal of Digital Evidence, 5(1), pp.1-8."
+    ]
 }

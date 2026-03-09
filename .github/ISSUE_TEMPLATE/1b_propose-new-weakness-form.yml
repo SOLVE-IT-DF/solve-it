@@ -46,7 +46,7 @@ body:
   - type: textarea
     id: relevant-techniques
     attributes:
-      label: Relevant technique IDs
+      label: Techniques this applies to
       description: Techniques that this weakness applies to (one per line, e.g. T1001, T1028).
       render: text
   - type: textarea

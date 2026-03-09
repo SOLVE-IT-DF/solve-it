@@ -97,7 +97,7 @@ class Weakness(BaseModel):
     """
     id: str = Field(..., description="Unique identifier for the weakness")
     name: str = Field(..., description="Name of the weakness - contains the primary description of what this weakness entails")
-    description: Optional[str] = Field(None, description="Additional description (if available)")
+    description: str = Field("", description="Additional description (if available)")
     mitigations: List[str] = Field(default_factory=list, description="List of mitigation IDs associated with the weakness")
     INCOMP: Optional[str] = Field(None, description="Flag for incompleteness")
     INAC_EX: Optional[str] = Field(None, description="Flag for inaccuracy - existence", alias="INAC-EX")
@@ -130,7 +130,7 @@ class Mitigation(BaseModel):
     """
     id: str = Field(..., description="Unique identifier for the mitigation")
     name: str = Field(..., description="Name of the mitigation - contains the primary description of what this mitigation entails")
-    description: Optional[str] = Field(None, description="Additional description (if available)")
+    description: str = Field("", description="Additional description (if available)")
     technique: Optional[str] = Field(None, description="Related technique ID (if this mitigation is linked to a technique)")
     references: Optional[List[str]] = Field(default_factory=list, description="Reference sources for this mitigation")
 

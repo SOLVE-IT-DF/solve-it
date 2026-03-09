@@ -42,6 +42,19 @@ def build_comment(mitigation, fields):
     lines.append(json.dumps(mitigation, indent=4))
     lines.append("```")
 
+    # Relevant weaknesses — remind user to link the mitigation back
+    existing_weaknesses = lines_to_list(fields.get("Existing weakness IDs", ""))
+    if existing_weaknesses:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append(f"### Relevant weaknesses ({len(existing_weaknesses)})")
+        lines.append("")
+        lines.append("Once this mitigation has been assigned an ID, you will also need to add it to the following weaknesses:")
+        lines.append("")
+        for w in existing_weaknesses:
+            lines.append(f"- Add your new mitigation ID (M____) to Weakness **{w}**")
+
     lines.append("\n---")
     lines.append("*This comment was automatically generated. The mitigation ID (M____) will be assigned during review.*")
 

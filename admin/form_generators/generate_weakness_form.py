@@ -68,11 +68,11 @@ def main():
     lines.append("      description: Describe new mitigations for this weakness (one per line).")
     lines.append("      render: text")
 
-    # --- Relevant technique IDs ---
+    # --- Techniques this applies to ---
     lines.append("  - type: textarea")
     lines.append("    id: relevant-techniques")
     lines.append("    attributes:")
-    lines.append("      label: Relevant technique IDs")
+    lines.append("      label: Techniques this applies to")
     lines.append("      description: Techniques that this weakness applies to (one per line, e.g. T1001, T1028).")
     lines.append("      render: text")
 

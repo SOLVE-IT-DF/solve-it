@@ -124,6 +124,25 @@ def build_comment(technique, fields):
             url = build_weakness_link(w)
             lines.append(f"- [Create weakness: {w}]({url})")
 
+    # Reminder to add technique to solve-it.json under the selected objective
+    objective = fields.get("Objective", "").strip()
+    if objective and objective != "_No response_" and objective != "Other (specify below)":
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### Next steps")
+        lines.append("")
+        lines.append(f"Once this technique has been assigned an ID, you will also need to add it to the objective **\"{objective}\"** in `data/solve-it.json`.")
+    elif objective == "Other (specify below)":
+        other_objective = fields.get("Propose new objective", "").strip()
+        if other_objective and other_objective != "_No response_":
+            lines.append("")
+            lines.append("---")
+            lines.append("")
+            lines.append("### Next steps")
+            lines.append("")
+            lines.append(f"A new objective was proposed: **\"{other_objective}\"**. Once this technique has been assigned an ID, a new objective entry will need to be created in `data/solve-it.json` and the technique added to it.")
+
     lines.append("\n---")
     lines.append("*This comment was automatically generated. The technique ID (T____) will be assigned during review.*")
 

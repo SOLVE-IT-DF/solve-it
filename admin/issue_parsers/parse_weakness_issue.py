@@ -85,6 +85,19 @@ def build_comment(weakness, fields):
             url = build_mitigation_link(m)
             lines.append(f"- [Create mitigation: {m}]({url})")
 
+    # Relevant techniques — remind user to link the weakness back
+    relevant_techniques = lines_to_list(fields.get("Techniques this applies to", ""))
+    if relevant_techniques:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append(f"### Relevant techniques ({len(relevant_techniques)})")
+        lines.append("")
+        lines.append("Once this weakness has been assigned an ID, you will also need to add it to the following techniques:")
+        lines.append("")
+        for t in relevant_techniques:
+            lines.append(f"- Add your new weakness ID (W____) to Technique **{t}**")
+
     lines.append("\n---")
     lines.append("*This comment was automatically generated. The weakness ID (W____) will be assigned during review.*")
 

@@ -1,0 +1,1 @@
+Ottmann, J., Breitinger, F. and Freiling, F., 2024. An experimental assessment of inconsistencies in memory forensics. ACM Transactions on Privacy and Security (TOPS). 27, 2:1–2:29.

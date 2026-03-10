@@ -17,7 +17,13 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/filePath"
     ],
     "references": [
-        "Metz (2011), Windows Search forensics, https://www.forensicfocus.com/articles/windows-search-forensics/",
-        "The Zeitgeist Project (2021) https://zeitgeist.freedesktop.org"
+        {
+            "DFCite_id": "DFCite-1100",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1122",
+            "relevance_summary_280": ""
+        }
     ]
 }

@@ -12,7 +12,13 @@
         "DFM-1232"
     ],
     "references": [
-        "Belkasoft (undated) Dealing with Apple's USB Restricted Mode, https://belkasoft.com/dealing_with_usb_restricted_mode",
-        "Android (2025), How to Enable Android Developer Settings: Unlock your Device’s Hidden Potential, https://www.android.com/intl/en_uk/articles/enable-android-developer-settings/"
+        {
+            "DFCite_id": "DFCite-1015",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1004",
+            "relevance_summary_280": ""
+        }
     ]
 }

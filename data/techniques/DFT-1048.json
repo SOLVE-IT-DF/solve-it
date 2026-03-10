@@ -12,6 +12,9 @@
         "https://ontology.solveit-df.org/solveit/observable/RedactedArtifactSet"
     ],
     "references": [
-        "Dickinson (2020) ‘Privacy by design – 10 ways MSAB can help you meet the challenges.’ MSAB Blog. Available at: https://www.msab.com/blog/privacy-by-design-10-ways-msab-can-help-you-meet-the-challenges/"
+        {
+            "DFCite_id": "DFCite-1037",
+            "relevance_summary_280": ""
+        }
     ]
 }

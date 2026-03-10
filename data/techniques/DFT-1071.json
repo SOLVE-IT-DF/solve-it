@@ -25,6 +25,9 @@
         "https://ontology.solveit-df.org/solveit/observable/SQLiteTable"
     ],
     "references": [
-        "Nemetz, S., Schmitt, S. and Freiling, F., 2018. A standardized corpus for SQLite database forensics. Digital Investigation, 24, pp.S121-S130."
+        {
+            "DFCite_id": "DFCite-1104",
+            "relevance_summary_280": ""
+        }
     ]
 }

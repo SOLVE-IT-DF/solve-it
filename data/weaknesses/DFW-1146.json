@@ -9,6 +9,9 @@
     "MISINT": "",
     "mitigations": [],
     "references": [
-        "Dreier, L.M., Vanini, C., Hargreaves, C.J., Breitinger, F. and Freiling, F., 2024. Beyond timestamps: Integrating implicit timing information into digital forensic timelines. Forensic Science International: Digital Investigation, 49, p.301755."
+        {
+            "DFCite_id": "DFCite-1039",
+            "relevance_summary_280": ""
+        }
     ]
 }

@@ -1,0 +1,1 @@
+Hargreaves, C., Repository for 'An abstract model for digital forensic analysis tools - A foundation for systematic error mitigation analysis', https://github.com/chrishargreaves/digital-forensic-tool-abstractions/tree/main

@@ -34,7 +34,13 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/URLHistoryEntry"
     ],
     "references": [
-        "Digital Detective Knowledgebase https://kb.digital-detective.net/display/BF",
-        "Oh, J., Lee, S. and Lee, S., 2011. Advanced evidence collection and analysis of web browser activity. Digital investigation, 8, pp.S62-S70."
+        {
+            "DFCite_id": "DFCite-1038",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1108",
+            "relevance_summary_280": ""
+        }
     ]
 }

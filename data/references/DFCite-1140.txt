@@ -1,0 +1,1 @@
+https://www.crowdstrike.com/en-us/guides/syslog-logging/advanced-concepts/

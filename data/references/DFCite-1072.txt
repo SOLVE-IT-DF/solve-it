@@ -1,0 +1,1 @@
+Jenny Ottmann, Üsame Cengiz, Frank Breitinger, and Felix Freiling, 2023. As if Time Had Stopped – Checking Memory Dumps for Quasi-Instantaneous Consistency. In Proceedings of the Digital Forensics Research Conference USA (DFRWS USA), Baltimore, MD, July 2023.

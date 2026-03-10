@@ -2,6 +2,9 @@
     "id": "DFM-1015",
     "name": "Use tools only if changes made are to locations where relevant evidence is unlikely to be located.",
     "references": [
-        "Hargreaves, C.J., 2009. Assessing the reliability of digital evidence from live investigations involving encryption. Chapter 5"
+        {
+            "DFCite_id": "DFCite-1062",
+            "relevance_summary_280": ""
+        }
     ]
 }

@@ -2,8 +2,17 @@
     "id": "DFM-1112",
     "name": "Use of AI to classify files in addition to standard programmatic methods",
     "references": [
-        "https://www.opswat.com/blog/accurate-file-type-detection-powered-by-ai",
-        "Alam, S. and Demir, A.K., 2024. SIFT: Sifting file types—application of explainable artificial intelligence in cyber forensics. Cybersecurity, 7(1), p.52.",
-        "Karampidis, K. and Papadourakis, G., 2017. File type identification-computational intelligence for digital forensics. Journal of Digital Forensics, Security and Law, 12(2), p.6."
+        {
+            "DFCite_id": "DFCite-1141",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1002",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1078",
+            "relevance_summary_280": ""
+        }
     ]
 }

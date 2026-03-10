@@ -22,9 +22,21 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/modifiedTime"
     ],
     "references": [
-        "Apple (2025) View and restore past versions of documents on Mac https://support.apple.com/en-gb/guide/mac-help/mh40710/mac",
-        "Hargreaves, C., Chivers, H. and Titheridge, D., 2008. Windows Vista and digital investigations. Digital Investigation, 5(1-2), pp.34-48.",
-        "Leschke, T.R. and Nicholas, C., 2013, October. Change-link 2.0: a digital forensic tool for visualizing changes to shadow volume data. In Proceedings of the Tenth Workshop on Visualization for Cyber Security (pp. 17-24).",
-        "Sreeja, S.C. and Balan, C., 2016, October. Forensic analysis of volume shadow copy in windows 7. In 2016 International Conference on Emerging Technological Trends (ICETT) (pp. 1-6). IEEE."
+        {
+            "DFCite_id": "DFCite-1005",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1059",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1087",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1120",
+            "relevance_summary_280": ""
+        }
     ]
 }

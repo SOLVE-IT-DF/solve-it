@@ -15,7 +15,10 @@
         "Missed call or voicemail notification messages often include a timestamp derived from an external time source, e.g., missed call from XX on 2018-06-06 at 01:32:49 pm, which can be compared to the local file system time the message was received"
     ],
     "references": [
-        "C. Vanini, C. Hargreaves, H. van Beek, F. Breitinger, 2024, Was the clock correct? Exploring timestamp interpretation through time anchors for digital forensic event reconstruction, Forensic Science International: Digital Investigation, 10.1016/j.fsidi.2024.301759"
+        {
+            "DFCite_id": "DFCite-1020",
+            "relevance_summary_280": ""
+        }
     ],
     "CASE_input_classes": [],
     "CASE_output_classes": [],

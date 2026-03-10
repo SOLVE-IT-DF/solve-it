@@ -9,6 +9,9 @@
     "MISINT": "",
     "mitigations": [],
     "references": [
-        "DSTL Digital Forensics Bulletin, TRIM & Garbage Collection on SSDs, Edition 27, July 2024 DSTL/PUB160897, https://mailchi.mp/3b5bda81ff5f/digital-forensic-bulletin-edition27-trim-and-garbage-collection-on-ssds9445401"
+        {
+            "DFCite_id": "DFCite-1036",
+            "relevance_summary_280": ""
+        }
     ]
 }

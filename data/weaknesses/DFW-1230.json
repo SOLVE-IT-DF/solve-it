@@ -13,6 +13,9 @@
         "DFM-1175"
     ],
     "references": [
-        "https://www.crowdstrike.com/en-us/guides/syslog-logging/advanced-concepts/"
+        {
+            "DFCite_id": "DFCite-1140",
+            "relevance_summary_280": ""
+        }
     ]
 }

@@ -18,6 +18,9 @@
     "CASE_input_classes": [],
     "CASE_output_classes": [],
     "references": [
-        "ALEAPP abd_hots.py, https://github.com/abrignoni/ALEAPP/blob/main/scripts/artifacts/adb_hosts.py"
+        {
+            "DFCite_id": "DFCite-1001",
+            "relevance_summary_280": ""
+        }
     ]
 }

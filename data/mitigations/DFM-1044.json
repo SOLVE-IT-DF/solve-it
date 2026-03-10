@@ -2,6 +2,9 @@
     "id": "DFM-1044",
     "name": "Scan for Volume Boot Records in unpartitioned space",
     "references": [
-        "X-Ways - Provides an option called ‘Scan for Lost Partitions’ which explicitly scans for deleted partitions in unallocated space (X-Ways 2024)"
+        {
+            "DFCite_id": "DFCite-1135",
+            "relevance_summary_280": ""
+        }
     ]
 }

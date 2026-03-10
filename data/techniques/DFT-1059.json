@@ -24,7 +24,13 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition"
     ],
     "references": [
-        "Nikkel, B., 2009. Forensic analysis of GPT disks and GUID partition tables. Digital Investigation, 6(1-2), pp.39-47.",
-        "Carrier, B., 2005. File system forensic analysis. Addison-Wesley Professional."
+        {
+            "DFCite_id": "DFCite-1106",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1024",
+            "relevance_summary_280": ""
+        }
     ]
 }

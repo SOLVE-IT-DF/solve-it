@@ -14,6 +14,9 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/Application"
     ],
     "references": [
-        "Kessler, G.C., 2007. Anti-forensics and the digital investigator."
+        {
+            "DFCite_id": "DFCite-1082",
+            "relevance_summary_280": ""
+        }
     ]
 }

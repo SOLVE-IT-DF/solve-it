@@ -9,6 +9,9 @@
     "MISINT": "X",
     "mitigations": [],
     "references": [
-        "Groß, T., Dirauf, R. and Freiling, F., 2020, May. Systematic analysis of browser history evidence. In 2020 13th International Conference on Systematic Approaches to Digital Forensic Engineering (SADFE) (pp. 1-12). IEEE."
+        {
+            "DFCite_id": "DFCite-1050",
+            "relevance_summary_280": ""
+        }
     ]
 }

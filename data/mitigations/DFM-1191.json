@@ -3,6 +3,9 @@
     "name": "Ensure that profile configuration is examined rather than just folders within the standard profile folder",
     "technique": "DFT-1143",
     "references": [
-        "Mozillazine (2017), Profiles.ini file, https://kb.mozillazine.org/Profiles.ini_file"
+        {
+            "DFCite_id": "DFCite-1101",
+            "relevance_summary_280": ""
+        }
     ]
 }

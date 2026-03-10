@@ -14,6 +14,9 @@
         "https://ontology.solveit-df.org/solveit/observable/DeviceScreenshotCapture"
     ],
     "references": [
-        "Fukami, A., Stoykova, R. and Geradts, Z., 2021. A new model for forensic data extraction from encrypted mobile devices. Forensic Science International: Digital Investigation, 38, p.301169."
+        {
+            "DFCite_id": "DFCite-1045",
+            "relevance_summary_280": ""
+        }
     ]
 }

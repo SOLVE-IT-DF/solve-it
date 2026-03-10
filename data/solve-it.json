@@ -4,7 +4,8 @@
         "sort_order": 0,
         "name": "Prepare for a digital investigation",
         "description": "Conduct activities in preparation of conducting a digital investigation",
-        "techniques": []
+        "techniques": [],
+        "references": []
     },
     {
         "id": "DFO-1014",
@@ -17,7 +18,8 @@
             "DFT-1009",
             "DFT-1008",
             "DFT-1007"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1005",
@@ -26,7 +28,8 @@
         "description": "Rank the evidence sources based on their relevance and potential value to the investigation.",
         "techniques": [
             "DFT-1001"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1010",
@@ -39,7 +42,8 @@
             "DFT-1012",
             "DFT-1013",
             "DFT-1110"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1006",
@@ -77,7 +81,8 @@
             "DFT-1166",
             "DFT-1171",
             "DFT-1175"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1016",
@@ -97,7 +102,8 @@
             "DFT-1037",
             "DFT-1040",
             "DFT-1158"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1018",
@@ -114,7 +120,8 @@
             "DFT-1172",
             "DFT-1173",
             "DFT-1174"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1007",
@@ -125,7 +132,8 @@
             "DFT-1047",
             "DFT-1048",
             "DFT-1046"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1013",
@@ -139,7 +147,8 @@
             "DFT-1059",
             "DFT-1060",
             "DFT-1168"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1017",
@@ -157,7 +166,8 @@
             "DFT-1083",
             "DFT-1116",
             "DFT-1149"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1011",
@@ -178,7 +188,8 @@
             "DFT-1108",
             "DFT-1109",
             "DFT-1133"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1002",
@@ -197,7 +208,8 @@
             "DFT-1120",
             "DFT-1167",
             "DFT-1169"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1012",
@@ -210,7 +222,8 @@
             "DFT-1049",
             "DFT-1118",
             "DFT-1086"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1003",
@@ -224,7 +237,8 @@
             "DFT-1080",
             "DFT-1081",
             "DFT-1082"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1019",
@@ -239,7 +253,8 @@
             "DFT-1130",
             "DFT-1131",
             "DFT-1132"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1008",
@@ -249,7 +264,8 @@
         "techniques": [
             "DFT-1084",
             "DFT-1085"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1009",
@@ -259,7 +275,8 @@
         "techniques": [
             "DFT-1103",
             "DFT-1115"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1001",
@@ -273,7 +290,8 @@
             "DFT-1154",
             "DFT-1155",
             "DFT-1156"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1004",
@@ -286,7 +304,8 @@
             "DFT-1089",
             "DFT-1101",
             "DFT-1119"
-        ]
+        ],
+        "references": []
     },
     {
         "id": "DFO-1020",
@@ -299,6 +318,7 @@
             "DFT-1092",
             "DFT-1093",
             "DFT-1014"
-        ]
+        ],
+        "references": []
     }
 ]

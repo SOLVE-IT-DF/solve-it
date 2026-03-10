@@ -2,6 +2,9 @@
     "id": "DFM-1173",
     "name": "Check logging settings so the bounds of logging are known",
     "references": [
-        "https://www.crowdstrike.com/en-us/guides/syslog-logging/advanced-concepts/"
+        {
+            "DFCite_id": "DFCite-1140",
+            "relevance_summary_280": ""
+        }
     ]
 }

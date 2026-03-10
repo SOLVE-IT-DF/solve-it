@@ -1,0 +1,1 @@
+Pagani, F., Fedorov, O. and Balzarotti, D., 2019. Introducing the temporal dimension to memory forensics. ACM Transactions on Privacy and Security (TOPS), 22(2), 1-21.

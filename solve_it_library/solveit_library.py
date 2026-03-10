@@ -13,10 +13,11 @@ from typing import Dict, Any, Optional, List, Type, Union, Tuple
 from pydantic import ValidationError
 
 from .models import (
-    Technique, Weakness, Mitigation, Objective,
+    Technique, Weakness, Mitigation, Objective, CitationFiles,
     TechniqueValidationError, WeaknessValidationError, MitigationValidationError, ObjectiveValidationError,
-    ErrorCodes
+    CitationValidationError, ErrorCodes
 )
+from .citation_utils import get_display_text, resolve_inline_citations, find_inline_citations
 
 # Set up basic logging for the library
 logger = logging.getLogger(__name__)
@@ -94,10 +95,15 @@ class KnowledgeBase:
         self._extensions_enabled: bool = enable_extensions
         self.global_config: Optional[Any] = None
 
+        # Initialize citation storage
+        self.citations: Dict[str, Dict[str, Any]] = {}
+        self.references_path: str = os.path.join(self.data_path, 'references')
+
         # Load core data
         self._load_techniques()
         self._load_weaknesses()
         self._load_mitigations()
+        self._load_citations()
 
         # Build reverse indices for performance optimization
         self._build_reverse_indices()
@@ -206,6 +212,76 @@ class KnowledgeBase:
         """Loads mitigations from the mitigations directory."""
         self.mitigations = self._load_json_files(self.mitigations_path, Mitigation)
         logger.info("Loaded %d mitigations.", len(self.mitigations))
+
+    def _load_citations(self):
+        """Loads citations from .bib and .txt files in the references directory."""
+        if not os.path.isdir(self.references_path):
+            logger.info("No references directory found at %s, skipping citation loading.", self.references_path)
+            return
+
+        # Collect all citation IDs from .bib and .txt filenames
+        cite_ids = set()
+        for filename in os.listdir(self.references_path):
+            if filename.startswith("DFCite-") and (filename.endswith(".bib") or filename.endswith(".txt")):
+                cite_id = filename.rsplit(".", 1)[0]
+                cite_ids.add(cite_id)
+
+        for cite_id in sorted(cite_ids):
+            bibtex = None
+            plaintext = None
+            bib_path = os.path.join(self.references_path, f"{cite_id}.bib")
+            txt_path = os.path.join(self.references_path, f"{cite_id}.txt")
+            if os.path.isfile(bib_path):
+                with open(bib_path, "r", encoding="utf-8") as f:
+                    bibtex = f.read().strip()
+            if os.path.isfile(txt_path):
+                with open(txt_path, "r", encoding="utf-8") as f:
+                    plaintext = f.read().strip()
+            try:
+                citation = CitationFiles(cite_id, bibtex=bibtex, plaintext=plaintext)
+                self.citations[cite_id] = {"bibtex": citation.bibtex, "plaintext": citation.plaintext}
+            except ValueError as exc:
+                raise CitationValidationError(str(exc), cite_id) from exc
+
+        logger.info("Loaded %d citations.", len(self.citations))
+
+    def get_citation(self, citation_id: str) -> Optional[Dict[str, Any]]:
+        """Get a citation by its DFCite ID."""
+        return self.citations.get(citation_id)
+
+    def get_citation_display_text(self, citation_id: str) -> str:
+        """Get the formatted display text for a citation ID."""
+        citation = self.citations.get(citation_id)
+        if citation is None:
+            return citation_id
+        return get_display_text(citation)
+
+    def resolve_references(self, refs: List) -> List[Dict[str, Any]]:
+        """Resolve reference entries to full citation info.
+
+        Args:
+            refs: List of dicts with DFCite_id and relevance_summary_280.
+
+        Returns:
+            List of dicts with 'id', 'display_text', and 'relevance_summary' keys.
+        """
+        resolved = []
+        for ref in refs:
+            if isinstance(ref, dict) and "DFCite_id" in ref:
+                cite_id = ref["DFCite_id"]
+                relevance = ref.get("relevance_summary_280", "")
+                resolved.append({
+                    "id": cite_id,
+                    "display_text": self.get_citation_display_text(cite_id),
+                    "relevance_summary": relevance,
+                })
+        return resolved
+
+    def resolve_inline_citations(self, text: str) -> str:
+        """Replace [DFCite-xxxx] markers in text with short-form Harvard citations."""
+        if not text or "[DFCite-" not in text:
+            return text or ""
+        return resolve_inline_citations(text, self.citations)
 
     def _build_reverse_indices(self):
         """

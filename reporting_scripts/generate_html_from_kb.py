@@ -28,6 +28,62 @@ import urllib.request
 import urllib.error
 from pathlib import Path
 from datetime import datetime
+from pybtex.database import parse_string as _pybtex_parse
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BibTeX → Harvard helper
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _bib_to_harvard(bibtex_str: str) -> str:
+    """Parse a BibTeX string and return Harvard-style plain text, or empty string on failure."""
+    bib_data = _pybtex_parse(bibtex_str, "bibtex")
+    if not bib_data.entries:
+        return ""
+    entry = list(bib_data.entries.values())[0]
+    fields = entry.fields
+    authors = []
+    if "author" in entry.persons:
+        for p in entry.persons["author"]:
+            last = " ".join(p.last_names)
+            firsts = " ".join(f"{n[0]}." if n else "" for n in p.first_names)
+            authors.append(f"{last}, {firsts}" if firsts else last)
+    author_str = "Unknown"
+    if len(authors) == 1:
+        author_str = authors[0]
+    elif len(authors) == 2:
+        author_str = f"{authors[0]} and {authors[1]}"
+    elif len(authors) > 2:
+        author_str = ", ".join(authors[:-1]) + f" and {authors[-1]}"
+    year = fields.get("year", "n.d.")
+    title = fields.get("title", "").strip("{}").replace("\\_", "_")
+    year_sep = "." if not year.endswith(".") else ""
+    parts = [f"{author_str}, {year}{year_sep} {title}."]
+    journal = fields.get("journal", "")
+    if journal:
+        jp = f" {journal}"
+        vol = fields.get("volume", "")
+        if vol:
+            jp += f", {vol}"
+            num = fields.get("number", "")
+            if num:
+                jp += f"({num})"
+        pages = fields.get("pages", "")
+        if pages:
+            jp += f", pp.{pages}"
+        jp += "."
+        parts.append(jp)
+    elif fields.get("booktitle"):
+        bp = f" In: {fields['booktitle']}"
+        if fields.get("pages"):
+            bp += f", pp.{fields['pages']}"
+        bp += "."
+        parts.append(bp)
+    if fields.get("publisher"):
+        parts.append(f" {fields['publisher']}.")
+    if fields.get("url"):
+        parts.append(f" Available at: {fields['url']}")
+    return "".join(parts)
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # GitHub endpoints
@@ -95,9 +151,47 @@ def load_from_github() -> dict:
     else:
         print("  [warn] Could not fetch solve-it.json – objectives will be empty.")
 
+    # Fetch citations from .bib/.txt files
+    print("  Fetching citations …")
+    citations = {}
+    refs_listing = fetch_json(f"{GITHUB_API_BASE}/data/references")
+    if refs_listing:
+        # Collect citation IDs from filenames
+        cite_ids = set()
+        file_map = {}
+        for f in refs_listing:
+            name = f["name"]
+            if name.startswith("DFCite-") and (name.endswith(".bib") or name.endswith(".txt")):
+                cite_id = name.rsplit(".", 1)[0]
+                cite_ids.add(cite_id)
+                file_map[name] = f
+        for cite_id in sorted(cite_ids):
+            display = ""
+            has_bib = f"{cite_id}.bib" in file_map
+            has_txt = f"{cite_id}.txt" in file_map
+            raw_txt = ""
+            if has_txt:
+                txt_url = f"{GITHUB_RAW_BASE}/data/references/{cite_id}.txt"
+                try:
+                    with urllib.request.urlopen(txt_url) as resp:
+                        raw_txt = resp.read().decode("utf-8").strip()
+                        display = raw_txt
+                except Exception:
+                    pass
+            raw_bib = ""
+            if has_bib:
+                bib_url = f"{GITHUB_RAW_BASE}/data/references/{cite_id}.bib"
+                try:
+                    with urllib.request.urlopen(bib_url) as resp:
+                        raw_bib = resp.read().decode("utf-8").strip()
+                except Exception:
+                    pass
+            citations[cite_id] = {"text": display, "bib": has_bib, "txt": has_txt, "raw_bib": raw_bib, "raw_txt": raw_txt}
+    db["citations"] = citations
+
     print(f"  Loaded: {len(db['techniques'])} techniques, "
           f"{len(db['weaknesses'])} weaknesses, {len(db['mitigations'])} mitigations, "
-          f"{len(db['objectives'])} objectives.")
+          f"{len(db['objectives'])} objectives, {len(citations)} citations.")
     return db
 
 
@@ -133,9 +227,42 @@ def load_from_local(repo_path: str) -> dict:
         except Exception as exc:
             print(f"  [warn] solve-it.json: {exc}", file=sys.stderr)
 
+    # Load citations from .bib/.txt files
+    refs_folder = root / "data" / "references"
+    citations = {}
+    if refs_folder.exists():
+        cite_ids = set()
+        for fp in refs_folder.iterdir():
+            if fp.name.startswith("DFCite-") and fp.suffix in (".bib", ".txt"):
+                cite_ids.add(fp.stem)
+        print(f"  Loading {len(cite_ids)} citations from {refs_folder} …")
+        for cite_id in sorted(cite_ids):
+            bib_path = refs_folder / f"{cite_id}.bib"
+            txt_path = refs_folder / f"{cite_id}.txt"
+            has_bib = bib_path.exists()
+            has_txt = txt_path.exists()
+            display = ""
+            raw_bib = ""
+            raw_txt = ""
+            if has_bib:
+                try:
+                    raw_bib = bib_path.read_text(encoding="utf-8").strip()
+                    display = _bib_to_harvard(raw_bib)
+                except Exception:
+                    pass
+            if has_txt:
+                try:
+                    raw_txt = txt_path.read_text(encoding="utf-8").strip()
+                except Exception as exc:
+                    print(f"  [warn] {txt_path}: {exc}", file=sys.stderr)
+            if not display:
+                display = raw_txt
+            citations[cite_id] = {"text": display, "bib": has_bib, "txt": has_txt, "raw_bib": raw_bib, "raw_txt": raw_txt}
+    db["citations"] = citations
+
     print(f"  Loaded: {len(db['techniques'])} techniques, "
           f"{len(db['weaknesses'])} weaknesses, {len(db['mitigations'])} mitigations, "
-          f"{len(db['objectives'])} objectives.")
+          f"{len(db['objectives'])} objectives, {len(db.get('citations', {}))} citations.")
     return db
 
 
@@ -324,7 +451,9 @@ def generate_html(db: dict, idx: dict, custom: bool = False) -> str:
     for _items in (db["techniques"], db["weaknesses"], db["mitigations"]):
         for _item in _items:
             for _r in (_item.get("references") or []):
-                if _r and _r.strip() and _r.strip().lower() != "todo":
+                if isinstance(_r, dict) and "DFCite_id" in _r:
+                    _all_refs.add(_r["DFCite_id"])
+                elif isinstance(_r, str) and _r.strip() and _r.strip().lower() != "todo":
                     _all_refs.add(_r.strip())
     n_r = len(_all_refs)
 
@@ -1079,6 +1208,21 @@ body.custom-mode .disabled-btn {{
   line-height: 1.5;
 }}
 .ref-item:last-child {{ border-bottom: none; }}
+.inline-cite {{
+  color: var(--blue-600, #2563eb);
+  cursor: help;
+  border-bottom: 1px dotted var(--blue-400, #60a5fa);
+}}
+.copy-cite {{
+  cursor: pointer;
+  opacity: 0.4;
+  font-size: .82rem;
+  margin-left: 4px;
+  transition: opacity .2s;
+}}
+.copy-cite:hover {{
+  opacity: 1;
+}}
 
 .cat-grid {{
   display: flex;
@@ -1548,6 +1692,83 @@ window.DB = DB; window.IDX = IDX;
 const TMap = Object.fromEntries(DB.techniques.map(t  => [t.id,  t]));
 const WMap = Object.fromEntries(DB.weaknesses.map(w  => [w.id,  w]));
 const MMap = Object.fromEntries(DB.mitigations.map(m => [m.id, m]));
+const CiteMap = DB.citations || {{}};
+
+function citeText(citeId) {{
+  const c = CiteMap[citeId];
+  return c ? (c.text || citeId) : citeId;
+}}
+
+function copyCite(citeId, fmt) {{
+  const c = CiteMap[citeId];
+  if (!c) return;
+  const text = fmt === 'bib' ? (c.raw_bib || '') : (c.raw_txt || c.text || citeId);
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {{
+    const toast = document.createElement('div');
+    toast.textContent = fmt === 'bib' ? 'BibTeX copied' : 'Citation copied';
+    toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:8px 16px;border-radius:6px;font-size:.82rem;z-index:9999;opacity:0;transition:opacity .3s';
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => toast.style.opacity = '1');
+    setTimeout(() => {{ toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }}, 1500);
+  }});
+}}
+
+function resolveRef(ref) {{
+  if (ref && typeof ref === 'object' && !Array.isArray(ref) && ref.DFCite_id) {{
+    const citeId = ref.DFCite_id;
+    const relevance = ref.relevance_summary_280 || '';
+    const text = citeText(citeId);
+    return {{text, relevance, citeId}};
+  }}
+  return {{text: String(ref), relevance: '', citeId: ''}};
+}}
+
+function renderRef(ref) {{
+  const r = resolveRef(ref);
+  let html = `<div class="ref-item">${{linkify(r.text)}}`;
+  if (r.citeId) html += ` <span style="font-size:.72rem;color:var(--gray-400);font-family:var(--font-mono)">[` + esc(r.citeId) + `]</span>`;
+  html += r.relevance
+    ? `<div style="margin-top:2px;font-size:.78rem;color:#60a5fa;font-style:italic">Relevance: ${{esc(r.relevance)}}</div>`
+    : `<div style="margin-top:2px;font-size:.78rem;color:#60a5fa;font-style:italic">No relevance summary string provided</div>`;
+  html += `</div>`;
+  return html;
+}}
+
+function resolveInlineCites(text) {{
+  if (!text) return '';
+  return esc(text).replace(/\\[DFCite-\\d+\\]/g, function(marker) {{
+    const citeId = marker.slice(1, -1);
+    const plain = citeText(citeId);
+    if (!plain || plain === citeId) return marker;
+    const short = extractShortCite(plain);
+    return `<span class="inline-cite" title="${{esc(plain)}}">${{short}}</span>`;
+  }});
+}}
+
+function extractShortCite(plain) {{
+  if (!plain) return '';
+  const ym = plain.match(/\\b(1[89]\\d{{2}}|20[0-3]\\d)\\b/);
+  if (!ym) return '';
+  const year = ym[1];
+  const fc = plain.indexOf(',');
+  if (fc <= 0) return '';
+  const firstAuthor = plain.slice(0, fc).trim();
+  const beforeYear = plain.slice(0, ym.index);
+  const andParts = beforeYear.split(' and ');
+  if (andParts.length === 1) return `(${{firstAuthor}}, ${{year}})`;
+  const authorInits = andParts[0].match(/[A-Z]\\.(?:[A-Z]\\.)*/g);
+  const nBefore = authorInits ? Math.max(authorInits.length, 1) : 1;
+  const total = nBefore + 1;
+  if (total >= 3) return `(${{firstAuthor}} et al., ${{year}})`;
+  if (total === 2) {{
+    const afterAnd = andParts[andParts.length - 1].trim();
+    const sc = afterAnd.indexOf(',');
+    const secondAuthor = sc > 0 ? afterAnd.slice(0, sc).trim() : afterAnd.trim();
+    return `(${{firstAuthor}} and ${{secondAuthor}}, ${{year}})`;
+  }}
+  return `(${{firstAuthor}}, ${{year}})`;
+}}
 
 // Compute mitigation enrichment
 DB.mitigations.forEach(m => {{
@@ -1664,6 +1885,7 @@ function matchesSearch(item) {{
 
 const REPO_URL = 'https://github.com/SOLVE-IT-DF/solve-it';
 function joinLines(arr) {{ return (arr||[]).join('\\n'); }}
+function joinRefs(arr) {{ return (arr||[]).map(r => r && r.DFCite_id ? r.DFCite_id + (r.relevance_summary_280 ? ' | ' + r.relevance_summary_280 : '') : String(r)).join('\\n'); }}
 function updateFormUrl(type, obj) {{
   const templates = {{
     technique:  '2a_update-technique-form.yml',
@@ -1693,17 +1915,17 @@ function updateFormUrl(type, obj) {{
     p.set('weakness-ids', joinLines(obj.weaknesses));
     p.set('case-input', joinLines(obj.CASE_input_classes));
     p.set('case-output', joinLines(obj.CASE_output_classes));
-    p.set('references', joinLines(obj.references));
+    p.set('references', joinRefs(obj.references));
   }} else if (type === 'weakness') {{
     p.set('weakness-id', obj.id);
     p.set('new-weakness-name', obj.name || '');
     p.set('mitigation-ids', joinLines(obj.mitigations));
-    p.set('references', joinLines(obj.references));
+    p.set('references', joinRefs(obj.references));
   }} else if (type === 'mitigation') {{
     p.set('mitigation-id', obj.id);
     p.set('new-mitigation-name', obj.name || '');
     if (obj.technique) p.set('linked-technique-id', obj.technique);
-    p.set('references', joinLines(obj.references));
+    p.set('references', joinRefs(obj.references));
   }}
 
   return `${{REPO_URL}}/issues/new?${{p.toString()}}`;
@@ -2340,12 +2562,12 @@ function buildTechniqueDetail(t) {{
 
   html += `<div class="detail-section">
     <div class="detail-section-title">Description</div>
-    ${{t.description ? `<div class="detail-text">${{esc(t.description)}}</div>` : '<div class="empty-message">No description.</div>'}}
+    ${{t.description ? `<div class="detail-text">${{resolveInlineCites(t.description)}}</div>` : '<div class="empty-message">No description.</div>'}}
   </div>`;
 
   html += `<div class="detail-section">
     <div class="detail-section-title">Details</div>
-    ${{t.details ? `<div class="detail-text">${{esc(t.details)}}</div>` : '<div class="empty-message">No details.</div>'}}
+    ${{t.details ? `<div class="detail-text">${{resolveInlineCites(t.details)}}</div>` : '<div class="empty-message">No details.</div>'}}
   </div>`;
 
   const syns = t.synonyms || [];
@@ -2413,8 +2635,8 @@ function buildTechniqueDetail(t) {{
   // References
   const refs = t.references || [];
   html += `<div class="detail-section">
-    <div class="detail-section-title">References <span class="badge">${{refs.length}}</span></div>
-    ${{refs.length ? refs.map(r => `<div class="ref-item">${{linkify(r)}}</div>`).join('') : '<div class="empty-message">No references.</div>'}}
+    <div class="detail-section-title">References <span style="text-transform:none">(DFCites)</span> <span class="badge">${{refs.length}}</span></div>
+    ${{refs.length ? refs.map(r => renderRef(r)).join('') : '<div class="empty-message">No references.</div>'}}
   </div>`;
 
   return html;
@@ -2467,8 +2689,8 @@ function buildWeaknessDetail(w) {{
 
   const wrefs = w.references || [];
   html += `<div class="detail-section">
-    <div class="detail-section-title">References <span class="badge">${{wrefs.length}}</span></div>
-    ${{wrefs.length ? wrefs.map(r => `<div class="ref-item">${{linkify(r)}}</div>`).join('') : '<div class="empty-message">No references.</div>'}}
+    <div class="detail-section-title">References <span style="text-transform:none">(DFCites)</span> <span class="badge">${{wrefs.length}}</span></div>
+    ${{wrefs.length ? wrefs.map(r => renderRef(r)).join('') : '<div class="empty-message">No references.</div>'}}
   </div>`;
 
   return html;
@@ -2527,8 +2749,8 @@ function buildMitigationDetail(m) {{
 
   const mrefs = m.references || [];
   html += `<div class="detail-section">
-    <div class="detail-section-title">References <span class="badge">${{mrefs.length}}</span></div>
-    ${{mrefs.length ? mrefs.map(r => `<div class="ref-item">${{linkify(r)}}</div>`).join('') : '<div class="empty-message">No references.</div>'}}
+    <div class="detail-section-title">References <span style="text-transform:none">(DFCites)</span> <span class="badge">${{mrefs.length}}</span></div>
+    ${{mrefs.length ? mrefs.map(r => renderRef(r)).join('') : '<div class="empty-message">No references.</div>'}}
   </div>`;
 
   return html;
@@ -2631,20 +2853,21 @@ function renderReferences() {{
 
   const refMap = {{}};
   const addRef = (r, type, id) => {{
-    const key = (r||'').trim();
+    const resolved = resolveRef(r);
+    const key = resolved.citeId || (resolved.text||'').trim();
     if (!key || key.toLowerCase() === 'todo') return;
-    if (!refMap[key]) refMap[key] = {{techniques:[], weaknesses:[], mitigations:[]}};
+    if (!refMap[key]) refMap[key] = {{text: (resolved.text||'').trim(), citeId: resolved.citeId, techniques:[], weaknesses:[], mitigations:[]}};
     if (!refMap[key][type].includes(id)) refMap[key][type].push(id);
   }};
   DB.techniques.forEach(t  => (t.references||[]).forEach(r => addRef(r,'techniques',t.id)));
   DB.weaknesses.forEach(w  => (w.references||[]).forEach(r => addRef(r,'weaknesses',w.id)));
   DB.mitigations.forEach(m => (m.references||[]).forEach(r => addRef(r,'mitigations',m.id)));
 
-  let items = Object.entries(refMap).filter(([ref, cb]) => {{
+  let items = Object.entries(refMap).filter(([key, cb]) => {{
     if (S.rtype !== 'all' && cb[S.rtype].length === 0) return false;
     if (!S.search) return true;
     const q = S.search.toLowerCase();
-    return ref.toLowerCase().includes(q)
+    return cb.text.toLowerCase().includes(q) || (cb.citeId||'').toLowerCase().includes(q)
         || cb.techniques.some(id  => id.toLowerCase().includes(q) || ((TMap[id]||{{}}).name||'').toLowerCase().includes(q))
         || cb.weaknesses.some(id  => id.toLowerCase().includes(q) || ((WMap[id]||{{}}).name||'').toLowerCase().includes(q))
         || cb.mitigations.some(id => id.toLowerCase().includes(q) || ((MMap[id]||{{}}).name||'').toLowerCase().includes(q));
@@ -2655,6 +2878,17 @@ function renderReferences() {{
       const sa = a[1].techniques.length + a[1].weaknesses.length + a[1].mitigations.length;
       const sb = b[1].techniques.length + b[1].weaknesses.length + b[1].mitigations.length;
       return sb - sa || a[0].localeCompare(b[0]);
+    }});
+  }} else if (S.rf === 'id') {{
+    items.sort((a,b) => (a[1].citeId||'').localeCompare(b[1].citeId||''));
+  }} else if (S.rf === 'bib' || S.rf === 'txt') {{
+    const field = S.rf;
+    items.sort((a,b) => {{
+      const ca = a[1].citeId ? CiteMap[a[1].citeId] : null;
+      const cb2 = b[1].citeId ? CiteMap[b[1].citeId] : null;
+      const ha = ca && ca[field] ? 1 : 0;
+      const hb = cb2 && cb2[field] ? 1 : 0;
+      return hb - ha || a[0].localeCompare(b[0]);
     }});
   }} else {{
     items.sort((a,b) => a[0].localeCompare(b[0]));
@@ -2672,9 +2906,9 @@ function renderReferences() {{
   const tDetail = {{ techniques:'technique', weaknesses:'weakness', mitigations:'mitigation' }};
 
   let html = `<div class="table-section"><table class="attck-table ref-table">
-    <thead><tr><th>Reference</th><th style="width:280px">Cited by</th></tr></thead><tbody>`;
+    <thead><tr><th style="width:100px;cursor:pointer;text-transform:none" onclick="S.rf='id';renderReferences()">DFCite ID</th><th style="width:30px;cursor:pointer" title="Sort by .txt availability" onclick="S.rf='txt';renderReferences()">txt</th><th style="width:30px;cursor:pointer" title="Sort by .bib availability" onclick="S.rf='bib';renderReferences()">bib</th><th style="cursor:pointer" onclick="S.rf='alpha';renderReferences()">Reference</th><th style="width:280px;cursor:pointer" onclick="S.rf='cited';renderReferences()">Cited by</th></tr></thead><tbody>`;
 
-  items.forEach(([ref, cb]) => {{
+  items.forEach(([key, cb]) => {{
     const chips = ['techniques','weaknesses','mitigations'].flatMap(type =>
       cb[type].map(id => {{
         const item = type==='techniques'?TMap[id]:type==='weaknesses'?WMap[id]:MMap[id];
@@ -2682,7 +2916,16 @@ function renderReferences() {{
         return `<span class="ref-chip ${{tClass[type]}}" title="${{name}}"
           data-show-id="${{esc(id)}}" data-show-type="${{tDetail[type]}}">${{esc(tLabel[type]+':'+id)}}</span>`;
       }})).join('');
-    html += `<tr><td class="ref-cell">${{linkify(ref)}}</td><td class="ref-cited-cell">${{chips}}</td></tr>`;
+    const citeId = cb.citeId || '';
+    const cite = citeId ? CiteMap[citeId] : null;
+    const hasBib = cite && cite.bib;
+    const hasTxt = cite && cite.txt;
+    const tick = '<span style="color:#22c55e">&#10003;</span>';
+    const cross = '<span style="color:var(--gray-300)">&#10005;</span>';
+    let copyBtns = '';
+    if (citeId) copyBtns += `<span class="copy-cite" title="Copy plaintext citation" onclick="copyCite('${{esc(citeId)}}','txt');event.stopPropagation()">&#128203;</span>`;
+    if (hasBib) copyBtns += `<span class="copy-cite" title="Copy BibTeX citation" onclick="copyCite('${{esc(citeId)}}','bib');event.stopPropagation()">&#128218;</span>`;
+    html += `<tr><td style="font-family:var(--font-mono);font-size:.78rem;color:var(--gray-500)">${{esc(citeId)}}</td><td style="text-align:center">${{hasTxt ? tick : cross}}</td><td style="text-align:center">${{hasBib ? tick : cross}}</td><td class="ref-cell">${{linkify(cb.text)}} ${{copyBtns}}</td><td class="ref-cited-cell">${{chips}}</td></tr>`;
   }});
 
   html += '</tbody></table></div>';

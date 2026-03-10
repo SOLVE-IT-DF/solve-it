@@ -1,0 +1,1 @@
+Kessler GC. The impact of SHA-1 file hash collisions on digital forensic imaging: A follow-up experiment. Journal of Digital Forensics, Security and Law. 2016;11(4):10.

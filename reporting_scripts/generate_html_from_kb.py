@@ -1371,8 +1371,8 @@ body.custom-mode .disabled-btn {{
       <span class="result-count" id="t-count"></span>
       <span id="custom-controls" style="display:none">
         <span class="filterbar-sep"></span>
-        <label class="filter-chip" style="cursor:pointer;font-weight:600" title="Upload a JSON file to reorganise techniques into custom categories">
-          &#x21e7; Upload schema
+        <label class="filter-chip" style="cursor:pointer;font-weight:600" title="Load a local JSON file to reorganise techniques into custom categories">
+          Use custom categories
           <input type="file" id="custom-schema-upload" accept=".json" style="display:none">
         </label>
         <button id="custom-schema-reset" class="filter-chip" style="display:none;font-weight:600" title="Reset to default SOLVE-IT objectives">&#x21ba; Reset</button>

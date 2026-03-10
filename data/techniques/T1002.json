@@ -24,7 +24,7 @@
     ],
     "CASE_input_classes" : [
                     "https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface",                            
-                    "https://ontology.solveit-df.org/solveit/observable/DeviceInterface"
+                    "https://ontology.solveit-df.org/solveit/observable/ReadWriteDeviceInterface"
                     ],
     "CASE_output_classes" : [
                              "https://ontology.solveit-df.org/solveit/observable/Bitstream"

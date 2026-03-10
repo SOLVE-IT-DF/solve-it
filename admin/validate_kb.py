@@ -101,7 +101,7 @@ def _load_items(directory: Path, model_class, label: str, result: ValidationResu
         return items
 
     for fp in json_files:
-        stem = fp.stem  # e.g. "T1001"
+        stem = fp.stem  # e.g. "DFT-1001"
 
         # Try JSON parse
         try:

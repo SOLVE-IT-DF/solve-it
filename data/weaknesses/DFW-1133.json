@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1133",
+    "name": "Tool fails to express uncertainty in the classification of file recovery results, e.g., where content may be partly overwritten.",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1084"
+    ],
+    "references": [
+        "Hargreaves, C., Nelson, A. and Casey, E., 2024. An abstract model for digital forensic analysis tools-A foundation for systematic error mitigation analysis. Forensic Science International: Digital Investigation, 48, p.301679.",
+        "Casey, E., Nelson, A. and Hyde, J., 2019. Standardization of file recovery classification and authentication. Digital Investigation, 31, p.100873."
+    ]
+}

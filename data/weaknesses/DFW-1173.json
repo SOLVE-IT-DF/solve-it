@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1173",
+    "name": "Trusted time source is incorrect",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "X",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

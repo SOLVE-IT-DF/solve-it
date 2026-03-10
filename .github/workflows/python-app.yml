@@ -43,7 +43,7 @@ jobs:
     - name: Run these to make sure nothing breaks
       run: |
         python reporting_scripts/generate_evaluation.py -o .repo_info/test_eval.xlxs
-        python reporting_scripts/generate_evaluation.py T1012 T1002 T1025 T1042 -o .repo_info/test_eval2.xlxs
+        python reporting_scripts/generate_evaluation.py DFT-1012 DFT-1002 DFT-1025 DFT-1042 -o .repo_info/test_eval2.xlxs
         
     - name: Commit and push changes
       run: |

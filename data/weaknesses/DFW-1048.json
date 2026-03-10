@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1048",
+    "name": "File recovered from backup but presented in the wrong location",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1026",
+        "DFM-1027"
+    ],
+    "references": []
+}

@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1213",
+    "name": "Failure to display an image to or from the AI companion app in the context of other messages",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "mitigations": [
+        "DFM-1157"
+    ],
+    "references": []
+}

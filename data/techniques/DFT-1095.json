@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1095",
+    "name": "Instrumentation",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": [
+        "todo"
+    ]
+}

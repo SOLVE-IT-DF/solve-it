@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1032",
+    "name": "Side channel",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": [
+        "todo"
+    ]
+}

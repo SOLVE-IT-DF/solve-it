@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1203",
+    "name": "Use indexed keyword search over broader content of the data source",
+    "technique": "DFT-1124",
+    "references": []
+}

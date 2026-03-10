@@ -1,0 +1,21 @@
+{
+    "id": "DFT-1117",
+    "name": "Time-based event reconstruction",
+    "description": "The process of assigning a time component to a reconstructed event",
+    "synonyms": [
+        "Temporal-based event reconstruction"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1148",
+        "DFW-1149",
+        "DFW-1266"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/analysis/hypothesisedDateTime"
+    ],
+    "references": []
+}

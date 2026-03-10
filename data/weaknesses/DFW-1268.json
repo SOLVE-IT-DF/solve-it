@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1268",
+    "name": "Offset applied to timestamp is incorrect due to incorrect daylight savings configuration used",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-ALT": "",
+    "INAC-AS": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "references": [],
+    "mitigations": [
+        "DFM-1224"
+    ]
+}

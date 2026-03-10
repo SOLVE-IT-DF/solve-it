@@ -1,6 +1,0 @@
-{
-    "id": "M1067",
-    "name": "Analyze web browser memory for web browsing activity",
-    "technique": "T1105",
-    "references" : ["Chivers, H., 2014. Private browsing: A window of forensic opportunity. Digital Investigation, 11(1), pp.20-29."]
-}

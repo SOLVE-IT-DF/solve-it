@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1187",
+    "name": "Failure to match file name/path pattern due to mismatch of search term used and pattern match engine.",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

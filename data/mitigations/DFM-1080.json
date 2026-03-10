@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1080",
+    "name": "Use a hashset of known files to detect that recovered content does not match the expected file content",
+    "references": []
+}

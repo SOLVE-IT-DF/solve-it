@@ -1,0 +1,19 @@
+{
+    "id": "DFW-1130",
+    "name": "Missing assignment of a file type: reporting a file as unknown when it has a known type within the digital forensic science body of knowledge ",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1109",
+        "DFM-1110",
+        "DFM-1111",
+        "DFM-1112"
+    ],
+    "references": [
+        "Hargreaves, C., Nelson, A. and Casey, E., 2024. An abstract model for digital forensic analysis tools-A foundation for systematic error mitigation analysis. Forensic Science International: Digital Investigation, 48, p.301679."
+    ]
+}

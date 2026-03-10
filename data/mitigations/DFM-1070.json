@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1070",
+    "name": "Ensure hash algorithm(s) used are resistant to collisions through data manipulation",
+    "references": []
+}

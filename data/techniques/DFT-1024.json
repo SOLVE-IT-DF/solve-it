@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1024",
+    "name": "Cloud data collection via submission of request to service provider",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"
+    ],
+    "references": []
+}

@@ -1,0 +1,10 @@
+{
+    "id": "DFM-1238",
+    "name": "Configure device to enable required service",
+    "description": "For example turning on Developer Mode on Android to enable ADB",
+    "technique": "DFT-1158",
+    "references": [
+        "Android (2025), Android Debug Bridge (adb), https://developer.android.com/tools/adb",
+        "Android (2025), How to Enable Android Developer Settings: Unlock your Device’s Hidden Potential, https://www.android.com/intl/en_uk/articles/enable-android-developer-settings/"
+    ]
+}

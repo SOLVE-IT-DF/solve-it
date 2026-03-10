@@ -1,0 +1,13 @@
+{
+    "id": "DFT-1011",
+    "name": "Store seized devices in evidence bags",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": []
+}

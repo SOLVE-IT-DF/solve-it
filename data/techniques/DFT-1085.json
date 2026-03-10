@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1085",
+    "name": "Identify conflation",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": [
+        "todo"
+    ]
+}

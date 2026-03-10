@@ -1,0 +1,7 @@
+{
+    "id": "DFM-1234",
+    "name": "Exploit device to facilitate password/pincode attacks",
+    "description": "",
+    "technique": "DFT-1040",
+    "references": []
+}

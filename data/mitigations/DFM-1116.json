@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1116",
+    "name": "Attempt to dictionary attack user PIN (potentially on device)",
+    "technique": "DFT-1035",
+    "references": []
+}

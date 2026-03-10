@@ -1,0 +1,22 @@
+{
+    "id": "DFW-1219",
+    "name": "Failure to recover metadata associated with an interaction with the AI companion app",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1161",
+        "DFM-1162",
+        "DFM-1027",
+        "DFM-1050",
+        "DFM-1154",
+        "DFM-1155",
+        "DFM-1158",
+        "DFM-1159",
+        "DFM-1055"
+    ],
+    "references": []
+}

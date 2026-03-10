@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1044",
+    "name": "Failing to extract a decryption key that is present",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1025"
+    ],
+    "references": []
+}

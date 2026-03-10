@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1142",
+    "name": "System locks after X failed brute force attempts",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "X",
+    "INAC-COR": "X",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1097",
+        "DFM-1098",
+        "DFM-1099",
+        "DFM-1231"
+    ],
+    "references": []
+}

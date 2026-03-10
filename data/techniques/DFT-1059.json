@@ -1,0 +1,30 @@
+{
+    "id": "DFT-1059",
+    "name": "Identify partitions",
+    "description": "Partitions are defined as ‘allocated contiguous sets of sectors from storage media’. This involves recovering the list of partitions that exist on a storage media.",
+    "synonyms": [
+        "media management analysis"
+    ],
+    "details": "Partitions schemes include: MBR, GPT, APM. Some schemes such as GPT have records of the partitions in a single area (plus a backup partition table), others such as MBR make use of Extended Partition Tables (EPTs) that are scattered throughout the disk.\n\nPartitions can also be deleted but may be recoverable if the start sectors of the volumes contained within them can be identified. ",
+    "subtechniques": [],
+    "examples": [
+        "Hargreaves, Nelson and Casey (2024) provides a dataset with a deleted but recoverable partition that can be used for tool evaluation."
+    ],
+    "weaknesses": [
+        "DFW-1063",
+        "DFW-1064",
+        "DFW-1065",
+        "DFW-1066",
+        "DFW-1067"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition"
+    ],
+    "references": [
+        "Nikkel, B., 2009. Forensic analysis of GPT disks and GUID partition tables. Digital Investigation, 6(1-2), pp.39-47.",
+        "Carrier, B., 2005. File system forensic analysis. Addison-Wesley Professional."
+    ]
+}

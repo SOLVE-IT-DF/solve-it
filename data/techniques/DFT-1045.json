@@ -1,0 +1,19 @@
+{
+    "id": "DFT-1045",
+    "name": "Decode standard archive format",
+    "description": "Extract files from a common archive format e.g. TAR, RAR, ZIP",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1185"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "references": []
+}

@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1084",
+    "name": "Extraction of user accounts",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": [
+        "todo"
+    ]
+}

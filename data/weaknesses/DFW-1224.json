@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1224",
+    "name": "Presenting a deleted account as live, or vice versa",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1164",
+        "DFM-1050",
+        "DFM-1027"
+    ],
+    "references": []
+}

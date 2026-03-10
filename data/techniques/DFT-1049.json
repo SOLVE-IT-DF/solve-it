@@ -1,0 +1,35 @@
+{
+    "id": "DFT-1049",
+    "name": "Keyword searching",
+    "description": "This technique involves searching data in the case for specific strings",
+    "synonyms": [
+        "string search"
+    ],
+    "details": "This search may be conducted live, directly over the data, or from a generated index of strings extracted from the data. The words searched for may be either case-specific, or sometimes case-type specific.",
+    "subtechniques": [
+        "DFT-1125",
+        "DFT-1126",
+        "DFT-1127",
+        "DFT-1124",
+        "DFT-1121",
+        "DFT-1122",
+        "DFT-1123",
+        "DFT-1151"
+    ],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1053",
+        "DFW-1058",
+        "DFW-1059",
+        "DFW-1196"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult"
+    ],
+    "references": [
+        "Beebe, N.L. and Liu, L., 2014. Ranking algorithms for digital forensic string search hits. Digital Investigation, 11, pp.S124-S132.",
+        "Beebe, N.L. and Clark, J.G., 2007. Digital forensic text string searching: Improving information retrieval effectiveness by thematically clustering search results. Digital investigation, 4, pp.49-54.",
+        "NIST, 2025. Computer forensics tools & techniques catalog: string search, https://toolcatalog.nist.gov/taxonomy/index.php?ff_id=31"
+    ]
+}

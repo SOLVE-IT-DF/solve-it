@@ -1,6 +1,0 @@
-{
-    "id": "M1121",
-    "name": "Infer appropriate table joins from extensive experimentation with known ground-truth data",
-    "technique": "T1090",
-    "references" : []
-}

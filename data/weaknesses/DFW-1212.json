@@ -1,0 +1,19 @@
+{
+    "id": "DFW-1212",
+    "name": "Presenting an image sent to the AI chat app as from the AI companion app, or vice versa",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1160",
+        "DFM-1158",
+        "DFM-1159",
+        "DFM-1027",
+        "DFM-1050",
+        "DFM-1055"
+    ],
+    "references": []
+}

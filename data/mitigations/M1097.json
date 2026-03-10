@@ -1,6 +1,0 @@
-{
-    "id": "M1097",
-    "name": "Attempt to obtain password/passcode from the device owner",
-    "technique": "T1037",
-    "references" : []
-}

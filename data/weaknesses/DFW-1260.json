@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1260",
+    "name": "Failure to derive clock offset due to inability to locate a suitable time anchor",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-ALT": "",
+    "INAC-AS": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "references": [],
+    "mitigations": [
+        "DFM-1222",
+        "DFM-1218"
+    ]
+}

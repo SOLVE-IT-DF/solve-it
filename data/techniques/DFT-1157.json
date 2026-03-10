@@ -1,0 +1,31 @@
+{
+    "id": "DFT-1157",
+    "name": "Extract device data using exposed service",
+    "description": "Use an exposed service on a device to extract data. This represents several of the mobile data extraction methods e.g. Query content providers (android), AFC (iOS).",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [
+        "DFT-1019"
+    ],
+    "examples": [
+        "Extraction of data using AFC on iOS",
+        "Android Debug Bridge (ADB) provides command line access when USB debugging is enabled on Android devices",
+        "Extraction of data by querying Content Providers on Android (via ADB)",
+        "Media Transfer Protocol (MTP)"
+    ],
+    "weaknesses": [
+        "DFW-1037",
+        "DFW-1041",
+        "DFW-1040",
+        "DFW-1271",
+        "DFW-1272",
+        "DFW-1273"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ServiceBasedExtractionData"
+    ],
+    "references": []
+}

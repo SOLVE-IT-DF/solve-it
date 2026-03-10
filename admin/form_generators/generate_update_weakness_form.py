@@ -18,12 +18,12 @@ def main():
 
     # Collect weakness IDs for the description text
     weakness_ids = kb.list_weaknesses()
-    id_range = f"{weakness_ids[0]}–{weakness_ids[-1]}" if weakness_ids else "W1001–W1099"
+    id_range = f"{weakness_ids[0]}–{weakness_ids[-1]}" if weakness_ids else "DFW-1001–DFW-1099"
 
     lines = []
     lines.append('name: "Update Weakness"')
     lines.append("description: Propose changes to an existing weakness")
-    lines.append('title: "Update weakness: [Wxxxx: weakness name]"')
+    lines.append('title: "Update weakness: [DFW-xxxx: weakness name]"')
     lines.append('labels: ["content: update weakness", "form input"]')
     lines.append("body:")
 
@@ -41,8 +41,8 @@ def main():
     lines.append("    id: weakness-id")
     lines.append("    attributes:")
     lines.append("      label: Weakness ID")
-    lines.append("      description: The ID of the weakness to update (e.g. W1001).")
-    lines.append("      placeholder: W1001")
+    lines.append("      description: The ID of the weakness to update (e.g. DFW-1001).")
+    lines.append("      placeholder: DFW-1001")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -75,7 +75,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Mitigation IDs")
     lines.append("      description: |")
-    lines.append("        The complete new list of mitigation IDs (one per line, e.g. M1001, M1012).")
+    lines.append("        The complete new list of mitigation IDs (one per line, e.g. DFM-1001, DFM-1012).")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Existing mitigations can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).")
     lines.append("      render: text")

@@ -1,0 +1,17 @@
+{
+    "id": "DFT-1080",
+    "name": "Video content analysis",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [
+        "DFT-1106"
+    ],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": [
+        "todo"
+    ]
+}

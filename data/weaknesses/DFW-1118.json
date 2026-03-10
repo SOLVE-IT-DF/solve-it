@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1118",
+    "name": "Hardware write blocker fails to prevent modifications to the attached device.",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "X",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1071",
+        "DFM-1072",
+        "DFM-1073"
+    ],
+    "references": []
+}

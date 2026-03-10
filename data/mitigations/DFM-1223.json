@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1223",
+    "name": "Apply time zone based offsets only to UTC stored timestamps",
+    "references": []
+}

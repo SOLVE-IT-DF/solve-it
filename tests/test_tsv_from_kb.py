@@ -24,7 +24,7 @@ class MyTestCase(unittest.TestCase):
 
         with redirect_stdout(captured_output):
             generate_tsv_from_kb.print_techniques(kb, False)
-        self.assertIn("T1001", captured_output.getvalue())
+        self.assertIn("DFT-1001", captured_output.getvalue())
 
         with redirect_stdout(captured_output):
             generate_tsv_from_kb.print_techniques(kb, True)
@@ -40,7 +40,7 @@ class MyTestCase(unittest.TestCase):
 
         with redirect_stdout(captured_output):
             generate_tsv_from_kb.print_weaknesses(kb, False)
-        self.assertIn("W1001", captured_output.getvalue())
+        self.assertIn("DFW-1001", captured_output.getvalue())
 
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
@@ -50,7 +50,7 @@ class MyTestCase(unittest.TestCase):
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             generate_tsv_from_kb.print_weaknesses(kb, True)
-        test_str = 'W1001\tExcluding a device that contains relevant information\tx\t\t\t\t\t\n'
+        test_str = 'DFW-1001\tExcluding a device that contains relevant information\tx\t\t\t\t\t\n'
         self.assertIn(test_str, captured_output.getvalue())
 
     def test_print_mitigations_runs_without_error(self):
@@ -59,7 +59,7 @@ class MyTestCase(unittest.TestCase):
 
         with redirect_stdout(captured_output):
             generate_tsv_from_kb.print_mitigations(kb, False)
-        self.assertIn("M1001", captured_output.getvalue())
+        self.assertIn("DFM-1001", captured_output.getvalue())
 
 
 

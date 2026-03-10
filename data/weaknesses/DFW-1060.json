@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1060",
+    "name": "A relevant piece of media was not flagged as relevant",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1039",
+        "DFM-1040",
+        "DFM-1041"
+    ],
+    "references": []
+}

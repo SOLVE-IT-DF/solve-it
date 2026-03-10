@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1016",
+    "name": "Data copied from sectors on source device are stored incorrectly",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "x",
+    "INAC-COR": "x",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1004"
+    ],
+    "references": []
+}

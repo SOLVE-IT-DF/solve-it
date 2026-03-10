@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1007",
+    "name": "Use hardware write blocker",
+    "technique": "DFT-1012",
+    "references": []
+}

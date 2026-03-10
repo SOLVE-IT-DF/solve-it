@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1225",
+    "name": "Failure to recover relevant app settings",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1050",
+        "DFM-1169",
+        "DFM-1170",
+        "DFM-1027"
+    ],
+    "references": []
+}

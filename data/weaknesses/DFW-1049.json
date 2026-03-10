@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1049",
+    "name": "File content recovered incorrectly from backup",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "X",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1026",
+        "DFM-1027"
+    ],
+    "references": []
+}

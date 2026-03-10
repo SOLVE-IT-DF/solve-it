@@ -1,0 +1,21 @@
+{
+    "id": "DFT-1124",
+    "name": "Keyword search (indexed)",
+    "description": "Searching for keywords within a generated index of data in a case",
+    "synonyms": [
+        "indexed search"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1052"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult"
+    ],
+    "references": [
+        "NIST, 2025. Computer forensics tools & techniques catalog: string search, https://toolcatalog.nist.gov/taxonomy/index.php?ff_id=31"
+    ]
+}

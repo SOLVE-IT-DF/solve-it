@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1101",
+    "name": "Failure to recover message edits if available",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1054",
+        "DFM-1027",
+        "DFM-1050"
+    ],
+    "references": []
+}

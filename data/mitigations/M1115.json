@@ -1,6 +1,0 @@
-{
-    "id": "M1115",
-    "name": "Attempt to brute force user PIN (potentially on device)",
-    "technique": "T1034",
-    "references" : []
-}

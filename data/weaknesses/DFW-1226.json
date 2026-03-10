@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1226",
+    "name": "Failure to recover relevant AI bot settings",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1171",
+        "DFM-1170",
+        "DFM-1027",
+        "DFM-1055"
+    ],
+    "references": []
+}

@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1037",
+    "name": "Presenting data as complete, that is in reality a partial set",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "mitigations": [
+        "DFM-1016",
+        "DFM-1020"
+    ],
+    "references": []
+}

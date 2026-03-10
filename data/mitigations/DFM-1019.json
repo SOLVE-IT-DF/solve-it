@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1019",
+    "name": "Consider if file system acquisition is possible/permitted",
+    "technique": "DFT-1020",
+    "references": []
+}

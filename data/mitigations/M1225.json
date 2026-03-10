@@ -1,6 +1,0 @@
-{
-  "id": "M1225",
-  "name": "Estimate clock offset at a specific point in time using time anchoring",
-  "technique": "T1134",
-  "references": ["C. Vanini, C. Hargreaves, H. van Beek, F. Breitinger, 2024, Was the clock correct? Exploring timestamp interpretation through time anchors for digital forensic event reconstruction, Forensic Science International: Digital Investigation, 10.1016/j.fsidi.2024.301759"]
-}

@@ -1,5 +1,0 @@
-{
-    "id": "M1049",
-    "name": "Check consistency between primary and backup partition tables (where possible)",
-    "references" : []
-}

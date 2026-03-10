@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1209",
+    "name": "Failure to recover deleted but recoverable images sent to or from the AI companion app",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1159",
+        "DFM-1027",
+        "DFM-1055"
+    ],
+    "references": []
+}

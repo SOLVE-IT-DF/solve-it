@@ -57,7 +57,7 @@ def main():
     lines.append("    id: existing-mitigations")
     lines.append("    attributes:")
     lines.append("      label: Existing mitigation IDs")
-    lines.append("      description: IDs of existing mitigations that apply to this weakness (one per line, e.g. M1001, M1012).")
+    lines.append("      description: IDs of existing mitigations that apply to this weakness (one per line, e.g. DFM-1001, DFM-1012).")
     lines.append("      render: text")
 
     # --- Propose new mitigations ---
@@ -73,7 +73,7 @@ def main():
     lines.append("    id: relevant-techniques")
     lines.append("    attributes:")
     lines.append("      label: Techniques this applies to")
-    lines.append("      description: Techniques that this weakness applies to (one per line, e.g. T1001, T1028).")
+    lines.append("      description: Techniques that this weakness applies to (one per line, e.g. DFT-1001, DFT-1028).")
     lines.append("      render: text")
 
     # --- References ---

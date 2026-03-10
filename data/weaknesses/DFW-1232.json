@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1232",
+    "name": "Failure to extract log entry timestamp",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1180",
+        "DFM-1027"
+    ],
+    "references": []
+}

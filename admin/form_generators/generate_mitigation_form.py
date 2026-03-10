@@ -40,7 +40,7 @@ def main():
     lines.append("    id: existing-weaknesses")
     lines.append("    attributes:")
     lines.append("      label: Existing weakness IDs")
-    lines.append("      description: IDs of existing weaknesses this mitigation applies to (one per line, e.g. W1001, W1014).")
+    lines.append("      description: IDs of existing weaknesses this mitigation applies to (one per line, e.g. DFW-1001, DFW-1014).")
     lines.append("      render: text")
 
     # --- Linked technique ---
@@ -50,7 +50,7 @@ def main():
     lines.append("      label: Linked technique")
     lines.append("      description: |")
     lines.append("        Some mitigations are links to techniques. This happens when they are complex enough to need longer descriptions, and have their own weaknesses.")
-    lines.append("        Provide the technique ID if applicable. See [M1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/M1007.json) for an example.")
+    lines.append("        Provide the technique ID if applicable. See [DFM-1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/DFM-1007.json) for an example.")
     lines.append("      placeholder: Technique ID (if applicable)")
 
     # --- References ---

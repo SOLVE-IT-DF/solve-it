@@ -1,6 +1,0 @@
-{
-    "id": "M1116",
-    "name": "Attempt to dictionary attack user PIN (potentially on device)",
-    "technique": "T1035",
-    "references" : []
-}

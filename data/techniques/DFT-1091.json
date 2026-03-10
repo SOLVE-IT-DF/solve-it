@@ -1,0 +1,22 @@
+{
+    "id": "DFT-1091",
+    "name": "Bookmark artifacts",
+    "description": "Make a record of selected files or pieces of data so they can be accessed easily, or used for generating automated reports.",
+    "synonyms": [
+        "Bookmarking",
+        "Tagging"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1155",
+        "DFW-1156"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification",
+        "https://ontology.unifiedcyberontology.org/uco/core/Annotation"
+    ],
+    "references": []
+}

@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1105",
+    "name": "Incorrect reassembly of a file",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "X",
+    "INAC-COR": "X",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1062",
+        "DFM-1063",
+        "DFM-1064",
+        "DFM-1090"
+    ],
+    "references": []
+}

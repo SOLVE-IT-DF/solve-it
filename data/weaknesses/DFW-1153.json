@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1153",
+    "name": "Report generated from bookmarks does not render all content (e.g. previews, string extracts) correctly",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "x",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1106",
+        "DFM-1107"
+    ],
+    "references": []
+}

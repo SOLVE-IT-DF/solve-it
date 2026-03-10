@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1010",
+    "name": "Misattributing activity to the wrong device",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1058"
+    ],
+    "references": []
+}

@@ -1,0 +1,24 @@
+{
+    "id": "DFT-1015",
+    "name": "Privacy preserving selective extraction",
+    "description": "Previewing a data source and selecting a subset of the data for collection into a container such as a tar/zip file or a forensic image format for the purposes of protecting the privacy of the complainant or witness.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "Odyssey - Allows selective storing of data from mobile devices - https://www.bluelightsdigital.com/odyssey",
+        "Cellebrite - Allows filtering by app, data category, and/or by timestamp as to what data is collected.",
+        "XRY - Allows filtering by app, data category, and/or by timestamp as to what data is collected."
+    ],
+    "weaknesses": [
+        "DFW-1025",
+        "DFW-1026",
+        "DFW-1027",
+        "DFW-1028"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": [
+        "todo"
+    ]
+}

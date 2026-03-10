@@ -1,39 +1,39 @@
 {
-  "Lab config notes": "This is a demo to be used with: generate_evaluation.py T1002  --lab_config ../lab_config_examples/example_lab.json ",
-  "T1002:Disk imaging": {
-    "W1006": {
-      "M1005": {
-        "status": "Y",
-        "notes": "Standard imaging setup tested with HPA disk TTP-HPA-01"
-      }
-    },
-    "W1007": {
-      "M1006": {
-        "status": "Y",
-        "notes": "Standard imaging setup tested with DCO disk TTP-DCO-01"
-      }
-    },
-    "W1014": {
-      "M1007": {
-        "status": "Y",
-        "notes": "Hardware write blockers are always used according to lab policy LAB_TK-421"
-      },
-      "M1008": {
-        "status": "NA",
-        "notes": "Software write blockers are not used"
-      }
-    },
-    "W1136": {
-      "M1089": {
-        "status": "N",
-        "notes": "Physical repair not undertaken at this lab"
-      }
-    },
-    "W1143": {
-      "M1102": {
-        "status": "N",
-        "notes": "Tooling for recovery of remapped sectors not available at this lab"
-      }
+    "Lab config notes": "This is a demo to be used with: generate_evaluation.py DFT-1002  --lab_config ../lab_config_examples/example_lab.json ",
+    "DFT-1002:Disk imaging": {
+        "DFW-1006": {
+            "DFM-1005": {
+                "status": "Y",
+                "notes": "Standard imaging setup tested with HPA disk TTP-HPA-01"
+            }
+        },
+        "DFW-1007": {
+            "DFM-1006": {
+                "status": "Y",
+                "notes": "Standard imaging setup tested with DCO disk TTP-DCO-01"
+            }
+        },
+        "DFW-1014": {
+            "DFM-1007": {
+                "status": "Y",
+                "notes": "Hardware write blockers are always used according to lab policy LAB_TK-421"
+            },
+            "DFM-1008": {
+                "status": "NA",
+                "notes": "Software write blockers are not used"
+            }
+        },
+        "DFW-1136": {
+            "DFM-1089": {
+                "status": "N",
+                "notes": "Physical repair not undertaken at this lab"
+            }
+        },
+        "DFW-1143": {
+            "DFM-1102": {
+                "status": "N",
+                "notes": "Tooling for recovery of remapped sectors not available at this lab"
+            }
+        }
     }
-  }
 }

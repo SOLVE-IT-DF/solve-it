@@ -1,0 +1,22 @@
+{
+    "id": "DFT-1121",
+    "name": "Keyword indexing",
+    "description": "Extracting strings from a data source and adding them to an index for subsequent searching",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1054",
+        "DFW-1055",
+        "DFW-1056",
+        "DFW-1197",
+        "DFW-1198"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/KeywordIndex",
+        "https://ontology.solveit-df.org/solveit/observable/KeywordIndexingConfiguration"
+    ],
+    "references": []
+}

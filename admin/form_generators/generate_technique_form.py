@@ -108,7 +108,7 @@ def main():
     lines.append("    id: existing-weaknesses")
     lines.append("    attributes:")
     lines.append("      label: Existing weakness IDs")
-    lines.append("      description: IDs of existing weaknesses that apply to this technique (one per line, e.g. W1004, W1014).")
+    lines.append("      description: IDs of existing weaknesses that apply to this technique (one per line, e.g. DFW-1004, DFW-1014).")
     lines.append("      render: text")
 
     # --- Proposed new weaknesses ---

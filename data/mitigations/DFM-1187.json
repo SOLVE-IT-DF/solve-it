@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1187",
+    "name": "Ensure browser cache data is also considered ",
+    "technique": "DFT-1138",
+    "references": []
+}

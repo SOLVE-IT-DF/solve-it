@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1117",
+    "name": "Attempt to obtain user PIN from user",
+    "technique": "DFT-1037",
+    "references": []
+}

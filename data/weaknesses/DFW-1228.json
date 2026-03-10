@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1228",
+    "name": "Log entry missing due to incorrect parsing of logfile",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1181",
+        "DFM-1027"
+    ],
+    "references": []
+}

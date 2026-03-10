@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1067",
+    "name": "Failure to check the integrity of partition table (where possible e.g. GPT)",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "X",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1048",
+        "DFM-1049"
+    ],
+    "references": []
+}

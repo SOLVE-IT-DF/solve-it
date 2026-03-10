@@ -39,19 +39,18 @@ def print_techniques(kb, long):
 
     techniques = kb.list_techniques()
     for each_technique_id in techniques:
-        if each_technique_id != "T1000":
-            each_technique = kb.get_technique(each_technique_id)
-            # Print long or short details for each technique
-            if long is True:
-                print('{}\t{}\t{}\t{}'.format(each_technique_id,
-                                              each_technique.get('name'),
-                                              each_technique.get('description'),
-                                              each_technique.get('synonyms'), )
-                      )
-            else:
-                print('{}\t{}\t'.format(each_technique_id,
-                                        each_technique.get('name'))
-                      )
+        each_technique = kb.get_technique(each_technique_id)
+        # Print long or short details for each technique
+        if long is True:
+            print('{}\t{}\t{}\t{}'.format(each_technique_id,
+                                          each_technique.get('name'),
+                                          each_technique.get('description'),
+                                          each_technique.get('synonyms'), )
+                  )
+        else:
+            print('{}\t{}\t'.format(each_technique_id,
+                                    each_technique.get('name'))
+                  )
 
 
 def print_techniques_by_objective(kb, long):

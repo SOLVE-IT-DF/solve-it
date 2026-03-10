@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1113",
+    "name": "Misinterpretation a URL located on disk/memory as a web visit",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1190"
+    ],
+    "references": []
+}

@@ -36,7 +36,7 @@ def build_weakness_json(fields):
                 checked.add(code)
 
     weakness = {
-        "id": "W____",
+        "id": "DFW-____",
         "name": fields.get("Weakness name", ""),
     }
 
@@ -96,10 +96,10 @@ def build_comment(weakness, fields):
         lines.append("Once this weakness has been assigned an ID, you will also need to add it to the following techniques:")
         lines.append("")
         for t in relevant_techniques:
-            lines.append(f"- Add your new weakness ID (W____) to Technique **{t}**")
+            lines.append(f"- Add your new weakness ID (DFW-____) to Technique **{t}**")
 
     lines.append("\n---")
-    lines.append("*This comment was automatically generated. The weakness ID (W____) will be assigned during review.*")
+    lines.append("*This comment was automatically generated. The weakness ID (DFW-____) will be assigned during review.*")
 
     return '\n'.join(lines)
 

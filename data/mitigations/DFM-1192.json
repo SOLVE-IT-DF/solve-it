@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1192",
+    "name": "Examine browser configuration to determine history retention settings",
+    "technique": "DFT-1143",
+    "references": []
+}

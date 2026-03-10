@@ -1,0 +1,27 @@
+{
+    "id": "DFT-1044",
+    "name": "Mobile backup decoding",
+    "description": "Processing an extracted mobile device backup to access the files contained within.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "adb backup decoding",
+        "iOS backup decoding"
+    ],
+    "weaknesses": [
+        "DFW-1046",
+        "DFW-1047",
+        "DFW-1048",
+        "DFW-1049",
+        "DFW-1050",
+        "DFW-1051"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/DeviceGeneratedBackup"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "references": []
+}

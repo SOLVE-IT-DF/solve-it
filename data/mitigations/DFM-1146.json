@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1146",
+    "name": "Ensure keyword indexing settings capture text encodings required during indexing",
+    "references": []
+}

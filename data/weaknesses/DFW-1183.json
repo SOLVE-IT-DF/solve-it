@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1183",
+    "name": "Failure to identify the existence of a connected device",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1027",
+        "DFM-1134"
+    ],
+    "references": []
+}

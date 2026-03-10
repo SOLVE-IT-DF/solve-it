@@ -1,0 +1,17 @@
+{
+    "id": "DFT-1110",
+    "name": "Preserving reference data",
+    "description": "",
+    "synonyms": [],
+    "details": "Reference data may be needed for later trace interpretation, but may change (especially server side software), so relevant data should be preserved close to the time of the event of interest",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1172"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": [
+        "Spichiger, H. and Adelstein, F., 2025. Preserving meaning of evidence from evolving systems. Forensic Science International: Digital Investigation, 52, p.301867."
+    ]
+}

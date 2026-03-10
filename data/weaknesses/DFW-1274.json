@@ -1,0 +1,20 @@
+{
+    "id": "DFW-1274",
+    "name": "Inability to enable required service due to locked device",
+    "description": "",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-ALT": "",
+    "INAC-AS": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1097",
+        "DFM-1234",
+        "DFM-1235",
+        "DFM-1236",
+        "DFM-1238",
+        "DFM-1239"
+    ],
+    "references": []
+}

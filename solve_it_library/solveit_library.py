@@ -423,7 +423,7 @@ class KnowledgeBase:
         Retrieves a specific technique by its ID.
 
         Args:
-            technique_id (str): The ID of the technique (e.g., "T1002").
+            technique_id (str): The ID of the technique (e.g., "DFT-1002").
 
         Returns:
             Optional[Dict[str, Any]]: The technique data dictionary if found, otherwise None.
@@ -435,7 +435,7 @@ class KnowledgeBase:
         Retrieves a specific weakness by its ID.
 
         Args:
-            weakness_id (str): The ID of the weakness (e.g., "W1006").
+            weakness_id (str): The ID of the weakness (e.g., "DFW-1006").
 
         Returns:
             Optional[Dict[str, Any]]: The weakness data dictionary if found, otherwise None.
@@ -447,7 +447,7 @@ class KnowledgeBase:
         Retrieves a specific mitigation by its ID.
 
         Args:
-            mitigation_id (str): The ID of the mitigation (e.g., "M1005").
+            mitigation_id (str): The ID of the mitigation (e.g., "DFM-1005").
 
         Returns:
             Optional[Dict[str, Any]]: The mitigation data dictionary if found, otherwise None.

@@ -1,0 +1,20 @@
+{
+    "id": "DFT-1050",
+    "name": "Hash matching (locate)",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1132"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/File",
+        "https://ontology.unifiedcyberontology.org/uco/analysis/classification"
+    ],
+    "references": [
+        "todo"
+    ]
+}

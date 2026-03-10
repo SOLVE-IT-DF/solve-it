@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1148",
+    "name": "Timestamp used is an inaccurate representation of the real world time due to inaccurate system clock",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1101",
+        "DFM-1225",
+        "DFM-1227",
+        "DFM-1228"
+    ],
+    "references": []
+}

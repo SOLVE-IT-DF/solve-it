@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1099",
+    "name": "Assigning an attachment to an incorrect messages",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1054",
+        "DFM-1027",
+        "DFM-1050"
+    ],
+    "references": []
+}

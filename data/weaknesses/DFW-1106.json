@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1106",
+    "name": "Incorrect attribution of salvaged content to a current file system rather than a previous one",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1061"
+    ],
+    "references": []
+}

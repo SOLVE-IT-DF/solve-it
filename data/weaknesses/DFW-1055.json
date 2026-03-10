@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1055",
+    "name": "Data not indexed for keyword searching due to missing substring feature",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1029",
+        "DFM-1034",
+        "DFM-1147"
+    ],
+    "references": []
+}

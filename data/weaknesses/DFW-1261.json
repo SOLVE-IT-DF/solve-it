@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1261",
+    "name": "Estimated clock offset is incorrect resulting from an inaccurate external time source when performing Time Anchoring",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-ALT": "",
+    "INAC-AS": "",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "references": [],
+    "mitigations": [
+        "DFM-1217",
+        "DFM-1220"
+    ]
+}

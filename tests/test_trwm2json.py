@@ -52,21 +52,21 @@ class TestFindMitigationIdByName(unittest.TestCase):
     def setUp(self):
         """Set up test data"""
         self.mitigations = [
-            {"id": "M1027", "name": "Dual tool verification", "technique": ""},
-            {"id": "M1050", "name": "Manual verification of relevant data", "technique": ""},
-            {"id": "Mx001", "name": "New mitigation 1", "technique": "T1234"},
+            {"id": "DFM-1027", "name": "Dual tool verification", "technique": ""},
+            {"id": "DFM-1050", "name": "Manual verification of relevant data", "technique": ""},
+            {"id": "Mx001", "name": "New mitigation 1", "technique": "DFT-1234"},
             {"id": "MX002", "name": "New mitigation 2", "technique": ""}
         ]
     
     def test_exact_match(self):
         """Test exact name match"""
         result = find_mitigation_id_by_name("Dual tool verification", self.mitigations)
-        self.assertEqual(result, "M1027")
+        self.assertEqual(result, "DFM-1027")
     
     def test_case_insensitive_match(self):
         """Test case insensitive matching"""
         result = find_mitigation_id_by_name("DUAL TOOL VERIFICATION", self.mitigations)
-        self.assertEqual(result, "M1027")
+        self.assertEqual(result, "DFM-1027")
         
         result = find_mitigation_id_by_name("new mitigation 1", self.mitigations)
         self.assertEqual(result, "Mx001")
@@ -74,7 +74,7 @@ class TestFindMitigationIdByName(unittest.TestCase):
     def test_whitespace_handling(self):
         """Test that whitespace is handled correctly"""
         result = find_mitigation_id_by_name("  Dual tool verification  ", self.mitigations)
-        self.assertEqual(result, "M1027")
+        self.assertEqual(result, "DFM-1027")
     
     def test_not_found(self):
         """Test that None is returned when mitigation not found"""
@@ -108,7 +108,7 @@ class TestTechniqueTsvToJson(unittest.TestCase):
         
         # Check basic structure
         self.assertIsInstance(result, dict)
-        self.assertEqual(result['id'], 'T9999')
+        self.assertEqual(result['id'], 'DFT-9999')
         self.assertEqual(result['name'], 'Test technique')
         self.assertEqual(result['description'], 'Description of test technique')
         
@@ -147,7 +147,7 @@ class TestMitigationsTsvToJson(unittest.TestCase):
         
         # Check first mitigation (technique field should be removed when empty)
         first_mit = result[0]
-        self.assertEqual(first_mit['id'], 'M1027')
+        self.assertEqual(first_mit['id'], 'DFM-1027')
         self.assertEqual(first_mit['name'], 'Dual tool verification')
         self.assertNotIn('technique', first_mit)  # Empty technique fields are removed
         self.assertEqual(first_mit['references'], [])
@@ -156,7 +156,7 @@ class TestMitigationsTsvToJson(unittest.TestCase):
         third_mit = result[2]  # Mx001
         self.assertEqual(third_mit['id'], 'Mx001')
         self.assertEqual(third_mit['name'], 'New mitigation 3')
-        self.assertEqual(third_mit['technique'], 'T1234')
+        self.assertEqual(third_mit['technique'], 'DFT-1234')
         self.assertIsInstance(third_mit['references'], list)
         self.assertEqual(len(third_mit['references']), 2)
         self.assertEqual(third_mit['references'][0], 'reference 1')
@@ -227,9 +227,9 @@ class TestProcessWeaknessMitigations(unittest.TestCase):
     def setUp(self):
         """Set up test data"""
         self.mitigations = [
-            {"id": "M1027", "name": "Dual tool verification"},
-            {"id": "M1050", "name": "Manual verification of relevant data"},
-            {"id": "Mx001", "name": "New mitigation 1", "technique": "T1234"},
+            {"id": "DFM-1027", "name": "Dual tool verification"},
+            {"id": "DFM-1050", "name": "Manual verification of relevant data"},
+            {"id": "Mx001", "name": "New mitigation 1", "technique": "DFT-1234"},
             {"id": "Mx003", "name": "New mitigation 2"}
         ]
         
@@ -240,14 +240,14 @@ class TestProcessWeaknessMitigations(unittest.TestCase):
         weakness_row = ['Wx001', 'Test weakness', 'X', 'INCOMP', 'Dual tool verification', '', '', 'Ref1']
         result = process_weakness_mitigations(weakness_row, self.headers, self.mitigations)
         
-        self.assertEqual(result, ['M1027'])
+        self.assertEqual(result, ['DFM-1027'])
     
     def test_multiple_mitigation_matches(self):
         """Test finding multiple mitigations in a weakness row"""
         weakness_row = ['Wx001', 'Test weakness', 'X', 'INCOMP', 'Dual tool verification', 'New mitigation 1', '', 'Ref1']
         result = process_weakness_mitigations(weakness_row, self.headers, self.mitigations)
         
-        self.assertEqual(result, ['M1027', 'Mx001'])
+        self.assertEqual(result, ['DFM-1027', 'Mx001'])
     
     def test_no_mitigation_matches(self):
         """Test weakness row with no valid mitigations"""
@@ -268,7 +268,7 @@ class TestProcessWeaknessMitigations(unittest.TestCase):
         weakness_row = ['Wx001', 'Test weakness', 'X', 'INCOMP', 'DUAL TOOL VERIFICATION', '', '', 'Ref1']
         result = process_weakness_mitigations(weakness_row, self.headers, self.mitigations)
         
-        self.assertEqual(result, ['M1027'])
+        self.assertEqual(result, ['DFM-1027'])
     
     def test_handles_correct_headers(self):
         """Test that function handles correctly spelled headers"""
@@ -276,7 +276,7 @@ class TestProcessWeaknessMitigations(unittest.TestCase):
         weakness_row = ['Wx001', 'Test weakness', 'X', 'INCOMP', 'Dual tool verification', 'New mitigation 1', 'Ref1']
         result = process_weakness_mitigations(weakness_row, headers, self.mitigations)
         
-        self.assertEqual(result, ['M1027', 'Mx001'])
+        self.assertEqual(result, ['DFM-1027', 'Mx001'])
 
 
 class TestWeaknessesTsvToJsonWithMitigations(unittest.TestCase):
@@ -304,13 +304,13 @@ class TestWeaknessesTsvToJsonWithMitigations(unittest.TestCase):
         # Check first weakness - should have mapped mitigations
         first_weakness = result[0]  # Wx001 with "Manual verification of relevant data" and "New mitigation 1"
         self.assertEqual(first_weakness['id'], 'Wx001')
-        self.assertIn('M1050', first_weakness['mitigations'])  # Manual verification of relevant data
+        self.assertIn('DFM-1050', first_weakness['mitigations'])  # Manual verification of relevant data
         # Note: "New mitigation 1" should map to MX002 based on test data
         
         # Check weakness with "Dual tool verification"
         fourth_weakness = result[3]  # Wx004 with "Dual tool verification"
         self.assertEqual(fourth_weakness['id'], 'Wx004')
-        self.assertIn('M1027', fourth_weakness['mitigations'])  # Dual tool verification
+        self.assertIn('DFM-1027', fourth_weakness['mitigations'])  # Dual tool verification
 
 
 class TestBlankIdValidation(unittest.TestCase):

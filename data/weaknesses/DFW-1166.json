@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1166",
+    "name": "Consideration of live database content only",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1122",
+        "DFM-1123"
+    ],
+    "references": [
+        "Pereira, M.T., 2009. Forensic analysis of the Firefox 3 Internet history and recovery of deleted SQLite records. Digital Investigation, 5(3-4), pp.93-103."
+    ]
+}

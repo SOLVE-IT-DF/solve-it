@@ -1,0 +1,20 @@
+{
+    "id": "DFW-1135",
+    "name": "Recovered (non-allocated) file content has been overwritten by the content of a newer live file but this is not detected ",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1079",
+        "DFM-1080",
+        "DFM-1081",
+        "DFM-1082",
+        "DFM-1083"
+    ],
+    "references": [
+        "Casey, E., Nelson, A. and Hyde, J., 2019. Standardization of file recovery classification and authentication. Digital Investigation, 31, p.100873."
+    ]
+}

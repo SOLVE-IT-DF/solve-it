@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1192",
+    "name": "Relevant results not captured by the case-specific keywords used",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1031",
+        "DFM-1141",
+        "DFM-1142",
+        "DFM-1152"
+    ],
+    "references": []
+}

@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1184",
+    "name": "Presenting devices 'seen' as devices connected",
+    "INCOMP": "",
+    "INAC-EX": "X",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1027",
+        "DFM-1135",
+        "DFM-1050"
+    ],
+    "references": []
+}

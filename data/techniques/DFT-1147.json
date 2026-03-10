@@ -1,0 +1,16 @@
+{
+    "id": "DFT-1147",
+    "name": "Browser cookie examination",
+    "description": "The examination of stored browser cookies",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/CookieHistory",
+        "https://ontology.unifiedcyberontology.org/uco/observable/BrowserCookie"
+    ],
+    "references": []
+}

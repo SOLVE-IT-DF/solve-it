@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1227",
+    "name": "Associating a configured bot with the wrong account",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1171",
+        "DFM-1027",
+        "DFM-1050",
+        "DFM-1055"
+    ],
+    "references": []
+}

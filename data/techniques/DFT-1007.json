@@ -1,0 +1,25 @@
+{
+    "id": "DFT-1007",
+    "name": "Use a SyncTriage-based approach to detect existence of devices",
+    "description": "A technique developed in Hargreaves & Marshall (2018) whereby synchronisation artefacts on a device are examined and used to identify the existence of a related device. Also sometimes used to infer activity that occurred on an inaccessible or unavailable device. ",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "SyncTriage - https://bitbucket.org/chrishargreaves/synctriage"
+    ],
+    "weaknesses": [
+        "DFW-1008",
+        "DFW-1009",
+        "DFW-1010",
+        "DFW-1011",
+        "DFW-1012"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Device"
+    ],
+    "references": [
+        "Hargreaves, C. and Marshall, A., 2019. SyncTriage: Using synchronisation artefacts to optimise acquisition order. Digital Investigation, 28, pp.S134-S140."
+    ]
+}

@@ -1,5 +1,0 @@
-{
-    "id": "M1130",
-    "name": "Disable Secureboot in BIOS to permit bootable environment to load (risks wiping FDE key, requiring ADK).",
-    "references" : []
-}

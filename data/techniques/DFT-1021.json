@@ -1,0 +1,18 @@
+{
+    "id": "DFT-1021",
+    "name": "Configuration file examination",
+    "description": "Examination of a file that was designed for storing configuration information for a piece of software (e.g. an application or operating system feature)",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "prefs.js from Firefox"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/configuration/Configuration",
+        "https://ontology.unifiedcyberontology.org/uco/configuration/ConfigurationEntry"
+    ],
+    "references": []
+}

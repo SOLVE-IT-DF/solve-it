@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1154",
+    "name": "Report generated from bookmarks stored in manner that does not prevent tampering or corruption",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "x",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1108"
+    ],
+    "references": []
+}

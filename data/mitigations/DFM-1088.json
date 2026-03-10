@@ -1,0 +1,8 @@
+{
+    "id": "DFM-1088",
+    "name": "If applicable, leverage hardware virtualization utilities to add a hypervisor to the system, i.e., virtualize the original system. This allows to either freeze the system before the acquisition or, if the system should not be completely frozen, to copy pages before they are modified.",
+    "references": [
+        "Martignoni, L., Fattori, A., Paleari, R. and Cavallaro, L., 2010. Live and trustworthy forensic analysis of commodity production systems. In International Workshop on Recent Advances in Intrusion Detection (pp. 297-316). Berlin, Heidelberg: Springer Berlin Heidelberg.",
+        "Case, A. and Richard III, G. G., 2017. Memory forensics: The path forward. Digital investigation, 20, 23-33."
+    ]
+}

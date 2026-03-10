@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1004",
+    "name": "Check hash of image matches hash of source device",
+    "technique": "DFT-1042",
+    "references": []
+}

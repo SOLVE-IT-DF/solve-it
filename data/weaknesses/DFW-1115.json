@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1115",
+    "name": "Device is remote wiped because faraday environment was insufficient.",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "X",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1002"
+    ],
+    "references": []
+}

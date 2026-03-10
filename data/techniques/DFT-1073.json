@@ -1,0 +1,16 @@
+{
+    "id": "DFT-1073",
+    "name": "Calendar app examination",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Calendar",
+        "https://ontology.unifiedcyberontology.org/uco/observable/CalendarEntry"
+    ],
+    "references": []
+}

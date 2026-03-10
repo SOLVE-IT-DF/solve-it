@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1164",
+    "name": "Files are still encrypted using file-based encryption so inaccessible",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1115",
+        "DFM-1116",
+        "DFM-1117"
+    ],
+    "references": []
+}

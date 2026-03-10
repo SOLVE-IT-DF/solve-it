@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1171",
+    "name": "Failure to recover data stored in database journal files",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1125"
+    ],
+    "references": [
+        "Caithness 2012, The Forensic Implications of SQLite’s Write Ahead Log, https://digitalinvestigation.wordpress.com/2012/05/04/the-forensic-implications-of-sqlites-write-ahead-log/"
+    ]
+}

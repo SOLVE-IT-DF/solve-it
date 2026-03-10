@@ -1,0 +1,13 @@
+{
+    "id": "DFT-1083",
+    "name": "Memory examination (OS-level)",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": []
+}

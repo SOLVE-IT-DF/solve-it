@@ -57,14 +57,14 @@ class MyTestCase(unittest.TestCase):
         Test that technique listing returns expected content.
         
         Expected outcome: 
-        - Should contain known techniques like T1001 (Triage) and T1002 (Disk imaging)
+        - Should contain known techniques like DFT-1001 (Triage) and DFT-1002 (Disk imaging)
         - Should return a reasonable number of techniques (at least 100+)
         - List should be sorted for consistent ordering
         """
         kb = KnowledgeBase('.', 'solve-it.json')
         techniques = kb.list_techniques()
-        self.assertIn('T1001', techniques)
-        self.assertIn('T1002', techniques)
+        self.assertIn('DFT-1001', techniques)
+        self.assertIn('DFT-1002', techniques)
         self.assertGreater(len(techniques), 100)  # Should have substantial content
         # Test that list is sorted
         self.assertEqual(techniques, sorted(techniques))
@@ -89,15 +89,15 @@ class MyTestCase(unittest.TestCase):
         Test that weakness listing returns expected content.
         
         Expected outcome:
-        - Should contain known weaknesses like W1001 and W1002
+        - Should contain known weaknesses like DFW-1001 and DFW-1002
         - Should return a substantial number of weaknesses (at least 100+)
         - List should be sorted for consistent ordering
         - All weakness IDs should follow W#### pattern
         """
         kb = KnowledgeBase('.', 'solve-it.json')
         weaknesses = kb.list_weaknesses()
-        self.assertIn('W1001', weaknesses)
-        self.assertIn('W1002', weaknesses)
+        self.assertIn('DFW-1001', weaknesses)
+        self.assertIn('DFW-1002', weaknesses)
         self.assertGreater(len(weaknesses), 100)  # Should have substantial content
         # Test that list is sorted
         self.assertEqual(weaknesses, sorted(weaknesses))
@@ -107,15 +107,15 @@ class MyTestCase(unittest.TestCase):
         Test that mitigation listing returns expected content.
         
         Expected outcome:
-        - Should contain known mitigations like M1001 and M1007
+        - Should contain known mitigations like DFM-1001 and DFM-1007
         - Should return a substantial number of mitigations (at least 100+)
         - List should be sorted for consistent ordering
         - All mitigation IDs should follow M#### pattern
         """
         kb = KnowledgeBase('.', 'solve-it.json')
         mitigations = kb.list_mitigations()
-        self.assertIn('M1001', mitigations)
-        self.assertIn('M1007', mitigations)
+        self.assertIn('DFM-1001', mitigations)
+        self.assertIn('DFM-1007', mitigations)
         self.assertGreater(len(mitigations), 100)  # Should have substantial content
         # Test that list is sorted
         self.assertEqual(mitigations, sorted(mitigations))
@@ -127,7 +127,7 @@ class MyTestCase(unittest.TestCase):
         Test retrieval of individual technique by ID.
         
         Expected outcome:
-        - Should return a dictionary with technique data for T1001 (Triage)
+        - Should return a dictionary with technique data for DFT-1001 (Triage)
         - Should have correct structure with id, name, description, etc.
         - Should contain expected fields like synonyms, weaknesses, references
         - Each field should have appropriate data type
@@ -135,9 +135,9 @@ class MyTestCase(unittest.TestCase):
         kb = KnowledgeBase('.', 'solve-it.json')
 
         # Test basic retrieval and structure
-        technique = kb.get_technique('T1001')
+        technique = kb.get_technique('DFT-1001')
         self.assertEqual(dict, type(technique))
-        self.assertEqual('T1001', technique.get('id'))
+        self.assertEqual('DFT-1001', technique.get('id'))
         self.assertEqual('Triage', technique.get('name'))
         
         # Test that basic structure exists (exact content may vary)
@@ -154,22 +154,22 @@ class MyTestCase(unittest.TestCase):
         This tests proper error handling for invalid requests.
         """
         kb = KnowledgeBase('.', 'solve-it.json')
-        self.assertEqual(None, kb.get_technique('T9999'))
+        self.assertEqual(None, kb.get_technique('DFT-9999'))
 
     def test_get_weakness(self):
         """
         Test retrieval of individual weakness by ID.
         
         Expected outcome:
-        - Should return a dictionary with weakness data for W1001
+        - Should return a dictionary with weakness data for DFW-1001
         - Should have correct structure with SOLVE-IT specific fields
         - Should contain weakness categorization fields (INCOMP, INAC_*, MISINT)
         - Should have proper data types for all fields
         """
         kb = KnowledgeBase('.', 'solve-it.json')
-        weakness = kb.get_weakness('W1001')
+        weakness = kb.get_weakness('DFW-1001')
         self.assertEqual(dict, type(weakness))
-        self.assertEqual('W1001', weakness.get('id'))
+        self.assertEqual('DFW-1001', weakness.get('id'))
         self.assertEqual('Excluding a device that contains relevant information', weakness.get('name'))
         self.assertEqual('x', weakness.get('INCOMP'))
         self.assertEqual('', weakness.get('INAC_EX'))
@@ -186,28 +186,28 @@ class MyTestCase(unittest.TestCase):
         
         Expected outcome:
         - Should use get_techniques_for_weakness() method for reverse lookup
-        - W1001 should be referenced by T1001 (Triage)
+        - DFW-1001 should be referenced by DFT-1001 (Triage)
         - This tests the reverse relationship tracking functionality
         """
         kb = KnowledgeBase('.', 'solve-it.json')
-        techniques_for_weakness = kb.get_techniques_for_weakness('W1001')
+        techniques_for_weakness = kb.get_techniques_for_weakness('DFW-1001')
         self.assertIsInstance(techniques_for_weakness, list)
         technique_ids = [t['id'] for t in techniques_for_weakness]
-        self.assertIn('T1001', technique_ids)
+        self.assertIn('DFT-1001', technique_ids)
 
     def test_get_mitigation(self):
         """
         Test retrieval of individual mitigation by ID.
         
         Expected outcome:
-        - Should return a dictionary with mitigation data for M1001
+        - Should return a dictionary with mitigation data for DFM-1001
         - Should have correct structure with id, name, references
         - Should contain expected mitigation information
         """
         kb = KnowledgeBase('.', 'solve-it.json')
-        mitigation = kb.get_mitigation('M1001')
+        mitigation = kb.get_mitigation('DFM-1001')
         self.assertEqual(dict, type(mitigation))
-        self.assertEqual('M1001', mitigation.get('id'))
+        self.assertEqual('DFM-1001', mitigation.get('id'))
         self.assertEqual('Review of all triage results that are relied on during the full digital forensic examination', mitigation.get('name'))
         self.assertIsInstance(mitigation.get('references'), list)
 
@@ -222,8 +222,8 @@ class MyTestCase(unittest.TestCase):
         - This tests the reverse relationship tracking functionality
         """
         kb = KnowledgeBase('.', 'solve-it.json')
-        techniques_for_mitigation = kb.get_techniques_for_mitigation('M1001')
-        weaknesses_for_mitigation = kb.get_weaknesses_for_mitigation('M1001')
+        techniques_for_mitigation = kb.get_techniques_for_mitigation('DFM-1001')
+        weaknesses_for_mitigation = kb.get_weaknesses_for_mitigation('DFM-1001')
         
         self.assertIsInstance(techniques_for_mitigation, list)
         self.assertIsInstance(weaknesses_for_mitigation, list)
@@ -316,15 +316,15 @@ class MyTestCase(unittest.TestCase):
         Test retrieval of weaknesses associated with a specific technique.
         
         Expected outcome:
-        - Should return list of weakness dictionaries for T1001 (Triage)
-        - T1001 should have associated weaknesses (at least W1001-W1003)
+        - Should return list of weakness dictionaries for DFT-1001 (Triage)
+        - DFT-1001 should have associated weaknesses (at least DFW-1001-DFW-1003)
         - Each weakness should have proper structure with id and name
         - This tests the technique-to-weakness relationship traversal
         """
         kb = KnowledgeBase('.', 'solve-it.json')
-        weaknesses = kb.get_weaknesses_for_technique('T1001')
+        weaknesses = kb.get_weaknesses_for_technique('DFT-1001')
         self.assertIsInstance(weaknesses, list)
-        # T1001 should have associated weaknesses
+        # DFT-1001 should have associated weaknesses
         self.assertGreater(len(weaknesses), 0)
         for weakness in weaknesses:
             self.assertIsInstance(weakness, dict)
@@ -364,33 +364,33 @@ class MyTestCase(unittest.TestCase):
         Test reverse lookup: finding techniques that reference a specific weakness.
         
         Expected outcome:
-        - W1001 should be associated with T1001 (Triage)
+        - DFW-1001 should be associated with DFT-1001 (Triage)
         - Should return list of technique dictionaries
         - Each technique should have proper structure
         - This tests the reverse weakness-to-technique relationship lookup
         """
         kb = KnowledgeBase('.', 'solve-it.json')
-        techniques = kb.get_techniques_for_weakness('W1001')
+        techniques = kb.get_techniques_for_weakness('DFW-1001')
         self.assertIsInstance(techniques, list)
-        # W1001 should be associated with T1001
+        # DFW-1001 should be associated with DFT-1001
         self.assertGreater(len(techniques), 0)
         technique_ids = [t['id'] for t in techniques]
-        self.assertIn('T1001', technique_ids)
+        self.assertIn('DFT-1001', technique_ids)
 
     def test_get_weaknesses_for_mitigation(self):
         """
         Test reverse lookup: finding weaknesses that reference a specific mitigation.
         
         Expected outcome:
-        - M1001 should be associated with weaknesses (reverse lookup)
+        - DFM-1001 should be associated with weaknesses (reverse lookup)
         - Should return list of weakness dictionaries
         - Each weakness should have proper structure
         - This tests the reverse mitigation-to-weakness relationship lookup
         """
         kb = KnowledgeBase('.', 'solve-it.json')
-        weaknesses = kb.get_weaknesses_for_mitigation('M1001')
+        weaknesses = kb.get_weaknesses_for_mitigation('DFM-1001')
         self.assertIsInstance(weaknesses, list)
-        # M1001 should have associated weaknesses
+        # DFM-1001 should have associated weaknesses
         self.assertGreater(len(weaknesses), 0)
         for weakness in weaknesses:
             self.assertIsInstance(weakness, dict)
@@ -533,7 +533,7 @@ class MyTestCase(unittest.TestCase):
         
         Expected outcome:
         - Should return dictionary with keys for 'techniques', 'weaknesses', 'mitigations'
-        - Search for 'triage' should find T1001 (Triage) in techniques
+        - Search for 'triage' should find DFT-1001 (Triage) in techniques
         - Results should be sorted by relevance (highest scores first)
         - This tests the comprehensive search capability across the knowledge base
         """
@@ -545,9 +545,9 @@ class MyTestCase(unittest.TestCase):
         self.assertIn('weaknesses', results)
         self.assertIn('mitigations', results)
         
-        # Should find T1001 (Triage) in techniques
+        # Should find DFT-1001 (Triage) in techniques
         technique_ids = [t['id'] for t in results['techniques']]
-        self.assertIn('T1001', technique_ids)
+        self.assertIn('DFT-1001', technique_ids)
 
     def test_search_with_options(self):
         """
@@ -572,14 +572,14 @@ class MyTestCase(unittest.TestCase):
         Test retrieval of mitigation IDs for a specific technique.
         
         Expected outcome:
-        - Should return list of mitigation IDs associated with T1001 (through its weaknesses)
-        - Should have at least one mitigation (T1001 has weaknesses with mitigations)
+        - Should return list of mitigation IDs associated with DFT-1001 (through its weaknesses)
+        - Should have at least one mitigation (DFT-1001 has weaknesses with mitigations)
         - Should contain only unique mitigation IDs (no duplicates)
         - This tests the technique-to-mitigation traversal functionality
         """
         kb = KnowledgeBase('.', 'solve-it.json')
-        # Test with T1001 which should have mitigations through its weaknesses
-        mits = kb.get_mit_list_for_technique('T1001')
+        # Test with DFT-1001 which should have mitigations through its weaknesses
+        mits = kb.get_mit_list_for_technique('DFT-1001')
         self.assertIsInstance(mits, list)
         self.assertGreater(len(mits), 0)
         # Should contain unique mitigation IDs
@@ -626,7 +626,7 @@ class MyTestCase(unittest.TestCase):
         Test proper error handling for invalid inputs and edge cases.
         
         Expected outcome:
-        - Should return None for non-existent entity IDs (T9999, W9999, M9999)
+        - Should return None for non-existent entity IDs (DFT-9999, DFW-9999, DFM-9999)
         - Should return empty lists for relationship queries with invalid IDs
         - Should not raise exceptions, but handle errors gracefully
         - This tests the robustness and reliability of the library
@@ -635,15 +635,15 @@ class MyTestCase(unittest.TestCase):
         """
         kb = KnowledgeBase('.', 'solve-it.json')
         # Test with non-existent IDs
-        self.assertIsNone(kb.get_technique('T9999'))
-        self.assertIsNone(kb.get_weakness('W9999'))
-        self.assertIsNone(kb.get_mitigation('M9999'))
+        self.assertIsNone(kb.get_technique('DFT-9999'))
+        self.assertIsNone(kb.get_weakness('DFW-9999'))
+        self.assertIsNone(kb.get_mitigation('DFM-9999'))
         
         # Test with empty technique for relationships
-        self.assertEqual(kb.get_weaknesses_for_technique('T9999'), [])
-        self.assertEqual(kb.get_mitigations_for_weakness('W9999'), [])
-        self.assertEqual(kb.get_techniques_for_weakness('W9999'), [])
-        self.assertEqual(kb.get_weaknesses_for_mitigation('M9999'), [])
+        self.assertEqual(kb.get_weaknesses_for_technique('DFT-9999'), [])
+        self.assertEqual(kb.get_mitigations_for_weakness('DFW-9999'), [])
+        self.assertEqual(kb.get_techniques_for_weakness('DFW-9999'), [])
+        self.assertEqual(kb.get_weaknesses_for_mitigation('DFM-9999'), [])
 
     def test_reverse_lookup_correctness(self):
         """
@@ -661,7 +661,7 @@ class MyTestCase(unittest.TestCase):
         
         # Test 1: Verify get_techniques_for_weakness produces correct results
         # by comparing against manual iteration through all techniques
-        for weakness_id in ['W1001', 'W1002', 'W1003', 'W1004', 'W1005']:
+        for weakness_id in ['DFW-1001', 'DFW-1002', 'DFW-1003', 'DFW-1004', 'DFW-1005']:
             if kb.get_weakness(weakness_id):  # Only test if weakness exists
                 # Get result from optimized method
                 optimized_result = kb.get_techniques_for_weakness(weakness_id)
@@ -682,7 +682,7 @@ class MyTestCase(unittest.TestCase):
         
         # Test 2: Verify get_weaknesses_for_mitigation produces correct results
         # by comparing against manual iteration through all weaknesses
-        for mitigation_id in ['M1001', 'M1002', 'M1003', 'M1004', 'M1005']:
+        for mitigation_id in ['DFM-1001', 'DFM-1002', 'DFM-1003', 'DFM-1004', 'DFM-1005']:
             if kb.get_mitigation(mitigation_id):  # Only test if mitigation exists
                 # Get result from optimized method
                 optimized_result = kb.get_weaknesses_for_mitigation(mitigation_id)
@@ -703,7 +703,7 @@ class MyTestCase(unittest.TestCase):
         
         # Test 3: Verify bidirectional consistency
         # If technique T references weakness W, then W should reference T
-        for technique_id in ['T1001', 'T1002', 'T1003']:
+        for technique_id in ['DFT-1001', 'DFT-1002', 'DFT-1003']:
             technique = kb.get_technique(technique_id)
             if technique and technique.get('weaknesses'):
                 for weakness_id in technique['weaknesses']:
@@ -741,10 +741,10 @@ class MyTestCase(unittest.TestCase):
         kb = KnowledgeBase('.', 'solve-it.json')
         
         # Test known technique-weakness relationships
-        t1001 = kb.get_technique('T1001')  # Triage
+        t1001 = kb.get_technique('DFT-1001')  # Triage
         if t1001:
             self.assertEqual(t1001['name'], 'Triage')
-            # T1001 should have weaknesses
+            # DFT-1001 should have weaknesses
             self.assertIsInstance(t1001.get('weaknesses'), list)
             self.assertGreater(len(t1001.get('weaknesses', [])), 0)
             
@@ -752,35 +752,35 @@ class MyTestCase(unittest.TestCase):
             for weakness_id in t1001['weaknesses']:
                 reverse_techniques = kb.get_techniques_for_weakness(weakness_id)
                 technique_ids = [t['id'] for t in reverse_techniques]
-                self.assertIn('T1001', technique_ids,
-                    f"Reverse lookup failed: {weakness_id} should reference T1001")
+                self.assertIn('DFT-1001', technique_ids,
+                    f"Reverse lookup failed: {weakness_id} should reference DFT-1001")
         
         # Test known weakness-mitigation relationships
-        w1001 = kb.get_weakness('W1001')
+        w1001 = kb.get_weakness('DFW-1001')
         if w1001:
             self.assertEqual(w1001['name'], 'Excluding a device that contains relevant information')
-            # W1001 should have mitigations
+            # DFW-1001 should have mitigations
             if w1001.get('mitigations'):
                 for mitigation_id in w1001['mitigations']:
                     reverse_weaknesses = kb.get_weaknesses_for_mitigation(mitigation_id)
                     weakness_ids = [w['id'] for w in reverse_weaknesses]
-                    self.assertIn('W1001', weakness_ids,
-                        f"Reverse lookup failed: {mitigation_id} should reference W1001")
+                    self.assertIn('DFW-1001', weakness_ids,
+                        f"Reverse lookup failed: {mitigation_id} should reference DFW-1001")
         
-        # Test mitigation M1001 relationships
-        m1001 = kb.get_mitigation('M1001')
+        # Test mitigation DFM-1001 relationships
+        m1001 = kb.get_mitigation('DFM-1001')
         if m1001:
             self.assertEqual(m1001['name'], 'Review of all triage results that are relied on during the full digital forensic examination')
-            # M1001 should be referenced by some weaknesses
-            weaknesses_for_m1001 = kb.get_weaknesses_for_mitigation('M1001')
+            # DFM-1001 should be referenced by some weaknesses
+            weaknesses_for_m1001 = kb.get_weaknesses_for_mitigation('DFM-1001')
             self.assertGreater(len(weaknesses_for_m1001), 0,
-                "M1001 should be referenced by at least one weakness")
+                "DFM-1001 should be referenced by at least one weakness")
             
-            # Verify each weakness actually references M1001
+            # Verify each weakness actually references DFM-1001
             for weakness in weaknesses_for_m1001:
                 weakness_data = kb.get_weakness(weakness['id'])
-                self.assertIn('M1001', weakness_data.get('mitigations', []),
-                    f"Weakness {weakness['id']} should reference M1001 in its mitigations")
+                self.assertIn('DFM-1001', weakness_data.get('mitigations', []),
+                    f"Weakness {weakness['id']} should reference DFM-1001 in its mitigations")
 
     def test_search_scoring_behavior(self):
         """

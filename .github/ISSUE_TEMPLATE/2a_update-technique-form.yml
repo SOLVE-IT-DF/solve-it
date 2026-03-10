@@ -1,6 +1,6 @@
 name: "Update Technique"
 description: Propose changes to an existing technique
-title: "Update technique: [Txxxx: technique name]"
+title: "Update technique: [DFT-xxxx: technique name]"
 labels: ["content: update technique", "form input"]
 body:
   - type: markdown
@@ -9,13 +9,13 @@ body:
         ## Update an existing technique
         Use this form to propose changes to an existing technique.
         **Leave fields blank to keep current values.** Only fill in fields you want to change.
-        Existing techniques (T1001–T1163) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
+        Existing techniques (DFT-1001–DFT-1175) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
   - type: input
     id: technique-id
     attributes:
       label: Technique ID
-      description: The ID of the technique to update (e.g. T1002).
-      placeholder: T1002
+      description: The ID of the technique to update (e.g. DFT-1002).
+      placeholder: DFT-1002
     validations:
       required: true
   - type: input
@@ -56,16 +56,16 @@ body:
     attributes:
       label: Subtechnique IDs
       description: |
-        The complete new list of subtechnique IDs (one per line, e.g. T1002.1, T1002.2).
+        The complete new list of subtechnique IDs (one per line, e.g. DFT-1002.1, DFT-1002.2).
         Leave blank to keep the current list. If populated, this replaces the entire list.
-        Existing techniques (T1001–T1163) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
+        Existing techniques (DFT-1001–DFT-1175) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
       render: text
   - type: textarea
     id: weakness-ids
     attributes:
       label: Weakness IDs
       description: |
-        The complete new list of weakness IDs (one per line, e.g. W1004, W1014).
+        The complete new list of weakness IDs (one per line, e.g. DFW-1004, DFW-1014).
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
       render: text

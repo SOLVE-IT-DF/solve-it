@@ -1,0 +1,18 @@
+{
+    "id": "DFT-1018",
+    "name": "Remote data collection",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Image",
+        "https://ontology.unifiedcyberontology.org/uco/observable/File"
+    ],
+    "references": [
+        "todo"
+    ]
+}

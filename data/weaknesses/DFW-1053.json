@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1053",
+    "name": "Incorrect parsing of a supplied regular expression used for keyword searching",
+    "INCOMP": "X",
+    "INAC-EX": "X",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1035",
+        "DFM-1036"
+    ],
+    "references": []
+}

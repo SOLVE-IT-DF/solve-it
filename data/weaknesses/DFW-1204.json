@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1204",
+    "name": "Presenting a deleted message to the AI companion app as a live one, or vice versa",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1155",
+        "DFM-1027",
+        "DFM-1050",
+        "DFM-1055"
+    ],
+    "references": []
+}

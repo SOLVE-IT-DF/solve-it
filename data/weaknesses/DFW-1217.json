@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1217",
+    "name": "Presenting a deleted call to the AI companion app as a live one, or vice versa",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1161",
+        "DFM-1162",
+        "DFM-1027",
+        "DFM-1055"
+    ],
+    "references": []
+}

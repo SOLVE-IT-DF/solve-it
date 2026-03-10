@@ -1,0 +1,13 @@
+{
+    "id": "DFT-1105",
+    "name": "Memory examination (application-level)",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": []
+}

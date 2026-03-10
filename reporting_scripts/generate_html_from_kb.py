@@ -310,6 +310,7 @@ def generate_html(db: dict, idx: dict, custom: bool = False) -> str:
     page_title = "SOLVE-IT-X: Custom View" if custom else "SOLVE-IT: the digital forensics knowledge base"
     brand_name = "SOLVE-IT-X: Custom View" if custom else "SOLVE-IT"
     custom_js_flag = "true" if custom else "false"
+    footer_year = datetime.now().year
 
     n_t = len(db["techniques"])
     n_w = len(db["weaknesses"])
@@ -1181,14 +1182,6 @@ body.custom-mode .disabled-btn {{
 .chip-t {{ background: #dbeafe; color: #1e40af; border-color: #bfdbfe; }}
 .chip-w {{ background: #fee2e2; color: #991b1b; border-color: #fecaca; }}
 .chip-m {{ background: #d1fae5; color: #065f46; border-color: #a7f3d0; }}
-.generated-note {{
-  padding: 12px 24px;
-  font-size: .75rem;
-  color: var(--gray-500);
-  border-top: 1px solid var(--gray-200);
-  background: var(--white);
-  text-align: right;
-}}
 .subtechniques-toggle {{
   font-size: .68rem;
   color: var(--gray-500);
@@ -1263,6 +1256,57 @@ body.custom-mode .disabled-btn {{
   letter-spacing: .04em;
   margin-top: 8px;
   margin-bottom: 2px;
+}}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.site-footer {{
+  background: var(--navy-dark);
+  color: #eee;
+  padding: 18px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: .75rem;
+}}
+.footer-copyright {{
+  opacity: .6;
+}}
+.footer-generated {{
+  opacity: .6;
+  text-align: center;
+}}
+.footer-generated a {{
+  color: #8bb8ea;
+  text-decoration: none;
+}}
+.footer-generated a:hover {{
+  text-decoration: underline;
+}}
+.footer-supported {{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}}
+.footer-supported span {{
+  opacity: .6;
+}}
+.footer-supported a {{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 0 10px;
+}}
+.footer-supported img {{
+  height: 28px;
+  width: auto;
+}}
+.footer-supported .logo-dfrws img {{
+  height: 22px;
 }}
 
 </style>
@@ -1490,11 +1534,6 @@ body.custom-mode .disabled-btn {{
     </div>
     <div class="detail-body" id="dp-body"></div>
   </div>
-</div>
-
-<div class="generated-note">
-  SOLVE-IT Knowledge Base &mdash; Generated {generated_at} &mdash;
-  <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank">github.com/SOLVE-IT-DF/solve-it</a>
 </div>
 
 <!-- ─────────────────────────── JavaScript ─────────────────────────── -->
@@ -3050,6 +3089,22 @@ render();
 handleHash();
 window.addEventListener('hashchange', handleHash);
 </script>
+<footer class="site-footer">
+  <div class="footer-copyright">&copy; {footer_year} SOLVE-IT</div>
+  <div class="footer-generated">
+    Generated {generated_at} &mdash;
+    <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank">github.com/SOLVE-IT-DF/solve-it</a>
+  </div>
+  <div class="footer-supported">
+    <span>Supported by:</span>
+    <a href="https://www.hargs.co.uk" target="_blank" rel="noopener noreferrer">
+      <img src="https://solve-it-df.github.io/www/assets/images/hargs-logo.jpg" alt="HARGS">
+    </a>
+    <a href="https://dfrws.org/" target="_blank" rel="noopener noreferrer" class="logo-dfrws">
+      <img src="https://solve-it-df.github.io/www/assets/images/dfrws-logo.png" alt="DFRWS">
+    </a>
+  </div>
+</footer>
 </body>
 </html>"""
 

@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1132",
+    "name": "Incorrectly computing the hash of one or more files within a disk image due to incorrect hash algorithm implementation",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "X",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": [
+        "Hargreaves, C., Nelson, A. and Casey, E., 2024. An abstract model for digital forensic analysis tools-A foundation for systematic error mitigation analysis. Forensic Science International: Digital Investigation, 48, p.301679."
+    ]
+}

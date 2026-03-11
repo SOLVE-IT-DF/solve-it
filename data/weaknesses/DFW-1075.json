@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1075",
+    "name": "Presenting a file that does not exist",
+    "INCOMP": "",
+    "INAC-EX": "X",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1050",
+        "DFM-1051",
+        "DFM-1052",
+        "DFM-1053"
+    ],
+    "references": []
+}

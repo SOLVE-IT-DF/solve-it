@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1038",
+    "name": "Rainbow table-based password attack",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/password"
+    ],
+    "references": []
+}

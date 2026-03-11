@@ -2,7 +2,7 @@
 """
 Assigns the next available mitigation ID to a proposed mitigation issue.
 
-Finds the preview comment (containing "M____"), posts a confirmation of
+Finds the preview comment (containing "DFM-____"), posts a confirmation of
 the assigned ID, then posts the revised JSON with the real ID.
 The original preview comment is left untouched.
 
@@ -47,10 +47,10 @@ def get_issue_comments(issue_number):
 
 
 def find_preview_comment(comments):
-    """Return the preview comment dict that contains the M____ placeholder."""
+    """Return the preview comment dict that contains the DFM-____ placeholder."""
     for comment in comments:
         body = comment.get("body", "")
-        if '"id": "M____"' in body:
+        if '"id": "DFM-____"' in body:
             return comment
     return None
 
@@ -79,7 +79,7 @@ def main():
 
     # 1. Determine next available mitigation ID
     next_id = get_next_mitigation_id(args.project_root)
-    mitigation_id = f"M{next_id}"
+    mitigation_id = f"DFM-{next_id}"
     print(f"Next available mitigation ID: {mitigation_id}", file=sys.stderr)
 
     # 2. Fetch issue comments and locate the preview comment
@@ -87,25 +87,25 @@ def main():
     preview = find_preview_comment(comments)
 
     if preview is None:
-        print("Error: could not find a preview comment with M____ placeholder.",
+        print("Error: could not find a preview comment with DFM-____ placeholder.",
               file=sys.stderr)
         sys.exit(1)
 
     old_body = preview["body"]
 
     # 3. Build revised JSON with real ID
-    revised_body = old_body.replace("M____", mitigation_id)
+    revised_body = old_body.replace("DFM-____", mitigation_id)
     revised_body = revised_body.replace(
         "Thanks for proposing a new mitigation! Here's what it would look like as JSON:",
         "Your mitigation has been assigned an ID. Here is an updated copy of the JSON data with the ID completed:",
     )
     revised_body = revised_body.replace(
-        "The mitigation ID (M____) will be assigned during review.",
+        "The mitigation ID (DFM-____) will be assigned during review.",
         f"Mitigation ID **{mitigation_id}** has been assigned.",
     )
 
     if revised_body == old_body:
-        print("Error: replacement produced no changes — is M____ already replaced?",
+        print("Error: replacement produced no changes — is DFM-____ already replaced?",
               file=sys.stderr)
         sys.exit(1)
 

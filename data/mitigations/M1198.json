@@ -1,5 +1,0 @@
-{
-    "id": "M1198",
-    "name": "Check if file system and operating system make use of an 'allocated but unwritten' value e.g. VDL.",
-    "references" : []
-}

@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1147",
+    "name": "Failure to normalise timestamps correctly during timeline generation",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-AS": "",
+    "INAC-ALT": "x",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": []
+}

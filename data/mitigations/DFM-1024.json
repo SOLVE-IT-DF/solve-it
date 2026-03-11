@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1024",
+    "name": "Validate extracted key against the encrypted material before powering off the machine from which the key was extracted (e.g. Hargreaves & Chivers 2008b)",
+    "references": []
+}

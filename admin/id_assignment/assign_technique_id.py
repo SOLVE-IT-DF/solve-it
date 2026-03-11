@@ -2,7 +2,7 @@
 """
 Assigns the next available technique ID to a proposed technique issue.
 
-Finds the preview comment (containing "T____"), posts a confirmation of
+Finds the preview comment (containing "DFT-____"), posts a confirmation of
 the assigned ID, then posts the revised JSON with the real ID.
 The original preview comment is left untouched.
 
@@ -57,14 +57,14 @@ def get_issue_comments(issue_number):
 
 
 def find_preview_comment(comments):
-    """Return the preview comment dict that contains the T____ placeholder.
+    """Return the preview comment dict that contains the DFT-____ placeholder.
 
     The preview comment is posted by the technique-issue-preview workflow
-    and contains a JSON block with "id": "T____".
+    and contains a JSON block with "id": "DFT-____".
     """
     for comment in comments:
         body = comment.get("body", "")
-        if '"id": "T____"' in body:
+        if '"id": "DFT-____"' in body:
             return comment
     return None
 
@@ -93,7 +93,7 @@ def main():
 
     # 1. Determine next available technique ID
     next_id = get_next_technique_id(args.project_root)
-    technique_id = f"T{next_id}"
+    technique_id = f"DFT-{next_id}"
     print(f"Next available technique ID: {technique_id}", file=sys.stderr)
 
     # 2. Fetch issue comments and locate the preview comment
@@ -101,25 +101,25 @@ def main():
     preview = find_preview_comment(comments)
 
     if preview is None:
-        print("Error: could not find a preview comment with T____ placeholder.",
+        print("Error: could not find a preview comment with DFT-____ placeholder.",
               file=sys.stderr)
         sys.exit(1)
 
     old_body = preview["body"]
 
     # 3. Build revised JSON with real ID
-    revised_body = old_body.replace("T____", technique_id)
+    revised_body = old_body.replace("DFT-____", technique_id)
     revised_body = revised_body.replace(
         "Thanks for proposing a new technique! Here's what it would look like as JSON:",
         "Your technique has been assigned an ID. Here is an updated copy of the JSON data with the ID completed:",
     )
     revised_body = revised_body.replace(
-        "The technique ID (T____) will be assigned during review.",
+        "The technique ID (DFT-____) will be assigned during review.",
         f"Technique ID **{technique_id}** has been assigned.",
     )
 
     if revised_body == old_body:
-        print("Error: replacement produced no changes — is T____ already replaced?",
+        print("Error: replacement produced no changes — is DFT-____ already replaced?",
               file=sys.stderr)
         sys.exit(1)
 

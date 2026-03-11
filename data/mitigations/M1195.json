@@ -1,6 +1,0 @@
-{
-    "id": "M1195",
-    "name": "Also examine browser cache to confirm details about an older web visit when details are recovered using SQL join queries.",
-    "technique": "T1138",
-    "references" : []
-}

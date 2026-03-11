@@ -1,0 +1,16 @@
+{
+    "id": "DFT-1039",
+    "name": "App downgrade",
+    "description": "Downgrading an app to a version in which data is available e.g. via a backup method",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": [
+        "https://support.mobiledit.com/portal/en/kb/articles/app-downgrade",
+        "https://www.oxygenforensics.com/en/resources/downgrade-method-what-should-be-known-before-the-procedure/"
+    ]
+}

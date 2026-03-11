@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1140",
+    "name": "Failing to determine password as it is not in the search space",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1097",
+        "DFM-1098",
+        "DFM-1099",
+        "DFM-1231"
+    ],
+    "references": []
+}

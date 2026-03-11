@@ -1,6 +1,0 @@
-{
-  "id": "M1220",
-  "name": "Periodically keep records of time offsets of significant external servers",
-  "technique": "T1110",
-  "references": []
-}

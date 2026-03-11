@@ -1,0 +1,16 @@
+{
+    "id": "DFT-1130",
+    "name": "Search for indicators of encrypted data",
+    "description": "Searching for the presence of current or historical encrypted data on a system",
+    "synonyms": [],
+    "details": "This can include encryption software itself, or encrypted files.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/File",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Application"
+    ],
+    "references": []
+}

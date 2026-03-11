@@ -1,0 +1,7 @@
+{
+    "id": "DFM-1239",
+    "name": "Obtain possible passwords/PIN codes from other devices with limited security",
+    "description": "",
+    "technique": "DFT-1033",
+    "references": []
+}

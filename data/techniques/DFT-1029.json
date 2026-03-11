@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1029",
+    "name": "Access data from a desoldered eMMC via a chip reader",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/Bitstream"
+    ],
+    "references": []
+}

@@ -1,0 +1,18 @@
+{
+    "id": "DFW-1230",
+    "name": "Log entry missing due to rotation size or timing",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1172",
+        "DFM-1173",
+        "DFM-1175"
+    ],
+    "references": [
+        "https://www.crowdstrike.com/en-us/guides/syslog-logging/advanced-concepts/"
+    ]
+}

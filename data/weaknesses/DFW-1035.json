@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1035",
+    "name": "Collecting incorrect information from live system due to compromised machine (e.g. rootkit)",
+    "INCOMP": "x",
+    "INAC-EX": "x",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "x",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1013"
+    ],
+    "references": []
+}

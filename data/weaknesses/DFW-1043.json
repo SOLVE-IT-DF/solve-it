@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1043",
+    "name": "Data is written to forensic format that does not preserve the original raw data",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "X",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1009"
+    ],
+    "references": []
+}

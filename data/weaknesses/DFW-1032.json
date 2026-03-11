@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1032",
+    "name": "Not all memory is acquired",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": [
+        "Vömel, S. and Stüttgen, J., 2013. An evaluation platform for forensic memory acquisition software. Digital Investigation, 10, S30-S40."
+    ]
+}

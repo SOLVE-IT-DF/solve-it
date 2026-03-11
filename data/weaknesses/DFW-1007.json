@@ -1,0 +1,18 @@
+{
+    "id": "DFW-1007",
+    "name": "Acquisition tool does not copy data from DCO",
+    "description": "The Device Configuration Overlay (DCO) is a feature of the ATA standard that allows hardware vendors or system manufacturers to permanently hide a portion of a hard disk drive's capacity from the host system, including the operating system and forensic acquisition tools. Unlike the HPA, the DCO operates at a lower level and persists across power cycles, meaning that without issuing specific ATA commands (such as DEVICE CONFIGURATION RESTORE) the hidden area remains inaccessible. Acquisition tools that do not detect or interact with the DCO will produce an incomplete forensic image, potentially missing evidential data stored in this region (Gupta, Hoeschele and Rogers, 2006).",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1006",
+        "DFM-1003"
+    ],
+    "references": [
+        "Gupta, M.R., Hoeschele, M.D. and Rogers, M.K., 2006. Hidden disk areas: HPA and DCO. International Journal of Digital Evidence, 5(1), pp.1-8."
+    ]
+}

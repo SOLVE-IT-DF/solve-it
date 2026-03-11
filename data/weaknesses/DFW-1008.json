@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1008",
+    "name": "Missing the existence of a device by missing synchronisation artefacts",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1059",
+        "DFM-1057",
+        "DFM-1027"
+    ],
+    "references": []
+}

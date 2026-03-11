@@ -1,0 +1,18 @@
+{
+    "id": "DFT-1142",
+    "name": "Browser downloads examination",
+    "description": "The examination of records of files downloaded with a browser",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1248"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/URL",
+        "https://ontology.unifiedcyberontology.org/uco/observable/File"
+    ],
+    "references": []
+}

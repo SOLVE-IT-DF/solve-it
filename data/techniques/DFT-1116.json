@@ -1,0 +1,23 @@
+{
+    "id": "DFT-1116",
+    "name": "Determine connected devices",
+    "description": "Examine artifacts and extract indicators of devices that have been connected to the target device.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "USB connected devices",
+        "ADB connected hosts",
+        "iOS Backups from a computer"
+    ],
+    "weaknesses": [
+        "DFW-1183",
+        "DFW-1184",
+        "DFW-1011"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": [
+        "ALEAPP abd_hots.py, https://github.com/abrignoni/ALEAPP/blob/main/scripts/artifacts/adb_hosts.py"
+    ]
+}

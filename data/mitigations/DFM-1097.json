@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1097",
+    "name": "Attempt to obtain password/passcode from the device owner",
+    "technique": "DFT-1037",
+    "references": []
+}

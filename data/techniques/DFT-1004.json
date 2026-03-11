@@ -1,0 +1,30 @@
+{
+    "id": "DFT-1004",
+    "name": "Selective file acquisition",
+    "description": "Views a set of files (typically via direct access from previewing) and acquires a subset of them.",
+    "synonyms": [
+        "Logical imaging"
+    ],
+    "details": "This selection of files would subsequently be stored into a container such as a tar/zip file or a forensic image format.",
+    "subtechniques": [],
+    "examples": [
+        "FTK Imager - allows an AD1 logical container to be created of a selected subset of files within a previewed data source."
+    ],
+    "weaknesses": [
+        "DFW-1017",
+        "DFW-1018",
+        "DFW-1019",
+        "DFW-1020",
+        "DFW-1021",
+        "DFW-1022",
+        "DFW-1023",
+        "DFW-1024"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FilteredFileSet"
+    ],
+    "references": []
+}

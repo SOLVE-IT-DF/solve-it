@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1081",
+    "name": "Failing to recover file system metadata",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1050",
+        "DFM-1051",
+        "DFM-1052",
+        "DFM-1053"
+    ],
+    "references": []
+}

@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1136",
+    "name": "Not recovering data from a failed hard drive",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1089"
+    ],
+    "references": []
+}

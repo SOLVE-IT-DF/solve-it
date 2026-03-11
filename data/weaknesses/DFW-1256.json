@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1256",
+    "name": "Incorrect attribution of metadata to file content that was the result of 'file tunnelling'",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1079",
+        "DFM-1080",
+        "DFM-1081"
+    ],
+    "references": []
+}

@@ -38,8 +38,8 @@ class IDScanner:
         technique_dir = os.path.join(self.project_root, "data", "techniques")
         if os.path.exists(technique_dir):
             for filename in os.listdir(technique_dir):
-                if filename.startswith("T") and filename.endswith(".json"):
-                    match = re.match(r"T(\d+)\.json", filename)
+                if filename.startswith("DFT-") and filename.endswith(".json"):
+                    match = re.match(r"DFT-(\d+)\.json", filename)
                     if match:
                         self.technique_ids.add(int(match.group(1)))
         
@@ -47,8 +47,8 @@ class IDScanner:
         mitigation_dir = os.path.join(self.project_root, "data", "mitigations")
         if os.path.exists(mitigation_dir):
             for filename in os.listdir(mitigation_dir):
-                if filename.startswith("M") and filename.endswith(".json"):
-                    match = re.match(r"M(\d+)\.json", filename)
+                if filename.startswith("DFM-") and filename.endswith(".json"):
+                    match = re.match(r"DFM-(\d+)\.json", filename)
                     if match:
                         self.mitigation_ids.add(int(match.group(1)))
         
@@ -56,8 +56,8 @@ class IDScanner:
         weakness_dir = os.path.join(self.project_root, "data", "weaknesses")
         if os.path.exists(weakness_dir):
             for filename in os.listdir(weakness_dir):
-                if filename.startswith("W") and filename.endswith(".json"):
-                    match = re.match(r"W(\d+)\.json", filename)
+                if filename.startswith("DFW-") and filename.endswith(".json"):
+                    match = re.match(r"DFW-(\d+)\.json", filename)
                     if match:
                         self.weakness_ids.add(int(match.group(1)))
         
@@ -110,7 +110,7 @@ class IDScanner:
                     text_to_search = f"{title} {body} {comment_text}"
                     
                     # Find technique IDs (T1000-T9999, excluding obvious test cases like T9999)
-                    t_matches = re.findall(r'\bT(1\d{3})\b', text_to_search)
+                    t_matches = re.findall(r'\bDFT-(1\d{3})\b', text_to_search)
                     for match in t_matches:
                         tid = int(match)
                         # Skip obvious test/placeholder IDs
@@ -124,7 +124,7 @@ class IDScanner:
                                 self.reserved_technique_ids[tid].append((number, title, item_type))
                     
                     # Find mitigation IDs (M1000-M9999, excluding single digits)
-                    m_matches = re.findall(r'\bM(1\d{3})\b', text_to_search)
+                    m_matches = re.findall(r'\bDFM-(1\d{3})\b', text_to_search)
                     for match in m_matches:
                         mid = int(match)
                         if mid not in self.mitigation_ids:
@@ -135,7 +135,7 @@ class IDScanner:
                                 self.reserved_mitigation_ids[mid].append((number, title, item_type))
                     
                     # Find weakness IDs (W1000-W9999, excluding single digits)
-                    w_matches = re.findall(r'\bW(1\d{3})\b', text_to_search)
+                    w_matches = re.findall(r'\bDFW-(1\d{3})\b', text_to_search)
                     for match in w_matches:
                         wid = int(match)
                         if wid not in self.weakness_ids:
@@ -214,9 +214,9 @@ class IDScanner:
         
         # Current usage summary
         report.append("Current Usage:")
-        report.append(f"  Techniques: {len(self.technique_ids)} IDs (T{min(self.technique_ids) if self.technique_ids else 'N/A'} - T{max(self.technique_ids) if self.technique_ids else 'N/A'})")
-        report.append(f"  Mitigations: {len(self.mitigation_ids)} IDs (M{min(self.mitigation_ids) if self.mitigation_ids else 'N/A'} - M{max(self.mitigation_ids) if self.mitigation_ids else 'N/A'})")
-        report.append(f"  Weaknesses: {len(self.weakness_ids)} IDs (W{min(self.weakness_ids) if self.weakness_ids else 'N/A'} - W{max(self.weakness_ids) if self.weakness_ids else 'N/A'})")
+        report.append(f"  Techniques: {len(self.technique_ids)} IDs (DFT-{min(self.technique_ids) if self.technique_ids else 'N/A'} - DFT-{max(self.technique_ids) if self.technique_ids else 'N/A'})")
+        report.append(f"  Mitigations: {len(self.mitigation_ids)} IDs (DFM-{min(self.mitigation_ids) if self.mitigation_ids else 'N/A'} - DFM-{max(self.mitigation_ids) if self.mitigation_ids else 'N/A'})")
+        report.append(f"  Weaknesses: {len(self.weakness_ids)} IDs (DFW-{min(self.weakness_ids) if self.weakness_ids else 'N/A'} - DFW-{max(self.weakness_ids) if self.weakness_ids else 'N/A'})")
         report.append("")
         
         # Reserved IDs from GitHub
@@ -230,7 +230,7 @@ class IDScanner:
                     for number, title, item_type in sources:
                         # Truncate title if too long
                         display_title = title[:60] + "..." if len(title) > 60 else title
-                        report.append(f"    T{tid}: {item_type} #{number} - {display_title}")
+                        report.append(f"    DFT-{tid}: {item_type} #{number} - {display_title}")
             
             if self.reserved_mitigation_ids:
                 report.append("  Mitigations:")
@@ -238,7 +238,7 @@ class IDScanner:
                     sources = self.reserved_mitigation_ids[mid]
                     for number, title, item_type in sources:
                         display_title = title[:60] + "..." if len(title) > 60 else title
-                        report.append(f"    M{mid}: {item_type} #{number} - {display_title}")
+                        report.append(f"    DFM-{mid}: {item_type} #{number} - {display_title}")
             
             if self.reserved_weakness_ids:
                 report.append("  Weaknesses:")
@@ -246,7 +246,7 @@ class IDScanner:
                     sources = self.reserved_weakness_ids[wid]
                     for number, title, item_type in sources:
                         display_title = title[:60] + "..." if len(title) > 60 else title
-                        report.append(f"    W{wid}: {item_type} #{number} - {display_title}")
+                        report.append(f"    DFW-{wid}: {item_type} #{number} - {display_title}")
             
             report.append("")
         
@@ -265,39 +265,39 @@ class IDScanner:
         
         report.append("TECHNIQUES:")
         if technique_gaps:
-            report.append(f"  Available gaps: T{', T'.join(map(str, technique_gaps[:10]))}")
+            report.append(f"  Available gaps: DFT-{', DFT-'.join(map(str, technique_gaps[:10]))}")
             if len(technique_gaps) > 10:
                 report.append(f"  (and {len(technique_gaps) - 10} more gaps)")
         else:
             report.append("  No gaps found in sequence")
-        report.append(f"  Next available: T{', T'.join(map(str, technique_next))}")
+        report.append(f"  Next available: DFT-{', DFT-'.join(map(str, technique_next))}")
         report.append("")
         
         report.append("MITIGATIONS:")
         if mitigation_gaps:
-            report.append(f"  Available gaps: M{', M'.join(map(str, mitigation_gaps[:10]))}")
+            report.append(f"  Available gaps: DFM-{', DFM-'.join(map(str, mitigation_gaps[:10]))}")
             if len(mitigation_gaps) > 10:
                 report.append(f"  (and {len(mitigation_gaps) - 10} more gaps)")
         else:
             report.append("  No gaps found in sequence")
-        report.append(f"  Next available: M{', M'.join(map(str, mitigation_next))}")
+        report.append(f"  Next available: DFM-{', DFM-'.join(map(str, mitigation_next))}")
         report.append("")
         
         report.append("WEAKNESSES:")
         if weakness_gaps:
-            report.append(f"  Available gaps: W{', W'.join(map(str, weakness_gaps[:10]))}")
+            report.append(f"  Available gaps: DFW-{', DFW-'.join(map(str, weakness_gaps[:10]))}")
             if len(weakness_gaps) > 10:
                 report.append(f"  (and {len(weakness_gaps) - 10} more gaps)")
         else:
             report.append("  No gaps found in sequence")
-        report.append(f"  Next available: W{', W'.join(map(str, weakness_next))}")
+        report.append(f"  Next available: DFW-{', DFW-'.join(map(str, weakness_next))}")
         report.append("")
         
         # Quick reference for next single ID
         report.append("QUICK REFERENCE - Next Single ID:")
-        report.append(f"  Next Technique:  T{technique_next[0] if technique_next else 'N/A'}")
-        report.append(f"  Next Mitigation: M{mitigation_next[0] if mitigation_next else 'N/A'}")
-        report.append(f"  Next Weakness:   W{weakness_next[0] if weakness_next else 'N/A'}")
+        report.append(f"  Next Technique:  DFT-{technique_next[0] if technique_next else 'N/A'}")
+        report.append(f"  Next Mitigation: DFM-{mitigation_next[0] if mitigation_next else 'N/A'}")
+        report.append(f"  Next Weakness:   DFW-{weakness_next[0] if weakness_next else 'N/A'}")
         
         return "\n".join(report)
     

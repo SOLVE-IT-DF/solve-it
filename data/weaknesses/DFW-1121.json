@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1121",
+    "name": "Image format parsing fails to to present all blocks from within a forensic container image in their ‘flat’ (dd) representation",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [],
+    "references": [
+        "Hargreaves, C., Nelson, A. and Casey, E., 2024. An abstract model for digital forensic analysis tools-A foundation for systematic error mitigation analysis. Forensic Science International: Digital Investigation, 48, p.301679."
+    ]
+}

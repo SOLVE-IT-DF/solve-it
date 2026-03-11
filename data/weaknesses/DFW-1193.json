@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1193",
+    "name": "Keyword results missed since relevant keyword is split over a sector or cluster boundary",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1143",
+        "DFM-1144"
+    ],
+    "references": []
+}

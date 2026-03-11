@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1058",
+    "name": "Results appear in an ‘artefact’ or ‘result’ but the context, source or provenance of result is unclear",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1037"
+    ],
+    "references": []
+}

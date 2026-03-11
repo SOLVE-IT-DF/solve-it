@@ -1,0 +1,32 @@
+{
+    "id": "DFT-1137",
+    "name": "Browser history examination",
+    "description": "The examination of the history component of a web browser.",
+    "synonyms": [
+        "web history examination",
+        "internet history examination"
+    ],
+    "details": "Typically this would involve the examination of data in one or more SQLite tables.",
+    "subtechniques": [],
+    "examples": [
+        "places.sqlite for Firefox",
+        "History for Chrome"
+    ],
+    "weaknesses": [
+        "DFW-1243",
+        "DFW-1244",
+        "DFW-1108",
+        "DFW-1245",
+        "DFW-1246",
+        "DFW-1109",
+        "DFW-1110",
+        "DFW-1111",
+        "DFW-1112"
+    ],
+    "CASE_input_classes": ["https://ontology.solveit-df.org/solveit/observable/BrowserAppFiles"                            
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/URLHistory"
+    ],
+    "references": []
+}

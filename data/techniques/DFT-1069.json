@@ -1,0 +1,40 @@
+{
+    "id": "DFT-1069",
+    "name": "Browser examination",
+    "description": "Recovery of information left from web browsing activity (derived from Oh et al (2011))",
+    "synonyms": [],
+    "details": "This may involve: history, cached items, bookmarks, cookies, saved passwords, form data.",
+    "subtechniques": [
+        "DFT-1137",
+        "DFT-1138",
+        "DFT-1139",
+        "DFT-1140",
+        "DFT-1141",
+        "DFT-1142",
+        "DFT-1143",
+        "DFT-1144",
+        "DFT-1145",
+        "DFT-1146",
+        "DFT-1147",
+        "DFT-1148"
+    ],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1113",
+        "DFW-1250",
+        "DFW-1251"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/URLHistory",
+        "https://ontology.unifiedcyberontology.org/uco/observable/CookieHistory",
+        "https://ontology.unifiedcyberontology.org/uco/observable/BrowserBookmark",
+        "https://ontology.unifiedcyberontology.org/uco/observable/BrowserCookie",
+        "https://ontology.unifiedcyberontology.org/uco/observable/URLVisit",
+        "https://ontology.unifiedcyberontology.org/uco/observable/URLHistoryEntry"
+    ],
+    "references": [
+        "Digital Detective Knowledgebase https://kb.digital-detective.net/display/BF",
+        "Oh, J., Lee, S. and Lee, S., 2011. Advanced evidence collection and analysis of web browser activity. Digital investigation, 8, pp.S62-S70."
+    ]
+}

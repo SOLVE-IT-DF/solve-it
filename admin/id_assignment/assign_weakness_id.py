@@ -2,7 +2,7 @@
 """
 Assigns the next available weakness ID to a proposed weakness issue.
 
-Finds the preview comment (containing "W____"), posts a confirmation of
+Finds the preview comment (containing "DFW-____"), posts a confirmation of
 the assigned ID, then posts the revised JSON with the real ID.
 The original preview comment is left untouched.
 
@@ -47,10 +47,10 @@ def get_issue_comments(issue_number):
 
 
 def find_preview_comment(comments):
-    """Return the preview comment dict that contains the W____ placeholder."""
+    """Return the preview comment dict that contains the DFW-____ placeholder."""
     for comment in comments:
         body = comment.get("body", "")
-        if '"id": "W____"' in body:
+        if '"id": "DFW-____"' in body:
             return comment
     return None
 
@@ -79,7 +79,7 @@ def main():
 
     # 1. Determine next available weakness ID
     next_id = get_next_weakness_id(args.project_root)
-    weakness_id = f"W{next_id}"
+    weakness_id = f"DFW-{next_id}"
     print(f"Next available weakness ID: {weakness_id}", file=sys.stderr)
 
     # 2. Fetch issue comments and locate the preview comment
@@ -87,25 +87,25 @@ def main():
     preview = find_preview_comment(comments)
 
     if preview is None:
-        print("Error: could not find a preview comment with W____ placeholder.",
+        print("Error: could not find a preview comment with DFW-____ placeholder.",
               file=sys.stderr)
         sys.exit(1)
 
     old_body = preview["body"]
 
     # 3. Build revised JSON with real ID
-    revised_body = old_body.replace("W____", weakness_id)
+    revised_body = old_body.replace("DFW-____", weakness_id)
     revised_body = revised_body.replace(
         "Thanks for proposing a new weakness! Here's what it would look like as JSON:",
         "Your weakness has been assigned an ID. Here is an updated copy of the JSON data with the ID completed:",
     )
     revised_body = revised_body.replace(
-        "The weakness ID (W____) will be assigned during review.",
+        "The weakness ID (DFW-____) will be assigned during review.",
         f"Weakness ID **{weakness_id}** has been assigned.",
     )
 
     if revised_body == old_body:
-        print("Error: replacement produced no changes — is W____ already replaced?",
+        print("Error: replacement produced no changes — is DFW-____ already replaced?",
               file=sys.stderr)
         sys.exit(1)
 

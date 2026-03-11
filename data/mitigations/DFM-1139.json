@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1139",
+    "name": "Use automated software monitoring to detect app artefact changes",
+    "technique": "DFT-1119",
+    "references": []
+}

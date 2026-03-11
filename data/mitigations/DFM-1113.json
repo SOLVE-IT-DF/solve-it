@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1113",
+    "name": "Use mobile exploit to gain privileged access",
+    "technique": "DFT-1040",
+    "references": []
+}

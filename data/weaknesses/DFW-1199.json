@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1199",
+    "name": "Excessive keyword results returned from case-specific wordlists such that careful review of all results is impractical",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1033",
+        "DFM-1038",
+        "DFM-1142",
+        "DFM-1152"
+    ],
+    "references": []
+}

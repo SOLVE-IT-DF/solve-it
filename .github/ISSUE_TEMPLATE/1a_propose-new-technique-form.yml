@@ -44,6 +44,7 @@ body:
       label: Objective
       description: Which objective does this technique fit under?
       options:
+        - "Prepare for a digital investigation"
         - "Find potential digital evidence sources"
         - "Prioritize digital evidence sources"
         - "Preserve digital evidence"
@@ -81,7 +82,7 @@ body:
     id: existing-weaknesses
     attributes:
       label: Existing weakness IDs
-      description: IDs of existing weaknesses that apply to this technique (one per line, e.g. W1004, W1014).
+      description: IDs of existing weaknesses that apply to this technique (one per line, e.g. DFW-1004, DFW-1014).
       render: text
   - type: textarea
     id: new-weaknesses

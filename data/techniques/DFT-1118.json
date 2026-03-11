@@ -1,0 +1,26 @@
+{
+    "id": "DFT-1118",
+    "name": "Locate relevant files by path",
+    "description": "Use the path of file name to determine potential relevance of artefact",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "Autopsy Interesting Files module",
+        "Pattern matching in ALEAPP/iLEAPP to trigger specific plugins"
+    ],
+    "weaknesses": [
+        "DFW-1186",
+        "DFW-1187",
+        "DFW-1188"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/File"
+    ],
+    "references": [
+        "Autopsy Interesting File module, https://sleuthkit.org/autopsy/docs/user-docs/3.1/interesting_page.html"
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1139",
+    "name": "System locks after X failed dictionary attempts",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "X",
+    "INAC-COR": "X",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1094",
+        "DFM-1095",
+        "DFM-1097",
+        "DFM-1231"
+    ],
+    "references": []
+}

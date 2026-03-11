@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1036",
+    "name": "Smudge attack",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/UnlockPattern"
+    ],
+    "references": []
+}

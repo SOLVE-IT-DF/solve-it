@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1269",
+    "name": "Failure to apply time offset to a timeline entry",
+    "INCOMP": "x",
+    "INAC-EX": "x",
+    "INAC-ALT": "",
+    "INAC-AS": "x",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "references": [],
+    "mitigations": [
+        "DFM-1101"
+    ]
+}

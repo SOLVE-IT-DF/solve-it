@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1077",
+    "name": "Presenting a deleted file as a live file",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1050",
+        "DFM-1051",
+        "DFM-1052",
+        "DFM-1053"
+    ],
+    "references": []
+}

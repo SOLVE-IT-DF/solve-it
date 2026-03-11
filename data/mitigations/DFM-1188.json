@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1188",
+    "name": "Ensure all profiles of the web browser are considered",
+    "technique": "DFT-1144",
+    "references": []
+}

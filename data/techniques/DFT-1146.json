@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1146",
+    "name": "Browser synchronization feature examination",
+    "description": "The examination of the settings and artifacts resulting from a browser synchronization feature",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/configuration/Configuration"
+    ],
+    "references": []
+}

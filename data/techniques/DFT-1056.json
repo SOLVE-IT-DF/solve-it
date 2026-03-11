@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1056",
+    "name": "Entity connection enumeration",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ObservableRelationship"
+    ],
+    "references": []
+}

@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1026",
+    "name": "Selective extraction of a backup implies partial collection when it is in reality a full collection followed by deletion.",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "mitigations": [
+        "DFM-1012"
+    ],
+    "references": []
+}

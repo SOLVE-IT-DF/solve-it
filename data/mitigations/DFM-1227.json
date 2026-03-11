@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1227",
+    "name": "Search for indicators of clock tampering",
+    "technique": "DFT-1129",
+    "references": []
+}

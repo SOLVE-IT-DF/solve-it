@@ -18,12 +18,12 @@ def main():
 
     # Collect technique IDs for the description text
     technique_ids = kb.list_techniques()
-    id_range = f"{technique_ids[0]}–{technique_ids[-1]}" if technique_ids else "T1001–T1099"
+    id_range = f"{technique_ids[0]}–{technique_ids[-1]}" if technique_ids else "DFT-1001–DFT-1099"
 
     lines = []
     lines.append('name: "Update Technique"')
     lines.append("description: Propose changes to an existing technique")
-    lines.append('title: "Update technique: [Txxxx: technique name]"')
+    lines.append('title: "Update technique: [DFT-xxxx: technique name]"')
     lines.append('labels: ["content: update technique", "form input"]')
     lines.append("body:")
 
@@ -41,8 +41,8 @@ def main():
     lines.append("    id: technique-id")
     lines.append("    attributes:")
     lines.append("      label: Technique ID")
-    lines.append("      description: The ID of the technique to update (e.g. T1002).")
-    lines.append("      placeholder: T1002")
+    lines.append("      description: The ID of the technique to update (e.g. DFT-1002).")
+    lines.append("      placeholder: DFT-1002")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -95,7 +95,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Subtechnique IDs")
     lines.append("      description: |")
-    lines.append("        The complete new list of subtechnique IDs (one per line, e.g. T1002.1, T1002.2).")
+    lines.append("        The complete new list of subtechnique IDs (one per line, e.g. DFT-1002.1, DFT-1002.2).")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append(f"        Existing techniques ({id_range}) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).")
     lines.append("      render: text")
@@ -106,7 +106,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Weakness IDs")
     lines.append("      description: |")
-    lines.append("        The complete new list of weakness IDs (one per line, e.g. W1004, W1014).")
+    lines.append("        The complete new list of weakness IDs (one per line, e.g. DFW-1004, DFW-1014).")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).")
     lines.append("      render: text")

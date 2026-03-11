@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1004",
+    "name": "Data copied does not include all sectors from LBA0 to LBA max due to the data copying process stopping prematurely",
+    "description": "",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1003",
+        "DFM-1004"
+    ],
+    "references": []
+}

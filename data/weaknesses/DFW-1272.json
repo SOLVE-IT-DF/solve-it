@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1272",
+    "name": "Failure to preserve all relevant timestamps of files obtained using exposed services on a device",
+    "description": "",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-ALT": "",
+    "INAC-AS": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1233"
+    ],
+    "references": []
+}

@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1246",
+    "name": "Attribution of incorrect details (e.g. page title) to a browser web visit due to join queries used in underlying database",
+    "INCOMP": "",
+    "INAC-EX": "X",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1194",
+        "DFM-1195",
+        "DFM-1193"
+    ],
+    "references": []
+}

@@ -1,0 +1,18 @@
+{
+    "id": "DFT-1174",
+    "name": "Read evidential files stored directly on local file system",
+    "description": "Represents reading files that have been acquired or extracted directly to the local file system.",
+    "synonyms": [],
+    "details": "For example an ADB pull command against a directory can result in a set of files copied to the local file system. This represents reading those files directly to extract information.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ADBPullData",
+        "https://ontology.solveit-df.org/solveit/observable/AFCExtractionData"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "references": []
+}

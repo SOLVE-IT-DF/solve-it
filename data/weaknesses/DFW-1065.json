@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1065",
+    "name": "Failing to correctly parse start sector pointers from partition tables",
+    "INCOMP": "X",
+    "INAC-EX": "X",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1047"
+    ],
+    "references": []
+}

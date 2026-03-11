@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1013",
+    "name": "During acquisition the data copying process results in extra bytes",
+    "description": "These ",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1003",
+        "DFM-1004"
+    ],
+    "references": []
+}

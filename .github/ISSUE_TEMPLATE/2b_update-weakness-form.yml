@@ -1,6 +1,6 @@
 name: "Update Weakness"
 description: Propose changes to an existing weakness
-title: "Update weakness: [Wxxxx: weakness name]"
+title: "Update weakness: [DFW-xxxx: weakness name]"
 labels: ["content: update weakness", "form input"]
 body:
   - type: markdown
@@ -9,13 +9,13 @@ body:
         ## Update an existing weakness
         Use this form to propose changes to an existing weakness.
         **Leave fields blank (or all unchecked) to keep current values.** Only fill in fields you want to change.
-        Existing weaknesses (W1001–W1276) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
+        Existing weaknesses (DFW-1001–DFW-1277) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
   - type: input
     id: weakness-id
     attributes:
       label: Weakness ID
-      description: The ID of the weakness to update (e.g. W1001).
-      placeholder: W1001
+      description: The ID of the weakness to update (e.g. DFW-1001).
+      placeholder: DFW-1001
     validations:
       required: true
   - type: input
@@ -42,7 +42,7 @@ body:
     attributes:
       label: Mitigation IDs
       description: |
-        The complete new list of mitigation IDs (one per line, e.g. M1001, M1012).
+        The complete new list of mitigation IDs (one per line, e.g. DFM-1001, DFM-1012).
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Existing mitigations can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).
       render: text

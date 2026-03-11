@@ -135,20 +135,19 @@ if __name__ == '__main__':
     techniques_sheet.set_column(1, 1, 50)
 
     for i, each_technique in enumerate(sorted(kb.list_techniques())):
-        if each_technique != "T1000":
-            techniques_sheet.write_url(i, 0, 'internal:{}!A1'.format(each_technique),
-                                             string=each_technique)
-            techniques_sheet.write_string(i, 1, kb.get_technique(each_technique).get('name'))
-            techniques_sheet.write_number(i, 2, len(kb.get_technique(each_technique).get('weaknesses', [])))
-            total_mits = 0
-            for each_weakness in kb.get_technique(each_technique).get('weaknesses', []):
-                weakness_obj = kb.get_weakness(each_weakness)
-                if weakness_obj is None:
-                    logging.error(f'Weakness {each_weakness} not found for technique {each_technique} - Excel generation failed')
-                    sys.exit(-1)
-                else:
-                    total_mits += len(weakness_obj.get('mitigations', []))
-            techniques_sheet.write_number(i, 3, total_mits)
+        techniques_sheet.write_url(i, 0, 'internal:{}!A1'.format(each_technique),
+                                         string=each_technique)
+        techniques_sheet.write_string(i, 1, kb.get_technique(each_technique).get('name'))
+        techniques_sheet.write_number(i, 2, len(kb.get_technique(each_technique).get('weaknesses', [])))
+        total_mits = 0
+        for each_weakness in kb.get_technique(each_technique).get('weaknesses', []):
+            weakness_obj = kb.get_weakness(each_weakness)
+            if weakness_obj is None:
+                logging.error(f'Weakness {each_weakness} not found for technique {each_technique} - Excel generation failed')
+                sys.exit(-1)
+            else:
+                total_mits += len(weakness_obj.get('mitigations', []))
+        techniques_sheet.write_number(i, 3, total_mits)
 
     print("- populated 'all techniques' worksheet")
 
@@ -190,20 +189,19 @@ if __name__ == '__main__':
 
 
     for i, each_technique in enumerate(sorted(kb.list_techniques())):
-        if each_technique != "T1000":
-            techniques_sheet.write_url(i, 0, 'internal:{}!A1'.format(each_technique),
-                                             string=each_technique)
-            techniques_sheet.write_string(i, 1, kb.get_technique(each_technique).get('name'))
-            techniques_sheet.write_number(i, 2, len(kb.get_technique(each_technique).get('weaknesses', [])))
-            total_mits = 0
-            for each_weakness in kb.get_technique(each_technique).get('weaknesses', []):
-                weakness_obj = kb.get_weakness(each_weakness)
-                if weakness_obj is None:
-                    logging.error(f'Weakness {each_weakness} not found for technique {each_technique} - Excel generation failed')
-                    sys.exit(-1)
-                else:
-                    total_mits += len(weakness_obj.get('mitigations', []))
-            techniques_sheet.write_number(i, 3, total_mits)
+        techniques_sheet.write_url(i, 0, 'internal:{}!A1'.format(each_technique),
+                                         string=each_technique)
+        techniques_sheet.write_string(i, 1, kb.get_technique(each_technique).get('name'))
+        techniques_sheet.write_number(i, 2, len(kb.get_technique(each_technique).get('weaknesses', [])))
+        total_mits = 0
+        for each_weakness in kb.get_technique(each_technique).get('weaknesses', []):
+            weakness_obj = kb.get_weakness(each_weakness)
+            if weakness_obj is None:
+                logging.error(f'Weakness {each_weakness} not found for technique {each_technique} - Excel generation failed')
+                sys.exit(-1)
+            else:
+                total_mits += len(weakness_obj.get('mitigations', []))
+        techniques_sheet.write_number(i, 3, total_mits)
 
     print("- populated 'all techniques' worksheet")
 
@@ -403,7 +401,7 @@ if __name__ == '__main__':
     # check if any are missed from index sheet
 
     for each in kb.list_techniques():
-        if each not in techniques_added and each != "T1000":  # T1000 is demo technique so not expected to be referenced
+        if each not in techniques_added:
             if not args.ignore_unindexed_techniques:
                 raise SOLVEITDataError(f"Technique {each} exists, but is not indexed in sheet")
             else:

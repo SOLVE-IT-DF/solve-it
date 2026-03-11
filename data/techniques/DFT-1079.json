@@ -1,0 +1,13 @@
+{
+    "id": "DFT-1079",
+    "name": "Audio content analysis",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": []
+}

@@ -1,0 +1,18 @@
+{
+    "id": "DFW-1086",
+    "name": "Failing to recover deleted but recoverable messages",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1054",
+        "DFM-1027",
+        "DFM-1055",
+        "DFM-1056",
+        "DFM-1077"
+    ],
+    "references": []
+}

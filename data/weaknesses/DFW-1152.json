@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1152",
+    "name": "Generated report does not include all bookmarks",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1104",
+        "DFM-1105"
+    ],
+    "references": []
+}

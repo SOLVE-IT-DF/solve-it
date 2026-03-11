@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1070",
+    "name": "Failing to recover the complete contents of a live file",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1050",
+        "DFM-1051",
+        "DFM-1052",
+        "DFM-1053"
+    ],
+    "references": []
+}

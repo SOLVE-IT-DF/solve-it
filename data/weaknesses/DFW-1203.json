@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1203",
+    "name": "Presenting a message from the user or AI companion app that did not exist",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1154",
+        "DFM-1027",
+        "DFM-1055"
+    ],
+    "references": []
+}

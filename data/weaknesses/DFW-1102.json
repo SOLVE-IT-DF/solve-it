@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1102",
+    "name": "Failure to display that a message had a previous state",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1054",
+        "DFM-1027",
+        "DFM-1050"
+    ],
+    "references": []
+}

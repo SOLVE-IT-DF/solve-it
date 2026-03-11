@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1046",
+    "name": "Check pointer offsets for both 512 and 4096 sectors sizes",
+    "references": []
+}

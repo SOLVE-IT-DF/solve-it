@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1011",
+    "name": "Suggesting the existence of a device that does not exist",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1058",
+        "DFM-1027"
+    ],
+    "references": []
+}

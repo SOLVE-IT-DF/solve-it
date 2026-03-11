@@ -18,12 +18,12 @@ def main():
 
     # Collect mitigation IDs for the description text
     mitigation_ids = kb.list_mitigations()
-    id_range = f"{mitigation_ids[0]}–{mitigation_ids[-1]}" if mitigation_ids else "M1001–M1099"
+    id_range = f"{mitigation_ids[0]}–{mitigation_ids[-1]}" if mitigation_ids else "DFM-1001–DFM-1099"
 
     lines = []
     lines.append('name: "Update Mitigation"')
     lines.append("description: Propose changes to an existing mitigation")
-    lines.append('title: "Update mitigation: [Mxxxx: mitigation name]"')
+    lines.append('title: "Update mitigation: [DFM-xxxx: mitigation name]"')
     lines.append('labels: ["content: update mitigation", "form input"]')
     lines.append("body:")
 
@@ -41,8 +41,8 @@ def main():
     lines.append("    id: mitigation-id")
     lines.append("    attributes:")
     lines.append("      label: Mitigation ID")
-    lines.append("      description: The ID of the mitigation to update (e.g. M1001).")
-    lines.append("      placeholder: M1001")
+    lines.append("      description: The ID of the mitigation to update (e.g. DFM-1001).")
+    lines.append("      placeholder: DFM-1001")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -60,7 +60,7 @@ def main():
     lines.append("      label: Linked technique action")
     lines.append("      description: |")
     lines.append("        Some mitigations link to a technique. Choose what to do with the linked technique.")
-    lines.append("        See [M1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/M1007.json) for an example.")
+    lines.append("        See [DFM-1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/DFM-1007.json) for an example.")
     lines.append("      options:")
     lines.append('        - "No change"')
     lines.append('        - "Set new value (provide ID below)"')
@@ -73,8 +73,8 @@ def main():
     lines.append("    id: linked-technique-id")
     lines.append("    attributes:")
     lines.append("      label: Linked technique ID")
-    lines.append("      description: Only used if 'Set new value' is selected above. Provide the technique ID (e.g. T1002).")
-    lines.append("      placeholder: T1002")
+    lines.append("      description: Only used if 'Set new value' is selected above. Provide the technique ID (e.g. DFT-1002).")
+    lines.append("      placeholder: DFT-1002")
 
     # --- References ---
     lines.append("  - type: textarea")

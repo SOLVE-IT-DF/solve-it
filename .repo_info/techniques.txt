@@ -40,7 +40,7 @@ T1038	Rainbow table-based password attack
 T1039	App downgrade	
 T1040	Use mobile device exploit	
 T1041	Pin2Pwn	
-T1042	Hash verification of source device against stored data	
+T1042	Disk image hash verification	
 T1043	Access forensic image content (bitstream)	
 T1044	Mobile backup decoding	
 T1045	Decode standard archive format	

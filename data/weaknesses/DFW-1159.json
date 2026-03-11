@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1159",
+    "name": "Presenting a mobile file system acquisition as a bitwise copy of the device",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1114"
+    ],
+    "references": []
+}

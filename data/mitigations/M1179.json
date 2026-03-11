@@ -1,5 +1,0 @@
-{
-    "id": "M1179",
-    "name": "If timestamp is local time, ensure that the system timezone was applicable at time of log entry generation",
-    "references" : []
-}

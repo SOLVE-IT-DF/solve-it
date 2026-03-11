@@ -1,5 +1,0 @@
-{
-    "id": "M1087",
-    "name": "Acquire memory from outside of the target system for example using direct memory access (DMA) devices",
-    "references" : ["Latzo, T., Palutke, R. and Freiling, F., 2019. A universal taxonomy and survey of forensic memory acquisition techniques. Digital Investigation, 28, 56-69."]
-}

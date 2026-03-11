@@ -1,5 +1,0 @@
-{
-  "id": "M1230",
-  "name": "Ensure that daylight savings offsets that are applied to timestamps are correct",
-  "references": []
-}

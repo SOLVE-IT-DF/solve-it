@@ -46,7 +46,7 @@ class Technique(BaseModel):
     Model for a SOLVE-IT technique.
 
     Attributes:
-        id (str): The unique identifier for the technique (e.g., "T0001").
+        id (str): The unique identifier for the technique (e.g., "DFT-1001").
         name (str): The name of the technique.
         description (str): A description of the technique.
         synonyms (List[str]): Alternative names for the technique.
@@ -73,8 +73,8 @@ class Technique(BaseModel):
     @validator('id')
     def validate_id(cls, v: str) -> str:
         """Validate that the ID follows the expected format."""
-        if not v.startswith('T') or not v[1:].isdigit():
-            raise ValueError(f"Technique ID must start with 'T' followed by digits, got '{v}'")
+        if not v.startswith('DFT-') or not v[4:].isdigit():
+            raise ValueError(f"Technique ID must start with 'DFT-' followed by digits, got '{v}'")
         return v
 
 
@@ -83,7 +83,7 @@ class Weakness(BaseModel):
     Model for a SOLVE-IT weakness.
 
     Attributes:
-        id (str): The unique identifier for the weakness (e.g., "W0001").
+        id (str): The unique identifier for the weakness (e.g., "DFW-1001").
         name (str): The name of the weakness - contains the primary description of what this weakness entails.
         description (Optional[str]): Additional description (if available).
         mitigations (List[str]): A list of mitigation IDs associated with the weakness.
@@ -110,8 +110,8 @@ class Weakness(BaseModel):
     @validator('id')
     def validate_id(cls, v: str) -> str:
         """Validate that the ID follows the expected format."""
-        if not v.startswith('W') or not v[1:].isdigit():
-            raise ValueError(f"Weakness ID must start with 'W' followed by digits, got '{v}'")
+        if not v.startswith('DFW-') or not v[4:].isdigit():
+            raise ValueError(f"Weakness ID must start with 'DFW-' followed by digits, got '{v}'")
         return v
     
     # No validator needed - description is optional
@@ -122,7 +122,7 @@ class Mitigation(BaseModel):
     Model for a SOLVE-IT mitigation.
 
     Attributes:
-        id (str): The unique identifier for the mitigation (e.g., "M0001").
+        id (str): The unique identifier for the mitigation (e.g., "DFM-1001").
         name (str): The name of the mitigation - contains the primary description of what this mitigation entails.
         description (Optional[str]): Additional description (if available).
         technique (Optional[str]): Related technique ID (if this mitigation is linked to a technique).
@@ -137,8 +137,8 @@ class Mitigation(BaseModel):
     @validator('id')
     def validate_id(cls, v: str) -> str:
         """Validate that the ID follows the expected format."""
-        if not v.startswith('M') or not v[1:].isdigit():
-            raise ValueError(f"Mitigation ID must start with 'M' followed by digits, got '{v}'")
+        if not v.startswith('DFM-') or not v[4:].isdigit():
+            raise ValueError(f"Mitigation ID must start with 'DFM-' followed by digits, got '{v}'")
         return v
     
     # No validator needed - description is optional
@@ -165,8 +165,8 @@ class Objective(BaseModel):
     def validate_techniques(cls, v: List[str]) -> List[str]:
         """Validate that the technique IDs follow the expected format."""
         for technique_id in v:
-            if not technique_id.startswith('T') or not technique_id[1:].isdigit():
-                raise ValueError(f"Technique ID must start with 'T' followed by digits, got '{technique_id}'")
+            if not technique_id.startswith('DFT-') or not technique_id[4:].isdigit():
+                raise ValueError(f"Technique ID must start with 'DFT-' followed by digits, got '{technique_id}'")
         return v
 
 

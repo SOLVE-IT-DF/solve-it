@@ -101,7 +101,7 @@ def _load_items(directory: Path, model_class, label: str, result: ValidationResu
         return items
 
     for fp in json_files:
-        stem = fp.stem  # e.g. "T1001"
+        stem = fp.stem  # e.g. "DFT-1001"
 
         # Try JSON parse
         try:
@@ -185,6 +185,111 @@ def phase1_data_loading(
         result.fail(f"Failed to load solve-it.json: {exc}")
 
     return techniques, weaknesses, mitigations, objectives
+
+
+# ── Phase 1b: Deprecated ID format check ─────────────────────────────────────
+
+# Old-format IDs: T/W/M followed by digits (e.g. T1001, W1006, M1027).
+# New-format IDs: DFT-/DFW-/DFM- followed by digits (e.g. DFT-1001).
+_OLD_ID_PATTERNS = {
+    "techniques": re.compile(r'^T\d+(\.\d+)?$'),
+    "weaknesses": re.compile(r'^W\d+$'),
+    "mitigations": re.compile(r'^M\d+$'),
+}
+
+_OLD_FILENAME_PATTERNS = {
+    "techniques": re.compile(r'^T\d+(\.\d+)?\.json$'),
+    "weaknesses": re.compile(r'^W\d+\.json$'),
+    "mitigations": re.compile(r'^M\d+\.json$'),
+}
+
+# Fields that contain IDs (value or list-of-values) which should use the new format.
+_ID_FIELDS_BY_TYPE = {
+    "techniques": {"id": "technique", "weaknesses": "weakness", "subtechniques": "technique"},
+    "weaknesses": {"id": "weakness", "mitigations": "mitigation"},
+    "mitigations": {"id": "mitigation", "technique": "technique"},
+}
+
+# Quick lookup: given a value type, which old-format pattern applies?
+_OLD_VALUE_PATTERNS = {
+    "technique": re.compile(r'^T\d+(\.\d+)?$'),
+    "weakness": re.compile(r'^W\d+$'),
+    "mitigation": re.compile(r'^M\d+$'),
+}
+
+_NEW_PREFIX_HINT = {
+    "technique": "DFT-",
+    "weakness": "DFW-",
+    "mitigation": "DFM-",
+}
+
+
+def phase1b_deprecated_ids(
+    project_root: Path,
+    techniques: Dict, weaknesses: Dict, mitigations: Dict, objectives: List[Dict],
+    result: ValidationResult, verbose: bool,
+):
+    """Check for old-format (T/W/M) IDs in filenames, JSON id fields, and cross-references."""
+    data_dir = project_root / "data"
+    bad = 0
+
+    # 1. Check filenames
+    for subdir, pattern in _OLD_FILENAME_PATTERNS.items():
+        directory = data_dir / subdir
+        if not directory.exists():
+            continue
+        for fp in sorted(directory.glob("*.json")):
+            if pattern.match(fp.name):
+                if subdir == "techniques":
+                    new_name = "DFT-" + fp.name[1:]
+                elif subdir == "weaknesses":
+                    new_name = "DFW-" + fp.name[1:]
+                else:
+                    new_name = "DFM-" + fp.name[1:]
+                result.fail(
+                    f"Deprecated filename {fp.name} uses old ID scheme — "
+                    f"rename to {new_name}"
+                )
+                bad += 1
+
+    # 2. Check ID fields inside loaded items
+    for items, item_type in [
+        (techniques, "techniques"),
+        (weaknesses, "weaknesses"),
+        (mitigations, "mitigations"),
+    ]:
+        field_map = _ID_FIELDS_BY_TYPE[item_type]
+        for item_id, data in items.items():
+            for field_name, value_type in field_map.items():
+                old_pat = _OLD_VALUE_PATTERNS[value_type]
+                hint = _NEW_PREFIX_HINT[value_type]
+                values = data.get(field_name)
+                if values is None:
+                    continue
+                if isinstance(values, str):
+                    values = [values]
+                for val in values:
+                    if old_pat.match(val):
+                        result.fail(
+                            f"{item_id} field \"{field_name}\" contains deprecated ID "
+                            f"\"{val}\" — use \"{hint}\" prefix instead (e.g. {hint}{val[1:]})"
+                        )
+                        bad += 1
+
+    # 3. Check technique IDs in objectives (solve-it.json)
+    old_tech_pat = _OLD_VALUE_PATTERNS["technique"]
+    for obj in objectives:
+        obj_name = obj.get("name", "?")
+        for tid in obj.get("techniques", []):
+            if old_tech_pat.match(tid):
+                result.fail(
+                    f"Objective \"{obj_name}\" contains deprecated technique ID "
+                    f"\"{tid}\" — use DFT-{tid[1:]} instead"
+                )
+                bad += 1
+
+    if bad == 0:
+        result.pass_("No deprecated (T/W/M) IDs found — all use DFT-/DFW-/DFM- format", verbose)
 
 
 # ── Phase 2: Cross-reference integrity ────────────────────────────────────────
@@ -284,6 +389,18 @@ def phase2_cross_references(
             bad += 1
     if bad == 0:
         result.pass_("No duplicate techniques within objectives", verbose)
+
+    # Techniques appearing in more than one objective
+    tech_to_objs: Dict[str, list] = {}
+    for obj in objectives:
+        for tid in obj.get("techniques", []):
+            tech_to_objs.setdefault(tid, []).append(obj.get("id", "?"))
+    multi = {tid: objs for tid, objs in tech_to_objs.items() if len(objs) > 1}
+    if multi:
+        for tid, objs in sorted(multi.items()):
+            result.warn(f"Technique {tid} appears in multiple objectives: {', '.join(objs)}")
+    else:
+        result.pass_("No techniques shared across objectives", verbose)
 
 
 # ── Phase 3: ASTM error class flags ──────────────────────────────────────────
@@ -564,6 +681,9 @@ CHECK_GROUPS = [
         ("Mitigations loaded", "Loaded", "mitigations"),
         ("Objectives loaded", "Loaded", "objectives"),
     ]),
+    ("ID format", [
+        ("No deprecated T/W/M IDs", "No deprecated", "T/W/M"),
+    ]),
     ("Cross-reference integrity", [
         ("Technique → weakness refs", "technique -> weakness"),
         ("Technique → subtechnique refs", "technique -> subtechnique"),
@@ -766,6 +886,13 @@ def main():
     f0, w0 = len(result.fails), len(result.warnings)
     techniques, weaknesses, mitigations, objectives = phase1_data_loading(
         PROJECT_ROOT, result, args.verbose
+    )
+    phase_ok_check(f0, w0)
+
+    print_phase("Phase 1b: Deprecated ID format check")
+    f0, w0 = len(result.fails), len(result.warnings)
+    phase1b_deprecated_ids(
+        PROJECT_ROOT, techniques, weaknesses, mitigations, objectives, result, args.verbose
     )
     phase_ok_check(f0, w0)
 

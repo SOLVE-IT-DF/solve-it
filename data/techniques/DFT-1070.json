@@ -1,0 +1,16 @@
+{
+    "id": "DFT-1070",
+    "name": "Email examination",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/EmailAccount",
+        "https://ontology.unifiedcyberontology.org/uco/observable/EmailMessage"
+    ],
+    "references": []
+}

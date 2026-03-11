@@ -1,0 +1,7 @@
+{
+    "id": "DFM-1102",
+    "name": "Apply techniques to read remapped sectors",
+    "references": [
+        "Turner, P. The Remapped/Reallocated Sector Conundrum, Presentation at DFRWS US 2024, https://www.dfrws.org/wp-content/uploads/2023/07/turner-remappedsectors.pdf"
+    ]
+}

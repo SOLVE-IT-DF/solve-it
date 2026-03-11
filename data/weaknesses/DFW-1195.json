@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1195",
+    "name": "Keyword results from a tool are associated with a file, but the result was within slack space and therefore it may not have been part of that file",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1151"
+    ],
+    "references": []
+}

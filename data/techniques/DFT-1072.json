@@ -1,0 +1,37 @@
+{
+    "id": "DFT-1072",
+    "name": "Chat app examination",
+    "description": "Analysis of the files that provide the backing store for a chat or messenger application",
+    "synonyms": [
+        "Messenger app analysis"
+    ],
+    "details": "Messenger apps include:\n\niOS Messenger \nWhatApp\nTelegram\nSignal\nFacebook Messenger\n…",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1085",
+        "DFW-1086",
+        "DFW-1087",
+        "DFW-1088",
+        "DFW-1089",
+        "DFW-1090",
+        "DFW-1091",
+        "DFW-1092",
+        "DFW-1093",
+        "DFW-1094",
+        "DFW-1095",
+        "DFW-1096",
+        "DFW-1097",
+        "DFW-1098",
+        "DFW-1099",
+        "DFW-1100",
+        "DFW-1101",
+        "DFW-1102"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Message",
+        "https://ontology.unifiedcyberontology.org/uco/observable/SMSMessage"
+    ],
+    "references": []
+}

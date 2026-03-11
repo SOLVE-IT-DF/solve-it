@@ -1,0 +1,25 @@
+{
+    "id": "DFT-1154",
+    "name": "Identity-based event reconstruction",
+    "description": "The process of attempting to link an identity (account, person etc.) to a reconstructed event",
+    "synonyms": [
+        "Resolving the person-device gap",
+        "Resolving the person-account gap,"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1150"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/identity/Person",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Account",
+        "https://ontology.unifiedcyberontology.org/uco/core/confidence"
+    ],
+    "references": [
+        "Casey, E. and Jaquet-Chiffelle, D.O., 2019. Do identities matter?. Policing: A Journal of Policy and Practice, 13(1), pp.21-34.",
+        "Spichiger, H., 2025. Please mind the gap: A taxonomy for addressing the issue of linking person, account and device. Science & Justice, p.101314."
+    ]
+}

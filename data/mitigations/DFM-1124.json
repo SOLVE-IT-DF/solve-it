@@ -1,0 +1,8 @@
+{
+    "id": "DFM-1124",
+    "name": "Examine database contents with and without Write Ahead Log (WAL) files applied",
+    "references": [
+        "Caithness 2012, The Forensic Implications of SQLite’s Write Ahead Log, https://digitalinvestigation.wordpress.com/2012/05/04/the-forensic-implications-of-sqlites-write-ahead-log/",
+        "Caithness 2024, Time travelling with SQLite Journals and WAL, https://www.cclsolutionsgroup.com/post/time-travelling-with-sqlite-journals-and-wal"
+    ]
+}

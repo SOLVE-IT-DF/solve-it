@@ -1,0 +1,21 @@
+{
+    "id": "DFT-1026",
+    "name": "Writing data to standard archive format",
+    "description": "Storing acquired data in a standard archive format such as rar, tar or zip",
+    "synonyms": [],
+    "details": "This is commonly used with mobile file system extractions, but mobile backups can also sometimes be compressed into an archive.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1165",
+        "DFW-1275"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSystemExtraction",
+        "https://ontology.solveit-df.org/solveit/observable/DeviceGeneratedBackup"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"
+    ],
+    "references": []
+}

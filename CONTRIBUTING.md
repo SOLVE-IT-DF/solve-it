@@ -60,12 +60,12 @@ This is the easiest way to propose updates to content in the SOLVE-IT knowledge 
 * The content on the knowledge base is in `/data`.
 * To update a technique, locate the corresponding json file in the `/data/techniques` folder. Update that json with the relevant information.
 * New techniques need to be added to `solve-it.json` under the correct objective.
-* New techniques can be added by creating a new json file in the same structure. Technique `T1000.json` provides a template.
+* New techniques can be added by creating a new json file in the same structure, following the pattern of existing techniques.
 * You can reference weaknesses and mitigations, either existing ones in the `/data/weaknesses` or `/data/mitigations` folders, or create new.
 
 ## Notes on references
 * Techniques, weaknesses, and mitigations can, and should, contain references to support the information within. 
-* The references should be in the appropriate file, e.g. if a reference is supporting defining a technique then it ought to be in the json file for the techniques (Txxxx), if it is highlighting a weakness then it should be in an weakness (Wxxxx) json file, and if it is describing a potential mitigation then it should be in the mitigation (Mxxxx) json file. 
+* The references should be in the appropriate file, e.g. if a reference is supporting defining a technique then it ought to be in the json file for the techniques (DFT-xxxx), if it is highlighting a weakness then it should be in an weakness (DFW-xxxx) json file, and if it is describing a potential mitigation then it should be in the mitigation (DFM-xxxx) json file. 
 * References should not be added just because they are about a topic, but should have meaningful implications in terms of explaining a technique, highlighting a weakness, or providing a mitigation.
 * For large references, consider supplying the page or chapter number if appropriate. 
 
@@ -101,11 +101,11 @@ The full definitions from ASTM are here for reference[^1], but the more concise 
 
 ## Common mitigations
 * There are some potential mitigations that are quite generic and often applicable:
-  * M1027 Dual tool verification
-  * M1050 Manual verification of relevant data
+  * DFM-1027 Dual tool verification
+  * DFM-1050 Manual verification of relevant data
 
 * These also are often relevant:
-  * M1055 Correlation of data extracted with data from service provider
+  * DFM-1055 Correlation of data extracted with data from service provider
  
 Note: Manual verification of relevant data will not always be appropriate e.g. it is very difficult to manually verify that parsing of all live files on a disk image was done correctly.
 Note: Potential mitigations for testing are usually more specific for the exact data extraction that needs to be tested.

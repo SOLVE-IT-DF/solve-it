@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1243",
+    "name": "Missing browser history data as it was conducted outside of configured retention period",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1192",
+        "DFM-1193"
+    ],
+    "references": []
+}

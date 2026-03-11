@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1052",
+    "name": "Incorrect retrieval of results from an index",
+    "INCOMP": "X",
+    "INAC-EX": "X",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1030",
+        "DFM-1034"
+    ],
+    "references": []
+}

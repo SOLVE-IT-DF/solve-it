@@ -19,7 +19,7 @@ from parse_technique_issue import parse_issue_body, lines_to_list
 def build_mitigation_json(fields):
     """Build a SOLVE-IT mitigation JSON dict from parsed form fields."""
     mitigation = {
-        "id": "M____",
+        "id": "DFM-____",
         "name": fields.get("Mitigation name", ""),
     }
 
@@ -53,10 +53,10 @@ def build_comment(mitigation, fields):
         lines.append("Once this mitigation has been assigned an ID, you will also need to add it to the following weaknesses:")
         lines.append("")
         for w in existing_weaknesses:
-            lines.append(f"- Add your new mitigation ID (M____) to Weakness **{w}**")
+            lines.append(f"- Add your new mitigation ID (DFM-____) to Weakness **{w}**")
 
     lines.append("\n---")
-    lines.append("*This comment was automatically generated. The mitigation ID (M____) will be assigned during review.*")
+    lines.append("*This comment was automatically generated. The mitigation ID (DFM-____) will be assigned during review.*")
 
     return '\n'.join(lines)
 

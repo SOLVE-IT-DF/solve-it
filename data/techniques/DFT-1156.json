@@ -1,0 +1,17 @@
+{
+    "id": "DFT-1156",
+    "name": "Functional-based event reconstruction",
+    "description": "Reconstructing the configuration or capabilities of a system at the time of an event",
+    "synonyms": [],
+    "details": "Considering how a system works and what conditions were necessary for an event to be possible, i.e. supporting or refuting if a hypothesis is feasible.\n\nThis might involve questions such as:\n- is a program or system capable of performing some action\n- how was the program or system configured (to determine if an operation was possible)",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/configuration/Configuration",
+        "https://ontology.unifiedcyberontology.org/uco/configuration/dependencies",
+        "https://ontology.unifiedcyberontology.org/uco/core/confidence"
+    ],
+    "references": []
+}

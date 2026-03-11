@@ -93,7 +93,7 @@ def main():
 
     # Validate technique ID
     technique_id = fields.get("Technique ID", "").strip()
-    if not re.match(r'^T\d+$', technique_id):
+    if not re.match(r'^DFT-\d+$', technique_id):
         print(f"Error: Invalid technique ID format: '{technique_id}'", file=sys.stderr)
         sys.exit(1)
 

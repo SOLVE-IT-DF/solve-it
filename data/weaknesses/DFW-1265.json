@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1265",
+    "name": "Offset applied to timestamp is incorrect due to variations in time zone over the history of data source",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-ALT": "",
+    "INAC-AS": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "references": [],
+    "mitigations": [
+        "DFM-1224"
+    ]
+}

@@ -1,5 +1,0 @@
-{
-    "id": "M1082",
-    "name": "Analyse file system to find any duplicate references to blocks that are referenced by the non-allocated file",
-    "references" : []
-}

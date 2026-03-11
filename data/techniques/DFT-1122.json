@@ -1,0 +1,20 @@
+{
+    "id": "DFT-1122",
+    "name": "Keyword search (case-type wordlists)",
+    "description": "Searching for case-type specific keywords",
+    "synonyms": [],
+    "details": "This complements case-specific wordlists (T1123) created for the individual case.",
+    "subtechniques": [],
+    "examples": [
+        "Example word lists https://www.dfir.training/downloads/search-terms"
+    ],
+    "weaknesses": [
+        "DFW-1057",
+        "DFW-1059"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult"
+    ],
+    "references": []
+}

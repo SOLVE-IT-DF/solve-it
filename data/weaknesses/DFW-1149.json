@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1149",
+    "name": "Failure to consider timestamp inaccuracy at time of inferred event",
+    "INCOMP": "x",
+    "INAC-EX": "x",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "mitigations": [
+        "DFM-1103"
+    ],
+    "references": []
+}

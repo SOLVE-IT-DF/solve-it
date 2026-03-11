@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1036",
+    "name": "Overwriting relevant data with changes caused by running the live tools",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "x",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1014",
+        "DFM-1015"
+    ],
+    "references": [
+        "Hargreaves, C.J., 2009. Assessing the reliability of digital evidence from live investigations involving encryption. Chapter 5"
+    ]
+}

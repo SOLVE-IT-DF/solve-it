@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1210",
+    "name": "Presenting an image sent from the user or AI companion app that did not exist",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1158",
+        "DFM-1159",
+        "DFM-1027",
+        "DFM-1055"
+    ],
+    "references": []
+}

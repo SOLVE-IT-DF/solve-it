@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1253",
+    "name": "Recovered (non-allocated) file content has been overwritten by the content of a newer, but also non-allocated file which does not have any residual file system information",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [
+        "DFM-1079",
+        "DFM-1080",
+        "DFM-1081",
+        "DFM-1083"
+    ],
+    "references": []
+}

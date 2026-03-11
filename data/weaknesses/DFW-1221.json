@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1221",
+    "name": "Failure to recover account details from the AI app data",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1164",
+        "DFM-1027",
+        "DFM-1055"
+    ],
+    "references": []
+}

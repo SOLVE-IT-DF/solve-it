@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1165",
+    "name": "Failure to preserve original timestamps from the data source in an archive",
+    "INCOMP": "X",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "X",
+    "INAC-COR": "",
+    "MISINT": "X",
+    "mitigations": [],
+    "references": []
+}

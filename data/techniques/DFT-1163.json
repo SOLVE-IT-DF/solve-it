@@ -1,0 +1,20 @@
+{
+    "id": "DFT-1163",
+    "name": "Automated screenshot-based capture of a mobile device",
+    "description": "Programmatically controlling a mobile device while capturing screenshots of the display.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/DeviceScreenshotCapture"
+    ],
+    "references": [
+        "https://github.com/prosch88/UFADE",
+        "https://github.com/prosch88/ALEX"
+    ]
+}

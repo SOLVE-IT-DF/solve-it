@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1126",
+    "name": "Use forensic bootable environment to gain access to internal media",
+    "technique": "DFT-1113",
+    "references": []
+}

@@ -1,0 +1,15 @@
+{
+    "id": "DFW-1014",
+    "name": "Accessing the drive to copy data changes original data",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "x",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1007",
+        "DFM-1008"
+    ],
+    "references": []
+}

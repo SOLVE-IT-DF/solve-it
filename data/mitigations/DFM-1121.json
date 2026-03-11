@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1121",
+    "name": "Infer appropriate table joins from extensive experimentation with known ground-truth data",
+    "technique": "DFT-1090",
+    "references": []
+}

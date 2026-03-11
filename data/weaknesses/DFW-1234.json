@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1234",
+    "name": "Event time presented incorrectly due to incorrect timezone handling",
+    "INCOMP": "x",
+    "INAC-EX": "x",
+    "INAC-AS": "x",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "x",
+    "mitigations": [
+        "DFM-1027",
+        "DFM-1178",
+        "DFM-1179"
+    ],
+    "references": []
+}

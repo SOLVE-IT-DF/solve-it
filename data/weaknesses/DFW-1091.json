@@ -1,0 +1,18 @@
+{
+    "id": "DFW-1091",
+    "name": "Recovering a deleted message with incorrect content",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "X",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1054",
+        "DFM-1027",
+        "DFM-1055",
+        "DFM-1056",
+        "DFM-1050"
+    ],
+    "references": []
+}

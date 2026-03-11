@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1216",
+    "name": "Check that the assumption is valid that the specific local/external timestamp pair should be correlated",
+    "references": []
+}

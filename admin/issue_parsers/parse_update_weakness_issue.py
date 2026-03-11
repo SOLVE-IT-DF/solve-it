@@ -110,7 +110,7 @@ def main():
 
     # Validate weakness ID
     weakness_id = fields.get("Weakness ID", "").strip()
-    if not re.match(r'^W\d+$', weakness_id):
+    if not re.match(r'^DFW-\d+$', weakness_id):
         print(f"Error: Invalid weakness ID format: '{weakness_id}'", file=sys.stderr)
         sys.exit(1)
 

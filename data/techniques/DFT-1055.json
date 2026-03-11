@@ -1,0 +1,13 @@
+{
+    "id": "DFT-1055",
+    "name": "File system content inspection",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": []
+}

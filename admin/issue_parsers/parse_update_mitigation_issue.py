@@ -70,7 +70,7 @@ def main():
 
     # Validate mitigation ID
     mitigation_id = fields.get("Mitigation ID", "").strip()
-    if not re.match(r'^M\d+$', mitigation_id):
+    if not re.match(r'^DFM-\d+$', mitigation_id):
         print(f"Error: Invalid mitigation ID format: '{mitigation_id}'", file=sys.stderr)
         sys.exit(1)
 

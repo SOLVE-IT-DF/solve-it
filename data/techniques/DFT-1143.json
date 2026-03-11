@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1143",
+    "name": "Browser configuration examination",
+    "description": "The examination of a browsers configuration",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/configuration/Configuration"
+    ],
+    "references": []
+}

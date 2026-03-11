@@ -3001,7 +3001,7 @@ if (CUSTOM_MODE) {{
 
 function applyCustomSchema(schema, filename) {{
   // schema should be an array of objects with "name" and "techniques" (array of technique IDs)
-  // e.g. [{{"name":"Category A","techniques":["T1001","T1002"]}}, ...]
+  // e.g. [{{"name":"Category A","techniques":["DFT-1001","DFT-1002"]}}, ...]
   const categories = Array.isArray(schema) ? schema : (schema.objectives || schema.categories || []);
   if (!Array.isArray(categories) || categories.length === 0) {{
     alert('JSON must be an array of objects with "name" and "techniques" fields, or an object with an "objectives"/"categories" key.');

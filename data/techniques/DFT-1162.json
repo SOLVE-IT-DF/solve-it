@@ -1,0 +1,22 @@
+{
+    "id": "DFT-1162",
+    "name": "Read data from a device via In-System Programming (ISP)",
+    "description": "",
+    "synonyms": [
+        "ISCP",
+        "In-circuit serial Programming"
+    ],
+    "details": "",
+    "subtechniques": [
+        "DFT-1027"
+    ],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Image"
+    ],
+    "references": [
+        "https://en.wikipedia.org/wiki/In-system_programming"
+    ]
+}

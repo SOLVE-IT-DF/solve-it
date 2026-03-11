@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1233",
+    "name": "Failure to communicate imprecision in log entry timestamp",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "x",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1177"
+    ],
+    "references": []
+}

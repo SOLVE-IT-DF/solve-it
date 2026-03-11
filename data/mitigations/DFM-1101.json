@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1101",
+    "name": "Apply time offset to timestamp",
+    "technique": "DFT-1153",
+    "references": []
+}

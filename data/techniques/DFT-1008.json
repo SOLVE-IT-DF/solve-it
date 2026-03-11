@@ -1,0 +1,13 @@
+{
+    "id": "DFT-1008",
+    "name": "Profiling network traffic",
+    "description": "",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": []
+}

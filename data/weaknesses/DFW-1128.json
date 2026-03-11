@@ -1,0 +1,19 @@
+{
+    "id": "DFW-1128",
+    "name": "Disk image has been replaced with tampered version along with updated stored hash",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "X",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1022",
+        "DFM-1023",
+        "DFM-1074"
+    ],
+    "references": [
+        "Hargreaves, C., Nelson, A. and Casey, E., 2024. An abstract model for digital forensic analysis tools-A foundation for systematic error mitigation analysis. Forensic Science International: Digital Investigation, 48, p.301679.",
+        "Kemmerich, T., Junge, F., Kuntze, N., Rudolph, C., Endicott-Popovsky, B. and Großkopf, L., 2014. Generation and handling of hard drive duplicates as piece of evidence."
+    ]
+}

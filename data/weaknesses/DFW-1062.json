@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1062",
+    "name": "The grade or specific tag given to item is incorrect",
+    "INCOMP": "",
+    "INAC-EX": "",
+    "INAC-AS": "X",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1039",
+        "DFM-1040",
+        "DFM-1041",
+        "DFM-1042"
+    ],
+    "references": []
+}

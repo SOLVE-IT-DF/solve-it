@@ -1,0 +1,43 @@
+{
+    "id": "DFT-1060",
+    "name": "Enumerate allocated files and folders",
+    "description": "This involves parsing the live file system data structures and reconstructing the file system of the target media or device.",
+    "synonyms": [
+        "file system parsing"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "The Sleuth Kit - allows parsing of file system structures",
+        "X-Ways Forensics - allows parsing of file system structures"
+    ],
+    "weaknesses": [
+        "DFW-1068",
+        "DFW-1069",
+        "DFW-1070",
+        "DFW-1071",
+        "DFW-1072",
+        "DFW-1073",
+        "DFW-1074",
+        "DFW-1075",
+        "DFW-1076",
+        "DFW-1077",
+        "DFW-1078",
+        "DFW-1079",
+        "DFW-1080",
+        "DFW-1081",
+        "DFW-1082",
+        "DFW-1083",
+        "DFW-1084"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/FileSystem"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "references": [
+        "Casey, E., Nelson, A. and Hyde, J., 2019. Standardization of file recovery classification and authentication. Digital Investigation, 31, p.100873.",
+        "Carrier, B., 2005. File system forensic analysis. Addison-Wesley Professional."
+    ]
+}

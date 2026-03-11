@@ -73,7 +73,7 @@ def lines_to_list(text):
 def build_technique_json(fields):
     """Build a SOLVE-IT technique JSON dict from parsed form fields."""
     technique = {
-        "id": "T____",
+        "id": "DFT-____",
         "name": fields.get("Technique name", ""),
         "description": fields.get("Description", ""),
         "synonyms": lines_to_list(fields.get("Synonyms", "")),
@@ -144,7 +144,7 @@ def build_comment(technique, fields):
             lines.append(f"A new objective was proposed: **\"{other_objective}\"**. Once this technique has been assigned an ID, a new objective entry will need to be created in `data/solve-it.json` and the technique added to it.")
 
     lines.append("\n---")
-    lines.append("*This comment was automatically generated. The technique ID (T____) will be assigned during review.*")
+    lines.append("*This comment was automatically generated. The technique ID (DFT-____) will be assigned during review.*")
 
     return '\n'.join(lines)
 

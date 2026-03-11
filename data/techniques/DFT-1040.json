@@ -1,0 +1,23 @@
+{
+    "id": "DFT-1040",
+    "name": "Use mobile device exploit",
+    "description": "A process that typically exploits a security flaw in a specific device or operating system to enable users to perform higher privileged functions on a device (derived from Grover 2013)",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "Checkra1n, https://checkra.in",
+        ""
+    ],
+    "weaknesses": [
+        "DFW-1157",
+        "DFW-1158"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/isPrivileged"
+    ],
+    "references": [
+        "Grover, J., 2013. Android forensics: Automated data collection and reporting from a mobile device. Digital Investigation, 10, pp.S12-S20."
+    ]
+}

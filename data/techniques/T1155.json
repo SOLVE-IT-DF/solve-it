@@ -6,7 +6,7 @@
     "details": "While some event reconstruction needs a time component, there are some questions that are simply explaining what happened, or if something happened. The time component may need to investigated later, or may be learned as a byproduct of reconstructing the event, but isn't intrinsic to the question being asked.\ne.g. Was this file opened? How many times was this file opened? What data has been exfiltrated?",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": [],
+    "weaknesses": ["W1150"],
     "CASE_input_classes" : [],
     "CASE_output_classes": ["https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent"],
     "references": []

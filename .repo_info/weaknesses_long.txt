@@ -2,19 +2,19 @@ ID	Name	INCOMP	INAC-EX	INAC-AS	INAC-ALT	INAC-COR	MISINT
 W1001	Excluding a device that contains relevant information	x					
 W1002	Use of triage technology results in changes to the target media				x		
 W1003	Triage tool applies a simplification that does not correctly represent the meaning of the digital data		x	x			x
-W1004	Acquisition does not include all sectors from LBA0 to LBA max	x					
+W1004	Data copied does not include all sectors from LBA0 to LBA max due to the data copying process stopping prematurely	x					
 W1005	Dogs fail to find a digital device	x					
-W1006	Acquistion does not include data in HPA	x					
-W1007	Acquistion does not include data in DCO	x					
+W1006	Acquisition tool does not copy data from HPA	x					
+W1007	Acquisition tool does not copy data from DCO	x					
 W1008	Missing the existence of a device by missing synchronisation artefacts	x					
 W1009	Missing the existence of a device by incorrectly parsing synchronisation artefacts	x					
 W1010	Misattributing activity to the wrong device			x			
 W1011	Suggesting the existence of a device that does not exist		x				
 W1012	Interaction with the target devices to read data causes changes				x		
-W1013	Acquisition includes extra bytes		x				
-W1014	Imaging process changes original data				x		
+W1013	During acquisition the data copying process results in extra bytes		x				
+W1014	Accessing the drive to copy data changes original data				x		
 W1015	Powering on SSD results in sectors being wiped by TRIM operation	x			x	x	
-W1016	Data copied from sectors on source device are stored incorrectly				x	x	
+W1016	Data copied from sectors on source device are not transferred correctly for storage		x			x	
 W1017	Files or data that is relevant to the investigation is missed	x					
 W1018	Data is collected that is not relevant to the investigation			x			
 W1019	Data is collected and assigned to incorrect device			x			
@@ -122,11 +122,11 @@ W1120	Hardware write blocker hides the existence of an DCO.	X
 W1121	Image format parsing fails to to present all blocks from within a forensic container image in their ‘flat’ (dd) representation	X					
 W1122	Image format parsing presents incorrect data within sectors of the image				X		
 W1123	Image format parsing presents incorrect forensic image metadata				X		
-W1124	Failure to compute hash correctly: this could result in a message indicating corrupt evidence, thus stopping or delaying further investigation			X			
-W1125	Failure to validate hash properly: this could allow errors from earlier to propagate e.g. incorrect sectors					X	
+W1124	Failure to compute hash of source device correctly during disk image verification			X		X	
+W1125	Failure to validate hash properly during disk image verification			X		X	
 W1126	Failure to validate hash properly allowing an incomplete disk image to present as validated	X					
-W1127	Failure to validate metadata: this could allow details such as acquisition date to be changed					X	
-W1128	Image replaced with tampered version along with updated stored hash					X	
+W1127	Failure to validate disk image metadata					X	
+W1128	Disk image has been replaced with tampered version along with updated stored hash					X	
 W1129	File type is incorrectly identified			X			
 W1130	Missing assignment of a file type: reporting a file as unknown when it has a known type within the digital forensic science body of knowledge 			X			
 W1131	Missing recognition of multiple file types: reporting a file as a limited set of types, or a single type, when it can be interpreted as having more than one, such as a GIF and Java Jar	X		X			
@@ -134,14 +134,14 @@ W1132	Incorrectly computing the hash of one or more files within a disk image du
 W1133	Tool fails to express uncertainty in the classification of file recovery results, e.g., where content may be partly overwritten.						X
 W1134	Recovered (non-allocated) file content has been overwritten by the content of a newer, but also non-allocated file (which has residual file system information) but this is not detected 			X			X
 W1135	Recovered (non-allocated) file content has been overwritten by the content of a newer live file but this is not detected 			X			X
-W1136	Not recovering data from a failed hard drive	x					
+W1136	Data cannot be read from a device du to the device having failed physically	x					
 W1137	Failing to determine password as it is not in the dictionary used	X					
 W1138	Failing to identify password in the time available	X					
 W1139	System locks after X failed dictionary attempts				X	X	
 W1140	Failing to determine password as it is not in the search space	X					
 W1141	Failing to determine password via brute force in the time available	X					
 W1142	System locks after X failed brute force attempts				X	X	
-W1143	Acquisition method does not read remapped sectors e.g. G-Lists	x					
+W1143	Data is not read from remapped sectors e.g. G-Lists during the acquisition process	x					
 W1144	Failure to identify timestamps in a data source	x					
 W1145	Failure to extract timestamps from a data source	x					
 W1146	Failure to consider non-timestamp based timing information	x					
@@ -270,3 +270,4 @@ W1274	Inability to enable required service due to locked device	x
 W1275	Failure to store data due to size limitations of archive format used	x					
 W1276	Relevant data is overwritten by deploying an agent to a mobile device	x					
 W1277	Connection over a direct media interface causes changes to the target media	x			x	x	
+W1278	Data copied does not include all sectors from LBA0 to LBA max due to the data copying process skipping some sectors or bytes	x					

@@ -4,7 +4,7 @@ T1001	Triage
 			Output: https://ontology.solveit-df.org/solveit/observable/PrioritizedDeviceSet
 T1002	Disk imaging	
 			Input: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
-			Input: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
+			Input: https://ontology.solveit-df.org/solveit/observable/ReadWriteDeviceInterface
 			Output: https://ontology.solveit-df.org/solveit/observable/Bitstream
 T1003	Memory imaging	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/Memory
@@ -29,7 +29,8 @@ T1012	Connect storage medium via hardware write blocker
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium
 			Output: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
 T1013	Use software write blockers to provide read only access to storage media	
-			Input: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
+			Input: https://ontology.solveit-df.org/solveit/observable/ReadWriteDeviceInterface
+			Input: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
 			Output: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
 T1014	Chain of custody documentation	
 T1015	Privacy preserving selective extraction	
@@ -92,7 +93,7 @@ T1039	App downgrade
 T1040	Use mobile device exploit	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/isPrivileged
 T1041	Pin2Pwn	
-T1042	Disk image hash verification	
+T1042	Hash verification of source device against stored data	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/hash
 T1043	Access forensic image content (bitstream)	
 			Input: https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer
@@ -183,30 +184,37 @@ T1068	Recently used file identification (OS)
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/filePath
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/accessedTime
 T1069	Browser examination	
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/URLHistory
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/CookieHistory
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/BrowserBookmark
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/BrowserCookie
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/URLVisit
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/URLHistoryEntry
+			Input: https://ontology.solveit-df.org/solveit/observable/BrowserAppFiles
 T1070	Email examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/EmailAppFiles
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/EmailAccount
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/EmailMessage
+			Output: https://ontology.unifiedcyberontology.org/uco/observable/Contact
 T1071	SQLite database examination	
 			Input: https://ontology.solveit-df.org/solveit/observable/SQLiteDatabase
 			Output: https://ontology.solveit-df.org/solveit/observable/SQLiteTable
 T1072	Chat app examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/ChatAppFiles
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Message
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/SMSMessage
+			Output: https://ontology.unifiedcyberontology.org/uco/observable/Contact
 T1073	Calendar app examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/CalendarAppFiles
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Calendar
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/CalendarEntry
 T1074	Social network app examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/SocialMediaAppFiles
+			Output: https://ontology.unifiedcyberontology.org/uco/observable/Message
+			Output: https://ontology.unifiedcyberontology.org/uco/observable/Post
+			Output: https://ontology.unifiedcyberontology.org/uco/observable/Contact
 T1075	Maps/travel app examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/MapsAppFiles
+			Input: https://ontology.solveit-df.org/solveit/observable/NavigationAppFiles
 T1076	Log file examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/EventLog
 			Output: https://ontology.unifiedcyberontology.org/uco/core/eventType
 T1077	Photos app examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/PhotosAppFiles
 T1078	Cloud sync app examination	
 T1079	Audio content analysis	
 T1080	Video content analysis	
@@ -260,8 +268,11 @@ T1106	Deep fake detection (video)
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/classificationConfidence
 T1107	Health/Fitness app examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/HealthAppFiles
 T1108	Reminders app examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/RemindersAppFiles
 T1109	Payment app examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/PaymentAppFiles
 T1110	Preserving reference data	
 T1111	Recording system clock offset	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/systemTime
@@ -271,7 +282,7 @@ T1112	Physical disk identification and removal
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium
 T1113	Access internal storage via bootable environment	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/Computer
-			Output: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
+			Output: https://ontology.solveit-df.org/solveit/observable/ReadWriteDeviceInterface
 T1114	Memory Acquisition via Cold Boot Attack	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
 T1115	Visualisation of geolocation information	
@@ -314,6 +325,7 @@ T1131	Search for indicators of trail obfuscation
 T1132	Search for indicators of artifact wiping	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Application
 T1133	AI companion app examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/AiChatAppFiles
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Message
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Call
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/callType
@@ -326,7 +338,7 @@ T1133	AI companion app examination
 			Output: https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
 T1134	Use time anchors to estimate clock offset	
 T1137	Browser history examination	
-			Input: https://ontology.solveit-df.org/solveit/observable/SQLiteDatabase
+			Input: https://ontology.solveit-df.org/solveit/observable/BrowserAppFiles
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/URLHistory
 T1138	Browser cache examination	
 			Input: https://ontology.solveit-df.org/solveit/observable/BrowserCacheData
@@ -399,14 +411,13 @@ T1159	Extract mobile data via deployed agent
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
 			Output: https://ontology.solveit-df.org/solveit/observable/ServiceBasedExtractionData
 T1160	Collect data with 'cloud backup restore' approach	
-			Output: https://ontology.unifiedcyberontology.org/uco/observable/SmartDevice
 T1162	Read data from a device via In-System Programming (ISP)	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
 T1163	Automated screenshot-based capture of a mobile device	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
 			Output: https://ontology.solveit-df.org/solveit/observable/DeviceScreenshotCapture
 T1164	Direct data read from a block device	
-			Input: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
+			Input: https://ontology.solveit-df.org/solveit/observable/ReadWriteDeviceInterface
 			Input: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
 			Output: https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed
 T1166	Connect directly to storage media	
@@ -425,6 +436,19 @@ T1168	Identify volumes
 T1169	Filter files related to an application	
 			Input: https://ontology.solveit-df.org/solveit/observable/FileSet
 			Output: https://ontology.solveit-df.org/solveit/observable/ApplicationFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/BrowserAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/BrowserCacheData
+			Output: https://ontology.solveit-df.org/solveit/observable/ChatAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/AiChatAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/EmailAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/HealthAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/MapsAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/NavigationAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/PaymentAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/RemindersAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/SocialMediaAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/CalendarAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/PhotosAppFiles
 T1170	Decode forensic image format (logical)	
 			Input: https://ontology.solveit-df.org/solveit/observable/LogicalImageContainer
 			Output: https://ontology.solveit-df.org/solveit/observable/FileSet
@@ -446,3 +470,4 @@ T1175	Extract data using content queries
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/AndroidPhone
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Message
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Call
+			Output: https://ontology.unifiedcyberontology.org/uco/observable/Contact

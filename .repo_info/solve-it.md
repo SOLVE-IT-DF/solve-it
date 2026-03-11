@@ -110,7 +110,7 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 ### Read data from digital evidence storage formats
 *Access data within digital evidence containers such as disk images, memory dumps, or archive formats.*
 
-- 🟢 [T1042 - Disk image hash verification](md_content/T1042.md)
+- 🟢 [T1042 - Hash verification of source device against stored data](md_content/T1042.md)
 - 🟢 [T1043 - Access forensic image content (bitstream)](md_content/T1043.md)
 - 🟢 [T1044 - Mobile backup decoding](md_content/T1044.md)
 - 🟢 [T1045 - Decode standard archive format](md_content/T1045.md)
@@ -281,4 +281,4 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 ---
 
-*Markdown generated: 2026-03-10 13:07:11*
+*Markdown generated: 2026-03-11 11:39:35*

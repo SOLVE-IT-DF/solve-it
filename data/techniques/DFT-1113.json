@@ -13,7 +13,8 @@
         "DFW-1177",
         "DFW-1178",
         "DFW-1179",
-        "DFW-1180"
+        "DFW-1180",
+        "DFW-1182"
     ],
     "CASE_input_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/Computer"

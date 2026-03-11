@@ -19,7 +19,8 @@
         "DFW-1015",
         "DFW-1016",
         "DFW-1136",
-        "DFW-1143"
+        "DFW-1143",
+        "DFW-1278"
     ],
     "CASE_input_classes": [
         "https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface",

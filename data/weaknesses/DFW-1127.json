@@ -1,6 +1,7 @@
 {
     "id": "DFW-1127",
-    "name": "Failure to validate metadata: this could allow details such as acquisition date to be changed",
+    "name": "Failure to validate disk image metadata",
+    "description": "This could allow details such as acquisition date to be changed",
     "INCOMP": "",
     "INAC-EX": "",
     "INAC-AS": "",

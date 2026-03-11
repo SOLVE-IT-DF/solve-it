@@ -7,7 +7,9 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/RemindersAppFiles"
+    ],
     "CASE_output_classes": [],
     "references": []
 }

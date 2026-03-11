@@ -1,11 +1,12 @@
 {
     "id": "DFW-1124",
-    "name": "Failure to compute hash correctly: this could result in a message indicating corrupt evidence, thus stopping or delaying further investigation",
+    "name": "Failure to compute hash of source device correctly during disk image verification",
+    "description": "This could result in a message indicating corrupt evidence, thus stopping or delaying further investigation",
     "INCOMP": "",
     "INAC-EX": "",
     "INAC-AS": "X",
     "INAC-ALT": "",
-    "INAC-COR": "",
+    "INAC-COR": "X",
     "MISINT": "",
     "mitigations": [
         "DFM-1075",

@@ -1,171 +1,171 @@
 Objective	ID	Name
-Find potential digital evidence sources	T1005	Conduct a search of a crime scene
-Find potential digital evidence sources	T1006	Digital sniffer dogs
-Find potential digital evidence sources	T1009	Locate cloud account identifiers
-Find potential digital evidence sources	T1008	Profiling network traffic
-Find potential digital evidence sources	T1007	Use a SyncTriage-based approach to detect existence of devices
-Prioritize digital evidence sources	T1001	Triage
-Preserve digital evidence	T1011	Store seized devices in evidence bags
-Preserve digital evidence	T1010	Place device in faraday environment
-Preserve digital evidence	T1012	Connect storage medium via hardware write blocker
-Preserve digital evidence	T1013	Use software write blockers to provide read only access to storage media
-Preserve digital evidence	T1110	Preserving reference data
-Acquire data	T1112	Physical disk identification and removal
-Acquire data	T1113	Access internal storage via bootable environment
-Acquire data	T1111	Recording system clock offset
-Acquire data	T1028	Chip-off
-Acquire data	T1029	Access data from a desoldered eMMC via a chip reader
-Acquire data	T1030	Data read from unmanaged NAND
-Acquire data	T1002	Disk imaging
-Acquire data	T1003	Memory imaging
-Acquire data	T1114	Memory Acquisition via Cold Boot Attack
-Acquire data	T1016	Live data collection
-Acquire data	T1020	Mobile file system extraction
-Acquire data	T1022	Mobile device screenshot based capture
-Acquire data	T1023	Cloud data collection to access data via a live web page using credentials
-Acquire data	T1024	Cloud data collection via submission of request to service provider
-Acquire data	T1018	Remote data collection
-Acquire data	T1017	Network packet capture
-Acquire data	T1104	Collect data using open source intelligence
-Acquire data	T1004	Selective file acquisition
-Acquire data	T1015	Privacy preserving selective extraction
-Acquire data	T1025	Writing bitstream data to a forensic image format
-Acquire data	T1026	Writing data to standard archive format
-Acquire data	T1157	Extract device data using exposed service
-Acquire data	T1019	Mobile backup extraction (s)
-Acquire data	T1159	Extract mobile data via deployed agent
-Acquire data	T1160	Collect data with 'cloud backup restore' approach
-Acquire data	T1162	Read data from a device via In-System Programming (ISP)
-Acquire data	T1027	Data read using JTAG (s)
-Acquire data	T1163	Automated screenshot-based capture of a mobile device
-Acquire data	T1164	Direct data read from a block device
-Acquire data	T1166	Connect directly to storage media
-Acquire data	T1171	Access file system via live operating system
-Acquire data	T1175	Extract data using content queries
-Gain access	T1039	App downgrade
-Gain access	T1034	Brute force attack
-Gain access	T1035	Dictionary attack
-Gain access	T1033	Extraction of credential from an accessible device
-Gain access	T1031	Key recovery from memory
-Gain access	T1041	Pin2Pwn
-Gain access	T1038	Rainbow table-based password attack
-Gain access	T1032	Side channel
-Gain access	T1036	Smudge attack
-Gain access	T1037	Obtain password from the device owner
-Gain access	T1040	Use mobile device exploit
-Gain access	T1158	Configure device to enable a service needed for data extraction
-Read data from digital evidence storage formats	T1045	Decode standard archive format
-Read data from digital evidence storage formats	T1042	Disk image hash verification
-Read data from digital evidence storage formats	T1043	Access forensic image content (bitstream)
-Read data from digital evidence storage formats	T1044	Mobile backup decoding
-Read data from digital evidence storage formats	T1102	Decode data from image from unmanaged NAND
-Read data from digital evidence storage formats	T1170	Decode forensic image format (logical)
-Read data from digital evidence storage formats	T1172	Access raw image content
-Read data from digital evidence storage formats	T1173	Extract data from captured screenshots
-Read data from digital evidence storage formats	T1174	Read evidential files stored directly on local file system
-Reduce data under consideration	T1047	Hash matching (reduce)
-Reduce data under consideration	T1048	Privacy protection via partial processing
-Reduce data under consideration	T1046	Privileged material protection
-Access partitions, volumes and file systems data	T1062	Decryption of encrypted file systems/volumes
-Access partitions, volumes and file systems data	T1061	Recover non-allocated files
-Access partitions, volumes and file systems data	T1150	Recover non-allocated files using residual file metadata (s)
-Access partitions, volumes and file systems data	T1064	File carving (s)
-Access partitions, volumes and file systems data	T1063	Identify file types
-Access partitions, volumes and file systems data	T1059	Identify partitions
-Access partitions, volumes and file systems data	T1060	Enumerate allocated files and folders
-Access partitions, volumes and file systems data	T1168	Identify volumes
-Extract artifacts stored by the operating system	T1067	Cloud synchronisation feature examination (OS)
-Extract artifacts stored by the operating system	T1065	Content indexer examination (OS)
-Extract artifacts stored by the operating system	T1097	Installed programs identification (OS)
-Extract artifacts stored by the operating system	T1066	Log file examination (OS)
-Extract artifacts stored by the operating system	T1068	Recently used file identification (OS)
-Extract artifacts stored by the operating system	T1096	Run programs identification (OS)
-Extract artifacts stored by the operating system	T1098	User account analysis (OS)
-Extract artifacts stored by the operating system	T1083	Memory examination (OS-level)
-Extract artifacts stored by the operating system	T1116	Determine connected devices
-Extract artifacts stored by the operating system	T1149	File versioning feature examination
-Extract artifacts stored by applications	T1069	Browser examination
-Extract artifacts stored by applications	T1137	Browser history examination (s)
-Extract artifacts stored by applications	T1138	Browser cache examination (s)
-Extract artifacts stored by applications	T1139	Browser session examination (s)
-Extract artifacts stored by applications	T1140	Browser autofill examination (s)
-Extract artifacts stored by applications	T1141	Browser bookmarks examination (s)
-Extract artifacts stored by applications	T1142	Browser downloads examination (s)
-Extract artifacts stored by applications	T1143	Browser configuration examination (s)
-Extract artifacts stored by applications	T1144	Browser profile enumeration (s)
-Extract artifacts stored by applications	T1145	Browser extensions examination (s)
-Extract artifacts stored by applications	T1146	Browser synchronization feature examination (s)
-Extract artifacts stored by applications	T1147	Browser cookie examination (s)
-Extract artifacts stored by applications	T1148	Browser web storage examination (s)
-Extract artifacts stored by applications	T1073	Calendar app examination
-Extract artifacts stored by applications	T1072	Chat app examination
-Extract artifacts stored by applications	T1078	Cloud sync app examination
-Extract artifacts stored by applications	T1070	Email examination
-Extract artifacts stored by applications	T1075	Maps/travel app examination
-Extract artifacts stored by applications	T1077	Photos app examination
-Extract artifacts stored by applications	T1074	Social network app examination
-Extract artifacts stored by applications	T1105	Memory examination (application-level)
-Extract artifacts stored by applications	T1107	Health/Fitness app examination
-Extract artifacts stored by applications	T1108	Reminders app examination
-Extract artifacts stored by applications	T1109	Payment app examination
-Extract artifacts stored by applications	T1133	AI companion app examination
-Extract artifacts, or content of specific types	T1021	Configuration file examination
-Extract artifacts, or content of specific types	T1071	SQLite database examination
-Extract artifacts, or content of specific types	T1076	Log file examination
-Extract artifacts, or content of specific types	T1100	EXIF data extraction
-Extract artifacts, or content of specific types	T1099	File repair with grafting
-Extract artifacts, or content of specific types	T1052	Timeline generation
-Extract artifacts, or content of specific types	T1153	Apply offset to a timestamp (s)
-Extract artifacts, or content of specific types	T1053	Entity extraction
-Extract artifacts, or content of specific types	T1056	Entity connection enumeration
-Extract artifacts, or content of specific types	T1120	Automated artifact extraction from app data
-Extract artifacts, or content of specific types	T1167	Extract search terms from URLs
-Extract artifacts, or content of specific types	T1169	Filter files related to an application
-Locate potentially relevant content	T1051	Fuzzy hash matching
-Locate potentially relevant content	T1050	Hash matching (locate)
-Locate potentially relevant content	T1049	Keyword searching
-Locate potentially relevant content	T1125	Keyword search (live) (s)
-Locate potentially relevant content	T1126	Keyword search (live) (physical) (s)
-Locate potentially relevant content	T1127	Keyword search (live) (logical) (s)
-Locate potentially relevant content	T1124	Keyword search (indexed) (s)
-Locate potentially relevant content	T1121	Keyword indexing (s)
-Locate potentially relevant content	T1122	Keyword search (case-type wordlists) (s)
-Locate potentially relevant content	T1123	Keyword search (case-specific wordlists) (s)
-Locate potentially relevant content	T1151	Keyword search (over extracted artifacts) (s)
-Locate potentially relevant content	T1118	Locate relevant files by path
-Locate potentially relevant content	T1086	Timeline analysis
-Locate potentially relevant content	T1134	Use time anchors to estimate clock offset (s)
-Review content for relevance	T1054	Manual content review for relevant material
-Review content for relevance	T1055	File system content inspection
-Review content for relevance	T1079	Audio content analysis
-Review content for relevance	T1080	Video content analysis
-Review content for relevance	T1106	Deep fake detection (video) (s)
-Review content for relevance	T1081	Image content analysis
-Review content for relevance	T1082	Document content analysis
-Detect anti-forensics and other anomalies	T1057	Search for indicators of steganography
-Detect anti-forensics and other anomalies	T1058	Search for mismatched file extensions
-Detect anti-forensics and other anomalies	T1128	Search for indicators of malware
-Detect anti-forensics and other anomalies	T1129	Search for indicators of clock tampering
-Detect anti-forensics and other anomalies	T1130	Search for indicators of encrypted data
-Detect anti-forensics and other anomalies	T1131	Search for indicators of trail obfuscation
-Detect anti-forensics and other anomalies	T1132	Search for indicators of artifact wiping
-Establish identities	T1084	Extraction of user accounts
-Establish identities	T1085	Identify conflation
-Create visualizations	T1103	Virtualise suspect system for previewing
-Create visualizations	T1115	Visualisation of geolocation information
-Reconstruct events	T1087	Location-based event reconstruction
-Reconstruct events	T1088	Relational-based event reconstruction
-Reconstruct events	T1117	Time-based event reconstruction
-Reconstruct events	T1154	Identity-based event reconstruction
-Reconstruct events	T1155	Operation-based event reconstruction
-Reconstruct events	T1156	Functional-based event reconstruction
-Conduct research	T1090	Experimentation
-Conduct research	T1095	Instrumentation
-Conduct research	T1089	Source code review
-Conduct research	T1101	Cell site survey
-Conduct research	T1119	Automatically scan for artifact changes caused by app updates
-Produce documentation	T1091	Bookmark artifacts
-Produce documentation	T1094	Disclosure
-Produce documentation	T1092	Produce tag-based automated report
-Produce documentation	T1093	Write expert report
-Produce documentation	T1014	Chain of custody documentation
+Find potential digital evidence sources	DFT-1005	Conduct a search of a crime scene
+Find potential digital evidence sources	DFT-1006	Digital sniffer dogs
+Find potential digital evidence sources	DFT-1009	Locate cloud account identifiers
+Find potential digital evidence sources	DFT-1008	Profiling network traffic
+Find potential digital evidence sources	DFT-1007	Use a SyncTriage-based approach to detect existence of devices
+Prioritize digital evidence sources	DFT-1001	Triage
+Preserve digital evidence	DFT-1011	Store seized devices in evidence bags
+Preserve digital evidence	DFT-1010	Place device in faraday environment
+Preserve digital evidence	DFT-1012	Connect storage medium via hardware write blocker
+Preserve digital evidence	DFT-1013	Use software write blockers to provide read only access to storage media
+Preserve digital evidence	DFT-1110	Preserving reference data
+Access device data for acquisition	DFT-1029	Access data from a desoldered eMMC via a chip reader
+Access device data for acquisition	DFT-1171	Access file system via live operating system
+Access device data for acquisition	DFT-1113	Access internal storage via bootable environment
+Access device data for acquisition	DFT-1028	Chip-off
+Access device data for acquisition	DFT-1166	Connect directly to storage media
+Access device data for acquisition	DFT-1112	Physical disk identification and removal
+Overcome protection mechanisms	DFT-1039	App downgrade
+Overcome protection mechanisms	DFT-1034	Brute force attack
+Overcome protection mechanisms	DFT-1035	Dictionary attack
+Overcome protection mechanisms	DFT-1033	Extraction of credential from an accessible device
+Overcome protection mechanisms	DFT-1031	Key recovery from memory
+Overcome protection mechanisms	DFT-1041	Pin2Pwn
+Overcome protection mechanisms	DFT-1038	Rainbow table-based password attack
+Overcome protection mechanisms	DFT-1032	Side channel
+Overcome protection mechanisms	DFT-1036	Smudge attack
+Overcome protection mechanisms	DFT-1037	Obtain password from the device owner
+Overcome protection mechanisms	DFT-1040	Use mobile device exploit
+Overcome protection mechanisms	DFT-1158	Configure device to enable a service needed for data extraction
+Acquire data	DFT-1163	Automated screenshot-based capture of a mobile device
+Acquire data	DFT-1023	Cloud data collection to access data via a live web page using credentials
+Acquire data	DFT-1024	Cloud data collection via submission of request to service provider
+Acquire data	DFT-1104	Collect data using open source intelligence
+Acquire data	DFT-1160	Collect data with 'cloud backup restore' approach
+Acquire data	DFT-1030	Data read from unmanaged NAND
+Acquire data	DFT-1002	Disk imaging
+Acquire data	DFT-1157	Extract device data using exposed service
+Acquire data	DFT-1019	Mobile backup extraction (s)
+Acquire data	DFT-1159	Extract mobile data via deployed agent
+Acquire data	DFT-1016	Live data collection
+Acquire data	DFT-1114	Memory Acquisition via Cold Boot Attack
+Acquire data	DFT-1003	Memory imaging
+Acquire data	DFT-1022	Mobile device screenshot based capture
+Acquire data	DFT-1017	Network packet capture
+Acquire data	DFT-1015	Privacy preserving selective extraction
+Acquire data	DFT-1162	Read data from a device via In-System Programming (ISP)
+Acquire data	DFT-1027	Data read using JTAG (s)
+Acquire data	DFT-1111	Recording system clock offset
+Acquire data	DFT-1018	Remote data collection
+Acquire data	DFT-1004	Selective file acquisition
+Acquire data	DFT-1020	Mobile file system extraction
+Acquire data	DFT-1175	Extract data using content queries
+Acquire data	DFT-1164	Direct data read from a block device
+Store acquired data	DFT-1025	Writing bitstream data to a forensic image format
+Store acquired data	DFT-1026	Writing data to standard archive format
+Read data from digital evidence storage formats	DFT-1045	Decode standard archive format
+Read data from digital evidence storage formats	DFT-1042	Hash verification of source device against stored data
+Read data from digital evidence storage formats	DFT-1043	Access forensic image content (bitstream)
+Read data from digital evidence storage formats	DFT-1044	Mobile backup decoding
+Read data from digital evidence storage formats	DFT-1102	Decode data from image from unmanaged NAND
+Read data from digital evidence storage formats	DFT-1170	Decode forensic image format (logical)
+Read data from digital evidence storage formats	DFT-1172	Access raw image content
+Read data from digital evidence storage formats	DFT-1173	Extract data from captured screenshots
+Read data from digital evidence storage formats	DFT-1174	Read evidential files stored directly on local file system
+Reduce data under consideration	DFT-1047	Hash matching (reduce)
+Reduce data under consideration	DFT-1048	Privacy protection via partial processing
+Reduce data under consideration	DFT-1046	Privileged material protection
+Access partitions, volumes and file systems data	DFT-1062	Decryption of encrypted file systems/volumes
+Access partitions, volumes and file systems data	DFT-1061	Recover non-allocated files
+Access partitions, volumes and file systems data	DFT-1150	Recover non-allocated files using residual file metadata (s)
+Access partitions, volumes and file systems data	DFT-1064	File carving (s)
+Access partitions, volumes and file systems data	DFT-1063	Identify file types
+Access partitions, volumes and file systems data	DFT-1059	Identify partitions
+Access partitions, volumes and file systems data	DFT-1060	Enumerate allocated files and folders
+Access partitions, volumes and file systems data	DFT-1168	Identify volumes
+Extract artifacts stored by the operating system	DFT-1067	Cloud synchronisation feature examination (OS)
+Extract artifacts stored by the operating system	DFT-1065	Content indexer examination (OS)
+Extract artifacts stored by the operating system	DFT-1097	Installed programs identification (OS)
+Extract artifacts stored by the operating system	DFT-1066	Log file examination (OS)
+Extract artifacts stored by the operating system	DFT-1068	Recently used file identification (OS)
+Extract artifacts stored by the operating system	DFT-1096	Run programs identification (OS)
+Extract artifacts stored by the operating system	DFT-1098	User account analysis (OS)
+Extract artifacts stored by the operating system	DFT-1083	Memory examination (OS-level)
+Extract artifacts stored by the operating system	DFT-1116	Determine connected devices
+Extract artifacts stored by the operating system	DFT-1149	File versioning feature examination
+Extract artifacts stored by applications	DFT-1069	Browser examination
+Extract artifacts stored by applications	DFT-1137	Browser history examination (s)
+Extract artifacts stored by applications	DFT-1138	Browser cache examination (s)
+Extract artifacts stored by applications	DFT-1139	Browser session examination (s)
+Extract artifacts stored by applications	DFT-1140	Browser autofill examination (s)
+Extract artifacts stored by applications	DFT-1141	Browser bookmarks examination (s)
+Extract artifacts stored by applications	DFT-1142	Browser downloads examination (s)
+Extract artifacts stored by applications	DFT-1143	Browser configuration examination (s)
+Extract artifacts stored by applications	DFT-1144	Browser profile enumeration (s)
+Extract artifacts stored by applications	DFT-1145	Browser extensions examination (s)
+Extract artifacts stored by applications	DFT-1146	Browser synchronization feature examination (s)
+Extract artifacts stored by applications	DFT-1147	Browser cookie examination (s)
+Extract artifacts stored by applications	DFT-1148	Browser web storage examination (s)
+Extract artifacts stored by applications	DFT-1073	Calendar app examination
+Extract artifacts stored by applications	DFT-1072	Chat app examination
+Extract artifacts stored by applications	DFT-1078	Cloud sync app examination
+Extract artifacts stored by applications	DFT-1070	Email examination
+Extract artifacts stored by applications	DFT-1075	Maps/travel app examination
+Extract artifacts stored by applications	DFT-1077	Photos app examination
+Extract artifacts stored by applications	DFT-1074	Social network app examination
+Extract artifacts stored by applications	DFT-1105	Memory examination (application-level)
+Extract artifacts stored by applications	DFT-1107	Health/Fitness app examination
+Extract artifacts stored by applications	DFT-1108	Reminders app examination
+Extract artifacts stored by applications	DFT-1109	Payment app examination
+Extract artifacts stored by applications	DFT-1133	AI companion app examination
+Extract artifacts, or content of specific types	DFT-1021	Configuration file examination
+Extract artifacts, or content of specific types	DFT-1071	SQLite database examination
+Extract artifacts, or content of specific types	DFT-1076	Log file examination
+Extract artifacts, or content of specific types	DFT-1100	EXIF data extraction
+Extract artifacts, or content of specific types	DFT-1099	File repair with grafting
+Extract artifacts, or content of specific types	DFT-1052	Timeline generation
+Extract artifacts, or content of specific types	DFT-1153	Apply offset to a timestamp (s)
+Extract artifacts, or content of specific types	DFT-1053	Entity extraction
+Extract artifacts, or content of specific types	DFT-1056	Entity connection enumeration
+Extract artifacts, or content of specific types	DFT-1120	Automated artifact extraction from app data
+Extract artifacts, or content of specific types	DFT-1167	Extract search terms from URLs
+Extract artifacts, or content of specific types	DFT-1169	Filter files related to an application
+Locate potentially relevant content	DFT-1051	Fuzzy hash matching
+Locate potentially relevant content	DFT-1050	Hash matching (locate)
+Locate potentially relevant content	DFT-1049	Keyword searching
+Locate potentially relevant content	DFT-1125	Keyword search (live) (s)
+Locate potentially relevant content	DFT-1126	Keyword search (live) (physical) (s)
+Locate potentially relevant content	DFT-1127	Keyword search (live) (logical) (s)
+Locate potentially relevant content	DFT-1124	Keyword search (indexed) (s)
+Locate potentially relevant content	DFT-1121	Keyword indexing (s)
+Locate potentially relevant content	DFT-1122	Keyword search (case-type wordlists) (s)
+Locate potentially relevant content	DFT-1123	Keyword search (case-specific wordlists) (s)
+Locate potentially relevant content	DFT-1151	Keyword search (over extracted artifacts) (s)
+Locate potentially relevant content	DFT-1118	Locate relevant files by path
+Locate potentially relevant content	DFT-1086	Timeline analysis
+Locate potentially relevant content	DFT-1134	Use time anchors to estimate clock offset (s)
+Review content for relevance	DFT-1054	Manual content review for relevant material
+Review content for relevance	DFT-1055	File system content inspection
+Review content for relevance	DFT-1079	Audio content analysis
+Review content for relevance	DFT-1080	Video content analysis
+Review content for relevance	DFT-1106	Deep fake detection (video) (s)
+Review content for relevance	DFT-1081	Image content analysis
+Review content for relevance	DFT-1082	Document content analysis
+Detect anti-forensics and other anomalies	DFT-1057	Search for indicators of steganography
+Detect anti-forensics and other anomalies	DFT-1058	Search for mismatched file extensions
+Detect anti-forensics and other anomalies	DFT-1128	Search for indicators of malware
+Detect anti-forensics and other anomalies	DFT-1129	Search for indicators of clock tampering
+Detect anti-forensics and other anomalies	DFT-1130	Search for indicators of encrypted data
+Detect anti-forensics and other anomalies	DFT-1131	Search for indicators of trail obfuscation
+Detect anti-forensics and other anomalies	DFT-1132	Search for indicators of artifact wiping
+Establish identities	DFT-1084	Extraction of user accounts
+Establish identities	DFT-1085	Identify conflation
+Create visualizations	DFT-1103	Virtualise suspect system for previewing
+Create visualizations	DFT-1115	Visualisation of geolocation information
+Reconstruct events	DFT-1087	Location-based event reconstruction
+Reconstruct events	DFT-1088	Relational-based event reconstruction
+Reconstruct events	DFT-1117	Time-based event reconstruction
+Reconstruct events	DFT-1154	Identity-based event reconstruction
+Reconstruct events	DFT-1155	Operation-based event reconstruction
+Reconstruct events	DFT-1156	Functional-based event reconstruction
+Conduct research	DFT-1090	Experimentation
+Conduct research	DFT-1095	Instrumentation
+Conduct research	DFT-1089	Source code review
+Conduct research	DFT-1101	Cell site survey
+Conduct research	DFT-1119	Automatically scan for artifact changes caused by app updates
+Produce documentation	DFT-1091	Bookmark artifacts
+Produce documentation	DFT-1094	Disclosure
+Produce documentation	DFT-1092	Produce tag-based automated report
+Produce documentation	DFT-1093	Write expert report
+Produce documentation	DFT-1014	Chain of custody documentation

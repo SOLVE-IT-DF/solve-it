@@ -3,8 +3,10 @@ Prepare for a digital investigation	todo
 Find potential digital evidence sources	todo
 Prioritize digital evidence sources	todo
 Preserve digital evidence	todo
+Access device data for acquisition	todo
+Overcome protection mechanisms	todo
 Acquire data	todo
-Gain access	todo
+Store acquired data	todo
 Read data from digital evidence storage formats	todo
 Reduce data under consideration	todo
 Access partitions, volumes and file systems data	todo

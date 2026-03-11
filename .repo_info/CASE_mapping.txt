@@ -1,147 +1,147 @@
 ID	Name
-T1001	Triage	
+DFT-1001	Triage	
 			Input: https://ontology.solveit-df.org/solveit/observable/DeviceSet
 			Output: https://ontology.solveit-df.org/solveit/observable/PrioritizedDeviceSet
-T1002	Disk imaging	
+DFT-1002	Disk imaging	
 			Input: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
 			Input: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
 			Output: https://ontology.solveit-df.org/solveit/observable/Bitstream
-T1003	Memory imaging	
+DFT-1003	Memory imaging	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/Memory
 			Output: https://ontology.solveit-df.org/solveit/observable/Bitstream
-T1004	Selective file acquisition	
+DFT-1004	Selective file acquisition	
 			Input: https://ontology.solveit-df.org/solveit/observable/FileSet
 			Output: https://ontology.solveit-df.org/solveit/observable/FilteredFileSet
-T1005	Conduct a search of a crime scene	
+DFT-1005	Conduct a search of a crime scene	
 			Output: https://ontology.solveit-df.org/solveit/observable/DeviceSet
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Device
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/location
-T1006	Digital sniffer dogs	
+DFT-1006	Digital sniffer dogs	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/location
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Device
-T1007	Use a SyncTriage-based approach to detect existence of devices	
+DFT-1007	Use a SyncTriage-based approach to detect existence of devices	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Device
-T1008	Profiling network traffic	
-T1009	Locate cloud account identifiers	
-T1010	Place device in faraday environment	
-T1011	Store seized devices in evidence bags	
-T1012	Connect storage medium via hardware write blocker	
+DFT-1008	Profiling network traffic	
+DFT-1009	Locate cloud account identifiers	
+DFT-1010	Place device in faraday environment	
+DFT-1011	Store seized devices in evidence bags	
+DFT-1012	Connect storage medium via hardware write blocker	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium
 			Output: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
-T1013	Use software write blockers to provide read only access to storage media	
+DFT-1013	Use software write blockers to provide read only access to storage media	
 			Input: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
 			Output: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
-T1014	Chain of custody documentation	
-T1015	Privacy preserving selective extraction	
-T1016	Live data collection	
+DFT-1014	Chain of custody documentation	
+DFT-1015	Privacy preserving selective extraction	
+DFT-1016	Live data collection	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Process
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/NetworkConnection
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/IPAddress
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/MACAddress
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/UserAccount
-T1017	Network packet capture	
+DFT-1017	Network packet capture	
 			Output: https://ontology.solveit-df.org/solveit/observable/NetworkPacketCapture
-T1018	Remote data collection	
+DFT-1018	Remote data collection	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
-T1019	Mobile backup extraction	
+DFT-1019	Mobile backup extraction	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
 			Output: https://ontology.solveit-df.org/solveit/observable/DeviceGeneratedBackup
-T1020	Mobile file system extraction	
+DFT-1020	Mobile file system extraction	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
 			Output: https://ontology.solveit-df.org/solveit/observable/FileSystemExtraction
-T1021	Configuration file examination	
+DFT-1021	Configuration file examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
 			Output: https://ontology.unifiedcyberontology.org/uco/configuration/ConfigurationEntry
-T1022	Mobile device screenshot based capture	
+DFT-1022	Mobile device screenshot based capture	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
 			Output: https://ontology.solveit-df.org/solveit/observable/DeviceScreenshotCapture
-T1023	Cloud data collection to access data via a live web page using credentials	
+DFT-1023	Cloud data collection to access data via a live web page using credentials	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
-T1024	Cloud data collection via submission of request to service provider	
+DFT-1024	Cloud data collection via submission of request to service provider	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
-T1025	Writing bitstream data to a forensic image format	
+DFT-1025	Writing bitstream data to a forensic image format	
 			Input: https://ontology.solveit-df.org/solveit/observable/Bitstream
 			Output: https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer
 			Output: https://ontology.solveit-df.org/solveit/observable/RawImage
-T1026	Writing data to standard archive format	
+DFT-1026	Writing data to standard archive format	
 			Input: https://ontology.solveit-df.org/solveit/observable/FileSystemExtraction
 			Input: https://ontology.solveit-df.org/solveit/observable/DeviceGeneratedBackup
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
-T1027	Data read using JTAG	
-T1028	Chip-off	
-T1029	Access data from a desoldered eMMC via a chip reader	
+DFT-1027	Data read using JTAG	
+DFT-1028	Chip-off	
+DFT-1029	Access data from a desoldered eMMC via a chip reader	
 			Output: https://ontology.solveit-df.org/solveit/observable/Bitstream
-T1030	Data read from unmanaged NAND	
-T1031	Key recovery from memory	
+DFT-1030	Data read from unmanaged NAND	
+DFT-1031	Key recovery from memory	
 			Output: https://ontology.solveit-df.org/solveit/observable/DecryptionKey
-T1032	Side channel	
-T1033	Extraction of credential from an accessible device	
+DFT-1032	Side channel	
+DFT-1033	Extraction of credential from an accessible device	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Account
-T1034	Brute force attack	
+DFT-1034	Brute force attack	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/password
-T1035	Dictionary attack	
+DFT-1035	Dictionary attack	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/password
-T1036	Smudge attack	
+DFT-1036	Smudge attack	
 			Output: https://ontology.solveit-df.org/solveit/observable/UnlockPattern
-T1037	Obtain password from the device owner	
+DFT-1037	Obtain password from the device owner	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/password
-T1038	Rainbow table-based password attack	
+DFT-1038	Rainbow table-based password attack	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/password
-T1039	App downgrade	
-T1040	Use mobile device exploit	
+DFT-1039	App downgrade	
+DFT-1040	Use mobile device exploit	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/isPrivileged
-T1041	Pin2Pwn	
-T1042	Disk image hash verification	
+DFT-1041	Pin2Pwn	
+DFT-1042	Hash verification of source device against stored data	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/hash
-T1043	Access forensic image content (bitstream)	
+DFT-1043	Access forensic image content (bitstream)	
 			Input: https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer
 			Output: https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed
-T1044	Mobile backup decoding	
+DFT-1044	Mobile backup decoding	
 			Input: https://ontology.solveit-df.org/solveit/observable/DeviceGeneratedBackup
 			Output: https://ontology.solveit-df.org/solveit/observable/FileSet
-T1045	Decode standard archive format	
+DFT-1045	Decode standard archive format	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile
 			Output: https://ontology.solveit-df.org/solveit/observable/FileSet
-T1046	Privileged material protection	
+DFT-1046	Privileged material protection	
 			Output: https://ontology.solveit-df.org/solveit/observable/RedactedFileSet
 			Output: https://ontology.solveit-df.org/solveit/observable/RedactedArtifactSet
-T1047	Hash matching (reduce)	
+DFT-1047	Hash matching (reduce)	
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/classification
 			Output: https://ontology.solveit-df.org/solveit/observable/RedactedFileSet
-T1048	Privacy protection via partial processing	
+DFT-1048	Privacy protection via partial processing	
 			Output: https://ontology.solveit-df.org/solveit/observable/RedactedArtifactSet
-T1049	Keyword searching	
+DFT-1049	Keyword searching	
 			Output: https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
-T1050	Hash matching (locate)	
+DFT-1050	Hash matching (locate)	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/classification
-T1051	Fuzzy hash matching	
+DFT-1051	Fuzzy hash matching	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/classification
-T1052	Timeline generation	
+DFT-1052	Timeline generation	
 			Output: https://ontology.solveit-df.org/solveit/observable/Timeline
 			Output: https://ontology.solveit-df.org/solveit/observable/TimelineEntry
-T1053	Entity extraction	
-T1054	Manual content review for relevant material	
+DFT-1053	Entity extraction	
+DFT-1054	Manual content review for relevant material	
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/path
-T1055	File system content inspection	
-T1056	Entity connection enumeration	
+DFT-1055	File system content inspection	
+DFT-1056	Entity connection enumeration	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ObservableRelationship
-T1057	Search for indicators of steganography	
+DFT-1057	Search for indicators of steganography	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/path
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
-T1058	Search for mismatched file extensions	
+DFT-1058	Search for mismatched file extensions	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/filePath
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/extension
-T1059	Identify partitions	
+DFT-1059	Identify partitions	
 			Input: https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition
-T1060	Enumerate allocated files and folders	
+DFT-1060	Enumerate allocated files and folders	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/FileSystem
 			Output: https://ontology.solveit-df.org/solveit/observable/FileSet
-T1061	Recover non-allocated files	
+DFT-1061	Recover non-allocated files	
 			Output: https://ontology.unifiedcyberontology.org/uco/core/confidence
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Directory
@@ -162,158 +162,161 @@ T1061	Recover non-allocated files
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerID
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerSID
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ownerSID
-T1062	Decryption of encrypted file systems/volumes	
+DFT-1062	Decryption of encrypted file systems/volumes	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Volume
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
-T1063	Identify file types	
+DFT-1063	Identify file types	
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/mimeType
-T1064	File carving	
+DFT-1064	File carving	
 			Output: https://ontology.unifiedcyberontology.org/uco/core/confidence
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/rangeOffset
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/rangeOffsetType
-T1065	Content indexer examination (OS)	
+DFT-1065	Content indexer examination (OS)	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/fileName
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/filePath
-T1066	Log file examination (OS)	
+DFT-1066	Log file examination (OS)	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/EventLog
-T1067	Cloud synchronisation feature examination (OS)	
-T1068	Recently used file identification (OS)	
+DFT-1067	Cloud synchronisation feature examination (OS)	
+DFT-1068	Recently used file identification (OS)	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/filePath
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/accessedTime
-T1069	Browser examination	
+DFT-1069	Browser examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/URLHistory
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/CookieHistory
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/BrowserBookmark
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/BrowserCookie
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/URLVisit
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/URLHistoryEntry
-T1070	Email examination	
+DFT-1070	Email examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/EmailAccount
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/EmailMessage
-T1071	SQLite database examination	
+DFT-1071	SQLite database examination	
 			Input: https://ontology.solveit-df.org/solveit/observable/SQLiteDatabase
 			Output: https://ontology.solveit-df.org/solveit/observable/SQLiteTable
-T1072	Chat app examination	
+DFT-1072	Chat app examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Message
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/SMSMessage
-T1073	Calendar app examination	
+DFT-1073	Calendar app examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Calendar
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/CalendarEntry
-T1074	Social network app examination	
-T1075	Maps/travel app examination	
-T1076	Log file examination	
+DFT-1074	Social network app examination	
+			Output: https://ontology.unifiedcyberontology.org/uco/observable/Message
+			Output: https://ontology.unifiedcyberontology.org/uco/observable/Post
+			Output: https://ontology.unifiedcyberontology.org/uco/observable/Contact
+DFT-1075	Maps/travel app examination	
+DFT-1076	Log file examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/EventLog
 			Output: https://ontology.unifiedcyberontology.org/uco/core/eventType
-T1077	Photos app examination	
-T1078	Cloud sync app examination	
-T1079	Audio content analysis	
-T1080	Video content analysis	
-T1081	Image content analysis	
-T1082	Document content analysis	
-T1083	Memory examination (OS-level)	
-T1084	Extraction of user accounts	
-T1085	Identify conflation	
-T1086	Timeline analysis	
+DFT-1077	Photos app examination	
+DFT-1078	Cloud sync app examination	
+DFT-1079	Audio content analysis	
+DFT-1080	Video content analysis	
+DFT-1081	Image content analysis	
+DFT-1082	Document content analysis	
+DFT-1083	Memory examination (OS-level)	
+DFT-1084	Extraction of user accounts	
+DFT-1085	Identify conflation	
+DFT-1086	Timeline analysis	
 			Output: https://ontology.solveit-df.org/solveit/observable/Timeline
 			Output: https://ontology.solveit-df.org/solveit/observable/TimelineEntry
-T1087	Location-based event reconstruction	
+DFT-1087	Location-based event reconstruction	
 			Output: https://ontology.unifiedcyberontology.org/uco/core/confidence
 			Output: https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent
 			Output: https://ontology.unifiedcyberontology.org/uco/location/Location
-T1088	Relational-based event reconstruction	
+DFT-1088	Relational-based event reconstruction	
 			Output: https://ontology.unifiedcyberontology.org/uco/core/Relationship
 			Output: https://ontology.unifiedcyberontology.org/uco/core/kindOfRelationship
 			Output: https://ontology.unifiedcyberontology.org/uco/core/confidence
-T1089	Source code review	
-T1090	Experimentation	
-T1091	Bookmark artifacts	
+DFT-1089	Source code review	
+DFT-1090	Experimentation	
+DFT-1091	Bookmark artifacts	
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
 			Output: https://ontology.unifiedcyberontology.org/uco/core/Annotation
-T1092	Produce tag-based automated report	
+DFT-1092	Produce tag-based automated report	
 			Output: https://ontology.solveit-df.org/solveit/analysis/ForensicToolTagBasedReport
-T1093	Write expert report	
+DFT-1093	Write expert report	
 			Output: https://cacontology.projectvic.org/case-management#ExpertReport
-T1094	Disclosure	
-T1095	Instrumentation	
-T1096	Run programs identification (OS)	
+DFT-1094	Disclosure	
+DFT-1095	Instrumentation	
+DFT-1096	Run programs identification (OS)	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/execProgramPath
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/timesExecuted
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/execProgramHashes
-T1097	Installed programs identification (OS)	
+DFT-1097	Installed programs identification (OS)	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Application
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ApplicationVersion
-T1098	User account analysis (OS)	
+DFT-1098	User account analysis (OS)	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/UserAccount
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/accountType
-T1099	File repair with grafting	
+DFT-1099	File repair with grafting	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
-T1100	EXIF data extraction	
+DFT-1100	EXIF data extraction	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/exifData
-T1101	Cell site survey	
-T1102	Decode data from image from unmanaged NAND	
-T1103	Virtualise suspect system for previewing	
-T1104	Collect data using open source intelligence	
-T1105	Memory examination (application-level)	
-T1106	Deep fake detection (video)	
+DFT-1101	Cell site survey	
+DFT-1102	Decode data from image from unmanaged NAND	
+DFT-1103	Virtualise suspect system for previewing	
+DFT-1104	Collect data using open source intelligence	
+DFT-1105	Memory examination (application-level)	
+DFT-1106	Deep fake detection (video)	
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification
 			Output: https://ontology.unifiedcyberontology.org/uco/analysis/classificationConfidence
-T1107	Health/Fitness app examination	
-T1108	Reminders app examination	
-T1109	Payment app examination	
-T1110	Preserving reference data	
-T1111	Recording system clock offset	
+DFT-1107	Health/Fitness app examination	
+DFT-1108	Reminders app examination	
+DFT-1109	Payment app examination	
+DFT-1110	Preserving reference data	
+DFT-1111	Recording system clock offset	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/systemTime
 			Output: https://ontology.solveit-df.org/solveit/observable/ClockOffsetCapture
-T1112	Physical disk identification and removal	
+DFT-1112	Physical disk identification and removal	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/Computer
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium
-T1113	Access internal storage via bootable environment	
+DFT-1113	Access internal storage via bootable environment	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/Computer
 			Output: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
-T1114	Memory Acquisition via Cold Boot Attack	
+DFT-1114	Memory Acquisition via Cold Boot Attack	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
-T1115	Visualisation of geolocation information	
-T1116	Determine connected devices	
-T1117	Time-based event reconstruction	
+DFT-1115	Visualisation of geolocation information	
+DFT-1116	Determine connected devices	
+DFT-1117	Time-based event reconstruction	
 			Output: https://ontology.solveit-df.org/solveit/analysis/hypothesisedDateTime
-T1118	Locate relevant files by path	
+DFT-1118	Locate relevant files by path	
 			Input: https://ontology.solveit-df.org/solveit/observable/FileSet
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
-T1119	Automatically scan for artifact changes caused by app updates	
+DFT-1119	Automatically scan for artifact changes caused by app updates	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/hasChanged
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/filePath
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/tableSchema
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/TableField
-T1120	Automated artifact extraction from app data	
+DFT-1120	Automated artifact extraction from app data	
 			Input: https://ontology.solveit-df.org/solveit/observable/ApplicationFiles
 			Output: https://ontology.solveit-df.org/solveit/observable/ArtifactSet
-T1121	Keyword indexing	
+DFT-1121	Keyword indexing	
 			Output: https://ontology.solveit-df.org/solveit/observable/KeywordIndex
 			Output: https://ontology.solveit-df.org/solveit/observable/KeywordIndexingConfiguration
-T1122	Keyword search (case-type wordlists)	
+DFT-1122	Keyword search (case-type wordlists)	
 			Output: https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
-T1123	Keyword search (case-specific wordlists)	
+DFT-1123	Keyword search (case-specific wordlists)	
 			Output: https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
-T1124	Keyword search (indexed)	
+DFT-1124	Keyword search (indexed)	
 			Output: https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
-T1125	Keyword search (live)	
+DFT-1125	Keyword search (live)	
 			Output: https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
-T1126	Keyword search (live) (physical)	
+DFT-1126	Keyword search (live) (physical)	
 			Output: https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
-T1127	Keyword search (live) (logical)	
+DFT-1127	Keyword search (live) (logical)	
 			Output: https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
-T1128	Search for indicators of malware	
-T1129	Search for indicators of clock tampering	
-T1130	Search for indicators of encrypted data	
+DFT-1128	Search for indicators of malware	
+DFT-1129	Search for indicators of clock tampering	
+DFT-1130	Search for indicators of encrypted data	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Application
-T1131	Search for indicators of trail obfuscation	
+DFT-1131	Search for indicators of trail obfuscation	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Application
-T1132	Search for indicators of artifact wiping	
+DFT-1132	Search for indicators of artifact wiping	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Application
-T1133	AI companion app examination	
+DFT-1133	AI companion app examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Message
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Call
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/callType
@@ -324,38 +327,38 @@ T1133	AI companion app examination
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/emailAddress
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/phoneNumber
 			Output: https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
-T1134	Use time anchors to estimate clock offset	
-T1137	Browser history examination	
-			Input: https://ontology.solveit-df.org/solveit/observable/SQLiteDatabase
+DFT-1134	Use time anchors to estimate clock offset	
+DFT-1137	Browser history examination	
+			Input: https://ontology.solveit-df.org/solveit/observable/BrowserAppFiles
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/URLHistory
-T1138	Browser cache examination	
+DFT-1138	Browser cache examination	
 			Input: https://ontology.solveit-df.org/solveit/observable/BrowserCacheData
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/URL
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/httpRequestHeader
 			Output: https://ontology.solveit-df.org/solveit/observable/httpResponseHeader
-T1139	Browser session examination	
-T1140	Browser autofill examination	
-T1141	Browser bookmarks examination	
+DFT-1139	Browser session examination	
+DFT-1140	Browser autofill examination	
+DFT-1141	Browser bookmarks examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/BrowserBookmark
-T1142	Browser downloads examination	
+DFT-1142	Browser downloads examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/URL
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
-T1143	Browser configuration examination	
+DFT-1143	Browser configuration examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
-T1144	Browser profile enumeration	
-T1145	Browser extensions examination	
-T1146	Browser synchronization feature examination	
+DFT-1144	Browser profile enumeration	
+DFT-1145	Browser extensions examination	
+DFT-1146	Browser synchronization feature examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
-T1147	Browser cookie examination	
+DFT-1147	Browser cookie examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/CookieHistory
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/BrowserCookie
-T1148	Browser web storage examination	
-T1149	File versioning feature examination	
+DFT-1148	Browser web storage examination	
+DFT-1149	File versioning feature examination	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/version
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/modifiedTime
-T1150	Recover non-allocated files using residual file metadata	
+DFT-1150	Recover non-allocated files using residual file metadata	
 			Output: https://ontology.unifiedcyberontology.org/uco/core/confidence
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/File
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Directory
@@ -376,73 +379,87 @@ T1150	Recover non-allocated files using residual file metadata
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerID
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerSID
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/ownerSID
-T1151	Keyword search (over extracted artifacts)	
+DFT-1151	Keyword search (over extracted artifacts)	
 			Output: https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult
-T1153	Apply offset to a timestamp	
+DFT-1153	Apply offset to a timestamp	
 			Output: https://ontology.solveit-df.org/solveit/observable/DateTimeStamp
 			Output: https://ontology.solveit-df.org/solveit/observable/TimelineEntry
-T1154	Identity-based event reconstruction	
+DFT-1154	Identity-based event reconstruction	
 			Output: https://ontology.unifiedcyberontology.org/uco/identity/Person
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Account
 			Output: https://ontology.unifiedcyberontology.org/uco/core/confidence
-T1155	Operation-based event reconstruction	
+DFT-1155	Operation-based event reconstruction	
 			Output: https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent
-T1156	Functional-based event reconstruction	
+DFT-1156	Functional-based event reconstruction	
 			Output: https://ontology.unifiedcyberontology.org/uco/configuration/Configuration
 			Output: https://ontology.unifiedcyberontology.org/uco/configuration/dependencies
 			Output: https://ontology.unifiedcyberontology.org/uco/core/confidence
-T1157	Extract device data using exposed service	
+DFT-1157	Extract device data using exposed service	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
 			Output: https://ontology.solveit-df.org/solveit/observable/ServiceBasedExtractionData
-T1158	Configure device to enable a service needed for data extraction	
-T1159	Extract mobile data via deployed agent	
+DFT-1158	Configure device to enable a service needed for data extraction	
+DFT-1159	Extract mobile data via deployed agent	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
 			Output: https://ontology.solveit-df.org/solveit/observable/ServiceBasedExtractionData
-T1160	Collect data with 'cloud backup restore' approach	
+DFT-1160	Collect data with 'cloud backup restore' approach	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/SmartDevice
-T1162	Read data from a device via In-System Programming (ISP)	
+DFT-1162	Read data from a device via In-System Programming (ISP)	
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Image
-T1163	Automated screenshot-based capture of a mobile device	
+DFT-1163	Automated screenshot-based capture of a mobile device	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice
 			Output: https://ontology.solveit-df.org/solveit/observable/DeviceScreenshotCapture
-T1164	Direct data read from a block device	
-			Input: https://ontology.solveit-df.org/solveit/observable/DeviceInterface
+DFT-1164	Direct data read from a block device	
+			Input: https://ontology.solveit-df.org/solveit/observable/ReadWriteDeviceInterface
 			Input: https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface
 			Output: https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed
-T1166	Connect directly to storage media	
+DFT-1166	Connect directly to storage media	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/Disk
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/StorageMedium
 			Output: https://ontology.solveit-df.org/solveit/observable/ReadWriteDeviceInterface
-T1167	Extract search terms from URLs	
+DFT-1167	Extract search terms from URLs	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/URLHistory
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/urlHistoryEntry
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/URL
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/keywordSearchTerm
-T1168	Identify volumes	
+DFT-1168	Identify volumes	
 			Input: https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/FileSystem
-T1169	Filter files related to an application	
+DFT-1169	Filter files related to an application	
 			Input: https://ontology.solveit-df.org/solveit/observable/FileSet
 			Output: https://ontology.solveit-df.org/solveit/observable/ApplicationFiles
-T1170	Decode forensic image format (logical)	
+			Output: https://ontology.solveit-df.org/solveit/observable/BrowserAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/BrowserCacheData
+			Output: https://ontology.solveit-df.org/solveit/observable/ChatAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/AiChatAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/EmailAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/HealthAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/MapsAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/NavigationAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/PaymentAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/RemindersAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/SocialMediaAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/CalendarAppFiles
+			Output: https://ontology.solveit-df.org/solveit/observable/PhotosAppFiles
+DFT-1170	Decode forensic image format (logical)	
 			Input: https://ontology.solveit-df.org/solveit/observable/LogicalImageContainer
 			Output: https://ontology.solveit-df.org/solveit/observable/FileSet
-T1171	Access file system via live operating system	
+DFT-1171	Access file system via live operating system	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/Computer
 			Output: https://ontology.solveit-df.org/solveit/observable/FileSet
-T1172	Access raw image content	
+DFT-1172	Access raw image content	
 			Input: https://ontology.solveit-df.org/solveit/observable/RawImage
 			Output: https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed
-T1173	Extract data from captured screenshots	
+DFT-1173	Extract data from captured screenshots	
 			Input: https://ontology.solveit-df.org/solveit/observable/DeviceScreenshotCapture
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Message
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Contact
-T1174	Read evidential files stored directly on local file system	
+DFT-1174	Read evidential files stored directly on local file system	
 			Input: https://ontology.solveit-df.org/solveit/observable/ADBPullData
 			Input: https://ontology.solveit-df.org/solveit/observable/AFCExtractionData
 			Output: https://ontology.solveit-df.org/solveit/observable/FileSet
-T1175	Extract data using content queries	
+DFT-1175	Extract data using content queries	
 			Input: https://ontology.unifiedcyberontology.org/uco/observable/AndroidPhone
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Message
 			Output: https://ontology.unifiedcyberontology.org/uco/observable/Call
+			Output: https://ontology.unifiedcyberontology.org/uco/observable/Contact

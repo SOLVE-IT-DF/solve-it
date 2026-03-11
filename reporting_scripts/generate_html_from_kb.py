@@ -3,15 +3,17 @@
 """
 SOLVE-IT Knowledge Base HTML Generator
 =======================================
-Fetches data from the SOLVE-IT GitHub repository and generates a
-MITRE ATT&CK-style static HTML knowledge base viewer.
+Generates a MITRE ATT&CK-style static HTML knowledge base viewer from
+SOLVE-IT data. By default, loads data from the local repository via the
+solveit library. Use --remote to fetch from GitHub instead.
 
 Usage:
-    python generate_solveit.py                         # Fetch from GitHub
-    python generate_solveit.py --local ./solve-it      # Use local clone
-    python generate_solveit.py --output viewer.html    # Set output file
-    python generate_solveit.py --no-verify-ssl         # Skip SSL cert check
-    python generate_solveit.py --help
+    python generate_html_from_kb.py                         # Use local repo (default)
+    python generate_html_from_kb.py --local /path/to/repo   # Use a different local clone
+    python generate_html_from_kb.py --remote                 # Fetch from GitHub
+    python generate_html_from_kb.py --remote --no-verify-ssl # Remote + skip SSL check
+    python generate_html_from_kb.py --output viewer.html     # Set output file
+    python generate_html_from_kb.py --help
 
 Requirements:
     Python 3.8+ (no external dependencies for fetching; optionally 'requests')
@@ -28,6 +30,9 @@ import urllib.request
 import urllib.error
 from pathlib import Path
 from datetime import datetime
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+from solve_it_library import KnowledgeBase
 
 # ─────────────────────────────────────────────────────────────────────────────
 # GitHub endpoints
@@ -101,42 +106,6 @@ def load_from_github() -> dict:
     return db
 
 
-def load_from_local(repo_path: str) -> dict:
-    """Read SOLVE-IT data from a local clone of the repository."""
-    root = Path(repo_path)
-    if not root.exists():
-        sys.exit(f"ERROR: Path does not exist: {repo_path}")
-
-    db: dict = {"techniques": [], "weaknesses": [], "mitigations": [], "objectives": []}
-
-    for category in ("techniques", "weaknesses", "mitigations"):
-        folder = root / "data" / category
-        if not folder.exists():
-            print(f"  [warn] {folder} not found – skipping.", file=sys.stderr)
-            continue
-        files = list(folder.glob("*.json"))
-        print(f"  Loading {len(files)} {category} from {folder} …")
-        for fp in sorted(files):
-            try:
-                db[category].append(json.loads(fp.read_text(encoding="utf-8")))
-            except Exception as exc:
-                print(f"  [warn] {fp}: {exc}", file=sys.stderr)
-
-    cfg_path = root / "data" / "solve-it.json"
-    if not cfg_path.exists():
-        cfg_path = root / "solve-it.json"  # fallback for older layouts
-    if cfg_path.exists():
-        try:
-            cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
-            # solve-it.json may be a bare list of objectives, or a dict wrapping them
-            db["objectives"] = cfg if isinstance(cfg, list) else cfg.get("objectives", [])
-        except Exception as exc:
-            print(f"  [warn] solve-it.json: {exc}", file=sys.stderr)
-
-    print(f"  Loaded: {len(db['techniques'])} techniques, "
-          f"{len(db['weaknesses'])} weaknesses, {len(db['mitigations'])} mitigations, "
-          f"{len(db['objectives'])} objectives.")
-    return db
 
 
 def extract_git_credits(repo_root: Path) -> dict:
@@ -697,6 +666,15 @@ body.custom-mode .disabled-btn {{
   top: 0;
   z-index: 5;
   cursor: default;
+}}
+.tactic-header .tactic-id {{
+  display: block;
+  font-size: .58rem;
+  font-weight: 400;
+  opacity: .55;
+  margin-bottom: 2px;
+  font-family: var(--font-mono);
+  letter-spacing: .03em;
 }}
 .tactic-header .tcount {{
   display: block;
@@ -1803,6 +1781,7 @@ function renderMatrix() {{
 
     col.innerHTML = `
       <div class="tactic-header" title="${{esc(obj.description || obj.name)}}">
+        <span class="tactic-id">${{esc(obj.id || '')}}</span>
         <span>${{esc(obj.name)}}</span>
         <span class="tcount">${{(obj.techniques||[]).length}} technique${{(obj.techniques||[]).length!==1?'s':''}}</span>
       </div>
@@ -3119,18 +3098,21 @@ def parse_args() -> argparse.Namespace:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python generate_solveit.py
-  python generate_solveit.py --output solveit-viewer.html
-  python generate_solveit.py --local /path/to/solve-it
-  python generate_solveit.py --local ./solve-it --output viewer.html
+  python generate_html_from_kb.py                         # Use local repo (default)
+  python generate_html_from_kb.py --local /path/to/repo   # Use a different local clone
+  python generate_html_from_kb.py --remote                 # Fetch from GitHub
+  python generate_html_from_kb.py --remote --no-verify-ssl # Remote + skip SSL check
+  python generate_html_from_kb.py --output viewer.html     # Set output file
         """,
     )
     parser.add_argument("--local", metavar="PATH",
-                        help="Path to a local clone of the SOLVE-IT repo (skips GitHub fetch).")
+                        help="Path to a local clone of the SOLVE-IT repo (default: current repo).")
+    parser.add_argument("--remote", action="store_true",
+                        help="Fetch data from GitHub instead of using the local repository.")
     parser.add_argument("--output", metavar="FILE", default="solveit-viewer.html",
                         help="Output HTML file path (default: solveit-viewer.html).")
     parser.add_argument("--no-verify-ssl", action="store_true",
-                        help="Disable SSL certificate verification (workaround for certificate errors).")
+                        help="Disable SSL certificate verification (only relevant with --remote).")
     parser.add_argument("--custom", action="store_true",
                         help="Enable customisation mode: allows uploading a JSON schema to reorganise techniques.")
     return parser.parse_args()
@@ -3139,17 +3121,29 @@ Examples:
 def main() -> None:
     args = parse_args()
 
-    global _ssl_context
-    if getattr(args, "no_verify_ssl", False):
-        _ssl_context = ssl._create_unverified_context()
-        print("[warn] SSL certificate verification disabled (--no-verify-ssl).", file=sys.stderr)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
 
-    if args.local:
-        db = load_from_local(args.local)
-        repo_root = Path(args.local).resolve()
-    else:
+    if args.remote:
+        # GitHub fetch mode (original behavior)
+        global _ssl_context
+        if getattr(args, "no_verify_ssl", False):
+            _ssl_context = ssl._create_unverified_context()
+            print("[warn] SSL certificate verification disabled (--no-verify-ssl).", file=sys.stderr)
         db = load_from_github()
-        repo_root = Path(__file__).resolve().parent.parent
+        repo_root = Path(script_dir).parent
+    else:
+        # Local mode via KnowledgeBase (default)
+        repo_root = Path(args.local).resolve() if args.local else Path(script_dir).parent
+        kb = KnowledgeBase(str(repo_root), 'solve-it.json')
+        db = {
+            "techniques": kb.get_all_techniques_with_full_detail(),
+            "weaknesses": kb.get_all_weaknesses_with_full_detail(),
+            "mitigations": kb.get_all_mitigations_with_full_detail(),
+            "objectives": kb.list_objectives(),
+        }
+        print(f"  Loaded: {len(db['techniques'])} techniques, "
+              f"{len(db['weaknesses'])} weaknesses, {len(db['mitigations'])} mitigations, "
+              f"{len(db['objectives'])} objectives.")
 
     # Extract git contributor/reviewer credits
     credits: dict = {}

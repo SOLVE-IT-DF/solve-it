@@ -1,12 +1,16 @@
 {
     "id": "W1004",
-    "name": "Acquisition does not include all sectors from LBA0 to LBA max",
+    "name": "Data copied does not include all sectors from LBA0 to LBA max due to the data copying process stopping prematurely",
+    "description": "",
+    "mitigations": [
+        "M1003",
+        "M1004"
+    ],
     "INCOMP": "x",
     "INAC-EX": "",
     "INAC-AS": "",
     "INAC-ALT": "",
     "INAC-COR": "",
     "MISINT": "",
-    "mitigations": ["M1003", "M1004"],
     "references": []
 }

@@ -1,6 +1,6 @@
 {
     "id": "W1143",
-    "name": "Acquisition method does not read remapped sectors e.g. G-Lists",
+    "name": "Data is not read from remapped sectors e.g. G-Lists during the acquisition process",
     "INCOMP": "x",
     "INAC-EX": "",
     "INAC-AS": "",

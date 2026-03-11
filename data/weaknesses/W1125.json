@@ -1,9 +1,10 @@
 {
     "id": "W1125",
-    "name": "Failure to validate hash properly: this could allow errors from earlier to propagate e.g. incorrect sectors",
+    "name": "Failure to validate hash properly during disk image verification",
+    "description": "This could allow errors from earlier to propagate e.g. incorrect sectors",
     "INCOMP": "",
     "INAC-EX": "",
-    "INAC-AS": "",
+    "INAC-AS": "X",
     "INAC-ALT": "",
     "INAC-COR": "X",
     "MISINT": "",

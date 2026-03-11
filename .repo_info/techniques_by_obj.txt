@@ -10,50 +10,51 @@ Preserve digital evidence	T1010	Place device in faraday environment
 Preserve digital evidence	T1012	Connect storage medium via hardware write blocker
 Preserve digital evidence	T1013	Use software write blockers to provide read only access to storage media
 Preserve digital evidence	T1110	Preserving reference data
-Acquire data	T1112	Physical disk identification and removal
-Acquire data	T1113	Access internal storage via bootable environment
-Acquire data	T1111	Recording system clock offset
-Acquire data	T1028	Chip-off
-Acquire data	T1029	Access data from a desoldered eMMC via a chip reader
-Acquire data	T1030	Data read from unmanaged NAND
-Acquire data	T1002	Disk imaging
-Acquire data	T1003	Memory imaging
-Acquire data	T1114	Memory Acquisition via Cold Boot Attack
-Acquire data	T1016	Live data collection
-Acquire data	T1020	Mobile file system extraction
-Acquire data	T1022	Mobile device screenshot based capture
+Access device data for acquisition	T1029	Access data from a desoldered eMMC via a chip reader
+Access device data for acquisition	T1171	Access file system via live operating system
+Access device data for acquisition	T1113	Access internal storage via bootable environment
+Access device data for acquisition	T1028	Chip-off
+Access device data for acquisition	T1166	Connect directly to storage media
+Access device data for acquisition	T1112	Physical disk identification and removal
+Overcome protection mechanisms	T1039	App downgrade
+Overcome protection mechanisms	T1034	Brute force attack
+Overcome protection mechanisms	T1035	Dictionary attack
+Overcome protection mechanisms	T1033	Extraction of credential from an accessible device
+Overcome protection mechanisms	T1031	Key recovery from memory
+Overcome protection mechanisms	T1041	Pin2Pwn
+Overcome protection mechanisms	T1038	Rainbow table-based password attack
+Overcome protection mechanisms	T1032	Side channel
+Overcome protection mechanisms	T1036	Smudge attack
+Overcome protection mechanisms	T1037	Obtain password from the device owner
+Overcome protection mechanisms	T1040	Use mobile device exploit
+Overcome protection mechanisms	T1158	Configure device to enable a service needed for data extraction
+Acquire data	T1163	Automated screenshot-based capture of a mobile device
 Acquire data	T1023	Cloud data collection to access data via a live web page using credentials
 Acquire data	T1024	Cloud data collection via submission of request to service provider
-Acquire data	T1018	Remote data collection
-Acquire data	T1017	Network packet capture
 Acquire data	T1104	Collect data using open source intelligence
-Acquire data	T1004	Selective file acquisition
-Acquire data	T1015	Privacy preserving selective extraction
-Acquire data	T1025	Writing bitstream data to a forensic image format
-Acquire data	T1026	Writing data to standard archive format
+Acquire data	T1160	Collect data with 'cloud backup restore' approach
+Acquire data	T1030	Data read from unmanaged NAND
+Acquire data	T1002	Disk imaging
+Acquire data	T1174	Read evidential files stored directly on local file system
 Acquire data	T1157	Extract device data using exposed service
 Acquire data	T1019	Mobile backup extraction (s)
 Acquire data	T1159	Extract mobile data via deployed agent
-Acquire data	T1160	Collect data with 'cloud backup restore' approach
+Acquire data	T1016	Live data collection
+Acquire data	T1114	Memory Acquisition via Cold Boot Attack
+Acquire data	T1003	Memory imaging
+Acquire data	T1022	Mobile device screenshot based capture
+Acquire data	T1017	Network packet capture
+Acquire data	T1015	Privacy preserving selective extraction
 Acquire data	T1162	Read data from a device via In-System Programming (ISP)
 Acquire data	T1027	Data read using JTAG (s)
-Acquire data	T1163	Automated screenshot-based capture of a mobile device
-Acquire data	T1164	Direct data read from a block device
-Acquire data	T1166	Connect directly to storage media
-Acquire data	T1171	Access file system via live operating system
+Acquire data	T1111	Recording system clock offset
+Acquire data	T1018	Remote data collection
+Acquire data	T1004	Selective file acquisition
+Acquire data	T1020	Mobile file system extraction
 Acquire data	T1175	Extract data using content queries
-Gain access	T1039	App downgrade
-Gain access	T1034	Brute force attack
-Gain access	T1035	Dictionary attack
-Gain access	T1033	Extraction of credential from an accessible device
-Gain access	T1031	Key recovery from memory
-Gain access	T1041	Pin2Pwn
-Gain access	T1038	Rainbow table-based password attack
-Gain access	T1032	Side channel
-Gain access	T1036	Smudge attack
-Gain access	T1037	Obtain password from the device owner
-Gain access	T1040	Use mobile device exploit
-Gain access	T1158	Configure device to enable a service needed for data extraction
+Acquire data	T1164	Direct data read from a block device
+Store acquired data	T1025	Writing bitstream data to a forensic image format
+Store acquired data	T1026	Writing data to standard archive format
 Read data from digital evidence storage formats	T1045	Decode standard archive format
 Read data from digital evidence storage formats	T1042	Hash verification of source device against stored data
 Read data from digital evidence storage formats	T1043	Access forensic image content (bitstream)

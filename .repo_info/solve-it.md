@@ -9,8 +9,10 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - [Find potential digital evidence sources](#find-potential-digital-evidence-sources)
 - [Prioritize digital evidence sources](#prioritize-digital-evidence-sources)
 - [Preserve digital evidence](#preserve-digital-evidence)
+- [Access device data for acquisition](#access-device-data-for-acquisition)
+- [Overcome protection mechanisms](#overcome-protection-mechanisms)
 - [Acquire data](#acquire-data)
-- [Gain access](#gain-access)
+- [Store acquired data](#store-acquired-data)
 - [Read data from digital evidence storage formats](#read-data-from-digital-evidence-storage-formats)
 - [Reduce data under consideration](#reduce-data-under-consideration)
 - [Access partitions, volumes and file systems data](#access-partitions,-volumes-and-file-systems-data)
@@ -54,6 +56,32 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - 🟢 [T1012 - Connect storage medium via hardware write blocker](md_content/T1012.md)
 - 🔴 [T1013 - Use software write blockers to provide read only access to storage media](md_content/T1013.md)
 - 🟡 [T1110 - Preserving reference data](md_content/T1110.md)
+<a id="access-device-data-for-acquisition"></a>
+### Access device data for acquisition
+*Connect to physical sources of digital evidence to facilitate data extraction*
+
+- 🔴 [T1028 - Chip-off](md_content/T1028.md)
+- 🔴 [T1029 - Access data from a desoldered eMMC via a chip reader](md_content/T1029.md)
+- 🟢 [T1112 - Physical disk identification and removal](md_content/T1112.md)
+- 🟢 [T1113 - Access internal storage via bootable environment](md_content/T1113.md)
+- 🟢 [T1166 - Connect directly to storage media](md_content/T1166.md)
+- 🔴 [T1171 - Access file system via live operating system](md_content/T1171.md)
+<a id="overcome-protection-mechanisms"></a>
+### Overcome protection mechanisms
+*Attempt to gain access to protected data sources or other restricted data.*
+
+- 🟢 [T1031 - Key recovery from memory](md_content/T1031.md)
+- 🔴 [T1032 - Side channel](md_content/T1032.md)
+- 🔴 [T1033 - Extraction of credential from an accessible device](md_content/T1033.md)
+- 🟢 [T1034 - Brute force attack](md_content/T1034.md)
+- 🟢 [T1035 - Dictionary attack](md_content/T1035.md)
+- 🔴 [T1036 - Smudge attack](md_content/T1036.md)
+- 🔴 [T1037 - Obtain password from the device owner](md_content/T1037.md)
+- 🔴 [T1038 - Rainbow table-based password attack](md_content/T1038.md)
+- 🔴 [T1039 - App downgrade](md_content/T1039.md)
+- 🟡 [T1040 - Use mobile device exploit](md_content/T1040.md)
+- 🔴 [T1041 - Pin2Pwn](md_content/T1041.md)
+- 🟢 [T1158 - Configure device to enable a service needed for data extraction](md_content/T1158.md)
 <a id="acquire-data"></a>
 ### Acquire data
 *Collect data from the identified evidence sources.*
@@ -69,15 +97,9 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - 🔴 [T1022 - Mobile device screenshot based capture](md_content/T1022.md)
 - 🔴 [T1023 - Cloud data collection to access data via a live web page using credentials](md_content/T1023.md)
 - 🔴 [T1024 - Cloud data collection via submission of request to service provider](md_content/T1024.md)
-- 🟢 [T1025 - Writing bitstream data to a forensic image format](md_content/T1025.md)
-- 🟢 [T1026 - Writing data to standard archive format](md_content/T1026.md)
-- 🔴 [T1028 - Chip-off](md_content/T1028.md)
-- 🔴 [T1029 - Access data from a desoldered eMMC via a chip reader](md_content/T1029.md)
 - 🔴 [T1030 - Data read from unmanaged NAND](md_content/T1030.md)
 - 🔴 [T1104 - Collect data using open source intelligence](md_content/T1104.md)
 - 🟡 [T1111 - Recording system clock offset](md_content/T1111.md)
-- 🟢 [T1112 - Physical disk identification and removal](md_content/T1112.md)
-- 🟢 [T1113 - Access internal storage via bootable environment](md_content/T1113.md)
 - 🟡 [T1114 - Memory Acquisition via Cold Boot Attack](md_content/T1114.md)
 - 🟢 [T1157 - Extract device data using exposed service](md_content/T1157.md)
     - 🟢 [T1019 - Mobile backup extraction](md_content/T1019.md)
@@ -87,25 +109,14 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
     - 🔴 [T1027 - Data read using JTAG](md_content/T1027.md)
 - 🔴 [T1163 - Automated screenshot-based capture of a mobile device](md_content/T1163.md)
 - 🔴 [T1164 - Direct data read from a block device](md_content/T1164.md)
-- 🟢 [T1166 - Connect directly to storage media](md_content/T1166.md)
-- 🔴 [T1171 - Access file system via live operating system](md_content/T1171.md)
+- 🔴 [T1174 - Read evidential files stored directly on local file system](md_content/T1174.md)
 - 🔴 [T1175 - Extract data using content queries](md_content/T1175.md)
-<a id="gain-access"></a>
-### Gain access
-*Attempt to gain access to protected data sources or other restricted data.*
+<a id="store-acquired-data"></a>
+### Store acquired data
+*Store acquired data in one or more formats for subsequent examination and analysis*
 
-- 🟢 [T1031 - Key recovery from memory](md_content/T1031.md)
-- 🔴 [T1032 - Side channel](md_content/T1032.md)
-- 🔴 [T1033 - Extraction of credential from an accessible device](md_content/T1033.md)
-- 🟢 [T1034 - Brute force attack](md_content/T1034.md)
-- 🟢 [T1035 - Dictionary attack](md_content/T1035.md)
-- 🔴 [T1036 - Smudge attack](md_content/T1036.md)
-- 🔴 [T1037 - Obtain password from the device owner](md_content/T1037.md)
-- 🔴 [T1038 - Rainbow table-based password attack](md_content/T1038.md)
-- 🔴 [T1039 - App downgrade](md_content/T1039.md)
-- 🟡 [T1040 - Use mobile device exploit](md_content/T1040.md)
-- 🔴 [T1041 - Pin2Pwn](md_content/T1041.md)
-- 🟢 [T1158 - Configure device to enable a service needed for data extraction](md_content/T1158.md)
+- 🟢 [T1025 - Writing bitstream data to a forensic image format](md_content/T1025.md)
+- 🟢 [T1026 - Writing data to standard archive format](md_content/T1026.md)
 <a id="read-data-from-digital-evidence-storage-formats"></a>
 ### Read data from digital evidence storage formats
 *Access data within digital evidence containers such as disk images, memory dumps, or archive formats.*
@@ -256,8 +267,8 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 - 🔴 [T1087 - Location-based event reconstruction](md_content/T1087.md)
 - 🔴 [T1088 - Relational-based event reconstruction](md_content/T1088.md)
 - 🟢 [T1117 - Time-based event reconstruction](md_content/T1117.md)
-- 🔴 [T1154 - Identity-based event reconstruction](md_content/T1154.md)
-- 🔴 [T1155 - Operation-based event reconstruction](md_content/T1155.md)
+- 🟡 [T1154 - Identity-based event reconstruction](md_content/T1154.md)
+- 🟡 [T1155 - Operation-based event reconstruction](md_content/T1155.md)
 - 🔴 [T1156 - Functional-based event reconstruction](md_content/T1156.md)
 <a id="conduct-research"></a>
 ### Conduct research
@@ -281,4 +292,4 @@ This is a generated markdown version of the SOLVE-IT knowledge base. See [GitHub
 
 ---
 
-*Markdown generated: 2026-03-11 11:39:35*
+*Markdown generated: 2026-03-11 11:40:17*

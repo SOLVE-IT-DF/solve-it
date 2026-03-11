@@ -179,7 +179,6 @@ W1177	Failing to boot from intended forensic bootable environment, causing the n
 W1178	Inability to load the forensic bootable environment due to system configuration
 W1179	Failure to detect internal disk from bootable environment
 W1180	Failing to decrypt internal disk using the bootable environment
-W1181	Failure to decrypt internal disk using a bootable environment
 W1182	Bootable environment overwrites relevant data on the target device
 W1183	Failure to identify the existence of a connected device
 W1184	Presenting devices 'seen' as devices connected

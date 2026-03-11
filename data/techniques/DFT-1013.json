@@ -3,7 +3,7 @@
     "name": "Use software write blockers to provide read only access to storage media",
     "description": "Use of a software-based tool that prevents a computer from writing to computer storage media connected to it (NIST 2006)",
     "synonyms": [],
-    "details": "",
+    "details": "Note that both read/write and write protected interfaces are specified as input since a software write blocker could be applied to a hardware write protected interface.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],

@@ -42,47 +42,23 @@
         ]
     },
     {
-        "id": "DFO-1006",
+        "id": "DFO-1021",
         "sort_order": 4,
-        "name": "Acquire data",
-        "description": "Collect data from the identified evidence sources.",
+        "name": "Access device data for acquisition",
+        "description": "Connect to physical sources of digital evidence to facilitate data extraction",
         "techniques": [
-            "DFT-1112",
-            "DFT-1113",
-            "DFT-1111",
-            "DFT-1028",
             "DFT-1029",
-            "DFT-1030",
-            "DFT-1002",
-            "DFT-1003",
-            "DFT-1114",
-            "DFT-1016",
-            "DFT-1020",
-            "DFT-1022",
-            "DFT-1023",
-            "DFT-1024",
-            "DFT-1018",
-            "DFT-1017",
-            "DFT-1104",
-            "DFT-1004",
-            "DFT-1015",
-            "DFT-1025",
-            "DFT-1026",
-            "DFT-1157",
-            "DFT-1159",
-            "DFT-1160",
-            "DFT-1162",
-            "DFT-1163",
-            "DFT-1164",
-            "DFT-1166",
             "DFT-1171",
-            "DFT-1175"
+            "DFT-1113",
+            "DFT-1028",
+            "DFT-1166",
+            "DFT-1112"
         ]
     },
     {
         "id": "DFO-1016",
         "sort_order": 5,
-        "name": "Gain access",
+        "name": "Overcome protection mechanisms",
         "description": "Attempt to gain access to protected data sources or other restricted data.",
         "techniques": [
             "DFT-1039",
@@ -100,8 +76,48 @@
         ]
     },
     {
-        "id": "DFO-1018",
+        "id": "DFO-1006",
         "sort_order": 6,
+        "name": "Acquire data",
+        "description": "Collect data from the identified evidence sources.",
+        "techniques": [
+            "DFT-1163",
+            "DFT-1023",
+            "DFT-1024",
+            "DFT-1104",
+            "DFT-1160",
+            "DFT-1030",
+            "DFT-1002",            
+            "DFT-1157",
+            "DFT-1159",
+            "DFT-1016",
+            "DFT-1114",
+            "DFT-1003",
+            "DFT-1022",
+            "DFT-1017",
+            "DFT-1015",
+            "DFT-1162",
+            "DFT-1111",
+            "DFT-1018",
+            "DFT-1004",
+            "DFT-1020",
+            "DFT-1175",
+            "DFT-1164"
+        ]
+    },
+    {
+        "id": "DFO-1022",
+        "sort_order": 7,
+        "name": "Store acquired data",
+        "description": "Store acquired data in one or more formats for subsequent examination and analysis",
+        "techniques": [
+            "DFT-1025",
+            "DFT-1026"
+        ]
+    },
+    {
+        "id": "DFO-1018",
+        "sort_order": 8,
         "name": "Read data from digital evidence storage formats",
         "description": "Access data within digital evidence containers such as disk images, memory dumps, or archive formats.",
         "techniques": [
@@ -118,7 +134,7 @@
     },
     {
         "id": "DFO-1007",
-        "sort_order": 7,
+        "sort_order": 9,
         "name": "Reduce data under consideration",
         "description": "Filter the data to be considered in the investigation for practical, legal, or privacy protection reasons.",
         "techniques": [
@@ -129,7 +145,7 @@
     },
     {
         "id": "DFO-1013",
-        "sort_order": 8,
+        "sort_order": 10,
         "name": "Access partitions, volumes and file systems data",
         "description": "Process core data storage structures such as partitions, volumes, and file systems, recovering content and metadata.",
         "techniques": [
@@ -143,7 +159,7 @@
     },
     {
         "id": "DFO-1017",
-        "sort_order": 9,
+        "sort_order": 11,
         "name": "Extract artifacts stored by the operating system",
         "description": "Process data stored by the operating system to extract digital forensic artifacts.",
         "techniques": [
@@ -161,7 +177,7 @@
     },
     {
         "id": "DFO-1011",
-        "sort_order": 10,
+        "sort_order": 12,
         "name": "Extract artifacts stored by applications",
         "description": "Process data stored by the applications to extract digital forensic artifacts.",
         "techniques": [
@@ -182,7 +198,7 @@
     },
     {
         "id": "DFO-1002",
-        "sort_order": 11,
+        "sort_order": 13,
         "name": "Extract artifacts, or content of specific types",
         "description": "Process data to extract artifacts or stored content of specific types.",
         "techniques": [
@@ -201,7 +217,7 @@
     },
     {
         "id": "DFO-1012",
-        "sort_order": 12,
+        "sort_order": 14,
         "name": "Locate potentially relevant content",
         "description": "Attempt to find digital artifacts relevant to the investigation.",
         "techniques": [
@@ -214,7 +230,7 @@
     },
     {
         "id": "DFO-1003",
-        "sort_order": 13,
+        "sort_order": 15,
         "name": "Review content for relevance",
         "description": "Review potentially relevant content to determine its significance or meaning.",
         "techniques": [
@@ -228,7 +244,7 @@
     },
     {
         "id": "DFO-1019",
-        "sort_order": 14,
+        "sort_order": 16,
         "name": "Detect anti-forensics and other anomalies",
         "description": "Search for indicators of anti-forensic techniques or other anomalies such as malware, which could affect interpretation.",
         "techniques": [
@@ -243,7 +259,7 @@
     },
     {
         "id": "DFO-1008",
-        "sort_order": 15,
+        "sort_order": 17,
         "name": "Establish identities",
         "description": "Attempt to link data or devices to individuals.",
         "techniques": [
@@ -253,7 +269,7 @@
     },
     {
         "id": "DFO-1009",
-        "sort_order": 16,
+        "sort_order": 18,
         "name": "Create visualizations",
         "description": "Display information using visual representations to assist with analysis.",
         "techniques": [
@@ -263,7 +279,7 @@
     },
     {
         "id": "DFO-1001",
-        "sort_order": 17,
+        "sort_order": 19,
         "name": "Reconstruct events",
         "description": "Use available digital evidence to formulate and test hypotheses about events.",
         "techniques": [
@@ -277,7 +293,7 @@
     },
     {
         "id": "DFO-1004",
-        "sort_order": 18,
+        "sort_order": 20,
         "name": "Conduct research",
         "description": "Conduct research to gain additional knowledge to support the acquisition, extraction, or interpretation of digital evidence.",
         "techniques": [
@@ -290,7 +306,7 @@
     },
     {
         "id": "DFO-1020",
-        "sort_order": 19,
+        "sort_order": 21,
         "name": "Produce documentation",
         "description": "Create documentation about techniques used and findings.",
         "techniques": [

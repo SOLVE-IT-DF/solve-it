@@ -12,7 +12,5 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/Application",
         "https://ontology.unifiedcyberontology.org/uco/observable/ApplicationVersion"
     ],
-    "references": [
-        "todo"
-    ]
+    "references": []
 }

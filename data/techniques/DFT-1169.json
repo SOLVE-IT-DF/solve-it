@@ -11,7 +11,20 @@
         "https://ontology.solveit-df.org/solveit/observable/FileSet"
     ],
     "CASE_output_classes": [
-        "https://ontology.solveit-df.org/solveit/observable/ApplicationFiles"
+        "https://ontology.solveit-df.org/solveit/observable/ApplicationFiles",        
+        "https://ontology.solveit-df.org/solveit/observable/BrowserAppFiles",
+        "https://ontology.solveit-df.org/solveit/observable/BrowserCacheData",
+        "https://ontology.solveit-df.org/solveit/observable/ChatAppFiles",
+        "https://ontology.solveit-df.org/solveit/observable/AiChatAppFiles",
+        "https://ontology.solveit-df.org/solveit/observable/EmailAppFiles",
+        "https://ontology.solveit-df.org/solveit/observable/HealthAppFiles",
+        "https://ontology.solveit-df.org/solveit/observable/MapsAppFiles",
+        "https://ontology.solveit-df.org/solveit/observable/NavigationAppFiles",
+        "https://ontology.solveit-df.org/solveit/observable/PaymentAppFiles",
+        "https://ontology.solveit-df.org/solveit/observable/RemindersAppFiles",
+        "https://ontology.solveit-df.org/solveit/observable/SocialMediaAppFiles",
+        "https://ontology.solveit-df.org/solveit/observable/CalendarAppFiles",                                                            
+        "https://ontology.solveit-df.org/solveit/observable/PhotosAppFiles" 
     ],
     "references": []
 }

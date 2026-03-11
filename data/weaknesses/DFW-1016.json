@@ -1,14 +1,17 @@
 {
     "id": "DFW-1016",
-    "name": "Data copied from sectors on source device are stored incorrectly",
+    "name": "Data copied from sectors on source device are not transferred correctly for storage",
+    "description": "This describes some data transformation that happens inside the imaging tool that results in a mismatch between the source and destination data",
     "INCOMP": "",
-    "INAC-EX": "",
+    "INAC-EX": "x",
     "INAC-AS": "",
-    "INAC-ALT": "x",
+    "INAC-ALT": "",
     "INAC-COR": "x",
     "MISINT": "",
     "mitigations": [
         "DFM-1004"
     ],
-    "references": []
+    "references": [
+        "conv option -dd, https://www.ibm.com/docs/en/aix/7.2.0?topic=d-dd-command#dd__row-d3e19630"
+    ]
 }

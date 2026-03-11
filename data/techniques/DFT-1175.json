@@ -12,7 +12,8 @@
     ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/Message",
-        "https://ontology.unifiedcyberontology.org/uco/observable/Call"
+        "https://ontology.unifiedcyberontology.org/uco/observable/Call",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Contact"
     ],
     "references": [
         "Google (2025) Content provider basics. Available at: https://developer.android.com/guide/topics/providers/content-provider-basics."

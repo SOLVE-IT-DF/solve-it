@@ -1,6 +1,6 @@
 {
-    "id": "DFW-1004",
-    "name": "Data copied does not include all sectors from LBA0 to LBA max due to the data copying process stopping prematurely",
+    "id": "DFW-1278",
+    "name": "Data copied does not include all sectors from LBA0 to LBA max due to the data copying process skipping some sectors or bytes",
     "description": "",
     "INCOMP": "x",
     "INAC-EX": "",

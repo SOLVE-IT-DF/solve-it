@@ -9,7 +9,9 @@
     "details": "",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": [],
+    "weaknesses": [
+        "DFW-1150"
+    ],
     "CASE_input_classes": [],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/identity/Person",

@@ -8,6 +8,10 @@
     "examples": [],
     "weaknesses": [],
     "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Message",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Post",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Contact"
+    ],
     "references": []
 }

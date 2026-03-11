@@ -1,6 +1,6 @@
 {
     "id": "DFT-1042",
-    "name": "Disk image hash verification",
+    "name": "Hash verification of source device against stored data",
     "description": "Computing the hash function of the entire contents of a disk, recording it, and then subsequently computing the hash over any disk image created to detect if any content is different (adapted from Lyle 2002)",
     "synonyms": [],
     "details": "",

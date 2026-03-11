@@ -11,7 +11,5 @@
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/ObservableRelationship"
     ],
-    "references": [
-        "todo"
-    ]
+    "references": []
 }

@@ -459,6 +459,18 @@ def phase2_cross_references(
     if bad == 0:
         result.pass_("No duplicate techniques within objectives", verbose)
 
+    # Techniques appearing in more than one objective
+    tech_to_objs: Dict[str, list] = {}
+    for obj in objectives:
+        for tid in obj.get("techniques", []):
+            tech_to_objs.setdefault(tid, []).append(obj.get("id", "?"))
+    multi = {tid: objs for tid, objs in tech_to_objs.items() if len(objs) > 1}
+    if multi:
+        for tid, objs in sorted(multi.items()):
+            result.warn(f"Technique {tid} appears in multiple objectives: {', '.join(objs)}")
+    else:
+        result.pass_("No techniques shared across objectives", verbose)
+
     # Citation cross-reference check
     if citations is not None:
         citation_ids = set(citations.keys())

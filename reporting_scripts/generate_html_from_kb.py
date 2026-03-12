@@ -424,12 +424,15 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
 
 /* ── Reset ─────────────────────────────────────────────────── */
 *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
-html {{ font-size: 15px; scroll-behavior: smooth; }}
+html {{ font-size: 15px; scroll-behavior: smooth; height: 100%; }}
 body {{
   font-family: var(--font-body);
   background: var(--gray-50);
   color: var(--gray-900);
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }}
 a {{ color: var(--blue); text-decoration: none; }}
 a:hover {{ text-decoration: underline; }}
@@ -453,8 +456,7 @@ body.custom-mode .disabled-btn {{
   align-items: center;
   gap: 0;
   height: 52px;
-  position: sticky;
-  top: 0;
+  flex-shrink: 0;
   border-top: 1px solid var(--gray-200);
   z-index: 500;
   box-shadow: 0 2px 8px rgba(0,0,0,.25);
@@ -520,6 +522,66 @@ body.custom-mode .disabled-btn {{
 }}
 .topnav-tab-short {{ display: none; font-weight: 600; }}
 
+/* ── Burger menu (narrow screens) ─────────────────────────── */
+.burger-btn {{
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: inherit;
+  font-size: .85rem;
+  font-weight: 600;
+}}
+.burger-btn:hover {{ color: #fff; background: rgba(255,255,255,.06); }}
+.burger-label {{ color: #fff; text-transform: uppercase; letter-spacing: .02em; }}
+.burger-menu {{
+  display: none;
+  position: absolute;
+  top: 52px;
+  left: 0;
+  background: var(--navy);
+  border: 1px solid rgba(255,255,255,.1);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  z-index: 600;
+  min-width: 200px;
+  padding: 4px 0;
+}}
+.burger-menu:not(.hidden) {{ display: block; }}
+.burger-item {{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 18px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,.7);
+  font-size: .85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}}
+.burger-item:hover {{ color: #fff; background: rgba(255,255,255,.08); }}
+.burger-item.active {{ color: #fff; background: rgba(255,255,255,.12); }}
+.burger-badge {{
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 400;
+  background: rgba(255,255,255,.15);
+  padding: 1px 7px;
+  border-radius: 10px;
+}}
+
 .topnav-search {{
   display: flex;
   align-items: center;
@@ -580,6 +642,7 @@ body.custom-mode .disabled-btn {{
   gap: 12px;
   flex-wrap: wrap;
   min-height: 48px;
+  flex-shrink: 0;
 }}
 .filterbar-label {{
   font-size: .75rem;
@@ -607,6 +670,9 @@ body.custom-mode .disabled-btn {{
 .filter-chip.active.chip-red    {{ background: var(--red);    border-color: var(--red); }}
 .filter-chip.active.chip-yellow {{ background: var(--yellow); border-color: var(--yellow); }}
 .filter-chip.active.chip-green  {{ background: var(--green);  border-color: var(--green); }}
+.filter-chip .stat-dot {{ display: inline-block; vertical-align: middle; margin-right: 2px; }}
+.filter-chip.active .stat-dot {{ background: rgba(255,255,255,.5); }}
+.chip-count {{ font-family: var(--font-mono); font-weight: 700; }}
 
 .filterbar-sep {{ width: 1px; height: 20px; background: var(--gray-200); }}
 .filterbar-stats {{
@@ -637,18 +703,25 @@ body.custom-mode .disabled-btn {{
   color: var(--gray-500);
   font-family: var(--font-mono);
 }}
+.result-detail {{
+  font-family: var(--font-body);
+  color: var(--gray-400);
+}}
 
 /* ── Page layout ───────────────────────────────────────────── */
 .page-layout {{
   display: flex;
-  height: calc(100vh - 100px);
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
 }}
 .main-area {{
   flex: 1;
   min-width: 0;
-  overflow-y: auto;
-  padding: 16px 20px 20px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   transition: margin-right .25s ease;
 }}
 .main-area.shifted {{ margin-right: 520px; }}
@@ -691,8 +764,16 @@ body.custom-mode .disabled-btn {{
 .stat-card.blue   {{ border-top: 3px solid var(--blue); }}
 
 /* ── Matrix (ATT&CK style) ─────────────────────────────────── */
+#view-matrix {{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 0;
+}}
 .matrix-container {{
-  overflow-x: auto;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
   padding-bottom: 16px;
 }}
 .matrix {{
@@ -1184,17 +1265,36 @@ body.custom-mode .disabled-btn {{
 .propose-update-btn svg {{ flex-shrink: 0; }}
 
 /* Transitions */
-.view {{ animation: fadeIn .2s ease; }}
+.view {{
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 20px 20px;
+  animation: fadeIn .2s ease;
+}}
 @keyframes fadeIn {{ from{{ opacity:0; }} to{{ opacity:1; }} }}
 .hidden {{ display: none !important; }}
 
 /* ── Responsive ────────────────────────────────────────────── */
-@media (max-width: 768px) {{
+/* Medium: collapse tab labels to letters */
+@media (max-width: 1400px) {{
   .topnav-tab-label {{ display: none; }}
   .topnav-tab > svg {{ display: none; }}
   .topnav-tab-short {{ display: inline; }}
+  .topnav-tab {{ padding: 0 14px; gap: 5px; }}
   .search-input {{ width: 140px; }}
   .search-input:focus {{ width: 160px; }}
+}}
+@media (max-width: 900px) {{
+  .result-detail {{ display: none; }}
+}}
+
+/* Narrow: burger menu replaces tabs */
+@media (max-width: 620px) {{
+  .result-label {{ display: none; }}
+  .topnav-tabs {{ display: none; }}
+  .burger-btn {{ display: flex; }}
+  .topnav {{ position: relative; }}
   .detail-panel {{ width: 100vw; }}
   .main-area.shifted {{ margin-right: 0; }}
   .stats-banner {{ grid-template-columns: repeat(2, 1fr); }}
@@ -1316,13 +1416,14 @@ body.custom-mode .disabled-btn {{
 .site-footer {{
   background: var(--navy-dark);
   color: #eee;
-  padding: 18px 24px;
+  padding: 8px 24px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  font-size: .75rem;
+  gap: 8px;
+  font-size: .72rem;
+  flex-shrink: 0;
 }}
 .footer-copyright {{
   opacity: .6;
@@ -1426,6 +1527,42 @@ body.custom-mode .disabled-btn {{
       <span class="tab-badge" id="badge-r">{n_r}</span>
     </button>
   </div>
+  <button class="burger-btn" id="burgerBtn" title="Menu">
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><rect x="2" y="4" width="16" height="2" rx="1"/><rect x="2" y="9" width="16" height="2" rx="1"/><rect x="2" y="14" width="16" height="2" rx="1"/></svg>
+    <span class="burger-label" id="burgerLabel">Matrix</span>
+  </button>
+  <div class="burger-menu hidden" id="burgerMenu">
+    <button class="burger-item active" data-view="matrix">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2h4v4H1V2zm5 0h4v4H6V2zm5 0h4v4h-4V2zM1 7h4v4H1V7zm5 0h4v4H6V7zm5 0h4v4h-4V7z"/></svg>
+      Matrix
+      <span class="burger-badge">{n_o}</span>
+    </button>
+    <button class="burger-item" data-view="objectives">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0-2A5 5 0 108 3a5 5 0 000 10zm0-2a3 3 0 100-6 3 3 0 000 6zm0-2a1 1 0 100-2 1 1 0 000 2z"/></svg>
+      Objectives
+      <span class="burger-badge">{n_o}</span>
+    </button>
+    <button class="burger-item" data-view="techniques">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3h12v2H2V3zm0 4h12v2H2V7zm0 4h8v2H2v-2z"/></svg>
+      Techniques
+      <span class="burger-badge">{n_t}</span>
+    </button>
+    <button class="burger-item" data-view="weaknesses">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.5A5.5 5.5 0 118 2.5a5.5 5.5 0 010 11zm-.5-8h1v4h-1V5.5zm0 5h1v1h-1v-1z"/></svg>
+      Weaknesses
+      <span class="burger-badge">{n_w}</span>
+    </button>
+    <button class="burger-item" data-view="mitigations">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.5 4.5H14l-3.75 2.75 1.5 4.5L8 10l-3.75 2.75 1.5-4.5L2 5.5h4.5L8 1z"/></svg>
+      Mitigations
+      <span class="burger-badge">{n_m}</span>
+    </button>
+    <button class="burger-item" data-view="references">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2h8a1 1 0 011 1v1h1a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1v-1H2a1 1 0 01-1-1V3a1 1 0 011-1h1zm1 1v9h8V3H4zM2 5v7h1V4H2v1zm10 8v1H4v-1h8z"/></svg>
+      References
+      <span class="burger-badge">{n_r}</span>
+    </button>
+  </div>
   <div class="topnav-search">
     <div class="search-wrap">
       <svg class="search-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
@@ -1444,21 +1581,12 @@ body.custom-mode .disabled-btn {{
 <div class="filterbar" id="filterbar">
   <!-- Matrix filters -->
   <div id="fb-matrix" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-    <span class="filterbar-label">Status</span>
     <button class="filter-chip active" data-tf="all">All</button>
-    <button class="filter-chip chip-green" data-tf="complete">{label_complete}</button>
-    <button class="filter-chip chip-yellow" data-tf="partial">{label_partial}</button>
-    <button class="filter-chip chip-red" data-tf="placeholder">{label_placeholder}</button>
+    <button class="filter-chip chip-green" data-tf="complete"><span class="stat-dot green"></span><span class="chip-count" id="chip-count-complete">{n_complete}</span> {label_complete}</button>
+    <button class="filter-chip chip-yellow" data-tf="partial"><span class="stat-dot yellow"></span><span class="chip-count" id="chip-count-partial">{n_partial}</span> {label_partial}</button>
+    <button class="filter-chip chip-red" data-tf="placeholder"><span class="stat-dot red"></span><span class="chip-count" id="chip-count-placeholder">{n_placeholder}</span> {label_placeholder}</button>
     <div class="filterbar-sep"></div>
     <div class="filterbar-stats">
-      <div class="stat-pill"><div class="stat-dot green"></div><span class="stat-num">{n_complete}</span> {label_complete}</div>
-      <div class="stat-pill"><div class="stat-dot yellow"></div><span class="stat-num">{n_partial}</span> {label_partial}</div>
-      <div class="stat-pill"><div class="stat-dot red"></div><span class="stat-num">{n_placeholder}</span> {label_placeholder}</div>
-      <div class="filterbar-sep"></div>
-      <div class="stat-pill" title="{n_t} techniques across {n_o} objectives">
-        <span class="stat-num">{n_t}</span> techniques &nbsp;·&nbsp; <span class="stat-num" id="stat-obj-count">{n_o}</span> <span id="stat-obj-label">objectives</span>
-      </div>
-      <div class="filterbar-sep"></div>
       <span id="matrix-obj-indicator" style="display:none">
         <span class="filterbar-sep"></span>
         <span style="font-size:.8rem;color:var(--navy);font-weight:600">
@@ -1567,6 +1695,23 @@ body.custom-mode .disabled-btn {{
 
     <!-- References view -->
     <div id="view-references" class="view hidden"></div>
+
+    <footer class="site-footer">
+      <div class="footer-copyright">&copy; {footer_year} SOLVE-IT</div>
+      <div class="footer-generated">
+        Generated {generated_at} &mdash;
+        <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank">github.com/SOLVE-IT-DF/solve-it</a>
+      </div>
+      <div class="footer-supported">
+        <span>Supported by:</span>
+        <a href="https://www.hargs.co.uk" target="_blank" rel="noopener noreferrer">
+          <img src="https://solve-it-df.github.io/www/assets/images/hargs-logo.jpg" alt="HARGS">
+        </a>
+        <a href="https://dfrws.org/" target="_blank" rel="noopener noreferrer" class="logo-dfrws">
+          <img src="https://solve-it-df.github.io/www/assets/images/dfrws-logo.png" alt="DFRWS">
+        </a>
+      </div>
+    </footer>
 
   </div><!-- /main-area -->
 
@@ -1977,7 +2122,13 @@ function renderMatrix() {{
 
   const nSubs = subIds.size;
   const nSubsHidden = nSubs - totalSubsShown;
-  document.getElementById('t-count').textContent = `${{totalShown}} shown` + (totalSubsShown > 0 ? ` (${{totalSubsShown}} sub-technique${{totalSubsShown!==1?'s':''}} shown)` : '') + (nSubsHidden > 0 ? ` (${{nSubsHidden}} sub-technique${{nSubsHidden!==1?'s':''}} hidden)` : '');
+  const totalAll = DB.techniques.length;
+  const tcEl = document.getElementById('t-count');
+  let tcText = `<span class="result-label">showing </span>${{totalShown}}/${{totalAll}}`;
+  let tcDetail = '';
+  if (nSubsHidden > 0) tcDetail = ` <span class="result-detail">(${{nSubsHidden}} sub-technique${{nSubsHidden!==1?'s':''}} hidden)</span>`;
+  else if (totalSubsShown > 0) tcDetail = ` <span class="result-detail">(${{totalSubsShown}} sub-technique${{totalSubsShown!==1?'s':''}} shown)</span>`;
+  tcEl.innerHTML = tcText + tcDetail;
 
   // Update objective filter indicator
   const objIndicator = document.getElementById('matrix-obj-indicator');
@@ -2812,6 +2963,11 @@ function switchView(view, skipHash) {{
 
   document.querySelectorAll('.topnav-tab').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.view === view));
+  document.querySelectorAll('.burger-item').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.view === view));
+  document.getElementById('burgerMenu').classList.add('hidden');
+  const viewNames = {{matrix:'Matrix',objectives:'Objectives',techniques:'Techniques',weaknesses:'Weaknesses',mitigations:'Mitigations',references:'References'}};
+  document.getElementById('burgerLabel').textContent = viewNames[view] || view;
 
   document.querySelectorAll('.view').forEach(el =>
     el.classList.toggle('hidden', el.id !== `view-${{view}}`));
@@ -2839,6 +2995,16 @@ function render() {{
 // ── Event wiring ──────────────────────────────────────────────────────
 document.querySelectorAll('.topnav-tab').forEach(btn =>
   btn.addEventListener('click', () => switchView(btn.dataset.view)));
+
+// Burger menu
+document.getElementById('burgerBtn').addEventListener('click', (e) => {{
+  e.stopPropagation();
+  document.getElementById('burgerMenu').classList.toggle('hidden');
+}});
+document.querySelectorAll('.burger-item').forEach(btn =>
+  btn.addEventListener('click', () => switchView(btn.dataset.view)));
+document.addEventListener('click', () =>
+  document.getElementById('burgerMenu').classList.add('hidden'));
 
 document.querySelectorAll('[data-tf]').forEach(btn =>
   btn.addEventListener('click', () => {{
@@ -3096,6 +3262,7 @@ if (CUSTOM_MODE) {{
       }}
     }};
     reader.readAsText(file);
+    uploadInput.value = '';
   }});
 
   resetBtn.addEventListener('click', function() {{
@@ -3203,22 +3370,6 @@ render();
 handleHash();
 window.addEventListener('hashchange', handleHash);
 </script>
-<footer class="site-footer">
-  <div class="footer-copyright">&copy; {footer_year} SOLVE-IT</div>
-  <div class="footer-generated">
-    Generated {generated_at} &mdash;
-    <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank">github.com/SOLVE-IT-DF/solve-it</a>
-  </div>
-  <div class="footer-supported">
-    <span>Supported by:</span>
-    <a href="https://www.hargs.co.uk" target="_blank" rel="noopener noreferrer">
-      <img src="https://solve-it-df.github.io/www/assets/images/hargs-logo.jpg" alt="HARGS">
-    </a>
-    <a href="https://dfrws.org/" target="_blank" rel="noopener noreferrer" class="logo-dfrws">
-      <img src="https://solve-it-df.github.io/www/assets/images/dfrws-logo.png" alt="DFRWS">
-    </a>
-  </div>
-</footer>
 </body>
 </html>"""
 

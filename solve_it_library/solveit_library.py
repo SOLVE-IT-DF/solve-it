@@ -1687,6 +1687,44 @@ class KnowledgeBase:
         result = self.call_extension_function('get_excel_for_mitigation', mitigation_id, excel_worksheet, start_row, kb=self)
         return result if result else excel_worksheet
 
+    # ── HTML extension methods ────────────────────────────────────────
+
+    def add_html_to_main_page(self) -> str:
+        """Get HTML content to add to the main page from all extensions."""
+        return self.call_extension_function('get_html_generic', kb=self)
+
+    def add_html_to_technique(self, technique_id: str) -> str:
+        """Get HTML content to add to a technique detail panel from all extensions."""
+        return self.call_extension_function('get_html_for_technique', technique_id, kb=self)
+
+    def add_html_to_technique_preview_suffix(self, technique_id: str) -> str:
+        """Get HTML suffix for a technique preview from all extensions."""
+        return self.call_extension_function('get_html_for_technique_suffix', technique_id, kb=self)
+
+    def add_html_to_weakness(self, weakness_id: str) -> str:
+        """Get HTML content to add to a weakness detail panel from all extensions."""
+        return self.call_extension_function('get_html_for_weakness', weakness_id, kb=self)
+
+    def add_html_to_weakness_preview_prefix(self, weakness_id: str) -> str:
+        """Get HTML prefix for a weakness preview from all extensions."""
+        return self.call_extension_function('get_html_for_weakness_prefix', weakness_id, kb=self)
+
+    def add_html_to_weakness_preview_suffix(self, weakness_id: str) -> str:
+        """Get HTML suffix for a weakness preview from all extensions."""
+        return self.call_extension_function('get_html_for_weakness_suffix', weakness_id, kb=self)
+
+    def add_html_to_mitigation(self, mitigation_id: str) -> str:
+        """Get HTML content to add to a mitigation detail panel from all extensions."""
+        return self.call_extension_function('get_html_for_mitigation', mitigation_id, kb=self)
+
+    def add_html_to_mitigation_preview_prefix(self, mitigation_id: str) -> str:
+        """Get HTML prefix for a mitigation preview from all extensions."""
+        return self.call_extension_function('get_html_for_mitigation_prefix', mitigation_id, kb=self)
+
+    def add_html_to_mitigation_preview_suffix(self, mitigation_id: str) -> str:
+        """Get HTML suffix for a mitigation preview from all extensions."""
+        return self.call_extension_function('get_html_for_mitigation_suffix', mitigation_id, kb=self)
+
     def get_colour_for_technique(self, technique_id: str) -> str:
         """
         Get the color code for a technique based on its completeness.
@@ -1723,37 +1761,21 @@ class KnowledgeBase:
 
     def get_technique_prefix(self, technique_id: str) -> str:
         """
-        Get the prefix emoji for a technique based on its completeness.
+        Get the prefix for a technique.
 
-        Delegates to the global_solveit_config module if loaded, otherwise uses default logic.
-
-        Prefix emojis indicate technique development status:
-        - 🔴 Red circle: Placeholder - no weaknesses defined
-        - 🟡 Yellow circle: Partially populated - missing description or mitigations
-        - 🟢 Green circle: Release candidate - fully populated
+        Delegates to the global_solveit_config module if loaded, otherwise returns empty string.
 
         Args:
             technique_id: The ID of the technique
 
         Returns:
-            str: Emoji prefix for the technique (includes trailing space)
+            str: Prefix for the technique
         """
         if self.global_config and hasattr(self.global_config, 'get_technique_prefix'):
             return self.global_config.get_technique_prefix(self, technique_id)
 
-        # Default implementation if no config is loaded
-        technique = self.get_technique(technique_id)
-        if not technique:
-            return "🔴 "
-
-        if len(technique.get('weaknesses', [])) == 0:
-            return "🔴 "
-
-        description = technique.get('description', '')
-        if not description or len(self.get_mit_list_for_technique(technique_id)) == 0:
-            return "🟡 "
-
-        return "🟢 "
+        # Default: no prefix
+        return ""
 
     def get_technique_suffix(self, technique_id: str) -> str:
         """

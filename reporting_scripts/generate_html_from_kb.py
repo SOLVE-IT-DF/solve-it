@@ -3,15 +3,17 @@
 """
 SOLVE-IT Knowledge Base HTML Generator
 =======================================
-Fetches data from the SOLVE-IT GitHub repository and generates a
-MITRE ATT&CK-style static HTML knowledge base viewer.
+Generates a MITRE ATT&CK-style static HTML knowledge base viewer from
+SOLVE-IT data. By default, loads data from the local repository via the
+solveit library. Use --remote to fetch from GitHub instead.
 
 Usage:
-    python generate_solveit.py                         # Fetch from GitHub
-    python generate_solveit.py --local ./solve-it      # Use local clone
-    python generate_solveit.py --output viewer.html    # Set output file
-    python generate_solveit.py --no-verify-ssl         # Skip SSL cert check
-    python generate_solveit.py --help
+    python generate_html_from_kb.py                         # Use local repo (default)
+    python generate_html_from_kb.py --local /path/to/repo   # Use a different local clone
+    python generate_html_from_kb.py --remote                 # Fetch from GitHub
+    python generate_html_from_kb.py --remote --no-verify-ssl # Remote + skip SSL check
+    python generate_html_from_kb.py --output viewer.html     # Set output file
+    python generate_html_from_kb.py --help
 
 Requirements:
     Python 3.8+ (no external dependencies for fetching; optionally 'requests')
@@ -28,6 +30,9 @@ import urllib.request
 import urllib.error
 from pathlib import Path
 from datetime import datetime
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+from solve_it_library import KnowledgeBase
 
 # ─────────────────────────────────────────────────────────────────────────────
 # GitHub endpoints
@@ -101,42 +106,6 @@ def load_from_github() -> dict:
     return db
 
 
-def load_from_local(repo_path: str) -> dict:
-    """Read SOLVE-IT data from a local clone of the repository."""
-    root = Path(repo_path)
-    if not root.exists():
-        sys.exit(f"ERROR: Path does not exist: {repo_path}")
-
-    db: dict = {"techniques": [], "weaknesses": [], "mitigations": [], "objectives": []}
-
-    for category in ("techniques", "weaknesses", "mitigations"):
-        folder = root / "data" / category
-        if not folder.exists():
-            print(f"  [warn] {folder} not found – skipping.", file=sys.stderr)
-            continue
-        files = list(folder.glob("*.json"))
-        print(f"  Loading {len(files)} {category} from {folder} …")
-        for fp in sorted(files):
-            try:
-                db[category].append(json.loads(fp.read_text(encoding="utf-8")))
-            except Exception as exc:
-                print(f"  [warn] {fp}: {exc}", file=sys.stderr)
-
-    cfg_path = root / "data" / "solve-it.json"
-    if not cfg_path.exists():
-        cfg_path = root / "solve-it.json"  # fallback for older layouts
-    if cfg_path.exists():
-        try:
-            cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
-            # solve-it.json may be a bare list of objectives, or a dict wrapping them
-            db["objectives"] = cfg if isinstance(cfg, list) else cfg.get("objectives", [])
-        except Exception as exc:
-            print(f"  [warn] solve-it.json: {exc}", file=sys.stderr)
-
-    print(f"  Loaded: {len(db['techniques'])} techniques, "
-          f"{len(db['weaknesses'])} weaknesses, {len(db['mitigations'])} mitigations, "
-          f"{len(db['objectives'])} objectives.")
-    return db
 
 
 def extract_git_credits(repo_root: Path) -> dict:
@@ -230,7 +199,7 @@ CAT_LABELS = {
 }
 
 
-def build_indices(db: dict) -> dict:
+def build_indices(db: dict, kb=None) -> dict:
     """Build lookup dicts and reverse maps."""
     idx: dict = {}
     idx["techniques"]  = {t["id"]: t for t in db["techniques"]}
@@ -254,19 +223,23 @@ def build_indices(db: dict) -> dict:
     # Compute status for each technique if not already present
     for t in db["techniques"]:
         if "status" not in t:
-            has_desc = bool((t.get("description") or "").strip())
-            num_weak = len(t.get("weaknesses") or [])
-            num_mit  = sum(
-                len(idx["weaknesses"][wid].get("mitigations") or [])
-                for wid in (t.get("weaknesses") or [])
-                if wid in idx["weaknesses"]
-            )
-            if num_weak == 0:
-                t["status"] = "placeholder"
-            elif not has_desc or num_mit == 0:
-                t["status"] = "partial"
+            # Check if global_config provides a custom status function
+            if kb is not None and kb.global_config and hasattr(kb.global_config, 'get_status_for_technique'):
+                t["status"] = kb.global_config.get_status_for_technique(kb, t["id"])
             else:
-                t["status"] = "complete"
+                has_desc = bool((t.get("description") or "").strip())
+                num_weak = len(t.get("weaknesses") or [])
+                num_mit  = sum(
+                    len(idx["weaknesses"][wid].get("mitigations") or [])
+                    for wid in (t.get("weaknesses") or [])
+                    if wid in idx["weaknesses"]
+                )
+                if num_weak == 0:
+                    t["status"] = "placeholder"
+                elif not has_desc or num_mit == 0:
+                    t["status"] = "partial"
+                else:
+                    t["status"] = "complete"
 
     return idx
 
@@ -298,7 +271,64 @@ def weakness_cats(w: dict) -> list[str]:
 # Main HTML generator
 # ─────────────────────────────────────────────────────────────────────────────
 
-def generate_html(db: dict, idx: dict, custom: bool = False) -> str:
+def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
+    # ── Enrich data with SOLVE-IT-X extension content ─────────────────
+    extension_main_html = ""
+    hidden_fields_json = "[]"
+
+    if kb is not None:
+        # Technique extension data
+        for t in db["techniques"]:
+            tid = t["id"]
+            t["_extension_html"] = kb.add_html_to_technique(tid)
+            t["_extension_suffix"] = kb.add_html_to_technique_preview_suffix(tid)
+            t["_bg_colour"] = kb.get_colour_for_technique(tid)
+            t["_prefix"] = kb.get_technique_prefix(tid)
+            t["_suffix"] = kb.get_technique_suffix(tid)
+
+        # Weakness extension data
+        for w in db["weaknesses"]:
+            wid = w["id"]
+            w["_extension_html"] = kb.add_html_to_weakness(wid)
+            w["_extension_prefix"] = kb.add_html_to_weakness_preview_prefix(wid)
+            w["_extension_suffix"] = kb.add_html_to_weakness_preview_suffix(wid)
+
+        # Mitigation extension data
+        for m in db["mitigations"]:
+            mid = m["id"]
+            m["_extension_html"] = kb.add_html_to_mitigation(mid)
+            m["_extension_prefix"] = kb.add_html_to_mitigation_preview_prefix(mid)
+            m["_extension_suffix"] = kb.add_html_to_mitigation_preview_suffix(mid)
+
+        # Main page extension HTML
+        extension_main_html = kb.add_html_to_main_page() or ""
+
+        # Hidden fields
+        all_fields = ['id', 'name', 'description', 'synonyms', 'details', 'subtechniques',
+                      'examples', 'CASE_input_classes', 'CASE_output_classes', 'weaknesses', 'references']
+        hidden = [f for f in all_fields if not kb.should_display_field(f)]
+        hidden_fields_json = json.dumps(hidden)
+
+        # Status labels and colours from global_solveit_config
+        status_labels = {"complete": "stable", "partial": "partial", "placeholder": "placeholder"}
+        status_colours = {
+            "complete": {"fg": "#1a7a4a", "bg": "#f0faf5", "border": "#a8dfc0"},
+            "partial": {"fg": "#b7741a", "bg": "#fdf8ee", "border": "#f0d8a0"},
+            "placeholder": {"fg": "#c0392b", "bg": "#fdf3f2", "border": "#f0c8c4"},
+        }
+        if kb.global_config:
+            if hasattr(kb.global_config, 'get_status_labels'):
+                status_labels.update(kb.global_config.get_status_labels(kb))
+            if hasattr(kb.global_config, 'get_status_colours'):
+                status_colours.update(kb.global_config.get_status_colours(kb))
+    else:
+        status_labels = {"complete": "stable", "partial": "partial", "placeholder": "placeholder"}
+        status_colours = {
+            "complete": {"fg": "#1a7a4a", "bg": "#f0faf5", "border": "#a8dfc0"},
+            "partial": {"fg": "#b7741a", "bg": "#fdf8ee", "border": "#f0d8a0"},
+            "placeholder": {"fg": "#c0392b", "bg": "#fdf3f2", "border": "#f0c8c4"},
+        }
+
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
     # Sanitise </script> sequences to prevent early tag closure when embedded in HTML
     data_json    = json.dumps(db, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
@@ -311,6 +341,21 @@ def generate_html(db: dict, idx: dict, custom: bool = False) -> str:
     brand_name = "SOLVE-IT-X: Custom View" if custom else "SOLVE-IT"
     custom_js_flag = "true" if custom else "false"
     footer_year = datetime.now().year
+
+    # Status label/colour variables for template injection
+    label_complete = esc(status_labels.get("complete", "Stable"))
+    label_partial = esc(status_labels.get("partial", "Partial"))
+    label_placeholder = esc(status_labels.get("placeholder", "Placeholder"))
+    colour_green_fg = status_colours["complete"]["fg"]
+    colour_green_bg = status_colours["complete"]["bg"]
+    colour_green_border = status_colours["complete"]["border"]
+    colour_yellow_fg = status_colours["partial"]["fg"]
+    colour_yellow_bg = status_colours["partial"]["bg"]
+    colour_yellow_border = status_colours["partial"]["border"]
+    colour_red_fg = status_colours["placeholder"]["fg"]
+    colour_red_bg = status_colours["placeholder"]["bg"]
+    colour_red_border = status_colours["placeholder"]["border"]
+    extension_main_html_escaped = extension_main_html.replace("{", "{{").replace("}", "}}") if extension_main_html else ""
 
     n_t = len(db["techniques"])
     n_w = len(db["weaknesses"])
@@ -358,15 +403,15 @@ def generate_html(db: dict, idx: dict, custom: bool = False) -> str:
   --gray-700:  #3f4559;
   --gray-900:  #1a1d28;
 
-  --red:        #c0392b;
-  --red-bg:     #fdf3f2;
-  --red-border: #f0c8c4;
-  --yellow:     #b7741a;
-  --yellow-bg:  #fdf8ee;
-  --yellow-border: #f0d8a0;
-  --green:      #1a7a4a;
-  --green-bg:   #f0faf5;
-  --green-border:#a8dfc0;
+  --red:        {colour_red_fg};
+  --red-bg:     {colour_red_bg};
+  --red-border: {colour_red_border};
+  --yellow:     {colour_yellow_fg};
+  --yellow-bg:  {colour_yellow_bg};
+  --yellow-border: {colour_yellow_border};
+  --green:      {colour_green_fg};
+  --green-bg:   {colour_green_bg};
+  --green-border:{colour_green_border};
 
   --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
   --shadow-md: 0 4px 16px rgba(0,0,0,.10);
@@ -379,12 +424,15 @@ def generate_html(db: dict, idx: dict, custom: bool = False) -> str:
 
 /* ── Reset ─────────────────────────────────────────────────── */
 *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
-html {{ font-size: 15px; scroll-behavior: smooth; }}
+html {{ font-size: 15px; scroll-behavior: smooth; height: 100%; }}
 body {{
   font-family: var(--font-body);
   background: var(--gray-50);
   color: var(--gray-900);
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }}
 a {{ color: var(--blue); text-decoration: none; }}
 a:hover {{ text-decoration: underline; }}
@@ -408,8 +456,7 @@ body.custom-mode .disabled-btn {{
   align-items: center;
   gap: 0;
   height: 52px;
-  position: sticky;
-  top: 0;
+  flex-shrink: 0;
   border-top: 1px solid var(--gray-200);
   z-index: 500;
   box-shadow: 0 2px 8px rgba(0,0,0,.25);
@@ -475,6 +522,66 @@ body.custom-mode .disabled-btn {{
 }}
 .topnav-tab-short {{ display: none; font-weight: 600; }}
 
+/* ── Burger menu (narrow screens) ─────────────────────────── */
+.burger-btn {{
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: inherit;
+  font-size: .85rem;
+  font-weight: 600;
+}}
+.burger-btn:hover {{ color: #fff; background: rgba(255,255,255,.06); }}
+.burger-label {{ color: #fff; text-transform: uppercase; letter-spacing: .02em; }}
+.burger-menu {{
+  display: none;
+  position: absolute;
+  top: 52px;
+  left: 0;
+  background: var(--navy);
+  border: 1px solid rgba(255,255,255,.1);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  z-index: 600;
+  min-width: 200px;
+  padding: 4px 0;
+}}
+.burger-menu:not(.hidden) {{ display: block; }}
+.burger-item {{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 18px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,.7);
+  font-size: .85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}}
+.burger-item:hover {{ color: #fff; background: rgba(255,255,255,.08); }}
+.burger-item.active {{ color: #fff; background: rgba(255,255,255,.12); }}
+.burger-badge {{
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 400;
+  background: rgba(255,255,255,.15);
+  padding: 1px 7px;
+  border-radius: 10px;
+}}
+
 .topnav-search {{
   display: flex;
   align-items: center;
@@ -535,6 +642,7 @@ body.custom-mode .disabled-btn {{
   gap: 12px;
   flex-wrap: wrap;
   min-height: 48px;
+  flex-shrink: 0;
 }}
 .filterbar-label {{
   font-size: .75rem;
@@ -562,6 +670,9 @@ body.custom-mode .disabled-btn {{
 .filter-chip.active.chip-red    {{ background: var(--red);    border-color: var(--red); }}
 .filter-chip.active.chip-yellow {{ background: var(--yellow); border-color: var(--yellow); }}
 .filter-chip.active.chip-green  {{ background: var(--green);  border-color: var(--green); }}
+.filter-chip .stat-dot {{ display: inline-block; vertical-align: middle; margin-right: 2px; }}
+.filter-chip.active .stat-dot {{ background: rgba(255,255,255,.5); }}
+.chip-count {{ font-family: var(--font-mono); font-weight: 700; }}
 
 .filterbar-sep {{ width: 1px; height: 20px; background: var(--gray-200); }}
 .filterbar-stats {{
@@ -592,18 +703,25 @@ body.custom-mode .disabled-btn {{
   color: var(--gray-500);
   font-family: var(--font-mono);
 }}
+.result-detail {{
+  font-family: var(--font-body);
+  color: var(--gray-400);
+}}
 
 /* ── Page layout ───────────────────────────────────────────── */
 .page-layout {{
   display: flex;
-  height: calc(100vh - 100px);
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
 }}
 .main-area {{
   flex: 1;
   min-width: 0;
-  overflow-y: auto;
-  padding: 16px 20px 20px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   transition: margin-right .25s ease;
 }}
 .main-area.shifted {{ margin-right: 520px; }}
@@ -646,8 +764,16 @@ body.custom-mode .disabled-btn {{
 .stat-card.blue   {{ border-top: 3px solid var(--blue); }}
 
 /* ── Matrix (ATT&CK style) ─────────────────────────────────── */
+#view-matrix {{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 0;
+}}
 .matrix-container {{
-  overflow-x: auto;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
   padding-bottom: 16px;
 }}
 .matrix {{
@@ -697,6 +823,15 @@ body.custom-mode .disabled-btn {{
   top: 0;
   z-index: 5;
   cursor: default;
+}}
+.tactic-header .tactic-id {{
+  display: block;
+  font-size: .58rem;
+  font-weight: 400;
+  opacity: .55;
+  margin-bottom: 2px;
+  font-family: var(--font-mono);
+  letter-spacing: .03em;
 }}
 .tactic-header .tcount {{
   display: block;
@@ -1130,17 +1265,36 @@ body.custom-mode .disabled-btn {{
 .propose-update-btn svg {{ flex-shrink: 0; }}
 
 /* Transitions */
-.view {{ animation: fadeIn .2s ease; }}
+.view {{
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 20px 20px;
+  animation: fadeIn .2s ease;
+}}
 @keyframes fadeIn {{ from{{ opacity:0; }} to{{ opacity:1; }} }}
 .hidden {{ display: none !important; }}
 
 /* ── Responsive ────────────────────────────────────────────── */
-@media (max-width: 768px) {{
+/* Medium: collapse tab labels to letters */
+@media (max-width: 1400px) {{
   .topnav-tab-label {{ display: none; }}
   .topnav-tab > svg {{ display: none; }}
   .topnav-tab-short {{ display: inline; }}
+  .topnav-tab {{ padding: 0 14px; gap: 5px; }}
   .search-input {{ width: 140px; }}
   .search-input:focus {{ width: 160px; }}
+}}
+@media (max-width: 900px) {{
+  .result-detail {{ display: none; }}
+}}
+
+/* Narrow: burger menu replaces tabs */
+@media (max-width: 620px) {{
+  .result-label {{ display: none; }}
+  .topnav-tabs {{ display: none; }}
+  .burger-btn {{ display: flex; }}
+  .topnav {{ position: relative; }}
   .detail-panel {{ width: 100vw; }}
   .main-area.shifted {{ margin-right: 0; }}
   .stats-banner {{ grid-template-columns: repeat(2, 1fr); }}
@@ -1262,13 +1416,14 @@ body.custom-mode .disabled-btn {{
 .site-footer {{
   background: var(--navy-dark);
   color: #eee;
-  padding: 18px 24px;
+  padding: 8px 24px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  font-size: .75rem;
+  gap: 8px;
+  font-size: .72rem;
+  flex-shrink: 0;
 }}
 .footer-copyright {{
   opacity: .6;
@@ -1372,6 +1527,42 @@ body.custom-mode .disabled-btn {{
       <span class="tab-badge" id="badge-r">{n_r}</span>
     </button>
   </div>
+  <button class="burger-btn" id="burgerBtn" title="Menu">
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><rect x="2" y="4" width="16" height="2" rx="1"/><rect x="2" y="9" width="16" height="2" rx="1"/><rect x="2" y="14" width="16" height="2" rx="1"/></svg>
+    <span class="burger-label" id="burgerLabel">Matrix</span>
+  </button>
+  <div class="burger-menu hidden" id="burgerMenu">
+    <button class="burger-item active" data-view="matrix">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2h4v4H1V2zm5 0h4v4H6V2zm5 0h4v4h-4V2zM1 7h4v4H1V7zm5 0h4v4H6V7zm5 0h4v4h-4V7z"/></svg>
+      Matrix
+      <span class="burger-badge">{n_o}</span>
+    </button>
+    <button class="burger-item" data-view="objectives">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0-2A5 5 0 108 3a5 5 0 000 10zm0-2a3 3 0 100-6 3 3 0 000 6zm0-2a1 1 0 100-2 1 1 0 000 2z"/></svg>
+      Objectives
+      <span class="burger-badge">{n_o}</span>
+    </button>
+    <button class="burger-item" data-view="techniques">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3h12v2H2V3zm0 4h12v2H2V7zm0 4h8v2H2v-2z"/></svg>
+      Techniques
+      <span class="burger-badge">{n_t}</span>
+    </button>
+    <button class="burger-item" data-view="weaknesses">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.5A5.5 5.5 0 118 2.5a5.5 5.5 0 010 11zm-.5-8h1v4h-1V5.5zm0 5h1v1h-1v-1z"/></svg>
+      Weaknesses
+      <span class="burger-badge">{n_w}</span>
+    </button>
+    <button class="burger-item" data-view="mitigations">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.5 4.5H14l-3.75 2.75 1.5 4.5L8 10l-3.75 2.75 1.5-4.5L2 5.5h4.5L8 1z"/></svg>
+      Mitigations
+      <span class="burger-badge">{n_m}</span>
+    </button>
+    <button class="burger-item" data-view="references">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2h8a1 1 0 011 1v1h1a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1v-1H2a1 1 0 01-1-1V3a1 1 0 011-1h1zm1 1v9h8V3H4zM2 5v7h1V4H2v1zm10 8v1H4v-1h8z"/></svg>
+      References
+      <span class="burger-badge">{n_r}</span>
+    </button>
+  </div>
   <div class="topnav-search">
     <div class="search-wrap">
       <svg class="search-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
@@ -1390,21 +1581,12 @@ body.custom-mode .disabled-btn {{
 <div class="filterbar" id="filterbar">
   <!-- Matrix filters -->
   <div id="fb-matrix" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-    <span class="filterbar-label">Status</span>
     <button class="filter-chip active" data-tf="all">All</button>
-    <button class="filter-chip chip-green" data-tf="complete">Stable</button>
-    <button class="filter-chip chip-yellow" data-tf="partial">Partial</button>
-    <button class="filter-chip chip-red" data-tf="placeholder">Placeholder</button>
+    <button class="filter-chip chip-green" data-tf="complete"><span class="stat-dot green"></span><span class="chip-count" id="chip-count-complete">{n_complete}</span> {label_complete}</button>
+    <button class="filter-chip chip-yellow" data-tf="partial"><span class="stat-dot yellow"></span><span class="chip-count" id="chip-count-partial">{n_partial}</span> {label_partial}</button>
+    <button class="filter-chip chip-red" data-tf="placeholder"><span class="stat-dot red"></span><span class="chip-count" id="chip-count-placeholder">{n_placeholder}</span> {label_placeholder}</button>
     <div class="filterbar-sep"></div>
     <div class="filterbar-stats">
-      <div class="stat-pill"><div class="stat-dot green"></div><span class="stat-num">{n_complete}</span> stable</div>
-      <div class="stat-pill"><div class="stat-dot yellow"></div><span class="stat-num">{n_partial}</span> partial</div>
-      <div class="stat-pill"><div class="stat-dot red"></div><span class="stat-num">{n_placeholder}</span> placeholder</div>
-      <div class="filterbar-sep"></div>
-      <div class="stat-pill" title="{n_t} techniques across {n_o} objectives">
-        <span class="stat-num">{n_t}</span> techniques &nbsp;·&nbsp; <span class="stat-num" id="stat-obj-count">{n_o}</span> <span id="stat-obj-label">objectives</span>
-      </div>
-      <div class="filterbar-sep"></div>
       <span id="matrix-obj-indicator" style="display:none">
         <span class="filterbar-sep"></span>
         <span style="font-size:.8rem;color:var(--navy);font-weight:600">
@@ -1432,9 +1614,9 @@ body.custom-mode .disabled-btn {{
   <div id="fb-techniques" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="filterbar-label">Status</span>
     <button class="filter-chip active" data-t2f="all">All</button>
-    <button class="filter-chip chip-green" data-t2f="complete">Stable</button>
-    <button class="filter-chip chip-yellow" data-t2f="partial">Partial</button>
-    <button class="filter-chip chip-red" data-t2f="placeholder">Placeholder</button>
+    <button class="filter-chip chip-green" data-t2f="complete">{label_complete}</button>
+    <button class="filter-chip chip-yellow" data-t2f="partial">{label_partial}</button>
+    <button class="filter-chip chip-red" data-t2f="placeholder">{label_placeholder}</button>
     <div class="filterbar-sep"></div>
     <span class="filterbar-label">Type</span>
     <button class="filter-chip active" data-t2t="all">All</button>
@@ -1493,6 +1675,7 @@ body.custom-mode .disabled-btn {{
 
     <!-- Matrix view -->
     <div id="view-matrix" class="view">
+      {extension_main_html_escaped}
       <div class="matrix-container">
         <div class="matrix" id="matrix"></div>
       </div>
@@ -1512,6 +1695,23 @@ body.custom-mode .disabled-btn {{
 
     <!-- References view -->
     <div id="view-references" class="view hidden"></div>
+
+    <footer class="site-footer">
+      <div class="footer-copyright">&copy; {footer_year} SOLVE-IT</div>
+      <div class="footer-generated">
+        Generated {generated_at} &mdash;
+        <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank">github.com/SOLVE-IT-DF/solve-it</a>
+      </div>
+      <div class="footer-supported">
+        <span>Supported by:</span>
+        <a href="https://www.hargs.co.uk" target="_blank" rel="noopener noreferrer">
+          <img src="https://solve-it-df.github.io/www/assets/images/hargs-logo.jpg" alt="HARGS">
+        </a>
+        <a href="https://dfrws.org/" target="_blank" rel="noopener noreferrer" class="logo-dfrws">
+          <img src="https://solve-it-df.github.io/www/assets/images/dfrws-logo.png" alt="DFRWS">
+        </a>
+      </div>
+    </footer>
 
   </div><!-- /main-area -->
 
@@ -1541,6 +1741,8 @@ body.custom-mode .disabled-btn {{
 // ── Embedded data ────────────────────────────────────────────────────
 const DB  = {data_json};
 const IDX = {idx_json};
+const HIDDEN_FIELDS = new Set({hidden_fields_json});
+const STATUS_BG_COLOURS = {{complete:'{colour_green_bg}', partial:'{colour_yellow_bg}', placeholder:'{colour_red_bg}'}};
 // Expose on window for programmatic / console access
 window.DB = DB; window.IDX = IDX;
 
@@ -1765,7 +1967,7 @@ function statusClass(s) {{
   return {{placeholder:'status-red', partial:'status-yellow', complete:'status-green'}}[s]||'status-red';
 }}
 
-const STATUS_LABEL = {{complete:'stable', partial:'partial', placeholder:'placeholder'}};
+const STATUS_LABEL = {{complete:'{label_complete}', partial:'{label_partial}', placeholder:'{label_placeholder}'}};
 function statusBadge(s) {{
   return `<span class="status-badge ${{s}}">${{STATUS_LABEL[s]||s}}</span>`;
 }}
@@ -1803,6 +2005,7 @@ function renderMatrix() {{
 
     col.innerHTML = `
       <div class="tactic-header" title="${{esc(obj.description || obj.name)}}">
+        <span class="tactic-id">${{esc(obj.id || '')}}</span>
         <span>${{esc(obj.name)}}</span>
         <span class="tcount">${{(obj.techniques||[]).length}} technique${{(obj.techniques||[]).length!==1?'s':''}}</span>
       </div>
@@ -1833,9 +2036,17 @@ function renderMatrix() {{
       cell.className = `tech-cell ${{cls}}${{sel?' selected':''}}`;
       cell.dataset.id = t.id;
       cell.title = `${{t.id}} — ${{t.name}} (${{STATUS_LABEL[st]||st}})`;
+      // Apply custom border colour if extension overrides the default for this status
+      if (t._bg_colour && t._bg_colour !== STATUS_BG_COLOURS[st]) {{
+        cell.style.borderLeftColor = t._bg_colour;
+      }}
+      const pfx = t._prefix || '';
+      const sfx = t._suffix || '';
+      const extSfx = t._extension_suffix || '';
       cell.innerHTML = `
         <div class="tech-cell-id">${{esc(t.id)}}</div>
-        <div class="tech-cell-name">${{esc(t.name)}}</div>
+        <div class="tech-cell-name">${{esc(pfx)}}${{esc(t.name)}}${{esc(sfx)}}</div>
+        ${{extSfx ? `<div style="font-size:.68rem;color:var(--gray-500);margin-top:2px">${{extSfx}}</div>` : ''}}
         ${{subs > 0 ? `<div class="tech-cell-sub">${{isExpanded ? '&minus;' : '+'}} ${{subs}} sub-technique${{subs>1?'s':''}}</div>` : ''}}
       `;
       cell.addEventListener('click', (e) => {{
@@ -1911,7 +2122,13 @@ function renderMatrix() {{
 
   const nSubs = subIds.size;
   const nSubsHidden = nSubs - totalSubsShown;
-  document.getElementById('t-count').textContent = `${{totalShown}} shown` + (totalSubsShown > 0 ? ` (${{totalSubsShown}} sub-technique${{totalSubsShown!==1?'s':''}} shown)` : '') + (nSubsHidden > 0 ? ` (${{nSubsHidden}} sub-technique${{nSubsHidden!==1?'s':''}} hidden)` : '');
+  const totalAll = DB.techniques.length;
+  const tcEl = document.getElementById('t-count');
+  let tcText = `<span class="result-label">showing </span>${{totalShown}}/${{totalAll}}`;
+  let tcDetail = '';
+  if (nSubsHidden > 0) tcDetail = ` <span class="result-detail">(${{nSubsHidden}} sub-technique${{nSubsHidden!==1?'s':''}} hidden)</span>`;
+  else if (totalSubsShown > 0) tcDetail = ` <span class="result-detail">(${{totalSubsShown}} sub-technique${{totalSubsShown!==1?'s':''}} shown)</span>`;
+  tcEl.innerHTML = tcText + tcDetail;
 
   // Update objective filter indicator
   const objIndicator = document.getElementById('matrix-obj-indicator');
@@ -2338,84 +2555,112 @@ function buildCreditsHtml(item) {{
 function buildTechniqueDetail(t) {{
   let html = updateBtn('technique', t);
 
-  html += `<div class="detail-section">
-    <div class="detail-section-title">Description</div>
-    ${{t.description ? `<div class="detail-text">${{esc(t.description)}}</div>` : '<div class="empty-message">No description.</div>'}}
-  </div>`;
+  if (!HIDDEN_FIELDS.has('description')) {{
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Description</div>
+      ${{t.description ? `<div class="detail-text">${{esc(t.description)}}</div>` : '<div class="empty-message">No description.</div>'}}
+    </div>`;
+  }}
 
-  html += `<div class="detail-section">
-    <div class="detail-section-title">Details</div>
-    ${{t.details ? `<div class="detail-text">${{esc(t.details)}}</div>` : '<div class="empty-message">No details.</div>'}}
-  </div>`;
+  if (!HIDDEN_FIELDS.has('details')) {{
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Details</div>
+      ${{t.details ? `<div class="detail-text">${{esc(t.details)}}</div>` : '<div class="empty-message">No details.</div>'}}
+    </div>`;
+  }}
 
-  const syns = t.synonyms || [];
-  html += `<div class="detail-section">
-    <div class="detail-section-title">Also Known As <span class="badge">${{syns.length}}</span></div>
-    ${{syns.length ? `<div class="detail-tags">${{syns.map(s=>`<span class="detail-tag">${{esc(s)}}</span>`).join('')}}</div>` : '<div class="empty-message">No synonyms.</div>'}}
-  </div>`;
+  if (!HIDDEN_FIELDS.has('synonyms')) {{
+    const syns = t.synonyms || [];
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Also Known As <span class="badge">${{syns.length}}</span></div>
+      ${{syns.length ? `<div class="detail-tags">${{syns.map(s=>`<span class="detail-tag">${{esc(s)}}</span>`).join('')}}</div>` : '<div class="empty-message">No synonyms.</div>'}}
+    </div>`;
+  }}
 
   // Sub-techniques
-  const subs = t.subtechniques || [];
-  html += `<div class="detail-section">
-    <div class="detail-section-title">Sub-techniques <span class="badge">${{subs.length}}</span></div>
-    ${{!subs.length ? '<div class="empty-message">No sub-techniques.</div>' : ''}}
-    <div class="detail-list">
-      ${{subs.map(sid => {{
-        const st = TMap[sid];
-        return `<div class="detail-row" data-show-id="${{esc(sid)}}" data-show-type="technique">
-          <span class="tech-cell-sub" style="font-size:.72rem;padding:2px 8px;min-width:52px;text-align:center">${{esc(sid)}}</span>
-          <span class="detail-row-name">${{esc(st ? st.name : sid)}}</span>
-        </div>`;
-      }}).join('')}}
-    </div>
-  </div>`;
+  if (!HIDDEN_FIELDS.has('subtechniques')) {{
+    const subs = t.subtechniques || [];
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Sub-techniques <span class="badge">${{subs.length}}</span></div>
+      ${{!subs.length ? '<div class="empty-message">No sub-techniques.</div>' : ''}}
+      <div class="detail-list">
+        ${{subs.map(sid => {{
+          const st = TMap[sid];
+          return `<div class="detail-row" data-show-id="${{esc(sid)}}" data-show-type="technique">
+            <span class="tech-cell-sub" style="font-size:.72rem;padding:2px 8px;min-width:52px;text-align:center">${{esc(sid)}}</span>
+            <span class="detail-row-name">${{esc(st ? st.name : sid)}}</span>
+          </div>`;
+        }}).join('')}}
+      </div>
+    </div>`;
+  }}
 
-  const exs = t.examples || [];
-  html += `<div class="detail-section">
-    <div class="detail-section-title">Examples <span class="badge">${{exs.length}}</span></div>
-    ${{exs.length ? exs.map(e=>`<div class="detail-text" style="padding:3px 0;border-bottom:1px solid #f0f0f0">${{esc(e)}}</div>`).join('') : '<div class="empty-message">No examples.</div>'}}
-  </div>`;
+  if (!HIDDEN_FIELDS.has('examples')) {{
+    const exs = t.examples || [];
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Examples <span class="badge">${{exs.length}}</span></div>
+      ${{exs.length ? exs.map(e=>`<div class="detail-text" style="padding:3px 0;border-bottom:1px solid #f0f0f0">${{esc(e)}}</div>`).join('') : '<div class="empty-message">No examples.</div>'}}
+    </div>`;
+  }}
 
   // Potential Weaknesses
-  const wids = t.weaknesses || [];
-  html += `<div class="detail-section">
-    <div class="detail-section-title">Potential Weaknesses <span class="badge">${{wids.length}}</span></div>
-    ${{!wids.length ? '<div class="empty-message">No weaknesses documented.</div>' : ''}}
-    <div class="detail-list">
-      ${{wids.map(wid => {{
-        const w = WMap[wid];
-        const cats = w ? wCats(w) : [];
-        return `<div class="detail-row" data-show-id="${{esc(wid)}}" data-show-type="weakness">
-          <span class="detail-row-id w">${{esc(wid)}}</span>
-          <span class="detail-row-name">
-            ${{w ? esc(w.name) : esc(wid)}}
-            ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.join(', ')}}</small>` : ''}}
-          </span>
-        </div>`;
-      }}).join('')}}
-    </div>
-  </div>`;
+  if (!HIDDEN_FIELDS.has('weaknesses')) {{
+    const wids = t.weaknesses || [];
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Potential Weaknesses <span class="badge">${{wids.length}}</span></div>
+      ${{!wids.length ? '<div class="empty-message">No weaknesses documented.</div>' : ''}}
+      <div class="detail-list">
+        ${{wids.map(wid => {{
+          const w = WMap[wid];
+          const cats = w ? wCats(w) : [];
+          const wpfx = w && w._extension_prefix ? w._extension_prefix : '';
+          const wsfx = w && w._extension_suffix ? w._extension_suffix : '';
+          return `<div class="detail-row" data-show-id="${{esc(wid)}}" data-show-type="weakness">
+            <span class="detail-row-id w">${{esc(wid)}}</span>
+            <span class="detail-row-name">
+              ${{wpfx}}${{w ? esc(w.name) : esc(wid)}}${{wsfx}}
+              ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.join(', ')}}</small>` : ''}}
+            </span>
+          </div>`;
+        }}).join('')}}
+      </div>
+    </div>`;
+  }}
 
-  const cin = t.CASE_input_classes || [];
-  html += `<div class="detail-section">
-    <div class="detail-section-title">CASE Input Classes <span class="badge">${{cin.length}}</span></div>
-    ${{cin.length ? `<div class="detail-tags">${{cin.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE input classes.</div>'}}
-  </div>`;
+  if (!HIDDEN_FIELDS.has('CASE_input_classes')) {{
+    const cin = t.CASE_input_classes || [];
+    html += `<div class="detail-section">
+      <div class="detail-section-title">CASE Input Classes <span class="badge">${{cin.length}}</span></div>
+      ${{cin.length ? `<div class="detail-tags">${{cin.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE input classes.</div>'}}
+    </div>`;
+  }}
 
-  const cout = t.CASE_output_classes || [];
-  html += `<div class="detail-section">
-    <div class="detail-section-title">CASE Output Classes <span class="badge">${{cout.length}}</span></div>
-    ${{cout.length ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE output classes.</div>'}}
-  </div>`;
+  if (!HIDDEN_FIELDS.has('CASE_output_classes')) {{
+    const cout = t.CASE_output_classes || [];
+    html += `<div class="detail-section">
+      <div class="detail-section-title">CASE Output Classes <span class="badge">${{cout.length}}</span></div>
+      ${{cout.length ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE output classes.</div>'}}
+    </div>`;
+  }}
 
   html += buildCreditsHtml(t);
 
   // References
-  const refs = t.references || [];
-  html += `<div class="detail-section">
-    <div class="detail-section-title">References <span class="badge">${{refs.length}}</span></div>
-    ${{refs.length ? refs.map(r => `<div class="ref-item">${{linkify(r)}}</div>`).join('') : '<div class="empty-message">No references.</div>'}}
-  </div>`;
+  if (!HIDDEN_FIELDS.has('references')) {{
+    const refs = t.references || [];
+    html += `<div class="detail-section">
+      <div class="detail-section-title">References <span class="badge">${{refs.length}}</span></div>
+      ${{refs.length ? refs.map(r => `<div class="ref-item">${{linkify(r)}}</div>`).join('') : '<div class="empty-message">No references.</div>'}}
+    </div>`;
+  }}
+
+  // SOLVE-IT-X extension content
+  if (t._extension_html) {{
+    html += `<div class="detail-section">
+      <div class="detail-section-title">SOLVE-IT-X</div>
+      <div class="detail-text">${{t._extension_html}}</div>
+    </div>`;
+  }}
 
   return html;
 }}
@@ -2455,9 +2700,11 @@ function buildWeaknessDetail(w) {{
     <div class="detail-list">
       ${{mids.map(mid => {{
         const m = MMap[mid];
+        const mpfx = m && m._extension_prefix ? m._extension_prefix : '';
+        const msfx = m && m._extension_suffix ? m._extension_suffix : '';
         return `<div class="detail-row" data-show-id="${{esc(mid)}}" data-show-type="mitigation">
           <span class="detail-row-id m">${{esc(mid)}}</span>
-          <span class="detail-row-name">${{esc(m ? m.name : mid)}}</span>
+          <span class="detail-row-name">${{mpfx}}${{esc(m ? m.name : mid)}}${{msfx}}</span>
         </div>`;
       }}).join('')}}
     </div>
@@ -2470,6 +2717,14 @@ function buildWeaknessDetail(w) {{
     <div class="detail-section-title">References <span class="badge">${{wrefs.length}}</span></div>
     ${{wrefs.length ? wrefs.map(r => `<div class="ref-item">${{linkify(r)}}</div>`).join('') : '<div class="empty-message">No references.</div>'}}
   </div>`;
+
+  // SOLVE-IT-X extension content
+  if (w._extension_html) {{
+    html += `<div class="detail-section">
+      <div class="detail-section-title">SOLVE-IT-X</div>
+      <div class="detail-text">${{w._extension_html}}</div>
+    </div>`;
+  }}
 
   return html;
 }}
@@ -2486,10 +2741,12 @@ function buildMitigationDetail(m) {{
       ${{wids.map(wid => {{
         const w = WMap[wid];
         const cats = w ? wCats(w) : [];
+        const wpfx = w && w._extension_prefix ? w._extension_prefix : '';
+        const wsfx = w && w._extension_suffix ? w._extension_suffix : '';
         return `<div class="detail-row" data-show-id="${{esc(wid)}}" data-show-type="weakness">
           <span class="detail-row-id w">${{esc(wid)}}</span>
           <span class="detail-row-name">
-            ${{esc(w ? w.name : wid)}}
+            ${{wpfx}}${{esc(w ? w.name : wid)}}${{wsfx}}
             ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.join(', ')}}</small>` : ''}}
           </span>
         </div>`;
@@ -2530,6 +2787,14 @@ function buildMitigationDetail(m) {{
     <div class="detail-section-title">References <span class="badge">${{mrefs.length}}</span></div>
     ${{mrefs.length ? mrefs.map(r => `<div class="ref-item">${{linkify(r)}}</div>`).join('') : '<div class="empty-message">No references.</div>'}}
   </div>`;
+
+  // SOLVE-IT-X extension content
+  if (m._extension_html) {{
+    html += `<div class="detail-section">
+      <div class="detail-section-title">SOLVE-IT-X</div>
+      <div class="detail-text">${{m._extension_html}}</div>
+    </div>`;
+  }}
 
   return html;
 }}
@@ -2698,6 +2963,11 @@ function switchView(view, skipHash) {{
 
   document.querySelectorAll('.topnav-tab').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.view === view));
+  document.querySelectorAll('.burger-item').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.view === view));
+  document.getElementById('burgerMenu').classList.add('hidden');
+  const viewNames = {{matrix:'Matrix',objectives:'Objectives',techniques:'Techniques',weaknesses:'Weaknesses',mitigations:'Mitigations',references:'References'}};
+  document.getElementById('burgerLabel').textContent = viewNames[view] || view;
 
   document.querySelectorAll('.view').forEach(el =>
     el.classList.toggle('hidden', el.id !== `view-${{view}}`));
@@ -2725,6 +2995,16 @@ function render() {{
 // ── Event wiring ──────────────────────────────────────────────────────
 document.querySelectorAll('.topnav-tab').forEach(btn =>
   btn.addEventListener('click', () => switchView(btn.dataset.view)));
+
+// Burger menu
+document.getElementById('burgerBtn').addEventListener('click', (e) => {{
+  e.stopPropagation();
+  document.getElementById('burgerMenu').classList.toggle('hidden');
+}});
+document.querySelectorAll('.burger-item').forEach(btn =>
+  btn.addEventListener('click', () => switchView(btn.dataset.view)));
+document.addEventListener('click', () =>
+  document.getElementById('burgerMenu').classList.add('hidden'));
 
 document.querySelectorAll('[data-tf]').forEach(btn =>
   btn.addEventListener('click', () => {{
@@ -2982,6 +3262,7 @@ if (CUSTOM_MODE) {{
       }}
     }};
     reader.readAsText(file);
+    uploadInput.value = '';
   }});
 
   resetBtn.addEventListener('click', function() {{
@@ -3089,22 +3370,6 @@ render();
 handleHash();
 window.addEventListener('hashchange', handleHash);
 </script>
-<footer class="site-footer">
-  <div class="footer-copyright">&copy; {footer_year} SOLVE-IT</div>
-  <div class="footer-generated">
-    Generated {generated_at} &mdash;
-    <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank">github.com/SOLVE-IT-DF/solve-it</a>
-  </div>
-  <div class="footer-supported">
-    <span>Supported by:</span>
-    <a href="https://www.hargs.co.uk" target="_blank" rel="noopener noreferrer">
-      <img src="https://solve-it-df.github.io/www/assets/images/hargs-logo.jpg" alt="HARGS">
-    </a>
-    <a href="https://dfrws.org/" target="_blank" rel="noopener noreferrer" class="logo-dfrws">
-      <img src="https://solve-it-df.github.io/www/assets/images/dfrws-logo.png" alt="DFRWS">
-    </a>
-  </div>
-</footer>
 </body>
 </html>"""
 
@@ -3119,18 +3384,21 @@ def parse_args() -> argparse.Namespace:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python generate_solveit.py
-  python generate_solveit.py --output solveit-viewer.html
-  python generate_solveit.py --local /path/to/solve-it
-  python generate_solveit.py --local ./solve-it --output viewer.html
+  python generate_html_from_kb.py                         # Use local repo (default)
+  python generate_html_from_kb.py --local /path/to/repo   # Use a different local clone
+  python generate_html_from_kb.py --remote                 # Fetch from GitHub
+  python generate_html_from_kb.py --remote --no-verify-ssl # Remote + skip SSL check
+  python generate_html_from_kb.py --output viewer.html     # Set output file
         """,
     )
     parser.add_argument("--local", metavar="PATH",
-                        help="Path to a local clone of the SOLVE-IT repo (skips GitHub fetch).")
+                        help="Path to a local clone of the SOLVE-IT repo (default: current repo).")
+    parser.add_argument("--remote", action="store_true",
+                        help="Fetch data from GitHub instead of using the local repository.")
     parser.add_argument("--output", metavar="FILE", default="solveit-viewer.html",
                         help="Output HTML file path (default: solveit-viewer.html).")
     parser.add_argument("--no-verify-ssl", action="store_true",
-                        help="Disable SSL certificate verification (workaround for certificate errors).")
+                        help="Disable SSL certificate verification (only relevant with --remote).")
     parser.add_argument("--custom", action="store_true",
                         help="Enable customisation mode: allows uploading a JSON schema to reorganise techniques.")
     return parser.parse_args()
@@ -3139,17 +3407,30 @@ Examples:
 def main() -> None:
     args = parse_args()
 
-    global _ssl_context
-    if getattr(args, "no_verify_ssl", False):
-        _ssl_context = ssl._create_unverified_context()
-        print("[warn] SSL certificate verification disabled (--no-verify-ssl).", file=sys.stderr)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
 
-    if args.local:
-        db = load_from_local(args.local)
-        repo_root = Path(args.local).resolve()
-    else:
+    kb = None
+    if args.remote:
+        # GitHub fetch mode (original behavior)
+        global _ssl_context
+        if getattr(args, "no_verify_ssl", False):
+            _ssl_context = ssl._create_unverified_context()
+            print("[warn] SSL certificate verification disabled (--no-verify-ssl).", file=sys.stderr)
         db = load_from_github()
-        repo_root = Path(__file__).resolve().parent.parent
+        repo_root = Path(script_dir).parent
+    else:
+        # Local mode via KnowledgeBase (default)
+        repo_root = Path(args.local).resolve() if args.local else Path(script_dir).parent
+        kb = KnowledgeBase(str(repo_root), 'solve-it.json')
+        db = {
+            "techniques": kb.get_all_techniques_with_full_detail(),
+            "weaknesses": kb.get_all_weaknesses_with_full_detail(),
+            "mitigations": kb.get_all_mitigations_with_full_detail(),
+            "objectives": kb.list_objectives(),
+        }
+        print(f"  Loaded: {len(db['techniques'])} techniques, "
+              f"{len(db['weaknesses'])} weaknesses, {len(db['mitigations'])} mitigations, "
+              f"{len(db['objectives'])} objectives.")
 
     # Extract git contributor/reviewer credits
     credits: dict = {}
@@ -3196,8 +3477,8 @@ def main() -> None:
                 people[name][cat]["reviewed"] += 1
     db["credits"] = people
 
-    idx = build_indices(db)
-    html = generate_html(db, idx, custom=getattr(args, "custom", False))
+    idx = build_indices(db, kb=kb)
+    html = generate_html(db, idx, custom=getattr(args, "custom", False), kb=kb)
 
     out = Path(args.output)
     out.write_text(html, encoding="utf-8")

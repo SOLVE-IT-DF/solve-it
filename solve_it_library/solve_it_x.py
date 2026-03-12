@@ -264,16 +264,31 @@ def add_markdown_to_mitigation(m_id):
 # HTML functions
 # --------------
 
-def add_html_to_main_page():
+def get_html_generic(kb=None):
     return ""
 
-def add_html_to_technique(t_id):
+def get_html_for_technique(t_id, kb=None):
     return ""
 
-def add_html_to_weakness(w_id):
+def get_html_for_technique_suffix(t_id, kb=None):
     return ""
 
-def add_html_to_mitigation(m_id):
+def get_html_for_weakness(w_id, kb=None):
+    return ""
+
+def get_html_for_weakness_prefix(w_id, kb=None):
+    return ""
+
+def get_html_for_weakness_suffix(w_id, kb=None):
+    return ""
+
+def get_html_for_mitigation(m_id, kb=None):
+    return ""
+
+def get_html_for_mitigation_prefix(m_id, kb=None):
+    return ""
+
+def get_html_for_mitigation_suffix(m_id, kb=None):
     return ""
 
 # ---------------

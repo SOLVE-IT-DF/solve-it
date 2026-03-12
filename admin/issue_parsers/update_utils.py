@@ -42,10 +42,22 @@ def build_change_summary(before, after):
 
         # Both are lists — compute added/removed
         if isinstance(old_val, list) and isinstance(new_val, list):
-            old_set = set(old_val)
-            new_set = set(new_val)
-            added = sorted(new_set - old_set)
-            removed = sorted(old_set - new_set)
+            # Handle lists of dicts (e.g. references with DFCite_id)
+            if old_val and isinstance(old_val[0], dict):
+                old_ids = {d.get("DFCite_id", str(d)) for d in old_val if isinstance(d, dict)}
+                new_ids = {d.get("DFCite_id", str(d)) for d in new_val if isinstance(d, dict)}
+                added = sorted(new_ids - old_ids)
+                removed = sorted(old_ids - new_ids)
+            elif new_val and isinstance(new_val[0], dict):
+                old_ids = set()
+                new_ids = {d.get("DFCite_id", str(d)) for d in new_val if isinstance(d, dict)}
+                added = sorted(new_ids)
+                removed = []
+            else:
+                old_set = set(old_val)
+                new_set = set(new_val)
+                added = sorted(new_set - old_set)
+                removed = sorted(old_set - new_set)
             parts = []
             if added:
                 parts.append("added " + ", ".join(f"'{a}'" for a in added))

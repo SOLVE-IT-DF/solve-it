@@ -701,7 +701,7 @@ def phase5_completeness(
 
     # Citation completeness checks
     if citations is not None:
-        # Warn on empty relevance_summary_280
+        # Check relevance_summary_280: warn if empty, fail if > 280 chars
         for items, label in [
             (techniques, "Technique"),
             (weaknesses, "Weakness"),
@@ -710,8 +710,11 @@ def phase5_completeness(
             for item_id, data in items.items():
                 for ref in data.get("references", []):
                     if isinstance(ref, dict) and "DFCite_id" in ref:
-                        if not ref.get("relevance_summary_280", "").strip():
+                        summary = ref.get("relevance_summary_280", "").strip()
+                        if not summary:
                             result.warn(f"{label} {item_id} has empty relevance_summary for {ref['DFCite_id']}")
+                        elif len(summary) > 280:
+                            result.fail(f"{label} {item_id} has relevance_summary > 280 chars ({len(summary)}) for {ref['DFCite_id']}")
 
         # Orphaned citations
         referenced_citations = set()
@@ -727,7 +730,7 @@ def phase5_completeness(
 
         for cite_id in citations:
             if cite_id not in referenced_citations:
-                result.warn(f"Orphaned citation {cite_id} (not referenced by any T/W/M/Objective)")
+                result.fail(f"Orphaned citation {cite_id} (not referenced by any T/W/M/Objective)")
 
     # Summary statistics
     total = len(techniques)
@@ -751,19 +754,19 @@ def phase5_completeness(
 # ── Phase 6: Generator smoke tests ───────────────────────────────────────────
 
 GENERATORS = [
-    ("stat_summary", ["python", "reporting_scripts/generate_stat_summary.py"], False),
-    ("tsv (techniques)", ["python", "reporting_scripts/generate_tsv_from_kb.py", "-t"], False),
-    ("tsv (weaknesses)", ["python", "reporting_scripts/generate_tsv_from_kb.py", "-w"], False),
-    ("tsv (mitigations)", ["python", "reporting_scripts/generate_tsv_from_kb.py", "-m"], False),
-    ("tsv (objectives)", ["python", "reporting_scripts/generate_tsv_from_kb.py", "-o"], False),
-    ("tsv (CASE mapping)", ["python", "reporting_scripts/generate_tsv_from_kb.py", "-c"], False),
+    ("stat_summary", [sys.executable, "reporting_scripts/generate_stat_summary.py"], False),
+    ("tsv (techniques)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-t"], False),
+    ("tsv (weaknesses)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-w"], False),
+    ("tsv (mitigations)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-m"], False),
+    ("tsv (objectives)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-o"], False),
+    ("tsv (CASE mapping)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-c"], False),
     # Generators that need a temp output path (placeholder {tmp} replaced at runtime)
-    ("excel", ["python", "reporting_scripts/generate_excel_from_kb.py", "-o", "{tmp}/test.xlsx"], True),
-    ("evaluation", ["python", "reporting_scripts/generate_evaluation.py", "-o", "{tmp}/test_eval.xlsx"], True),
-    ("html", ["python", "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--output", "{tmp}/test.html"], True),
-    ("html (custom)", ["python", "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--custom", "--output", "{tmp}/test_custom.html"], True),
-    ("rdf", ["python", "reporting_scripts/generate_rdf_from_kb.py", "--output-dir", "{tmp}", "--format", "both"], True),
-    ("markdown", ["python", "reporting_scripts/generate_md_from_kb.py", "-o", "{tmp}/test.md"], True),
+    ("excel", [sys.executable, "reporting_scripts/generate_excel_from_kb.py", "-o", "{tmp}/test.xlsx"], True),
+    ("evaluation", [sys.executable, "reporting_scripts/generate_evaluation.py", "-o", "{tmp}/test_eval.xlsx"], True),
+    ("html", [sys.executable, "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--output", "{tmp}/test.html"], True),
+    ("html (custom)", [sys.executable, "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--custom", "--output", "{tmp}/test_custom.html"], True),
+    ("rdf", [sys.executable, "reporting_scripts/generate_rdf_from_kb.py", "--output-dir", "{tmp}", "--format", "both"], True),
+    ("markdown", [sys.executable, "reporting_scripts/generate_md_from_kb.py", "-o", "{tmp}/test.md"], True),
 ]
 
 
@@ -805,7 +808,6 @@ WARNING_CATEGORIES = [
     ("Not in any objective", "is not listed in any objective"),
     ("Ontology IRI not found", "not found in loaded ontologies"),
     ("Empty relevance summary", "has empty relevance_summary"),
-    ("Orphaned citations", "Orphaned citation"),
 ]
 
 # Groups for organising pass/fail checks in the summary.

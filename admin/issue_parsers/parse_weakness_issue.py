@@ -11,17 +11,23 @@ Usage:
 
 import argparse
 import json
+import os
 import sys
 from urllib.parse import quote, urlencode
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from parse_technique_issue import parse_issue_body, lines_to_list
+from solve_it_library.reference_matching import process_reference_lines
 
 
 ASTM_CLASSES = ["INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT"]
 
 
-def build_weakness_json(fields):
-    """Build a SOLVE-IT weakness JSON dict from parsed form fields."""
+def build_weakness_json(fields, project_root=None):
+    """Build a SOLVE-IT weakness JSON dict from parsed form fields.
+
+    Returns (weakness_dict, match_report, new_citations).
+    """
     # Parse ASTM error classes from checkboxes
     # GitHub checkboxes produce lines like "- [X] INCOMP" or "- [ ] INAC-EX"
     astm_raw = fields.get("ASTM error classes", "")
@@ -35,6 +41,14 @@ def build_weakness_json(fields):
             if code in ASTM_CLASSES:
                 checked.add(code)
 
+    ref_lines = lines_to_list(fields.get("References", ""))
+    if ref_lines and project_root:
+        processed_refs, match_report, new_citations = process_reference_lines(ref_lines, project_root)
+    else:
+        processed_refs = []
+        match_report = []
+        new_citations = []
+
     weakness = {
         "id": "DFW-____",
         "name": fields.get("Weakness name", ""),
@@ -44,9 +58,9 @@ def build_weakness_json(fields):
         weakness[cls] = "x" if cls in checked else ""
 
     weakness["mitigations"] = lines_to_list(fields.get("Existing mitigation IDs", ""))
-    weakness["references"] = lines_to_list(fields.get("References", ""))
+    weakness["references"] = processed_refs
 
-    return weakness
+    return weakness, match_report, new_citations
 
 
 REPO_URL = "https://github.com/SOLVE-IT-DF/solve-it"
@@ -61,7 +75,7 @@ def build_mitigation_link(name, weakness_id=None):
     return f"{REPO_URL}/issues/new?{urlencode(params, quote_via=quote)}"
 
 
-def build_comment(weakness, fields):
+def build_comment(weakness, fields, match_report=None, new_citations=None):
     """Build the GitHub comment markdown."""
     lines = []
 
@@ -70,6 +84,20 @@ def build_comment(weakness, fields):
     lines.append("```json")
     lines.append(json.dumps(weakness, indent=4))
     lines.append("```")
+
+    # References match report
+    if match_report:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### References")
+        lines.append("")
+        lines.append("The following references were matched/created:")
+        lines.append("")
+        lines.extend(match_report)
+        if new_citations:
+            lines.append("")
+            lines.append("Please edit the `relevance_summary_280` fields (max 280 chars) when creating the PR.")
 
     # Proposed new mitigations — generate pre-filled links
     new_mitigations = lines_to_list(fields.get("Propose new mitigations", ""))
@@ -119,8 +147,9 @@ def main():
         body = args.issue_body
 
     fields = parse_issue_body(body)
-    weakness = build_weakness_json(fields)
-    comment = build_comment(weakness, fields)
+    project_root = os.path.join(os.path.dirname(__file__), '..', '..')
+    weakness, match_report, new_citations = build_weakness_json(fields, project_root)
+    comment = build_comment(weakness, fields, match_report, new_citations)
 
     if args.output:
         with open(args.output, 'w') as f:

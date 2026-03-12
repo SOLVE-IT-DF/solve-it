@@ -48,8 +48,10 @@ body:
         - "Find potential digital evidence sources"
         - "Prioritize digital evidence sources"
         - "Preserve digital evidence"
+        - "Access device data for acquisition"
+        - "Overcome protection mechanisms"
         - "Acquire data"
-        - "Gain access"
+        - "Store acquired data"
         - "Read data from digital evidence storage formats"
         - "Reduce data under consideration"
         - "Access partitions, volumes and file systems data"
@@ -111,7 +113,7 @@ body:
     id: references
     attributes:
       label: References
-      description: References to support any details provided above (one per line).
+      description: Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
       render: text
   - type: textarea
     id: other-notes

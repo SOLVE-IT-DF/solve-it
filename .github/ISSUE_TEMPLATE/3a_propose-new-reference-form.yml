@@ -1,0 +1,25 @@
+name: "Propose New Reference"
+description: Propose a new reference citation for the knowledge base
+title: "Propose new reference: [citation]"
+labels: ["content: new reference", "form input"]
+body:
+  - type: textarea
+    id: citation-text
+    attributes:
+      label: Citation text
+      description: The full citation text (Harvard style) or URL for the reference.
+      placeholder: e.g. Author, A., 2024. Title of work. Publisher. https://example.com
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: bibtex-entry
+    attributes:
+      label: BibTeX entry
+      description: Paste BibTeX if available.
+      render: text
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Any additional context about this reference.

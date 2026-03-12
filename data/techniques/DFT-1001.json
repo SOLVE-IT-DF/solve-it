@@ -20,11 +20,11 @@
     "references": [
         {
             "DFCite_id": "DFCite-1115",
-            "relevance_summary_280": "Defines the triage framework and real-time forensics approach this technique is based on"
+            "relevance_summary_280": ""
         },
         {
             "DFCite_id": "DFCite-1131",
-            "relevance_summary_280": "Describes how triage involves ranking digital items by importance and likelihood of containing required data"
+            "relevance_summary_280": ""
         }
     ]
 }

@@ -6,42 +6,28 @@
         "Deleted file recovery",
         "Deleted data recovery"
     ],
-    "details": "",
+    "details": "An attempt to recover non-allocated files from either a current file system or non-allocated space from within a file system, partition, or storage media.",
     "subtechniques": [
         "DFT-1150",
-        "DFT-1064"
+        "DFT-T1064"
     ],
     "examples": [],
     "weaknesses": [
         "DFW-1133"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ContentData",
+        "https://ontology.unifiedcyberontology.org/uco/observable/FileSystem"
+    ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/core/confidence",
         "https://ontology.unifiedcyberontology.org/uco/observable/File",
-        "https://ontology.unifiedcyberontology.org/uco/observable/Directory",
-        "https://ontology.unifiedcyberontology.org/uco/observable/allocationStatus",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftFileID",
-        "https://ontology.unifiedcyberontology.org/uco/observable/extInodeID",
-        "https://ontology.unifiedcyberontology.org/uco/observable/filePath",
-        "https://ontology.unifiedcyberontology.org/uco/observable/fileName",
-        "https://ontology.unifiedcyberontology.org/uco/observable/modifiedTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/accessedTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/creationTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/metadataChangeTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftRecordChangeTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameModifiedTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameAccessedTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameCreatedTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameRecordChangeTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerID",
-        "https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerSID",
-        "https://ontology.unifiedcyberontology.org/uco/observable/ownerSID"
+        "https://ontology.unifiedcyberontology.org/uco/observable/Directory"
     ],
     "references": [
-        {
+ {
             "DFCite_id": "DFCite-1030",
-            "relevance_summary_280": ""
-        }
+            "relevance_summary_280": "Defines a standardised vocabulary for classifying, authenticating and evaluating non-allocated file recovery results."
+        }        
     ]
 }

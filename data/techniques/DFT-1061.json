@@ -9,7 +9,7 @@
     "details": "An attempt to recover non-allocated files from either a current file system or non-allocated space from within a file system, partition, or storage media.",
     "subtechniques": [
         "DFT-1150",
-        "DFT-T1064"
+        "DFT-1064"
     ],
     "examples": [],
     "weaknesses": [

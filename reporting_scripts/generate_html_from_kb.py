@@ -2011,7 +2011,7 @@ function renderMatrix() {{
       <div class="tactic-header" title="${{esc(obj.description || obj.name)}}">
         <span class="tactic-id">${{esc(obj.id || '')}}</span>
         <span>${{esc(obj.name)}}</span>
-        <span class="tcount">${{(obj.techniques||[]).length}} technique${{(obj.techniques||[]).length!==1?'s':''}}</span>
+        <span class="tcount">${{techs.length}}/${{(obj.techniques||[]).length}} technique${{(obj.techniques||[]).length!==1?'s':''}}</span>
       </div>
       <div class="tactic-cells" id="cells-${{i}}"></div>
     `;

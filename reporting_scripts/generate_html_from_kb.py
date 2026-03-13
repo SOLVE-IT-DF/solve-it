@@ -339,6 +339,10 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
 
     page_title = "SOLVE-IT-X: Custom View" if custom else "SOLVE-IT: the digital forensics knowledge base"
     brand_name = "SOLVE-IT-X: Custom View" if custom else "SOLVE-IT"
+    if kb is not None and kb.global_config and hasattr(kb.global_config, 'get_title'):
+        custom_title = kb.global_config.get_title(kb)
+        page_title = custom_title
+        brand_name = custom_title
     custom_js_flag = "true" if custom else "false"
     footer_year = datetime.now().year
 

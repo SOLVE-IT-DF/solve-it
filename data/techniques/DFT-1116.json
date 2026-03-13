@@ -1,26 +1,35 @@
 {
     "id": "DFT-1116",
-    "name": "Determine connected devices",
+    "name": "Extract references to connected devices",
     "description": "Examine artifacts and extract indicators of devices that have been connected to the target device.",
     "synonyms": [],
-    "details": "",
+    "details": "This technique extracts references to other devices that have potentially been connected to the device being examined. The subsequent interpretation of these artifacts (using T1088: Relational-based event reconstruction), could result in HypothesisedDevices. The separate process for inferring the connected device(s) captures the uncertainty in such an interpretation.",
     "subtechniques": [],
     "examples": [
         "USB connected devices",
         "ADB connected hosts",
-        "iOS Backups from a computer"
+        "iOS backups from a computer",
+        "Paired bluetooth devices",
+        "Synronization artifacts referencing another device"
     ],
     "weaknesses": [
         "DFW-1183",
         "DFW-1184",
         "DFW-1011"
     ],
-    "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [        
+    ],
     "references": [
         {
+            "DFCite_id": "DFCite-1057",
+            "relevance_summary_280": "Demonstrates extraction of synchronisation artefacts referencing connected devices across cloud services, mobile devices and computers. Directly supports DFT-1116 by showing how sync records serve as indicators of associated devices warranting further acquisition."
+        },
+        {
             "DFCite_id": "DFCite-1001",
-            "relevance_summary_280": ""
+            "relevance_summary_280": "ALEAPP plugin implementing DFT-1116 for Android devices. Parses /misc/adb/adb_hosts to extract identifiers of computers previously connected via ADB, providing direct indicators of associated host devices for further investigation."
         }
     ]
 }

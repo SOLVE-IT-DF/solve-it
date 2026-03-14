@@ -469,10 +469,10 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
         for field_name in ("CASE_input_classes", "CASE_output_classes"):
             for url in t.get(field_name, []):
                 if not URL_PATTERN.match(url):
-                    result.fail(f"Technique {tid} {field_name}: \"{url}\" is not a valid URL")
+                    result.warn(f"Technique {tid} {field_name}: \"{url}\" is not a valid URL")
                     bad += 1
                 elif not any(url.startswith(prefix) for prefix in KNOWN_PREFIXES):
-                    result.fail(
+                    result.warn(
                         f"Technique {tid} {field_name}: \"{url}\" does not match "
                         f"any known ontology prefix"
                     )

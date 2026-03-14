@@ -421,10 +421,8 @@ def main():
         t = techniques[0]
         pr_lines.append(f"| Technique | {len(techniques)} | "
                         f"`{t['id']}` — {t['name']} |")
-        w_ids = ', '.join('`' + w['id'] + '`' for w in weaknesses)
-        pr_lines.append(f"| Weaknesses | {len(weaknesses)} | {w_ids} |")
-        m_ids = ', '.join('`' + m['id'] + '`' for m in mitigations)
-        pr_lines.append(f"| Mitigations | {len(mitigations)} | {m_ids} |")
+        pr_lines.append(f"| Weaknesses | {len(weaknesses)} | see below |")
+        pr_lines.append(f"| Mitigations | {len(mitigations)} | see below |")
         if objective_name:
             pr_lines.append(f"| Objective | — | {objective_name} |")
         pr_lines.append("")
@@ -437,6 +435,29 @@ def main():
             rel = os.path.relpath(f, project_root)
             pr_lines.append(f"- `{rel}`")
         pr_lines.append("")
+
+        # Weakness details
+        if weaknesses:
+            pr_lines.append("## Weaknesses")
+            pr_lines.append("")
+            pr_lines.append("| ID | Name | ASTM classes |")
+            pr_lines.append("|---|---|---|")
+            astm_fields = ["INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT"]
+            for w in weaknesses:
+                flags = [f for f in astm_fields if w.get(f)]
+                flags_str = ", ".join(flags) if flags else "—"
+                pr_lines.append(f"| `{w['id']}` | {w['name']} | {flags_str} |")
+            pr_lines.append("")
+
+        # Mitigation details
+        if mitigations:
+            pr_lines.append("## Mitigations")
+            pr_lines.append("")
+            pr_lines.append("| ID | Name |")
+            pr_lines.append("|---|---|")
+            for m in mitigations:
+                pr_lines.append(f"| `{m['id']}` | {m['name']} |")
+            pr_lines.append("")
 
         # Existing KB references
         # Collect real IDs referenced in weaknesses' mitigation lists

@@ -27,7 +27,11 @@ VALID_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,5}$')
 
 def run(cmd, **kwargs):
     """Run a command and return its stdout."""
-    result = subprocess.run(cmd, capture_output=True, text=True, check=True, **kwargs)
+    result = subprocess.run(cmd, capture_output=True, text=True, **kwargs)
+    if result.returncode != 0:
+        print(f"Command failed: {' '.join(cmd)}", file=sys.stderr)
+        print(f"stderr: {result.stderr}", file=sys.stderr)
+        result.check_returncode()
     return result.stdout.strip()
 
 
@@ -469,11 +473,13 @@ def main():
         try:
             pr_url = run([
                 "gh", "pr", "create",
+                "--head", branch_name,
                 "--title", pr_title,
                 "--body-file", pr_body_file,
-            ])
+            ], cwd=project_root)
         finally:
-            os.remove(pr_body_file)
+            if os.path.exists(pr_body_file):
+                os.remove(pr_body_file)
 
         print(f"PR created: {pr_url}", file=sys.stderr)
 

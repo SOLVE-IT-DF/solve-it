@@ -1,4 +1,6 @@
 # Validates SOLVE-IT knowledge base on every PR and push to main
+# Comments are posted by the separate validate-kb-comment.yml workflow
+# (using workflow_run) so that fork PRs get write permissions safely.
 name: Validate knowledge base
 
 on:
@@ -9,7 +11,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
   validate:
@@ -29,15 +30,15 @@ jobs:
           --check-ontology
           --markdown-summary kb_validation_summary.md
           --ontology-summary ontology_iri_report.md
-      - name: Post validation summary
+      - name: Save PR number
+        if: github.event_name == 'pull_request'
+        run: echo ${{ github.event.number }} > pr-number.txt
+      - name: Upload validation reports
         if: github.event_name == 'pull_request' && always()
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: actions/upload-artifact@v4
         with:
-          header: kb-validation
-          path: kb_validation_summary.md
-      - name: Post ontology IRI report
-        if: github.event_name == 'pull_request' && always()
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: ontology-iri-check
-          path: ontology_iri_report.md
+          name: validation-reports
+          path: |
+            kb_validation_summary.md
+            ontology_iri_report.md
+            pr-number.txt

@@ -435,11 +435,19 @@ def main():
 
         pr_body = '\n'.join(pr_lines)
 
-        pr_url = run([
-            "gh", "pr", "create",
-            "--title", pr_title,
-            "--body", pr_body,
-        ])
+        # Write PR body to a temp file to avoid command-line length limits
+        pr_body_file = os.path.join(project_root, ".pr_body.md")
+        with open(pr_body_file, 'w') as f:
+            f.write(pr_body)
+
+        try:
+            pr_url = run([
+                "gh", "pr", "create",
+                "--title", pr_title,
+                "--body-file", pr_body_file,
+            ])
+        finally:
+            os.remove(pr_body_file)
 
         print(f"PR created: {pr_url}", file=sys.stderr)
 

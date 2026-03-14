@@ -3,7 +3,7 @@ import tempfile
 import os
 import sys
 print(os.path.abspath(os.path.curdir))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'reporting_scripts'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'admin'))
 from trwm2json import parse_field_data, find_mitigation_id_by_name, technique_tsv_to_json, mitigations_tsv_to_json, weaknesses_tsv_to_json, process_weakness_mitigations
 
 

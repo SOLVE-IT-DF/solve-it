@@ -30,6 +30,8 @@ jobs:
           --check-ontology
           --markdown-summary kb_validation_summary.md
           --ontology-summary ontology_iri_report.md
+      - name: Run tests
+        run: python -m pytest tests/ -v
       - name: Save PR number
         if: github.event_name == 'pull_request'
         run: echo ${{ github.event.number }} > pr-number.txt

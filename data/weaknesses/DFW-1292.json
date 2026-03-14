@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1292",
+    "name": "Failure to recover a deleted contact from a gaming app",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1246",
+        "DFM-1027",
+        "DFM-1243"
+    ],
+    "references": []
+}

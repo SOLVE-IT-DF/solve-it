@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1176",
+    "name": "Identification of synthetic images",
+    "description": "Classification of images with respect to their origin, i.e., whether they are synthetically generated or naturally captured by a camera.",
+    "synonyms": [
+        "Deepfake Detection, Synthetic Image Detection, Image Source Attribution, Image Authentication, Image Source Classification"
+    ],
+    "details": "An image is analyzed using a method from the subtechniques. The output can be a classifier-predicted score of how many traces of synthetic origin can be found in an image, or extracted traces from the image that aid the analyst in their assessment of the image origin.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": []
+}

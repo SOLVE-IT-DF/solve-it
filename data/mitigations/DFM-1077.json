@@ -2,6 +2,9 @@
     "id": "DFM-1077",
     "name": "Ensure potential secondary locations for stored message content are reviewed.",
     "references": [
-        "McGee, J. (2022). An Alternate Location for Deleted SMS/iMessage Data in Apple Devices. DFIR Review. Retrieved from https://dfir.pubpub.org/pub/yp6efc8q"
+        {
+            "DFCite_id": "DFCite-1097",
+            "relevance_summary_280": ""
+        }
     ]
 }

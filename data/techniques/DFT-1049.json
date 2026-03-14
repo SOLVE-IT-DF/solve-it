@@ -28,8 +28,17 @@
         "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult"
     ],
     "references": [
-        "Beebe, N.L. and Liu, L., 2014. Ranking algorithms for digital forensic string search hits. Digital Investigation, 11, pp.S124-S132.",
-        "Beebe, N.L. and Clark, J.G., 2007. Digital forensic text string searching: Improving information retrieval effectiveness by thematically clustering search results. Digital investigation, 4, pp.49-54.",
-        "NIST, 2025. Computer forensics tools & techniques catalog: string search, https://toolcatalog.nist.gov/taxonomy/index.php?ff_id=31"
+        {
+            "DFCite_id": "DFCite-1014",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1013",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1103",
+            "relevance_summary_280": ""
+        }
     ]
 }

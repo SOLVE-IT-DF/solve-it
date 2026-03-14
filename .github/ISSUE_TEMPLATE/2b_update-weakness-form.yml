@@ -9,7 +9,7 @@ body:
         ## Update an existing weakness
         Use this form to propose changes to an existing weakness.
         **Leave fields blank (or all unchecked) to keep current values.** Only fill in fields you want to change.
-        Existing weaknesses (DFW-1001–DFW-1277) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
+        Existing weaknesses (DFW-1001–DFW-1278) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
   - type: input
     id: weakness-id
     attributes:
@@ -59,7 +59,8 @@ body:
     attributes:
       label: References
       description: |
-        The complete new list of references (one per line).
+        The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.
+        New citations will be automatically matched against existing references where possible.
         Leave blank to keep the current list. If populated, this replaces the entire list.
       render: text
   - type: textarea

@@ -14,7 +14,13 @@
         "https://ontology.solveit-df.org/solveit/observable/DeviceScreenshotCapture"
     ],
     "references": [
-        "https://github.com/prosch88/UFADE",
-        "https://github.com/prosch88/ALEX"
+        {
+            "DFCite_id": "DFCite-1138",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1137",
+            "relevance_summary_280": ""
+        }
     ]
 }

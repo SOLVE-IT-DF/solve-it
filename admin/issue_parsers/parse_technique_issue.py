@@ -11,9 +11,13 @@ Usage:
 
 import argparse
 import json
+import os
 import re
 import sys
 from urllib.parse import quote, urlencode
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+from solve_it_library.reference_matching import process_reference_lines
 
 
 def parse_issue_body(body):
@@ -70,8 +74,19 @@ def lines_to_list(text):
     return [line.strip() for line in text.strip().split('\n') if line.strip()]
 
 
-def build_technique_json(fields):
-    """Build a SOLVE-IT technique JSON dict from parsed form fields."""
+def build_technique_json(fields, project_root=None):
+    """Build a SOLVE-IT technique JSON dict from parsed form fields.
+
+    Returns (technique_dict, match_report, new_citations).
+    """
+    ref_lines = lines_to_list(fields.get("References", ""))
+    if ref_lines and project_root:
+        processed_refs, match_report, new_citations = process_reference_lines(ref_lines, project_root)
+    else:
+        processed_refs = []
+        match_report = []
+        new_citations = []
+
     technique = {
         "id": "DFT-____",
         "name": fields.get("Technique name", ""),
@@ -83,9 +98,9 @@ def build_technique_json(fields):
         "weaknesses": lines_to_list(fields.get("Existing weakness IDs", "")),
         "CASE_input_classes": lines_to_list(fields.get("CASE input classes", "")),
         "CASE_output_classes": lines_to_list(fields.get("CASE output classes", "")),
-        "references": lines_to_list(fields.get("References", "")),
+        "references": processed_refs,
     }
-    return technique
+    return technique, match_report, new_citations
 
 
 REPO_URL = "https://github.com/SOLVE-IT-DF/solve-it"
@@ -100,7 +115,7 @@ def build_weakness_link(name, technique_id=None):
     return f"{REPO_URL}/issues/new?{urlencode(params, quote_via=quote)}"
 
 
-def build_comment(technique, fields):
+def build_comment(technique, fields, match_report=None, new_citations=None):
     """Build the GitHub comment markdown."""
     lines = []
 
@@ -109,6 +124,20 @@ def build_comment(technique, fields):
     lines.append("```json")
     lines.append(json.dumps(technique, indent=4))
     lines.append("```")
+
+    # References match report
+    if match_report:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### References")
+        lines.append("")
+        lines.append("The following references were matched/created:")
+        lines.append("")
+        lines.extend(match_report)
+        if new_citations:
+            lines.append("")
+            lines.append("Please edit the `relevance_summary_280` fields (max 280 chars) when creating the PR.")
 
     # Proposed new weaknesses — generate pre-filled links
     new_weaknesses = lines_to_list(fields.get("Propose new weaknesses", ""))
@@ -164,8 +193,9 @@ def main():
         body = args.issue_body
 
     fields = parse_issue_body(body)
-    technique = build_technique_json(fields)
-    comment = build_comment(technique, fields)
+    project_root = os.path.join(os.path.dirname(__file__), '..', '..')
+    technique, match_report, new_citations = build_technique_json(fields, project_root)
+    comment = build_comment(technique, fields, match_report, new_citations)
 
     if args.output:
         with open(args.output, 'w') as f:

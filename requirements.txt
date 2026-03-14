@@ -1,3 +1,4 @@
 pydantic>=2.0.0
+pybtex
 xlsxwriter
 rdflib>=7.0.0

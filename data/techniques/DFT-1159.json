@@ -19,7 +19,13 @@
         "https://ontology.solveit-df.org/solveit/observable/ServiceBasedExtractionData"
     ],
     "references": [
-        "Elcomsoft 20203 https://blog.elcomsoft.com/2023/07/ios-device-acquisition-installing-the-extraction-agent/",
-        "Belkasoft https://belkasoft.com/agent_based_ios_acquisition"
+        {
+            "DFCite_id": "DFCite-1041",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1016",
+            "relevance_summary_280": ""
+        }
     ]
 }

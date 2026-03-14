@@ -10,7 +10,13 @@
     "CASE_input_classes": [],
     "CASE_output_classes": [],
     "references": [
-        "https://support.mobiledit.com/portal/en/kb/articles/app-downgrade",
-        "https://www.oxygenforensics.com/en/resources/downgrade-method-what-should-be-known-before-the-procedure/"
+        {
+            "DFCite_id": "DFCite-1139",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1142",
+            "relevance_summary_280": ""
+        }
     ]
 }

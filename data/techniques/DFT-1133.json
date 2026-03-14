@@ -51,7 +51,13 @@
         "https://ontology.unifiedcyberontology.org/uco/configuration/Configuration"
     ],
     "references": [
-        "Hargreaves & Drury, 2025, Forensic Analysis of AI Applications: A Replika \"AI Companion\" example, WSDF 2025",
-        "Bayor, L., Weinert, C., Maier, C. and Weitzel, T., 2025. Social-Oriented Communication with AI Companions: Benefits, Costs, and Contextual Patterns. Business & Information Systems Engineering, pp.1-19."
+        {
+            "DFCite_id": "DFCite-1055",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1012",
+            "relevance_summary_280": ""
+        }
     ]
 }

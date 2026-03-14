@@ -18,8 +18,17 @@
         "https://ontology.solveit-df.org/solveit/observable/DecryptionKey"
     ],
     "references": [
-        "Hargreaves, C. and Chivers, H., 2008, March. Recovery of encryption keys from memory using a linear scan. In 2008 Third International Conference on Availability, Reliability and Security (pp. 1369-1376). IEEE.",
-        "Hargreaves & Chivers 2008b. Avoiding Live Imaging of Large Encrypted Volumes by Recovering Keys from Memory, Proceedings from 3rd Advances in Computer Security and Forensics ",
-        "Halderman, J.A., Schoen, S.D., Heninger, N., Clarkson, W., Paul, W., Calandrino, J.A., Feldman, A.J., Appelbaum, J. and Felten, E.W., 2009. Lest we remember: cold-boot attacks on encryption keys. Communications of the ACM, 52(5), pp.91-98."
+        {
+            "DFCite_id": "DFCite-1056",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1054",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1053",
+            "relevance_summary_280": ""
+        }
     ]
 }

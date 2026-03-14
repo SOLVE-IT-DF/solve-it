@@ -9,6 +9,9 @@
     "MISINT": "",
     "mitigations": [],
     "references": [
-        "Case, A. and Richard III, G. G., 2017. Memory forensics: The path forward. Digital investigation, 20, 23-33."
+        {
+            "DFCite_id": "DFCite-1025",
+            "relevance_summary_280": ""
+        }
     ]
 }

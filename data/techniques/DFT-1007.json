@@ -20,6 +20,9 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/Device"
     ],
     "references": [
-        "Hargreaves, C. and Marshall, A., 2019. SyncTriage: Using synchronisation artefacts to optimise acquisition order. Digital Investigation, 28, pp.S134-S140."
+        {
+            "DFCite_id": "DFCite-1057",
+            "relevance_summary_280": ""
+        }
     ]
 }

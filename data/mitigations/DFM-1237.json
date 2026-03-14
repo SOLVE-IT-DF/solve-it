@@ -3,6 +3,9 @@
     "name": "Ensure that archive format used can handle sufficiently large files",
     "description": "",
     "references": [
-        "Wikipedia (2026), ZIP (file format), https://en.wikipedia.org/wiki/ZIP_(file_format)#ZIP64"
+        {
+            "DFCite_id": "DFCite-1130",
+            "relevance_summary_280": ""
+        }
     ]
 }

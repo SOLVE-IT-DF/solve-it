@@ -1,0 +1,1 @@
+Basis Technology 2020, Autopsy User Documentation: Geolocation Overview, https://sleuthkit.org/autopsy/docs/user-docs/4.13.0/geolocation_page.html

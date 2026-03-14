@@ -5,6 +5,7 @@ Defines the data models and validation for the SOLVE-IT knowledge base items
 (techniques, weaknesses, mitigations, objectives) using Pydantic.
 """
 
+import re
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field, validator, root_validator
 
@@ -39,7 +40,53 @@ class ObjectiveValidationError(SolveItValidationError):
     pass
 
 
+class CitationValidationError(SolveItValidationError):
+    """Exception raised when a citation fails validation."""
+    pass
+
+
+# --- Reference entry validator ---
+
+def _validate_reference_entries(v: Optional[List[Dict[str, str]]]) -> Optional[List[Dict[str, str]]]:
+    """Validate that references are dicts with DFCite_id and relevance_summary_280 fields."""
+    if v is None:
+        return v
+    for i, entry in enumerate(v):
+        if not isinstance(entry, dict):
+            raise ValueError(
+                f"Reference entry {i} must be a dict with 'DFCite_id' and 'relevance_summary_280', got {type(entry).__name__}"
+            )
+        if "DFCite_id" not in entry:
+            raise ValueError(
+                f"Reference entry {i} is missing required field 'DFCite_id'"
+            )
+        if not entry["DFCite_id"].startswith("DFCite-"):
+            raise ValueError(
+                f"Reference entry {i} DFCite_id must start with 'DFCite-', got '{entry['DFCite_id']}'"
+            )
+    return v
+
+
 # --- Data Models ---
+
+class CitationFiles:
+    """Represents a citation loaded from .bib and/or .txt files in data/references/.
+
+    At least one of bibtex or plaintext must be present.
+    The ID is derived from the filename (e.g. DFCite-1001.bib -> DFCite-1001).
+    """
+
+    CITE_ID_RE = re.compile(r'^DFCite-\d+$')
+
+    def __init__(self, cite_id: str, bibtex: Optional[str] = None, plaintext: Optional[str] = None):
+        if not self.CITE_ID_RE.match(cite_id):
+            raise ValueError(f"Citation ID must match 'DFCite-NNNN', got '{cite_id}'")
+        if not bibtex and not plaintext:
+            raise ValueError(f"Citation {cite_id} must have at least a .bib or .txt file")
+        self.id = cite_id
+        self.bibtex = bibtex
+        self.plaintext = plaintext
+
 
 class Technique(BaseModel):
     """
@@ -68,7 +115,7 @@ class Technique(BaseModel):
     weaknesses: List[str] = Field(default_factory=list, description="List of weakness IDs associated with the technique")
     CASE_input_classes: List[str] = Field(default_factory=list, description="CASE ontology input classes")
     CASE_output_classes: List[str] = Field(default_factory=list, description="CASE ontology output classes")
-    references: List[str] = Field(default_factory=list, description="Reference sources for this technique")
+    references: List[Dict[str, str]] = Field(default_factory=list, description="Reference entries with DFCite_id and relevance_summary_280")
 
     @validator('id')
     def validate_id(cls, v: str) -> str:
@@ -76,6 +123,10 @@ class Technique(BaseModel):
         if not v.startswith('DFT-') or not v[4:].isdigit():
             raise ValueError(f"Technique ID must start with 'DFT-' followed by digits, got '{v}'")
         return v
+
+    @validator('references')
+    def validate_references(cls, v):
+        return _validate_reference_entries(v)
 
 
 class Weakness(BaseModel):
@@ -105,7 +156,7 @@ class Weakness(BaseModel):
     INAC_ALT: Optional[str] = Field(None, description="Flag for inaccuracy - alternative", alias="INAC-ALT")
     INAC_COR: Optional[str] = Field(None, description="Flag for inaccuracy - correctness", alias="INAC-COR")
     MISINT: Optional[str] = Field(None, description="Flag for misinterpretation")
-    references: Optional[List[str]] = Field(default_factory=list, description="Reference sources for this weakness")
+    references: Optional[List[Dict[str, str]]] = Field(default_factory=list, description="Reference entries with DFCite_id and relevance_summary_280")
 
     @validator('id')
     def validate_id(cls, v: str) -> str:
@@ -113,8 +164,10 @@ class Weakness(BaseModel):
         if not v.startswith('DFW-') or not v[4:].isdigit():
             raise ValueError(f"Weakness ID must start with 'DFW-' followed by digits, got '{v}'")
         return v
-    
-    # No validator needed - description is optional
+
+    @validator('references')
+    def validate_references(cls, v):
+        return _validate_reference_entries(v)
 
 
 class Mitigation(BaseModel):
@@ -132,7 +185,7 @@ class Mitigation(BaseModel):
     name: str = Field(..., description="Name of the mitigation - contains the primary description of what this mitigation entails")
     description: str = Field("", description="Additional description (if available)")
     technique: Optional[str] = Field(None, description="Related technique ID (if this mitigation is linked to a technique)")
-    references: Optional[List[str]] = Field(default_factory=list, description="Reference sources for this mitigation")
+    references: Optional[List[Dict[str, str]]] = Field(default_factory=list, description="Reference entries with DFCite_id and relevance_summary_280")
 
     @validator('id')
     def validate_id(cls, v: str) -> str:
@@ -140,8 +193,10 @@ class Mitigation(BaseModel):
         if not v.startswith('DFM-') or not v[4:].isdigit():
             raise ValueError(f"Mitigation ID must start with 'DFM-' followed by digits, got '{v}'")
         return v
-    
-    # No validator needed - description is optional
+
+    @validator('references')
+    def validate_references(cls, v):
+        return _validate_reference_entries(v)
 
 
 class Objective(BaseModel):
@@ -160,6 +215,7 @@ class Objective(BaseModel):
     name: str = Field(..., description="Name of the objective")
     description: str = Field(..., description="Description of the objective")
     techniques: List[str] = Field(default_factory=list, description="List of technique IDs associated with the objective")
+    references: Optional[List[Dict[str, str]]] = Field(default_factory=list, description="Reference entries with DFCite_id and relevance_summary_280")
 
     @validator('techniques')
     def validate_techniques(cls, v: List[str]) -> List[str]:
@@ -168,6 +224,10 @@ class Objective(BaseModel):
             if not technique_id.startswith('DFT-') or not technique_id[4:].isdigit():
                 raise ValueError(f"Technique ID must start with 'DFT-' followed by digits, got '{technique_id}'")
         return v
+
+    @validator('references')
+    def validate_references(cls, v):
+        return _validate_reference_entries(v)
 
 
 # --- Error Codes ---

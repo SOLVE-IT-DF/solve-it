@@ -21,8 +21,17 @@
         "https://ontology.solveit-df.org/solveit/observable/FileSystemExtraction"
     ],
     "references": [
-        "Cellebrite (undated), Full File System Extraction - Mobile Device Forensics, https://cellebrite.com/en/glossary/full-file-system-extraction-mobile-device-forensics/",
-        "Fukami, A., Stoykova, R. and Geradts, Z., 2021. A new model for forensic data extraction from encrypted mobile devices. Forensic Science International: Digital Investigation, 38, p.301169.",
-        "Magnet (2024) Revealing hidden data: Full file system extractions uncovered, https://www.magnetforensics.com/blog/revealing-hidden-data-full-file-system-extractions-uncovered/"
+        {
+            "DFCite_id": "DFCite-1031",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1045",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1091",
+            "relevance_summary_280": ""
+        }
     ]
 }

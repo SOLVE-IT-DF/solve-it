@@ -2,7 +2,13 @@
     "id": "DFM-1207",
     "name": "Ensure training is in place for tool operators to separate fact from interpretation within the tool used",
     "references": [
-        "ISO 21043-5:2025 - Forensic sciences — Part 5: Reporting",
-        "International Organization for Standardization (ISO) (2015) ISO/IEC 27042:2015 Guidelines for the analysis and interpretation of digital evidence."
+        {
+            "DFCite_id": "DFCite-1068",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1070",
+            "relevance_summary_280": ""
+        }
     ]
 }

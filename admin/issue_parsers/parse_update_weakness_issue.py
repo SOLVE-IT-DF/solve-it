@@ -22,6 +22,7 @@ from parse_technique_issue import parse_issue_body, lines_to_list
 from parse_weakness_issue import build_mitigation_link
 from update_utils import is_no_response, build_error_comment, build_update_comment
 from solve_it_library import KnowledgeBase
+from solve_it_library.reference_matching import process_reference_lines
 
 
 BROWSE_URL = "https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses"
@@ -63,9 +64,14 @@ def parse_astm_checkboxes(raw_text):
     return checked if checked else None
 
 
-def apply_updates(current, fields):
-    """Apply form field values to a copy of the current weakness JSON."""
+def apply_updates(current, fields, project_root=None):
+    """Apply form field values to a copy of the current weakness JSON.
+
+    Returns (updated_dict, match_report, new_citations).
+    """
     updated = copy.deepcopy(current)
+    match_report = []
+    new_citations = []
 
     # Scalar fields
     name = fields.get("New weakness name", "")
@@ -87,9 +93,14 @@ def apply_updates(current, fields):
 
     references = fields.get("References", "")
     if not is_no_response(references):
-        updated["references"] = lines_to_list(references)
+        ref_lines = lines_to_list(references)
+        if ref_lines and project_root:
+            processed_refs, match_report, new_citations = process_reference_lines(ref_lines, project_root)
+            updated["references"] = processed_refs
+        else:
+            updated["references"] = []
 
-    return updated
+    return updated, match_report, new_citations
 
 
 def main():
@@ -122,10 +133,20 @@ def main():
     if current is None:
         comment = build_error_comment("Weakness", weakness_id, BROWSE_URL)
     else:
-        updated = apply_updates(current, fields)
+        updated, match_report, new_citations = apply_updates(current, fields, base_path)
         comment = build_update_comment(
             "Weakness", weakness_id, current.get("name", ""), current, updated
         )
+
+        # References match report
+        if match_report:
+            ref_lines = ["", "### References", "",
+                         "The following references were matched/created:", ""]
+            ref_lines.extend(match_report)
+            if new_citations:
+                ref_lines.append("")
+                ref_lines.append("Please edit the `relevance_summary_280` fields (max 280 chars) when creating the PR.")
+            comment += '\n'.join(ref_lines)
 
         # Proposed new mitigations — generate pre-filled links
         new_mitigations = lines_to_list(fields.get("Propose new mitigations", ""))

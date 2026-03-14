@@ -145,7 +145,7 @@ def main():
     lines.append("    id: references")
     lines.append("    attributes:")
     lines.append("      label: References")
-    lines.append("      description: References to support any details provided above (one per line).")
+    lines.append("      description: Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.")
     lines.append("      render: text")
 
     # --- Any other notes ---

@@ -18,6 +18,9 @@
         "https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface"
     ],
     "references": [
-        "Lyle, J.R., 2006. A strategy for testing hardware write block devices. digital investigation, 3, pp.3-9."
+        {
+            "DFCite_id": "DFCite-1089",
+            "relevance_summary_280": ""
+        }
     ]
 }

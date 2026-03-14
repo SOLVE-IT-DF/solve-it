@@ -1,0 +1,1 @@
+Hargreaves & Chivers 2008b. Avoiding Live Imaging of Large Encrypted Volumes by Recovering Keys from Memory, Proceedings from 3rd Advances in Computer Security and Forensics

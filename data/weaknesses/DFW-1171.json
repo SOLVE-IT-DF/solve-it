@@ -11,6 +11,9 @@
         "DFM-1125"
     ],
     "references": [
-        "Caithness 2012, The Forensic Implications of SQLite’s Write Ahead Log, https://digitalinvestigation.wordpress.com/2012/05/04/the-forensic-implications-of-sqlites-write-ahead-log/"
+        {
+            "DFCite_id": "DFCite-1021",
+            "relevance_summary_280": ""
+        }
     ]
 }

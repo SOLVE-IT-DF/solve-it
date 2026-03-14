@@ -1,9 +1,9 @@
 # SOLVE-IT (a Systematic Objective-based Listing of Various Established digital Investigation Techniques)
 
 ## Quick Links
-- [Browse the knowledge base in markdown](https://github.com/SOLVE-IT-DF/solve-it/blob/main/.repo_info/solve-it.md)
+- [View the knowledge base in the SOLVE-IT Explorer](https://explore.solveit-df.org)
 - [Access machine readable versions of the knowledge base](https://data.solveit-df.org)
-- [Propose an addition to the knoweldge base](https://github.com/SOLVE-IT-DF/solve-it/issues/new/choose) - see [CONTRIBUTING.md](CONTRIBUTING.md) for guidance
+- [Propose an addition to the knowledge base](https://github.com/SOLVE-IT-DF/solve-it/issues/new/choose) - see [CONTRIBUTING.md](CONTRIBUTING.md) for guidance
 - [View educational resources](https://github.com/SOLVE-IT-DF/solve-it-education)
 
 ## Introduction
@@ -39,52 +39,15 @@ Each of these concepts are contained in subfolders within the [\data](https://gi
 
 ## Viewing the knowledge base 
 
-### Viewing as Markdown
-
-A markdown version of the knowledge base is generated with every commit. You can therefore find the most up-to-date version in the `.repo_info` folder [here](https://github.com/SOLVE-IT-DF/solve-it/blob/main/.repo_info/solve-it.md). 
-
-This markdown version is produced automatically using `reporting_scripts/generate_md_from_kb.py` (requires python >=3.12), and this can be run manually if required.
-
-The markdown generator can optionally enrich CASE input/output classes with details from the ontology (descriptions, superclasses, relationships, and data properties), shown as collapsible sections under each class. To enable this, supply either a local path or URL to the [SOLVE-IT ontology](https://github.com/SOLVE-IT-DF/solve-it-ontology):
-
-```bash
-# Using a local clone of the solve-it-ontology repository
-python3 reporting_scripts/generate_md_from_kb.py --ontology-path /path/to/solve-it-ontology
-
-# Using the ontology directly from GitHub (no local clone needed, defaults to
-# https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-ontology/main/)
-python3 reporting_scripts/generate_md_from_kb.py --ontology-url
-
-# Additionally enrich UCO/CASE classes (downloaded and cached in ~/.cache/solveit-ontology/)
-python3 reporting_scripts/generate_md_from_kb.py --ontology-url --load-case-uco
-```
-
-### Viewing in Excel
-
-Pre-generated xlsx files can be found in the [releases](https://github.com/SOLVE-IT-DF/solve-it/releases) section, published at regular intervals. 
-
-Alternatively the repository is configured to compile a new version of the Excel spreadsheet with every commit. You can therefore find the most up-to-date version in the `.repo_info` folder [here](https://github.com/SOLVE-IT-DF/solve-it/blob/main/.repo_info/solve-it-latest.xlsx).
-
-If you want to generate your own from the raw data (which is useful if you are adding or editing content), a utility script is provided, `reporting_scripts/generate_excel_from_kb.py`. This python3 script (requires python >=3.12) will generate an Excel spreadsheet (solve-it.xlsx) based on the current version of the JSON data (using the solve-it.json categorisations). This uses the Python xlsxwriter package. 
-
-Another utility script `reporting_scripts/generate_evaluation.py` can be used with a list of technique IDs provided as command line arguments. This provides a repackaged checklist of the supplied techniques, with their weaknesses and potential mitigations. This can be used to review a case, an SOP, a tool workflow, and more. See example in [SOLVE-IT examples repository](https://github.com/SOLVE-IT-DF/solve-it-examples/tree/main/forensic_workflow_example_forensic_imaging).
+The easiest way to view the knowledge base is with the [SOLVE-IT Explorer](https://explore.solveit-df.org).
 
 ### Viewing as JSON
 
-The raw repository JSON files can be viewed in the `data` folder [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data), under the subfolders `techniques`, `weaknesses` and `mitigations`.
+The raw repository JSON files can be viewed in the `data` folder [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data), under the subfolders `techniques`, `weaknesses`, `mitigations` and `references`.
 
-### Notes on color coding
-
-In the Excel and Markdown versions, colors are used to indicate the 'status' of techniques. 
-- Red indicates a _placeholder_ (zero weaknesses added)
-- Yellow indicates _some content_ (1 or more weaknesses, but missing a technique description, or has 0 mitigations)
-- Green indicates _release candidate_ (this cannot be classed as complete, but has 1 or more weaknesses, 1 or more miitgations, and has a description in place)
-
-Note, this is controlled via the `global_solveit_config.py` script in the `extension_data` folder, and this behaviour may be modified by other extensions. 
 
 ## Organisation of the techniques
-The file `solve-it.json` is the default categorisation of the techniques, but other categorizations are possible with custom JSON files. The examples repository discusses how this can be done and provides examples for `carrier.json` and `dfrws.json`. See [here](https://github.com/SOLVE-IT-DF/solve-it-examples/tree/main/reorganization_of_techniques) for more information. 
-
+The file `solve-it.json` is the default categorisation of the techniques, but other categorizations are possible with custom JSON files. The examples repository discusses how this can be done and provides examples for `carrier.json` and `dfrws.json`. See [here](https://github.com/SOLVE-IT-DF/solve-it-examples/tree/main/reorganization_of_techniques) for more information. These can be uploaded to the [SOLVE-IT Custom Viewer](https://custom-viewer.solveit-df.org) (use the 'Use custom categories' button to upload your own organsiational schema).
 
 
 ## Related repositories

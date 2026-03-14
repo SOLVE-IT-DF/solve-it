@@ -16,6 +16,9 @@
         "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult"
     ],
     "references": [
-        "NIST, 2025. Computer forensics tools & techniques catalog: string search, https://toolcatalog.nist.gov/taxonomy/index.php?ff_id=31"
+        {
+            "DFCite_id": "DFCite-1103",
+            "relevance_summary_280": ""
+        }
     ]
 }

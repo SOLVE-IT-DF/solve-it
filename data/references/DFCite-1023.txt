@@ -1,0 +1,1 @@
+Campbell, W., 2013. Volatile memory acquisition tools–A comparison across taint and correctness. 11th Australian Digital Forensics Conference. Edith Cowan University, Perth, Western Australia.

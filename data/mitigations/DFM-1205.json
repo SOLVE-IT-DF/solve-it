@@ -2,7 +2,13 @@
     "id": "DFM-1205",
     "name": "Use wordlist generator with case data",
     "references": [
-        "Magnet Forensics (2019) Magnet Axiom Wordlist Generator. Magnet Forensics. Available at: https://www.magnetforensics.com/resources/magnet-axiom-wordlist-generator/",
-        "Magnet Forensics (2019) Utilizing AXIOM Wordlist Generator to Optimize Handset Lock Code Breaking, Magnet Forensics, Available at: https://www.magnetforensics.com/blog/utilizing-axiom-wordlist-generator-to-optimize-handset-lock-code-breaking/ "
+        {
+            "DFCite_id": "DFCite-1094",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1095",
+            "relevance_summary_280": ""
+        }
     ]
 }

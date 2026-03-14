@@ -271,18 +271,100 @@ def load_from_local(repo_path: str) -> dict:
     return db
 
 
+def _build_rename_map(repo_root: Path) -> dict:
+    """Build a mapping from old filenames to new item IDs by detecting renames.
+
+    Scans git log for rename events (R status) in data/ directories and returns
+    a dict mapping old file stems (e.g. 'T1134') to new item IDs (e.g. 'DFT-1134').
+    """
+    rename_map: dict = {}
+    try:
+        result = subprocess.run(
+            ["git", "log", "-M", "--diff-filter=R", "--name-status",
+             "--format=", "--", "data/"],
+            capture_output=True, text=True, cwd=str(repo_root), timeout=30,
+        )
+        if result.returncode != 0:
+            return rename_map
+    except Exception:
+        return rename_map
+
+    for line in result.stdout.splitlines():
+        parts = line.split("\t")
+        if len(parts) == 3 and parts[0].startswith("R"):
+            old_path, new_path = parts[1], parts[2]
+            if old_path.endswith(".json") and new_path.endswith(".json"):
+                old_stem = Path(old_path).stem
+                new_stem = Path(new_path).stem
+                rename_map[old_stem] = new_stem
+    return rename_map
+
+
+def _parse_git_log_output(output: str, credits: dict, rename_map: dict,
+                          merge_pr_re, merge_branch_re, bot_re,
+                          commit_sep: str) -> None:
+    """Parse git log output and accumulate credits into the credits dict.
+
+    Handles renamed files by mapping old file stems to current item IDs.
+    """
+    current_author = ""
+    current_date = ""
+    commit_role = None
+    for line in output.splitlines():
+        if line.startswith(commit_sep):
+            parts = line[len(commit_sep):].split("|", 3)
+            if len(parts) == 4:
+                current_author = parts[1].strip()
+                current_date = parts[2].strip()[:10]
+                subject = parts[3].strip()
+                if merge_pr_re.match(subject):
+                    commit_role = "reviewer"
+                elif merge_branch_re.match(subject):
+                    commit_role = None
+                else:
+                    commit_role = "contributor"
+            else:
+                current_author = ""
+                current_date = ""
+                commit_role = None
+        elif (line.strip() and current_author and commit_role
+              and not bot_re.search(current_author)):
+            fname = line.strip()
+            if not fname.endswith(".json"):
+                continue
+            file_stem = Path(fname).stem
+            item_id = rename_map.get(file_stem, file_stem)
+            if item_id not in credits:
+                credits[item_id] = {"contributors": set(), "reviewers": set(),
+                                    "edits": 0, "created": "", "modified": ""}
+            credits[item_id][commit_role + "s"].add(current_author)
+            if commit_role == "contributor":
+                credits[item_id]["edits"] += 1
+            if current_date:
+                if not credits[item_id]["created"] or current_date < credits[item_id]["created"]:
+                    credits[item_id]["created"] = current_date
+                if not credits[item_id]["modified"] or current_date > credits[item_id]["modified"]:
+                    credits[item_id]["modified"] = current_date
+
+
 def extract_git_credits(repo_root: Path) -> dict:
     """Extract contributor and reviewer names from git history for each data file.
 
     Returns a dict mapping item IDs to {"contributors": [...], "reviewers": [...]}.
     Merge-commit authors are treated as reviewers; other non-bot commit authors
-    are treated as contributors. Returns an empty dict on any failure.
+    are treated as contributors. Follows file renames so that contributors to
+    files under their old names (e.g. T1134) are credited under the current
+    IDs (e.g. DFT-1134). Returns an empty dict on any failure.
     """
     credits: dict = {}
     merge_pr_re = re.compile(r"^Merge pull request #\d+")
     merge_branch_re = re.compile(r"^Merge branch ")
     bot_re = re.compile(r"\[bot\]", re.IGNORECASE)
     commit_sep = "===COMMIT==="
+
+    rename_map = _build_rename_map(repo_root)
+    if rename_map:
+        print(f"  Git credits: found {len(rename_map)} file renames to follow.")
 
     for category in ("techniques", "weaknesses", "mitigations"):
         try:
@@ -296,43 +378,8 @@ def extract_git_credits(repo_root: Path) -> dict:
         except Exception:
             continue
 
-        current_author = ""
-        current_date = ""
-        commit_role = None  # "reviewer", "contributor", or None (skip)
-        for line in result.stdout.splitlines():
-            if line.startswith(commit_sep):
-                parts = line[len(commit_sep):].split("|", 3)
-                if len(parts) == 4:
-                    current_author = parts[1].strip()
-                    current_date = parts[2].strip()[:10]  # YYYY-MM-DD
-                    subject = parts[3].strip()
-                    if merge_pr_re.match(subject):
-                        commit_role = "reviewer"
-                    elif merge_branch_re.match(subject):
-                        commit_role = None
-                    else:
-                        commit_role = "contributor"
-                else:
-                    current_author = ""
-                    current_date = ""
-                    commit_role = None
-            elif (line.strip() and current_author and commit_role
-                  and not bot_re.search(current_author)):
-                fname = line.strip()
-                if not fname.endswith(".json"):
-                    continue
-                item_id = Path(fname).stem
-                if item_id not in credits:
-                    credits[item_id] = {"contributors": set(), "reviewers": set(),
-                                        "edits": 0, "created": "", "modified": ""}
-                credits[item_id][commit_role + "s"].add(current_author)
-                if commit_role == "contributor":
-                    credits[item_id]["edits"] += 1
-                if current_date:
-                    if not credits[item_id]["created"] or current_date < credits[item_id]["created"]:
-                        credits[item_id]["created"] = current_date
-                    if not credits[item_id]["modified"] or current_date > credits[item_id]["modified"]:
-                        credits[item_id]["modified"] = current_date
+        _parse_git_log_output(result.stdout, credits, rename_map,
+                              merge_pr_re, merge_branch_re, bot_re, commit_sep)
 
     # Convert sets to sorted lists
     for item_id in credits:
@@ -2269,7 +2316,7 @@ function renderMatrix() {{
       <div class="tactic-header" title="${{esc(obj.description || obj.name)}}">
         <span class="tactic-id">${{esc(obj.id || '')}}</span>
         <span>${{esc(obj.name)}}</span>
-        <span class="tcount">${{(obj.techniques||[]).length}} technique${{(obj.techniques||[]).length!==1?'s':''}}</span>
+        <span class="tcount">${{techs.length}}/${{(obj.techniques||[]).length}} technique${{(obj.techniques||[]).length!==1?'s':''}}</span>
       </div>
       <div class="tactic-cells" id="cells-${{i}}"></div>
     `;
@@ -3634,18 +3681,24 @@ function handleHash() {{
     switchView(hash, true);
     return;
   }}
-  // Item IDs — determine type from prefix
-  const type = hash.startsWith('T') ? 'technique'
-             : hash.startsWith('W') ? 'weakness'
-             : hash.startsWith('M') ? 'mitigation'
+  // Item IDs — determine type from prefix (support old T/W/M and new DFT-/DFW-/DFM-)
+  let id = hash;
+  const oldPrefixMap = {{T:'DFT-', W:'DFW-', M:'DFM-'}};
+  if (/^[TWM]\\d/.test(hash)) {{
+    id = oldPrefixMap[hash[0]] + hash.slice(1);
+    location.replace('#' + id);
+    return;
+  }}
+  const type = id.startsWith('DFT-') ? 'technique'
+             : id.startsWith('DFW-') ? 'weakness'
+             : id.startsWith('DFM-') ? 'mitigation'
              : null;
   if (type) {{
     const map = {{technique:TMap, weakness:WMap, mitigation:MMap}};
-    if (map[type][hash]) {{
-      // Switch to the right tab first
+    if (map[type][id]) {{
       const viewMap = {{technique:'matrix', weakness:'weaknesses', mitigation:'mitigations'}};
       switchView(viewMap[type], true);
-      showDetail(hash, type, true);
+      showDetail(id, type, true);
     }}
   }}
 }}

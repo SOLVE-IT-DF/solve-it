@@ -809,6 +809,17 @@ def _write_markdown_summary(result: ValidationResult, filepath: str):
         for label, count in categories:
             lines.append(f"| {label} | {count} |")
         lines.append("")
+
+        # For small categories, list the actual warnings
+        for label, pattern in WARNING_CATEGORIES:
+            matching = [msg for msg in result.warnings if pattern in msg]
+            if 0 < len(matching) <= 5:
+                lines.append(f"**{label}:**")
+                lines.append("")
+                for msg in matching:
+                    lines.append(f"- {msg}")
+                lines.append("")
+
         lines.append("</details>")
 
     if stats_line:

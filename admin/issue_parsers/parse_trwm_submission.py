@@ -224,8 +224,94 @@ def verify_all_references(trwm_data, kb):
     return warnings
 
 
+URL_PATTERN = re.compile(r'^https?://')
+KNOWN_CASE_PREFIXES = [
+    "https://ontology.unifiedcyberontology.org/uco/",
+    "https://ontology.caseontology.org/case/",
+    "https://ontology.solveit-df.org/solveit/",
+    "https://cacontology.projectvic.org/",
+]
+ASTM_FIELDS = ["INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT"]
+
+
+def validate_submission(trwm_data, new_items):
+    """Run lightweight validation checks on the submission.
+
+    Returns a list of (level, message) tuples where level is
+    'warning' or 'info'.
+    """
+    notes = []
+
+    # Check CASE classes
+    for tid, technique in trwm_data.get("techniques", {}).items():
+        for field in ("CASE_input_classes", "CASE_output_classes"):
+            for value in technique.get(field, []):
+                if not URL_PATTERN.match(value):
+                    notes.append((
+                        "warning",
+                        f"**{field}**: `{value}` is not a valid URL — "
+                        f"CASE/UCO classes should be full ontology IRIs "
+                        f"(e.g. `https://ontology.unifiedcyberontology.org/uco/observable/...`)"
+                    ))
+                elif not any(value.startswith(p) for p in KNOWN_CASE_PREFIXES):
+                    notes.append((
+                        "warning",
+                        f"**{field}**: `{value}` does not match a known ontology prefix"
+                    ))
+
+    # Check for techniques with no description
+    for technique in new_items["techniques"]:
+        if not technique.get("description", "").strip():
+            notes.append((
+                "warning",
+                f"Technique **{technique['name']}** has no description"
+            ))
+        if not technique.get("weaknesses"):
+            notes.append((
+                "warning",
+                f"Technique **{technique['name']}** has no weaknesses listed"
+            ))
+
+    # Check for weaknesses with no ASTM error class
+    for weakness in new_items["weaknesses"]:
+        has_astm = any(weakness.get(f) for f in ASTM_FIELDS)
+        if not has_astm:
+            notes.append((
+                "warning",
+                f"Weakness **{weakness['name']}** has no ASTM error class selected"
+            ))
+
+    # Check for weaknesses with no mitigations
+    no_mitigation_count = 0
+    for weakness in new_items["weaknesses"]:
+        if not weakness.get("mitigations"):
+            no_mitigation_count += 1
+    if no_mitigation_count:
+        notes.append((
+            "info",
+            f"{no_mitigation_count} weakness(es) have no mitigations"
+        ))
+
+    # Summary counts for common optional fields
+    no_ref_mitigations = sum(1 for m in new_items["mitigations"] if not m.get("references"))
+    if no_ref_mitigations:
+        notes.append((
+            "info",
+            f"{no_ref_mitigations} of {len(new_items['mitigations'])} mitigation(s) have no references"
+        ))
+
+    no_ref_weaknesses = sum(1 for w in new_items["weaknesses"] if not w.get("references"))
+    if no_ref_weaknesses:
+        notes.append((
+            "info",
+            f"{no_ref_weaknesses} of {len(new_items['weaknesses'])} weakness(es) have no references"
+        ))
+
+    return notes
+
+
 def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
-                  ref_warnings, submission_type):
+                  ref_warnings, submission_type, reviewer_notes=None):
     """Build the GitHub comment markdown."""
     lines = []
 
@@ -255,12 +341,17 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
             lines.append(f"**Proposed new objective:** {other_objective}")
             lines.append("")
 
-    # Warnings
-    if ref_warnings:
-        lines.append("### Warnings")
+    # Reviewer notes — combine ref warnings and validation notes
+    all_warnings = [(w, "warning") for w in ref_warnings]
+    if reviewer_notes:
+        all_warnings += [(msg, level) for level, msg in reviewer_notes]
+
+    if all_warnings:
+        lines.append("### Reviewer notes")
         lines.append("")
-        for warning in ref_warnings:
-            lines.append(f"- :warning: {warning}")
+        for msg, level in all_warnings:
+            icon = ":warning:" if level == "warning" else ":information_source:"
+            lines.append(f"- {icon} {msg}")
         lines.append("")
 
     # Technique JSON blocks
@@ -438,10 +529,13 @@ def main():
     # Determine submission type
     submission_type = fields.get("Submission type", "New technique").strip()
 
+    # Run lightweight validation
+    reviewer_notes = validate_submission(trwm_data, new_items)
+
     # Build the comment
     comment = build_comment(
         trwm_data, fields, placeholder_map, new_items, existing_items,
-        ref_warnings, submission_type,
+        ref_warnings, submission_type, reviewer_notes,
     )
 
     if args.output:

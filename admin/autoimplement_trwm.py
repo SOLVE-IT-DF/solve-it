@@ -307,6 +307,32 @@ def main():
         write_root = dry_run_dir
     else:
         write_root = project_root
+
+        # Check if branch already exists locally or remotely and add suffix
+        existing = subprocess.run(
+            ["git", "branch", "--list", branch_name],
+            capture_output=True, text=True, cwd=project_root,
+        )
+        remote_existing = subprocess.run(
+            ["git", "ls-remote", "--heads", "origin", branch_name],
+            capture_output=True, text=True, cwd=project_root,
+        )
+        if existing.stdout.strip() or remote_existing.stdout.strip():
+            # Append a short numeric suffix
+            for i in range(2, 100):
+                candidate = f"{branch_name}-{i}"
+                remote_check = subprocess.run(
+                    ["git", "ls-remote", "--heads", "origin", candidate],
+                    capture_output=True, text=True, cwd=project_root,
+                )
+                local_check = subprocess.run(
+                    ["git", "branch", "--list", candidate],
+                    capture_output=True, text=True, cwd=project_root,
+                )
+                if not remote_check.stdout.strip() and not local_check.stdout.strip():
+                    branch_name = candidate
+                    break
+
         print(f"Creating branch: {branch_name}", file=sys.stderr)
         run(["git", "checkout", "-b", branch_name], cwd=project_root)
 

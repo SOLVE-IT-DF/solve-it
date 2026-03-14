@@ -483,6 +483,8 @@ def main():
         pr_lines.append(f"Original submission by @{issue['user']['login']} "
                         f"in #{args.issue_number}.")
         pr_lines.append(f"Commit authored as: {author_name} <{author_email}>")
+        pr_lines.append("")
+        pr_lines.append(f"Resolves #{args.issue_number}")
 
         pr_body = '\n'.join(pr_lines)
 

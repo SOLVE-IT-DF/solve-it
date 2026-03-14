@@ -1,0 +1,70 @@
+name: "TRWM Submission"
+description: Submit a technique with weaknesses and mitigations from the TRWM SOLVE-IT Helper app
+title: "TRWM submission: {technique name}"
+labels: ["trwm"]
+body:
+  - type: input
+    id: technique-name
+    attributes:
+      label: Technique name
+      description: The name of the technique from your TRWM submission.
+      placeholder: e.g. Examination of a multiplayer game app
+    validations:
+      required: true
+  - type: dropdown
+    id: submission-type
+    attributes:
+      label: Submission type
+      description: Is this a new technique or an update to an existing one?
+      options:
+        - New technique
+        - Update existing technique
+    validations:
+      required: true
+  - type: dropdown
+    id: objective
+    attributes:
+      label: Objective
+      description: Which objective does this technique fit under?
+      options:
+        - "Prepare for a digital investigation"
+        - "Find potential digital evidence sources"
+        - "Prioritize digital evidence sources"
+        - "Preserve digital evidence"
+        - "Acquire data"
+        - "Gain access"
+        - "Read data from digital evidence storage formats"
+        - "Reduce data under consideration"
+        - "Access partitions, volumes and file systems data"
+        - "Extract artifacts stored by the operating system"
+        - "Extract artifacts stored by applications"
+        - "Extract artifacts, or content of specific types"
+        - "Locate potentially relevant content"
+        - "Review content for relevance"
+        - "Detect anti-forensics and other anomalies"
+        - "Establish identities"
+        - "Create visualizations"
+        - "Reconstruct events"
+        - "Conduct research"
+        - "Produce documentation"
+        - Other (specify below)
+    validations:
+      required: true
+  - type: input
+    id: objective-other
+    attributes:
+      label: Propose new objective
+      description: If your technique doesn't fit an existing objective, propose one here.
+  - type: textarea
+    id: trwm-json
+    attributes:
+      label: TRWM Helper JSON export
+      description: Paste the full JSON export from the TRWM SOLVE-IT Helper app here.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: Additional notes
+      description: Any additional information or context you'd like to provide.

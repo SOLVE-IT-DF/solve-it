@@ -3402,18 +3402,24 @@ function handleHash() {{
     switchView(hash, true);
     return;
   }}
-  // Item IDs — determine type from prefix
-  const type = hash.startsWith('T') ? 'technique'
-             : hash.startsWith('W') ? 'weakness'
-             : hash.startsWith('M') ? 'mitigation'
+  // Item IDs — determine type from prefix (support old T/W/M and new DFT-/DFW-/DFM-)
+  let id = hash;
+  const oldPrefixMap = {{T:'DFT-', W:'DFW-', M:'DFM-'}};
+  if (/^[TWM]\\d/.test(hash)) {{
+    id = oldPrefixMap[hash[0]] + hash.slice(1);
+    location.replace('#' + id);
+    return;
+  }}
+  const type = id.startsWith('DFT-') ? 'technique'
+             : id.startsWith('DFW-') ? 'weakness'
+             : id.startsWith('DFM-') ? 'mitigation'
              : null;
   if (type) {{
     const map = {{technique:TMap, weakness:WMap, mitigation:MMap}};
-    if (map[type][hash]) {{
-      // Switch to the right tab first
+    if (map[type][id]) {{
       const viewMap = {{technique:'matrix', weakness:'weaknesses', mitigation:'mitigations'}};
       switchView(viewMap[type], true);
-      showDetail(hash, type, true);
+      showDetail(id, type, true);
     }}
   }}
 }}

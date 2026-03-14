@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1287",
+    "name": "Failure to recover deleted message from a multiplayer gaming app",
+    "INCOMP": "x",
+    "INAC-EX": "",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1244",
+        "DFM-1027",
+        "DFM-1243"
+    ],
+    "references": []
+}

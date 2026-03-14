@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1294",
+    "name": "Presenting a deleted contact from a gaming app that does not exist",
+    "INCOMP": "",
+    "INAC-EX": "x",
+    "INAC-AS": "",
+    "INAC-ALT": "",
+    "INAC-COR": "",
+    "MISINT": "",
+    "mitigations": [
+        "DFM-1246",
+        "DFM-1027",
+        "DFM-1243"
+    ],
+    "references": []
+}

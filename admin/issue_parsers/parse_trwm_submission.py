@@ -454,7 +454,7 @@ def main():
     if args.labels_output:
         labels = determine_labels(new_items, existing_items, submission_type)
         with open(args.labels_output, 'w') as f:
-            f.write('\n'.join(labels))
+            f.write('\n'.join(labels) + '\n' if labels else '')
         print(f"Auto-detected labels: {labels}", file=sys.stderr)
 
 

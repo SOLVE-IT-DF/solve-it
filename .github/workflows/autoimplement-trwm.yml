@@ -1,0 +1,41 @@
+name: Auto-implement TRWM submission
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  autoimplement-trwm:
+    if: >-
+      github.event.label.name == 'autoimplement'
+      && contains(github.event.issue.labels.*.name, 'trwm')
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+
+    - name: Configure git
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    - name: Auto-implement TRWM submission
+      run: |
+        python3 admin/autoimplement_trwm.py \
+          --issue-number "$ISSUE_NUMBER" \
+          --project-root .
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}

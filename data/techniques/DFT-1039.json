@@ -1,6 +1,6 @@
 {
     "id": "DFT-1039",
-    "name": "App downgrade",
+    "name": "Downgrade apps to facilitate data extraction",
     "description": "Downgrading an app to a version in which data is available e.g. via a backup method",
     "synonyms": [],
     "details": "",

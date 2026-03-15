@@ -7,7 +7,7 @@ to the appropriate data/ directories, updates solve-it.json with the
 technique under the correct objective, and opens a PR attributed to
 the original issue submitter.
 
-Only supports new submissions (not updates).
+Supports both new submissions and updates to existing techniques.
 
 Usage:
     python3 admin/autoimplement_trwm.py --issue-number 328
@@ -64,16 +64,32 @@ def get_issue_comments(issue_number):
     return json.loads(raw)
 
 
-def find_assigned_comment(comments):
+def find_assigned_comment(comments, is_update=False):
     """Find the preview comment that has real IDs assigned.
 
     This is the revised comment posted by assign_trwm_ids.py, identifiable
     by the TRWM_PREVIEW marker AND the 'has been assigned' text.
+
+    For updates where all items have real IDs (no temp IDs needing assignment),
+    fall back to the original preview comment.
     """
+    # First try: look for the assigned-ID version
     for comment in comments:
         body = comment.get("body", "")
         if "<!-- TRWM_PREVIEW -->" in body and "has been assigned" in body:
             return comment
+
+    # For updates: accept the original preview if it has no placeholder IDs
+    if is_update:
+        for comment in comments:
+            body = comment.get("body", "")
+            if "<!-- TRWM_PREVIEW -->" in body:
+                # Check the ID map — if empty, no assignment was needed
+                map_match = re.search(r'<!-- TRWM_ID_MAP: ({.*?}) -->', body)
+                if map_match:
+                    id_map = json.loads(map_match.group(1))
+                    if not id_map:
+                        return comment
     return None
 
 
@@ -103,6 +119,17 @@ def parse_objective_from_issue(issue_body):
     return None
 
 
+def parse_submission_type_from_issue(issue_body):
+    """Extract the Submission type field from the issue body.
+
+    Returns 'Update existing technique' or 'New technique' (default).
+    """
+    match = re.search(r'### Submission type\s*\n\s*\n\s*(.+)', issue_body)
+    if match:
+        return match.group(1).strip()
+    return "New technique"
+
+
 def classify_block(block):
     """Classify a JSON block by its ID prefix.
 
@@ -118,7 +145,7 @@ def classify_block(block):
     return None, item_id
 
 
-def write_data_file(project_root, item_type, block):
+def write_data_file(project_root, item_type, block, allow_overwrite=False):
     """Write a JSON block to the appropriate data directory."""
     validate_id(block["id"])
 
@@ -137,7 +164,8 @@ def write_data_file(project_root, item_type, block):
         print(f"Error: path traversal detected for {block['id']}", file=sys.stderr)
         sys.exit(1)
 
-    if os.path.exists(filepath):
+    exists = os.path.exists(filepath)
+    if exists and not allow_overwrite:
         print(f"Warning: {filepath} already exists, skipping", file=sys.stderr)
         return None
 
@@ -145,7 +173,8 @@ def write_data_file(project_root, item_type, block):
         json.dump(block, f, indent=4)
         f.write('\n')
 
-    print(f"  Written: {filepath}", file=sys.stderr)
+    action = "Updated" if exists else "Written"
+    print(f"  {action}: {filepath}", file=sys.stderr)
     return filepath
 
 
@@ -238,8 +267,13 @@ def main():
     issue = get_issue(args.issue_number)
     comments = get_issue_comments(args.issue_number)
 
-    # 2. Find the assigned-ID comment
-    assigned_comment = find_assigned_comment(comments)
+    # 2. Detect submission type
+    submission_type = parse_submission_type_from_issue(issue["body"])
+    is_update = submission_type == "Update existing technique"
+    print(f"Submission type: {submission_type}", file=sys.stderr)
+
+    # 3. Find the assigned-ID comment
+    assigned_comment = find_assigned_comment(comments, is_update=is_update)
     if assigned_comment is None:
         print("Error: could not find assigned-ID preview comment. "
               "Has the 'assigned ID' label been processed?", file=sys.stderr)
@@ -294,20 +328,32 @@ def main():
     # 7. Write data files to a temp directory in dry-run mode, or to the repo
     technique_name = techniques[0]["name"] if techniques else f"issue-{args.issue_number}"
     technique_id = techniques[0]["id"] if techniques else "TRWM"
-    branch_name = f"trwm/issue-{args.issue_number}-{slugify(technique_name)}"
+    branch_prefix = "trwm-update" if is_update else "trwm"
+    branch_name = f"{branch_prefix}/issue-{args.issue_number}-{slugify(technique_name)}"
 
     if args.dry_run:
         import tempfile
+        import shutil
         dry_run_dir = tempfile.mkdtemp(prefix="trwm-dry-run-")
         # Mirror the data directory structure
         for subdir in ("techniques", "weaknesses", "mitigations"):
             os.makedirs(os.path.join(dry_run_dir, "data", subdir))
         # Copy solve-it.json for testing
-        import shutil
         shutil.copy(
             os.path.join(project_root, "data", "solve-it.json"),
             os.path.join(dry_run_dir, "data", "solve-it.json"),
         )
+        # For updates, copy existing files so overwrite works in dry-run
+        if is_update:
+            for block in blocks:
+                item_type, _ = classify_block(block)
+                if item_type:
+                    type_dir = {"technique": "techniques", "weakness": "weaknesses",
+                                "mitigation": "mitigations"}[item_type]
+                    src = os.path.join(project_root, "data", type_dir, f"{block['id']}.json")
+                    if os.path.exists(src):
+                        shutil.copy(src, os.path.join(dry_run_dir, "data", type_dir,
+                                                       f"{block['id']}.json"))
         write_root = dry_run_dir
     else:
         write_root = project_root
@@ -346,22 +392,25 @@ def main():
         written_files = []
 
         for block in techniques:
-            path = write_data_file(write_root, "technique", block)
+            path = write_data_file(write_root, "technique", block,
+                                   allow_overwrite=is_update)
             if path:
                 written_files.append(path)
 
         for block in weaknesses:
-            path = write_data_file(write_root, "weakness", block)
+            path = write_data_file(write_root, "weakness", block,
+                                   allow_overwrite=is_update)
             if path:
                 written_files.append(path)
 
         for block in mitigations:
-            path = write_data_file(write_root, "mitigation", block)
+            path = write_data_file(write_root, "mitigation", block,
+                                   allow_overwrite=is_update)
             if path:
                 written_files.append(path)
 
-        # 9. Update solve-it.json
-        if objective_name and techniques:
+        # 9. Update solve-it.json (skip for updates — technique already assigned)
+        if objective_name and techniques and not is_update:
             if update_solve_it_json(write_root, objective_name, technique_id):
                 solve_it_path = os.path.join(write_root, "data", "solve-it.json")
                 written_files.append(solve_it_path)
@@ -371,11 +420,13 @@ def main():
             sys.exit(1)
 
         if args.dry_run:
+            action_word = "updated/created" if is_update else "created"
             print(f"\n=== DRY RUN RESULTS ===", file=sys.stderr)
+            print(f"Submission type: {submission_type}", file=sys.stderr)
             print(f"Branch would be: {branch_name}", file=sys.stderr)
             print(f"Author: {author_name} <{author_email}>", file=sys.stderr)
             print(f"Files written to: {dry_run_dir}", file=sys.stderr)
-            print(f"\nFiles that would be created:", file=sys.stderr)
+            print(f"\nFiles that would be {action_word}:", file=sys.stderr)
             for f in written_files:
                 print(f"  {f}", file=sys.stderr)
             print(f"\nTo inspect:", file=sys.stderr)
@@ -388,8 +439,9 @@ def main():
         for f in written_files:
             run(["git", "add", f], cwd=project_root)
 
+        verb = "Update" if is_update else "Add"
         commit_msg = (
-            f"Add TRWM submission: {technique_name} ({technique_id})\n\n"
+            f"{verb} TRWM submission: {technique_name} ({technique_id})\n\n"
             f"Auto-implemented from issue #{args.issue_number}.\n\n"
             f"Includes {len(techniques)} technique(s), {len(weaknesses)} weakness(es), "
             f"{len(mitigations)} mitigation(s)."
@@ -405,7 +457,7 @@ def main():
         print("Pushing branch...", file=sys.stderr)
         run(["git", "push", "-u", "origin", branch_name], cwd=project_root)
 
-        pr_title = f"Add TRWM submission: {technique_name} ({technique_id})"
+        pr_title = f"{verb} TRWM submission: {technique_name} ({technique_id})"
 
         # Build detailed PR body
         pr_lines = []
@@ -427,8 +479,9 @@ def main():
             pr_lines.append(f"| Objective | — | {objective_name} |")
         pr_lines.append("")
 
-        # List of files created
-        pr_lines.append("## Files")
+        # List of files created/updated
+        files_header = "Files updated/created" if is_update else "Files"
+        pr_lines.append(f"## {files_header}")
         pr_lines.append("")
         for f in written_files:
             # Show path relative to repo root

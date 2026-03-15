@@ -30,16 +30,6 @@ def main():
     lines.append("labels: [\"trwm\"]")
     lines.append("body:")
 
-    # --- Technique name ---
-    lines.append("  - type: input")
-    lines.append("    id: technique-name")
-    lines.append("    attributes:")
-    lines.append("      label: Technique name")
-    lines.append("      description: The name of the technique from your TRWM submission.")
-    lines.append("      placeholder: e.g. Examination of a multiplayer game app")
-    lines.append("    validations:")
-    lines.append("      required: true")
-
     # --- Submission type ---
     lines.append("  - type: dropdown")
     lines.append("    id: submission-type")

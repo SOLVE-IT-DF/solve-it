@@ -3,14 +3,6 @@ description: Submit a technique with weaknesses and mitigations from the TRWM SO
 title: "TRWM submission: {technique name}"
 labels: ["trwm"]
 body:
-  - type: input
-    id: technique-name
-    attributes:
-      label: Technique name
-      description: The name of the technique from your TRWM submission.
-      placeholder: e.g. Examination of a multiplayer game app
-    validations:
-      required: true
   - type: dropdown
     id: submission-type
     attributes:

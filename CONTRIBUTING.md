@@ -58,6 +58,11 @@ This is the primary way to propose updates to content in the SOLVE-IT knowledge 
 
 * Visit the SOLVE-IT [issue tracker](https://github.com/SOLVE-IT-DF/solve-it/issues).
 * There are templates available for updating existing techniques, weaknesses and mitigations, and also proposing new ones.
+* NEW: You can now submit an issue direcly from the [SOLVE-IT Explorer](https://explore.solveit-df.org/), either within a techqniue, weakness, or mitigation (see 'Propose an update to X' button shown below), or to submit new content view the other tabs which have a 'Propose a new X' button. These will link you directly to the correct form in the Issue Tracker.
+
+<img width="600" height="180" alt="Shows updating this content on GitHub button" src="https://github.com/user-attachments/assets/aa4b7dd0-f725-4329-b013-065e138d0277" />
+
+<img width="1512" height="229" alt="Shows the new techqniue button in the 'Techniques' tab" src="https://github.com/user-attachments/assets/e61b86c2-cf1c-4758-a8b5-5fa7d0cdb53f" />
 
 
 ## Wait for review and get assigned IDs

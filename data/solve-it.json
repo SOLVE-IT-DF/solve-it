@@ -119,7 +119,8 @@
         "description": "Store acquired data in one or more formats for subsequent examination and analysis",
         "techniques": [
             "DFT-1025",
-            "DFT-1026"
+            "DFT-1026",
+            "DFT-1177"
         ],
         "references": []
     },

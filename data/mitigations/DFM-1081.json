@@ -1,5 +1,6 @@
 {
     "id": "DFM-1081",
     "name": "Check if recovered content matches with size in metadata e.g. file footer at expected location.",
+    "description": "",
     "references": []
 }

@@ -1,12 +1,13 @@
 # Contributing to SOLVE-IT
 
-There is a document "SOLVE-IT for researchers" which provides additional details. It is available [here](https://github.com/SOLVE-IT-DF/solve-it-education/tree/main/guide-for-researchers).
-
-A style guide (in progress) is available [here](STYLE_GUIDE.md).
-
 ## Introduction
 
-There are multiple ways you can contribute to SOLVE-IT. 
+There are multiple ways you can contribute to SOLVE-IT. This document presents a concise guide to the process. 
+
+A more extensive document "SOLVE-IT for researchers" provides additional guidance and is suitable for anyone that wants to make a contribution. It is available [here](https://github.com/SOLVE-IT-DF/solve-it-education/tree/main/guide-for-researchers). 
+
+A style guide (in progress) is also available [here](STYLE_GUIDE.md).
+
 
 ## Content that can be contributed
 There are many areas in which content can be contributed:
@@ -14,61 +15,111 @@ There are many areas in which content can be contributed:
 * **Techniques** - how one might achieve an objective in digital forensics by performing an action, e.g. for the objective of 'acquire data', the technique 'create disk image' could be used.
 * **Weaknesses** - these represent potential problems resulting from using a technique ([see Weakness Categories below](#Weakness-Categories))
 * **Mitigations** - something that can be done to attempt to prevent a weakness from occurring, or to minimise its impact. 
-* **Examples** - examples of cases where a technique is used, datasets that are relevant to the technique, 
-                   tools that are able to perform the technique.  
-* **References** - references to support the information within techniques, weaknesses and potential mitigations. We are working on a [bibtex implementation for references](https://github.com/SOLVE-IT-DF/solve-it/issues/38).
+* **Examples** - examples of cases where a technique is used, datasets that are relevant to the technique, tools that are able to perform the technique.  
+* **References** - references to support the information within techniques, weaknesses and potential mitigations. When a reference is used, we also request a 280 character 'relevancy' string to help users of SOLVE-IT identify if/how a particular reference added is of relevance to their use case. 
 
-Please also see the [Review of AI applicability in digital forensics using SOLVE-IT](https://github.com/SOLVE-IT-DF/solve-it-applications-ai-review) repo, which invites bibtex entries that
-document the use of AI for assisting with digital forensic techniques.  
+Other contributions are also welcome to related projects:
 
-
-## Methods to contribute 
-
-We have two main ways that information can be contributed to the knowledge base:
-
-* [Contributing using the issue tracker](#Contributing-using-the-issue-tracker).
-* [Contributing directly via the code repo](#Contributing-directly-via-the-code-repo).
-
-All content contributions should start in the issue tracker, since discussion is easier there about concepts than in code review.  
+- the [SOLVE-IT website](https://www.solveit-df.org) also invites [articles](https://www.solveit-df.org/articles/) from those making use or contributions to SOLVE-IT. 
+- the [SOLVE-IT education repository](https://github.com/SOLVE-IT-DF/solve-it-education) invites additional content for educating others about SOLVE-IT.
+- make use of [SOLVE-IT-X](https://github.com/SOLVE-IT-DF/solve-it-x) to build custom versions of SOLVE-IT augmented with your own content. 
+- the [Review of AI applicability in digital forensics using SOLVE-IT](https://github.com/SOLVE-IT-DF/solve-it-applications-ai-review) repo, which invites bibtex entries that document the use of AI for assisting with digital forensic techniques.  
 
 
 
-## Contributing using the issue tracker
-This is the easiest way to propose updates to content in the SOLVE-IT knowledge base.
+## Contribution workflow
+
+The workflow for contributions is: 
+
+* Decide what you need to add ([details](#deciding-what-you-need-to-add))
+* Check if it already exists in SOLVE-IT ([details](#check-if-it-already-exists-in-solve-it))
+* Raise an issue in GitHub ([details](#raise-an-issue-in-the-github-issue-tracker))
+* Wait for review and get assigned IDs for your contribution ([details](#wait-for-review-and-get-assigned-ids))
+* Fork the repository, edit or create the relevant JSON files in the /data folder ([details](#edit-and-contribute-code-updates))
+* Run validation, commit your changes and submit a pull request ([details](#run-validation-script))
+* After review, your new/updated content should be live in the knowledge base ([details](#wait-for-review-then-view-your-content))
+
+## Deciding what you need to add
+
+* Technique: you want to describe a *method* or process to achieve a forensic objective.
+* Weakness: you have identified a *potential problem* with using a technique.
+* Mitigation: you have identified or developed a *(partial) solution* to a known weakness.
+
+## Check if it already exists in SOLVE-IT
+Use the [SOLVE-IT Explorer](https://explore.solveit-df.org/) to search for related content and see if your content is already represented in the knowledge base. If so, you may want to submit updates instead of new content.
+
+You can also make use of the third-party [MCP server for SOLVE-IT](https://github.com/CKE-Proto/solve_it_mcp) to interact with the knowledge base using natural language. 
+
+Alternatively, TSV and other formats for techniques, weaknesses and mitigations are available
+on the site that hosts [machine readable versions of the knowledge base](https://data.solveit-df.org), which can be uploaded to other services such as ChatGPT for a quick LLM based review of the content, but is not as effective as the MCP server approach.
+
+## Raise an issue in the GitHub issue tracker
+This is the primary way to propose updates to content in the SOLVE-IT knowledge base.
 
 * Visit the SOLVE-IT [issue tracker](https://github.com/SOLVE-IT-DF/solve-it/issues).
-* Select one of the templates. We offer 'STANDARD', 'LITE' or 'TRWM' templates for content contributions:
-  * STANDARD asks for all the details needed to populate the content in a structured for.
-  * LITE requests the miminal information needed, with a free text 'notes' section for additional information.
-  * TRWM is a much more extensive review to systematically consider the nature of the Technique, Results, Weaknesses and Mitigations. It uses a Google worksheet to help structure the review of a proposed technique and results in TSV files that can be programmatically converted into JSON ready for the knowledge base. An exercise that works through the TRWM process is available [here](https://github.com/SOLVE-IT-DF/solve-it-education/tree/main/class-exercises), and a detailed description of the process will shortly be available [here](https://github.com/SOLVE-IT-DF/solve-it-education/tree/main/trwm-explained).
-* Submit the suggestion as a github issue for review.
+* There are templates available for updating existing techniques, weaknesses and mitigations, and also proposing new ones.
 
 
-## Contributing directly via the code repo
+## Wait for review and get assigned IDs
+Once your issue has been raised it will be reviewed. To speed up review make sure to have reviewed the contribution guide in full and the (in progress) [style guide](STYLE_GUIDE.md).
 
-* All contributions to the project must be submitted via pull request. 
-* Ensure that your pull request addresses a specific issue or feature request. If none exists, please open a new issue first to discuss the updates.
-* Follow the [GitHub Flow](https://guides.github.com/introduction/flow/) workflow:
-  1. Create a new branch from `main`. 
-  2. Make your changes and commit them with descriptive commit messages.
-  3. Submit a pull request to the main repository's `main` branch.
+
+## Edit and contribute code updates
+
+* All contributions to the project must be submitted via pull request and linked to an issue.
+* Follow the [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow) workflow (with [SOLVE-IT validation](#run-validation-script) after step 2):
+    1. Create a new branch from `main`.     
+    2. Make your changes and commit them with descriptive commit messages.
+    3. Submit a pull request to the main repository's `main` branch.
 * Provide a clear and detailed description of your changes in the pull request description.
-* If you want to share code in progress via pull request, use a prefix "[WORK IN PROGRESS]" in the pull request title. 
+* If you want to share code in progress via pull request, use GitHub's Draft pull request feature.
 
-### Specifics
+## Run validation script
+Prior to submitting the pull request, or even committing, you should make use of the `/admin/validate_kb.py` script. This can be run with no arguments and will perform multiple tests, build all the different output formats of the knowledge base and give you a report. 
 
-* The content on the knowledge base is in `/data`.
-* To update a technique, locate the corresponding json file in the `/data/techniques` folder. Update that json with the relevant information.
-* New techniques need to be added to `solve-it.json` under the correct objective.
-* New techniques can be added by creating a new json file in the same structure, following the pattern of existing techniques.
-* You can reference weaknesses and mitigations, either existing ones in the `/data/weaknesses` or `/data/mitigations` folders, or create new.
+At present, a large number of warnings for incomplete content is normal. This will reduce over time as more content is added to SOLVE-IT.
 
-## Notes on references
+```
+══ Phase 1: Data loading ═════════════════════════════════════
+  [OK]    All checks passed.
+
+══ Phase 1b: Deprecated ID format check ══════════════════════
+  [OK]    All checks passed.
+
+══ Phase 2: Cross-reference integrity ════════════════════════
+  [OK]    All checks passed.
+
+══ Phase 3: ASTM error class flags ═══════════════════════════
+  [OK]    All checks passed.
+
+══ Phase 4: CASE/UCO class URLs ══════════════════════════════
+  [OK]    All checks passed.
+
+══ Phase 5: Completeness warnings ════════════════════════════
+  [WARN]  Technique DFT-1008 has empty/missing description
+  [WARN]  Technique DFT-1009 has empty/missing description
+  ...
+  [PASS]  Completeness stats: 172 techniques, 118 with description, 73 with weaknesses, 129 with CASE classes, 142 citations
+
+══ Phase 6: Generator smoke tests ════════════════════════════
+  [OK]    All checks passed.
+
+══ Summary ═══════════════════════════════════════════════════
+  Passed: 33   Failed: 0   Warnings: 410
+
+  All checks passed.
+```
+
+## Wait for review then view your content
+Your pull request will get checked by a SOLVE-IT reviewer and then integrated. You will be able to review your contribution with the [SOLVE-IT Explorer](https://explore.solveit-df.org/). Note that deep links are possible to your content once integrated if you want to share your content further, e.g. https://explore.solveit-df.org/#DFT-1002.  
+
+
+## Additional notes on references
 * Techniques, weaknesses, and mitigations can, and should, contain references to support the information within. 
-* The references should be in the appropriate file, e.g. if a reference is supporting defining a technique then it ought to be in the json file for the techniques (DFT-xxxx), if it is highlighting a weakness then it should be in an weakness (DFW-xxxx) json file, and if it is describing a potential mitigation then it should be in the mitigation (DFM-xxxx) json file. 
-* References should not be added just because they are about a topic, but should have meaningful implications in terms of explaining a technique, highlighting a weakness, or providing a mitigation.
+* The references should be in the appropriate file, e.g. if a reference is supporting defining a technique then it ought to be in the json file for the techniques (DFT-xxxx), if it is highlighting a weakness then it should be in a weakness (DFW-xxxx) json file, and if it is describing a potential mitigation then it should be in the mitigation (DFM-xxxx) json file. 
 * For large references, consider supplying the page or chapter number if appropriate. 
-
+* References should not be added just because they are about a topic, but should have meaningful implications in terms of explaining a technique, highlighting a weakness, or providing a mitigation.
+* To support this philosophy we will soon be replacing plain text references with a DFCite data structure that requires not just the reference but also a maximum 280 character 'relevancy string' to describe to SOLVE-IT users why a reference is relevant. 
 
 
 ## Weakness Categories
@@ -95,8 +146,8 @@ The full definitions from ASTM are here for reference[^1], but the more concise 
 
 [^2]: The slight modifications include: 
     INAC-ALT removes the text "in a way that changes its meaning" as this can cause confusion with tools not converting data correctly during interpretation. 
-    INAC-AS needs to be carefully used as the ASTM example is INAC-AS for the 'numer of web visits' but is also INAC-EX presenting that visits occurred that didn't. 
-    MISINT focuses on results being presented in a way that that encourages or does not prevent misinterpretation, rather than "results have been incorrectly understood" as this does not map to the weaknesses in SOLVE-IT well. 
+    INAC-AS needs to be carefully used as the ASTM example is INAC-AS for the 'number of web visits' but is also INAC-EX presenting that visits occurred that didn't. 
+    MISINT focuses on results being presented in a way that encourages or does not prevent misinterpretation, rather than "results have been incorrectly understood" as this does not map to the weaknesses in SOLVE-IT well. 
 
 
 ## Common mitigations

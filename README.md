@@ -43,8 +43,8 @@ The high-level concepts are:
 
 Each of these concepts are contained in subfolders within the `data` subfolder of the GitHub repository. Each technique, weakness, and mitigation is represented as a JSON file that can be directly viewed.
 
-
-
+### Organization of technqiues
+The file `solve-it.json` is the default categorization of the techniques, but other categorizations are possible with custom JSON files. These can be directly appled using the [SOLVE-IT Cutom Viewer tool](https://custom-viewer.solveit-df.org).
 
 
 ## Referencing

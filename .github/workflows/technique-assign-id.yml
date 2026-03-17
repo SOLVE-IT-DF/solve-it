@@ -12,6 +12,7 @@ jobs:
     if: >-
       github.event.label.name == 'assigned ID'
       && contains(github.event.issue.labels.*.name, 'content: new technique')
+      && !contains(github.event.issue.labels.*.name, 'trwm')
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +35,7 @@ jobs:
     if: >-
       github.event.label.name == 'assigned ID'
       && contains(github.event.issue.labels.*.name, 'content: new weakness')
+      && !contains(github.event.issue.labels.*.name, 'trwm')
     runs-on: ubuntu-latest
 
     steps:
@@ -56,6 +58,7 @@ jobs:
     if: >-
       github.event.label.name == 'assigned ID'
       && contains(github.event.issue.labels.*.name, 'content: new mitigation')
+      && !contains(github.event.issue.labels.*.name, 'trwm')
     runs-on: ubuntu-latest
 
     steps:
@@ -69,6 +72,28 @@ jobs:
     - name: Assign mitigation ID
       run: |
         python3 admin/id_assignment/assign_mitigation_id.py \
+          --issue-number "$ISSUE_NUMBER"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+
+  assign-trwm-ids:
+    if: >-
+      github.event.label.name == 'assigned ID'
+      && contains(github.event.issue.labels.*.name, 'trwm')
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+
+    - name: Assign TRWM IDs
+      run: |
+        python3 admin/id_assignment/assign_trwm_ids.py \
           --issue-number "$ISSUE_NUMBER"
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

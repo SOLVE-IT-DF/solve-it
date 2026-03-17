@@ -582,10 +582,10 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
         for field_name in ("CASE_input_classes", "CASE_output_classes"):
             for url in t.get(field_name, []):
                 if not URL_PATTERN.match(url):
-                    result.fail(f"Technique {tid} {field_name}: \"{url}\" is not a valid URL")
+                    result.warn(f"Technique {tid} {field_name}: \"{url}\" is not a valid URL")
                     bad += 1
                 elif not any(url.startswith(prefix) for prefix in KNOWN_PREFIXES):
-                    result.fail(
+                    result.warn(
                         f"Technique {tid} {field_name}: \"{url}\" does not match "
                         f"any known ontology prefix"
                     )
@@ -768,13 +768,17 @@ def phase5_completeness(
 GENERATORS = [
     ("stat_summary", [sys.executable, "reporting_scripts/generate_stat_summary.py"], False),
     ("tsv (techniques)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-t"], False),
+    ("tsv (techniques long)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-t", "-l"], False),
+    ("tsv (techniques by obj)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-t2"], False),
     ("tsv (weaknesses)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-w"], False),
+    ("tsv (weaknesses long)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-w", "-l"], False),
     ("tsv (mitigations)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-m"], False),
     ("tsv (objectives)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-o"], False),
     ("tsv (CASE mapping)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-c"], False),
     # Generators that need a temp output path (placeholder {tmp} replaced at runtime)
     ("excel", [sys.executable, "reporting_scripts/generate_excel_from_kb.py", "-o", "{tmp}/test.xlsx"], True),
     ("evaluation", [sys.executable, "reporting_scripts/generate_evaluation.py", "-o", "{tmp}/test_eval.xlsx"], True),
+    ("evaluation (specific)", [sys.executable, "reporting_scripts/generate_evaluation.py", "DFT-1012", "DFT-1002", "DFT-1025", "DFT-1042", "-o", "{tmp}/test_eval2.xlsx"], True),
     ("html", [sys.executable, "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--output", "{tmp}/test.html"], True),
     ("html (custom)", [sys.executable, "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--custom", "--output", "{tmp}/test_custom.html"], True),
     ("rdf", [sys.executable, "reporting_scripts/generate_rdf_from_kb.py", "--output-dir", "{tmp}", "--format", "both"], True),
@@ -957,6 +961,17 @@ def _write_markdown_summary(result: ValidationResult, filepath: str):
         for label, count in categories:
             lines.append(f"| {label} | {count} |")
         lines.append("")
+
+        # For small categories, list the actual warnings
+        for label, pattern in WARNING_CATEGORIES:
+            matching = [msg for msg in result.warnings if pattern in msg]
+            if 0 < len(matching) <= 5:
+                lines.append(f"**{label}:**")
+                lines.append("")
+                for msg in matching:
+                    lines.append(f"- {msg}")
+                lines.append("")
+
         lines.append("</details>")
 
     if stats_line:

@@ -1,0 +1,43 @@
+# Posts validation report comments on PRs after the "Validate knowledge base"
+# workflow completes. This separate workflow is needed so that fork PRs get
+# a write-capable GITHUB_TOKEN (workflow_run always runs from the base repo's
+# default branch, never from fork code).
+name: Post validation comments
+
+on:
+  workflow_run:
+    workflows: ["Validate knowledge base"]
+    types:
+      - completed
+
+permissions:
+  pull-requests: write
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.event == 'pull_request'
+    steps:
+      - name: Download validation reports
+        uses: actions/download-artifact@v4
+        with:
+          name: validation-reports
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read PR number
+        run: echo "PR_NUMBER=$(cat pr-number.txt)" >> "$GITHUB_ENV"
+
+      - name: Post validation summary
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          number: ${{ env.PR_NUMBER }}
+          header: kb-validation
+          path: kb_validation_summary.md
+
+      - name: Post ontology IRI report
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          number: ${{ env.PR_NUMBER }}
+          header: ontology-iri-check
+          path: ontology_iri_report.md

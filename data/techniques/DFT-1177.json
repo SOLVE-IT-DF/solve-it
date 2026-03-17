@@ -27,7 +27,7 @@
         "DFW-1286"
     ],
     "CASE_input_classes": [
-        "GamingAppFiles"
+        "https://ontology.solveit-df.org/solveit/observable/GamingAppFiles"
     ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/Message",

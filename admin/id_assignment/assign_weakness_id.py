@@ -47,10 +47,13 @@ def get_issue_comments(issue_number):
 
 
 def find_preview_comment(comments):
-    """Return the preview comment dict that contains the DFW-____ placeholder."""
+    """Return the preview comment dict that contains a weakness ID placeholder.
+
+    Matches both new (DFW-____) and old (W____) placeholder formats.
+    """
     for comment in comments:
         body = comment.get("body", "")
-        if '"id": "DFW-____"' in body:
+        if '"id": "DFW-____"' in body or '"id": "W____"' in body:
             return comment
     return None
 
@@ -94,13 +97,19 @@ def main():
     old_body = preview["body"]
 
     # 3. Build revised JSON with real ID
+    #    Handle both new (DFW-____) and old (W____) placeholder formats
     revised_body = old_body.replace("DFW-____", weakness_id)
+    revised_body = revised_body.replace("W____", weakness_id)
     revised_body = revised_body.replace(
         "Thanks for proposing a new weakness! Here's what it would look like as JSON:",
         "Your weakness has been assigned an ID. Here is an updated copy of the JSON data with the ID completed:",
     )
     revised_body = revised_body.replace(
         "The weakness ID (DFW-____) will be assigned during review.",
+        f"Weakness ID **{weakness_id}** has been assigned.",
+    )
+    revised_body = revised_body.replace(
+        "The weakness ID (W____) will be assigned during review.",
         f"Weakness ID **{weakness_id}** has been assigned.",
     )
 

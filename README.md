@@ -30,6 +30,22 @@ This is a community project so please see [CONTRIBUTING.md](CONTRIBUTING.md) for
   Additional optional datasets
 
 
+## Knowledge base data model
+The high-level concepts are:
+
+* **Objectives**: based on ATT&CK tactics, objectives are “the goal that one might wish to achieve in a digital forensic investigation”, e.g. acquire data, or extract information from a file system.
+
+* **Techniques**: “how one might achieve an objective in digital forensics by performing an action”, e.g. for the objective of ‘acquire data’, the technique ‘create disk image’ could be used.
+
+* **Weaknesses**: these represent potential problems resulting from using a technique. They are classified according to the error categories in ASTM E3016-18, the Standard Guide for Establishing Confidence in Digital and Multimedia Evidence Forensic Results by Error Mitigation Analysis.
+
+* **Mitigations**: something that can be done to attempt to prevent a weakness from occurring, or to attempt to minimize its impact.
+
+Each of these concepts are contained in subfolders within the `data` subfolder of the GitHub repository. Each technique, weakness, and mitigation is represented as a JSON file that can be directly viewed.
+
+
+
+
 
 ## Referencing
 SOLVE-IT was introduced at [DFRWS EU 2025](https://dfrws.org/presentation/solve-it-a-proposed-digital-forensic-knowledge-base-inspired-by-mitre-attck/). The associated academic paper in [FSI:Digital Investigation](https://www.sciencedirect.com/science/article/pii/S2666281725000034) can be cited as:

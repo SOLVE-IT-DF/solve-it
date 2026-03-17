@@ -2161,7 +2161,11 @@ function sortTh(label, key, stateKey, stateDirKey, style) {{
 }}
 
 function wCats(w) {{
-  return CATS.filter(c => w[c] && String(w[c]).trim());
+  // Check both hyphenated (INAC-EX) and underscore (INAC_EX) keys for compatibility
+  return CATS.filter(c => {{
+    const v = w[c] || w[c.replace(/-/g, '_')];
+    return v && String(v).trim();
+  }});
 }}
 
 function matchesSearch(item) {{

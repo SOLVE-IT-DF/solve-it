@@ -3768,9 +3768,38 @@ def main() -> None:
             "mitigations": kb.get_all_mitigations_with_full_detail(),
             "objectives": kb.list_objectives(),
         }
+        # Load citations from .bib/.txt files (same as load_from_local)
+        refs_folder = repo_root / "data" / "references"
+        citations = {}
+        if refs_folder.exists():
+            cite_ids = set()
+            for fp in refs_folder.iterdir():
+                if fp.name.startswith("DFCite-") and fp.suffix in (".bib", ".txt"):
+                    cite_ids.add(fp.stem)
+            for cite_id in sorted(cite_ids):
+                bib_path = refs_folder / f"{cite_id}.bib"
+                txt_path = refs_folder / f"{cite_id}.txt"
+                has_bib = bib_path.exists()
+                has_txt = txt_path.exists()
+                display, raw_bib, raw_txt = "", "", ""
+                if has_bib:
+                    try:
+                        raw_bib = bib_path.read_text(encoding="utf-8").strip()
+                        display = _bib_to_harvard(raw_bib)
+                    except Exception:
+                        pass
+                if has_txt:
+                    try:
+                        raw_txt = txt_path.read_text(encoding="utf-8").strip()
+                    except Exception:
+                        pass
+                if not display:
+                    display = raw_txt
+                citations[cite_id] = {"text": display, "bib": has_bib, "txt": has_txt, "raw_bib": raw_bib, "raw_txt": raw_txt}
+        db["citations"] = citations
         print(f"  Loaded: {len(db['techniques'])} techniques, "
               f"{len(db['weaknesses'])} weaknesses, {len(db['mitigations'])} mitigations, "
-              f"{len(db['objectives'])} objectives.")
+              f"{len(db['objectives'])} objectives, {len(citations)} citations.")
 
     # Extract git contributor/reviewer credits
     credits: dict = {}

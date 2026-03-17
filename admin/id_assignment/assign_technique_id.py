@@ -57,14 +57,14 @@ def get_issue_comments(issue_number):
 
 
 def find_preview_comment(comments):
-    """Return the preview comment dict that contains the DFT-____ placeholder.
+    """Return the preview comment dict that contains a technique ID placeholder.
 
     The preview comment is posted by the technique-issue-preview workflow
-    and contains a JSON block with "id": "DFT-____".
+    and contains a JSON block with "id": "DFT-____" (or the old format "T____").
     """
     for comment in comments:
         body = comment.get("body", "")
-        if '"id": "DFT-____"' in body:
+        if '"id": "DFT-____"' in body or '"id": "T____"' in body:
             return comment
     return None
 
@@ -108,13 +108,19 @@ def main():
     old_body = preview["body"]
 
     # 3. Build revised JSON with real ID
+    #    Handle both new (DFT-____) and old (T____) placeholder formats
     revised_body = old_body.replace("DFT-____", technique_id)
+    revised_body = revised_body.replace("T____", technique_id)
     revised_body = revised_body.replace(
         "Thanks for proposing a new technique! Here's what it would look like as JSON:",
         "Your technique has been assigned an ID. Here is an updated copy of the JSON data with the ID completed:",
     )
     revised_body = revised_body.replace(
         "The technique ID (DFT-____) will be assigned during review.",
+        f"Technique ID **{technique_id}** has been assigned.",
+    )
+    revised_body = revised_body.replace(
+        "The technique ID (T____) will be assigned during review.",
         f"Technique ID **{technique_id}** has been assigned.",
     )
 

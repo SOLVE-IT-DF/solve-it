@@ -109,8 +109,8 @@ class IDScanner:
                     
                     text_to_search = f"{title} {body} {comment_text}"
                     
-                    # Find technique IDs (T1000-T9999, excluding obvious test cases like T9999)
-                    t_matches = re.findall(r'\bDFT-(1\d{3})\b', text_to_search)
+                    # Find technique IDs — matches both new (DFT-1177) and old (T1177) formats
+                    t_matches = re.findall(r'\b(?:DFT-|T)(1\d{3})\b', text_to_search)
                     for match in t_matches:
                         tid = int(match)
                         # Skip obvious test/placeholder IDs
@@ -123,8 +123,8 @@ class IDScanner:
                             if (number, title, item_type) not in self.reserved_technique_ids[tid]:
                                 self.reserved_technique_ids[tid].append((number, title, item_type))
                     
-                    # Find mitigation IDs (M1000-M9999, excluding single digits)
-                    m_matches = re.findall(r'\bDFM-(1\d{3})\b', text_to_search)
+                    # Find mitigation IDs — matches both new (DFM-1242) and old (M1242) formats
+                    m_matches = re.findall(r'\b(?:DFM-|M)(1\d{3})\b', text_to_search)
                     for match in m_matches:
                         mid = int(match)
                         if mid not in self.mitigation_ids:
@@ -134,8 +134,8 @@ class IDScanner:
                             if (number, title, item_type) not in self.reserved_mitigation_ids[mid]:
                                 self.reserved_mitigation_ids[mid].append((number, title, item_type))
                     
-                    # Find weakness IDs (W1000-W9999, excluding single digits)
-                    w_matches = re.findall(r'\bDFW-(1\d{3})\b', text_to_search)
+                    # Find weakness IDs — matches both new (DFW-1279) and old (W1279) formats
+                    w_matches = re.findall(r'\b(?:DFW-|W)(1\d{3})\b', text_to_search)
                     for match in w_matches:
                         wid = int(match)
                         if wid not in self.weakness_ids:

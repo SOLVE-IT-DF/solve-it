@@ -34,6 +34,7 @@ def build_comment(fields, project_root):
     result = match_reference(citation_text, corpus)
 
     lines = []
+    lines.append("<!-- REFERENCE_PREVIEW -->")
 
     if result:
         cite_id, match_type = result

@@ -1,0 +1,35 @@
+name: "Update DFCite Relevance Summary"
+description: Update the relevance summary for a reference citation within a technique, weakness, or mitigation
+title: "Update DFCite relevance: [DFCite-xxxx in DFx-xxxx]"
+labels: ["content: update dfcite relevance", "form input"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This form updates the relevance summary for a specific reference citation (DFCite)
+        within a technique, weakness, or mitigation. The relevance summary explains why this
+        reference is relevant to the item it is cited in (max 280 characters).
+  - type: input
+    id: item-id
+    attributes:
+      label: Item ID
+      description: The ID of the technique, weakness, or mitigation (e.g. DFT-1002, DFW-1001, DFM-1001).
+      placeholder: DFT-1002
+    validations:
+      required: true
+  - type: input
+    id: dfcite-id
+    attributes:
+      label: DFCite ID
+      description: The DFCite identifier for the reference (e.g. DFCite-1107).
+      placeholder: DFCite-1107
+    validations:
+      required: true
+  - type: input
+    id: relevance-summary
+    attributes:
+      label: Relevance Summary
+      description: A short summary of why this reference is relevant (max 280 characters).
+      placeholder: Describes the forensic analysis technique used to recover deleted files from NTFS volumes.
+    validations:
+      required: true

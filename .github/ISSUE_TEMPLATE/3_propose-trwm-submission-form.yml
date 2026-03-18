@@ -1,0 +1,72 @@
+name: "TRWM Submission"
+description: Submit a technique with weaknesses and mitigations from the TRWM SOLVE-IT Helper app
+title: "TRWM submission: {technique name}"
+labels: ["trwm"]
+body:
+  - type: dropdown
+    id: submission-type
+    attributes:
+      label: Submission type
+      description: Is this a new technique or an update to an existing one?
+      options:
+        - New technique
+        - Update existing technique
+    validations:
+      required: true
+  - type: dropdown
+    id: objective
+    attributes:
+      label: Objective
+      description: Which objective does this technique fit under?
+      options:
+        - "Prepare for a digital investigation"
+        - "Find potential digital evidence sources"
+        - "Prioritize digital evidence sources"
+        - "Preserve digital evidence"
+        - "Access device data for acquisition"
+        - "Overcome protection mechanisms"
+        - "Acquire data"
+        - "Store acquired data"
+        - "Read data from digital evidence storage formats"
+        - "Reduce data under consideration"
+        - "Access partitions, volumes and file systems data"
+        - "Extract artifacts stored by the operating system"
+        - "Extract artifacts stored by applications"
+        - "Extract artifacts, or content of specific types"
+        - "Locate potentially relevant content"
+        - "Review content for relevance"
+        - "Detect anti-forensics and other anomalies"
+        - "Establish identities"
+        - "Create visualizations"
+        - "Reconstruct events"
+        - "Conduct research"
+        - "Produce documentation"
+        - Other (specify below)
+    validations:
+      required: true
+  - type: input
+    id: objective-other
+    attributes:
+      label: Propose new objective
+      description: If your technique doesn't fit an existing objective, propose one here.
+  - type: input
+    id: parent-technique
+    attributes:
+      label: Parent technique (optional)
+      description: |
+        If this is a subtechnique, enter the parent technique ID (e.g. DFT-1002). Leave blank for top-level techniques.
+        Existing techniques can be browsed on the [SOLVE-IT Explorer](https://explore.solveit-df.org).
+      placeholder: e.g. DFT-1002
+  - type: textarea
+    id: trwm-json
+    attributes:
+      label: TRWM Helper JSON export
+      description: Paste the full JSON export from the TRWM SOLVE-IT Helper app here.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: Additional notes
+      description: Any additional information or context you'd like to provide.

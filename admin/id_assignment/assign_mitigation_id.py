@@ -47,10 +47,13 @@ def get_issue_comments(issue_number):
 
 
 def find_preview_comment(comments):
-    """Return the preview comment dict that contains the DFM-____ placeholder."""
+    """Return the preview comment dict that contains a mitigation ID placeholder.
+
+    Matches both new (DFM-____) and old (M____) placeholder formats.
+    """
     for comment in comments:
         body = comment.get("body", "")
-        if '"id": "DFM-____"' in body:
+        if '"id": "DFM-____"' in body or '"id": "M____"' in body:
             return comment
     return None
 
@@ -94,13 +97,19 @@ def main():
     old_body = preview["body"]
 
     # 3. Build revised JSON with real ID
+    #    Handle both new (DFM-____) and old (M____) placeholder formats
     revised_body = old_body.replace("DFM-____", mitigation_id)
+    revised_body = revised_body.replace("M____", mitigation_id)
     revised_body = revised_body.replace(
         "Thanks for proposing a new mitigation! Here's what it would look like as JSON:",
         "Your mitigation has been assigned an ID. Here is an updated copy of the JSON data with the ID completed:",
     )
     revised_body = revised_body.replace(
         "The mitigation ID (DFM-____) will be assigned during review.",
+        f"Mitigation ID **{mitigation_id}** has been assigned.",
+    )
+    revised_body = revised_body.replace(
+        "The mitigation ID (M____) will be assigned during review.",
         f"Mitigation ID **{mitigation_id}** has been assigned.",
     )
 

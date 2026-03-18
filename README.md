@@ -1,27 +1,36 @@
-# SOLVE-IT (a Systematic Objective-based Listing of Various Established digital Investigation Techniques)
+# SOLVE-IT - the digital forensics knowledge base
 
 ## Quick Links
-- [View the knowledge base in the SOLVE-IT Explorer](https://explore.solveit-df.org)
-- [Access machine readable versions of the knowledge base](https://data.solveit-df.org)
-- [Propose an addition to the knowledge base](https://github.com/SOLVE-IT-DF/solve-it/issues/new/choose) - see [CONTRIBUTING.md](CONTRIBUTING.md) for guidance
-- [View educational resources](https://github.com/SOLVE-IT-DF/solve-it-education)
+
+- SOLVE-IT website - https://solveit-df.org
+- Browse the knowledge base - [SOLVE-IT Explorer](https://explore.solveit-df.org)
+- Machine-readable version - [SOLVE-IT Data](https://data.solveit-df.org)
+- Raw JSON Content - [`/data` folder](https://github.com/chrishargreaves/solve-it/tree/main/data)
+
 
 ## Introduction
 The SOLVE-IT knowledge base (Systematic Objective-based Listing of Various Established digital Investigation Techniques) is conceptually inspired by [MITRE ATT&CK](https://attack.mitre.org/matrices/enterprise/) and aims to capture digital forensic techniques that can be used in investigations. It includes details about each technique, examples, potential ways the technique can go wrong (weaknesses), and potential mitigations to either avoid, detect, or minimize the consequences of a weakness if it does occur.
 
-SOLVE-IT was introduced at [DFRWS EU 2025](https://dfrws.org/presentation/solve-it-a-proposed-digital-forensic-knowledge-base-inspired-by-mitre-attck/). The associated academic paper in [FSI:Digital Investigation](https://www.sciencedirect.com/science/article/pii/S2666281725000034) can be cited as:
 
-```Hargreaves, C., van Beek, H., Casey, E., SOLVE-IT: A proposed digital forensic knowledge base inspired by MITRE ATT&CK, Forensic Science International: Digital Investigation, Volume 52, Supplement, 2025, 301864, ISSN 2666-2817, https://doi.org/10.1016/j.fsidi.2025.301864```
-
+## Contributing
 This is a community project so please see [CONTRIBUTING.md](CONTRIBUTING.md) for information on how to contribute to the knowledge base.
 
-<img width="1772" height="1080" alt="A high-level view of the SOLVE-IT knowledge base showing the technqiues in table form, organised by objective along the top." src="https://github.com/user-attachments/assets/582678e7-53fd-40de-9f64-b7329a1f3c9e" />
+## Repository Structure
+
+`data/`
+  Techniques, weaknesses and mitigations stored as JSON
+  
+`solve_it_library/`
+  Python utilities for interacting with the knowledge base
+  
+`reporting_scripts/`
+  Scripts to generate markdown and reports
+  
+`extension_data/`
+  Additional optional datasets
 
 
-<img width="2554" height="1384" alt="A view of one of the techniques (T1002: Disk Imaging), illustrating the fields recorded for each technique including weaknesses and potential mitigations." src="https://github.com/user-attachments/assets/fbf0f312-9c5d-41c5-81bc-442162854643" />
-
-
-## Concepts and structure
+## Knowledge base data model
 The high-level concepts are:
 
 **Objectives**: based on ATT&CK tactics, objectives are "the goal that one might wish to achieve in a digital forensic investigation", e.g. acquire data, or extract information from a file system.
@@ -61,4 +70,4 @@ The file `solve-it.json` is the default categorisation of the techniques, but ot
 
 ## Contributing to the knowledge base
 
-Please see [CONTRIBUTING.md](CONTRIBUTING.md) for information, which includes an in progress [style guide](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md).
+```Hargreaves, C., van Beek, H., Casey, E., SOLVE-IT: A proposed digital forensic knowledge base inspired by MITRE ATT&CK, Forensic Science International: Digital Investigation, Volume 52, Supplement, 2025, 301864, ISSN 2666-2817, https://doi.org/10.1016/j.fsidi.2025.301864```

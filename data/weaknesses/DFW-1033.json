@@ -1,13 +1,16 @@
 {
     "id": "DFW-1033",
     "name": "Data referenced in memory is located within pagefile or swapfile but is not collected",
+    "description": "",
+    "mitigations": [
+        "DFM-1240"
+    ],
     "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
+    "INAC_EX": "",
+    "INAC_AS": "",
+    "INAC_ALT": "",
+    "INAC_COR": "",
     "MISINT": "",
-    "mitigations": [],
     "references": [
         {
             "DFCite_id": "DFCite-1025",

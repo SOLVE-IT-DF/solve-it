@@ -60,7 +60,18 @@ def get_issue_comments(issue_number):
 
 
 def find_reference_preview(comments):
-    """Find the preview comment with the REFERENCE_PREVIEW marker."""
+    """Find the preview comment with the REFERENCE_PREVIEW marker.
+
+    Prefers the assigned-ID comment (with a real DFCite ID) over the
+    original preview (which has DFCite-____ placeholder).
+    """
+    # Primary: look for the assigned-ID comment (has marker + "has been assigned")
+    for comment in comments:
+        body = comment.get("body", "")
+        if "<!-- REFERENCE_PREVIEW -->" in body and "has been assigned" in body:
+            return comment
+
+    # Fallback: any comment with the marker (for backward compatibility)
     for comment in comments:
         body = comment.get("body", "")
         if "<!-- REFERENCE_PREVIEW -->" in body:
@@ -77,10 +88,17 @@ def is_existing_match(comment_body):
 
 
 def extract_dfcite_id(comment_body):
-    """Extract the DFCite ID from the preview comment.
+    """Extract the DFCite ID from the preview/assigned comment.
 
-    Looks for: "A new reference can be assigned: **DFCite-XXXX**"
+    Looks for either:
+    - "Reference ID **DFCite-XXXX** has been assigned." (new: after assign step)
+    - "A new reference can be assigned: **DFCite-XXXX**" (old: pre-assign workflow)
     """
+    # New format (assigned-ID comment)
+    match = re.search(r'Reference ID \*\*(\S+)\*\* has been assigned', comment_body)
+    if match:
+        return match.group(1)
+    # Old format (backward compatibility with pre-existing issues)
     match = re.search(r'A new reference can be assigned: \*\*(\S+)\*\*', comment_body)
     if match:
         return match.group(1)
@@ -173,7 +191,7 @@ def main():
     preview_comment = find_reference_preview(comments)
     if preview_comment is None:
         print("Error: could not find REFERENCE_PREVIEW comment. "
-              "Has the issue been previewed?", file=sys.stderr)
+              "Has the issue been previewed and the ID assigned?", file=sys.stderr)
         sys.exit(1)
 
     comment_body = preview_comment["body"]

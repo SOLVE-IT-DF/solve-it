@@ -50,7 +50,7 @@ class TestIsExistingMatch(unittest.TestCase):
     def test_new_reference_not_match(self):
         body = (
             "<!-- REFERENCE_PREVIEW -->\n"
-            "No existing match found. A new reference can be assigned: **DFCite-1058**\n"
+            "Reference ID **DFCite-1058** has been assigned.\n"
         )
         self.assertFalse(mod.is_existing_match(body))
 
@@ -61,17 +61,29 @@ class TestIsExistingMatch(unittest.TestCase):
 
 class TestExtractDfciteId(unittest.TestCase):
 
-    def test_extracts_id(self):
+    def test_extracts_assigned_id(self):
+        body = "Reference ID **DFCite-1058** has been assigned.\n"
+        self.assertEqual(mod.extract_dfcite_id(body), "DFCite-1058")
+
+    def test_extracts_assigned_five_digit_id(self):
+        body = "Reference ID **DFCite-10001** has been assigned."
+        self.assertEqual(mod.extract_dfcite_id(body), "DFCite-10001")
+
+    def test_extracts_old_format_id(self):
+        """Backward compatibility: old 'can be assigned' format still works."""
         body = "No existing match found. A new reference can be assigned: **DFCite-1058**\n"
         self.assertEqual(mod.extract_dfcite_id(body), "DFCite-1058")
 
-    def test_extracts_five_digit_id(self):
-        body = "A new reference can be assigned: **DFCite-10001**"
-        self.assertEqual(mod.extract_dfcite_id(body), "DFCite-10001")
+    def test_prefers_assigned_over_old_format(self):
+        """If both formats appear, assigned format wins."""
+        body = (
+            "A new reference can be assigned: **DFCite-1058**\n"
+            "Reference ID **DFCite-1059** has been assigned.\n"
+        )
+        self.assertEqual(mod.extract_dfcite_id(body), "DFCite-1059")
 
     def test_returns_none_for_existing_match(self):
         body = "This reference appears to match an existing citation: **DFCite-1001**"
-        # This text doesn't match the "can be assigned" pattern
         self.assertIsNone(mod.extract_dfcite_id(body))
 
     def test_returns_none_for_no_id(self):
@@ -84,8 +96,8 @@ class TestExtractTxtContent(unittest.TestCase):
     def test_extracts_txt_content(self):
         body = (
             "<!-- REFERENCE_PREVIEW -->\n"
-            "No existing match found. A new reference can be assigned: **DFCite-1058**\n\n"
-            "To add this reference, create the following file(s):\n\n"
+            "Reference ID **DFCite-1058** has been assigned.\n\n"
+            "Proposed file contents:\n\n"
             "**`data/references/DFCite-1058.txt`**\n"
             "```\n"
             "Smith, J. (2024), Test Reference, Journal of Testing, 1(2), pp.3-4.\n"
@@ -160,10 +172,39 @@ class TestFindReferencePreview(unittest.TestCase):
     def _make_comment(self, body):
         return {"body": body}
 
-    def test_finds_preview(self):
+    def test_finds_assigned_comment(self):
         comments = [
             self._make_comment("Some other comment"),
-            self._make_comment("<!-- REFERENCE_PREVIEW -->\nPreview here"),
+            self._make_comment(
+                "<!-- REFERENCE_PREVIEW -->\n"
+                "Reference ID **DFCite-1058** has been assigned.\n"
+            ),
+        ]
+        result = mod.find_reference_preview(comments)
+        self.assertIsNotNone(result)
+        self.assertIn("has been assigned", result["body"])
+
+    def test_prefers_assigned_over_placeholder(self):
+        comments = [
+            self._make_comment(
+                "<!-- REFERENCE_PREVIEW -->\n"
+                "A reference ID will be assigned during review.\n"
+            ),
+            self._make_comment(
+                "<!-- REFERENCE_PREVIEW -->\n"
+                "Reference ID **DFCite-1058** has been assigned.\n"
+            ),
+        ]
+        result = mod.find_reference_preview(comments)
+        self.assertIn("has been assigned", result["body"])
+
+    def test_falls_back_to_old_preview(self):
+        """Backward compat: finds old-style preview with real ID."""
+        comments = [
+            self._make_comment(
+                "<!-- REFERENCE_PREVIEW -->\n"
+                "A new reference can be assigned: **DFCite-1058**\n"
+            ),
         ]
         result = mod.find_reference_preview(comments)
         self.assertIsNotNone(result)
@@ -207,9 +248,33 @@ class TestRaceProtection(unittest.TestCase):
 
 
 class TestFullPreviewParsing(unittest.TestCase):
-    """Integration-style tests that parse a realistic preview comment."""
+    """Integration-style tests that parse a realistic assigned-ID comment."""
 
-    FULL_PREVIEW_NEW = (
+    FULL_ASSIGNED = (
+        "<!-- REFERENCE_PREVIEW -->\n"
+        "Reference ID **DFCite-1058** has been assigned.\n\n"
+        "Proposed file contents:\n\n"
+        "**`data/references/DFCite-1058.txt`**\n"
+        "```\n"
+        "Garfinkel, S. (2010), Digital forensics research: The next 10 years, "
+        "Digital Investigation, 7, S64-S73.\n"
+        "```\n\n"
+        "**`data/references/DFCite-1058.bib`**\n"
+        "```bibtex\n"
+        "@article{garfinkel2010digital,\n"
+        "  author = {Garfinkel, Simson},\n"
+        "  title = {Digital forensics research: The next 10 years},\n"
+        "  journal = {Digital Investigation},\n"
+        "  volume = {7},\n"
+        "  pages = {S64--S73},\n"
+        "  year = {2010}\n"
+        "}\n"
+        "```\n\n"
+        "---\n"
+        "*This comment was automatically generated from the reference proposal form.*"
+    )
+
+    FULL_PREVIEW_OLD = (
         "<!-- REFERENCE_PREVIEW -->\n"
         "No existing match found. A new reference can be assigned: **DFCite-1058**\n\n"
         "To add this reference, create the following file(s):\n\n"
@@ -243,19 +308,27 @@ class TestFullPreviewParsing(unittest.TestCase):
         "*This comment was automatically generated from the reference proposal form.*"
     )
 
-    def test_new_reference_full_parse(self):
-        """End-to-end parse of a new reference preview."""
-        self.assertFalse(mod.is_existing_match(self.FULL_PREVIEW_NEW))
+    def test_assigned_comment_full_parse(self):
+        """End-to-end parse of a new assigned-ID comment."""
+        self.assertFalse(mod.is_existing_match(self.FULL_ASSIGNED))
 
-        dfcite_id = mod.extract_dfcite_id(self.FULL_PREVIEW_NEW)
+        dfcite_id = mod.extract_dfcite_id(self.FULL_ASSIGNED)
         self.assertEqual(dfcite_id, "DFCite-1058")
 
-        txt = mod.extract_txt_content(self.FULL_PREVIEW_NEW)
+        txt = mod.extract_txt_content(self.FULL_ASSIGNED)
         self.assertIn("Garfinkel", txt)
         self.assertIn("Digital forensics research", txt)
 
-        bib = mod.extract_bib_content(self.FULL_PREVIEW_NEW)
+        bib = mod.extract_bib_content(self.FULL_ASSIGNED)
         self.assertIn("@article{garfinkel2010digital", bib)
+
+    def test_old_format_full_parse(self):
+        """Backward compat: old-format preview still parseable."""
+        dfcite_id = mod.extract_dfcite_id(self.FULL_PREVIEW_OLD)
+        self.assertEqual(dfcite_id, "DFCite-1058")
+
+        txt = mod.extract_txt_content(self.FULL_PREVIEW_OLD)
+        self.assertIn("Garfinkel", txt)
 
     def test_existing_reference_full_parse(self):
         """Existing match should be detected, no ID extracted for assignment."""

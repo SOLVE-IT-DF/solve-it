@@ -28,6 +28,18 @@ class TestReferencePreviewMarker(unittest.TestCase):
         # Marker should be at the very start
         self.assertTrue(comment.startswith("<!-- REFERENCE_PREVIEW -->"))
 
+    def test_placeholder_id_used_for_new_reference(self):
+        """Preview should use DFCite-____ placeholder, not a real ID."""
+        fields = {
+            "Citation text": "Smith, J. (2099), A totally unique test reference for unit testing.",
+            "BibTeX entry": "_No response_",
+        }
+        comment = build_comment(fields, self._project_root())
+        self.assertIn("DFCite-____", comment)
+        self.assertIn("A reference ID will be assigned during review", comment)
+        # Should NOT contain a real DFCite ID in the "can be assigned" text
+        self.assertNotIn("can be assigned", comment)
+
     def test_marker_present_for_matched_reference(self):
         fields = {
             "Citation text": "DFCite-1003",

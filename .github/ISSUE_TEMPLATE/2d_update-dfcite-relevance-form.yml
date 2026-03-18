@@ -10,14 +10,6 @@ body:
         within a technique, weakness, or mitigation. The relevance summary explains why this
         reference is relevant to the item it is cited in (max 280 characters).
   - type: input
-    id: item-type
-    attributes:
-      label: Item Type
-      description: The type of item containing the reference ("technique", "weakness", or "mitigation").
-      placeholder: technique
-    validations:
-      required: true
-  - type: input
     id: item-id
     attributes:
       label: Item ID

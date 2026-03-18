@@ -515,7 +515,8 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
 
         # Hidden fields
         all_fields = ['id', 'name', 'description', 'synonyms', 'details', 'subtechniques',
-                      'examples', 'CASE_input_classes', 'CASE_output_classes', 'weaknesses', 'references']
+                      'examples', 'CASE_input_classes', 'CASE_output_classes', 'weaknesses', 'references',
+                      'properties', 'contributors', 'reviewers']
         hidden = [f for f in all_fields if not kb.should_display_field(f)]
         hidden_fields_json = json.dumps(hidden)
 
@@ -662,6 +663,22 @@ body.custom-mode .disabled-btn {{
   cursor: not-allowed;
   pointer-events: none;
   background: var(--gray-300);
+}}
+
+/* ── Custom mode extension banner ─────────────────────────── */
+.extension-banner {{
+  padding: 6px 16px;
+  background: #0e1a30;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  flex-shrink: 0;
+}}
+.extension-banner a {{
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
 }}
 
 /* ── Top nav ───────────────────────────────────────────────── */
@@ -1700,6 +1717,11 @@ body.custom-mode .disabled-btn {{
 </head>
 <body>
 
+{"" if not custom else '''<!-- ───────────────── Extension banner ───────────────── -->
+<div class="extension-banner">
+  This is a <strong>SOLVE-IT-X extension</strong> to the <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank" rel="noopener noreferrer">SOLVE-IT repository</a> and there may be deviations from the standard content.
+</div>
+'''}
 <!-- ───────────────── Top navigation ───────────────── -->
 <nav class="topnav">
   <a class="topnav-brand" href="https://solveit-df.org" target="_blank">
@@ -2863,7 +2885,7 @@ function buildCreditsHtml(item) {{
   const contributors = item._contributors || [];
   const reviewers = item._reviewers || [];
   if (!edits && !created && !contributors.length && !reviewers.length) return '';
-  if (edits || created || modified) {{
+  if (!HIDDEN_FIELDS.has('properties') && (edits || created || modified)) {{
     let rows = '';
     if (edits)    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{edits}}</td></tr>`;
     if (created)  rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{created}}</td></tr>`;
@@ -2873,13 +2895,13 @@ function buildCreditsHtml(item) {{
       <table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>
     </div>`;
   }}
-  if (contributors.length) {{
+  if (!HIDDEN_FIELDS.has('contributors') && contributors.length) {{
     html += `<div class="detail-section">
       <div class="detail-section-title">Contributors <span class="badge">${{contributors.length}}</span></div>
       <div class="detail-tags">${{contributors.map(n => `<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div>
     </div>`;
   }}
-  if (reviewers.length) {{
+  if (!HIDDEN_FIELDS.has('reviewers') && reviewers.length) {{
     html += `<div class="detail-section">
       <div class="detail-section-title">Reviewers <span class="badge">${{reviewers.length}}</span></div>
       <div class="detail-tags">${{reviewers.map(n => `<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div>

@@ -768,6 +768,7 @@ def phase5_completeness(
 GENERATORS = [
     ("stat_summary", [sys.executable, "reporting_scripts/generate_stat_summary.py"], False),
     ("tsv (techniques)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-t"], False),
+    ("tsv (weaknesses)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-w"], False),
     ("tsv (techniques long)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-t", "-l"], False),
     ("tsv (techniques by obj)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-t2"], False),
     ("tsv (weaknesses)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-w"], False),
@@ -779,11 +780,85 @@ GENERATORS = [
     ("excel", [sys.executable, "reporting_scripts/generate_excel_from_kb.py", "-o", "{tmp}/test.xlsx"], True),
     ("evaluation", [sys.executable, "reporting_scripts/generate_evaluation.py", "-o", "{tmp}/test_eval.xlsx"], True),
     ("evaluation (specific)", [sys.executable, "reporting_scripts/generate_evaluation.py", "DFT-1012", "DFT-1002", "DFT-1025", "DFT-1042", "-o", "{tmp}/test_eval2.xlsx"], True),
+
     ("html", [sys.executable, "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--output", "{tmp}/test.html"], True),
     ("html (custom)", [sys.executable, "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--custom", "--output", "{tmp}/test_custom.html"], True),
     ("rdf", [sys.executable, "reporting_scripts/generate_rdf_from_kb.py", "--output-dir", "{tmp}", "--format", "both"], True),
     ("markdown", [sys.executable, "reporting_scripts/generate_md_from_kb.py", "-o", "{tmp}/test.md"], True),
 ]
+
+
+def _extract_objective_options(form_text: str) -> List[str]:
+    """Extract objective dropdown options from a GitHub issue form YAML.
+
+    Parses the options list under the 'id: objective' dropdown field
+    without requiring PyYAML.
+    """
+    options = []
+    in_objective = False
+    in_options = False
+
+    for line in form_text.splitlines():
+        stripped = line.strip()
+        # Detect the objective field by its id
+        if stripped == "id: objective":
+            in_objective = True
+            continue
+        # Once inside the objective field, look for options:
+        if in_objective and stripped == "options:":
+            in_options = True
+            continue
+        # Collect option lines (- "value" or - value)
+        if in_options:
+            if stripped.startswith("- "):
+                value = stripped[2:].strip().strip('"')
+                if value != "Other (specify below)":
+                    options.append(value)
+            elif stripped and not stripped.startswith("#"):
+                # Non-option line means we've left the options block
+                break
+
+    return options
+
+
+def phase5b_form_sync(project_root: Path, objectives: Dict, result: ValidationResult, verbose: bool):
+    """Check that issue form objective dropdowns match the KB."""
+    kb_objectives = sorted(obj.get("name", "") for obj in objectives)
+
+    forms_with_objectives = [
+        "1a_propose-new-technique-form.yml",
+        "3_propose-trwm-submission-form.yml",
+    ]
+
+    template_dir = project_root / ".github" / "ISSUE_TEMPLATE"
+
+    for form_file in forms_with_objectives:
+        form_path = template_dir / form_file
+        if not form_path.exists():
+            result.warn(f"Form sync: {form_file} not found")
+            continue
+
+        form_text = form_path.read_text()
+        form_objectives = sorted(_extract_objective_options(form_text))
+
+        if not form_objectives:
+            result.warn(f"Form sync: no objective dropdown found in {form_file}")
+            continue
+
+        if form_objectives == kb_objectives:
+            result.pass_(f"Form sync: {form_file} objectives match KB", verbose)
+        else:
+            missing_from_form = set(kb_objectives) - set(form_objectives)
+            extra_in_form = set(form_objectives) - set(kb_objectives)
+            parts = []
+            if missing_from_form:
+                parts.append(f"missing: {', '.join(sorted(missing_from_form))}")
+            if extra_in_form:
+                parts.append(f"extra: {', '.join(sorted(extra_in_form))}")
+            result.fail(
+                f"Form sync: {form_file} objectives out of date — {'; '.join(parts)}. "
+                f"Re-run the form generator to fix."
+            )
 
 
 def phase6_generators(project_root: Path, result: ValidationResult, verbose: bool):
@@ -854,6 +929,10 @@ CHECK_GROUPS = [
         ("ASTM error class flags", "ASTM error class"),
         ("CASE/UCO class URLs valid", "class URLs are valid"),
         ("CASE/UCO class IRIs in ontology", "class IRIs exist"),
+    ]),
+    ("Issue form sync", [
+        ("Technique form objectives", "Form sync:", "1a_propose"),
+        ("TRWM form objectives", "Form sync:", "3_propose"),
     ]),
     ("Generator builds", [
         ("Statistics summary", "Generator: stat_summary"),
@@ -1081,6 +1160,11 @@ def main():
     print_phase("Phase 5: Completeness warnings")
     f0, w0 = len(result.fails), len(result.warnings)
     phase5_completeness(techniques, weaknesses, mitigations, objectives, result, args.verbose, citations=citations)
+    phase_ok_check(f0, w0)
+
+    print_phase("Phase 5b: Issue form sync")
+    f0, w0 = len(result.fails), len(result.warnings)
+    phase5b_form_sync(PROJECT_ROOT, objectives, result, args.verbose)
     phase_ok_check(f0, w0)
 
     if not args.skip_generators:

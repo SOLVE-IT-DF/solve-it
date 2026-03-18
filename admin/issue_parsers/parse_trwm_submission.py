@@ -25,6 +25,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from parse_technique_issue import parse_issue_body
 from solve_it_library import KnowledgeBase
+from update_utils import build_change_summary
 
 
 # Regex patterns for temp vs real IDs
@@ -310,8 +311,71 @@ def validate_submission(trwm_data, new_items):
     return notes
 
 
+def build_update_section(item_type, item_id, existing_kb, submitted):
+    """Generate BEFORE/AFTER markdown for a single updated item.
+
+    Args:
+        item_type: 'technique', 'weakness', or 'mitigation'
+        item_id: e.g. 'DFT-1176'
+        existing_kb: dict from the KB (current version)
+        submitted: dict from the submission (proposed version)
+
+    Returns:
+        list of markdown lines
+    """
+    lines = []
+    lines.append(f"#### Updated {item_type}: {submitted.get('name', '')} (`{item_id}`)")
+    lines.append("")
+    lines.append("<details>")
+    lines.append("<summary>BEFORE (current KB)</summary>")
+    lines.append("")
+    lines.append("```json")
+    lines.append(json.dumps(existing_kb, indent=4))
+    lines.append("```")
+    lines.append("</details>")
+    lines.append("")
+    lines.append("<details open>")
+    lines.append("<summary>AFTER (proposed)</summary>")
+    lines.append("")
+    lines.append("```json")
+    lines.append(json.dumps(submitted, indent=4))
+    lines.append("```")
+    lines.append("</details>")
+    lines.append("")
+
+    # Change summary
+    changes = build_change_summary(existing_kb, submitted)
+    lines.append("**Changes:** " + " | ".join(changes) if len(changes) == 1
+                 else "**Changes:**")
+    if len(changes) > 1:
+        lines.extend(changes)
+    lines.append("")
+    return lines
+
+
+def detect_removed_weaknesses(trwm_data, kb):
+    """Detect weaknesses present in the KB technique but absent from the submission.
+
+    Returns a list of (weakness_id, weakness_name) tuples.
+    """
+    removed = []
+    for tid, technique in trwm_data.get("techniques", {}).items():
+        if not REAL_TECHNIQUE_RE.match(tid):
+            continue
+        kb_technique = kb.get_technique(tid)
+        if kb_technique is None:
+            continue
+        submitted_wids = set(technique.get("weaknesses", []))
+        for wid in kb_technique.get("weaknesses", []):
+            if wid not in submitted_wids:
+                kb_weakness = kb.get_weakness(wid)
+                name = kb_weakness.get("name", "Unknown") if kb_weakness else "Unknown"
+                removed.append((wid, name))
+    return removed
+
+
 def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
-                  ref_warnings, submission_type, reviewer_notes=None):
+                  ref_warnings, submission_type, reviewer_notes=None, kb=None):
     """Build the GitHub comment markdown."""
     lines = []
 
@@ -320,10 +384,13 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
     lines.append("Thanks for your TRWM submission! Here's a preview of the proposed changes:")
     lines.append("")
 
+    is_update = submission_type == "Update existing technique"
+
     # Summary table
     lines.append("### Summary")
     lines.append("")
-    lines.append("| Type | New | Existing references |")
+    existing_col = "Updated" if is_update else "Existing references"
+    lines.append(f"| Type | New | {existing_col} |")
     lines.append("|------|-----|---------------------|")
     lines.append(f"| Techniques | {len(new_items['techniques'])} | {len(existing_items['techniques'])} |")
     lines.append(f"| Weaknesses | {len(new_items['weaknesses'])} | {len(existing_items['weaknesses'])} |")
@@ -371,13 +438,29 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
         lines.append("```")
         lines.append("")
 
-    # Existing technique references
+    # Existing technique references / updates
     for technique in existing_items["techniques"]:
-        lines.append(f"### Existing technique: {technique.get('name', '')} (`{technique['id']}`)")
-        lines.append("")
-        lines.append(f"This is an existing technique in the knowledge base. "
-                      f"Weaknesses and mitigations below will be linked to it.")
-        lines.append("")
+        if is_update and kb:
+            kb_item = kb.get_technique(technique["id"])
+            if kb_item:
+                submitted = normalize_to_kb_schema(
+                    apply_placeholders(technique, placeholder_map),
+                    TECHNIQUE_FIELDS,
+                )
+                lines.extend(build_update_section(
+                    "technique", technique["id"], kb_item, submitted))
+            else:
+                lines.append(f"### Existing technique: {technique.get('name', '')} (`{technique['id']}`)")
+                lines.append("")
+                lines.append(f"This is an existing technique in the knowledge base. "
+                              f"Weaknesses and mitigations below will be linked to it.")
+                lines.append("")
+        else:
+            lines.append(f"### Existing technique: {technique.get('name', '')} (`{technique['id']}`)")
+            lines.append("")
+            lines.append(f"This is an existing technique in the knowledge base. "
+                          f"Weaknesses and mitigations below will be linked to it.")
+            lines.append("")
 
     # Weakness JSON blocks
     if new_items["weaknesses"]:
@@ -419,19 +502,75 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
             lines.append("```")
             lines.append("")
 
-    # Existing item references
-    all_existing = (existing_items["techniques"] + existing_items["weaknesses"] +
-                    existing_items["mitigations"])
-    if all_existing:
-        lines.append("---")
-        lines.append("")
-        lines.append("### Existing KB references")
-        lines.append("")
-        lines.append("The following existing items are referenced in this submission:")
-        lines.append("")
-        for item in all_existing:
-            lines.append(f"- `{item['id']}` — {item.get('name', 'Unknown')}")
-        lines.append("")
+    # Existing item references — for updates, show BEFORE/AFTER; otherwise just list
+    if is_update and kb:
+        # Show BEFORE/AFTER for updated weaknesses and mitigations
+        if existing_items["weaknesses"]:
+            lines.append("---")
+            lines.append("")
+            lines.append(f"### Updated weaknesses ({len(existing_items['weaknesses'])})")
+            lines.append("")
+            for weakness in existing_items["weaknesses"]:
+                kb_item = kb.get_weakness(weakness["id"])
+                if kb_item:
+                    submitted = normalize_to_kb_schema(
+                        apply_placeholders(weakness, placeholder_map),
+                        WEAKNESS_FIELDS,
+                    )
+                    lines.extend(build_update_section(
+                        "weakness", weakness["id"], kb_item, submitted))
+                else:
+                    lines.append(f"- `{weakness['id']}` — {weakness.get('name', 'Unknown')} "
+                                  f"(not found in KB)")
+                    lines.append("")
+
+        if existing_items["mitigations"]:
+            lines.append("---")
+            lines.append("")
+            lines.append(f"### Updated mitigations ({len(existing_items['mitigations'])})")
+            lines.append("")
+            for mitigation in existing_items["mitigations"]:
+                kb_item = kb.get_mitigation(mitigation["id"])
+                if kb_item:
+                    submitted = normalize_to_kb_schema(
+                        apply_placeholders(mitigation, placeholder_map),
+                        MITIGATION_FIELDS,
+                    )
+                    lines.extend(build_update_section(
+                        "mitigation", mitigation["id"], kb_item, submitted))
+                else:
+                    lines.append(f"- `{mitigation['id']}` — {mitigation.get('name', 'Unknown')} "
+                                  f"(not found in KB)")
+                    lines.append("")
+
+        # Flag removed weaknesses
+        removed = detect_removed_weaknesses(trwm_data, kb)
+        if removed:
+            lines.append("---")
+            lines.append("")
+            lines.append("### Removed weaknesses")
+            lines.append("")
+            lines.append(":warning: The following weaknesses exist in the KB technique "
+                          "but are **absent** from this submission:")
+            lines.append("")
+            for wid, wname in removed:
+                lines.append(f"- `{wid}` — {wname}")
+            lines.append("")
+            lines.append("If these should be kept, add them back in the Helper before re-exporting.")
+            lines.append("")
+    else:
+        all_existing = (existing_items["techniques"] + existing_items["weaknesses"] +
+                        existing_items["mitigations"])
+        if all_existing:
+            lines.append("---")
+            lines.append("")
+            lines.append("### Existing KB references")
+            lines.append("")
+            lines.append("The following existing items are referenced in this submission:")
+            lines.append("")
+            for item in all_existing:
+                lines.append(f"- `{item['id']}` — {item.get('name', 'Unknown')}")
+            lines.append("")
 
     # Hidden ID map for the assignment script
     lines.append(f"<!-- TRWM_ID_MAP: {json.dumps(placeholder_map)} -->")
@@ -439,9 +578,14 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
 
     # Footer
     lines.append("---")
-    lines.append("*This comment was automatically generated. "
-                  "IDs with `____` placeholders will be assigned during review "
-                  "when the `assigned ID` label is added.*")
+    if placeholder_map:
+        lines.append("*This comment was automatically generated. "
+                      "IDs with `____` placeholders will be assigned during review "
+                      "when the `assigned ID` label is added.*")
+    else:
+        lines.append("*This comment was automatically generated. "
+                      "All items have existing IDs — no ID assignment needed. "
+                      "Add the `autoimplement` label to create a PR.*")
 
     return '\n'.join(lines)
 
@@ -518,6 +662,7 @@ def main():
 
     # Verify existing references against KB
     ref_warnings = []
+    kb = None
     if args.project_root:
         try:
             kb = KnowledgeBase(args.project_root, 'solve-it.json')
@@ -535,7 +680,7 @@ def main():
     # Build the comment
     comment = build_comment(
         trwm_data, fields, placeholder_map, new_items, existing_items,
-        ref_warnings, submission_type, reviewer_notes,
+        ref_warnings, submission_type, reviewer_notes, kb=kb,
     )
 
     if args.output:

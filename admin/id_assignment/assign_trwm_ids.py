@@ -190,6 +190,14 @@ def main():
 
     if not id_map:
         print("No new items to assign IDs to.", file=sys.stderr)
+        # Post informational comment so reviewer knows to proceed
+        info_comment = (
+            "### No new IDs needed\n\n"
+            "All items in this submission match existing KB entries. "
+            "No ID assignment is required.\n\n"
+            "Add the `autoimplement` label to create a PR with the updates."
+        )
+        post_comment(args.issue_number, info_comment)
         sys.exit(0)
 
     # 4. Build replacement map (placeholder -> real ID)

@@ -3,14 +3,6 @@ description: Submit a technique with weaknesses and mitigations from the TRWM SO
 title: "TRWM submission: {technique name}"
 labels: ["trwm"]
 body:
-  - type: input
-    id: technique-name
-    attributes:
-      label: Technique name
-      description: The name of the technique from your TRWM submission.
-      placeholder: e.g. Examination of a multiplayer game app
-    validations:
-      required: true
   - type: dropdown
     id: submission-type
     attributes:
@@ -31,8 +23,10 @@ body:
         - "Find potential digital evidence sources"
         - "Prioritize digital evidence sources"
         - "Preserve digital evidence"
+        - "Access device data for acquisition"
+        - "Overcome protection mechanisms"
         - "Acquire data"
-        - "Gain access"
+        - "Store acquired data"
         - "Read data from digital evidence storage formats"
         - "Reduce data under consideration"
         - "Access partitions, volumes and file systems data"
@@ -55,6 +49,14 @@ body:
     attributes:
       label: Propose new objective
       description: If your technique doesn't fit an existing objective, propose one here.
+  - type: input
+    id: parent-technique
+    attributes:
+      label: Parent technique (optional)
+      description: |
+        If this is a subtechnique, enter the parent technique ID (e.g. DFT-1002). Leave blank for top-level techniques.
+        Existing techniques can be browsed on the [SOLVE-IT Explorer](https://explore.solveit-df.org).
+      placeholder: e.g. DFT-1002
   - type: textarea
     id: trwm-json
     attributes:

@@ -1,0 +1,109 @@
+name: Auto-implement update item (technique/weakness/mitigation)
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  autoimplement-update-item:
+    if: >-
+      github.event.label.name == 'autoimplement'
+      && (
+        contains(github.event.issue.labels.*.name, 'content: update technique')
+        || contains(github.event.issue.labels.*.name, 'content: update weakness')
+        || contains(github.event.issue.labels.*.name, 'content: update mitigation')
+      )
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+
+    - name: Configure git
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Auto-implement update
+      id: implement
+      run: |
+        PR_URL=$(python3 admin/autoimplement_update_item.py \
+          --issue-number "$ISSUE_NUMBER" \
+          --project-root .)
+        echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+
+    - name: Checkout PR branch for validation
+      if: steps.implement.outputs.pr_url != ''
+      run: |
+        git fetch origin
+        git checkout -f "$(gh pr view "$PR_URL" --json headRefName -q .headRefName)"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_URL: ${{ steps.implement.outputs.pr_url }}
+
+    - name: Get changed files from PR
+      if: steps.implement.outputs.pr_url != ''
+      id: changed
+      run: |
+        FILES=$(gh pr diff "$PR_URL" --name-only | grep '^data/' | tr '\n' ' ' || true)
+        echo "files=$FILES" >> "$GITHUB_OUTPUT"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_URL: ${{ steps.implement.outputs.pr_url }}
+
+    - name: Run KB validation
+      if: steps.implement.outputs.pr_url != ''
+      id: validate
+      run: |
+        python admin/validate_kb.py --verbose \
+          --check-ontology \
+          --markdown-summary kb_validation_summary.md \
+          --ontology-summary ontology_iri_report.md \
+          --changed-files ${{ steps.changed.outputs.files }}
+        python -m pytest tests/ -v
+      continue-on-error: true
+
+    - name: Post validation results on PR
+      if: steps.implement.outputs.pr_url != ''
+      run: |
+        if [ "${{ steps.validate.outcome }}" == "success" ]; then
+          HEADER="### Validation: Passed"
+        else
+          HEADER="### Validation: Failed"
+        fi
+
+        BODY="$HEADER"$'\n\n'
+        if [ -f kb_validation_summary.md ]; then
+          BODY+="<details><summary>KB validation report</summary>"$'\n\n'
+          BODY+="$(cat kb_validation_summary.md)"$'\n\n'
+          BODY+="</details>"$'\n'
+        fi
+
+        echo "$BODY" > validation_comment.md
+        gh pr comment "$PR_URL" --body-file validation_comment.md
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_URL: ${{ steps.implement.outputs.pr_url }}
+
+    - name: Fail if validation failed
+      if: steps.implement.outputs.pr_url != '' && steps.validate.outcome == 'failure'
+      run: exit 1

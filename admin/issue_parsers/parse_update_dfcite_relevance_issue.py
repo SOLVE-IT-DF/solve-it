@@ -19,12 +19,8 @@ from parse_technique_issue import parse_issue_body
 from solve_it_library import KnowledgeBase
 
 
-VALID_TYPES = {"technique", "weakness", "mitigation"}
-ID_PATTERNS = {
-    "technique": re.compile(r'^DFT-\d+$'),
-    "weakness": re.compile(r'^DFW-\d+$'),
-    "mitigation": re.compile(r'^DFM-\d+$'),
-}
+ITEM_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d+$')
+PREFIX_TO_TYPE = {"DFT": "technique", "DFW": "weakness", "DFM": "mitigation"}
 DFCITE_RE = re.compile(r'^DFCite-\d+$')
 
 
@@ -46,20 +42,13 @@ def main():
 
     fields = parse_issue_body(body)
 
-    # Validate item type
-    item_type = fields.get("Item Type", "").strip().lower()
-    if item_type not in VALID_TYPES:
-        print(f"Error: Invalid item type: '{item_type}'. "
-              f"Must be one of: {', '.join(sorted(VALID_TYPES))}", file=sys.stderr)
-        sys.exit(1)
-
-    # Validate item ID
+    # Validate item ID and derive type from prefix
     item_id = fields.get("Item ID", "").strip()
-    if not ID_PATTERNS[item_type].match(item_id):
-        expected_prefix = {"technique": "DFT", "weakness": "DFW", "mitigation": "DFM"}[item_type]
-        print(f"Error: Invalid {item_type} ID format: '{item_id}'. "
-              f"Expected {expected_prefix}-XXXX", file=sys.stderr)
+    if not ITEM_ID_RE.match(item_id):
+        print(f"Error: Invalid item ID format: '{item_id}'. "
+              "Expected DFT-XXXX, DFW-XXXX, or DFM-XXXX", file=sys.stderr)
         sys.exit(1)
+    item_type = PREFIX_TO_TYPE[item_id.split("-")[0]]
 
     # Validate DFCite ID
     dfcite_id = fields.get("DFCite ID", "").strip()

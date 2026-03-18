@@ -26,16 +26,6 @@ def main():
     lines.append("        within a technique, weakness, or mitigation. The relevance summary explains why this")
     lines.append("        reference is relevant to the item it is cited in (max 280 characters).")
 
-    # --- Item Type ---
-    lines.append("  - type: input")
-    lines.append("    id: item-type")
-    lines.append("    attributes:")
-    lines.append("      label: Item Type")
-    lines.append('      description: The type of item containing the reference ("technique", "weakness", or "mitigation").')
-    lines.append("      placeholder: technique")
-    lines.append("    validations:")
-    lines.append("      required: true")
-
     # --- Item ID ---
     lines.append("  - type: input")
     lines.append("    id: item-id")

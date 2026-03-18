@@ -2241,7 +2241,6 @@ function dfciteRelevanceFormUrl(itemType, itemId, ref) {{
   p.set('template', '2d_update-dfcite-relevance-form.yml');
   p.set('labels', 'content: update dfcite relevance,form input');
   p.set('title', `Update DFCite relevance: ${{r.citeId}} in ${{itemId}}`);
-  p.set('item-type', itemType);
   p.set('item-id', itemId);
   p.set('dfcite-id', r.citeId);
   if (r.relevance) p.set('relevance-summary', r.relevance);

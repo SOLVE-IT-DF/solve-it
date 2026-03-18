@@ -500,6 +500,22 @@ body.custom-mode .disabled-btn {{
   background: var(--gray-300);
 }}
 
+/* ── Custom mode extension banner ─────────────────────────── */
+.extension-banner {{
+  padding: 6px 16px;
+  background: #0e1a30;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  flex-shrink: 0;
+}}
+.extension-banner a {{
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+}}
+
 /* ── Top nav ───────────────────────────────────────────────── */
 .topnav {{
   background: var(--navy);
@@ -1520,6 +1536,11 @@ body.custom-mode .disabled-btn {{
 </head>
 <body>
 
+{"" if not custom else '''<!-- ───────────────── Extension banner ───────────────── -->
+<div class="extension-banner">
+  This is a <strong>SOLVE-IT-X extension</strong> to the <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank" rel="noopener noreferrer">SOLVE-IT repository</a> and there may be deviations from the standard content.
+</div>
+'''}
 <!-- ───────────────── Top navigation ───────────────── -->
 <nav class="topnav">
   <a class="topnav-brand" href="https://solveit-df.org" target="_blank">

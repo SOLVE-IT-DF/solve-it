@@ -580,6 +580,36 @@ class TestSanitiseGitValue(unittest.TestCase):
         self.assertEqual(mod.sanitise_git_value("John Smith"), "John Smith")
 
 
+class TestSummariseCitation(unittest.TestCase):
+    """Test citation summary extraction."""
+
+    def test_full_citation(self):
+        raw = ("Gruhn, M., 2015, May. Windows NT pagefile. sys virtual memory "
+               "analysis. In 2015 Ninth International Conference.")
+        result = mod.summarise_citation(raw)
+        self.assertIn("Gruhn", result)
+        self.assertIn("(2015)", result)
+        self.assertIn("Windows NT pagefile", result)
+
+    def test_simple_author_year(self):
+        result = mod.summarise_citation("Smith, J. (2024), Test Reference Title.")
+        self.assertIn("Smith", result)
+        self.assertIn("(2024)", result)
+
+    def test_no_year(self):
+        result = mod.summarise_citation("Some reference with no year")
+        self.assertIn("Some", result)
+
+    def test_url_only(self):
+        result = mod.summarise_citation("https://example.com/some-tool")
+        # Should produce something, not crash
+        self.assertTrue(len(result) > 0)
+
+    def test_empty_string(self):
+        result = mod.summarise_citation("")
+        self.assertEqual(result, "")
+
+
 class TestBuildReferenceFormUrl(unittest.TestCase):
     """Test pre-filled reference form URL builder."""
 
@@ -598,6 +628,12 @@ class TestBuildReferenceFormUrl(unittest.TestCase):
         # Notes should mention the issue number and item ID
         self.assertIn("279", url)
         self.assertIn("DFM-1240", url)
+
+    def test_url_contains_title(self):
+        url = mod.build_reference_form_url(
+            "Gruhn, M., 2015, May. Windows NT pagefile analysis.", 279, "DFM-1240")
+        self.assertIn("title=", url)
+        self.assertIn("Propose", url)
 
     def test_url_starts_with_repo(self):
         url = mod.build_reference_form_url("Some ref", 100, "DFT-1001")

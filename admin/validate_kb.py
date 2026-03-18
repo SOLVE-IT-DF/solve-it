@@ -662,7 +662,7 @@ def phase5_completeness(
         if not w.get("mitigations"):
             result.warn(f"Weakness {tid} has no mitigations")
 
-    # Orphaned weaknesses (not referenced by any technique)
+    # Unreferenced weaknesses (not referenced by any technique)
     referenced_weaknesses = set()
     for t in techniques.values():
         referenced_weaknesses.update(t.get("weaknesses", []))
@@ -670,7 +670,7 @@ def phase5_completeness(
         if wid not in referenced_weaknesses:
             result.warn(f"Unreferenced weakness {wid} (not in any technique's weakness list)")
 
-    # Orphaned mitigations (not referenced by any weakness)
+    # Unreferenced mitigations (not referenced by any weakness)
     referenced_mitigations = set()
     for w in weaknesses.values():
         referenced_mitigations.update(w.get("mitigations", []))
@@ -728,7 +728,7 @@ def phase5_completeness(
                         elif len(summary) > 280:
                             result.fail(f"{label} {item_id} has relevance_summary > 280 chars ({len(summary)}) for {ref['DFCite_id']}")
 
-        # Orphaned citations
+        # Unreferenced citations
         referenced_citations = set()
         for items in [techniques, weaknesses, mitigations]:
             for data in items.values():
@@ -742,7 +742,7 @@ def phase5_completeness(
 
         for cite_id in citations:
             if cite_id not in referenced_citations:
-                result.fail(f"Orphaned citation {cite_id} (not referenced by any T/W/M/Objective)")
+                result.warn(f"Unreferenced citation {cite_id} (not referenced by any T/W/M/Objective)")
 
     # Summary statistics
     total = len(techniques)

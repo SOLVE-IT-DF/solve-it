@@ -895,6 +895,7 @@ WARNING_CATEGORIES = [
     ("No mitigations", "has no mitigations"),
     ("Unreferenced weaknesses", "Unreferenced weakness"),
     ("Unreferenced mitigations", "Unreferenced mitigation"),
+    ("Unreferenced citations", "Unreferenced citation"),
     ("Todo markers", "contains todo marker"),
     ("Not in any objective", "is not listed in any objective"),
     ("Ontology IRI not found", "not found in loaded ontologies"),

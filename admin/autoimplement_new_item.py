@@ -21,6 +21,7 @@ import os
 import re
 import subprocess
 import sys
+from urllib.parse import quote, urlencode
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from solve_it_library.reference_matching import (
@@ -177,20 +178,22 @@ def handle_old_format_references(block, project_root):
     Old issues may have references as a list of strings instead of
     the current dict format with DFCite_id and relevance_summary_280.
 
-    Returns (updated_refs, warnings) where warnings describe any
-    references that couldn't be matched.
+    Returns (updated_refs, warnings, unmatched_raw_refs) where warnings
+    describe any references that couldn't be matched, and
+    unmatched_raw_refs is a list of the original raw strings that failed.
     """
     refs = block.get("references", [])
     if not refs:
-        return refs, []
+        return refs, [], []
 
     # Check if refs are already in dict format
     if all(isinstance(r, dict) for r in refs):
-        return refs, []
+        return refs, [], []
 
     corpus = load_reference_corpus(project_root)
     updated_refs = []
     warnings = []
+    unmatched_raw_refs = []
 
     for ref in refs:
         if isinstance(ref, dict):
@@ -216,13 +219,14 @@ def handle_old_format_references(block, project_root):
                 "DFCite_id": "PENDING",
                 "relevance_summary_280": "",
             })
+            unmatched_raw_refs.append(ref_str)
             truncated = ref_str[:80] + ("..." if len(ref_str) > 80 else "")
             warnings.append(
                 f'Could not match reference: "{truncated}". '
                 f'A DFCite entry needs to be created first via the reference form.'
             )
 
-    return updated_refs, warnings
+    return updated_refs, warnings, unmatched_raw_refs
 
 
 def check_dfcite_existence(block, project_root):
@@ -251,6 +255,66 @@ def check_dfcite_existence(block, project_root):
             )
 
     return warnings
+
+
+REPO_URL = "https://github.com/SOLVE-IT-DF/solve-it"
+REFERENCE_TEMPLATE = "1d_propose-new-reference-form.yml"
+
+
+def build_reference_form_url(raw_citation_text, issue_number, item_id):
+    """Build a pre-filled URL for the 'Propose New Reference' issue form."""
+    params = {
+        "template": REFERENCE_TEMPLATE,
+        "citation-text": raw_citation_text,
+        "notes": f"Required by issue #{issue_number} for {item_id}",
+    }
+    return f"{REPO_URL}/issues/new?{urlencode(params, quote_via=quote)}"
+
+
+def post_blocked_comment_and_remove_label(issue_number, item_id, unmatched_raw_refs,
+                                          dfcite_warnings):
+    """Post an explanatory comment on the issue and remove the autoimplement label.
+
+    Called when autoimplement cannot proceed because of missing DFCite references.
+    """
+    lines = []
+    lines.append("### Autoimplement blocked: missing DFCite references")
+    lines.append("")
+
+    if unmatched_raw_refs:
+        lines.append("**Unmatched references (need new DFCite entries):**")
+        lines.append("")
+        for raw_ref in unmatched_raw_refs:
+            truncated = raw_ref[:80] + ("..." if len(raw_ref) > 80 else "")
+            url = build_reference_form_url(raw_ref, issue_number, item_id)
+            lines.append(f'- "{truncated}" \u2014 [Create DFCite entry]({url})')
+        lines.append("")
+
+    if dfcite_warnings:
+        lines.append("**Missing DFCite files:**")
+        lines.append("")
+        for w in dfcite_warnings:
+            # Extract the DFCite ID from the warning string
+            m = re.search(r'`(DFCite-\d+)`', w)
+            cite_id = m.group(1) if m else "unknown"
+            lines.append(f"- `{cite_id}` does not exist in `data/references/`")
+        lines.append("")
+
+    lines.append("**Next steps:**")
+    lines.append("1. Click the link(s) above to propose the missing reference(s)")
+    lines.append("2. Wait for the reference PR(s) to be merged")
+    lines.append("3. Re-add the `autoimplement` label to this issue")
+
+    comment_body = "\n".join(lines)
+
+    # Post the comment
+    run(["gh", "issue", "comment", str(issue_number), "--body", comment_body])
+
+    # Remove the autoimplement label
+    run(["gh", "issue", "edit", str(issue_number), "--remove-label", "autoimplement"])
+
+    print(f"Posted blocked comment and removed autoimplement label on #{issue_number}",
+          file=sys.stderr)
 
 
 def parse_objective_from_issue(issue_body):
@@ -429,7 +493,8 @@ def main():
 
     # 4. Handle old-format references
     all_warnings = []
-    block["references"], ref_warnings = handle_old_format_references(block, project_root)
+    block["references"], ref_warnings, unmatched_raw_refs = handle_old_format_references(
+        block, project_root)
     all_warnings.extend(ref_warnings)
 
     # 5. Check existing DFCite refs
@@ -440,6 +505,34 @@ def main():
         print("Warnings:", file=sys.stderr)
         for w in all_warnings:
             print(f"  - {w}", file=sys.stderr)
+
+    # 5b. Abort if there are unresolved references
+    has_pending = any(
+        isinstance(r, dict) and r.get("DFCite_id") == "PENDING"
+        for r in block.get("references", [])
+    )
+    if has_pending or dfcite_warnings:
+        if args.dry_run:
+            print("\n=== DRY RUN: Would abort ===", file=sys.stderr)
+            print(f"Item: {item_type} {item_id} ({item_name})", file=sys.stderr)
+            if unmatched_raw_refs:
+                print("Unmatched references:", file=sys.stderr)
+                for raw in unmatched_raw_refs:
+                    url = build_reference_form_url(raw, args.issue_number, item_id)
+                    truncated = raw[:80] + ("..." if len(raw) > 80 else "")
+                    print(f'  - "{truncated}"', file=sys.stderr)
+                    print(f'    Create: {url}', file=sys.stderr)
+            if dfcite_warnings:
+                print("Missing DFCite files:", file=sys.stderr)
+                for w in dfcite_warnings:
+                    print(f"  - {w}", file=sys.stderr)
+            print("Would post blocked comment and remove autoimplement label.",
+                  file=sys.stderr)
+            return
+        else:
+            post_blocked_comment_and_remove_label(
+                args.issue_number, item_id, unmatched_raw_refs, dfcite_warnings)
+            return
 
     # 6. Get objective from issue body (techniques only)
     objective_name = None

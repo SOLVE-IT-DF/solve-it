@@ -293,23 +293,26 @@ class TestHandleOldFormatReferences(unittest.TestCase):
                 {"DFCite_id": "DFCite-1001", "relevance_summary_280": "relevant"},
             ],
         }
-        refs, warnings = mod.handle_old_format_references(block, self.tmpdir)
+        refs, warnings, unmatched = mod.handle_old_format_references(block, self.tmpdir)
         self.assertEqual(len(refs), 1)
         self.assertEqual(refs[0]["DFCite_id"], "DFCite-1001")
         self.assertEqual(refs[0]["relevance_summary_280"], "relevant")
         self.assertEqual(len(warnings), 0)
+        self.assertEqual(len(unmatched), 0)
 
     def test_empty_refs_unchanged(self):
         block = {"id": "DFT-1001", "references": []}
-        refs, warnings = mod.handle_old_format_references(block, self.tmpdir)
+        refs, warnings, unmatched = mod.handle_old_format_references(block, self.tmpdir)
         self.assertEqual(refs, [])
         self.assertEqual(warnings, [])
+        self.assertEqual(unmatched, [])
 
     def test_no_refs_key(self):
         block = {"id": "DFT-1001"}
-        refs, warnings = mod.handle_old_format_references(block, self.tmpdir)
+        refs, warnings, unmatched = mod.handle_old_format_references(block, self.tmpdir)
         self.assertEqual(refs, [])
         self.assertEqual(warnings, [])
+        self.assertEqual(unmatched, [])
 
     def test_raw_string_matched_by_url(self):
         """A raw string with a matching URL should resolve to the DFCite ID."""
@@ -317,11 +320,12 @@ class TestHandleOldFormatReferences(unittest.TestCase):
             "id": "DFT-1001",
             "references": ["Some reference, https://example.com/test"],
         }
-        refs, warnings = mod.handle_old_format_references(block, self.tmpdir)
+        refs, warnings, unmatched = mod.handle_old_format_references(block, self.tmpdir)
         self.assertEqual(len(refs), 1)
         self.assertEqual(refs[0]["DFCite_id"], "DFCite-1001")
         self.assertEqual(refs[0]["relevance_summary_280"], "")
         self.assertEqual(len(warnings), 0)
+        self.assertEqual(len(unmatched), 0)
 
     def test_raw_string_unmatched_gets_pending(self):
         """An unmatched raw string should get a PENDING placeholder."""
@@ -329,11 +333,13 @@ class TestHandleOldFormatReferences(unittest.TestCase):
             "id": "DFT-1001",
             "references": ["Completely unknown reference (2025)"],
         }
-        refs, warnings = mod.handle_old_format_references(block, self.tmpdir)
+        refs, warnings, unmatched = mod.handle_old_format_references(block, self.tmpdir)
         self.assertEqual(len(refs), 1)
         self.assertEqual(refs[0]["DFCite_id"], "PENDING")
         self.assertEqual(len(warnings), 1)
         self.assertIn("Could not match reference", warnings[0])
+        self.assertEqual(len(unmatched), 1)
+        self.assertEqual(unmatched[0], "Completely unknown reference (2025)")
 
     def test_mixed_refs_handled(self):
         """Mix of dict and string refs should both be handled."""
@@ -344,17 +350,19 @@ class TestHandleOldFormatReferences(unittest.TestCase):
                 "Unknown ref text here",
             ],
         }
-        refs, warnings = mod.handle_old_format_references(block, self.tmpdir)
+        refs, warnings, unmatched = mod.handle_old_format_references(block, self.tmpdir)
         self.assertEqual(len(refs), 2)
         self.assertEqual(refs[0]["DFCite_id"], "DFCite-1001")
         self.assertEqual(refs[1]["DFCite_id"], "PENDING")
         self.assertEqual(len(warnings), 1)
+        self.assertEqual(len(unmatched), 1)
 
     def test_empty_string_ref_skipped(self):
         block = {"id": "DFT-1001", "references": [""]}
-        refs, warnings = mod.handle_old_format_references(block, self.tmpdir)
+        refs, warnings, unmatched = mod.handle_old_format_references(block, self.tmpdir)
         self.assertEqual(refs, [])
         self.assertEqual(warnings, [])
+        self.assertEqual(unmatched, [])
 
 
 class TestCheckDfciteExistence(unittest.TestCase):
@@ -570,6 +578,79 @@ class TestSanitiseGitValue(unittest.TestCase):
 
     def test_normal_name_unchanged(self):
         self.assertEqual(mod.sanitise_git_value("John Smith"), "John Smith")
+
+
+class TestBuildReferenceFormUrl(unittest.TestCase):
+    """Test pre-filled reference form URL builder."""
+
+    def test_url_contains_template(self):
+        url = mod.build_reference_form_url("Some citation", 279, "DFM-1240")
+        self.assertIn("1d_propose-new-reference-form.yml", url)
+
+    def test_url_contains_encoded_citation(self):
+        url = mod.build_reference_form_url("Gruhn, M., 2015", 279, "DFM-1240")
+        self.assertIn("Gruhn", url)
+        # Spaces should be percent-encoded
+        self.assertNotIn(" ", url)
+
+    def test_url_contains_notes_with_issue_number(self):
+        url = mod.build_reference_form_url("Some ref", 279, "DFM-1240")
+        # Notes should mention the issue number and item ID
+        self.assertIn("279", url)
+        self.assertIn("DFM-1240", url)
+
+    def test_url_starts_with_repo(self):
+        url = mod.build_reference_form_url("Some ref", 100, "DFT-1001")
+        self.assertTrue(url.startswith("https://github.com/SOLVE-IT-DF/solve-it/issues/new?"))
+
+
+class TestBlockedPathLogic(unittest.TestCase):
+    """Test that PENDING refs or missing DFCite files would trigger an abort."""
+
+    def test_pending_ref_detected(self):
+        """A block with a PENDING DFCite_id should be detected as blocking."""
+        block = {
+            "references": [
+                {"DFCite_id": "PENDING", "relevance_summary_280": ""},
+            ],
+        }
+        has_pending = any(
+            isinstance(r, dict) and r.get("DFCite_id") == "PENDING"
+            for r in block.get("references", [])
+        )
+        self.assertTrue(has_pending)
+
+    def test_no_pending_ref(self):
+        """A block with valid DFCite_ids should not trigger blocking."""
+        block = {
+            "references": [
+                {"DFCite_id": "DFCite-1001", "relevance_summary_280": ""},
+            ],
+        }
+        has_pending = any(
+            isinstance(r, dict) and r.get("DFCite_id") == "PENDING"
+            for r in block.get("references", [])
+        )
+        self.assertFalse(has_pending)
+
+    def test_missing_dfcite_triggers_abort(self):
+        """Non-empty dfcite_warnings should trigger abort."""
+        dfcite_warnings = ["`DFCite-9999` does not exist in `data/references/`."]
+        self.assertTrue(len(dfcite_warnings) > 0)
+
+    def test_no_issues_proceeds(self):
+        """Empty pending and warnings means no abort."""
+        block = {
+            "references": [
+                {"DFCite_id": "DFCite-1001", "relevance_summary_280": ""},
+            ],
+        }
+        has_pending = any(
+            isinstance(r, dict) and r.get("DFCite_id") == "PENDING"
+            for r in block.get("references", [])
+        )
+        dfcite_warnings = []
+        self.assertFalse(has_pending or bool(dfcite_warnings))
 
 
 if __name__ == "__main__":

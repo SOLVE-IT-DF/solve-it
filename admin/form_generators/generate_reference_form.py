@@ -12,7 +12,7 @@ def main():
     base_path = os.path.join(os.path.dirname(__file__), '..', '..')
 
     lines = []
-    lines.append('name: "Propose New Reference"')
+    lines.append('name: "Propose New Reference (DFCite)"')
     lines.append("description: Propose a new reference citation for the knowledge base")
     lines.append('title: "Propose new reference: [citation]"')
     lines.append('labels: ["content: new reference", "form input"]')
@@ -42,10 +42,10 @@ def main():
     lines.append("    id: notes")
     lines.append("    attributes:")
     lines.append("      label: Notes")
-    lines.append("      description: Any additional context about this reference.")
+    lines.append("      description: Any additional context about this reference. You should specify where you intend to cite this and why? E.g. which techniques, weaknesses or mitigations.")
 
     # Write output
-    output_path = os.path.join(base_path, '.github', 'ISSUE_TEMPLATE', '3a_propose-new-reference-form.yml')
+    output_path = os.path.join(base_path, '.github', 'ISSUE_TEMPLATE', '1d_propose-new-reference-form.yml')
     with open(output_path, 'w') as f:
         f.write('\n'.join(lines) + '\n')
 

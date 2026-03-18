@@ -87,7 +87,7 @@ def match_reference(
         return None
 
     # 1. Direct DFCite ID
-    id_match = re.match(r"^(DFCite-\d+)$", stripped)
+    id_match = re.match(r"^(DFCite-\d{4,6})$", stripped)
     if id_match:
         cite_id = id_match.group(1)
         if cite_id in corpus:
@@ -144,10 +144,13 @@ _MATCH_TYPE_LABELS = {
 }
 
 
+_DFCITE_RE = re.compile(r"^DFCite-\d{4,6}$")
+
+
 def process_reference_lines(
     lines: List[str],
     project_root: str,
-) -> Tuple[List[Dict[str, str]], List[str], List[Tuple[str, str]]]:
+) -> Tuple[List[Dict[str, str]], List[str], List[Tuple[str, str]], List[str]]:
     """Process a list of user-submitted reference lines.
 
     For each line, attempts to match against the existing corpus.  Unmatched
@@ -161,12 +164,14 @@ def process_reference_lines(
         processed_refs: List of ``{"DFCite_id": ..., "relevance_summary_280": ""}`` dicts.
         match_report: Human-readable lines for the GitHub comment.
         new_citations: List of ``(DFCite_id, raw_text)`` for newly created references.
+        warnings: List of warning strings for invalid DFCite IDs etc.
     """
     corpus = load_reference_corpus(project_root)
 
     processed_refs: List[Dict[str, str]] = []
     match_report: List[str] = []
     new_citations: List[Tuple[str, str]] = []
+    warnings: List[str] = []
 
     # Find current max ID for new assignments
     max_num = 1000
@@ -197,6 +202,14 @@ def process_reference_lines(
             label = _MATCH_TYPE_LABELS.get(match_type, match_type)
             truncated = line[:80] + ("..." if len(line) > 80 else "")
             match_report.append(f'- Matched "{truncated}" → **{cite_id}** ({label})')
+        elif _DFCITE_RE.match(line):
+            # User provided a DFCite ID that doesn't exist in the corpus
+            warnings.append(
+                f'`{line}` was not found in the reference corpus. '
+                f'Please check the ID — it may be a typo. '
+                f'Existing references can be browsed in `data/references/`.'
+            )
+            match_report.append(f'- :warning: **{line}** not found in corpus (skipped)')
         else:
             # Assign new DFCite ID
             max_num += 1
@@ -210,4 +223,4 @@ def process_reference_lines(
             truncated = line[:80] + ("..." if len(line) > 80 else "")
             match_report.append(f'- New reference assigned: **{new_id}** for "{truncated}"')
 
-    return processed_refs, match_report, new_citations
+    return processed_refs, match_report, new_citations, warnings

@@ -30,9 +30,9 @@ from update_utils import build_change_summary
 
 # Regex patterns for temp vs real IDs
 TEMP_ID_RE = re.compile(r'^(DFT|DFW|DFM)-temp-\d+$')
-REAL_TECHNIQUE_RE = re.compile(r'^DFT-\d+$')
-REAL_WEAKNESS_RE = re.compile(r'^DFW-\d+$')
-REAL_MITIGATION_RE = re.compile(r'^DFM-\d+$')
+REAL_TECHNIQUE_RE = re.compile(r'^DFT-\d{4,6}$')
+REAL_WEAKNESS_RE = re.compile(r'^DFW-\d{4,6}$')
+REAL_MITIGATION_RE = re.compile(r'^DFM-\d{4,6}$')
 
 # Full KB schemas with all fields (empty defaults)
 TECHNIQUE_FIELDS = [

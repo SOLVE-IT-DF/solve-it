@@ -19,9 +19,9 @@ from parse_technique_issue import parse_issue_body
 from solve_it_library import KnowledgeBase
 
 
-ITEM_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d+$')
+ITEM_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,6}$')
 PREFIX_TO_TYPE = {"DFT": "technique", "DFW": "weakness", "DFM": "mitigation"}
-DFCITE_RE = re.compile(r'^DFCite-\d+$')
+DFCITE_RE = re.compile(r'^DFCite-\d{4,6}$')
 
 
 def main():
@@ -134,6 +134,8 @@ def main():
     lines.append("### Proposed relevance summary")
     lines.append("")
     lines.append(f"> {relevance_summary}")
+    lines.append("")
+    lines.append(f"*{len(relevance_summary)} / 280 characters*")
     lines.append("")
     lines.append("### Data")
     lines.append("")

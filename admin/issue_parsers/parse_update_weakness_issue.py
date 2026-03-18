@@ -72,6 +72,7 @@ def apply_updates(current, fields, project_root=None):
     updated = copy.deepcopy(current)
     match_report = []
     new_citations = []
+    ref_warnings = []
 
     # Scalar fields
     name = fields.get("New weakness name", "")
@@ -95,12 +96,12 @@ def apply_updates(current, fields, project_root=None):
     if not is_no_response(references):
         ref_lines = lines_to_list(references)
         if ref_lines and project_root:
-            processed_refs, match_report, new_citations = process_reference_lines(ref_lines, project_root)
+            processed_refs, match_report, new_citations, ref_warnings = process_reference_lines(ref_lines, project_root)
             updated["references"] = processed_refs
         else:
             updated["references"] = []
 
-    return updated, match_report, new_citations
+    return updated, match_report, new_citations, ref_warnings
 
 
 def main():
@@ -121,7 +122,7 @@ def main():
 
     # Validate weakness ID
     weakness_id = fields.get("Weakness ID", "").strip()
-    if not re.match(r'^DFW-\d+$', weakness_id):
+    if not re.match(r'^DFW-\d{4,6}$', weakness_id):
         print(f"Error: Invalid weakness ID format: '{weakness_id}'", file=sys.stderr)
         sys.exit(1)
 
@@ -133,10 +134,17 @@ def main():
     if current is None:
         comment = build_error_comment("Weakness", weakness_id, BROWSE_URL)
     else:
-        updated, match_report, new_citations = apply_updates(current, fields, base_path)
+        updated, match_report, new_citations, ref_warnings = apply_updates(current, fields, base_path)
         comment = build_update_comment(
             "Weakness", weakness_id, current.get("name", ""), current, updated
         )
+
+        # Reference warnings
+        if ref_warnings:
+            warn_lines = ["", "### :warning: Reference warnings", ""]
+            for w in ref_warnings:
+                warn_lines.append(f"- {w}")
+            comment += '\n'.join(warn_lines)
 
         # References match report
         if match_report:
@@ -159,7 +167,7 @@ def main():
             lines.append("")
             for m in new_mitigations:
                 url = build_mitigation_link(m, weakness_id=weakness_id)
-                lines.append(f"- [Create mitigation: {m}]({url})")
+                lines.append(f"- [`{m}`]({url})")
             comment += '\n'.join(lines)
 
     if args.output:

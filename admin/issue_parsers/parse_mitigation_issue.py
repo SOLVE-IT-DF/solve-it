@@ -26,11 +26,12 @@ def build_mitigation_json(fields, project_root=None):
     """
     ref_lines = lines_to_list(fields.get("References", ""))
     if ref_lines and project_root:
-        processed_refs, match_report, new_citations = process_reference_lines(ref_lines, project_root)
+        processed_refs, match_report, new_citations, ref_warnings = process_reference_lines(ref_lines, project_root)
     else:
         processed_refs = []
         match_report = []
         new_citations = []
+        ref_warnings = []
 
     mitigation = {
         "id": "DFM-____",
@@ -43,10 +44,10 @@ def build_mitigation_json(fields, project_root=None):
 
     mitigation["references"] = processed_refs
 
-    return mitigation, match_report, new_citations
+    return mitigation, match_report, new_citations, ref_warnings
 
 
-def build_comment(mitigation, fields, match_report=None, new_citations=None):
+def build_comment(mitigation, fields, match_report=None, new_citations=None, ref_warnings=None):
     """Build the GitHub comment markdown."""
     lines = []
 
@@ -55,6 +56,16 @@ def build_comment(mitigation, fields, match_report=None, new_citations=None):
     lines.append("```json")
     lines.append(json.dumps(mitigation, indent=4))
     lines.append("```")
+
+    # Reference warnings
+    if ref_warnings:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### :warning: Reference warnings")
+        lines.append("")
+        for w in ref_warnings:
+            lines.append(f"- {w}")
 
     # References match report
     if match_report:
@@ -105,8 +116,8 @@ def main():
 
     fields = parse_issue_body(body)
     project_root = os.path.join(os.path.dirname(__file__), '..', '..')
-    mitigation, match_report, new_citations = build_mitigation_json(fields, project_root)
-    comment = build_comment(mitigation, fields, match_report, new_citations)
+    mitigation, match_report, new_citations, ref_warnings = build_mitigation_json(fields, project_root)
+    comment = build_comment(mitigation, fields, match_report, new_citations, ref_warnings)
 
     if args.output:
         with open(args.output, 'w') as f:

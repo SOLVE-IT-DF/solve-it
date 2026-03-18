@@ -81,11 +81,12 @@ def build_technique_json(fields, project_root=None):
     """
     ref_lines = lines_to_list(fields.get("References", ""))
     if ref_lines and project_root:
-        processed_refs, match_report, new_citations = process_reference_lines(ref_lines, project_root)
+        processed_refs, match_report, new_citations, ref_warnings = process_reference_lines(ref_lines, project_root)
     else:
         processed_refs = []
         match_report = []
         new_citations = []
+        ref_warnings = []
 
     technique = {
         "id": "DFT-____",
@@ -100,7 +101,7 @@ def build_technique_json(fields, project_root=None):
         "CASE_output_classes": lines_to_list(fields.get("CASE output classes", "")),
         "references": processed_refs,
     }
-    return technique, match_report, new_citations
+    return technique, match_report, new_citations, ref_warnings
 
 
 REPO_URL = "https://github.com/SOLVE-IT-DF/solve-it"
@@ -115,7 +116,7 @@ def build_weakness_link(name, technique_id=None):
     return f"{REPO_URL}/issues/new?{urlencode(params, quote_via=quote)}"
 
 
-def build_comment(technique, fields, match_report=None, new_citations=None):
+def build_comment(technique, fields, match_report=None, new_citations=None, ref_warnings=None):
     """Build the GitHub comment markdown."""
     lines = []
 
@@ -124,6 +125,16 @@ def build_comment(technique, fields, match_report=None, new_citations=None):
     lines.append("```json")
     lines.append(json.dumps(technique, indent=4))
     lines.append("```")
+
+    # Reference warnings
+    if ref_warnings:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### :warning: Reference warnings")
+        lines.append("")
+        for w in ref_warnings:
+            lines.append(f"- {w}")
 
     # References match report
     if match_report:
@@ -151,7 +162,7 @@ def build_comment(technique, fields, match_report=None, new_citations=None):
         lines.append("")
         for w in new_weaknesses:
             url = build_weakness_link(w)
-            lines.append(f"- [Create weakness: {w}]({url})")
+            lines.append(f"- [`{w}`]({url})")
 
     # Reminder to add technique to solve-it.json under the selected objective
     objective = fields.get("Objective", "").strip()
@@ -161,7 +172,7 @@ def build_comment(technique, fields, match_report=None, new_citations=None):
         lines.append("")
         lines.append("### Next steps")
         lines.append("")
-        lines.append(f"Once this technique has been assigned an ID, you will also need to add it to the objective **\"{objective}\"** in `data/solve-it.json`.")
+        lines.append(f"Once this technique has been assigned an ID, you will also need to add it to the objective `{objective}` in `data/solve-it.json`.")
     elif objective == "Other (specify below)":
         other_objective = fields.get("Propose new objective", "").strip()
         if other_objective and other_objective != "_No response_":
@@ -170,7 +181,7 @@ def build_comment(technique, fields, match_report=None, new_citations=None):
             lines.append("")
             lines.append("### Next steps")
             lines.append("")
-            lines.append(f"A new objective was proposed: **\"{other_objective}\"**. Once this technique has been assigned an ID, a new objective entry will need to be created in `data/solve-it.json` and the technique added to it.")
+            lines.append(f"A new objective was proposed: `{other_objective}`. Once this technique has been assigned an ID, a new objective entry will need to be created in `data/solve-it.json` and the technique added to it.")
 
     lines.append("\n---")
     lines.append("*This comment was automatically generated. The technique ID (DFT-____) will be assigned during review.*")
@@ -194,8 +205,8 @@ def main():
 
     fields = parse_issue_body(body)
     project_root = os.path.join(os.path.dirname(__file__), '..', '..')
-    technique, match_report, new_citations = build_technique_json(fields, project_root)
-    comment = build_comment(technique, fields, match_report, new_citations)
+    technique, match_report, new_citations, ref_warnings = build_technique_json(fields, project_root)
+    comment = build_comment(technique, fields, match_report, new_citations, ref_warnings)
 
     if args.output:
         with open(args.output, 'w') as f:

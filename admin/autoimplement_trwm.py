@@ -22,7 +22,7 @@ import sys
 
 
 # Strict ID patterns — only allow expected format to prevent path traversal
-VALID_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,5}$')
+VALID_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,6}$')
 
 
 def run(cmd, **kwargs):

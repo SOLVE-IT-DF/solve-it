@@ -76,7 +76,7 @@ class CitationFiles:
     The ID is derived from the filename (e.g. DFCite-1001.bib -> DFCite-1001).
     """
 
-    CITE_ID_RE = re.compile(r'^DFCite-\d+$')
+    CITE_ID_RE = re.compile(r'^DFCite-\d{4,6}$')
 
     def __init__(self, cite_id: str, bibtex: Optional[str] = None, plaintext: Optional[str] = None):
         if not self.CITE_ID_RE.match(cite_id):
@@ -120,8 +120,8 @@ class Technique(BaseModel):
     @validator('id')
     def validate_id(cls, v: str) -> str:
         """Validate that the ID follows the expected format."""
-        if not v.startswith('DFT-') or not v[4:].isdigit():
-            raise ValueError(f"Technique ID must start with 'DFT-' followed by digits, got '{v}'")
+        if not v.startswith('DFT-') or not v[4:].isdigit() or not (4 <= len(v[4:]) <= 6):
+            raise ValueError(f"Technique ID must be 'DFT-' followed by 4-6 digits, got '{v}'")
         return v
 
     @validator('references')
@@ -161,8 +161,8 @@ class Weakness(BaseModel):
     @validator('id')
     def validate_id(cls, v: str) -> str:
         """Validate that the ID follows the expected format."""
-        if not v.startswith('DFW-') or not v[4:].isdigit():
-            raise ValueError(f"Weakness ID must start with 'DFW-' followed by digits, got '{v}'")
+        if not v.startswith('DFW-') or not v[4:].isdigit() or not (4 <= len(v[4:]) <= 6):
+            raise ValueError(f"Weakness ID must be 'DFW-' followed by 4-6 digits, got '{v}'")
         return v
 
     @validator('references')
@@ -190,8 +190,8 @@ class Mitigation(BaseModel):
     @validator('id')
     def validate_id(cls, v: str) -> str:
         """Validate that the ID follows the expected format."""
-        if not v.startswith('DFM-') or not v[4:].isdigit():
-            raise ValueError(f"Mitigation ID must start with 'DFM-' followed by digits, got '{v}'")
+        if not v.startswith('DFM-') or not v[4:].isdigit() or not (4 <= len(v[4:]) <= 6):
+            raise ValueError(f"Mitigation ID must be 'DFM-' followed by 4-6 digits, got '{v}'")
         return v
 
     @validator('references')

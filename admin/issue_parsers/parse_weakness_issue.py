@@ -43,11 +43,12 @@ def build_weakness_json(fields, project_root=None):
 
     ref_lines = lines_to_list(fields.get("References", ""))
     if ref_lines and project_root:
-        processed_refs, match_report, new_citations = process_reference_lines(ref_lines, project_root)
+        processed_refs, match_report, new_citations, ref_warnings = process_reference_lines(ref_lines, project_root)
     else:
         processed_refs = []
         match_report = []
         new_citations = []
+        ref_warnings = []
 
     weakness = {
         "id": "DFW-____",
@@ -60,7 +61,7 @@ def build_weakness_json(fields, project_root=None):
     weakness["mitigations"] = lines_to_list(fields.get("Existing mitigation IDs", ""))
     weakness["references"] = processed_refs
 
-    return weakness, match_report, new_citations
+    return weakness, match_report, new_citations, ref_warnings
 
 
 REPO_URL = "https://github.com/SOLVE-IT-DF/solve-it"
@@ -75,7 +76,7 @@ def build_mitigation_link(name, weakness_id=None):
     return f"{REPO_URL}/issues/new?{urlencode(params, quote_via=quote)}"
 
 
-def build_comment(weakness, fields, match_report=None, new_citations=None):
+def build_comment(weakness, fields, match_report=None, new_citations=None, ref_warnings=None):
     """Build the GitHub comment markdown."""
     lines = []
 
@@ -84,6 +85,16 @@ def build_comment(weakness, fields, match_report=None, new_citations=None):
     lines.append("```json")
     lines.append(json.dumps(weakness, indent=4))
     lines.append("```")
+
+    # Reference warnings
+    if ref_warnings:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### :warning: Reference warnings")
+        lines.append("")
+        for w in ref_warnings:
+            lines.append(f"- {w}")
 
     # References match report
     if match_report:
@@ -111,7 +122,7 @@ def build_comment(weakness, fields, match_report=None, new_citations=None):
         lines.append("")
         for m in new_mitigations:
             url = build_mitigation_link(m)
-            lines.append(f"- [Create mitigation: {m}]({url})")
+            lines.append(f"- [`{m}`]({url})")
 
     # Relevant techniques — remind user to link the weakness back
     relevant_techniques = lines_to_list(fields.get("Techniques this applies to", ""))
@@ -148,8 +159,8 @@ def main():
 
     fields = parse_issue_body(body)
     project_root = os.path.join(os.path.dirname(__file__), '..', '..')
-    weakness, match_report, new_citations = build_weakness_json(fields, project_root)
-    comment = build_comment(weakness, fields, match_report, new_citations)
+    weakness, match_report, new_citations, ref_warnings = build_weakness_json(fields, project_root)
+    comment = build_comment(weakness, fields, match_report, new_citations, ref_warnings)
 
     if args.output:
         with open(args.output, 'w') as f:

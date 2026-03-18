@@ -65,6 +65,16 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR_URL: ${{ steps.implement.outputs.pr_url }}
 
+    - name: Get changed files from PR
+      if: steps.check_pr.outputs.skip_validation == 'false'
+      id: changed
+      run: |
+        FILES=$(gh pr diff "$PR_URL" --name-only | grep '^data/' | tr '\n' ' ' || true)
+        echo "files=$FILES" >> "$GITHUB_OUTPUT"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_URL: ${{ steps.implement.outputs.pr_url }}
+
     - name: Run KB validation
       if: steps.check_pr.outputs.skip_validation == 'false'
       id: validate
@@ -72,7 +82,8 @@ jobs:
         python admin/validate_kb.py --verbose \
           --check-ontology \
           --markdown-summary kb_validation_summary.md \
-          --ontology-summary ontology_iri_report.md
+          --ontology-summary ontology_iri_report.md \
+          --changed-files ${{ steps.changed.outputs.files }}
         python -m pytest tests/ -v
       continue-on-error: true
 
@@ -86,6 +97,9 @@ jobs:
         fi
 
         BODY="$HEADER"$'\n\n'
+        if [ -f blank_relevance_alert.md ]; then
+          BODY+="$(cat blank_relevance_alert.md)"$'\n\n'
+        fi
         if [ -f kb_validation_summary.md ]; then
           BODY+="<details><summary>KB validation report</summary>"$'\n\n'
           BODY+="$(cat kb_validation_summary.md)"$'\n\n'

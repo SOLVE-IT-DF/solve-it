@@ -37,6 +37,7 @@ from parse_update_weakness_issue import apply_updates as apply_weakness_updates
 from parse_update_mitigation_issue import apply_updates as apply_mitigation_updates
 from update_utils import is_no_response, build_change_summary
 from solve_it_library import KnowledgeBase
+from solve_it_library.models import Technique, Weakness, Mitigation
 
 
 # Label → item type mapping
@@ -335,6 +336,10 @@ def main():
         if not real_path.startswith(real_dir + os.sep):
             print(f"Error: path traversal detected for {item_id}", file=sys.stderr)
             sys.exit(1)
+
+        # Round-trip through Pydantic to ensure JSON uses alias keys (e.g. INAC-EX not INAC_EX)
+        model_class = {"technique": Technique, "weakness": Weakness, "mitigation": Mitigation}[item_type]
+        proposed = model_class.model_validate(proposed).model_dump(by_alias=True)
 
         with open(filepath, 'w') as f:
             json.dump(proposed, f, indent=4)

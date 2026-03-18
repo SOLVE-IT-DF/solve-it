@@ -7,7 +7,7 @@ Defines the data models and validation for the SOLVE-IT knowledge base items
 
 import re
 from typing import List, Optional, Dict, Any
-from pydantic import BaseModel, Field, validator, root_validator
+from pydantic import BaseModel, Field, validator, root_validator, ConfigDict
 
 
 # --- Custom Exceptions ---
@@ -146,6 +146,8 @@ class Weakness(BaseModel):
         MISINT (Optional[str]): Flag for misinterpretation.
         references (Optional[List[str]]): Reference sources for this weakness.
     """
+    model_config = ConfigDict(populate_by_name=True)
+
     id: str = Field(..., description="Unique identifier for the weakness")
     name: str = Field(..., description="Name of the weakness - contains the primary description of what this weakness entails")
     description: str = Field("", description="Additional description (if available)")

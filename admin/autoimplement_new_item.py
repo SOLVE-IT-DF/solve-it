@@ -261,10 +261,59 @@ REPO_URL = "https://github.com/SOLVE-IT-DF/solve-it"
 REFERENCE_TEMPLATE = "1d_propose-new-reference-form.yml"
 
 
+def summarise_citation(raw_citation_text):
+    """Extract 'Author (Year) Short title' from a raw citation string.
+
+    Best-effort — falls back to a truncated version of the raw text.
+    """
+    text = raw_citation_text.strip()
+
+    # Try to extract surname (first word before comma) and a 4-digit year
+    surname_match = re.match(r'([A-Za-z\-]+)', text)
+    year_match = re.search(r'\b((?:19|20)\d{2})\b', text)
+
+    surname = surname_match.group(1) if surname_match else None
+    year = year_match.group(1) if year_match else None
+
+    # Try to find a title-like segment after the year or after author block.
+    # Common patterns: "...2015. Title here." or "...2015, May. Title here."
+    title_snippet = None
+    if year_match:
+        after_year = text[year_match.end():]
+        # Skip punctuation, month names, "May.", "In " etc.
+        title_match = re.search(r'[.,:;]\s*(?:(?:January|February|March|April|May|'
+                                r'June|July|August|September|October|November|December)'
+                                r'[.,:;]?\s*)?(.{10,})', after_year, re.IGNORECASE)
+        if title_match:
+            title_snippet = title_match.group(1).strip()
+            # Take up to the next period or 60 chars
+            period_pos = title_snippet.find('.')
+            if period_pos > 10:
+                title_snippet = title_snippet[:period_pos]
+            else:
+                title_snippet = title_snippet[:60].rstrip()
+
+    parts = []
+    if surname:
+        parts.append(surname)
+    if year:
+        parts.append(f"({year})")
+    if title_snippet:
+        parts.append(title_snippet)
+
+    if parts:
+        return ' '.join(parts)
+
+    # Fallback: truncated raw text
+    return text[:60].rstrip()
+
+
 def build_reference_form_url(raw_citation_text, issue_number, item_id):
     """Build a pre-filled URL for the 'Propose New Reference' issue form."""
+    summary = summarise_citation(raw_citation_text)
     params = {
         "template": REFERENCE_TEMPLATE,
+        "title": f"Propose new reference: {summary}",
         "citation-text": raw_citation_text,
         "notes": f"Required by issue #{issue_number} for {item_id}",
     }

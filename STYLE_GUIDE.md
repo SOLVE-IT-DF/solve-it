@@ -1,8 +1,6 @@
 # SOLVE-IT Style Guide
 
 
-
-
 ## General
 * **Spelling**: US English is used throughout.
   
@@ -32,8 +30,19 @@
    “As an investigator, I want to \[objective name\]…” must make sense when read aloud.  
 
 
-##  Style Guide for Technqiues
-* Todo
+##  Style Guide for Techniques
+
+### **Technique names**
+
+* Use **sentence case** — capitalize only the first word and proper nouns.  
+  	Example: Find potential digital evidence sources  
+* Begin with a **present-tense imperative verb** (e.g., Locate, Connect, Use, "Connect storage medium via hardware write blocker").
+
+### **Technique name and description “Investigator test”**
+
+* All techniques must pass the “investigator test”:  
+   “As an investigator, I want to \[technique name\]…” must make sense when read aloud.  
+
 
 ##  Style Guide for Weaknesses
 * Todo

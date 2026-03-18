@@ -12,9 +12,21 @@
         "DFM-1088"
     ],
     "references": [
-        "Pagani, F., Fedorov, O. and Balzarotti, D., 2019. Introducing the temporal dimension to memory forensics. ACM Transactions on Privacy and Security (TOPS), 22(2), 1-21.",
-        "Jenny Ottmann, Üsame Cengiz, Frank Breitinger, and Felix Freiling, 2023. As if Time Had Stopped – Checking Memory Dumps for Quasi-Instantaneous Consistency. In Proceedings of the Digital Forensics Research Conference USA (DFRWS USA), Baltimore, MD, July 2023.",
-        "Ottmann, J., Breitinger, F. and Freiling, F., 2024. An experimental assessment of inconsistencies in memory forensics. ACM Transactions on Privacy and Security (TOPS). 27, 2:1–2:29.",
-        "Rzepka, L., Ottmann, J., Freiling, F. and Baier, H., 2024. Causal Inconsistencies are Normal in Windows Memory Dumps (too). Digital Threats: Research and Practice."
+        {
+            "DFCite_id": "DFCite-1111",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1072",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1110",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1116",
+            "relevance_summary_280": ""
+        }
     ]
 }

@@ -13,6 +13,9 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/extension"
     ],
     "references": [
-        "Basis Technology (2015), Extension Mismatch Detector Module, https://sleuthkit.org/autopsy/docs/user-docs/3.1/extension_mismatch_detector_page.html"
+        {
+            "DFCite_id": "DFCite-1007",
+            "relevance_summary_280": ""
+        }
     ]
 }

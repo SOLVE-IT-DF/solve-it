@@ -2,6 +2,9 @@
     "id": "DFM-1014",
     "name": "Test and document changes made by the tools used",
     "references": [
-        "Hargreaves, C.J., 2009. Assessing the reliability of digital evidence from live investigations involving encryption. Chapter 5"
+        {
+            "DFCite_id": "DFCite-1062",
+            "relevance_summary_280": ""
+        }
     ]
 }

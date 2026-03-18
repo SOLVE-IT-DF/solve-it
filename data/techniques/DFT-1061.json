@@ -39,6 +39,9 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/ownerSID"
     ],
     "references": [
-        "Casey, E., Nelson, A. and Hyde, J., 2019. Standardization of file recovery classification and authentication. Digital Investigation, 31, p.100873."
+        {
+            "DFCite_id": "DFCite-1030",
+            "relevance_summary_280": ""
+        }
     ]
 }

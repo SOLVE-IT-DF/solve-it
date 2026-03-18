@@ -25,7 +25,13 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/rangeOffsetType"
     ],
     "references": [
-        "Basis Technology 2025, PhotoRec Carver Module, https://sleuthkit.org/autopsy/docs/user-docs/4.22.0/photorec_carver_page.html",
-        "Grenier (2023) PhotoRec, https://www.cgsecurity.org/wiki/PhotoRec"
+        {
+            "DFCite_id": "DFCite-1011",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1048",
+            "relevance_summary_280": ""
+        }
     ]
 }

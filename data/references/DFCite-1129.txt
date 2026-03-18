@@ -1,0 +1,1 @@
+Waits, C., Akinyele, J.A., Nolan, R. and Rogers, L., 2008. Computer forensics: results of live response inquiry vs. memory image analysis. CERT program, CMU/SEI-2008-TN-017.

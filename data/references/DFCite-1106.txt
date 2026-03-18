@@ -1,0 +1,1 @@
+Nikkel, B., 2009. Forensic analysis of GPT disks and GUID partition tables. Digital Investigation, 6(1-2), pp.39-47.

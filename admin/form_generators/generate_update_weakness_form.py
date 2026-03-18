@@ -96,7 +96,8 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: References")
     lines.append("      description: |")
-    lines.append("        The complete new list of references (one per line).")
+    lines.append("        The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.")
+    lines.append("        New citations will be automatically matched against existing references where possible.")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("      render: text")
 

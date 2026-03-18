@@ -23,12 +23,14 @@ class IDScanner:
         self.technique_ids: Set[int] = set()
         self.mitigation_ids: Set[int] = set()
         self.weakness_ids: Set[int] = set()
-        
+        self.citation_ids: Set[int] = set()
+
         # IDs found in GitHub issues/PRs but not yet in files
         # Format: {id: [(issue_number, title, type)]}
         self.reserved_technique_ids: Dict[int, List[Tuple[int, str, str]]] = {}
         self.reserved_mitigation_ids: Dict[int, List[Tuple[int, str, str]]] = {}
         self.reserved_weakness_ids: Dict[int, List[Tuple[int, str, str]]] = {}
+        self.reserved_citation_ids: Dict[int, List[Tuple[int, str, str]]] = {}
     
     def scan_local_files(self):
         """Scan local JSON files for existing IDs"""
@@ -61,7 +63,16 @@ class IDScanner:
                     if match:
                         self.weakness_ids.add(int(match.group(1)))
         
-        print(f"Found {len(self.technique_ids)} techniques, {len(self.mitigation_ids)} mitigations, {len(self.weakness_ids)} weaknesses")
+        # Scan citations (.bib and .txt files)
+        citation_dir = os.path.join(self.project_root, "data", "references")
+        if os.path.exists(citation_dir):
+            for filename in os.listdir(citation_dir):
+                if filename.startswith("DFCite-") and (filename.endswith(".bib") or filename.endswith(".txt")):
+                    match = re.match(r"DFCite-(\d+)\.(bib|txt)", filename)
+                    if match:
+                        self.citation_ids.add(int(match.group(1)))
+
+        print(f"Found {len(self.technique_ids)} techniques, {len(self.mitigation_ids)} mitigations, {len(self.weakness_ids)} weaknesses, {len(self.citation_ids)} citations")
     
     def scan_github_issues_prs(self):
         """Scan GitHub issues and PRs for ID assignments"""
@@ -145,9 +156,20 @@ class IDScanner:
                             if (number, title, item_type) not in self.reserved_weakness_ids[wid]:
                                 self.reserved_weakness_ids[wid].append((number, title, item_type))
             
+                    # Find citation IDs
+                    c_matches = re.findall(r'\bDFCite-(1\d{3})\b', text_to_search)
+                    for match in c_matches:
+                        cid = int(match)
+                        if cid not in self.citation_ids:
+                            if cid not in self.reserved_citation_ids:
+                                self.reserved_citation_ids[cid] = []
+                            if (number, title, item_type) not in self.reserved_citation_ids[cid]:
+                                self.reserved_citation_ids[cid].append((number, title, item_type))
+
             print(f"Found {len(self.reserved_technique_ids)} reserved technique IDs, " +
                   f"{len(self.reserved_mitigation_ids)} reserved mitigation IDs, " +
-                  f"{len(self.reserved_weakness_ids)} reserved weakness IDs in GitHub")
+                  f"{len(self.reserved_weakness_ids)} reserved weakness IDs, " +
+                  f"{len(self.reserved_citation_ids)} reserved citation IDs in GitHub")
             
         except FileNotFoundError:
             print("Warning: GitHub CLI (gh) not found.")
@@ -217,6 +239,7 @@ class IDScanner:
         report.append(f"  Techniques: {len(self.technique_ids)} IDs (DFT-{min(self.technique_ids) if self.technique_ids else 'N/A'} - DFT-{max(self.technique_ids) if self.technique_ids else 'N/A'})")
         report.append(f"  Mitigations: {len(self.mitigation_ids)} IDs (DFM-{min(self.mitigation_ids) if self.mitigation_ids else 'N/A'} - DFM-{max(self.mitigation_ids) if self.mitigation_ids else 'N/A'})")
         report.append(f"  Weaknesses: {len(self.weakness_ids)} IDs (DFW-{min(self.weakness_ids) if self.weakness_ids else 'N/A'} - DFW-{max(self.weakness_ids) if self.weakness_ids else 'N/A'})")
+        report.append(f"  Citations: {len(self.citation_ids)} IDs (DFCite-{min(self.citation_ids) if self.citation_ids else 'N/A'} - DFCite-{max(self.citation_ids) if self.citation_ids else 'N/A'})")
         report.append("")
         
         # Reserved IDs from GitHub
@@ -247,17 +270,27 @@ class IDScanner:
                     for number, title, item_type in sources:
                         display_title = title[:60] + "..." if len(title) > 60 else title
                         report.append(f"    DFW-{wid}: {item_type} #{number} - {display_title}")
-            
+
+            if self.reserved_citation_ids:
+                report.append("  Citations:")
+                for cid in sorted(self.reserved_citation_ids.keys()):
+                    sources = self.reserved_citation_ids[cid]
+                    for number, title, item_type in sources:
+                        display_title = title[:60] + "..." if len(title) > 60 else title
+                        report.append(f"    DFCite-{cid}: {item_type} #{number} - {display_title}")
+
             report.append("")
         
         # Find gaps and next available IDs
         technique_gaps = self.find_gaps(self.technique_ids, self.reserved_technique_ids)
         mitigation_gaps = self.find_gaps(self.mitigation_ids, self.reserved_mitigation_ids)
         weakness_gaps = self.find_gaps(self.weakness_ids, self.reserved_weakness_ids)
-        
+        citation_gaps = self.find_gaps(self.citation_ids, self.reserved_citation_ids)
+
         technique_next = self.find_next_available(self.technique_ids, self.reserved_technique_ids)
         mitigation_next = self.find_next_available(self.mitigation_ids, self.reserved_mitigation_ids)
         weakness_next = self.find_next_available(self.weakness_ids, self.reserved_weakness_ids)
+        citation_next = self.find_next_available(self.citation_ids, self.reserved_citation_ids)
         
         # Available IDs section
         report.append("Available IDs:")
@@ -293,11 +326,22 @@ class IDScanner:
         report.append(f"  Next available: DFW-{', DFW-'.join(map(str, weakness_next))}")
         report.append("")
         
+        report.append("CITATIONS:")
+        if citation_gaps:
+            report.append(f"  Available gaps: DFCite-{', DFCite-'.join(map(str, citation_gaps[:10]))}")
+            if len(citation_gaps) > 10:
+                report.append(f"  (and {len(citation_gaps) - 10} more gaps)")
+        else:
+            report.append("  No gaps found in sequence")
+        report.append(f"  Next available: DFCite-{', DFCite-'.join(map(str, citation_next))}")
+        report.append("")
+
         # Quick reference for next single ID
         report.append("QUICK REFERENCE - Next Single ID:")
         report.append(f"  Next Technique:  DFT-{technique_next[0] if technique_next else 'N/A'}")
         report.append(f"  Next Mitigation: DFM-{mitigation_next[0] if mitigation_next else 'N/A'}")
         report.append(f"  Next Weakness:   DFW-{weakness_next[0] if weakness_next else 'N/A'}")
+        report.append(f"  Next Citation:   DFCite-{citation_next[0] if citation_next else 'N/A'}")
         
         return "\n".join(report)
     

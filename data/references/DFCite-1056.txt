@@ -1,0 +1,1 @@
+Hargreaves, C. and Chivers, H., 2008, March. Recovery of encryption keys from memory using a linear scan. In 2008 Third International Conference on Availability, Reliability and Security (pp. 1369-1376). IEEE.

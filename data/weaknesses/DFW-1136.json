@@ -1,6 +1,6 @@
 {
     "id": "DFW-1136",
-    "name": "Not recovering data from a failed hard drive",
+    "name": "Data cannot be read from a device due to the device having failed physically",
     "INCOMP": "x",
     "INAC-EX": "",
     "INAC-AS": "",

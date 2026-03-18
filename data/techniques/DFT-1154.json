@@ -19,7 +19,13 @@
         "https://ontology.unifiedcyberontology.org/uco/core/confidence"
     ],
     "references": [
-        "Casey, E. and Jaquet-Chiffelle, D.O., 2019. Do identities matter?. Policing: A Journal of Policy and Practice, 13(1), pp.21-34.",
-        "Spichiger, H., 2025. Please mind the gap: A taxonomy for addressing the issue of linking person, account and device. Science & Justice, p.101314."
+        {
+            "DFCite_id": "DFCite-1027",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1119",
+            "relevance_summary_280": ""
+        }
     ]
 }

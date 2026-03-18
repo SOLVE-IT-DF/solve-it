@@ -37,7 +37,13 @@
         "https://ontology.solveit-df.org/solveit/observable/FileSet"
     ],
     "references": [
-        "Casey, E., Nelson, A. and Hyde, J., 2019. Standardization of file recovery classification and authentication. Digital Investigation, 31, p.100873.",
-        "Carrier, B., 2005. File system forensic analysis. Addison-Wesley Professional."
+        {
+            "DFCite_id": "DFCite-1030",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1024",
+            "relevance_summary_280": ""
+        }
     ]
 }

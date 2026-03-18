@@ -26,8 +26,17 @@
         "https://ontology.solveit-df.org/solveit/observable/Bitstream"
     ],
     "references": [
-        "Case, A. and Richard III, G. G., 2017. Memory forensics: The path forward. Digital investigation, 20, 23-33.",
-        "Latzo, T., Palutke, R. and Freiling, F., 2019. A universal taxonomy and survey of forensic memory acquisition techniques. Digital Investigation, 28, 56-69.",
-        "Kornblum, J.D., 2007. Using every part of the buffalo in Windows memory analysis. Digital Investigation, 4(1), pp.24-29."
+        {
+            "DFCite_id": "DFCite-1025",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1085",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1084",
+            "relevance_summary_280": ""
+        }
     ]
 }

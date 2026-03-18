@@ -11,7 +11,5 @@
     "mitigations": [
         "DFM-1004"
     ],
-    "references": [
-        "conv option -dd, https://www.ibm.com/docs/en/aix/7.2.0?topic=d-dd-command#dd__row-d3e19630"
-    ]
+    "references": []
 }

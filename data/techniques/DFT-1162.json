@@ -17,6 +17,9 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/Image"
     ],
     "references": [
-        "https://en.wikipedia.org/wiki/In-system_programming"
+        {
+            "DFCite_id": "DFCite-1136",
+            "relevance_summary_280": ""
+        }
     ]
 }

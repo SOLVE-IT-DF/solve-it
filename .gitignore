@@ -216,3 +216,6 @@ __marimo__/
 /.claude
 
 /.vscode
+
+# Generated repo info (now served via data.solveit-df.org)
+.repo_info/

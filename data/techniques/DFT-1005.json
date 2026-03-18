@@ -22,7 +22,13 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/location"
     ],
     "references": [
-        "Birzer, M.L., 2018. Crime Scene Search. Introduction to Criminal Investigation, p.35.",
-        "Forensic Science Regulator (2025) Incident scene examination (FSR-GUI-0006). GOV.UK. Available at: https://www.gov.uk/government/publications/incident-scene-examination-fsr-gui-0006"
+        {
+            "DFCite_id": "DFCite-1018",
+            "relevance_summary_280": "Provides the definition used in the description of this technique."
+        },
+        {
+            "DFCite_id": "DFCite-1044",
+            "relevance_summary_280": "Provides an expanded definition considering the holistic approach of crime scene examination."
+        }
     ]
 }

@@ -86,6 +86,10 @@ def create_rdf_graph(kb, include_objectives=True):
     logger.info("Adding mitigations to graph...")
     add_mitigations_to_graph(g, kb)
 
+    # Add citations
+    logger.info("Adding citations to graph...")
+    add_citations_to_graph(g, kb)
+
     # Add objectives if requested
     if include_objectives:
         logger.info("Adding objectives to graph...")
@@ -131,8 +135,13 @@ def add_techniques_to_graph(g, kb):
             g.add((tech_uri, SOLVEIT_CORE.hasExample, Literal(example)))
 
         # Add references
-        for reference in tech.get('references', []):
-            g.add((tech_uri, SOLVEIT_CORE.hasReference, Literal(reference)))
+        for ref in tech.get('references', []):
+            if isinstance(ref, dict) and "DFCite_id" in ref:
+                cite_id = ref["DFCite_id"]
+                cite_uri = SOLVEIT_DATA[f"citation{cite_id}"]
+                g.add((tech_uri, SOLVEIT_CORE.hasReference, cite_uri))
+            else:
+                g.add((tech_uri, SOLVEIT_CORE.hasReference, Literal(str(ref))))
 
         # Add subtechnique relationships
         for sub_id in tech.get('subtechniques', []):
@@ -204,8 +213,13 @@ def add_weaknesses_to_graph(g, kb):
             g.add((weak_uri, SOLVEIT_CORE.hasPotentialMitigation, mitigation_uri))
 
         # Add references
-        for reference in weak.get('references', []):
-            g.add((weak_uri, SOLVEIT_CORE.hasReference, Literal(reference)))
+        for ref in weak.get('references', []):
+            if isinstance(ref, dict) and "DFCite_id" in ref:
+                cite_id = ref["DFCite_id"]
+                cite_uri = SOLVEIT_DATA[f"citation{cite_id}"]
+                g.add((weak_uri, SOLVEIT_CORE.hasReference, cite_uri))
+            else:
+                g.add((weak_uri, SOLVEIT_CORE.hasReference, Literal(str(ref))))
 
 
 def add_mitigations_to_graph(g, kb):
@@ -238,8 +252,25 @@ def add_mitigations_to_graph(g, kb):
             g.add((mit_uri, SOLVEIT_CORE.linksToTechnique, technique_uri))
 
         # Add references
-        for reference in mit.get('references', []):
-            g.add((mit_uri, SOLVEIT_CORE.hasReference, Literal(reference)))
+        for ref in mit.get('references', []):
+            if isinstance(ref, dict) and "DFCite_id" in ref:
+                cite_id = ref["DFCite_id"]
+                cite_uri = SOLVEIT_DATA[f"citation{cite_id}"]
+                g.add((mit_uri, SOLVEIT_CORE.hasReference, cite_uri))
+            else:
+                g.add((mit_uri, SOLVEIT_CORE.hasReference, Literal(str(ref))))
+
+
+def add_citations_to_graph(g, kb):
+    """Add all citations to the RDF graph as Citation individuals."""
+    for cite_id, citation in kb.citations.items():
+        cite_uri = SOLVEIT_DATA[f"citation{cite_id}"]
+        g.add((cite_uri, RDF.type, SOLVEIT_CORE.Citation))
+        g.add((cite_uri, RDFS.label, Literal(cite_id)))
+        g.add((cite_uri, SOLVEIT_CORE.citationID, Literal(cite_id)))
+        g.add((cite_uri, SOLVEIT_CORE.citationPlaintext, Literal(citation.get('plaintext', ''))))
+        if citation.get('bibtex'):
+            g.add((cite_uri, SOLVEIT_CORE.citationBibtex, Literal(citation['bibtex'])))
 
 
 def add_objectives_to_graph(g, kb):

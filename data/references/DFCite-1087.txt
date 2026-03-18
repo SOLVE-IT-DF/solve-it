@@ -1,0 +1,1 @@
+Leschke, T.R. and Nicholas, C., 2013, October. Change-link 2.0: a digital forensic tool for visualizing changes to shadow volume data. In Proceedings of the Tenth Workshop on Visualization for Cyber Security (pp. 17-24).

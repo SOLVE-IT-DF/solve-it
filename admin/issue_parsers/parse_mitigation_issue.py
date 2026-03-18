@@ -11,13 +11,27 @@ Usage:
 
 import argparse
 import json
+import os
 import sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from parse_technique_issue import parse_issue_body, lines_to_list
+from solve_it_library.reference_matching import process_reference_lines
 
 
-def build_mitigation_json(fields):
-    """Build a SOLVE-IT mitigation JSON dict from parsed form fields."""
+def build_mitigation_json(fields, project_root=None):
+    """Build a SOLVE-IT mitigation JSON dict from parsed form fields.
+
+    Returns (mitigation_dict, match_report, new_citations).
+    """
+    ref_lines = lines_to_list(fields.get("References", ""))
+    if ref_lines and project_root:
+        processed_refs, match_report, new_citations = process_reference_lines(ref_lines, project_root)
+    else:
+        processed_refs = []
+        match_report = []
+        new_citations = []
+
     mitigation = {
         "id": "DFM-____",
         "name": fields.get("Mitigation name", ""),
@@ -27,12 +41,12 @@ def build_mitigation_json(fields):
     if technique and technique != "_No response_":
         mitigation["technique"] = technique
 
-    mitigation["references"] = lines_to_list(fields.get("References", ""))
+    mitigation["references"] = processed_refs
 
-    return mitigation
+    return mitigation, match_report, new_citations
 
 
-def build_comment(mitigation, fields):
+def build_comment(mitigation, fields, match_report=None, new_citations=None):
     """Build the GitHub comment markdown."""
     lines = []
 
@@ -41,6 +55,20 @@ def build_comment(mitigation, fields):
     lines.append("```json")
     lines.append(json.dumps(mitigation, indent=4))
     lines.append("```")
+
+    # References match report
+    if match_report:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### References")
+        lines.append("")
+        lines.append("The following references were matched/created:")
+        lines.append("")
+        lines.extend(match_report)
+        if new_citations:
+            lines.append("")
+            lines.append("Please edit the `relevance_summary_280` fields (max 280 chars) when creating the PR.")
 
     # Relevant weaknesses — remind user to link the mitigation back
     existing_weaknesses = lines_to_list(fields.get("Existing weakness IDs", ""))
@@ -76,8 +104,9 @@ def main():
         body = args.issue_body
 
     fields = parse_issue_body(body)
-    mitigation = build_mitigation_json(fields)
-    comment = build_comment(mitigation, fields)
+    project_root = os.path.join(os.path.dirname(__file__), '..', '..')
+    mitigation, match_report, new_citations = build_mitigation_json(fields, project_root)
+    comment = build_comment(mitigation, fields, match_report, new_citations)
 
     if args.output:
         with open(args.output, 'w') as f:

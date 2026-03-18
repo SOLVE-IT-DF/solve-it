@@ -17,6 +17,9 @@
         "https://ontology.unifiedcyberontology.org/uco/core/confidence"
     ],
     "references": [
-        "Casey, E., 2011. Digital evidence and computer crime: Forensic science, computers, and the internet. Academic press, Section 8.1.3"
+        {
+            "DFCite_id": "DFCite-1029",
+            "relevance_summary_280": ""
+        }
     ]
 }

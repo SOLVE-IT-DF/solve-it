@@ -3,6 +3,9 @@
     "name": "Use a SyncTriage style approach to determine existence other synchronized devices",
     "technique": "DFT-1007",
     "references": [
-        "Hargreaves, C. and Marshall, A., 2019. SyncTriage: Using synchronisation artefacts to optimise acquisition order. Digital Investigation, 28, pp.S134-S140."
+        {
+            "DFCite_id": "DFCite-1057",
+            "relevance_summary_280": ""
+        }
     ]
 }

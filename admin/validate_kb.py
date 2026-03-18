@@ -24,7 +24,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from pydantic import ValidationError
-from solve_it_library.models import Technique, Weakness, Mitigation, Objective
+from solve_it_library.models import Technique, Weakness, Mitigation, Objective, CitationFiles
+from solve_it_library.citation_utils import find_inline_citations
 from solve_it_library.ontology_utils import OntologyLookup, SOLVEIT_ONTOLOGY_DEFAULT_URL
 
 
@@ -135,8 +136,8 @@ def _load_items(directory: Path, model_class, label: str, result: ValidationResu
         for key in sorted(extra):
             result.fail(f"{fp.name} has unknown field \"{key}\" (typo?)")
 
-        # Empty name
-        if not (data.get("name") or "").strip():
+        # Empty name (skip for models without a name field, e.g. Citation)
+        if "name" in valid_keys and not (data.get("name") or "").strip():
             result.fail(f"{fp.name} has empty/missing name")
 
         items[item_id] = data
@@ -147,14 +148,44 @@ def _load_items(directory: Path, model_class, label: str, result: ValidationResu
 
 def phase1_data_loading(
     project_root: Path, result: ValidationResult, verbose: bool
-) -> Tuple[Dict, Dict, Dict, List[Dict]]:
-    """Load all data and return (techniques, weaknesses, mitigations, objectives)."""
+) -> Tuple[Dict, Dict, Dict, List[Dict], Dict]:
+    """Load all data and return (techniques, weaknesses, mitigations, objectives, citations)."""
 
     data_dir = project_root / "data"
 
     techniques = _load_items(data_dir / "techniques", Technique, "techniques", result, verbose)
     weaknesses = _load_items(data_dir / "weaknesses", Weakness, "weaknesses", result, verbose)
     mitigations = _load_items(data_dir / "mitigations", Mitigation, "mitigations", result, verbose)
+
+    # Load citations from .bib/.txt files
+    refs_dir = data_dir / "references"
+    citations: Dict[str, Dict[str, Any]] = {}
+    if refs_dir.exists():
+        cite_ids = set()
+        for fp in refs_dir.iterdir():
+            if fp.name.startswith("DFCite-") and fp.suffix in (".bib", ".txt"):
+                cite_ids.add(fp.stem)
+        for cite_id in sorted(cite_ids):
+            bibtex = None
+            plaintext = None
+            bib_path = refs_dir / f"{cite_id}.bib"
+            txt_path = refs_dir / f"{cite_id}.txt"
+            if bib_path.exists():
+                bibtex = bib_path.read_text(encoding="utf-8").strip()
+            if txt_path.exists():
+                plaintext = txt_path.read_text(encoding="utf-8").strip()
+            try:
+                cf = CitationFiles(cite_id, bibtex=bibtex, plaintext=plaintext)
+                citations[cite_id] = {"bibtex": cf.bibtex, "plaintext": cf.plaintext}
+            except ValueError as exc:
+                result.fail(f"Citation error for {cite_id}: {exc}")
+        # Check for stray .json files that should have been migrated
+        json_files = list(refs_dir.glob("DFCite-*.json"))
+        if json_files:
+            result.fail(f"Found {len(json_files)} old-format .json citation files in data/references/ — migrate to .bib/.txt format")
+        result.pass_(f"Loaded {len(citations)} citations", verbose)
+    else:
+        result.warn("No data/references/ directory found")
 
     # Load solve-it.json objectives
     objectives: List[Dict[str, Any]] = []
@@ -184,7 +215,7 @@ def phase1_data_loading(
     except (json.JSONDecodeError, OSError) as exc:
         result.fail(f"Failed to load solve-it.json: {exc}")
 
-    return techniques, weaknesses, mitigations, objectives
+    return techniques, weaknesses, mitigations, objectives, citations
 
 
 # ── Phase 1b: Deprecated ID format check ─────────────────────────────────────
@@ -291,12 +322,50 @@ def phase1b_deprecated_ids(
     if bad == 0:
         result.pass_("No deprecated (T/W/M) IDs found — all use DFT-/DFW-/DFM- format", verbose)
 
+    # Check for old-format references (plain strings or list tuples instead of dicts)
+    old_ref_bad = 0
+    for items, label in [
+        (techniques, "technique"),
+        (weaknesses, "weakness"),
+        (mitigations, "mitigation"),
+    ]:
+        for item_id, data in items.items():
+            for ref in data.get("references", []):
+                if isinstance(ref, str):
+                    result.fail(
+                        f"{item_id} has old-format reference (plain string instead of "
+                        f"{{DFCite_id, relevance_summary_280}} dict): \"{ref[:80]}\""
+                    )
+                    old_ref_bad += 1
+                elif isinstance(ref, list):
+                    result.fail(
+                        f"{item_id} has old-format reference (list instead of "
+                        f"{{DFCite_id, relevance_summary_280}} dict): {ref!r}"
+                    )
+                    old_ref_bad += 1
+    # Also check objectives
+    for obj in objectives:
+        for ref in obj.get("references", []):
+            if isinstance(ref, str):
+                result.fail(
+                    f"Objective \"{obj.get('name', '?')}\" has old-format reference (plain string): \"{ref[:80]}\""
+                )
+                old_ref_bad += 1
+            elif isinstance(ref, list):
+                result.fail(
+                    f"Objective \"{obj.get('name', '?')}\" has old-format reference (list): {ref!r}"
+                )
+                old_ref_bad += 1
+    if old_ref_bad == 0:
+        result.pass_("No old-format references found — all use {DFCite_id, relevance_summary_280} dicts", verbose)
+
 
 # ── Phase 2: Cross-reference integrity ────────────────────────────────────────
 
 def phase2_cross_references(
     techniques: Dict, weaknesses: Dict, mitigations: Dict, objectives: List[Dict],
     result: ValidationResult, verbose: bool,
+    citations: Optional[Dict] = None,
 ):
     tech_ids = set(techniques.keys())
     weak_ids = set(weaknesses.keys())
@@ -401,6 +470,50 @@ def phase2_cross_references(
             result.warn(f"Technique {tid} appears in multiple objectives: {', '.join(objs)}")
     else:
         result.pass_("No techniques shared across objectives", verbose)
+
+    # Citation cross-reference check
+    if citations is not None:
+        citation_ids = set(citations.keys())
+        bad = 0
+        for items, label in [
+            (techniques, "Technique"),
+            (weaknesses, "Weakness"),
+            (mitigations, "Mitigation"),
+        ]:
+            for item_id, data in items.items():
+                for ref in data.get("references", []):
+                    if isinstance(ref, dict) and "DFCite_id" in ref:
+                        cite_id = ref["DFCite_id"]
+                        if cite_id not in citation_ids:
+                            result.fail(f"{label} {item_id} references non-existent citation {cite_id}")
+                            bad += 1
+        for obj in objectives:
+            for ref in obj.get("references", []):
+                if isinstance(ref, dict) and "DFCite_id" in ref:
+                    cite_id = ref["DFCite_id"]
+                    if cite_id not in citation_ids:
+                        result.fail(f"Objective \"{obj.get('name', '?')}\" references non-existent citation {cite_id}")
+                        bad += 1
+        if bad == 0:
+            result.pass_("All citation references (DFCite-xxxx) exist in data/references/", verbose)
+
+        # Inline citation check: [DFCite-xxxx] markers in text fields
+        inline_bad = 0
+        text_fields = ["description", "details", "name"]
+        for items, label in [
+            (techniques, "Technique"),
+            (weaknesses, "Weakness"),
+            (mitigations, "Mitigation"),
+        ]:
+            for item_id, data in items.items():
+                for field in text_fields:
+                    text = data.get(field, "") or ""
+                    for cite_id in find_inline_citations(text):
+                        if cite_id not in citation_ids:
+                            result.fail(f"{label} {item_id} field \"{field}\" has inline citation [{cite_id}] that does not exist")
+                            inline_bad += 1
+        if inline_bad == 0:
+            result.pass_("All inline [DFCite-xxxx] citations in text fields exist in data/references/", verbose)
 
 
 # ── Phase 3: ASTM error class flags ──────────────────────────────────────────
@@ -531,6 +644,7 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
 def phase5_completeness(
     techniques: Dict, weaknesses: Dict, mitigations: Dict, objectives: List[Dict],
     result: ValidationResult, verbose: bool,
+    citations: Optional[Dict] = None,
 ):
     # Techniques with empty/missing description
     for tid, t in techniques.items():
@@ -597,6 +711,39 @@ def phase5_completeness(
         if tid not in objective_techniques and tid not in is_subtechnique:
             result.warn(f"Technique {tid} is not listed in any objective")
 
+    # Citation completeness checks
+    if citations is not None:
+        # Check relevance_summary_280: warn if empty, fail if > 280 chars
+        for items, label in [
+            (techniques, "Technique"),
+            (weaknesses, "Weakness"),
+            (mitigations, "Mitigation"),
+        ]:
+            for item_id, data in items.items():
+                for ref in data.get("references", []):
+                    if isinstance(ref, dict) and "DFCite_id" in ref:
+                        summary = ref.get("relevance_summary_280", "").strip()
+                        if not summary:
+                            result.warn(f"{label} {item_id} has empty relevance_summary for {ref['DFCite_id']}")
+                        elif len(summary) > 280:
+                            result.fail(f"{label} {item_id} has relevance_summary > 280 chars ({len(summary)}) for {ref['DFCite_id']}")
+
+        # Orphaned citations
+        referenced_citations = set()
+        for items in [techniques, weaknesses, mitigations]:
+            for data in items.values():
+                for ref in data.get("references", []):
+                    if isinstance(ref, dict) and "DFCite_id" in ref:
+                        referenced_citations.add(ref["DFCite_id"])
+        for obj in objectives:
+            for ref in obj.get("references", []):
+                if isinstance(ref, dict) and "DFCite_id" in ref:
+                    referenced_citations.add(ref["DFCite_id"])
+
+        for cite_id in citations:
+            if cite_id not in referenced_citations:
+                result.fail(f"Orphaned citation {cite_id} (not referenced by any T/W/M/Objective)")
+
     # Summary statistics
     total = len(techniques)
     has_weaknesses = sum(1 for t in techniques.values() if t.get("weaknesses"))
@@ -605,11 +752,13 @@ def phase5_completeness(
         1 for t in techniques.values()
         if t.get("CASE_input_classes") or t.get("CASE_output_classes")
     )
+    citation_count = len(citations) if citations else 0
     result.pass_(
         f"Completeness stats: {total} techniques, "
         f"{has_description} with description, "
         f"{has_weaknesses} with weaknesses, "
-        f"{has_case} with CASE classes",
+        f"{has_case} with CASE classes, "
+        f"{citation_count} citations",
         verbose=True,  # always show stats
     )
 
@@ -619,6 +768,7 @@ def phase5_completeness(
 GENERATORS = [
     ("stat_summary", [sys.executable, "reporting_scripts/generate_stat_summary.py"], False),
     ("tsv (techniques)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-t"], False),
+    ("tsv (weaknesses)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-w"], False),
     ("tsv (techniques long)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-t", "-l"], False),
     ("tsv (techniques by obj)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-t2"], False),
     ("tsv (weaknesses)", [sys.executable, "reporting_scripts/generate_tsv_from_kb.py", "-w"], False),
@@ -630,6 +780,7 @@ GENERATORS = [
     ("excel", [sys.executable, "reporting_scripts/generate_excel_from_kb.py", "-o", "{tmp}/test.xlsx"], True),
     ("evaluation", [sys.executable, "reporting_scripts/generate_evaluation.py", "-o", "{tmp}/test_eval.xlsx"], True),
     ("evaluation (specific)", [sys.executable, "reporting_scripts/generate_evaluation.py", "DFT-1012", "DFT-1002", "DFT-1025", "DFT-1042", "-o", "{tmp}/test_eval2.xlsx"], True),
+
     ("html", [sys.executable, "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--output", "{tmp}/test.html"], True),
     ("html (custom)", [sys.executable, "reporting_scripts/generate_html_from_kb.py", "--local", ".", "--custom", "--output", "{tmp}/test_custom.html"], True),
     ("rdf", [sys.executable, "reporting_scripts/generate_rdf_from_kb.py", "--output-dir", "{tmp}", "--format", "both"], True),
@@ -747,6 +898,7 @@ WARNING_CATEGORIES = [
     ("Todo markers", "contains todo marker"),
     ("Not in any objective", "is not listed in any objective"),
     ("Ontology IRI not found", "not found in loaded ontologies"),
+    ("Empty relevance summary", "has empty relevance_summary"),
 ]
 
 # Groups for organising pass/fail checks in the summary.
@@ -760,6 +912,7 @@ CHECK_GROUPS = [
     ]),
     ("ID format", [
         ("No deprecated T/W/M IDs", "No deprecated", "T/W/M"),
+        ("No old-format references", "No old-format plain-string references"),
     ]),
     ("Cross-reference integrity", [
         ("Technique → weakness refs", "technique -> weakness"),
@@ -770,6 +923,7 @@ CHECK_GROUPS = [
         ("No duplicate references", "No duplicate references"),
         ("No self-referencing subtechniques", "No self-referencing"),
         ("No duplicate techniques in objectives", "No duplicate techniques"),
+        ("Citation references valid", "citation references", "DFCite"),
     ]),
     ("Validation checks", [
         ("ASTM error class flags", "ASTM error class"),
@@ -976,7 +1130,7 @@ def main():
 
     print_phase("Phase 1: Data loading")
     f0, w0 = len(result.fails), len(result.warnings)
-    techniques, weaknesses, mitigations, objectives = phase1_data_loading(
+    techniques, weaknesses, mitigations, objectives, citations = phase1_data_loading(
         PROJECT_ROOT, result, args.verbose
     )
     phase_ok_check(f0, w0)
@@ -990,7 +1144,7 @@ def main():
 
     print_phase("Phase 2: Cross-reference integrity")
     f0, w0 = len(result.fails), len(result.warnings)
-    phase2_cross_references(techniques, weaknesses, mitigations, objectives, result, args.verbose)
+    phase2_cross_references(techniques, weaknesses, mitigations, objectives, result, args.verbose, citations=citations)
     phase_ok_check(f0, w0)
 
     print_phase("Phase 3: ASTM error class flags")
@@ -1005,7 +1159,7 @@ def main():
 
     print_phase("Phase 5: Completeness warnings")
     f0, w0 = len(result.fails), len(result.warnings)
-    phase5_completeness(techniques, weaknesses, mitigations, objectives, result, args.verbose)
+    phase5_completeness(techniques, weaknesses, mitigations, objectives, result, args.verbose, citations=citations)
     phase_ok_check(f0, w0)
 
     print_phase("Phase 5b: Issue form sync")

@@ -19,8 +19,17 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/hash"
     ],
     "references": [
-        "Kessler, G.C., 2016. The impact of MD5 file hash collisions on digital forensic imaging. Journal of digital forensics, security and law, 11(4), p.9.",
-        "Kessler GC. The impact of SHA-1 file hash collisions on digital forensic imaging: A follow-up experiment. Journal of Digital Forensics, Security and Law. 2016;11(4):10.",
-        "Lyle, J., 2002. Testing disk imaging tools. DFRWS USA 2002, https://dfrws.org/wp-content/uploads/2019/06/2002_USA_paper-testing_disk_imaging_tools.pdf"
+        {
+            "DFCite_id": "DFCite-1083",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1081",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1088",
+            "relevance_summary_280": ""
+        }
     ]
 }

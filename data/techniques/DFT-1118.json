@@ -21,6 +21,9 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/File"
     ],
     "references": [
-        "Autopsy Interesting File module, https://sleuthkit.org/autopsy/docs/user-docs/3.1/interesting_page.html"
+        {
+            "DFCite_id": "DFCite-1006",
+            "relevance_summary_280": ""
+        }
     ]
 }

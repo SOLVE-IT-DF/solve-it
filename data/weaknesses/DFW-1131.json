@@ -13,7 +13,13 @@
         "DFM-1112"
     ],
     "references": [
-        "Hargreaves, C., Nelson, A. and Casey, E., 2024. An abstract model for digital forensic analysis tools-A foundation for systematic error mitigation analysis. Forensic Science International: Digital Investigation, 48, p.301679.",
-        "Magazinius, J., Rios, B.K. and Sabelfeld, A., 2013, November. Polyglots: crossing origins by crossing formats. In Proceedings of the 2013 ACM SIGSAC conference on Computer & communications security (pp. 753-764)."
+        {
+            "DFCite_id": "DFCite-1060",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1090",
+            "relevance_summary_280": ""
+        }
     ]
 }

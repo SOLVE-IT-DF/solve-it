@@ -2,6 +2,9 @@
     "id": "DFM-1061",
     "name": "Use digital stratigraphy to attempt to attribute data within a specific file system",
     "references": [
-        "Schneider, J., Eichhorn, M., Dreier, L.M. and Hargreaves, C., 2024. Applying digital stratigraphy to the problem of recycled storage media. Forensic Science International: Digital Investigation, 49, p.301761."
+        {
+            "DFCite_id": "DFCite-1117",
+            "relevance_summary_280": ""
+        }
     ]
 }

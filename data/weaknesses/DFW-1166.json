@@ -12,6 +12,9 @@
         "DFM-1123"
     ],
     "references": [
-        "Pereira, M.T., 2009. Forensic analysis of the Firefox 3 Internet history and recovery of deleted SQLite records. Digital Investigation, 5(3-4), pp.93-103."
+        {
+            "DFCite_id": "DFCite-1113",
+            "relevance_summary_280": ""
+        }
     ]
 }

@@ -550,38 +550,33 @@ if __name__ == '__main__':
         #   Write references
         # ----------------------------------------------------------------------------------------------------------------
 
-        # build big refs dict:
+        # build big refs dict: display_text -> [source_ids]
         references = {}
+
+        def _collect_refs(ref_list, source_id):
+            for ref in (ref_list or []):
+                if isinstance(ref, dict) and "DFCite_id" in ref:
+                    display_text = kb.get_citation_display_text(ref["DFCite_id"])
+                else:
+                    display_text = str(ref)
+                if display_text in references:
+                    if source_id not in references[display_text]:
+                        references[display_text].append(source_id)
+                else:
+                    references[display_text] = [source_id]
+
         # References from Technique
-        technique_refs = kb.get_technique(each_technique_id).get('references') or []
-        for each_reference in technique_refs:
-            if each_reference in references:
-                if each_technique_id not in references[each_reference]:
-                    references[each_reference].append(each_technique_id)
-            else:
-                references[each_reference] = [each_technique_id,]
+        _collect_refs(kb.get_technique(each_technique_id).get('references'), each_technique_id)
 
         # References from weaknesses within technique
         technique_weaknesses = kb.get_technique(each_technique_id).get('weaknesses', [])
         for each_weakness_id in technique_weaknesses:
-            weakness_refs = kb.get_weakness(each_weakness_id).get('references') or []
-            for each_reference in weakness_refs:
-                if each_reference in references:
-                    if each_weakness_id not in references[each_reference]:
-                        references[each_reference].append(each_weakness_id)
-                else:
-                    references[each_reference] = [each_weakness_id, ]
+            _collect_refs(kb.get_weakness(each_weakness_id).get('references'), each_weakness_id)
 
         # References from mitigations within technique
         tech_mits = mits_written
         for each_mit_id in tech_mits:
-            mitigation_refs = kb.get_mitigation(each_mit_id).get('references') or []
-            for each_reference in mitigation_refs:
-                if each_reference in references:
-                    if each_mit_id not in references[each_reference]:
-                        references[each_reference].append(each_mit_id)
-                else:
-                    references[each_reference] = [each_mit_id,]
+            _collect_refs(kb.get_mitigation(each_mit_id).get('references'), each_mit_id)
 
 
         # write the header
@@ -591,7 +586,6 @@ if __name__ == '__main__':
 
         # write the actual references, with indication as to whether they came from T, E or M
         for each_reference in references:
-            # worksheet.setrow(refs_start+i+1, 100)
             worksheet.merge_range("B" + str(refs_start+i+1) + ":H" + str(refs_start+i+1), "")
             worksheet.write_string(refs_start + i, 1, each_reference, cell_format=technique_list_format)
             worksheet.write_string(refs_start + i, 8, str(references.get(each_reference)), cell_format=technique_list_format)

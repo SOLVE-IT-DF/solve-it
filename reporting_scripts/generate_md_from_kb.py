@@ -202,7 +202,7 @@ def write_all_technique_files(kb, outpath, ontology=None):
 
             if kb.should_display_field('description'):
                 technique_md_file.write(f"**Description:**\n\n")
-                technique_md_file.write(f"{technique.get('description')}\n\n")
+                technique_md_file.write(f"{kb.resolve_inline_citations(technique.get('description'))}\n\n")
 
             if kb.should_display_field('synonyms'):
                 technique_md_file.write(f"**Synonyms:**\n\n")
@@ -212,7 +212,7 @@ def write_all_technique_files(kb, outpath, ontology=None):
 
             if kb.should_display_field('details'):
                 technique_md_file.write(f"**Details:**\n\n")
-                technique_md_file.write(f"{technique.get('details')}\n\n")
+                technique_md_file.write(f"{kb.resolve_inline_citations(technique.get('details'))}\n\n")
 
             if kb.should_display_field('subtechniques'):
                 technique_md_file.write(f"**Subtechniques:**\n\n")
@@ -285,8 +285,16 @@ def write_all_technique_files(kb, outpath, ontology=None):
 
             if kb.should_display_field('references'):
                 technique_md_file.write(f"**References:**\n\n")
-                for each_reference in technique.get('references'):
-                    technique_md_file.write(f"- {each_reference}\n")
+                for ref in technique.get('references', []):
+                    if isinstance(ref, dict) and "DFCite_id" in ref:
+                        display_text = kb.get_citation_display_text(ref["DFCite_id"])
+                        relevance = ref.get("relevance_summary_280", "").strip()
+                        if relevance:
+                            technique_md_file.write(f"- {display_text}. *Relevance: {relevance}*\n")
+                        else:
+                            technique_md_file.write(f"- {display_text}\n")
+                    else:
+                        technique_md_file.write(f"- {ref}\n")
                 technique_md_file.write(f"\n\n")
 
             # Add content from SOLVE-IT Extensions
@@ -311,7 +319,7 @@ def write_all_weakness_files(kb, outpath):
             weakness_md_file.write(f"# {each_weakness_id}\n\n")
             weakness_md_file.write(f"**Name:** {weakness.get('name')}\n\n")
             weakness_md_file.write(f"**Weakness classes:** {get_weakness_categories(weakness)}\n\n")
-            weakness_md_file.write(f"**Details:** {weakness.get('details')}\n\n")
+            weakness_md_file.write(f"**Details:** {kb.resolve_inline_citations(weakness.get('details'))}\n\n")
 
             # Find and list techniques that reference this weakness
             techniques_with_weakness = []
@@ -347,8 +355,16 @@ def write_all_weakness_files(kb, outpath):
 
             # This adds all the references
             weakness_md_file.write(f"**References:**\n\n")
-            for each_reference in weakness.get('references'):
-                weakness_md_file.write(f"- {each_reference}\n")
+            for ref in weakness.get('references', []):
+                if isinstance(ref, dict) and "DFCite_id" in ref:
+                    display_text = kb.get_citation_display_text(ref["DFCite_id"])
+                    relevance = ref.get("relevance_summary_280", "").strip()
+                    if relevance:
+                        weakness_md_file.write(f"- {display_text}. *Relevance: {relevance}*\n")
+                    else:
+                        weakness_md_file.write(f"- {display_text}\n")
+                else:
+                    weakness_md_file.write(f"- {ref}\n")
             weakness_md_file.write(f"\n\n")
 
             # Add content from SOLVE-IT Extensions
@@ -372,7 +388,7 @@ def write_all_mitigation_files(kb, outpath):
             mitigation_md_file.write(f"[< back to main](../solve-it.md)\n")
             mitigation_md_file.write(f"# {each_mitigation_id}\n\n")
             mitigation_md_file.write(f"**Name:** {mitigation.get('name')}\n\n")
-            mitigation_md_file.write(f"**Details:** {mitigation.get('details')}\n\n")
+            mitigation_md_file.write(f"**Details:** {kb.resolve_inline_citations(mitigation.get('details'))}\n\n")
 
             # Add technique reference if present
             if mitigation.get('technique'):
@@ -399,8 +415,16 @@ def write_all_mitigation_files(kb, outpath):
             # Add references if present
             if mitigation.get('references'):
                 mitigation_md_file.write(f"**References:**\n\n")
-                for each_reference in mitigation.get('references'):
-                    mitigation_md_file.write(f"- {each_reference}\n")
+                for ref in mitigation.get('references', []):
+                    if isinstance(ref, dict) and "DFCite_id" in ref:
+                        display_text = kb.get_citation_display_text(ref["DFCite_id"])
+                        relevance = ref.get("relevance_summary_280", "").strip()
+                        if relevance:
+                            mitigation_md_file.write(f"- {display_text}. *Relevance: {relevance}*\n")
+                        else:
+                            mitigation_md_file.write(f"- {display_text}\n")
+                    else:
+                        mitigation_md_file.write(f"- {ref}\n")
                 mitigation_md_file.write(f"\n\n")
 
             # Add content from SOLVE-IT Extensions

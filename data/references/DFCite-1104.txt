@@ -1,0 +1,1 @@
+Nemetz, S., Schmitt, S. and Freiling, F., 2018. A standardized corpus for SQLite database forensics. Digital Investigation, 24, pp.S121-S130.

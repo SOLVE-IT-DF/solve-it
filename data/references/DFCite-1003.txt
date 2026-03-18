@@ -1,0 +1,1 @@
+Android (2025), Android Debug Bridge (adb), https://developer.android.com/tools/adb

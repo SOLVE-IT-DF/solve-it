@@ -19,6 +19,9 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/keywordSearchTerm"
     ],
     "references": [
-        "Horsman, G., 2019. A forensic examination of online search facility URL record structures. Journal of forensic sciences, 64(1), pp.236-242."
+        {
+            "DFCite_id": "DFCite-1065",
+            "relevance_summary_280": ""
+        }
     ]
 }

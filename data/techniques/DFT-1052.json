@@ -26,7 +26,13 @@
         "https://ontology.solveit-df.org/solveit/observable/TimelineEntry"
     ],
     "references": [
-        "Hargreaves, C. and Patterson, J., 2012. An automated timeline reconstruction approach for digital forensic investigations. Digital Investigation, 9, pp.S69-S79.",
-        "Dreier, L.M., Vanini, C., Hargreaves, C.J., Breitinger, F. and Freiling, F., 2024. Beyond timestamps: Integrating implicit timing information into digital forensic timelines. Forensic Science International: Digital Investigation, 49, p.301755."
+        {
+            "DFCite_id": "DFCite-1058",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1039",
+            "relevance_summary_280": ""
+        }
     ]
 }

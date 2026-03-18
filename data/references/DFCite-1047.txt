@@ -1,0 +1,1 @@
+Google (2025) Content provider basics. Available at: https://developer.android.com/guide/topics/providers/content-provider-basics.

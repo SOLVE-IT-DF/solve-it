@@ -1424,7 +1424,7 @@ body.custom-mode .disabled-btn {{
 
 .ref-item {{
   font-size: .78rem;
-  color: var(--gray-500);
+  color: var(--gray-900);
   padding: 4px 0;
   border-bottom: 1px solid var(--gray-100);
   line-height: 1.5;
@@ -1567,6 +1567,7 @@ body.custom-mode .disabled-btn {{
 .chip-t {{ background: #dbeafe; color: #1e40af; border-color: #bfdbfe; }}
 .chip-w {{ background: #fee2e2; color: #991b1b; border-color: #fecaca; }}
 .chip-m {{ background: #d1fae5; color: #065f46; border-color: #a7f3d0; }}
+.ref-chip.no-summary {{ opacity: .35; }}
 .subtechniques-toggle {{
   font-size: .68rem;
   color: var(--gray-500);
@@ -2013,13 +2014,23 @@ function resolveRef(ref) {{
   return {{text: String(ref), relevance: '', citeId: ''}};
 }}
 
-function renderRef(ref) {{
+function renderRef(ref, itemType, itemId) {{
   const r = resolveRef(ref);
   let html = `<div class="ref-item">${{linkify(r.text)}}`;
-  if (r.citeId) html += ` <span style="font-size:.72rem;color:var(--gray-400);font-family:var(--font-mono)">[` + esc(r.citeId) + `]</span>`;
+  if (r.citeId) {{
+    html += ` <span style="font-size:.72rem;color:var(--gray-400);font-family:var(--font-mono)">[` + esc(r.citeId) + `]</span>`;
+    const cite = CiteMap[r.citeId];
+    if (cite) {{
+      html += `<span class="copy-cite" title="Copy citation text" onclick="copyCite('${{esc(r.citeId)}}','txt');event.stopPropagation()">&#128203;</span>`;
+      if (cite.bib) html += `<span class="copy-cite" title="Copy BibTeX" onclick="copyCite('${{esc(r.citeId)}}','bib');event.stopPropagation()">&#128218;</span>`;
+    }}
+  }}
+  const editIcon = (!CUSTOM_MODE && itemType && itemId && r.citeId)
+    ? `<a href="${{dfciteRelevanceFormUrl(itemType, itemId, ref)}}" target="_blank" rel="noopener" title="Update relevance summary" style="font-size:.72rem;color:var(--gray-300);text-decoration:none;cursor:pointer;margin-left:6px;font-style:normal">[edit]</a>`
+    : '';
   html += r.relevance
-    ? `<div style="margin-top:2px;font-size:.78rem;color:#60a5fa;font-style:italic">Relevance: ${{esc(r.relevance)}}</div>`
-    : `<div style="margin-top:2px;font-size:.78rem;color:#60a5fa;font-style:italic">No relevance summary string provided</div>`;
+    ? `<div style="margin-top:2px;font-size:.78rem;font-style:italic;display:flex;align-items:baseline"><span style="color:var(--green)">Relevance: ${{esc(r.relevance)}}</span>${{editIcon}}</div>`
+    : `<div style="margin-top:2px;font-size:.78rem;font-style:italic;display:flex;align-items:baseline"><span style="color:var(--red)">No relevance summary string provided</span>${{editIcon}}</div>`;
   html += `</div>`;
   return html;
 }}
@@ -2221,6 +2232,19 @@ function updateFormUrl(type, obj) {{
     p.set('references', joinRefs(obj.references));
   }}
 
+  return `${{REPO_URL}}/issues/new?${{p.toString()}}`;
+}}
+function dfciteRelevanceFormUrl(itemType, itemId, ref) {{
+  const r = resolveRef(ref);
+  if (!r.citeId) return '';
+  const p = new URLSearchParams();
+  p.set('template', '2d_update-dfcite-relevance-form.yml');
+  p.set('labels', 'content: update dfcite relevance,form input');
+  p.set('title', `Update DFCite relevance: ${{r.citeId}} in ${{itemId}}`);
+  p.set('item-type', itemType);
+  p.set('item-id', itemId);
+  p.set('dfcite-id', r.citeId);
+  if (r.relevance) p.set('relevance-summary', r.relevance);
   return `${{REPO_URL}}/issues/new?${{p.toString()}}`;
 }}
 function updateBtn(type, obj) {{
@@ -2963,7 +2987,7 @@ function buildTechniqueDetail(t) {{
     const refs = t.references || [];
     html += `<div class="detail-section">
       <div class="detail-section-title">References <span style="text-transform:none">(DFCites)</span> <span class="badge">${{refs.length}}</span></div>
-      ${{refs.length ? refs.map(r => renderRef(r)).join('') : '<div class="empty-message">No references.</div>'}}
+      ${{refs.length ? refs.map(r => renderRef(r, 'technique', t.id)).join('') : '<div class="empty-message">No references.</div>'}}
     </div>`;
   }}
 
@@ -3028,7 +3052,7 @@ function buildWeaknessDetail(w) {{
   const wrefs = w.references || [];
   html += `<div class="detail-section">
     <div class="detail-section-title">References <span style="text-transform:none">(DFCites)</span> <span class="badge">${{wrefs.length}}</span></div>
-    ${{wrefs.length ? wrefs.map(r => renderRef(r)).join('') : '<div class="empty-message">No references.</div>'}}
+    ${{wrefs.length ? wrefs.map(r => renderRef(r, 'weakness', w.id)).join('') : '<div class="empty-message">No references.</div>'}}
   </div>`;
 
   // SOLVE-IT-X extension content
@@ -3098,7 +3122,7 @@ function buildMitigationDetail(m) {{
   const mrefs = m.references || [];
   html += `<div class="detail-section">
     <div class="detail-section-title">References <span style="text-transform:none">(DFCites)</span> <span class="badge">${{mrefs.length}}</span></div>
-    ${{mrefs.length ? mrefs.map(r => renderRef(r)).join('') : '<div class="empty-message">No references.</div>'}}
+    ${{mrefs.length ? mrefs.map(r => renderRef(r, 'mitigation', m.id)).join('') : '<div class="empty-message">No references.</div>'}}
   </div>`;
 
   // SOLVE-IT-X extension content
@@ -3208,12 +3232,14 @@ function renderReferences() {{
   const el = document.getElementById('view-references');
 
   const refMap = {{}};
+  const refHasSummary = {{}};
   const addRef = (r, type, id) => {{
     const resolved = resolveRef(r);
     const key = resolved.citeId || (resolved.text||'').trim();
     if (!key || key.toLowerCase() === 'todo') return;
     if (!refMap[key]) refMap[key] = {{text: (resolved.text||'').trim(), citeId: resolved.citeId, techniques:[], weaknesses:[], mitigations:[]}};
     if (!refMap[key][type].includes(id)) refMap[key][type].push(id);
+    if (resolved.relevance) {{ if (!refHasSummary[key]) refHasSummary[key] = {{}}; refHasSummary[key][type+':'+id] = true; }}
   }};
   DB.techniques.forEach(t  => (t.references||[]).forEach(r => addRef(r,'techniques',t.id)));
   DB.weaknesses.forEach(w  => (w.references||[]).forEach(r => addRef(r,'weaknesses',w.id)));
@@ -3265,11 +3291,13 @@ function renderReferences() {{
     <thead><tr><th style="width:100px;cursor:pointer;text-transform:none" onclick="S.rf='id';renderReferences()">DFCite ID</th><th style="width:30px;cursor:pointer" title="Sort by .txt availability" onclick="S.rf='txt';renderReferences()">txt</th><th style="width:30px;cursor:pointer" title="Sort by .bib availability" onclick="S.rf='bib';renderReferences()">bib</th><th style="cursor:pointer" onclick="S.rf='alpha';renderReferences()">Reference</th><th style="width:280px;cursor:pointer" onclick="S.rf='cited';renderReferences()">Cited by</th></tr></thead><tbody>`;
 
   items.forEach(([key, cb]) => {{
+    const summaryMap = refHasSummary[key] || {{}};
     const chips = ['techniques','weaknesses','mitigations'].flatMap(type =>
       cb[type].map(id => {{
         const item = type==='techniques'?TMap[id]:type==='weaknesses'?WMap[id]:MMap[id];
         const name = esc((item||{{}}).name||id);
-        return `<span class="ref-chip ${{tClass[type]}}" title="${{name}}"
+        const faded = summaryMap[type+':'+id] ? '' : ' no-summary';
+        return `<span class="ref-chip ${{tClass[type]}}${{faded}}" title="${{name}}${{faded ? ' (no relevance summary)' : ''}}"
           data-show-id="${{esc(id)}}" data-show-type="${{tDetail[type]}}">${{esc(tLabel[type]+':'+id)}}</span>`;
       }})).join('');
     const citeId = cb.citeId || '';

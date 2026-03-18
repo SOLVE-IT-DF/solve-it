@@ -6,7 +6,7 @@
         "Logical imaging"
     ],
     "details": "This selection of files would subsequently be stored into a container such as a tar/zip file or a forensic image format.",
-    "subtechniques": [],
+    "subtechniques": ["DFT-1015"],
     "examples": [
         "FTK Imager - allows an AD1 logical container to be created of a selected subset of files within a previewed data source."
     ],

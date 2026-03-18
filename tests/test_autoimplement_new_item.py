@@ -525,6 +525,141 @@ class TestUpdateSolveItJson(unittest.TestCase):
         self.assertFalse(result)
 
 
+class TestUpdateTechniqueWeaknesses(unittest.TestCase):
+    """Test adding weakness IDs to parent technique files."""
+
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp()
+        os.makedirs(os.path.join(self.tmpdir, "data", "techniques"))
+        self.technique = {
+            "id": "DFT-1100",
+            "name": "Test technique",
+            "weaknesses": ["DFW-1001"],
+            "references": [],
+        }
+        self.filepath = os.path.join(self.tmpdir, "data", "techniques", "DFT-1100.json")
+        with open(self.filepath, "w") as f:
+            json.dump(self.technique, f, indent=4)
+            f.write('\n')
+
+    def test_adds_weakness(self):
+        fpath, warning = mod.update_technique_weaknesses(self.tmpdir, "DFT-1100", "DFW-1280")
+        self.assertIsNotNone(fpath)
+        self.assertIsNone(warning)
+        with open(self.filepath) as f:
+            data = json.load(f)
+        self.assertIn("DFW-1280", data["weaknesses"])
+        self.assertIn("DFW-1001", data["weaknesses"])
+
+    def test_duplicate_skipped(self):
+        fpath, warning = mod.update_technique_weaknesses(self.tmpdir, "DFT-1100", "DFW-1001")
+        self.assertIsNone(fpath)
+        self.assertIsNone(warning)
+        with open(self.filepath) as f:
+            data = json.load(f)
+        self.assertEqual(data["weaknesses"].count("DFW-1001"), 1)
+
+    def test_missing_file_returns_warning(self):
+        fpath, warning = mod.update_technique_weaknesses(self.tmpdir, "DFT-9999", "DFW-1280")
+        self.assertIsNone(fpath)
+        self.assertIsNotNone(warning)
+        self.assertIn("not found", warning)
+
+    def test_invalid_id_returns_warning(self):
+        fpath, warning = mod.update_technique_weaknesses(self.tmpdir, "INVALID", "DFW-1280")
+        self.assertIsNone(fpath)
+        self.assertIsNotNone(warning)
+        self.assertIn("Invalid", warning)
+
+
+class TestUpdateWeaknessMitigations(unittest.TestCase):
+    """Test adding mitigation IDs to parent weakness files."""
+
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp()
+        os.makedirs(os.path.join(self.tmpdir, "data", "weaknesses"))
+        self.weakness = {
+            "id": "DFW-1050",
+            "name": "Test weakness",
+            "mitigations": ["DFM-1001"],
+            "references": [],
+        }
+        self.filepath = os.path.join(self.tmpdir, "data", "weaknesses", "DFW-1050.json")
+        with open(self.filepath, "w") as f:
+            json.dump(self.weakness, f, indent=4)
+            f.write('\n')
+
+    def test_adds_mitigation(self):
+        fpath, warning = mod.update_weakness_mitigations(self.tmpdir, "DFW-1050", "DFM-1300")
+        self.assertIsNotNone(fpath)
+        self.assertIsNone(warning)
+        with open(self.filepath) as f:
+            data = json.load(f)
+        self.assertIn("DFM-1300", data["mitigations"])
+        self.assertIn("DFM-1001", data["mitigations"])
+
+    def test_duplicate_skipped(self):
+        fpath, warning = mod.update_weakness_mitigations(self.tmpdir, "DFW-1050", "DFM-1001")
+        self.assertIsNone(fpath)
+        self.assertIsNone(warning)
+        with open(self.filepath) as f:
+            data = json.load(f)
+        self.assertEqual(data["mitigations"].count("DFM-1001"), 1)
+
+    def test_missing_file_returns_warning(self):
+        fpath, warning = mod.update_weakness_mitigations(self.tmpdir, "DFW-9999", "DFM-1300")
+        self.assertIsNone(fpath)
+        self.assertIsNotNone(warning)
+        self.assertIn("not found", warning)
+
+    def test_invalid_id_returns_warning(self):
+        fpath, warning = mod.update_weakness_mitigations(self.tmpdir, "INVALID", "DFM-1300")
+        self.assertIsNone(fpath)
+        self.assertIsNotNone(warning)
+        self.assertIn("Invalid", warning)
+
+
+class TestMetadataStripping(unittest.TestCase):
+    """Test that _parent_* keys don't appear in written data files."""
+
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp()
+        for subdir in ("techniques", "weaknesses", "mitigations"):
+            os.makedirs(os.path.join(self.tmpdir, "data", subdir))
+
+    def test_parent_techniques_not_in_written_file(self):
+        block = {
+            "id": "DFW-9999",
+            "name": "Test weakness",
+            "mitigations": [],
+            "references": [],
+            "_parent_techniques": ["DFT-1100"],
+        }
+        # Strip metadata as main() does
+        block.pop("_parent_techniques", [])
+        block.pop("_parent_weaknesses", [])
+        path = mod.write_data_file(self.tmpdir, "weakness", block)
+        with open(path) as f:
+            data = json.load(f)
+        self.assertNotIn("_parent_techniques", data)
+        self.assertNotIn("_parent_weaknesses", data)
+
+    def test_parent_weaknesses_not_in_written_file(self):
+        block = {
+            "id": "DFM-9999",
+            "name": "Test mitigation",
+            "references": [],
+            "_parent_weaknesses": ["DFW-1050"],
+        }
+        block.pop("_parent_techniques", [])
+        block.pop("_parent_weaknesses", [])
+        path = mod.write_data_file(self.tmpdir, "mitigation", block)
+        with open(path) as f:
+            data = json.load(f)
+        self.assertNotIn("_parent_techniques", data)
+        self.assertNotIn("_parent_weaknesses", data)
+
+
 class TestFindCrossReferences(unittest.TestCase):
     """Test cross-reference detection."""
 
@@ -549,6 +684,20 @@ class TestFindCrossReferences(unittest.TestCase):
         block = {"id": "DFW-1050", "mitigations": ["not-a-valid-id"]}
         notes = mod.find_cross_references(block, "weakness")
         self.assertEqual(len(notes), 0)
+
+    def test_mitigation_no_crossrefs(self):
+        """Mitigations no longer generate cross-ref notes (parent updates are automatic)."""
+        block = {"id": "DFM-1300"}
+        notes = mod.find_cross_references(block, "mitigation")
+        self.assertEqual(len(notes), 0)
+
+    def test_parent_update_warnings_included(self):
+        """Failed parent updates should appear as cross-reference notes."""
+        block = {"id": "DFW-1050", "mitigations": []}
+        warnings = ["Technique file `DFT-9999.json` not found — cannot auto-add weakness"]
+        notes = mod.find_cross_references(block, "weakness", parent_update_warnings=warnings)
+        self.assertEqual(len(notes), 1)
+        self.assertIn("DFT-9999", notes[0])
 
 
 class TestSlugify(unittest.TestCase):

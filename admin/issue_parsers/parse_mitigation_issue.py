@@ -43,6 +43,7 @@ def build_mitigation_json(fields, project_root=None):
         mitigation["technique"] = technique
 
     mitigation["references"] = processed_refs
+    mitigation["_parent_weaknesses"] = lines_to_list(fields.get("Existing weakness IDs", ""))
 
     return mitigation, match_report, new_citations, ref_warnings
 

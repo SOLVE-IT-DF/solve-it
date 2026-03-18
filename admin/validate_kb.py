@@ -982,7 +982,8 @@ def _build_checks_table(result: ValidationResult) -> List[str]:
     return lines
 
 
-def _write_markdown_summary(result: ValidationResult, filepath: str):
+def _write_markdown_summary(result: ValidationResult, filepath: str,
+                            citations: Dict = None, changed_items: List[str] = None):
     p = len(result.passes)
     f = len(result.fails)
     w = len(result.warnings)
@@ -1054,6 +1055,43 @@ def _write_markdown_summary(result: ValidationResult, filepath: str):
 
         lines.append("</details>")
 
+    # Prominent section for blank relevance summaries in changed items only
+    if changed_items and citations:
+        # Filter blank-relevance warnings to only items changed in this PR
+        changed_set = set(changed_items)
+        blank_relevance = []
+        for msg in result.warnings:
+            if "has empty relevance_summary" not in msg:
+                continue
+            # msg format: "Technique T1234 has empty relevance_summary for DFCite-567"
+            parts = msg.split()
+            item_id = parts[1]
+            if item_id in changed_set:
+                blank_relevance.append(msg)
+
+        if blank_relevance:
+            lines.append("")
+            lines.append("### Action needed: blank relevance summaries")
+            lines.append("")
+            lines.append(
+                "The following references in this PR have an empty "
+                "`relevance_summary_280` field. Please add a relevance summary "
+                "(max 280 characters) explaining how each reference relates to "
+                "the item before merging."
+            )
+            lines.append("")
+            lines.append("| Item | DFCite ID | Reference |")
+            lines.append("|------|-----------|-----------|")
+            for msg in blank_relevance:
+                parts = msg.split()
+                item_type = parts[0]
+                item_id = parts[1]
+                dfcite_id = parts[-1]
+                cite_data = citations.get(dfcite_id, {})
+                plaintext = cite_data.get("plaintext", "_citation text not available_")
+                lines.append(f"| {item_type} `{item_id}` | `{dfcite_id}` | {plaintext} |")
+            lines.append("")
+
     if stats_line:
         lines.append("")
         lines.append(f"**Completeness:** {stats_line}")
@@ -1118,6 +1156,14 @@ def main():
         metavar="FILE",
         help="Write ontology IRI mismatch report to FILE (for use as a separate PR comment)",
     )
+    parser.add_argument(
+        "--changed-files",
+        type=str,
+        nargs="*",
+        metavar="PATH",
+        help="List of files changed in this PR (e.g. data/mitigations/DFM-1240.json). "
+             "Used to scope blank-relevance-summary alerts to only changed items.",
+    )
     args = parser.parse_args()
 
     result = ValidationResult()
@@ -1179,7 +1225,16 @@ def main():
     print_summary(result)
 
     if args.markdown_summary:
-        _write_markdown_summary(result, args.markdown_summary)
+        # Extract item IDs from changed file paths (e.g. "data/mitigations/DFM-1240.json" -> "DFM-1240")
+        changed_items = None
+        if args.changed_files:
+            changed_items = []
+            for fpath in args.changed_files:
+                fname = Path(fpath).stem
+                if fname.startswith(("T", "W", "DFM-", "DFW-")):
+                    changed_items.append(fname)
+        _write_markdown_summary(result, args.markdown_summary,
+                                citations=citations, changed_items=changed_items)
 
     if args.ontology_summary:
         _write_ontology_summary(ontology_issues, args.ontology_summary)

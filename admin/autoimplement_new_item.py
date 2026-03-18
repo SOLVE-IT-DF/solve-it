@@ -438,6 +438,82 @@ def update_solve_it_json(project_root, objective_name, technique_id):
     return True
 
 
+def update_technique_weaknesses(project_root, technique_id, weakness_id):
+    """Add a weakness ID to a technique's weaknesses list.
+
+    Returns (filepath_or_None, warning_or_None).
+    """
+    if not VALID_ID_RE.match(technique_id):
+        return None, f"Invalid technique ID format: '{technique_id}'"
+
+    filepath = os.path.join(project_root, "data", "techniques", f"{technique_id}.json")
+
+    # Path traversal protection
+    real_dir = os.path.realpath(os.path.join(project_root, "data", "techniques"))
+    real_path = os.path.realpath(filepath)
+    if not real_path.startswith(real_dir + os.sep):
+        return None, f"Path traversal detected for {technique_id}"
+
+    if not os.path.exists(filepath):
+        return None, f"Technique file `{technique_id}.json` not found — cannot auto-add weakness"
+
+    with open(filepath) as f:
+        data = json.load(f)
+
+    if weakness_id in data.get("weaknesses", []):
+        print(f"  {weakness_id} already in {technique_id}'s weaknesses list", file=sys.stderr)
+        return None, None
+
+    if "weaknesses" not in data:
+        data["weaknesses"] = []
+    data["weaknesses"].append(weakness_id)
+
+    with open(filepath, 'w') as f:
+        json.dump(data, f, indent=4)
+        f.write('\n')
+
+    print(f"  Added {weakness_id} to {technique_id}'s weaknesses list", file=sys.stderr)
+    return filepath, None
+
+
+def update_weakness_mitigations(project_root, weakness_id, mitigation_id):
+    """Add a mitigation ID to a weakness's mitigations list.
+
+    Returns (filepath_or_None, warning_or_None).
+    """
+    if not VALID_ID_RE.match(weakness_id):
+        return None, f"Invalid weakness ID format: '{weakness_id}'"
+
+    filepath = os.path.join(project_root, "data", "weaknesses", f"{weakness_id}.json")
+
+    # Path traversal protection
+    real_dir = os.path.realpath(os.path.join(project_root, "data", "weaknesses"))
+    real_path = os.path.realpath(filepath)
+    if not real_path.startswith(real_dir + os.sep):
+        return None, f"Path traversal detected for {weakness_id}"
+
+    if not os.path.exists(filepath):
+        return None, f"Weakness file `{weakness_id}.json` not found — cannot auto-add mitigation"
+
+    with open(filepath) as f:
+        data = json.load(f)
+
+    if mitigation_id in data.get("mitigations", []):
+        print(f"  {mitigation_id} already in {weakness_id}'s mitigations list", file=sys.stderr)
+        return None, None
+
+    if "mitigations" not in data:
+        data["mitigations"] = []
+    data["mitigations"].append(mitigation_id)
+
+    with open(filepath, 'w') as f:
+        json.dump(data, f, indent=4)
+        f.write('\n')
+
+    print(f"  Added {mitigation_id} to {weakness_id}'s mitigations list", file=sys.stderr)
+    return filepath, None
+
+
 def sanitise_git_value(value):
     """Remove characters that could cause issues in git --author strings."""
     return re.sub(r'[<>\n\r]', '', value).strip()
@@ -463,24 +539,25 @@ def slugify(text, max_len=50):
     return slug[:max_len].rstrip('-')
 
 
-def find_cross_references(block, item_type):
+def find_cross_references(block, item_type, parent_update_warnings=None):
     """Find cross-references that need manual attention.
 
     Returns a list of human-readable notes about cross-references.
+    Parent updates that succeeded are no longer listed; only failed/skipped
+    parent updates (from parent_update_warnings) are included.
     """
     notes = []
     item_id = block["id"]
 
+    # Add any parent update failures as manual steps
+    if parent_update_warnings:
+        notes.extend(parent_update_warnings)
+
     if item_type == "weakness":
-        # Weaknesses may reference techniques (via issue body) and mitigations
+        # Mitigations referenced by this weakness — note for manual check
         for mid in block.get("mitigations", []):
             if VALID_ID_RE.match(mid):
                 notes.append(f"Add `{item_id}` to `{mid}`'s weaknesses list (if applicable)")
-    elif item_type == "mitigation":
-        # Mitigations may reference weaknesses they apply to
-        for wid in block.get("existing_weaknesses", []):
-            if VALID_ID_RE.match(wid):
-                notes.append(f"Add `{item_id}` to `{wid}`'s mitigations list")
     elif item_type == "technique":
         # Techniques may reference weaknesses
         for wid in block.get("weaknesses", []):
@@ -613,7 +690,17 @@ def main():
         import shutil
         dry_run_dir = tempfile.mkdtemp(prefix="new-item-dry-run-")
         for subdir in ("techniques", "weaknesses", "mitigations"):
-            os.makedirs(os.path.join(dry_run_dir, "data", subdir))
+            src_dir = os.path.join(project_root, "data", subdir)
+            dst_dir = os.path.join(dry_run_dir, "data", subdir)
+            os.makedirs(dst_dir)
+            # Copy existing files so parent updates can work in dry-run
+            if os.path.isdir(src_dir):
+                for fname in os.listdir(src_dir):
+                    if fname.endswith('.json'):
+                        shutil.copy(
+                            os.path.join(src_dir, fname),
+                            os.path.join(dst_dir, fname),
+                        )
         shutil.copy(
             os.path.join(project_root, "data", "solve-it.json"),
             os.path.join(dry_run_dir, "data", "solve-it.json"),
@@ -650,7 +737,11 @@ def main():
         run(["git", "checkout", "-b", branch_name], cwd=project_root)
 
     try:
-        # 9. Write data file
+        # 9. Strip autoimplement metadata before writing data file
+        parent_techniques = block.pop("_parent_techniques", [])
+        parent_weaknesses = block.pop("_parent_weaknesses", [])
+
+        # Write data file
         print("Writing data file...", file=sys.stderr)
         filepath = write_data_file(write_root, item_type, block)
         if filepath is None:
@@ -665,8 +756,39 @@ def main():
                 solve_it_path = os.path.join(write_root, "data", "solve-it.json")
                 written_files.append(solve_it_path)
 
+        # 10b. Update parent items
+        parent_update_warnings = []
+
+        if item_type == "weakness":
+            for tid in parent_techniques:
+                normalized = normalize_id(tid)
+                if not normalized:
+                    parent_update_warnings.append(
+                        f"Could not update parent technique `{tid}` — invalid ID format")
+                    continue
+                fpath, warning = update_technique_weaknesses(write_root, normalized, item_id)
+                if fpath:
+                    written_files.append(fpath)
+                if warning:
+                    parent_update_warnings.append(warning)
+
+        if item_type == "mitigation":
+            for wid in parent_weaknesses:
+                normalized = normalize_id(wid)
+                if not normalized:
+                    parent_update_warnings.append(
+                        f"Could not update parent weakness `{wid}` — invalid ID format")
+                    continue
+                fpath, warning = update_weakness_mitigations(write_root, normalized, item_id)
+                if fpath:
+                    written_files.append(fpath)
+                if warning:
+                    parent_update_warnings.append(warning)
+
+        all_warnings.extend(parent_update_warnings)
+
         # 11. Find cross-references for PR body
-        cross_refs = find_cross_references(block, item_type)
+        cross_refs = find_cross_references(block, item_type, parent_update_warnings)
 
         if args.dry_run:
             print(f"\n=== DRY RUN RESULTS ===", file=sys.stderr)
@@ -674,9 +796,19 @@ def main():
             print(f"Branch would be: {branch_name}", file=sys.stderr)
             print(f"Author: {author_name} <{author_email}>", file=sys.stderr)
             print(f"Files written to: {write_root}", file=sys.stderr)
-            print(f"\nFiles that would be created:", file=sys.stderr)
+            print(f"\nFiles that would be created/updated:", file=sys.stderr)
             for f in written_files:
                 print(f"  {f}", file=sys.stderr)
+            if parent_techniques:
+                print(f"\nParent technique updates:", file=sys.stderr)
+                for tid in parent_techniques:
+                    normalized = normalize_id(tid) or tid
+                    print(f"  Would update technique {normalized}", file=sys.stderr)
+            if parent_weaknesses:
+                print(f"\nParent weakness updates:", file=sys.stderr)
+                for wid in parent_weaknesses:
+                    normalized = normalize_id(wid) or wid
+                    print(f"  Would update weakness {normalized}", file=sys.stderr)
             if all_warnings:
                 print(f"\nWarnings:", file=sys.stderr)
                 for w in all_warnings:
@@ -747,8 +879,7 @@ def main():
         if cross_refs:
             pr_lines.append("## Manual steps needed")
             pr_lines.append("")
-            pr_lines.append("The following cross-references are noted but were "
-                            "**not** auto-modified (to avoid conflicts):")
+            pr_lines.append("The following cross-references need manual attention:")
             pr_lines.append("")
             for note in cross_refs:
                 pr_lines.append(f"- {note}")

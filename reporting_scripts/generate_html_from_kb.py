@@ -401,7 +401,7 @@ def extract_git_credits(repo_root: Path) -> dict:
 WEAKNESS_CATS = ["ASTM_INCOMP", "ASTM_INAC_EX", "ASTM_INAC_AS", "ASTM_INAC_ALT", "ASTM_INAC_COR", "ASTM_MISINT"]
 CAT_LABELS = {
     "ASTM_INCOMP":    "Incomplete (INCOMP)",
-    "ASTM_INAC_EX":   "Inaccurate Extraction (INAC-EX)",
+    "ASTM_INAC_EX":   "Inaccurate Existence (INAC-EX)",
     "ASTM_INAC_AS":   "Inaccurate Association (INAC-AS)",
     "ASTM_INAC_ALT":  "Inaccurate Alteration (INAC-ALT)",
     "ASTM_INAC_COR":  "Inaccurate Corruption (INAC-COR)",
@@ -3337,7 +3337,13 @@ function renderReferences() {{
   const tClass  = {{ techniques:'chip-t', weaknesses:'chip-w', mitigations:'chip-m' }};
   const tDetail = {{ techniques:'technique', weaknesses:'weakness', mitigations:'mitigation' }};
 
-  let html = `<div class="table-section"><table class="attck-table ref-table">
+  let html = `<div class="table-section">
+    <div class="table-section-header">
+      <span class="table-section-title">All References</span>
+      <span class="table-section-count">${{items.length}}</span>
+      <a href="${{REPO_URL}}/issues/new?template=1d_propose-new-reference-form.yml" target="_blank" rel="noopener" class="propose-new-btn">+ Propose New Reference</a>
+    </div>
+    <table class="attck-table ref-table">
     <thead><tr><th style="width:100px;cursor:pointer;text-transform:none" onclick="S.rf='id';renderReferences()">DFCite ID</th><th style="width:30px;cursor:pointer" title="Sort by .txt availability" onclick="S.rf='txt';renderReferences()">txt</th><th style="width:30px;cursor:pointer" title="Sort by .bib availability" onclick="S.rf='bib';renderReferences()">bib</th><th style="cursor:pointer" onclick="S.rf='alpha';renderReferences()">Reference</th><th style="width:280px;cursor:pointer" onclick="S.rf='cited';renderReferences()">Cited by</th></tr></thead><tbody>`;
 
   items.forEach(([key, cb]) => {{

@@ -1,12 +1,9 @@
 {
     "id": "DFW-1214",
     "name": "Failure to recover live records of calls to or from the AI companion app",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1161",
         "DFM-1027",

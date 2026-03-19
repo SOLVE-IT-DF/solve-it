@@ -77,6 +77,28 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ISSUE_NUMBER: ${{ github.event.issue.number }}
 
+  assign-reference-id:
+    if: >-
+      github.event.label.name == 'assigned ID'
+      && contains(github.event.issue.labels.*.name, 'content: new reference')
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+
+    - name: Assign reference ID
+      run: |
+        python3 admin/id_assignment/assign_reference_id.py \
+          --issue-number "$ISSUE_NUMBER"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+
   assign-trwm-ids:
     if: >-
       github.event.label.name == 'assigned ID'

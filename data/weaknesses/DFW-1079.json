@@ -1,12 +1,9 @@
 {
     "id": "DFW-1079",
     "name": "Recovering incorrect metadata about a file",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "X",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_ALT"
+    ],
     "mitigations": [
         "DFM-1050",
         "DFM-1051",

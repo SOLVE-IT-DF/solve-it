@@ -1,12 +1,9 @@
 {
     "id": "DFW-1186",
     "name": "Missing files with file name/path-based pattern matching due to renaming",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [],
     "references": []
 }

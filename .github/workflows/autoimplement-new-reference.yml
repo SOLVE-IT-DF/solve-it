@@ -1,0 +1,117 @@
+name: Auto-implement new reference
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  autoimplement-new-reference:
+    if: >-
+      github.event.label.name == 'autoimplement'
+      && contains(github.event.issue.labels.*.name, 'content: new reference')
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+
+    - name: Configure git
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Auto-implement new reference
+      id: implement
+      run: |
+        PR_URL=$(python3 admin/autoimplement_new_reference.py \
+          --issue-number "$ISSUE_NUMBER" \
+          --project-root .)
+        echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+
+    - name: Check if PR was created
+      id: check_pr
+      run: |
+        if [ "${{ steps.implement.outputs.pr_url }}" == "NO_ACTION" ] || [ -z "${{ steps.implement.outputs.pr_url }}" ]; then
+          echo "skip_validation=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "skip_validation=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Checkout PR branch for validation
+      if: steps.check_pr.outputs.skip_validation == 'false'
+      run: |
+        git fetch origin
+        git checkout -f "$(gh pr view "$PR_URL" --json headRefName -q .headRefName)"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_URL: ${{ steps.implement.outputs.pr_url }}
+
+    - name: Get changed files from PR
+      if: steps.check_pr.outputs.skip_validation == 'false'
+      id: changed
+      run: |
+        FILES=$(gh pr diff "$PR_URL" --name-only | grep '^data/' | tr '\n' ' ' || true)
+        echo "files=$FILES" >> "$GITHUB_OUTPUT"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_URL: ${{ steps.implement.outputs.pr_url }}
+
+    - name: Run KB validation
+      if: steps.check_pr.outputs.skip_validation == 'false'
+      id: validate
+      run: |
+        python admin/validate_kb.py --verbose \
+          --check-ontology \
+          --markdown-summary kb_validation_summary.md \
+          --ontology-summary ontology_iri_report.md \
+          --changed-files ${{ steps.changed.outputs.files }}
+        python -m pytest tests/ -v
+      continue-on-error: true
+
+    - name: Post validation results on PR
+      if: steps.check_pr.outputs.skip_validation == 'false'
+      run: |
+        if [ "${{ steps.validate.outcome }}" == "success" ]; then
+          HEADER="### Validation: Passed"
+        else
+          HEADER="### Validation: Failed"
+        fi
+
+        BODY="$HEADER"$'\n\n'
+        if [ -f blank_relevance_alert.md ]; then
+          BODY+="$(cat blank_relevance_alert.md)"$'\n\n'
+        fi
+        if [ -f kb_validation_summary.md ]; then
+          BODY+="<details><summary>KB validation report</summary>"$'\n\n'
+          BODY+="$(cat kb_validation_summary.md)"$'\n\n'
+          BODY+="</details>"$'\n'
+        fi
+
+        echo "$BODY" > validation_comment.md
+        gh pr comment "$PR_URL" --body-file validation_comment.md
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_URL: ${{ steps.implement.outputs.pr_url }}
+
+    - name: Fail if validation failed
+      if: steps.check_pr.outputs.skip_validation == 'false' && steps.validate.outcome == 'failure'
+      run: exit 1

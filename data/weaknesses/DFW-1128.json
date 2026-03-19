@@ -1,12 +1,9 @@
 {
     "id": "DFW-1128",
     "name": "Disk image has been replaced with tampered version along with updated stored hash",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "X",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1022",
         "DFM-1023",

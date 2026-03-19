@@ -10,11 +10,6 @@ Provides:
 import json
 
 
-# Both hyphenated and underscored forms for matching KnowledgeBase output
-ASTM_CLASSES = {"INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT",
-                "INAC_EX", "INAC_AS", "INAC_ALT", "INAC_COR"}
-
-
 def is_no_response(value):
     """Return True if the value is blank or the GitHub default '_No response_'."""
     if not value:
@@ -65,14 +60,6 @@ def build_change_summary(before, after):
                 parts.append("removed " + ", ".join(f"'{r}'" for r in removed))
             if parts:
                 changes.append(f"- **{key}**: {'; '.join(parts)}")
-            continue
-
-        # ASTM flags — show as set/cleared
-        if key in ASTM_CLASSES:
-            if new_val == "x" and old_val != "x":
-                changes.append(f"- **{key}**: set")
-            elif new_val != "x" and old_val == "x":
-                changes.append(f"- **{key}**: cleared")
             continue
 
         # Scalar change

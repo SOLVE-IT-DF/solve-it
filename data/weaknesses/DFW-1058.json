@@ -1,12 +1,9 @@
 {
     "id": "DFW-1058",
-    "name": "Results appear in an ‘artefact’ or ‘result’ but the context, source or provenance of result is unclear",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "name": "Results appear in an \u2018artefact\u2019 or \u2018result\u2019 but the context, source or provenance of result is unclear",
+    "categories": [
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1037"
     ],

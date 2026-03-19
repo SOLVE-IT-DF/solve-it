@@ -1,4 +1,4 @@
-name: "Propose New Reference"
+name: "Propose New Reference (DFCite)"
 description: Propose a new reference citation for the knowledge base
 title: "Propose new reference: [citation]"
 labels: ["content: new reference", "form input"]
@@ -22,4 +22,4 @@ body:
     id: notes
     attributes:
       label: Notes
-      description: Any additional context about this reference.
+      description: Any additional context about this reference. You should specify where you intend to cite this and why? E.g. which techniques, weaknesses or mitigations.

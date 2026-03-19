@@ -1,12 +1,9 @@
 {
     "id": "DFW-1042",
     "name": "Disk image was tampered with, but manipulated to have a collision with original hash",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "x",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1021",
         "DFM-1022",

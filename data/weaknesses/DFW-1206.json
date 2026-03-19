@@ -1,12 +1,9 @@
 {
     "id": "DFW-1206",
     "name": "Merging the contents of two deleted messages together and presenting them as a single one sent to the AI companion app",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "x",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1050",
         "DFM-1155",

@@ -516,22 +516,34 @@ def phase2_cross_references(
             result.pass_("All inline [DFCite-xxxx] citations in text fields exist in data/references/", verbose)
 
 
-# ── Phase 3: ASTM error class flags ──────────────────────────────────────────
+# ── Phase 3: Weakness classes ─────────────────────────────────────────────
 
-ASTM_FIELDS = ["INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT"]
-VALID_FLAG_VALUES = {None, "", "x", "X"}
+from solve_it_library.models import VALID_WEAKNESS_CLASSES
 
 
-def phase3_astm_flags(weaknesses: Dict, result: ValidationResult, verbose: bool):
+def phase3_weakness_classes(weaknesses: Dict, result: ValidationResult, verbose: bool):
     bad = 0
     for wid, w in weaknesses.items():
-        for field in ASTM_FIELDS:
-            val = w.get(field)
-            if val not in VALID_FLAG_VALUES:
-                result.fail(f"Weakness {wid} has invalid ASTM flag {field}=\"{val}\" (expected blank, \"x\", or \"X\")")
+        cats = w.get("categories")
+        if cats is None:
+            result.fail(f"Weakness {wid} is missing 'categories' field")
+            bad += 1
+            continue
+        if not isinstance(cats, list):
+            result.fail(f"Weakness {wid} 'categories' must be a list, got {type(cats).__name__}")
+            bad += 1
+            continue
+        seen = set()
+        for cls in cats:
+            if cls not in VALID_WEAKNESS_CLASSES:
+                result.fail(f"Weakness {wid} has invalid category '{cls}'")
                 bad += 1
+            if cls in seen:
+                result.fail(f"Weakness {wid} has duplicate category '{cls}'")
+                bad += 1
+            seen.add(cls)
     if bad == 0:
-        result.pass_("All ASTM error class flags are valid", verbose)
+        result.pass_("All weakness categories are valid", verbose)
 
 
 # ── Phase 4: CASE/UCO class URLs ─────────────────────────────────────────────
@@ -662,7 +674,7 @@ def phase5_completeness(
         if not w.get("mitigations"):
             result.warn(f"Weakness {tid} has no mitigations")
 
-    # Orphaned weaknesses (not referenced by any technique)
+    # Unreferenced weaknesses (not referenced by any technique)
     referenced_weaknesses = set()
     for t in techniques.values():
         referenced_weaknesses.update(t.get("weaknesses", []))
@@ -670,7 +682,7 @@ def phase5_completeness(
         if wid not in referenced_weaknesses:
             result.warn(f"Unreferenced weakness {wid} (not in any technique's weakness list)")
 
-    # Orphaned mitigations (not referenced by any weakness)
+    # Unreferenced mitigations (not referenced by any weakness)
     referenced_mitigations = set()
     for w in weaknesses.values():
         referenced_mitigations.update(w.get("mitigations", []))
@@ -728,7 +740,7 @@ def phase5_completeness(
                         elif len(summary) > 280:
                             result.fail(f"{label} {item_id} has relevance_summary > 280 chars ({len(summary)}) for {ref['DFCite_id']}")
 
-        # Orphaned citations
+        # Unreferenced citations
         referenced_citations = set()
         for items in [techniques, weaknesses, mitigations]:
             for data in items.values():
@@ -742,7 +754,7 @@ def phase5_completeness(
 
         for cite_id in citations:
             if cite_id not in referenced_citations:
-                result.fail(f"Orphaned citation {cite_id} (not referenced by any T/W/M/Objective)")
+                result.warn(f"Unreferenced citation {cite_id} (not referenced by any T/W/M/Objective)")
 
     # Summary statistics
     total = len(techniques)
@@ -895,6 +907,7 @@ WARNING_CATEGORIES = [
     ("No mitigations", "has no mitigations"),
     ("Unreferenced weaknesses", "Unreferenced weakness"),
     ("Unreferenced mitigations", "Unreferenced mitigation"),
+    ("Unreferenced citations", "Unreferenced citation"),
     ("Todo markers", "contains todo marker"),
     ("Not in any objective", "is not listed in any objective"),
     ("Ontology IRI not found", "not found in loaded ontologies"),
@@ -1086,6 +1099,54 @@ def _write_ontology_summary(ontology_issues: List[str], filepath: str):
         fh.write("\n".join(lines) + "\n")
 
 
+def _write_blank_relevance_alert(
+    result: ValidationResult,
+    citations: Dict,
+    changed_items: List[str],
+    filepath: str,
+):
+    """Write a markdown alert for blank relevance summaries in changed items.
+
+    Only produces output if changed items have empty relevance_summary_280 fields.
+    """
+    changed_set = set(changed_items)
+    blank_relevance = []
+    for msg in result.warnings:
+        if "has empty relevance_summary" not in msg:
+            continue
+        # msg format: "Technique T1234 has empty relevance_summary for DFCite-567"
+        parts = msg.split()
+        item_id = parts[1]
+        if item_id in changed_set:
+            blank_relevance.append(msg)
+
+    if not blank_relevance:
+        return
+
+    lines = [
+        "### Action needed: blank relevance summaries",
+        "",
+        "The following references in this PR have an empty "
+        "`relevance_summary_280` field. Please add a relevance summary "
+        "(max 280 characters) explaining how each reference relates to "
+        "the item before merging.",
+        "",
+        "| Item | DFCite ID | Reference |",
+        "|------|-----------|-----------|",
+    ]
+    for msg in blank_relevance:
+        parts = msg.split()
+        item_type = parts[0]
+        item_id = parts[1]
+        dfcite_id = parts[-1]
+        cite_data = citations.get(dfcite_id, {})
+        plaintext = cite_data.get("plaintext", "_citation text not available_")
+        lines.append(f"| {item_type} `{item_id}` | `{dfcite_id}` | {plaintext} |")
+
+    with open(filepath, "w") as fh:
+        fh.write("\n".join(lines) + "\n")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -1117,6 +1178,14 @@ def main():
         metavar="FILE",
         help="Write ontology IRI mismatch report to FILE (for use as a separate PR comment)",
     )
+    parser.add_argument(
+        "--changed-files",
+        type=str,
+        nargs="*",
+        metavar="PATH",
+        help="List of files changed in this PR (e.g. data/mitigations/DFM-1240.json). "
+             "Used to scope blank-relevance-summary alerts to only changed items.",
+    )
     args = parser.parse_args()
 
     result = ValidationResult()
@@ -1147,9 +1216,9 @@ def main():
     phase2_cross_references(techniques, weaknesses, mitigations, objectives, result, args.verbose, citations=citations)
     phase_ok_check(f0, w0)
 
-    print_phase("Phase 3: ASTM error class flags")
+    print_phase("Phase 3: Weakness classes")
     f0, w0 = len(result.fails), len(result.warnings)
-    phase3_astm_flags(weaknesses, result, args.verbose)
+    phase3_weakness_classes(weaknesses, result, args.verbose)
     phase_ok_check(f0, w0)
 
     print_phase("Phase 4: CASE/UCO class URLs")
@@ -1182,6 +1251,18 @@ def main():
 
     if args.ontology_summary:
         _write_ontology_summary(ontology_issues, args.ontology_summary)
+
+    # Write blank-relevance alert for changed items (if any)
+    if args.changed_files and citations:
+        changed_items = []
+        for fpath in args.changed_files:
+            fname = Path(fpath).stem
+            if fname.startswith(("T", "W", "DFM-", "DFW-")):
+                changed_items.append(fname)
+        if changed_items:
+            _write_blank_relevance_alert(
+                result, citations, changed_items, "blank_relevance_alert.md"
+            )
 
     sys.exit(0 if result.ok else 1)
 

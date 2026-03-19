@@ -1,12 +1,12 @@
 {
     "id": "DFW-1149",
     "name": "Failure to consider timestamp inaccuracy at time of inferred event",
-    "INCOMP": "x",
-    "INAC-EX": "x",
-    "INAC-AS": "x",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "x",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS",
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1103"
     ],

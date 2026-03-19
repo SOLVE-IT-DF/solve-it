@@ -1,12 +1,9 @@
 {
     "id": "DFW-1235",
     "name": "Failure to extract log entry type",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1027",
         "DFM-1182"

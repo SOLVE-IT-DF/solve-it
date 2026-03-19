@@ -1,12 +1,10 @@
 {
     "id": "DFW-1029",
     "name": "Memory smearing may result in pointers being inconsistent within the memory image",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "x",
-    "INAC-ALT": "",
-    "INAC-COR": "x",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1086",
         "DFM-1088"

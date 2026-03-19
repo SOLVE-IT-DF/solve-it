@@ -1,12 +1,9 @@
 {
     "id": "DFW-1022",
     "name": "Metadata of data collected is incorrect",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "x",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_ALT"
+    ],
     "mitigations": [],
     "references": []
 }

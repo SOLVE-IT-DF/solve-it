@@ -22,7 +22,7 @@ import sys
 
 
 # Strict ID patterns — only allow expected format to prevent path traversal
-VALID_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,5}$')
+VALID_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,6}$')
 
 
 def run(cmd, **kwargs):
@@ -495,10 +495,9 @@ def main():
             pr_lines.append("")
             pr_lines.append("| ID | Name | ASTM classes |")
             pr_lines.append("|---|---|---|")
-            astm_fields = ["INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT"]
             for w in weaknesses:
-                flags = [f for f in astm_fields if w.get(f)]
-                flags_str = ", ".join(flags) if flags else "—"
+                classes = w.get("categories", [])
+                flags_str = ", ".join(c.replace("ASTM_", "") for c in classes) if classes else "—"
                 pr_lines.append(f"| `{w['id']}` | {w['name']} | {flags_str} |")
             pr_lines.append("")
 

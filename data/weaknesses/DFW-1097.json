@@ -1,12 +1,9 @@
 {
     "id": "DFW-1097",
     "name": "Failing to recover attachment for a deleted message",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1054",
         "DFM-1027",

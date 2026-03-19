@@ -1,12 +1,9 @@
 {
     "id": "DFW-1028",
     "name": "Due to the use of time based filters data extracted may be presented out of context",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "x",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1010",
         "DFM-1011"

@@ -1,12 +1,9 @@
 {
     "id": "DFW-1233",
     "name": "Failure to communicate imprecision in log entry timestamp",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "x",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1177"
     ],

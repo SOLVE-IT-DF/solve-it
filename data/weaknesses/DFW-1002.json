@@ -1,12 +1,9 @@
 {
     "id": "DFW-1002",
     "name": "Use of triage technology results in changes to the target media",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "x",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_ALT"
+    ],
     "mitigations": [
         "DFM-1007",
         "DFM-1008"

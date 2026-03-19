@@ -1,12 +1,9 @@
 {
     "id": "DFW-1064",
     "name": "Making incorrect assumptions about sector size e.g. 512 rather than 4096",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1045",
         "DFM-1046"

@@ -1,12 +1,9 @@
 {
     "id": "DFW-1025",
     "name": "Data relevant to the case is excluded as part of the filtering process",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1010",
         "DFM-1011"

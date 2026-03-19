@@ -1,12 +1,9 @@
 {
     "id": "DFW-1019",
     "name": "Data is collected and assigned to incorrect device",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "x",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [],
     "references": []
 }

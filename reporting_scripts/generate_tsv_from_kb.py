@@ -92,11 +92,16 @@ def print_weaknesses(kb, long):
         w = kb.get_weakness(each_weakness)
         # Print long or short details for each weakness
         if long is True:
-            print("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(each_weakness,
-                                                      w.get('name'), w.get('INCOMP'), w.get('INAC_EX'),
-                                                      w.get('INAC_AS'), w.get('INAC_ALT'),
-                                                      w.get('INAC_COR'), w.get('MISINT')
-                                                      ))
+            classes = w.get('categories', [])
+            cols = [
+                'X' if 'ASTM_INCOMP' in classes else '',
+                'X' if 'ASTM_INAC_EX' in classes else '',
+                'X' if 'ASTM_INAC_AS' in classes else '',
+                'X' if 'ASTM_INAC_ALT' in classes else '',
+                'X' if 'ASTM_INAC_COR' in classes else '',
+                'X' if 'ASTM_MISINT' in classes else '',
+            ]
+            print("{}\t{}\t{}".format(each_weakness, w.get('name'), '\t'.join(cols)))
         else:
             print("{}\t{}".format(each_weakness,
                                   w.get('name')))

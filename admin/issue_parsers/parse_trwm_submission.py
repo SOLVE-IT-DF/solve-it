@@ -30,9 +30,9 @@ from update_utils import build_change_summary
 
 # Regex patterns for temp vs real IDs
 TEMP_ID_RE = re.compile(r'^(DFT|DFW|DFM)-temp-\d+$')
-REAL_TECHNIQUE_RE = re.compile(r'^DFT-\d+$')
-REAL_WEAKNESS_RE = re.compile(r'^DFW-\d+$')
-REAL_MITIGATION_RE = re.compile(r'^DFM-\d+$')
+REAL_TECHNIQUE_RE = re.compile(r'^DFT-\d{4,6}$')
+REAL_WEAKNESS_RE = re.compile(r'^DFW-\d{4,6}$')
+REAL_MITIGATION_RE = re.compile(r'^DFM-\d{4,6}$')
 
 # Full KB schemas with all fields (empty defaults)
 TECHNIQUE_FIELDS = [
@@ -42,8 +42,7 @@ TECHNIQUE_FIELDS = [
 ]
 
 WEAKNESS_FIELDS = [
-    "id", "name", "INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT",
-    "INAC-COR", "MISINT", "mitigations", "references",
+    "id", "name", "categories", "mitigations", "references",
 ]
 
 MITIGATION_FIELDS = [
@@ -232,9 +231,6 @@ KNOWN_CASE_PREFIXES = [
     "https://ontology.solveit-df.org/solveit/",
     "https://cacontology.projectvic.org/",
 ]
-ASTM_FIELDS = ["INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT"]
-
-
 def validate_submission(trwm_data, new_items):
     """Run lightweight validation checks on the submission.
 
@@ -273,10 +269,9 @@ def validate_submission(trwm_data, new_items):
                 f"Technique **{technique['name']}** has no weaknesses listed"
             ))
 
-    # Check for weaknesses with no ASTM error class
+    # Check for weaknesses with no weakness class
     for weakness in new_items["weaknesses"]:
-        has_astm = any(weakness.get(f) for f in ASTM_FIELDS)
-        if not has_astm:
+        if not weakness.get("categories"):
             notes.append((
                 "warning",
                 f"Weakness **{weakness['name']}** has no ASTM error class selected"

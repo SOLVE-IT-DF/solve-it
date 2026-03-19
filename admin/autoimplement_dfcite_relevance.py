@@ -20,8 +20,8 @@ import sys
 
 
 # Strict ID patterns — only allow expected format to prevent path traversal
-VALID_ITEM_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,5}$')
-VALID_DFCITE_RE = re.compile(r'^DFCite-\d{4,5}$')
+VALID_ITEM_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,6}$')
+VALID_DFCITE_RE = re.compile(r'^DFCite-\d{4,6}$')
 
 
 def run(cmd, **kwargs):

@@ -14,7 +14,6 @@ body:
     attributes:
       label: Item ID
       description: The ID of the technique, weakness, or mitigation (e.g. DFT-1002, DFW-1001, DFM-1001).
-      placeholder: DFT-1002
     validations:
       required: true
   - type: input
@@ -22,14 +21,12 @@ body:
     attributes:
       label: DFCite ID
       description: The DFCite identifier for the reference (e.g. DFCite-1107).
-      placeholder: DFCite-1107
     validations:
       required: true
   - type: input
     id: relevance-summary
     attributes:
       label: Relevance Summary
-      description: A short summary of why this reference is relevant (max 280 characters).
-      placeholder: Describes the forensic analysis technique used to recover deleted files from NTFS volumes.
+      description: A short summary of why this reference is relevant to this particular technique, weakness, or mitigation (max 280 characters).
     validations:
       required: true

@@ -1,12 +1,10 @@
 {
     "id": "DFW-1093",
     "name": "Presenting a deleted message as live",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1054",
         "DFM-1027",

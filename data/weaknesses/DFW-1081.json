@@ -1,12 +1,9 @@
 {
     "id": "DFW-1081",
     "name": "Failing to recover file system metadata",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1050",
         "DFM-1051",

@@ -398,14 +398,14 @@ def extract_git_credits(repo_root: Path) -> dict:
 # Pre-processing / cross-referencing
 # ─────────────────────────────────────────────────────────────────────────────
 
-WEAKNESS_CATS = ["INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT"]
+WEAKNESS_CATS = ["ASTM_INCOMP", "ASTM_INAC_EX", "ASTM_INAC_AS", "ASTM_INAC_ALT", "ASTM_INAC_COR", "ASTM_MISINT"]
 CAT_LABELS = {
-    "INCOMP":   "Incomplete (INCOMP)",
-    "INAC-EX":  "Inaccurate Extraction (INAC-EX)",
-    "INAC-AS":  "Inaccurate Association (INAC-AS)",
-    "INAC-ALT": "Inaccurate Alteration (INAC-ALT)",
-    "INAC-COR": "Inaccurate Corruption (INAC-COR)",
-    "MISINT":   "Misinterpretation (MISINT)",
+    "ASTM_INCOMP":    "Incomplete (INCOMP)",
+    "ASTM_INAC_EX":   "Inaccurate Extraction (INAC-EX)",
+    "ASTM_INAC_AS":   "Inaccurate Association (INAC-AS)",
+    "ASTM_INAC_ALT":  "Inaccurate Alteration (INAC-ALT)",
+    "ASTM_INAC_COR":  "Inaccurate Corruption (INAC-COR)",
+    "ASTM_MISINT":    "Misinterpretation (MISINT)",
 }
 
 
@@ -474,7 +474,7 @@ def technique_status_class(status: str) -> str:
 
 
 def weakness_cats(w: dict) -> list[str]:
-    return [c for c in WEAKNESS_CATS if w.get(c, "").strip()]
+    return w.get("categories", [])
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -515,8 +515,7 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
 
         # Hidden fields
         all_fields = ['id', 'name', 'description', 'synonyms', 'details', 'subtechniques',
-                      'examples', 'CASE_input_classes', 'CASE_output_classes', 'weaknesses', 'references',
-                      'properties', 'contributors', 'reviewers']
+                      'examples', 'CASE_input_classes', 'CASE_output_classes', 'weaknesses', 'references']
         hidden = [f for f in all_fields if not kb.should_display_field(f)]
         hidden_fields_json = json.dumps(hidden)
 
@@ -600,6 +599,15 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{page_title}</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SOLVE-IT">
+<meta name="theme-color" content="#0d1b2a">
+<link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -1007,7 +1015,25 @@ body.custom-mode .disabled-btn {{
   flex: 1;
   min-height: 0;
   overflow: auto;
+  overflow-x: scroll;
   padding-bottom: 16px;
+}}
+.matrix-container::-webkit-scrollbar {{
+  height: 14px;
+  width: 14px;
+}}
+.matrix-container::-webkit-scrollbar-track {{
+  background: var(--gray-200);
+  border-radius: 7px;
+  margin: 0 4px;
+}}
+.matrix-container::-webkit-scrollbar-thumb {{
+  background: var(--gray-500);
+  border-radius: 7px;
+  border: 2px solid var(--gray-200);
+}}
+.matrix-container::-webkit-scrollbar-thumb:hover {{
+  background: var(--gray-600);
 }}
 .matrix {{
   display: flex;
@@ -1543,9 +1569,15 @@ body.custom-mode .disabled-btn {{
   .topnav-tabs {{ display: none; }}
   .burger-btn {{ display: flex; }}
   .topnav {{ position: relative; }}
-  .detail-panel {{ width: 100vw; }}
+  .detail-panel {{ width: 100vw; overflow-x: hidden; touch-action: pan-y; }}
+  .detail-body {{ overflow-x: hidden; overscroll-behavior: none; touch-action: pan-y; }}
+  .detail-panel, .detail-body, .detail-section {{
+    max-width: 100vw;
+    box-sizing: border-box;
+  }}
   .main-area.shifted {{ margin-right: 0; }}
   .stats-banner {{ grid-template-columns: repeat(2, 1fr); }}
+  html, body {{ overflow-x: hidden; overscroll-behavior-x: none; }}
 }}
 
 /* ── Misc ──────────────────────────────────────────────────── */
@@ -1889,12 +1921,12 @@ body.custom-mode .disabled-btn {{
   <div id="fb-weaknesses" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="filterbar-label">Category</span>
     <button class="filter-chip active" data-wf="all">All</button>
-    <button class="filter-chip active" data-wf="INCOMP">INCOMP</button>
-    <button class="filter-chip active" data-wf="INAC-EX">INAC-EX</button>
-    <button class="filter-chip active" data-wf="INAC-AS">INAC-AS</button>
-    <button class="filter-chip active" data-wf="INAC-ALT">INAC-ALT</button>
-    <button class="filter-chip active" data-wf="INAC-COR">INAC-COR</button>
-    <button class="filter-chip active" data-wf="MISINT">MISINT</button>
+    <button class="filter-chip active" data-wf="ASTM_INCOMP">INCOMP</button>
+    <button class="filter-chip active" data-wf="ASTM_INAC_EX">INAC-EX</button>
+    <button class="filter-chip active" data-wf="ASTM_INAC_AS">INAC-AS</button>
+    <button class="filter-chip active" data-wf="ASTM_INAC_ALT">INAC-ALT</button>
+    <button class="filter-chip active" data-wf="ASTM_INAC_COR">INAC-COR</button>
+    <button class="filter-chip active" data-wf="ASTM_MISINT">MISINT</button>
     <div class="filterbar-sep"></div>
     <span class="filterbar-label">Mitigations</span>
     <button class="filter-chip active" data-mf="all">All</button>
@@ -2154,7 +2186,7 @@ const S = {{
   t2t:     'all',   // technique table type filter
   ts:      'id',    // technique table sort column
   tsDir:   1,       // technique table sort direction
-  wf:      new Set(['INCOMP','INAC-EX','INAC-AS','INAC-ALT','INAC-COR','MISINT']),   // weakness category filter
+  wf:      new Set(['ASTM_INCOMP','ASTM_INAC_EX','ASTM_INAC_AS','ASTM_INAC_ALT','ASTM_INAC_COR','ASTM_MISINT']),   // weakness category filter
   mf:      'all',   // mitigation filter (has/none)
   ws:      'id',    // weakness sort column
   wsDir:   1,       // weakness sort direction (1=asc, -1=desc)
@@ -2176,14 +2208,14 @@ function esc(s) {{
     .replace(/&/g,'&amp;').replace(/</g,'&lt;')
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }}
-const CATS = ['INCOMP','INAC-EX','INAC-AS','INAC-ALT','INAC-COR','MISINT'];
+const CATS = ['ASTM_INCOMP','ASTM_INAC_EX','ASTM_INAC_AS','ASTM_INAC_ALT','ASTM_INAC_COR','ASTM_MISINT'];
 const CAT_LABELS = {{
-  'INCOMP':   'Incomplete',
-  'INAC-EX':  'Inaccurate Extraction',
-  'INAC-AS':  'Inaccurate Association',
-  'INAC-ALT': 'Inaccurate Alteration',
-  'INAC-COR': 'Inaccurate Corruption',
-  'MISINT':   'Misinterpretation',
+  'ASTM_INCOMP':    'Incomplete',
+  'ASTM_INAC_EX':   'Inaccurate Extraction',
+  'ASTM_INAC_AS':   'Inaccurate Association',
+  'ASTM_INAC_ALT':  'Inaccurate Alteration',
+  'ASTM_INAC_COR':  'Inaccurate Corruption',
+  'ASTM_MISINT':    'Misinterpretation',
 }};
 
 function sortTh(label, key, stateKey, stateDirKey, style) {{
@@ -2194,11 +2226,7 @@ function sortTh(label, key, stateKey, stateDirKey, style) {{
 }}
 
 function wCats(w) {{
-  // Check both hyphenated (INAC-EX) and underscore (INAC_EX) keys for compatibility
-  return CATS.filter(c => {{
-    const v = w[c] || w[c.replace(/-/g, '_')];
-    return v && String(v).trim();
-  }});
+  return (w.categories || []);
 }}
 
 function matchesSearch(item) {{
@@ -2245,6 +2273,7 @@ function updateFormUrl(type, obj) {{
   }} else if (type === 'weakness') {{
     p.set('weakness-id', obj.id);
     p.set('new-weakness-name', obj.name || '');
+    p.set('weakness-classes', joinLines(obj.categories));
     p.set('mitigation-ids', joinLines(obj.mitigations));
     p.set('references', joinRefs(obj.references));
   }} else if (type === 'mitigation') {{
@@ -2751,7 +2780,7 @@ function renderWeaknesses() {{
             return `<tr class="${{sel?'selected':''}}" data-wid="${{w.id}}" data-show-id="${{esc(w.id)}}" data-show-type="weakness">
               <td><span class="wid">${{esc(w.id)}}</span></td>
               <td>${{esc(w.name)}}</td>
-              <td><div class="cat-grid">${{cats.map(c=>`<span class="cat-tag">${{c}}</span>`).join('')}}</div></td>
+              <td><div class="cat-grid">${{cats.map(c=>`<span class="cat-tag" title="${{esc(c)}}">${{esc(c.replace('ASTM_',''))}}</span>`).join('')}}</div></td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{mitCount}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{w._edits||0}}</td>
             </tr>`;
@@ -2885,7 +2914,7 @@ function buildCreditsHtml(item) {{
   const contributors = item._contributors || [];
   const reviewers = item._reviewers || [];
   if (!edits && !created && !contributors.length && !reviewers.length) return '';
-  if (!HIDDEN_FIELDS.has('properties') && (edits || created || modified)) {{
+  if (edits || created || modified) {{
     let rows = '';
     if (edits)    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{edits}}</td></tr>`;
     if (created)  rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{created}}</td></tr>`;
@@ -2895,13 +2924,13 @@ function buildCreditsHtml(item) {{
       <table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>
     </div>`;
   }}
-  if (!HIDDEN_FIELDS.has('contributors') && contributors.length) {{
+  if (contributors.length) {{
     html += `<div class="detail-section">
       <div class="detail-section-title">Contributors <span class="badge">${{contributors.length}}</span></div>
       <div class="detail-tags">${{contributors.map(n => `<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div>
     </div>`;
   }}
-  if (!HIDDEN_FIELDS.has('reviewers') && reviewers.length) {{
+  if (reviewers.length) {{
     html += `<div class="detail-section">
       <div class="detail-section-title">Reviewers <span class="badge">${{reviewers.length}}</span></div>
       <div class="detail-tags">${{reviewers.map(n => `<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div>
@@ -2977,7 +3006,7 @@ function buildTechniqueDetail(t) {{
             <span class="detail-row-id w">${{esc(wid)}}</span>
             <span class="detail-row-name">
               ${{wpfx}}${{w ? esc(w.name) : esc(wid)}}${{wsfx}}
-              ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.join(', ')}}</small>` : ''}}
+              ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.map(c=>c.replace('ASTM_','')).join(', ')}}</small>` : ''}}
             </span>
           </div>`;
         }}).join('')}}
@@ -3030,7 +3059,7 @@ function buildWeaknessDetail(w) {{
   html += `<div class="detail-section">
     <div class="detail-section-title">Error Categories <span class="badge">${{cats.length}}</span></div>
     ${{cats.length ? `<div class="cat-grid">
-      ${{cats.map(c => `<span class="cat-tag" style="font-size:.78rem;padding:4px 10px">${{esc(c)}}<br><small style="font-weight:400;font-family:var(--font-body)">${{esc(CAT_LABELS[c]||'')}}</small></span>`).join('')}}
+      ${{cats.map(c => `<span class="cat-tag" style="font-size:.78rem;padding:4px 10px" title="${{esc(c)}}">${{esc(c.replace('ASTM_',''))}}<br><small style="font-weight:400;font-family:var(--font-body)">${{esc(CAT_LABELS[c]||'')}}</small></span>`).join('')}}
     </div>` : '<div class="empty-message">No error categories.</div>'}}
   </div>`;
 
@@ -3105,7 +3134,7 @@ function buildMitigationDetail(m) {{
           <span class="detail-row-id w">${{esc(wid)}}</span>
           <span class="detail-row-name">
             ${{wpfx}}${{esc(w ? w.name : wid)}}${{wsfx}}
-            ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.join(', ')}}</small>` : ''}}
+            ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.map(c=>c.replace('ASTM_','')).join(', ')}}</small>` : ''}}
           </span>
         </div>`;
       }}).join('')}}
@@ -3817,7 +3846,7 @@ def main() -> None:
             "mitigations": kb.get_all_mitigations_with_full_detail(),
             "objectives": kb.list_objectives(),
         }
-        # Load citations from .bib/.txt files (same as load_from_local)
+        # Load citations from .bib/.txt files
         refs_folder = repo_root / "data" / "references"
         citations = {}
         if refs_folder.exists():

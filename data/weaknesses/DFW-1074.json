@@ -1,12 +1,9 @@
 {
     "id": "DFW-1074",
     "name": "Attributing a file to the wrong directory",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1050",
         "DFM-1051",

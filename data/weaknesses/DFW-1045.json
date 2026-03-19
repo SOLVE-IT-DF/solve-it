@@ -1,12 +1,9 @@
 {
     "id": "DFW-1045",
     "name": "Extracting an incorrect decryption key",
-    "INCOMP": "",
-    "INAC-EX": "X",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
     "mitigations": [
         "DFM-1024"
     ],

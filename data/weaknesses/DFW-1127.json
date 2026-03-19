@@ -2,12 +2,9 @@
     "id": "DFW-1127",
     "name": "Failure to validate disk image metadata",
     "description": "This could allow details such as acquisition date to be changed",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "X",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1076"
     ],

@@ -1,12 +1,9 @@
 {
     "id": "DFW-1222",
     "name": "Presenting account details that did not exist",
-    "INCOMP": "",
-    "INAC-EX": "x",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
     "mitigations": [
         "DFM-1164",
         "DFM-1027",

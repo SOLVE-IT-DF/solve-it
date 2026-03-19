@@ -1,12 +1,11 @@
 {
     "id": "DFW-1277",
     "name": "Connection over a direct media interface causes changes to the target media",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "x",
-    "INAC-COR": "x",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_ALT",
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1008",
         "DFM-1241"

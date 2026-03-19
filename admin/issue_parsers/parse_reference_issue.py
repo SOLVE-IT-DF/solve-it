@@ -19,7 +19,6 @@ from parse_technique_issue import parse_issue_body
 from solve_it_library.reference_matching import (
     load_reference_corpus,
     match_reference,
-    get_next_dfcite_id,
 )
 
 
@@ -34,6 +33,7 @@ def build_comment(fields, project_root):
     result = match_reference(citation_text, corpus)
 
     lines = []
+    lines.append("<!-- REFERENCE_PREVIEW -->")
 
     if result:
         cite_id, match_type = result
@@ -47,18 +47,18 @@ def build_comment(fields, project_root):
         lines.append("If this is indeed the same reference, no new citation file is needed — "
                       f"just use `{cite_id}` when referencing it in techniques, weaknesses, or mitigations.")
     else:
-        next_id = get_next_dfcite_id(project_root)
-        lines.append(f"No existing match found. A new reference can be assigned: **{next_id}**")
+        placeholder = "DFCite-____"
+        lines.append(f"No existing match found. A reference ID will be assigned during review.")
         lines.append("")
-        lines.append("To add this reference, create the following file(s):")
+        lines.append("Proposed file contents:")
         lines.append("")
-        lines.append(f"**`data/references/{next_id}.txt`**")
+        lines.append(f"**`data/references/{placeholder}.txt`**")
         lines.append("```")
         lines.append(citation_text)
         lines.append("```")
         if bibtex:
             lines.append("")
-            lines.append(f"**`data/references/{next_id}.bib`**")
+            lines.append(f"**`data/references/{placeholder}.bib`**")
             lines.append("```bibtex")
             lines.append(bibtex)
             lines.append("```")

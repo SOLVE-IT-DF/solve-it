@@ -2,12 +2,9 @@
     "id": "DFW-1271",
     "name": "Inability to access required service as it is not enabled",
     "description": "For example, Developer Mode may not be enabled on an Android device, or iOS services stopped due to USB Restricted Mode",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-ALT": "",
-    "INAC-AS": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1232"
     ],

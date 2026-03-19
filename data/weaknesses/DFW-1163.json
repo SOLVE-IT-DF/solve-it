@@ -1,12 +1,10 @@
 {
     "id": "DFW-1163",
     "name": "Changing relevant file metadata during file system acquisition",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "X",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_ALT"
+    ],
     "mitigations": [],
     "references": []
 }

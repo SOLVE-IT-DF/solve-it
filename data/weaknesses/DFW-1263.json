@@ -1,15 +1,13 @@
 {
     "id": "DFW-1263",
     "name": "Estimated clock offset is incorrect resulting from misinterpretation of locally stored timestamps when performing Time Anchoring",
-    "INCOMP": "",
-    "INAC-EX": "x",
-    "INAC-ALT": "",
-    "INAC-AS": "",
-    "INAC-COR": "",
-    "MISINT": "x",
-    "references": [],
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1221",
         "DFM-1219"
-    ]
+    ],
+    "references": []
 }

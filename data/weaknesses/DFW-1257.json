@@ -1,12 +1,9 @@
 {
     "id": "DFW-1257",
     "name": "Missing content that is relevant to a keyword search but it has not been extracted as 'artifacts'",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1203",
         "DFM-1204"

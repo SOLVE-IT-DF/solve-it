@@ -1,12 +1,10 @@
 {
     "id": "DFW-1168",
     "name": "Data extracted from a table is assigned an incorrect interpretation",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "X",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_INAC_ALT",
+        "ASTM_MISINT"
+    ],
     "mitigations": [],
     "references": []
 }

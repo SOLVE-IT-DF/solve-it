@@ -1,12 +1,10 @@
 {
     "id": "DFW-1132",
     "name": "Incorrectly computing the hash of one or more files within a disk image due to incorrect hash algorithm implementation",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "X",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_INAC_ALT"
+    ],
     "mitigations": [],
     "references": [
         {

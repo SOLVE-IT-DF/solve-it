@@ -1,12 +1,9 @@
 {
     "id": "DFW-1251",
     "name": "Incomplete browser activity extraction due to failure to consider multiple profiles",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1188"
     ],

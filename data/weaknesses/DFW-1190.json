@@ -1,12 +1,9 @@
 {
     "id": "DFW-1190",
     "name": "Interpretation of app data is incorrect due to app version changes.",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1139"
     ],

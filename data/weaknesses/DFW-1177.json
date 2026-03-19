@@ -1,12 +1,10 @@
 {
     "id": "DFW-1177",
     "name": "Failing to boot from intended forensic bootable environment, causing the normal system boot process to commence",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "X",
-    "INAC-COR": "X",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_ALT",
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1126",
         "DFM-1127"

@@ -18,49 +18,66 @@ from urllib.parse import quote, urlencode
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from parse_technique_issue import parse_issue_body, lines_to_list
 from solve_it_library.reference_matching import process_reference_lines
+from solve_it_library.models import VALID_WEAKNESS_CLASSES
 
 
-ASTM_CLASSES = ["INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT"]
+def parse_categories(raw_text):
+    """Parse category codes from a textarea field (one code per line).
+
+    Returns (valid_categories, invalid_entries) where:
+    - valid_categories is a list of valid ASTM_* codes
+    - invalid_entries is a list of unrecognised strings
+    """
+    classes = []
+    invalid = []
+    for line in raw_text.split('\n'):
+        code = line.strip()
+        if not code:
+            continue
+        if code in VALID_WEAKNESS_CLASSES:
+            classes.append(code)
+        else:
+            invalid.append(code)
+    return classes, invalid
 
 
 def build_weakness_json(fields, project_root=None):
     """Build a SOLVE-IT weakness JSON dict from parsed form fields.
 
-    Returns (weakness_dict, match_report, new_citations).
+    Returns (weakness_dict, match_report, new_citations, ref_warnings).
+    If invalid weakness classes are found, returns None for weakness_dict
+    and the error details in ref_warnings.
     """
-    # Parse ASTM error classes from checkboxes
-    # GitHub checkboxes produce lines like "- [X] INCOMP" or "- [ ] INAC-EX"
-    astm_raw = fields.get("ASTM error classes", "")
-    checked = set()
-    for line in astm_raw.split('\n'):
-        line = line.strip()
-        if line.startswith("- [X]") or line.startswith("- [x]"):
-            value = line.split("]", 1)[1].strip()
-            # Extract just the code (before any description)
-            code = value.split(" - ")[0].strip().split(":")[0].strip()
-            if code in ASTM_CLASSES:
-                checked.add(code)
+    # Parse weakness classes from textarea (one code per line)
+    raw = fields.get("Categories", "")
+    categories, invalid_classes = parse_categories(raw)
+
+    # Fail on invalid weakness class codes
+    if invalid_classes:
+        valid_list = ", ".join(sorted(VALID_WEAKNESS_CLASSES))
+        errors = [f"Unrecognised weakness class `{bad}`" for bad in invalid_classes]
+        errors.append(f"Valid classes: `{valid_list}`")
+        return None, [], [], errors
 
     ref_lines = lines_to_list(fields.get("References", ""))
     if ref_lines and project_root:
-        processed_refs, match_report, new_citations = process_reference_lines(ref_lines, project_root)
+        processed_refs, match_report, new_citations, ref_warnings = process_reference_lines(ref_lines, project_root)
     else:
         processed_refs = []
         match_report = []
         new_citations = []
+        ref_warnings = []
 
     weakness = {
         "id": "DFW-____",
         "name": fields.get("Weakness name", ""),
+        "categories": categories,
+        "mitigations": lines_to_list(fields.get("Existing mitigation IDs", "")),
+        "references": processed_refs,
+        "_parent_techniques": lines_to_list(fields.get("Techniques this applies to", "")),
     }
 
-    for cls in ASTM_CLASSES:
-        weakness[cls] = "x" if cls in checked else ""
-
-    weakness["mitigations"] = lines_to_list(fields.get("Existing mitigation IDs", ""))
-    weakness["references"] = processed_refs
-
-    return weakness, match_report, new_citations
+    return weakness, match_report, new_citations, ref_warnings
 
 
 REPO_URL = "https://github.com/SOLVE-IT-DF/solve-it"
@@ -75,7 +92,7 @@ def build_mitigation_link(name, weakness_id=None):
     return f"{REPO_URL}/issues/new?{urlencode(params, quote_via=quote)}"
 
 
-def build_comment(weakness, fields, match_report=None, new_citations=None):
+def build_comment(weakness, fields, match_report=None, new_citations=None, ref_warnings=None):
     """Build the GitHub comment markdown."""
     lines = []
 
@@ -84,6 +101,16 @@ def build_comment(weakness, fields, match_report=None, new_citations=None):
     lines.append("```json")
     lines.append(json.dumps(weakness, indent=4))
     lines.append("```")
+
+    # Reference warnings
+    if ref_warnings:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### :warning: Reference warnings")
+        lines.append("")
+        for w in ref_warnings:
+            lines.append(f"- {w}")
 
     # References match report
     if match_report:
@@ -111,7 +138,7 @@ def build_comment(weakness, fields, match_report=None, new_citations=None):
         lines.append("")
         for m in new_mitigations:
             url = build_mitigation_link(m)
-            lines.append(f"- [Create mitigation: {m}]({url})")
+            lines.append(f"- [`{m}`]({url})")
 
     # Relevant techniques — remind user to link the weakness back
     relevant_techniques = lines_to_list(fields.get("Techniques this applies to", ""))
@@ -148,8 +175,24 @@ def main():
 
     fields = parse_issue_body(body)
     project_root = os.path.join(os.path.dirname(__file__), '..', '..')
-    weakness, match_report, new_citations = build_weakness_json(fields, project_root)
-    comment = build_comment(weakness, fields, match_report, new_citations)
+    weakness, match_report, new_citations, ref_warnings = build_weakness_json(fields, project_root)
+
+    if weakness is None:
+        # Invalid weakness classes — build error comment
+        lines = [
+            "**Error:** Invalid weakness classes in submission.",
+            "",
+        ]
+        for err in ref_warnings:
+            lines.append(f"- {err}")
+        lines.append("")
+        lines.append("Please fix the weakness classes and resubmit.")
+        lines.append("")
+        lines.append("---")
+        lines.append("*This comment was automatically generated.*")
+        comment = '\n'.join(lines)
+    else:
+        comment = build_comment(weakness, fields, match_report, new_citations, ref_warnings)
 
     if args.output:
         with open(args.output, 'w') as f:

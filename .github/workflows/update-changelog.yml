@@ -1,19 +1,17 @@
 name: Update changelog
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Validate knowledge base"]
+    types: [completed]
     branches: [main]
-    paths:
-      - 'data/techniques/**'
-      - 'data/weaknesses/**'
-      - 'data/mitigations/**'
-      - 'data/references/**'
 
 permissions:
   contents: write
 
 jobs:
   update-changelog:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:

@@ -2,12 +2,9 @@
     "id": "DFW-1273",
     "name": "Failure to preserve full resolution of all relevant timestamps of files obtained using exposed services on a device",
     "description": "",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-ALT": "",
-    "INAC-AS": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1233"
     ],

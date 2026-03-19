@@ -1,12 +1,9 @@
 {
     "id": "DFW-1126",
     "name": "Failure to validate hash properly allowing an incomplete disk image to present as validated",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1075",
         "DFM-1085"

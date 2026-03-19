@@ -1,12 +1,9 @@
 {
     "id": "DFW-1017",
     "name": "Files or data that is relevant to the investigation is missed",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [],
     "references": []
 }

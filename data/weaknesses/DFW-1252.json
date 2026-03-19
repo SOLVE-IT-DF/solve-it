@@ -1,12 +1,10 @@
 {
     "id": "DFW-1252",
     "name": "Assuming that data stored in the cache was viewed by the user",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1189"
     ],

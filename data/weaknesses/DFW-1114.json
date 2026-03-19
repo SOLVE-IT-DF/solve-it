@@ -1,12 +1,9 @@
 {
     "id": "DFW-1114",
     "name": "Failure to locate a relevant device at a physical crime scene",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1068",
         "DFM-1069",

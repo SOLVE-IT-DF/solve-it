@@ -1,12 +1,9 @@
 {
     "id": "DFW-1030",
     "name": "Loading a memory imaging tool makes changes to the data in memory that is being acquired",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "x",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_ALT"
+    ],
     "mitigations": [
         "DFM-1087"
     ],

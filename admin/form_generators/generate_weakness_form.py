@@ -36,21 +36,20 @@ def main():
     lines.append("      description: A longer description of the nature of the weakness.")
     lines.append("      render: text")
 
-    # --- ASTM error classes ---
-    lines.append("  - type: checkboxes")
-    lines.append("    id: astm-error-classes")
+    # --- Categories ---
+    lines.append("  - type: textarea")
+    lines.append("    id: categories")
     lines.append("    attributes:")
-    lines.append("      label: ASTM error classes")
+    lines.append("      label: Categories")
     lines.append("      description: |")
-    lines.append("        Select all ASTM error classes that apply to this weakness.")
-    lines.append("        If this is unclear just note if this affects any of the following properties of the results: authenticity, accuracy, completeness.")
-    lines.append("      options:")
-    lines.append("        - label: \"INCOMP - Incompleteness (e.g. failure to recover live or deleted artefacts, other reasons why an artefact might be missed)\"")
-    lines.append("        - label: \"INAC-EX - Inaccuracy: Existence (e.g. presenting an artefact for something that does not exist)\"")
-    lines.append("        - label: \"INAC-AS - Inaccuracy: Association (e.g. presenting live data as deleted and vice versa)\"")
-    lines.append("        - label: \"INAC-ALT - Inaccuracy: Alteration (e.g. modifying the content of some digital data)\"")
-    lines.append("        - label: \"INAC-COR - Inaccuracy: Corruption (e.g. could the process corrupt data, could the process fail to detect corrupt data)\"")
-    lines.append("        - label: \"MISINT - Misinterpretation (e.g. could results be presented in a way that encourages misinterpretation)\"")
+    lines.append("        Enter one class code per line. Valid ASTM classes:")
+    lines.append("        ASTM_INCOMP - Incompleteness (failure to recover live/deleted artefacts)")
+    lines.append("        ASTM_INAC_EX - Inaccuracy: Existence (presenting artefacts for non-existent items)")
+    lines.append("        ASTM_INAC_AS - Inaccuracy: Association (e.g. live data presented as deleted)")
+    lines.append("        ASTM_INAC_ALT - Inaccuracy: Alteration (modifying content of digital data)")
+    lines.append("        ASTM_INAC_COR - Inaccuracy: Corruption")
+    lines.append("        ASTM_MISINT - Misinterpretation (results presented in misleading ways)")
+    lines.append('      placeholder: "ASTM_INCOMP"')
 
     # --- Existing mitigation IDs ---
     lines.append("  - type: textarea")

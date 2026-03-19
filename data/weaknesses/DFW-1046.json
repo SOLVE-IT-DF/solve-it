@@ -1,12 +1,9 @@
 {
     "id": "DFW-1046",
     "name": "File not recovered from the stored backup",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1026",
         "DFM-1027"

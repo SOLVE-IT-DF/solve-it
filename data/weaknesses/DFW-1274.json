@@ -2,12 +2,9 @@
     "id": "DFW-1274",
     "name": "Inability to enable required service due to locked device",
     "description": "",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-ALT": "",
-    "INAC-AS": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1097",
         "DFM-1234",

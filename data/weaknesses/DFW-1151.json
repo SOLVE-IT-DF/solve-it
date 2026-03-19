@@ -1,12 +1,9 @@
 {
     "id": "DFW-1151",
     "name": "Incorrectly decoding a timestamp from a data source",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "x",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_ALT"
+    ],
     "mitigations": [],
     "references": []
 }

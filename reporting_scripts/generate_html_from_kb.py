@@ -398,14 +398,14 @@ def extract_git_credits(repo_root: Path) -> dict:
 # Pre-processing / cross-referencing
 # ─────────────────────────────────────────────────────────────────────────────
 
-WEAKNESS_CATS = ["INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT"]
+WEAKNESS_CATS = ["ASTM_INCOMP", "ASTM_INAC_EX", "ASTM_INAC_AS", "ASTM_INAC_ALT", "ASTM_INAC_COR", "ASTM_MISINT"]
 CAT_LABELS = {
-    "INCOMP":   "Incomplete (INCOMP)",
-    "INAC-EX":  "Inaccurate Extraction (INAC-EX)",
-    "INAC-AS":  "Inaccurate Association (INAC-AS)",
-    "INAC-ALT": "Inaccurate Alteration (INAC-ALT)",
-    "INAC-COR": "Inaccurate Corruption (INAC-COR)",
-    "MISINT":   "Misinterpretation (MISINT)",
+    "ASTM_INCOMP":    "Incomplete (INCOMP)",
+    "ASTM_INAC_EX":   "Inaccurate Extraction (INAC-EX)",
+    "ASTM_INAC_AS":   "Inaccurate Association (INAC-AS)",
+    "ASTM_INAC_ALT":  "Inaccurate Alteration (INAC-ALT)",
+    "ASTM_INAC_COR":  "Inaccurate Corruption (INAC-COR)",
+    "ASTM_MISINT":    "Misinterpretation (MISINT)",
 }
 
 
@@ -474,7 +474,7 @@ def technique_status_class(status: str) -> str:
 
 
 def weakness_cats(w: dict) -> list[str]:
-    return [c for c in WEAKNESS_CATS if w.get(c, "").strip()]
+    return w.get("categories", [])
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1921,12 +1921,12 @@ body.custom-mode .disabled-btn {{
   <div id="fb-weaknesses" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="filterbar-label">Category</span>
     <button class="filter-chip active" data-wf="all">All</button>
-    <button class="filter-chip active" data-wf="INCOMP">INCOMP</button>
-    <button class="filter-chip active" data-wf="INAC-EX">INAC-EX</button>
-    <button class="filter-chip active" data-wf="INAC-AS">INAC-AS</button>
-    <button class="filter-chip active" data-wf="INAC-ALT">INAC-ALT</button>
-    <button class="filter-chip active" data-wf="INAC-COR">INAC-COR</button>
-    <button class="filter-chip active" data-wf="MISINT">MISINT</button>
+    <button class="filter-chip active" data-wf="ASTM_INCOMP">INCOMP</button>
+    <button class="filter-chip active" data-wf="ASTM_INAC_EX">INAC-EX</button>
+    <button class="filter-chip active" data-wf="ASTM_INAC_AS">INAC-AS</button>
+    <button class="filter-chip active" data-wf="ASTM_INAC_ALT">INAC-ALT</button>
+    <button class="filter-chip active" data-wf="ASTM_INAC_COR">INAC-COR</button>
+    <button class="filter-chip active" data-wf="ASTM_MISINT">MISINT</button>
     <div class="filterbar-sep"></div>
     <span class="filterbar-label">Mitigations</span>
     <button class="filter-chip active" data-mf="all">All</button>
@@ -2186,7 +2186,7 @@ const S = {{
   t2t:     'all',   // technique table type filter
   ts:      'id',    // technique table sort column
   tsDir:   1,       // technique table sort direction
-  wf:      new Set(['INCOMP','INAC-EX','INAC-AS','INAC-ALT','INAC-COR','MISINT']),   // weakness category filter
+  wf:      new Set(['ASTM_INCOMP','ASTM_INAC_EX','ASTM_INAC_AS','ASTM_INAC_ALT','ASTM_INAC_COR','ASTM_MISINT']),   // weakness category filter
   mf:      'all',   // mitigation filter (has/none)
   ws:      'id',    // weakness sort column
   wsDir:   1,       // weakness sort direction (1=asc, -1=desc)
@@ -2208,14 +2208,14 @@ function esc(s) {{
     .replace(/&/g,'&amp;').replace(/</g,'&lt;')
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }}
-const CATS = ['INCOMP','INAC-EX','INAC-AS','INAC-ALT','INAC-COR','MISINT'];
+const CATS = ['ASTM_INCOMP','ASTM_INAC_EX','ASTM_INAC_AS','ASTM_INAC_ALT','ASTM_INAC_COR','ASTM_MISINT'];
 const CAT_LABELS = {{
-  'INCOMP':   'Incomplete',
-  'INAC-EX':  'Inaccurate Extraction',
-  'INAC-AS':  'Inaccurate Association',
-  'INAC-ALT': 'Inaccurate Alteration',
-  'INAC-COR': 'Inaccurate Corruption',
-  'MISINT':   'Misinterpretation',
+  'ASTM_INCOMP':    'Incomplete',
+  'ASTM_INAC_EX':   'Inaccurate Extraction',
+  'ASTM_INAC_AS':   'Inaccurate Association',
+  'ASTM_INAC_ALT':  'Inaccurate Alteration',
+  'ASTM_INAC_COR':  'Inaccurate Corruption',
+  'ASTM_MISINT':    'Misinterpretation',
 }};
 
 function sortTh(label, key, stateKey, stateDirKey, style) {{
@@ -2226,11 +2226,7 @@ function sortTh(label, key, stateKey, stateDirKey, style) {{
 }}
 
 function wCats(w) {{
-  // Check both hyphenated (INAC-EX) and underscore (INAC_EX) keys for compatibility
-  return CATS.filter(c => {{
-    const v = w[c] || w[c.replace(/-/g, '_')];
-    return v && String(v).trim();
-  }});
+  return (w.categories || []);
 }}
 
 function matchesSearch(item) {{
@@ -2277,6 +2273,7 @@ function updateFormUrl(type, obj) {{
   }} else if (type === 'weakness') {{
     p.set('weakness-id', obj.id);
     p.set('new-weakness-name', obj.name || '');
+    p.set('weakness-classes', joinLines(obj.categories));
     p.set('mitigation-ids', joinLines(obj.mitigations));
     p.set('references', joinRefs(obj.references));
   }} else if (type === 'mitigation') {{
@@ -2783,7 +2780,7 @@ function renderWeaknesses() {{
             return `<tr class="${{sel?'selected':''}}" data-wid="${{w.id}}" data-show-id="${{esc(w.id)}}" data-show-type="weakness">
               <td><span class="wid">${{esc(w.id)}}</span></td>
               <td>${{esc(w.name)}}</td>
-              <td><div class="cat-grid">${{cats.map(c=>`<span class="cat-tag">${{c}}</span>`).join('')}}</div></td>
+              <td><div class="cat-grid">${{cats.map(c=>`<span class="cat-tag" title="${{esc(c)}}">${{esc(c.replace('ASTM_',''))}}</span>`).join('')}}</div></td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{mitCount}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{w._edits||0}}</td>
             </tr>`;
@@ -3009,7 +3006,7 @@ function buildTechniqueDetail(t) {{
             <span class="detail-row-id w">${{esc(wid)}}</span>
             <span class="detail-row-name">
               ${{wpfx}}${{w ? esc(w.name) : esc(wid)}}${{wsfx}}
-              ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.join(', ')}}</small>` : ''}}
+              ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.map(c=>c.replace('ASTM_','')).join(', ')}}</small>` : ''}}
             </span>
           </div>`;
         }}).join('')}}
@@ -3062,7 +3059,7 @@ function buildWeaknessDetail(w) {{
   html += `<div class="detail-section">
     <div class="detail-section-title">Error Categories <span class="badge">${{cats.length}}</span></div>
     ${{cats.length ? `<div class="cat-grid">
-      ${{cats.map(c => `<span class="cat-tag" style="font-size:.78rem;padding:4px 10px">${{esc(c)}}<br><small style="font-weight:400;font-family:var(--font-body)">${{esc(CAT_LABELS[c]||'')}}</small></span>`).join('')}}
+      ${{cats.map(c => `<span class="cat-tag" style="font-size:.78rem;padding:4px 10px" title="${{esc(c)}}">${{esc(c.replace('ASTM_',''))}}<br><small style="font-weight:400;font-family:var(--font-body)">${{esc(CAT_LABELS[c]||'')}}</small></span>`).join('')}}
     </div>` : '<div class="empty-message">No error categories.</div>'}}
   </div>`;
 
@@ -3137,7 +3134,7 @@ function buildMitigationDetail(m) {{
           <span class="detail-row-id w">${{esc(wid)}}</span>
           <span class="detail-row-name">
             ${{wpfx}}${{esc(w ? w.name : wid)}}${{wsfx}}
-            ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.join(', ')}}</small>` : ''}}
+            ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.map(c=>c.replace('ASTM_','')).join(', ')}}</small>` : ''}}
           </span>
         </div>`;
       }}).join('')}}

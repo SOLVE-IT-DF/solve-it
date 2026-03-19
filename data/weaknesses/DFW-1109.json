@@ -1,12 +1,11 @@
 {
     "id": "DFW-1109",
     "name": "Incorrect recovery of information regarding a web visit from allocated data",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "X",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_INAC_ALT",
+        "ASTM_MISINT"
+    ],
     "mitigations": [],
     "references": []
 }

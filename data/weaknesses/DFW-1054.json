@@ -1,12 +1,9 @@
 {
     "id": "DFW-1054",
     "name": "Data not indexed for keyword searching due to text encoding",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1029",
         "DFM-1034",

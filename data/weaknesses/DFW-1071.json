@@ -1,12 +1,9 @@
 {
     "id": "DFW-1071",
     "name": "Failing to recover a complete listing of a live directory",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1050",
         "DFM-1051",

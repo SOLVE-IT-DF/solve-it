@@ -1,12 +1,9 @@
 {
     "id": "DFW-1205",
     "name": "Presenting a message to the AI chat app as from the AI companion app, or vice versa",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "x",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1154",
         "DFM-1155",

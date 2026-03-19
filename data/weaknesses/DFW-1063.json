@@ -1,12 +1,10 @@
 {
     "id": "DFW-1063",
     "name": "Incorrectly parsing the partitions table(s)",
-    "INCOMP": "X",
-    "INAC-EX": "X",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_EX"
+    ],
     "mitigations": [
         "DFM-1047",
         "DFM-1050",

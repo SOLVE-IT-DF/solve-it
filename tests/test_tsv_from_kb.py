@@ -50,7 +50,7 @@ class MyTestCase(unittest.TestCase):
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             generate_tsv_from_kb.print_weaknesses(kb, True)
-        test_str = 'DFW-1001\tExcluding a device that contains relevant information\tx\t\t\t\t\t\n'
+        test_str = 'DFW-1001\tExcluding a device that contains relevant information\tX\t\t\t\t\t\n'
         self.assertIn(test_str, captured_output.getvalue())
 
     def test_print_mitigations_runs_without_error(self):

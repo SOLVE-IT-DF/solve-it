@@ -2,12 +2,9 @@
     "id": "DFW-1178",
     "name": "Inability to load the forensic bootable environment due to system configuration",
     "description": "System configuration may not permit alternative booting e.g., Secureboot is enabled",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1128",
         "DFM-1129",

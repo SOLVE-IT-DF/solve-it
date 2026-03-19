@@ -128,16 +128,32 @@ Your pull request will get checked by a SOLVE-IT reviewer and then integrated. Y
 
 
 ## Weakness Categories
-In SOLVE-IT we use _ASTM E3016-18 Standard Guide for Establishing Confidence in Digital and Multimedia Evidence Forensic Results by Error Mitigation Analysis_ **as a guide** for categorising weaknesses. 
+In SOLVE-IT we use _ASTM E3016-18 Standard Guide for Establishing Confidence in Digital and Multimedia Evidence Forensic Results by Error Mitigation Analysis_ **as a guide** for categorising weaknesses.
 
-The full definitions from ASTM are here for reference[^1], but the more concise and very slightly modified[^2] "weakness prompts" taken from the TRWM Helper Worksheets represent the SOLVE-IT categorisations more closely. 
+Weakness classifications are stored in the `categories` list field in each weakness JSON file:
 
-* Incompleteness: INCOMP: e.g. failure to recover live artefacts, failure to recover deleted artefacts, other reasons why an artefact might be missed?
-* Inaccuracy (Existence): INAC-EX: e.g. presenting an artefact for something that does not exist
-* Inaccuracy (Alteration): INAC-ALT: e.g. modifying the content of some digital data
-* Inaccuracy (Association): INAC-AS: e.g. presenting live data as deleted and vice versa
-* Inaccuracy (Corruption): INAC-COR: e.g. could the process corrupt data, could the process fail to detect corrupt data?
-* Misinterpretation: MISINT: e.g. could results be presented in a way that encourages misinterpretation?
+```json
+{
+  "id": "DFW-1001",
+  "name": "Excluding a device that contains relevant information",
+  "categories": ["ASTM_INCOMP"],
+  "mitigations": [],
+  "references": []
+}
+```
+
+The valid ASTM class codes (all prefixed with `ASTM_`) are:
+
+* `ASTM_INCOMP` — Incompleteness: e.g. failure to recover live artefacts, failure to recover deleted artefacts, other reasons why an artefact might be missed?
+* `ASTM_INAC_EX` — Inaccuracy (Existence): e.g. presenting an artefact for something that does not exist
+* `ASTM_INAC_ALT` — Inaccuracy (Alteration): e.g. modifying the content of some digital data
+* `ASTM_INAC_AS` — Inaccuracy (Association): e.g. presenting live data as deleted and vice versa
+* `ASTM_INAC_COR` — Inaccuracy (Corruption): e.g. could the process corrupt data, could the process fail to detect corrupt data?
+* `ASTM_MISINT` — Misinterpretation: e.g. could results be presented in a way that encourages misinterpretation?
+
+When proposing or updating a weakness via the GitHub issue forms, enter one class code per line in the "Categories" textarea field.
+
+The full definitions from ASTM are here for reference[^1], but the more concise and very slightly modified[^2] "weakness prompts" taken from the TRWM Helper Worksheets represent the SOLVE-IT categorisations more closely.
 
 
 

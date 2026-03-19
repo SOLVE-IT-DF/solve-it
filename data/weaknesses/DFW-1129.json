@@ -1,12 +1,9 @@
 {
     "id": "DFW-1129",
     "name": "File type is incorrectly identified",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1109",
         "DFM-1111",

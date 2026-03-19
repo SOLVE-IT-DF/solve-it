@@ -1,12 +1,11 @@
 {
     "id": "DFW-1167",
     "name": "Combining data from multiple tables that should not be joined",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "X",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_INAC_ALT",
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1118",
         "DFM-1119",

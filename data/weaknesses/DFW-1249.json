@@ -1,12 +1,9 @@
 {
     "id": "DFW-1249",
     "name": "Missing a web browser profile as it was stored outside of the usual browser profile folders",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1191"
     ],

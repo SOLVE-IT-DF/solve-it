@@ -1,12 +1,9 @@
 {
     "id": "DFW-1138",
     "name": "Failing to identify password in the time available",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1092",
         "DFM-1095",

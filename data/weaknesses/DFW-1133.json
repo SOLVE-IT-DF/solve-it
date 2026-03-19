@@ -1,12 +1,9 @@
 {
     "id": "DFW-1133",
     "name": "Tool fails to express uncertainty in the classification of file recovery results, e.g., where content may be partly overwritten.",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1084"
     ],

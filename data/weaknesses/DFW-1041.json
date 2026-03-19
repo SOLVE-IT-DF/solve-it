@@ -1,12 +1,9 @@
 {
     "id": "DFW-1041",
     "name": "Not considering file system acquisition as alternative",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1019"
     ],

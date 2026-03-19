@@ -1,12 +1,10 @@
 {
     "id": "DFW-1223",
     "name": "Live access to the device (for extraction) updates last access times for an account",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "x",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_ALT"
+    ],
     "mitigations": [
         "DFM-1165",
         "DFM-1166",

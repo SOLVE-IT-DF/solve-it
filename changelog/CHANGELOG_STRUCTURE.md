@@ -2,6 +2,10 @@
 
 Changes to the knowledge base schema.
 
+### Weakness classes migration (2026-03-19)
+
+Migrated weakness ASTM error classification from 6 individual boolean-style fields (`INCOMP`, `INAC-EX`, etc.) to a single `categories` list field. Each class code is now prefixed with `ASTM_` (e.g. `ASTM_INCOMP`, `ASTM_INAC_EX`). 271 weakness files updated. Issue forms changed from checkboxes to textarea input. Ontology updated to use `hasWeaknessClass` object property with `ASTMErrorCategory` named individuals.
+
 ### References format update to DFCites (2026-03-18)
 
 Migrated references to the DFCite format (PR [#325](https://github.com/SOLVE-IT-DF/solve-it/pull/325)). This changes references to a top level object in the data folder. Uses .txt or .bib to index them. Added citation utilities, reference matching, and updated models. Introduces 'relevance_summary_280' field across entire knowledge base as part of DFCite change.  340 files changed.

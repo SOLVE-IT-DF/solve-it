@@ -1,12 +1,9 @@
 {
     "id": "DFW-1057",
     "name": "Relevant keyword results not captured by the case-type keyword list used",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1031",
         "DFM-1032"

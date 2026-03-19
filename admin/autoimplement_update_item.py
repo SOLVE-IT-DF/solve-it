@@ -337,7 +337,7 @@ def main():
             print(f"Error: path traversal detected for {item_id}", file=sys.stderr)
             sys.exit(1)
 
-        # Round-trip through Pydantic to ensure JSON uses alias keys (e.g. INAC-EX not INAC_EX)
+        # Round-trip through Pydantic to validate and normalize the JSON
         model_class = {"technique": Technique, "weakness": Weakness, "mitigation": Mitigation}[item_type]
         proposed = model_class.model_validate(proposed).model_dump(by_alias=True)
 

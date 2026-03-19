@@ -163,7 +163,7 @@ class MyTestCase(unittest.TestCase):
         Expected outcome:
         - Should return a dictionary with weakness data for DFW-1001
         - Should have correct structure with SOLVE-IT specific fields
-        - Should contain weakness categorization fields (INCOMP, INAC_*, MISINT)
+        - Should contain categories list
         - Should have proper data types for all fields
         """
         kb = KnowledgeBase('.', 'solve-it.json')
@@ -171,12 +171,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(dict, type(weakness))
         self.assertEqual('DFW-1001', weakness.get('id'))
         self.assertEqual('Excluding a device that contains relevant information', weakness.get('name'))
-        self.assertEqual('x', weakness.get('INCOMP'))
-        self.assertEqual('', weakness.get('INAC_EX'))
-        self.assertEqual('', weakness.get('INAC_AS'))
-        self.assertEqual('', weakness.get('INAC_ALT'))
-        self.assertEqual('', weakness.get('INAC_COR'))
-        self.assertEqual('', weakness.get('MISINT'))
+        self.assertIsInstance(weakness.get('categories'), list)
+        self.assertIn('ASTM_INCOMP', weakness.get('categories'))
+        self.assertNotIn('ASTM_MISINT', weakness.get('categories'))
         self.assertIsInstance(weakness.get('mitigations'), list)
         self.assertIsInstance(weakness.get('references'), list)
 

@@ -1,12 +1,9 @@
 {
     "id": "DFW-1215",
     "name": "Failure to recover deleted but recoverable records of calls to or from the AI companion app",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1162",
         "DFM-1027",

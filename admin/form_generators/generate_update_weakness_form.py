@@ -42,7 +42,6 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Weakness ID")
     lines.append("      description: The ID of the weakness to update (e.g. DFW-1001).")
-    lines.append("      placeholder: DFW-1001")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -68,7 +67,6 @@ def main():
     lines.append("        ASTM_INAC_ALT - Inaccuracy: Alteration (modifying content of digital data)")
     lines.append("        ASTM_INAC_COR - Inaccuracy: Corruption")
     lines.append("        ASTM_MISINT - Misinterpretation (results presented in misleading ways)")
-    lines.append('      placeholder: "ASTM_INCOMP"')
 
     # --- Mitigation IDs ---
     lines.append("  - type: textarea")
@@ -100,6 +98,7 @@ def main():
     lines.append("        The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.")
     lines.append("        New citations will be automatically matched against existing references where possible.")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
+    lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
     lines.append("      render: text")
 
     # --- Any other notes ---

@@ -8,26 +8,16 @@ body:
     attributes:
       label: Technique name
       description: The name for the technique (synonyms can be provided below).
-      placeholder: Give this technique a name
     validations:
       required: true
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: A short description of the technique (extended details can be provided below).
+      description: A short description of what the technique does (extended details can be provided below).
       render: text
-      placeholder: Describe what this technique does
     validations:
       required: true
-  - type: input
-    id: parent-technique
-    attributes:
-      label: Parent technique (optional)
-      description: |
-        If this is a subtechnique, enter the parent technique ID (e.g. DFT-1002). Leave blank for top-level techniques.
-        Existing techniques can be browsed on the [SOLVE-IT Explorer](https://explore.solveit-df.org).
-      placeholder: e.g. DFT-1002
   - type: textarea
     id: synonyms
     attributes:
@@ -121,7 +111,9 @@ body:
     id: references
     attributes:
       label: References
-      description: Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
+      description: |
+        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
+        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
       render: text
   - type: textarea
     id: other-notes

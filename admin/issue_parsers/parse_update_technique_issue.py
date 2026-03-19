@@ -136,7 +136,7 @@ def main():
             ref_lines.extend(match_report)
             if new_citations:
                 ref_lines.append("")
-                ref_lines.append("Please edit the `relevance_summary_280` fields (max 280 chars) when creating the PR.")
+                ref_lines.append("Review the `relevance_summary_280` fields (max 280 chars) in the PR — any summaries provided via the pipe delimiter have been pre-filled.")
             comment += '\n'.join(ref_lines)
 
         # Proposed new weaknesses — generate pre-filled links

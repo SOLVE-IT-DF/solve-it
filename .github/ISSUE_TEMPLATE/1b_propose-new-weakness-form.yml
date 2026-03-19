@@ -8,7 +8,6 @@ body:
     attributes:
       label: Weakness name
       description: A suggested, fairly short name for the weakness.
-      placeholder: Give this weakness a name
     validations:
       required: true
   - type: textarea
@@ -29,7 +28,6 @@ body:
         ASTM_INAC_ALT - Inaccuracy: Alteration (modifying content of digital data)
         ASTM_INAC_COR - Inaccuracy: Corruption
         ASTM_MISINT - Misinterpretation (results presented in misleading ways)
-      placeholder: "ASTM_INCOMP"
   - type: textarea
     id: existing-mitigations
     attributes:
@@ -52,7 +50,9 @@ body:
     id: references
     attributes:
       label: References
-      description: Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
+      description: |
+        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
+        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
       render: text
   - type: textarea
     id: other-notes

@@ -9,13 +9,12 @@ body:
         ## Update an existing technique
         Use this form to propose changes to an existing technique.
         **Leave fields blank to keep current values.** Only fill in fields you want to change.
-        Existing techniques (DFT-1001–DFT-1175) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
+        Existing techniques (DFT-1001–DFT-1179) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
   - type: input
     id: technique-id
     attributes:
       label: Technique ID
       description: The ID of the technique to update (e.g. DFT-1002).
-      placeholder: DFT-1002
     validations:
       required: true
   - type: input
@@ -58,7 +57,7 @@ body:
       description: |
         The complete new list of subtechnique IDs (one per line, e.g. DFT-1002.1, DFT-1002.2).
         Leave blank to keep the current list. If populated, this replaces the entire list.
-        Existing techniques (DFT-1001–DFT-1175) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
+        Existing techniques (DFT-1001–DFT-1179) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
       render: text
   - type: textarea
     id: weakness-ids
@@ -105,6 +104,7 @@ body:
         The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.
         New citations will be automatically matched against existing references where possible.
         Leave blank to keep the current list. If populated, this replaces the entire list.
+        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
       render: text
   - type: textarea
     id: other-notes

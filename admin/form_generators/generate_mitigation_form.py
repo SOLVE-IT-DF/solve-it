@@ -23,7 +23,7 @@ def main():
     lines.append("    id: mitigation-name")
     lines.append("    attributes:")
     lines.append("      label: Mitigation name")
-    lines.append("      placeholder: Give this mitigation a name")
+    lines.append("      description: A suggested name for the mitigation.")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -50,15 +50,16 @@ def main():
     lines.append("      label: Linked technique")
     lines.append("      description: |")
     lines.append("        Some mitigations are links to techniques. This happens when they are complex enough to need longer descriptions, and have their own weaknesses.")
-    lines.append("        Provide the technique ID if applicable. See [DFM-1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/DFM-1007.json) for an example.")
-    lines.append("      placeholder: Technique ID (if applicable)")
+    lines.append("        Provide the technique ID if applicable (e.g. DFT-1002). See [DFM-1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/DFM-1007.json) for an example.")
 
     # --- References ---
     lines.append("  - type: textarea")
     lines.append("    id: references")
     lines.append("    attributes:")
     lines.append("      label: References")
-    lines.append("      description: Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.")
+    lines.append("      description: |")
+    lines.append("        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.")
+    lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
     lines.append("      render: text")
 
     # --- Any other notes ---

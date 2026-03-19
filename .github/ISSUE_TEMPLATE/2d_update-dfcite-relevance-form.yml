@@ -27,6 +27,6 @@ body:
     id: relevance-summary
     attributes:
       label: Relevance Summary
-      description: A short summary of why this reference is relevant to this particular technique, weakness, or mitigation (max 280 characters).
+      description: A short summary of why this reference is relevant (max 280 characters, e.g. Describes the forensic analysis technique used to recover deleted files from NTFS volumes).
     validations:
       required: true

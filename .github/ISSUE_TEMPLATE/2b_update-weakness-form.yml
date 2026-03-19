@@ -15,7 +15,6 @@ body:
     attributes:
       label: Weakness ID
       description: The ID of the weakness to update (e.g. DFW-1001).
-      placeholder: DFW-1001
     validations:
       required: true
   - type: input
@@ -37,7 +36,6 @@ body:
         ASTM_INAC_ALT - Inaccuracy: Alteration (modifying content of digital data)
         ASTM_INAC_COR - Inaccuracy: Corruption
         ASTM_MISINT - Misinterpretation (results presented in misleading ways)
-      placeholder: "ASTM_INCOMP"
   - type: textarea
     id: mitigation-ids
     attributes:
@@ -63,6 +61,7 @@ body:
         The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.
         New citations will be automatically matched against existing references where possible.
         Leave blank to keep the current list. If populated, this replaces the entire list.
+        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
       render: text
   - type: textarea
     id: other-notes

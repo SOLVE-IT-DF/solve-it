@@ -56,7 +56,6 @@ body:
       description: |
         If this is a subtechnique, enter the parent technique ID (e.g. DFT-1002). Leave blank for top-level techniques.
         Existing techniques can be browsed on the [SOLVE-IT Explorer](https://explore.solveit-df.org).
-      placeholder: e.g. DFT-1002
   - type: textarea
     id: trwm-json
     attributes:

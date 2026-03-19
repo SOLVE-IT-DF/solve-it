@@ -148,7 +148,7 @@ def build_comment(technique, fields, match_report=None, new_citations=None, ref_
         lines.extend(match_report)
         if new_citations:
             lines.append("")
-            lines.append("Please edit the `relevance_summary_280` fields (max 280 chars) when creating the PR.")
+            lines.append("Review the `relevance_summary_280` fields (max 280 chars) in the PR — any summaries provided via the pipe delimiter have been pre-filled.")
 
     # Proposed new weaknesses — generate pre-filled links
     new_weaknesses = lines_to_list(fields.get("Propose new weaknesses", ""))

@@ -42,7 +42,6 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Technique ID")
     lines.append("      description: The ID of the technique to update (e.g. DFT-1002).")
-    lines.append("      placeholder: DFT-1002")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -154,6 +153,7 @@ def main():
     lines.append("        The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.")
     lines.append("        New citations will be automatically matched against existing references where possible.")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
+    lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
     lines.append("      render: text")
 
     # --- Any other notes ---

@@ -42,7 +42,6 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Mitigation ID")
     lines.append("      description: The ID of the mitigation to update (e.g. DFM-1001).")
-    lines.append("      placeholder: DFM-1001")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -74,7 +73,6 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Linked technique ID")
     lines.append("      description: Only used if 'Set new value' is selected above. Provide the technique ID (e.g. DFT-1002).")
-    lines.append("      placeholder: DFT-1002")
 
     # --- References ---
     lines.append("  - type: textarea")
@@ -85,6 +83,7 @@ def main():
     lines.append("        The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.")
     lines.append("        New citations will be automatically matched against existing references where possible.")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
+    lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
     lines.append("      render: text")
 
     # --- Any other notes ---

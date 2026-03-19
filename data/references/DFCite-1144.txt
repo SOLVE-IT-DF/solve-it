@@ -1,0 +1,1 @@
+Magnet Forensics (2020) Expose evidence of timestomping with the NTFS timestamp mismatch artifact in Magnet AXIOM 4.4. Available at: https://www.magnetforensics.com/blog/expose-evidence-of-timestomping-with-the-ntfs-timestamp-mismatch-artifact-in-magnet-axiom-4-4/

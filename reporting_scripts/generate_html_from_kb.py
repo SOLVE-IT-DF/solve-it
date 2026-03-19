@@ -676,15 +676,15 @@ body.custom-mode .disabled-btn {{
 /* ── Custom mode extension banner ─────────────────────────── */
 .extension-banner {{
   padding: 6px 16px;
-  background: #0e1a30;
-  color: #fff;
+  background: #ffd000;
+  color: #000;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   flex-shrink: 0;
 }}
 .extension-banner a {{
-  color: #fff;
+  color: #000;
   font-weight: 700;
   text-decoration: underline;
 }}

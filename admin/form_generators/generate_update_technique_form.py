@@ -130,6 +130,7 @@ def main():
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
+    lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("      render: text")
 
     # --- CASE output classes ---
@@ -142,6 +143,7 @@ def main():
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
+    lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("      render: text")
 
     # --- References ---

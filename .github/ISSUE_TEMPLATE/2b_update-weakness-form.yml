@@ -26,16 +26,7 @@ body:
     id: categories
     attributes:
       label: Categories
-      description: |
-        Enter one class code per line. Leave blank to keep current values.
-        If populated, this replaces the entire list.
-        Valid ASTM classes:
-        ASTM_INCOMP - Incompleteness (failure to recover live/deleted artefacts)
-        ASTM_INAC_EX - Inaccuracy: Existence (presenting artefacts for non-existent items)
-        ASTM_INAC_AS - Inaccuracy: Association (e.g. live data presented as deleted)
-        ASTM_INAC_ALT - Inaccuracy: Alteration (modifying content of digital data)
-        ASTM_INAC_COR - Inaccuracy: Corruption
-        ASTM_MISINT - Misinterpretation (results presented in misleading ways)
+      description: Enter one class code per line. Leave blank to keep current values. If populated, this replaces the entire list. Valid codes — ASTM_INCOMP (Incompleteness), ASTM_INAC_EX (Inaccuracy: Existence), ASTM_INAC_AS (Inaccuracy: Association), ASTM_INAC_ALT (Inaccuracy: Alteration), ASTM_INAC_COR (Inaccuracy: Corruption), ASTM_MISINT (Misinterpretation).
   - type: textarea
     id: mitigation-ids
     attributes:

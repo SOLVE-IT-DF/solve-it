@@ -40,14 +40,7 @@ def main():
     lines.append("    id: categories")
     lines.append("    attributes:")
     lines.append("      label: Categories")
-    lines.append("      description: |")
-    lines.append("        Enter one class code per line. Valid ASTM classes:")
-    lines.append("        ASTM_INCOMP - Incompleteness (failure to recover live/deleted artefacts)")
-    lines.append("        ASTM_INAC_EX - Inaccuracy: Existence (presenting artefacts for non-existent items)")
-    lines.append("        ASTM_INAC_AS - Inaccuracy: Association (e.g. live data presented as deleted)")
-    lines.append("        ASTM_INAC_ALT - Inaccuracy: Alteration (modifying content of digital data)")
-    lines.append("        ASTM_INAC_COR - Inaccuracy: Corruption")
-    lines.append("        ASTM_MISINT - Misinterpretation (results presented in misleading ways)")
+    lines.append("      description: Enter one class code per line. Valid codes — ASTM_INCOMP (Incompleteness), ASTM_INAC_EX (Inaccuracy: Existence), ASTM_INAC_AS (Inaccuracy: Association), ASTM_INAC_ALT (Inaccuracy: Alteration), ASTM_INAC_COR (Inaccuracy: Corruption), ASTM_MISINT (Misinterpretation).")
 
     # --- Existing mitigation IDs ---
     lines.append("  - type: textarea")

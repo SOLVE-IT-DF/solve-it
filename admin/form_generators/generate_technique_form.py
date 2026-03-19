@@ -125,6 +125,7 @@ def main():
     lines.append("      description: |")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
+    lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("      render: text")
 
     # --- CASE output classes ---
@@ -135,6 +136,7 @@ def main():
     lines.append("      description: |")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
+    lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("        You can also propose a new CASE class via the [CASE Issue Tracker](https://github.com/casework/CASE/issues).")
     lines.append("      render: text")
 

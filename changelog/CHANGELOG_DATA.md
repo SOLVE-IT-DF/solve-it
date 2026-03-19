@@ -2,6 +2,7 @@
 
 ## March 2026
 
+- **2026-03-18** Updated weakness (AUTOIMPLEMENT): Data referenced in memory is located within pagefile or swapfile but is not collected (DFW-1033) [`6d0842f`](https://github.com/SOLVE-IT-DF/solve-it/commit/6d0842f)
 - **2026-03-18** Added mitigation (AUTOIMPLEMENT): Check for indications of disk backed memory pages (DFM-1240) [`b37bd4c`](https://github.com/SOLVE-IT-DF/solve-it/commit/b37bd4c)
 - **2026-03-18** Added reference (AUTOIMPLEMENT): DFCite-1143 [`db276fc`](https://github.com/SOLVE-IT-DF/solve-it/commit/db276fc)
 - **2026-03-18** Updated reference (AUTOIMPLEMENT): DFCite-1057 in DFT-1007 (DFCite-1057) [`751623f`](https://github.com/SOLVE-IT-DF/solve-it/commit/751623f)

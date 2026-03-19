@@ -1,12 +1,9 @@
 {
     "id": "DFW-1293",
     "name": "Presenting a live contact from a gaming app that does not exist",
-    "INCOMP": "",
-    "INAC-EX": "x",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
     "mitigations": [
         "DFM-1245",
         "DFM-1027",

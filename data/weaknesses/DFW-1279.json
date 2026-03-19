@@ -1,12 +1,9 @@
 {
     "id": "DFW-1279",
     "name": "Failure to recover live message from a multiplayer gaming app",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1242",
         "DFM-1027",

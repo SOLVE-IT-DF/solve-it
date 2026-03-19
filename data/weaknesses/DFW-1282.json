@@ -1,12 +1,10 @@
 {
     "id": "DFW-1282",
     "name": "Recovering the gaming app configuration incorrectly",
-    "INCOMP": "",
-    "INAC-EX": "x",
-    "INAC-AS": "x",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1247",
         "DFM-1027"

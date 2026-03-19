@@ -1,12 +1,9 @@
 {
     "id": "DFW-1280",
     "name": "Presenting a live contact from a gaming app as a deleted one or vice versa",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "x",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1245",
         "DFM-1244",

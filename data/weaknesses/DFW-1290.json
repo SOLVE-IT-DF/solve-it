@@ -1,12 +1,9 @@
 {
     "id": "DFW-1290",
     "name": "Presenting a live message from a gaming app as deleted or vice versa",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "x",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1244",
         "DFM-1242",

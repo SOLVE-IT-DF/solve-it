@@ -1,12 +1,9 @@
 {
     "id": "DFW-1285",
     "name": "Recovering an account used for a gaming application that was not actually used",
-    "INCOMP": "",
-    "INAC-EX": "x",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
     "mitigations": [
         "DFM-1248",
         "DFM-1050",

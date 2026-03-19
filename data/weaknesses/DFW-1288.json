@@ -1,12 +1,9 @@
 {
     "id": "DFW-1288",
     "name": "Presenting a live message from a gaming app that does not exist",
-    "INCOMP": "",
-    "INAC-EX": "x",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
     "mitigations": [
         "DFM-1242",
         "DFM-1027",

@@ -1,12 +1,10 @@
 {
     "id": "DFW-1286",
     "name": "Describing a live gaming app account as deleted/removed or vice versa",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "x",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "x",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1248",
         "DFM-1249",

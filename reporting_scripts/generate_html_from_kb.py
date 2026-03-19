@@ -1006,7 +1006,25 @@ body.custom-mode .disabled-btn {{
   flex: 1;
   min-height: 0;
   overflow: auto;
+  overflow-x: scroll;
   padding-bottom: 16px;
+}}
+.matrix-container::-webkit-scrollbar {{
+  height: 14px;
+  width: 14px;
+}}
+.matrix-container::-webkit-scrollbar-track {{
+  background: var(--gray-200);
+  border-radius: 7px;
+  margin: 0 4px;
+}}
+.matrix-container::-webkit-scrollbar-thumb {{
+  background: var(--gray-500);
+  border-radius: 7px;
+  border: 2px solid var(--gray-200);
+}}
+.matrix-container::-webkit-scrollbar-thumb:hover {{
+  background: var(--gray-600);
 }}
 .matrix {{
   display: flex;
@@ -1542,9 +1560,15 @@ body.custom-mode .disabled-btn {{
   .topnav-tabs {{ display: none; }}
   .burger-btn {{ display: flex; }}
   .topnav {{ position: relative; }}
-  .detail-panel {{ width: 100vw; }}
+  .detail-panel {{ width: 100vw; overflow-x: hidden; touch-action: pan-y; }}
+  .detail-body {{ overflow-x: hidden; overscroll-behavior: none; touch-action: pan-y; }}
+  .detail-panel, .detail-body, .detail-section {{
+    max-width: 100vw;
+    box-sizing: border-box;
+  }}
   .main-area.shifted {{ margin-right: 0; }}
   .stats-banner {{ grid-template-columns: repeat(2, 1fr); }}
+  html, body {{ overflow-x: hidden; overscroll-behavior-x: none; }}
 }}
 
 /* ── Misc ──────────────────────────────────────────────────── */

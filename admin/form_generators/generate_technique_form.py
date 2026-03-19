@@ -36,7 +36,6 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Technique name")
     lines.append("      description: The name for the technique (synonyms can be provided below).")
-    lines.append("      placeholder: Give this technique a name")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -45,9 +44,8 @@ def main():
     lines.append("    id: description")
     lines.append("    attributes:")
     lines.append("      label: Description")
-    lines.append("      description: A short description of the technique (extended details can be provided below).")
+    lines.append("      description: A short description of what the technique does (extended details can be provided below).")
     lines.append("      render: text")
-    lines.append("      placeholder: Describe what this technique does")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -127,6 +125,7 @@ def main():
     lines.append("      description: |")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
+    lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("      render: text")
 
     # --- CASE output classes ---
@@ -137,6 +136,7 @@ def main():
     lines.append("      description: |")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
+    lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("        You can also propose a new CASE class via the [CASE Issue Tracker](https://github.com/casework/CASE/issues).")
     lines.append("      render: text")
 
@@ -145,7 +145,9 @@ def main():
     lines.append("    id: references")
     lines.append("    attributes:")
     lines.append("      label: References")
-    lines.append("      description: Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.")
+    lines.append("      description: |")
+    lines.append("        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.")
+    lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
     lines.append("      render: text")
 
     # --- Any other notes ---

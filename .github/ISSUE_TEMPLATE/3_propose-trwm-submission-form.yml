@@ -49,6 +49,13 @@ body:
     attributes:
       label: Propose new objective
       description: If your technique doesn't fit an existing objective, propose one here.
+  - type: input
+    id: parent-technique
+    attributes:
+      label: Parent technique (optional)
+      description: |
+        If this is a subtechnique, enter the parent technique ID (e.g. DFT-1002). Leave blank for top-level techniques.
+        Existing techniques can be browsed on the [SOLVE-IT Explorer](https://explore.solveit-df.org).
   - type: textarea
     id: trwm-json
     attributes:

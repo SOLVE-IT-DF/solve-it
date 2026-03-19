@@ -42,7 +42,6 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Technique ID")
     lines.append("      description: The ID of the technique to update (e.g. DFT-1002).")
-    lines.append("      placeholder: DFT-1002")
     lines.append("    validations:")
     lines.append("      required: true")
 
@@ -131,6 +130,7 @@ def main():
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
+    lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("      render: text")
 
     # --- CASE output classes ---
@@ -143,6 +143,7 @@ def main():
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
+    lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("      render: text")
 
     # --- References ---
@@ -154,6 +155,7 @@ def main():
     lines.append("        The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.")
     lines.append("        New citations will be automatically matched against existing references where possible.")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
+    lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
     lines.append("      render: text")
 
     # --- Any other notes ---

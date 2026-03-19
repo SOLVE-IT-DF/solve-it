@@ -80,7 +80,7 @@ def build_comment(mitigation, fields, match_report=None, new_citations=None, ref
         lines.extend(match_report)
         if new_citations:
             lines.append("")
-            lines.append("Please edit the `relevance_summary_280` fields (max 280 chars) when creating the PR.")
+            lines.append("Review the `relevance_summary_280` fields (max 280 chars) in the PR — any summaries provided via the pipe delimiter have been pre-filled.")
 
     # Relevant weaknesses — remind user to link the mitigation back
     existing_weaknesses = lines_to_list(fields.get("Existing weakness IDs", ""))

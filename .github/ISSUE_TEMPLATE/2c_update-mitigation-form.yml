@@ -15,7 +15,6 @@ body:
     attributes:
       label: Mitigation ID
       description: The ID of the mitigation to update (e.g. DFM-1001).
-      placeholder: DFM-1001
     validations:
       required: true
   - type: input
@@ -41,7 +40,6 @@ body:
     attributes:
       label: Linked technique ID
       description: Only used if 'Set new value' is selected above. Provide the technique ID (e.g. DFT-1002).
-      placeholder: DFT-1002
   - type: textarea
     id: references
     attributes:
@@ -50,6 +48,7 @@ body:
         The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.
         New citations will be automatically matched against existing references where possible.
         Leave blank to keep the current list. If populated, this replaces the entire list.
+        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
       render: text
   - type: textarea
     id: other-notes

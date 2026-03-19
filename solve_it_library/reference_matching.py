@@ -189,38 +189,58 @@ def process_reference_lines(
         if not line:
             continue
 
-        result = match_reference(line, corpus)
+        # Split on first pipe to extract optional relevance summary
+        if "|" in line:
+            ref_part, relevance = line.split("|", 1)
+            ref_part = ref_part.strip()
+            relevance = relevance.strip()
+            if len(relevance) > 280:
+                raise ValueError(
+                    f"Relevance summary for '{ref_part}' is {len(relevance)} chars "
+                    f"(max 280). Please shorten it and resubmit."
+                )
+        else:
+            ref_part = line
+            relevance = ""
+
+        result = match_reference(ref_part, corpus)
 
         if result:
             cite_id, match_type = result
             if cite_id not in seen_ids:
                 processed_refs.append({
                     "DFCite_id": cite_id,
-                    "relevance_summary_280": "",
+                    "relevance_summary_280": relevance,
                 })
                 seen_ids.add(cite_id)
             label = _MATCH_TYPE_LABELS.get(match_type, match_type)
-            truncated = line[:80] + ("..." if len(line) > 80 else "")
-            match_report.append(f'- Matched "{truncated}" → **{cite_id}** ({label})')
-        elif _DFCITE_RE.match(line):
+            truncated = ref_part[:80] + ("..." if len(ref_part) > 80 else "")
+            report_line = f'- Matched "{truncated}" → **{cite_id}** ({label})'
+            if relevance:
+                report_line += f' — relevance: "{relevance}"'
+            match_report.append(report_line)
+        elif _DFCITE_RE.match(ref_part):
             # User provided a DFCite ID that doesn't exist in the corpus
             warnings.append(
-                f'`{line}` was not found in the reference corpus. '
+                f'`{ref_part}` was not found in the reference corpus. '
                 f'Please check the ID — it may be a typo. '
                 f'Existing references can be browsed in `data/references/`.'
             )
-            match_report.append(f'- :warning: **{line}** not found in corpus (skipped)')
+            match_report.append(f'- :warning: **{ref_part}** not found in corpus (skipped)')
         else:
             # Assign new DFCite ID
             max_num += 1
             new_id = f"DFCite-{max_num}"
             processed_refs.append({
                 "DFCite_id": new_id,
-                "relevance_summary_280": "",
+                "relevance_summary_280": relevance,
             })
             seen_ids.add(new_id)
-            new_citations.append((new_id, line))
-            truncated = line[:80] + ("..." if len(line) > 80 else "")
-            match_report.append(f'- New reference assigned: **{new_id}** for "{truncated}"')
+            new_citations.append((new_id, ref_part))
+            truncated = ref_part[:80] + ("..." if len(ref_part) > 80 else "")
+            report_line = f'- New reference assigned: **{new_id}** for "{truncated}"'
+            if relevance:
+                report_line += f' — relevance: "{relevance}"'
+            match_report.append(report_line)
 
     return processed_refs, match_report, new_citations, warnings

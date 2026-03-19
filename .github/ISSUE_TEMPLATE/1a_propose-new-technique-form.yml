@@ -8,16 +8,14 @@ body:
     attributes:
       label: Technique name
       description: The name for the technique (synonyms can be provided below).
-      placeholder: Give this technique a name
     validations:
       required: true
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: A short description of the technique (extended details can be provided below).
+      description: A short description of what the technique does (extended details can be provided below).
       render: text
-      placeholder: Describe what this technique does
     validations:
       required: true
   - type: textarea
@@ -99,6 +97,7 @@ body:
       description: |
         Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
         or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).
+        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
       render: text
   - type: textarea
     id: case-output
@@ -107,13 +106,16 @@ body:
       description: |
         Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
         or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).
+        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
         You can also propose a new CASE class via the [CASE Issue Tracker](https://github.com/casework/CASE/issues).
       render: text
   - type: textarea
     id: references
     attributes:
       label: References
-      description: Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
+      description: |
+        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
+        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
       render: text
   - type: textarea
     id: other-notes

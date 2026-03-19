@@ -4,6 +4,10 @@
 
 - **2026-03-19** Bulk change: 271 updated items [`726212a`](https://github.com/SOLVE-IT-DF/solve-it/commit/726212a)
 - **2026-03-19** Added technique (AUTOIMPLEMENT): Drone app examination (DFT-1179) [`a80bb25`](https://github.com/SOLVE-IT-DF/solve-it/commit/a80bb25)
+- **2026-03-19** Added technique (AUTOIMPLEMENT): Drone app examination (DFT-1179) [`a80bb25`](https://github.com/SOLVE-IT-DF/solve-it/commit/a80bb25)
+- **2026-03-19** Added technique (AUTOIMPLEMENT): Drone app examination (DFT-1179) [`a80bb25`](https://github.com/SOLVE-IT-DF/solve-it/commit/a80bb25)
+- **2026-03-19** Added technique (AUTOIMPLEMENT): Drone app examination (DFT-1179) [`a80bb25`](https://github.com/SOLVE-IT-DF/solve-it/commit/a80bb25)
+- **2026-03-19** Added reference (AUTOIMPLEMENT): DFCite-1144 [`2090def`](https://github.com/SOLVE-IT-DF/solve-it/commit/2090def)
 - **2026-03-18** Updated weakness (AUTOIMPLEMENT): Data referenced in memory is located within pagefile or swapfile but is not collected (DFW-1033) [`6d0842f`](https://github.com/SOLVE-IT-DF/solve-it/commit/6d0842f)
 - **2026-03-18** Added mitigation (AUTOIMPLEMENT): Check for indications of disk backed memory pages (DFM-1240) [`b37bd4c`](https://github.com/SOLVE-IT-DF/solve-it/commit/b37bd4c)
 - **2026-03-18** Added reference (AUTOIMPLEMENT): DFCite-1143 [`db276fc`](https://github.com/SOLVE-IT-DF/solve-it/commit/db276fc)

@@ -7,8 +7,7 @@ body:
     id: citation-text
     attributes:
       label: Citation text
-      description: The full citation text (Harvard style) or URL for the reference.
-      placeholder: e.g. Author, A., 2024. Title of work. Publisher. https://example.com
+      description: The full citation text or URL for the reference (e.g. Author, A., 2024. Title of work. Publisher. https://example.com).
       render: text
     validations:
       required: true
@@ -16,7 +15,7 @@ body:
     id: bibtex-entry
     attributes:
       label: BibTeX entry
-      description: Paste BibTeX if available.
+      description: Paste BibTeX if available (optional).
       render: text
   - type: textarea
     id: notes

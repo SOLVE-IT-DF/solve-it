@@ -1,0 +1,39 @@
+name: Update changelog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/techniques/**'
+      - 'data/weaknesses/**'
+      - 'data/mitigations/**'
+      - 'data/references/**'
+
+permissions:
+  contents: write
+
+jobs:
+  update-changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.12'
+
+    - name: Update changelog
+      run: python3 admin/generate_changelog.py --append --project-root .
+
+    - name: Commit and push
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add changelog/changelog.jsonl changelog/CHANGELOG_DATA.md
+        git diff --cached --quiet && echo "No changes to commit" && exit 0
+        git commit -m "Update changelog [skip ci]"
+        git push

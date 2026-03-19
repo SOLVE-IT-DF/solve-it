@@ -1,0 +1,15 @@
+{
+    "id": "DFT-1179",
+    "name": "Drone app examination",
+    "description": "The examination of a mobile app used to control Unmanned Areial Vehicles (UAVs) or 'drones'.",
+    "synonyms": [
+        "UAV app examination"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [],
+    "references": []
+}

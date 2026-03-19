@@ -28,6 +28,64 @@ jobs:
       - name: Read PR number
         run: echo "PR_NUMBER=$(cat pr-number.txt)" >> "$GITHUB_ENV"
 
+      - name: Build validation summary with run history
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          RUN_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          # Determine status icon
+          if [ "$RUN_CONCLUSION" = "success" ]; then
+            STATUS_ICON="&#9989;"
+          else
+            STATUS_ICON="&#10060;"
+          fi
+          SHORT_SHA="${HEAD_SHA:0:7}"
+          TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M UTC")
+          NEW_ENTRY="| ${STATUS_ICON} | ${TIMESTAMP} | \`${SHORT_SHA}\` | [View run](${RUN_URL}) |"
+
+          # Try to extract existing run history from the current sticky comment
+          EXISTING_HISTORY=""
+          COMMENT_BODY=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("KB Validation Summary")) | .body' \
+            2>/dev/null || true)
+
+          if [ -n "$COMMENT_BODY" ]; then
+            # Extract existing history rows (lines starting with "| " between the markers)
+            EXISTING_HISTORY=$(echo "$COMMENT_BODY" | sed -n '/<!-- run-history-start -->/,/<!-- run-history-end -->/p' \
+              | grep '^| ' | grep -v '^| Status' | grep -v '^|[: -]*|' || true)
+          fi
+
+          # Build the combined summary with history at the top, then latest details
+          {
+            # Read the generated summary (latest results)
+            LATEST_REPORT=$(cat kb_validation_summary.md)
+
+            # Extract just the title line to reuse
+            TITLE_LINE=$(echo "$LATEST_REPORT" | head -1)
+
+            # Write the combined comment
+            echo "$TITLE_LINE"
+            echo ""
+            echo "### Run History"
+            echo ""
+            echo "<!-- run-history-start -->"
+            echo "| Status | Date | Commit | Run |"
+            echo "|:------:|------|--------|-----|"
+            echo "$NEW_ENTRY"
+            if [ -n "$EXISTING_HISTORY" ]; then
+              echo "$EXISTING_HISTORY"
+            fi
+            echo "<!-- run-history-end -->"
+            echo ""
+            echo "### Latest Results"
+            echo ""
+            # Skip the title line from the report (already used above)
+            echo "$LATEST_REPORT" | tail -n +2
+          } > kb_validation_summary.md
+
       - name: Post validation summary
         uses: marocchino/sticky-pull-request-comment@v2
         with:

@@ -40,7 +40,7 @@ def main():
     lines.append("    id: categories")
     lines.append("    attributes:")
     lines.append("      label: Categories")
-    lines.append("      description: Enter one class code per line. Valid codes — ASTM_INCOMP (Incompleteness), ASTM_INAC_EX (Inaccuracy: Existence), ASTM_INAC_AS (Inaccuracy: Association), ASTM_INAC_ALT (Inaccuracy: Alteration), ASTM_INAC_COR (Inaccuracy: Corruption), ASTM_MISINT (Misinterpretation).")
+    lines.append("      description: 'Enter one class code per line. Valid codes — ASTM_INCOMP (Incompleteness), ASTM_INAC_EX (Inaccuracy: Existence), ASTM_INAC_AS (Inaccuracy: Association), ASTM_INAC_ALT (Inaccuracy: Alteration), ASTM_INAC_COR (Inaccuracy: Corruption), ASTM_MISINT (Misinterpretation).'")
 
     # --- Existing mitigation IDs ---
     lines.append("  - type: textarea")

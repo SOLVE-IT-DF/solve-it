@@ -97,33 +97,19 @@ def objective_name_to_friendly_id(name):
 
 def get_weakness_categories(weakness):
     """
-    Returns a formatted string of weakness categories that are marked with 'x' or 'X'.
+    Returns a formatted string of weakness categories from the categories list.
 
     Args:
-        weakness: A weakness dictionary containing category fields
+        weakness: A weakness dictionary containing categories field
 
     Returns:
-        A formatted string like "INCOMP, MISINT" or empty string if no categories are marked
+        A formatted string like "INCOMP, MISINT" or empty string if no categories
     """
-    # Note: The fields in the dict use underscores (INAC_EX) due to Pydantic field names,
-    # but we display them with hyphens (INAC-EX) for consistency with the JSON files
-    category_field_mapping = {
-        'INCOMP': 'INCOMP',
-        'INAC_EX': 'INAC-EX',
-        'INAC_AS': 'INAC-AS',
-        'INAC_ALT': 'INAC-ALT',
-        'INAC_COR': 'INAC-COR',
-        'MISINT': 'MISINT'
-    }
-    marked_categories = []
-
-    for field_name, display_name in category_field_mapping.items():
-        value = weakness.get(field_name, '')
-        if value and value.lower() == 'x':
-            marked_categories.append(display_name)
-
-    if marked_categories:
-        return f"{', '.join(marked_categories)}"
+    classes = weakness.get('categories', [])
+    if classes:
+        # Strip ASTM_ prefix for display
+        display = [c.replace('ASTM_', '') for c in classes]
+        return ', '.join(display)
     return ""
 
 

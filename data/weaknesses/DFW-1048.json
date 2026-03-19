@@ -1,12 +1,9 @@
 {
     "id": "DFW-1048",
     "name": "File recovered from backup but presented in the wrong location",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1026",
         "DFM-1027"

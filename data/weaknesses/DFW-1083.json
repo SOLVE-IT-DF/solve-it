@@ -1,12 +1,9 @@
 {
     "id": "DFW-1083",
     "name": "Failure to recover additional specialised file system specific content e.g. Alternate Data Streams",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1050",
         "DFM-1051",

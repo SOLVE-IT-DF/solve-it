@@ -1,12 +1,11 @@
 {
     "id": "DFW-1184",
     "name": "Presenting devices 'seen' as devices connected",
-    "INCOMP": "",
-    "INAC-EX": "X",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS",
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1027",
         "DFM-1135",

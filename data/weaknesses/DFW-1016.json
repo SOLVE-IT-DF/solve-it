@@ -2,12 +2,10 @@
     "id": "DFW-1016",
     "name": "Data copied from sectors on source device are not transferred correctly for storage",
     "description": "This describes some data transformation that happens inside the imaging tool that results in a mismatch between the source and destination data",
-    "INCOMP": "",
-    "INAC-EX": "x",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "x",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1004"
     ],

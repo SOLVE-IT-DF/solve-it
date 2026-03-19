@@ -1,12 +1,9 @@
 {
     "id": "DFW-1096",
     "name": "Failing to recover attachments for a live message",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1054",
         "DFM-1027",

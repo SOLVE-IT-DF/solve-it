@@ -1,14 +1,11 @@
 {
     "id": "DFW-1267",
     "name": "Offset applied to timestamp is incorrect due to variations in clock offset over the history of data source",
-    "INCOMP": "",
-    "INAC-EX": "x",
-    "INAC-ALT": "",
-    "INAC-AS": "",
-    "INAC-COR": "",
-    "MISINT": "",
-    "references": [],
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
     "mitigations": [
         "DFM-1225"
-    ]
+    ],
+    "references": []
 }

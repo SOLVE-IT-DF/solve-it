@@ -1,12 +1,10 @@
 {
     "id": "DFW-1077",
     "name": "Presenting a deleted file as a live file",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1050",
         "DFM-1051",

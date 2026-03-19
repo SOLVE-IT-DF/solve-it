@@ -1,12 +1,9 @@
 {
     "id": "DFW-1154",
     "name": "Report generated from bookmarks stored in manner that does not prevent tampering or corruption",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "x",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1108"
     ],

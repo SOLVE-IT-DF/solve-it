@@ -1,12 +1,10 @@
 {
     "id": "DFW-1131",
     "name": "Missing recognition of multiple file types: reporting a file as a limited set of types, or a single type, when it can be interpreted as having more than one, such as a GIF and Java Jar",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1109",
         "DFM-1111",

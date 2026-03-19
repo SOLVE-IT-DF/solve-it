@@ -1,12 +1,9 @@
 {
     "id": "DFW-1070",
     "name": "Failing to recover the complete contents of a live file",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1050",
         "DFM-1051",

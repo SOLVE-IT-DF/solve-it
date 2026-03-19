@@ -1,12 +1,9 @@
 {
     "id": "DFW-1130",
     "name": "Missing assignment of a file type: reporting a file as unknown when it has a known type within the digital forensic science body of knowledge ",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1109",
         "DFM-1110",

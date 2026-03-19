@@ -1,12 +1,10 @@
 {
     "id": "DFW-1259",
     "name": "Image format parsing fails to identify or assemble split forensic images",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "x",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1004",
         "DFM-1009",

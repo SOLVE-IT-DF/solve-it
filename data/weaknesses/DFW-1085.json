@@ -1,12 +1,9 @@
 {
     "id": "DFW-1085",
     "name": "Missing messages from the live set of messages",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1054",
         "DFM-1027",

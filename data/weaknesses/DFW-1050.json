@@ -1,12 +1,9 @@
 {
     "id": "DFW-1050",
     "name": "Failure to highlight that there are other apps present for which data is not available",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1028"
     ],

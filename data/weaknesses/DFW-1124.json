@@ -2,12 +2,10 @@
     "id": "DFW-1124",
     "name": "Failure to compute hash of source device correctly during disk image verification",
     "description": "This could result in a message indicating corrupt evidence, thus stopping or delaying further investigation",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "X",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1075",
         "DFM-1085"

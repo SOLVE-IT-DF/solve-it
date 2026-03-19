@@ -1,12 +1,9 @@
 {
     "id": "DFW-1051",
     "name": "Failure to highlight that not all app data may be present in a backup",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1028"
     ],

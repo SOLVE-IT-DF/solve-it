@@ -318,18 +318,18 @@ def generate_evaluation(techniques=None, lab_config=None, output_file=None, labe
             weakness_info = kb.get_weakness(each_weakness)
             main_worksheet.write_string(start_pos + 1, 0, "{}".format(each_weakness))
             main_worksheet.write_string(start_pos + 1, 1, "{}".format(weakness_info.get('name')))
-            main_worksheet.write_string(start_pos + 1, 2, weakness_info.get('INCOMP', ''),
-                                      cell_format=weakness_type_format)
-            main_worksheet.write_string(start_pos + 1, 3, weakness_info.get('INAC_EX', ''),
-                                      cell_format=weakness_type_format)
-            main_worksheet.write_string(start_pos + 1, 4, weakness_info.get('INAC_AS', ''),
-                                      cell_format=weakness_type_format)
-            main_worksheet.write_string(start_pos + 1, 5, weakness_info.get('INAC_ALT', ''),
-                                      cell_format=weakness_type_format)
-            main_worksheet.write_string(start_pos + 1, 6, weakness_info.get('INAC_COR', ''),
-                                      cell_format=weakness_type_format)
-            main_worksheet.write_string(start_pos + 1, 7, weakness_info.get('MISINT', ''),
-                                      cell_format=weakness_type_format)
+            classes = weakness_info.get('categories', [])
+            col_map = {
+                'ASTM_INCOMP': 2, 'ASTM_INAC_EX': 3, 'ASTM_INAC_AS': 4,
+                'ASTM_INAC_ALT': 5, 'ASTM_INAC_COR': 6, 'ASTM_MISINT': 7,
+            }
+            for col_idx in range(2, 8):
+                main_worksheet.write_string(start_pos + 1, col_idx, '',
+                                          cell_format=weakness_type_format)
+            for cls, col_idx in col_map.items():
+                if cls in classes:
+                    main_worksheet.write_string(start_pos + 1, col_idx, 'x',
+                                              cell_format=weakness_type_format)
 
             # Now do the mitigations for this weakness
             # First mask out whole grid grey for mitigations (visual cue for cells not applicable to this weakness)

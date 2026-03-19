@@ -7,7 +7,21 @@ Defines the data models and validation for the SOLVE-IT knowledge base items
 
 import re
 from typing import List, Optional, Dict, Any
-from pydantic import BaseModel, Field, validator, root_validator, ConfigDict
+from pydantic import BaseModel, Field, validator, field_validator, ConfigDict
+
+
+# --- ASTM Error Class Mapping ---
+
+ASTM_CLASS_MAPPING = {
+    "INCOMP":   "ASTM_INCOMP",
+    "INAC-EX":  "ASTM_INAC_EX",
+    "INAC-AS":  "ASTM_INAC_AS",
+    "INAC-ALT": "ASTM_INAC_ALT",
+    "INAC-COR": "ASTM_INAC_COR",
+    "MISINT":   "ASTM_MISINT",
+}
+VALID_WEAKNESS_CLASSES = set(ASTM_CLASS_MAPPING.values())
+VALID_CATEGORIES = VALID_WEAKNESS_CLASSES  # Alias for clarity
 
 
 # --- Custom Exceptions ---
@@ -137,34 +151,32 @@ class Weakness(BaseModel):
         id (str): The unique identifier for the weakness (e.g., "DFW-1001").
         name (str): The name of the weakness - contains the primary description of what this weakness entails.
         description (Optional[str]): Additional description (if available).
+        categories (List[str]): ASTM error categories (e.g. ASTM_INCOMP, ASTM_MISINT).
         mitigations (List[str]): A list of mitigation IDs associated with the weakness.
-        INCOMP (Optional[str]): Flag for incompleteness.
-        INAC-EX (Optional[str]): Flag for inaccuracy - existence.
-        INAC-AS (Optional[str]): Flag for inaccuracy - association.
-        INAC-ALT (Optional[str]): Flag for inaccuracy - alternative.
-        INAC-COR (Optional[str]): Flag for inaccuracy - correctness.
-        MISINT (Optional[str]): Flag for misinterpretation.
         references (Optional[List[str]]): Reference sources for this weakness.
     """
-    model_config = ConfigDict(populate_by_name=True)
-
     id: str = Field(..., description="Unique identifier for the weakness")
     name: str = Field(..., description="Name of the weakness - contains the primary description of what this weakness entails")
     description: str = Field("", description="Additional description (if available)")
+    categories: List[str] = Field(default_factory=list, description="ASTM error categories")
     mitigations: List[str] = Field(default_factory=list, description="List of mitigation IDs associated with the weakness")
-    INCOMP: Optional[str] = Field(None, description="Flag for incompleteness")
-    INAC_EX: Optional[str] = Field(None, description="Flag for inaccuracy - existence", alias="INAC-EX")
-    INAC_AS: Optional[str] = Field(None, description="Flag for inaccuracy - association", alias="INAC-AS")
-    INAC_ALT: Optional[str] = Field(None, description="Flag for inaccuracy - alternative", alias="INAC-ALT")
-    INAC_COR: Optional[str] = Field(None, description="Flag for inaccuracy - correctness", alias="INAC-COR")
-    MISINT: Optional[str] = Field(None, description="Flag for misinterpretation")
     references: Optional[List[Dict[str, str]]] = Field(default_factory=list, description="Reference entries with DFCite_id and relevance_summary_280")
 
-    @validator('id')
+    @field_validator('id')
+    @classmethod
     def validate_id(cls, v: str) -> str:
         """Validate that the ID follows the expected format."""
         if not v.startswith('DFW-') or not v[4:].isdigit() or not (4 <= len(v[4:]) <= 6):
             raise ValueError(f"Weakness ID must be 'DFW-' followed by 4-6 digits, got '{v}'")
+        return v
+
+    @field_validator('categories')
+    @classmethod
+    def validate_categories(cls, v: List[str]) -> List[str]:
+        """Validate that each category is a valid ASTM code."""
+        for item in v:
+            if item not in VALID_CATEGORIES:
+                raise ValueError(f"Invalid category '{item}'. Valid categories: {sorted(VALID_CATEGORIES)}")
         return v
 
     @validator('references')

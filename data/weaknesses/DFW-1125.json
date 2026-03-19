@@ -2,12 +2,10 @@
     "id": "DFW-1125",
     "name": "Failure to validate hash properly during disk image verification",
     "description": "This could allow errors from earlier to propagate e.g. incorrect sectors",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "X",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1075",
         "DFM-1085"

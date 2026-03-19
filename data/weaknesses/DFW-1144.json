@@ -1,12 +1,9 @@
 {
     "id": "DFW-1144",
     "name": "Failure to identify timestamps in a data source",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [],
     "references": []
 }

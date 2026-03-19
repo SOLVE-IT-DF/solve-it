@@ -187,25 +187,9 @@ def add_weaknesses_to_graph(g, kb):
         if weak.get('description'):
             g.add((weak_uri, SOLVEIT_CORE.weaknessDescription, Literal(weak['description'])))
 
-        # Add ALL error category flags explicitly (true or false)
-        # This follows the pattern in the ontology examples
-        g.add((weak_uri, SOLVEIT_CORE.mayResultInINCOMP,
-               Literal(bool(weak.get('INCOMP')), datatype=XSD.boolean)))
-
-        g.add((weak_uri, SOLVEIT_CORE.mayResultInINAC_EX,
-               Literal(bool(weak.get('INAC_EX')), datatype=XSD.boolean)))
-
-        g.add((weak_uri, SOLVEIT_CORE.mayResultInINAC_AS,
-               Literal(bool(weak.get('INAC_AS')), datatype=XSD.boolean)))
-
-        g.add((weak_uri, SOLVEIT_CORE.mayResultInINAC_ALT,
-               Literal(bool(weak.get('INAC_ALT')), datatype=XSD.boolean)))
-
-        g.add((weak_uri, SOLVEIT_CORE.mayResultInINAC_COR,
-               Literal(bool(weak.get('INAC_COR')), datatype=XSD.boolean)))
-
-        g.add((weak_uri, SOLVEIT_CORE.mayResultInMISINT,
-               Literal(bool(weak.get('MISINT')), datatype=XSD.boolean)))
+        # Add weakness class relationships
+        for cls in weak.get('categories', []):
+            g.add((weak_uri, SOLVEIT_CORE.hasWeaknessClass, SOLVEIT_CORE[cls]))
 
         # Add mitigation relationships
         for mitigation_id in weak.get('mitigations', []):

@@ -1,12 +1,9 @@
 {
     "id": "DFW-1247",
     "name": "Attributing saved browser bookmarks to a user but they were bundled with the browser installation",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [],
     "references": []
 }

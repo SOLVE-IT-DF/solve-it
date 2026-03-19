@@ -1,12 +1,10 @@
 {
     "id": "DFW-1153",
     "name": "Report generated from bookmarks does not render all content (e.g. previews, string extracts) correctly",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "x",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_ALT"
+    ],
     "mitigations": [
         "DFM-1106",
         "DFM-1107"

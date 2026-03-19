@@ -2,12 +2,9 @@
     "id": "DFW-1276",
     "name": "Relevant data is overwritten by deploying an agent to a mobile device",
     "description": "",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-ALT": "",
-    "INAC-AS": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1014"
     ],

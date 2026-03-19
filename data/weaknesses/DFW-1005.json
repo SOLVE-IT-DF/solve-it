@@ -1,12 +1,9 @@
 {
     "id": "DFW-1005",
     "name": "Dogs fail to find a digital device",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [],
     "references": []
 }

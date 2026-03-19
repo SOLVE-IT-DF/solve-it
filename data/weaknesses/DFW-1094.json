@@ -1,12 +1,9 @@
 {
     "id": "DFW-1094",
     "name": "Attributing a message to the incorrect sender",
-    "INCOMP": "",
-    "INAC-EX": "",
-    "INAC-AS": "X",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
     "mitigations": [
         "DFM-1054",
         "DFM-1027",

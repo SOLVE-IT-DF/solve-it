@@ -1,12 +1,10 @@
 {
     "id": "DFW-1258",
     "name": "Failure to present uncertainty associated with automated interpretation of data into artifacts",
-    "INCOMP": "",
-    "INAC-EX": "X",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "X",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_MISINT"
+    ],
     "mitigations": [
         "DFM-1206",
         "DFM-1207",

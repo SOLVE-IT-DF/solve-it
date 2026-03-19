@@ -1,12 +1,9 @@
 {
     "id": "DFW-1032",
     "name": "Not all memory is acquired",
-    "INCOMP": "x",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [],
     "references": [
         {

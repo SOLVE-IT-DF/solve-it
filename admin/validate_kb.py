@@ -516,22 +516,34 @@ def phase2_cross_references(
             result.pass_("All inline [DFCite-xxxx] citations in text fields exist in data/references/", verbose)
 
 
-# ── Phase 3: ASTM error class flags ──────────────────────────────────────────
+# ── Phase 3: Weakness classes ─────────────────────────────────────────────
 
-ASTM_FIELDS = ["INCOMP", "INAC-EX", "INAC-AS", "INAC-ALT", "INAC-COR", "MISINT"]
-VALID_FLAG_VALUES = {None, "", "x", "X"}
+from solve_it_library.models import VALID_WEAKNESS_CLASSES
 
 
-def phase3_astm_flags(weaknesses: Dict, result: ValidationResult, verbose: bool):
+def phase3_weakness_classes(weaknesses: Dict, result: ValidationResult, verbose: bool):
     bad = 0
     for wid, w in weaknesses.items():
-        for field in ASTM_FIELDS:
-            val = w.get(field)
-            if val not in VALID_FLAG_VALUES:
-                result.fail(f"Weakness {wid} has invalid ASTM flag {field}=\"{val}\" (expected blank, \"x\", or \"X\")")
+        cats = w.get("categories")
+        if cats is None:
+            result.fail(f"Weakness {wid} is missing 'categories' field")
+            bad += 1
+            continue
+        if not isinstance(cats, list):
+            result.fail(f"Weakness {wid} 'categories' must be a list, got {type(cats).__name__}")
+            bad += 1
+            continue
+        seen = set()
+        for cls in cats:
+            if cls not in VALID_WEAKNESS_CLASSES:
+                result.fail(f"Weakness {wid} has invalid category '{cls}'")
                 bad += 1
+            if cls in seen:
+                result.fail(f"Weakness {wid} has duplicate category '{cls}'")
+                bad += 1
+            seen.add(cls)
     if bad == 0:
-        result.pass_("All ASTM error class flags are valid", verbose)
+        result.pass_("All weakness categories are valid", verbose)
 
 
 # ── Phase 4: CASE/UCO class URLs ─────────────────────────────────────────────
@@ -1204,9 +1216,9 @@ def main():
     phase2_cross_references(techniques, weaknesses, mitigations, objectives, result, args.verbose, citations=citations)
     phase_ok_check(f0, w0)
 
-    print_phase("Phase 3: ASTM error class flags")
+    print_phase("Phase 3: Weakness classes")
     f0, w0 = len(result.fails), len(result.warnings)
-    phase3_astm_flags(weaknesses, result, args.verbose)
+    phase3_weakness_classes(weaknesses, result, args.verbose)
     phase_ok_check(f0, w0)
 
     print_phase("Phase 4: CASE/UCO class URLs")

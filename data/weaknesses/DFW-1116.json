@@ -1,12 +1,10 @@
 {
     "id": "DFW-1116",
     "name": "Last wifi connection is overwritten because faraday environment was insufficient.",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "X",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_COR"
+    ],
     "mitigations": [
         "DFM-1002"
     ],

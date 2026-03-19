@@ -1,12 +1,9 @@
 {
     "id": "DFW-1180",
     "name": "Failing to decrypt internal disk using the bootable environment",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1132",
         "DFM-1133"

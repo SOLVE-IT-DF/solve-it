@@ -1,12 +1,9 @@
 {
     "id": "DFW-1194",
     "name": "Keyword results missed since relevant keyword is inside compressed or encoded data",
-    "INCOMP": "X",
-    "INAC-EX": "",
-    "INAC-AS": "",
-    "INAC-ALT": "",
-    "INAC-COR": "",
-    "MISINT": "",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
     "mitigations": [
         "DFM-1143",
         "DFM-1144"

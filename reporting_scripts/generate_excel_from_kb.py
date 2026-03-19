@@ -217,18 +217,14 @@ if __name__ == '__main__':
         technique_ids = [t['id'] for t in techniques_for_weakness]
         weaknesses_sheet.write_string(i + 1, 4, str(technique_ids))
 
-        if kb.get_weakness(each_weakness).get('INCOMP') in ['x', 'X']:
-            weaknesses_sheet.write_string(i + 1, 5, 'X')
-        if kb.get_weakness(each_weakness).get('INAC_EX') in ['x', 'X']:
-            weaknesses_sheet.write_string(i + 1, 6, 'X')
-        if kb.get_weakness(each_weakness).get('INAC_ALT') in ['x', 'X']:
-            weaknesses_sheet.write_string(i + 1, 7, 'X')
-        if kb.get_weakness(each_weakness).get('INAC_AS') in ['x', 'X']:
-            weaknesses_sheet.write_string(i + 1, 8, 'X')
-        if kb.get_weakness(each_weakness).get('INAC_COR') in ['x', 'X']:
-            weaknesses_sheet.write_string(i + 1, 9, 'X')
-        if kb.get_weakness(each_weakness).get('MISINT') in ['x', 'X']:
-            weaknesses_sheet.write_string(i + 1, 10, 'X')
+        classes = kb.get_weakness(each_weakness).get('categories', [])
+        col_map = {
+            'ASTM_INCOMP': 5, 'ASTM_INAC_EX': 6, 'ASTM_INAC_ALT': 7,
+            'ASTM_INAC_AS': 8, 'ASTM_INAC_COR': 9, 'ASTM_MISINT': 10,
+        }
+        for cls, col in col_map.items():
+            if cls in classes:
+                weaknesses_sheet.write_string(i + 1, col, 'X')
 
     # write some headers for weakness sheet
     weaknesses_sheet.write_string(0, 0, "ID")
@@ -492,12 +488,16 @@ if __name__ == '__main__':
             try:
                 worksheet.write_string(err_list_start_row + i, 0, each_weakness, cell_format=technique_list_format)   # write ID
                 worksheet.write_string(err_list_start_row + i, 1, weakness_info.get('name'), cell_format=technique_list_format)
-                worksheet.write_string(err_list_start_row + i, 2, weakness_info.get('INCOMP', ''), cell_format=weakness_type_format)
-                worksheet.write_string(err_list_start_row + i, 3, weakness_info.get('INAC_EX', ''), cell_format=weakness_type_format)
-                worksheet.write_string(err_list_start_row + i, 4, weakness_info.get('INAC_AS', ''), cell_format=weakness_type_format)
-                worksheet.write_string(err_list_start_row + i, 5, weakness_info.get('INAC_ALT', ''), cell_format=weakness_type_format)
-                worksheet.write_string(err_list_start_row + i, 6, weakness_info.get('INAC_COR', ''), cell_format=weakness_type_format)
-                worksheet.write_string(err_list_start_row + i, 7, weakness_info.get('MISINT', ''), cell_format=weakness_type_format)
+                w_classes = weakness_info.get('categories', [])
+                eval_col_map = {
+                    'ASTM_INCOMP': 2, 'ASTM_INAC_EX': 3, 'ASTM_INAC_AS': 4,
+                    'ASTM_INAC_ALT': 5, 'ASTM_INAC_COR': 6, 'ASTM_MISINT': 7,
+                }
+                for col_idx in range(2, 8):
+                    worksheet.write_string(err_list_start_row + i, col_idx, '', cell_format=weakness_type_format)
+                for cls, col_idx in eval_col_map.items():
+                    if cls in w_classes:
+                        worksheet.write_string(err_list_start_row + i, col_idx, 'x', cell_format=weakness_type_format)
             except AttributeError:
                 print('attribute error with {} in {}'.format(each_weakness, each_technique_id))
                 quit()

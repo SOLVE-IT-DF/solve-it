@@ -515,7 +515,8 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
 
         # Hidden fields
         all_fields = ['id', 'name', 'description', 'synonyms', 'details', 'subtechniques',
-                      'examples', 'CASE_input_classes', 'CASE_output_classes', 'weaknesses', 'references']
+                      'examples', 'CASE_input_classes', 'CASE_output_classes', 'weaknesses', 'references',
+                      'properties', 'contributors', 'reviewers']
         hidden = [f for f in all_fields if not kb.should_display_field(f)]
         hidden_fields_json = json.dumps(hidden)
 
@@ -2914,7 +2915,7 @@ function buildCreditsHtml(item) {{
   const contributors = item._contributors || [];
   const reviewers = item._reviewers || [];
   if (!edits && !created && !contributors.length && !reviewers.length) return '';
-  if (edits || created || modified) {{
+  if (!HIDDEN_FIELDS.has('properties') && (edits || created || modified)) {{
     let rows = '';
     if (edits)    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{edits}}</td></tr>`;
     if (created)  rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{created}}</td></tr>`;
@@ -2924,13 +2925,13 @@ function buildCreditsHtml(item) {{
       <table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>
     </div>`;
   }}
-  if (contributors.length) {{
+  if (!HIDDEN_FIELDS.has('contributors') && contributors.length) {{
     html += `<div class="detail-section">
       <div class="detail-section-title">Contributors <span class="badge">${{contributors.length}}</span></div>
       <div class="detail-tags">${{contributors.map(n => `<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div>
     </div>`;
   }}
-  if (reviewers.length) {{
+  if (!HIDDEN_FIELDS.has('reviewers') && reviewers.length) {{
     html += `<div class="detail-section">
       <div class="detail-section-title">Reviewers <span class="badge">${{reviewers.length}}</span></div>
       <div class="detail-tags">${{reviewers.map(n => `<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div>

@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1284",
+    "name": "Failure to recover a previous but removed account used in a gaming application",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1249",
+        "DFM-1027"
+    ],
+    "references": []
+}

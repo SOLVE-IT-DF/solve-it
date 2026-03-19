@@ -7,7 +7,7 @@ Two-strategy approach:
 
 Outputs:
   - changelog/changelog.jsonl  (machine-readable, one JSON object per line)
-  - CHANGELOG.md          (human-readable, grouped by month)
+  - changelog/CHANGELOG_DATA.md  (human-readable, grouped by month)
 """
 
 import argparse
@@ -557,7 +557,7 @@ def main():
         "--render-markdown",
         type=Path,
         default=None,
-        help="Output path for CHANGELOG.md (default: CHANGELOG.md)",
+        help="Output path for CHANGELOG.md (default: changelog/CHANGELOG_DATA.md)",
     )
     parser.add_argument(
         "--append",
@@ -581,7 +581,7 @@ def main():
     PROJECT_ROOT = (args.project_root or PROJECT_ROOT).resolve()
 
     output_path = args.output or (PROJECT_ROOT / "changelog" / "changelog.jsonl")
-    md_path = args.render_markdown or (PROJECT_ROOT / "CHANGELOG.md")
+    md_path = args.render_markdown or (PROJECT_ROOT / "changelog" / "CHANGELOG_DATA.md")
 
     # Determine commit range
     existing_entries = []

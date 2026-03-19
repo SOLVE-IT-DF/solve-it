@@ -33,7 +33,7 @@ jobs:
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
-        git add changelog/changelog.jsonl CHANGELOG.md
+        git add changelog/changelog.jsonl changelog/CHANGELOG_DATA.md
         git diff --cached --quiet && echo "No changes to commit" && exit 0
         git commit -m "Update changelog [skip ci]"
         git push

@@ -2210,11 +2210,11 @@ function esc(s) {{
 }}
 const CATS = ['ASTM_INCOMP','ASTM_INAC_EX','ASTM_INAC_AS','ASTM_INAC_ALT','ASTM_INAC_COR','ASTM_MISINT'];
 const CAT_LABELS = {{
-  'ASTM_INCOMP':    'Incomplete',
-  'ASTM_INAC_EX':   'Inaccurate Extraction',
-  'ASTM_INAC_AS':   'Inaccurate Association',
-  'ASTM_INAC_ALT':  'Inaccurate Alteration',
-  'ASTM_INAC_COR':  'Inaccurate Corruption',
+  'ASTM_INCOMP':    'Incompleteness',
+  'ASTM_INAC_EX':   'Inaccuracy: Existence',
+  'ASTM_INAC_AS':   'Inaccuracy: Association',
+  'ASTM_INAC_ALT':  'Inaccuracy: Alteration',
+  'ASTM_INAC_COR':  'Inaccuracy: Corruption',
   'ASTM_MISINT':    'Misinterpretation',
 }};
 

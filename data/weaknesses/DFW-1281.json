@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1281",
+    "name": "Failure to recover the gaming app configuration",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1027",
+        "DFM-1247"
+    ],
+    "references": []
+}

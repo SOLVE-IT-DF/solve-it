@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1291",
+    "name": "Failure to recover a live contact from a gaming app",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1245",
+        "DFM-1027",
+        "DFM-1243"
+    ],
+    "references": []
+}

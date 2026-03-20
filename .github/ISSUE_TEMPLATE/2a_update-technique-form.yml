@@ -84,26 +84,28 @@ body:
   - type: textarea
     id: case-input
     attributes:
-      label: CASE input classes
+      label: Ontology input classes
       description: |
-        The complete new list of CASE input classes (one per line).
+        The complete new list of ontology input classes as full IRIs (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
-        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
-        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.
-        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
-      placeholder: Enter one class per line
+        Classes from CASE, UCO, or SOLVE-IT ontologies.
+        Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),
+        [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
+        To propose a new class, describe it in the notes section below.
+      placeholder: Enter one full IRI per line
       render: text
   - type: textarea
     id: case-output
     attributes:
-      label: CASE output classes
+      label: Ontology output classes
       description: |
-        The complete new list of CASE output classes (one per line).
+        The complete new list of ontology output classes as full IRIs (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
-        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
-        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.
-        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
-      placeholder: Enter one class per line
+        Classes from CASE, UCO, or SOLVE-IT ontologies.
+        Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),
+        [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
+        To propose a new class, describe it in the notes section below.
+      placeholder: Enter one full IRI per line
       render: text
   - type: textarea
     id: references
@@ -120,4 +122,6 @@ body:
     id: other-notes
     attributes:
       label: Any other notes
-      description: Any additional information or context for the proposed changes.
+      description: |
+        Any additional information or context for the proposed changes.
+        If you left the ontology class fields blank, a brief description of the types of data the technique takes as input and produces as output is still very helpful.

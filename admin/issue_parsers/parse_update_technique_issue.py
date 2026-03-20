@@ -67,11 +67,11 @@ def apply_updates(current, fields, project_root=None):
     if not is_no_response(weaknesses):
         updated["weaknesses"] = lines_to_list(weaknesses)
 
-    case_input = fields.get("CASE input classes", "")
+    case_input = fields.get("Ontology input classes", "")
     if not is_no_response(case_input):
         updated["CASE_input_classes"] = lines_to_list(case_input)
 
-    case_output = fields.get("CASE output classes", "")
+    case_output = fields.get("Ontology output classes", "")
     if not is_no_response(case_output):
         updated["CASE_output_classes"] = lines_to_list(case_output)
 

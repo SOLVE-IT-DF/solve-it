@@ -121,28 +121,34 @@ def main():
     lines.append("      placeholder: Enter one weakness description per line")
     lines.append("      render: text")
 
-    # --- CASE input classes ---
+    # --- Ontology input classes ---
     lines.append("  - type: textarea")
     lines.append("    id: case-input")
     lines.append("    attributes:")
-    lines.append("      label: CASE input classes")
+    lines.append("      label: Ontology input classes")
     lines.append("      description: |")
-    lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
-    lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
-    lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
-    lines.append("      placeholder: Enter one class per line")
+    lines.append("        Optional. Classes from CASE, UCO, or SOLVE-IT ontologies that describe the input to this technique.")
+    lines.append("        Enter full IRIs, one per line (e.g. https://ontology.caseontology.org/case/investigation/Investigation).")
+    lines.append("        Leave blank if unsure — these can always be added later.")
+    lines.append("        Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),")
+    lines.append("        [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
+    lines.append("        To propose a new class, describe it in the notes section below.")
+    lines.append("      placeholder: Enter one full IRI per line")
     lines.append("      render: text")
 
-    # --- CASE output classes ---
+    # --- Ontology output classes ---
     lines.append("  - type: textarea")
     lines.append("    id: case-output")
     lines.append("    attributes:")
-    lines.append("      label: CASE output classes")
+    lines.append("      label: Ontology output classes")
     lines.append("      description: |")
-    lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
-    lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
-    lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
-    lines.append("      placeholder: Enter one class per line")
+    lines.append("        Optional. Classes from CASE, UCO, or SOLVE-IT ontologies that describe the output of this technique.")
+    lines.append("        Enter full IRIs, one per line (e.g. https://ontology.caseontology.org/case/investigation/Investigation).")
+    lines.append("        Leave blank if unsure — these can always be added later.")
+    lines.append("        Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),")
+    lines.append("        [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
+    lines.append("        To propose a new class, describe it in the notes section below.")
+    lines.append("      placeholder: Enter one full IRI per line")
     lines.append("      render: text")
 
     # --- References ---
@@ -161,7 +167,9 @@ def main():
     lines.append("    id: other-notes")
     lines.append("    attributes:")
     lines.append("      label: Any other notes")
-    lines.append("      description: Any additional information or context you'd like to provide.")
+    lines.append("      description: |")
+    lines.append("        Any additional information or context you'd like to provide.")
+    lines.append("        If you left the ontology class fields blank, a brief description of the types of data the technique takes as input and produces as output is still very helpful.")
 
     # Write output
     output_path = os.path.join(base_path, '.github', 'ISSUE_TEMPLATE', '1a_propose-new-technique-form.yml')

@@ -97,8 +97,8 @@ def build_technique_json(fields, project_root=None):
         "subtechniques": [],
         "examples": lines_to_list(fields.get("Examples", "")),
         "weaknesses": lines_to_list(fields.get("Existing weakness IDs", "")),
-        "CASE_input_classes": lines_to_list(fields.get("CASE input classes", "")),
-        "CASE_output_classes": lines_to_list(fields.get("CASE output classes", "")),
+        "CASE_input_classes": lines_to_list(fields.get("Ontology input classes", "")),
+        "CASE_output_classes": lines_to_list(fields.get("Ontology output classes", "")),
         "references": processed_refs,
     }
     return technique, match_report, new_citations, ref_warnings

@@ -1,0 +1,69 @@
+name: "Move Technique"
+description: Propose moving a technique to a different objective or making it a subtechnique
+title: "Move technique: [DFT-xxxx]"
+labels: ["content: move technique", "form input"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Move a technique
+        Provide the technique to move and where it should go.
+        - To move a technique under a **different objective**, set the destination to an objective ID (e.g. `DFO-1010`).
+        - To make a technique a **subtechnique** of another technique, set the destination to a technique ID (e.g. `DFT-1015`).
+        - To **promote** a subtechnique to a top-level technique, set the destination to an objective ID.
+
+        Existing techniques (DFT-1001–DFT-1179) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques) (right-click → open in new tab to keep your progress).
+
+        **Objective IDs for reference:**
+        - `DFO-1015` — Prepare for a digital investigation
+        - `DFO-1014` — Find potential digital evidence sources
+        - `DFO-1005` — Prioritize digital evidence sources
+        - `DFO-1010` — Preserve digital evidence
+        - `DFO-1021` — Access device data for acquisition
+        - `DFO-1016` — Overcome protection mechanisms
+        - `DFO-1006` — Acquire data
+        - `DFO-1022` — Store acquired data
+        - `DFO-1018` — Read data from digital evidence storage formats
+        - `DFO-1007` — Reduce data under consideration
+        - `DFO-1013` — Access partitions, volumes and file systems data
+        - `DFO-1017` — Extract artifacts stored by the operating system
+        - `DFO-1011` — Extract artifacts stored by applications
+        - `DFO-1002` — Extract artifacts, or content of specific types
+        - `DFO-1012` — Locate potentially relevant content
+        - `DFO-1003` — Review content for relevance
+        - `DFO-1019` — Detect anti-forensics and other anomalies
+        - `DFO-1008` — Establish identities
+        - `DFO-1009` — Create visualizations
+        - `DFO-1001` — Reconstruct events
+        - `DFO-1004` — Conduct research
+        - `DFO-1020` — Produce documentation
+  - type: input
+    id: technique-id
+    attributes:
+      label: Technique to move
+      description: The ID of the technique to move (e.g. DFT-1002).
+      placeholder: DFT-xxxx
+    validations:
+      required: true
+  - type: input
+    id: destination-id
+    attributes:
+      label: Destination
+      description: |
+        The ID of the destination — either an objective (DFO-xxxx) or a parent technique (DFT-xxxx).
+      placeholder: DFO-xxxx or DFT-xxxx
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why should this technique be moved?
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: other-notes
+    attributes:
+      label: Any other notes
+      description: Any additional information or context.

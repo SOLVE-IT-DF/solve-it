@@ -48,11 +48,11 @@ body:
     attributes:
       label: References
       description: |
-        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
-        You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is important (max 280 chars).
+        Existing DFCite IDs, one per line. If you need to add a new reference, please use the Propose New Reference form first.
+        You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is useful for this weakness (max 280 chars).
       placeholder: |
         Enter one reference per line
-        DFCite-xxxx | reason why this reference is important for this weakness (max 280 chars)
+        DFCite-xxxx | reason why this reference is useful for this weakness (max 280 chars)
       render: text
   - type: textarea
     id: other-notes

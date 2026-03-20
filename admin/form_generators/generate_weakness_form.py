@@ -76,11 +76,11 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: References")
     lines.append("      description: |")
-    lines.append("        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.")
-    lines.append("        You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is important (max 280 chars).")
+    lines.append("        Existing DFCite IDs, one per line. If you need to add a new reference, please use the Propose New Reference form first.")
+    lines.append("        You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is useful for this weakness (max 280 chars).")
     lines.append("      placeholder: |")
     lines.append("        Enter one reference per line")
-    lines.append("        DFCite-xxxx | reason why this reference is important for this weakness (max 280 chars)")
+    lines.append("        DFCite-xxxx | reason why this reference is useful for this weakness (max 280 chars)")
     lines.append("      render: text")
 
     # --- Any other notes ---

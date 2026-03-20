@@ -82,7 +82,7 @@ def build_comment(mitigation, fields, match_report=None, new_citations=None, ref
             lines.append("")
             lines.append("Review the `relevance_summary_280` fields (max 280 chars) in the PR — any summaries provided via the pipe delimiter have been pre-filled.")
 
-    # Relevant weaknesses — remind user to link the mitigation back
+    # Relevant weaknesses
     existing_weaknesses = lines_to_list(fields.get("Existing weakness IDs", ""))
     if existing_weaknesses:
         lines.append("")
@@ -90,10 +90,17 @@ def build_comment(mitigation, fields, match_report=None, new_citations=None, ref
         lines.append("")
         lines.append(f"### Relevant weaknesses ({len(existing_weaknesses)})")
         lines.append("")
-        lines.append("Once this mitigation has been assigned an ID, you will also need to add it to the following weaknesses:")
+        lines.append("This mitigation will need to be linked to the following weaknesses:")
         lines.append("")
         for w in existing_weaknesses:
-            lines.append(f"- Add your new mitigation ID (DFM-____) to Weakness **{w}**")
+            lines.append(f"- Weakness **{w}**")
+
+    lines.append("")
+    lines.append("---")
+    lines.append("")
+    lines.append("### Next steps")
+    lines.append("")
+    lines.append("The next step is for a reviewer to check this submission. Once approved, the mitigation will be assigned an ID and the reviewer will advise on the best route to add it to the knowledge base.")
 
     lines.append("\n---")
     lines.append("*This comment was automatically generated. The mitigation ID (DFM-____) will be assigned during review.*")

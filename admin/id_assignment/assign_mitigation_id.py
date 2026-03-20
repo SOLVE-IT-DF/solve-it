@@ -112,6 +112,11 @@ def main():
         "The mitigation ID (M____) will be assigned during review.",
         f"Mitigation ID **{mitigation_id}** has been assigned.",
     )
+    # Update next steps text (new workflow)
+    revised_body = revised_body.replace(
+        "The next step is for a reviewer to check this submission. Once approved, the mitigation will be assigned an ID and the reviewer will advise on the best route to add it to the knowledge base.",
+        f"Mitigation ID **{mitigation_id}** has been assigned. A reviewer will now advise on the best route to add it to the knowledge base.",
+    )
 
     if revised_body == old_body:
         print("Error: replacement produced no changes — is DFM-____ already replaced?",

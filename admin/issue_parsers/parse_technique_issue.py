@@ -164,24 +164,19 @@ def build_comment(technique, fields, match_report=None, new_citations=None, ref_
             url = build_weakness_link(w)
             lines.append(f"- [`{w}`]({url})")
 
-    # Reminder to add technique to solve-it.json under the selected objective
+    # Next steps
     objective = fields.get("Objective", "").strip()
-    if objective and objective != "_No response_" and objective != "Other (specify below)":
-        lines.append("")
-        lines.append("---")
-        lines.append("")
-        lines.append("### Next steps")
-        lines.append("")
-        lines.append(f"Once this technique has been assigned an ID, you will also need to add it to the objective `{objective}` in `data/solve-it.json`.")
-    elif objective == "Other (specify below)":
+    lines.append("")
+    lines.append("---")
+    lines.append("")
+    lines.append("### Next steps")
+    lines.append("")
+    lines.append("The next step is for a reviewer to check this submission. Once approved, the technique will be assigned an ID and the reviewer will advise on the best route to add it to the knowledge base.")
+    if objective == "Other (specify below)":
         other_objective = fields.get("Propose new objective", "").strip()
         if other_objective and other_objective != "_No response_":
             lines.append("")
-            lines.append("---")
-            lines.append("")
-            lines.append("### Next steps")
-            lines.append("")
-            lines.append(f"A new objective was proposed: `{other_objective}`. Once this technique has been assigned an ID, a new objective entry will need to be created in `data/solve-it.json` and the technique added to it.")
+            lines.append(f"**Note:** A new objective was proposed: `{other_objective}`. This will need to be discussed during review.")
 
     lines.append("\n---")
     lines.append("*This comment was automatically generated. The technique ID (DFT-____) will be assigned during review.*")

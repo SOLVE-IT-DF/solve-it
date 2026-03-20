@@ -140,7 +140,7 @@ def build_comment(weakness, fields, match_report=None, new_citations=None, ref_w
             url = build_mitigation_link(m)
             lines.append(f"- [`{m}`]({url})")
 
-    # Relevant techniques — remind user to link the weakness back
+    # Relevant techniques
     relevant_techniques = lines_to_list(fields.get("Techniques this applies to", ""))
     if relevant_techniques:
         lines.append("")
@@ -148,10 +148,17 @@ def build_comment(weakness, fields, match_report=None, new_citations=None, ref_w
         lines.append("")
         lines.append(f"### Relevant techniques ({len(relevant_techniques)})")
         lines.append("")
-        lines.append("Once this weakness has been assigned an ID, you will also need to add it to the following techniques:")
+        lines.append("This weakness will need to be linked to the following techniques:")
         lines.append("")
         for t in relevant_techniques:
-            lines.append(f"- Add your new weakness ID (DFW-____) to Technique **{t}**")
+            lines.append(f"- Technique **{t}**")
+
+    lines.append("")
+    lines.append("---")
+    lines.append("")
+    lines.append("### Next steps")
+    lines.append("")
+    lines.append("The next step is for a reviewer to check this submission. Once approved, the weakness will be assigned an ID and the reviewer will advise on the best route to add it to the knowledge base.")
 
     lines.append("\n---")
     lines.append("*This comment was automatically generated. The weakness ID (DFW-____) will be assigned during review.*")

@@ -435,56 +435,6 @@ There are separate update forms for each content type:
 
 ---
 
-## Complete workflow: end-to-end example
-
-Here's what happens when you propose a new technique with a new weakness, a new mitigation, and a new reference.
-
-```mermaid
-sequenceDiagram
-    participant C as Contributor
-    participant GH as GitHub Issues
-    participant Bot as Automation
-    participant R as Reviewer
-
-    Note over C,R: Step 1 — Create the reference first
-    C->>GH: Open "New reference" issue
-    Bot->>GH: Preview comment (no duplicate found)
-    R->>GH: Add "assigned ID" label
-    Bot->>GH: Assigns DFCite-1150
-    R->>GH: Add "autoimplement" label
-    Bot->>GH: Creates PR with DFCite-1150.txt
-    R->>GH: Merges PR
-
-    Note over C,R: Step 2 — Create the mitigation
-    C->>GH: Open "New mitigation" issue
-    Bot->>GH: Preview comment
-    R->>GH: Add "assigned ID" label
-    Bot->>GH: Assigns DFM-1242
-    R->>GH: Add "autoimplement" label
-    Bot->>GH: Creates PR with DFM-1242.json
-    R->>GH: Merges PR
-
-    Note over C,R: Step 3 — Create the weakness
-    C->>GH: Open "New weakness" issue<br/>(references DFM-1242, DFCite-1150)
-    Bot->>GH: Preview comment
-    R->>GH: Add "assigned ID" label
-    Bot->>GH: Assigns DFW-1280
-    R->>GH: Add "autoimplement" label
-    Bot->>GH: Creates PR with DFW-1280.json<br/>(auto-updates parent technique)
-    R->>GH: Merges PR
-
-    Note over C,R: Step 4 — Create the technique
-    C->>GH: Open "New technique" issue<br/>(references DFW-1280, DFCite-1150)
-    Bot->>GH: Preview comment
-    R->>GH: Add "assigned ID" label
-    Bot->>GH: Assigns DFT-1176
-    R->>GH: Add "autoimplement" label
-    Bot->>GH: Creates PR with DFT-1176.json<br/>(updates solve-it.json)
-    R->>GH: Merges PR
-```
-
-> **Or use TRWM:** If you have the full technique + weaknesses + mitigations ready, a single TRWM submission handles steps 2–4 in one issue.
-
 ---
 
 ## Tips and common questions
@@ -550,22 +500,21 @@ flowchart TD
     Update --> UW["Update weakness"]
     Update --> UM["Update mitigation"]
 
-    ST --> Pipeline1["Preview → ID → Autoimplement → PR"]
+    ST --> Pipeline1["Preview → Review → ID assignment → Autoimplement → PR"]
     SW --> Pipeline1
     SM --> Pipeline1
     Ref --> Pipeline1
     TRWM --> Pipeline1
 
-    UT --> Pipeline2["Manual review"]
+    UT --> Pipeline2["Preview → Review → Autoimplement → PR<br/>(no new IDs needed)"]
     UW --> Pipeline2
     UM --> Pipeline2
 
-    Rel --> Pipeline3["Preview → Autoimplement → PR<br/>(no ID assignment needed)"]
+    Rel --> Pipeline2
 
     style Start fill:#f4f4f4,stroke:#333
     style Pipeline1 fill:#e8f4e8,stroke:#2d7d2d
-    style Pipeline2 fill:#f4ece8,stroke:#7d4d2d
-    style Pipeline3 fill:#e8ecf4,stroke:#2d4d7d
+    style Pipeline2 fill:#e8ecf4,stroke:#2d4d7d
 ```
 
 ---

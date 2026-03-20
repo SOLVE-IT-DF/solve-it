@@ -16,5 +16,10 @@
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult"
     ],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1074",
+            "relevance_summary_280": ""
+        }
+    ]
 }

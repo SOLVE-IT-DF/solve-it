@@ -63,8 +63,8 @@ body:
         - "Detect anti-forensics and other anomalies"
         - "Establish identities"
         - "Create visualizations"
-        - "Reconstruct events"
         - "Conduct research"
+        - "Reconstruct events"
         - "Produce documentation"
         - Other (specify below)
     validations:

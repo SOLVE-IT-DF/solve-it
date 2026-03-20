@@ -3,10 +3,10 @@
     "name": "Writing bitstream data to a forensic image format",
     "description": "Storage of bitstream data recovered from a digital device",
     "synonyms": [
-        "Disk image container",
-        "image file"
+        "store disk image container",
+        "store image file"
     ],
-    "details": "Bitstream data that would result from disk imaging would be stored in formats such as: RAW, EWF, AFF4. The imaged data may be split into several linked container formats. e.g. e01, e02 e03 etc.",
+    "details": "The storage of bitstream data resulting from disk imaging, in formats such as: EWF, AFF4. The imaged data may be split into several linked container formats. e.g. e01, e02 e03 etc. This technique represents storage of data in container formats, whereas DFT-1178 represents data stored in raw files. ",
     "subtechniques": [],
     "examples": [
         "2009 M57-Jean - Data is supplied as a ‘multi-volume Expert Witness file’ - i.e. split EnCase E01 & E02 image files (https://digitalcorpora.org/corpora/scenarios/m57-jean/)",
@@ -21,8 +21,7 @@
         "https://ontology.solveit-df.org/solveit/observable/Bitstream"
     ],
     "CASE_output_classes": [
-        "https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer",
-        "https://ontology.solveit-df.org/solveit/observable/RawImage"
+        "https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer"
     ],
     "references": []
 }

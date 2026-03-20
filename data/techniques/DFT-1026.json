@@ -5,7 +5,11 @@
     "synonyms": [],
     "details": "This is commonly used with mobile file system extractions, but mobile backups can also sometimes be compressed into an archive.",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "ZIP",
+        "RAR",
+        "TAR"
+    ],
     "weaknesses": [
         "DFW-1165",
         "DFW-1275"

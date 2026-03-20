@@ -1,6 +1,6 @@
 {
     "id": "DFW-1100",
-    "name": "Failure to display special effects or highlight within a message",
+    "name": "Tool fails to display special effects or highlight within a message",
     "categories": [
         "ASTM_INCOMP"
     ],

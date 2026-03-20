@@ -13,7 +13,7 @@ The SOLVE-IT knowledge base is built from five core concepts:
 | **Objective** | `DFO-XXXX` | A goal in a digital forensic investigation | _Acquire data_ |
 | **Technique** | `DFT-XXXX` | A method to achieve an objective | _Create disk image_ |
 | **Weakness** | `DFW-XXXX` | A potential problem when using a technique | _Excluding a device containing relevant data_ |
-| **Mitigation** | `DFM-XXXX` | An action to prevent or reduce a weakness | _Dual tool verification_ |
+| **Mitigation** | `DFM-XXXX` | An action to prevent or reduce a weakness | _Use dual tool verification_ |
 | **Reference** | `DFCite-XXXX` | A citation supporting any of the above | _A journal paper, standard, or URL_ |
 
 Objectives are the top-level organising structure (based on ATT&CK tactics) and are managed by the project maintainers. The four content types below them are open for community contributions.
@@ -499,8 +499,8 @@ sequenceDiagram
 ### Common mitigations
 
 Some mitigations are broadly applicable and worth knowing about:
-- **DFM-1027** Dual tool verification
-- **DFM-1050** Manual verification of relevant data
+- **DFM-1027** Use dual tool verification
+- **DFM-1050** Manually verify relevant data
 - **DFM-1055** Correlation of data extracted with data from service provider
 
 ### Workflow-based research

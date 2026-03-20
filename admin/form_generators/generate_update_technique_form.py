@@ -137,7 +137,7 @@ def main():
     lines.append("        Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),")
     lines.append("        [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("        To propose a new class, describe it in the notes section below.")
-    lines.append("      placeholder: Enter one full IRI per line")
+    lines.append("      placeholder: \"Enter one full IRI per line, e.g. https://ontology.unifiedcyberontology.org/uco/observable/File\"")
     lines.append("      render: text")
 
     # --- Ontology output classes ---
@@ -152,7 +152,7 @@ def main():
     lines.append("        Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),")
     lines.append("        [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("        To propose a new class, describe it in the notes section below.")
-    lines.append("      placeholder: Enter one full IRI per line")
+    lines.append("      placeholder: \"Enter one full IRI per line, e.g. https://ontology.unifiedcyberontology.org/uco/observable/File\"")
     lines.append("      render: text")
 
     # --- References ---

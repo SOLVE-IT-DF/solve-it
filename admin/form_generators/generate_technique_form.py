@@ -127,13 +127,12 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Ontology input classes")
     lines.append("      description: |")
-    lines.append("        Optional. Classes from CASE, UCO, or SOLVE-IT ontologies that describe the input to this technique.")
-    lines.append("        Enter full IRIs, one per line (e.g. https://ontology.caseontology.org/case/investigation/Investigation).")
+    lines.append("        Optional. Full IRIs of classes from CASE, UCO, or SOLVE-IT ontologies that describe the input to this technique, one per line.")
     lines.append("        Leave blank if unsure — these can always be added later.")
     lines.append("        Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),")
     lines.append("        [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("        To propose a new class, describe it in the notes section below.")
-    lines.append("      placeholder: Enter one full IRI per line")
+    lines.append("      placeholder: \"Enter one full IRI per line, e.g. https://ontology.unifiedcyberontology.org/uco/observable/File\"")
     lines.append("      render: text")
 
     # --- Ontology output classes ---
@@ -142,13 +141,12 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Ontology output classes")
     lines.append("      description: |")
-    lines.append("        Optional. Classes from CASE, UCO, or SOLVE-IT ontologies that describe the output of this technique.")
-    lines.append("        Enter full IRIs, one per line (e.g. https://ontology.caseontology.org/case/investigation/Investigation).")
+    lines.append("        Optional. Full IRIs of classes from CASE, UCO, or SOLVE-IT ontologies that describe the output of this technique, one per line.")
     lines.append("        Leave blank if unsure — these can always be added later.")
     lines.append("        Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),")
     lines.append("        [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("        To propose a new class, describe it in the notes section below.")
-    lines.append("      placeholder: Enter one full IRI per line")
+    lines.append("      placeholder: \"Enter one full IRI per line, e.g. https://ontology.unifiedcyberontology.org/uco/observable/File\"")
     lines.append("      render: text")
 
     # --- References ---

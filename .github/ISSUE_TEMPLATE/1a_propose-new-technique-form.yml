@@ -99,26 +99,24 @@ body:
     attributes:
       label: Ontology input classes
       description: |
-        Optional. Classes from CASE, UCO, or SOLVE-IT ontologies that describe the input to this technique.
-        Enter full IRIs, one per line (e.g. https://ontology.caseontology.org/case/investigation/Investigation).
+        Optional. Full IRIs of classes from CASE, UCO, or SOLVE-IT ontologies that describe the input to this technique, one per line.
         Leave blank if unsure — these can always be added later.
         Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),
         [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
         To propose a new class, describe it in the notes section below.
-      placeholder: Enter one full IRI per line
+      placeholder: "Enter one full IRI per line, e.g. https://ontology.unifiedcyberontology.org/uco/observable/File"
       render: text
   - type: textarea
     id: case-output
     attributes:
       label: Ontology output classes
       description: |
-        Optional. Classes from CASE, UCO, or SOLVE-IT ontologies that describe the output of this technique.
-        Enter full IRIs, one per line (e.g. https://ontology.caseontology.org/case/investigation/Investigation).
+        Optional. Full IRIs of classes from CASE, UCO, or SOLVE-IT ontologies that describe the output of this technique, one per line.
         Leave blank if unsure — these can always be added later.
         Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),
         [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
         To propose a new class, describe it in the notes section below.
-      placeholder: Enter one full IRI per line
+      placeholder: "Enter one full IRI per line, e.g. https://ontology.unifiedcyberontology.org/uco/observable/File"
       render: text
   - type: textarea
     id: references

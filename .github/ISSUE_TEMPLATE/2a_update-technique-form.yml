@@ -92,7 +92,7 @@ body:
         Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),
         [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
         To propose a new class, describe it in the notes section below.
-      placeholder: Enter one full IRI per line
+      placeholder: "Enter one full IRI per line, e.g. https://ontology.unifiedcyberontology.org/uco/observable/File"
       render: text
   - type: textarea
     id: case-output
@@ -105,7 +105,7 @@ body:
         Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),
         [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
         To propose a new class, describe it in the notes section below.
-      placeholder: Enter one full IRI per line
+      placeholder: "Enter one full IRI per line, e.g. https://ontology.unifiedcyberontology.org/uco/observable/File"
       render: text
   - type: textarea
     id: references

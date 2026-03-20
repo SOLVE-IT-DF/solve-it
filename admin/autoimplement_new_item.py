@@ -907,6 +907,8 @@ def main():
                 "--head", branch_name,
                 "--title", pr_title,
                 "--body-file", pr_body_file,
+                "--label", f"content: new {item_type}",
+                "--label", "autoimplement",
             ], cwd=project_root)
         finally:
             if os.path.exists(pr_body_file):

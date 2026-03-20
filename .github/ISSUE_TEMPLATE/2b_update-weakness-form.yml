@@ -52,11 +52,11 @@ body:
     attributes:
       label: References
       description: |
-        The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.
-        New citations will be automatically matched against existing references where possible.
+        The complete new list of references — existing DFCite IDs only (e.g. DFCite-1003), one per line.
+        If your reference doesn't exist yet, please create it first using the [Propose new reference](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) form, then use the assigned DFCite ID here. Alternatively, mention the citation in the notes field below, create the DFCite entry separately, and update the weakness later.
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
-      placeholder: Enter one reference per line
+      placeholder: "DFCite-1003 | Describes the validation methodology"
       render: text
   - type: textarea
     id: other-notes

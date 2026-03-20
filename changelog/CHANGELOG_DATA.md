@@ -2,6 +2,7 @@
 
 ## March 2026
 
+- **2026-03-20** Updated technique (AUTOIMPLEMENT): Obtain encryption key information using side channel attacks (DFT-1032) [`75ba0f0`](https://github.com/SOLVE-IT-DF/solve-it/commit/75ba0f0)
 - **2026-03-19** Bulk change: 271 updated items [`726212a`](https://github.com/SOLVE-IT-DF/solve-it/commit/726212a)
 - **2026-03-19** Added technique (AUTOIMPLEMENT): Drone app examination (DFT-1179) [`a80bb25`](https://github.com/SOLVE-IT-DF/solve-it/commit/a80bb25)
 - **2026-03-19** Added technique (AUTOIMPLEMENT): Drone app examination (DFT-1179) [`a80bb25`](https://github.com/SOLVE-IT-DF/solve-it/commit/a80bb25)

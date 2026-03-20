@@ -1042,7 +1042,7 @@ def _write_markdown_summary(result: ValidationResult, filepath: str):
             stats_line = msg.replace("Completeness stats: ", "")
             break
 
-    lines = [f"## KB Validation Summary ({status})", ""]
+    lines = [f"## Validation: {'Passed' if f == 0 else 'Failed'}", ""]
 
     if f == 0:
         lines.append(f"**{p} checks passed** | **{w} warnings**")
@@ -1105,7 +1105,7 @@ def _write_markdown_summary(result: ValidationResult, filepath: str):
 
         lines.append("")
         lines.append("<details>")
-        lines.append("<summary>Completeness</summary>")
+        lines.append("<summary>Completeness summary</summary>")
         lines.append("")
         lines.append("| Metric | Count |")
         lines.append("|--------|------:|")

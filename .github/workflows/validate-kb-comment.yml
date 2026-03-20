@@ -49,7 +49,7 @@ jobs:
           # Try to extract existing run history from the current sticky comment
           EXISTING_HISTORY=""
           COMMENT_BODY=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
-            --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("KB Validation Summary")) | .body' \
+            --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("Validation:")) | .body' \
             2>/dev/null || true)
 
           if [ -n "$COMMENT_BODY" ]; then

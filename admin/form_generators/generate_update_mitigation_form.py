@@ -34,7 +34,7 @@ def main():
     lines.append("        ## Update an existing mitigation")
     lines.append("        Use this form to propose changes to an existing mitigation.")
     lines.append("        **Leave fields blank to keep current values.** Only fill in fields you want to change.")
-    lines.append(f"        Existing mitigations ({id_range}) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).")
+    lines.append(f"        Existing mitigations ({id_range}) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations) (right-click → open in new tab to keep your progress).")
 
     # --- Mitigation ID ---
     lines.append("  - type: input")
@@ -59,7 +59,7 @@ def main():
     lines.append("      label: Linked technique action")
     lines.append("      description: |")
     lines.append("        Some mitigations link to a technique. Choose what to do with the linked technique.")
-    lines.append("        See [DFM-1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/DFM-1007.json) for an example.")
+    lines.append("        See DFM-1007 for an example.")
     lines.append("      options:")
     lines.append('        - "No change"')
     lines.append('        - "Set new value (provide ID below)"')

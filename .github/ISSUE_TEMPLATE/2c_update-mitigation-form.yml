@@ -9,7 +9,7 @@ body:
         ## Update an existing mitigation
         Use this form to propose changes to an existing mitigation.
         **Leave fields blank to keep current values.** Only fill in fields you want to change.
-        Existing mitigations (DFM-1001–DFM-1241) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).
+        Existing mitigations (DFM-1001–DFM-1241) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations) (right-click → open in new tab to keep your progress).
   - type: input
     id: mitigation-id
     attributes:
@@ -28,7 +28,7 @@ body:
       label: Linked technique action
       description: |
         Some mitigations link to a technique. Choose what to do with the linked technique.
-        See [DFM-1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/DFM-1007.json) for an example.
+        See DFM-1007 for an example.
       options:
         - "No change"
         - "Set new value (provide ID below)"

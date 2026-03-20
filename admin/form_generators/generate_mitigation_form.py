@@ -51,7 +51,7 @@ def main():
     lines.append("      label: Linked technique")
     lines.append("      description: |")
     lines.append("        Some mitigations are links to techniques. This happens when they are complex enough to need longer descriptions, and have their own weaknesses.")
-    lines.append("        Provide the technique ID if applicable (e.g. DFT-1002). See [DFM-1007](https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/DFM-1007.json) for an example.")
+    lines.append("        Provide the technique ID if applicable (e.g. DFT-1002, see DFM-1007 for an example).")
 
     # --- References ---
     lines.append("  - type: textarea")

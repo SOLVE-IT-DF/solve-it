@@ -34,7 +34,7 @@ def main():
     lines.append("        ## Update an existing technique")
     lines.append("        Use this form to propose changes to an existing technique.")
     lines.append("        **Leave fields blank to keep current values.** Only fill in fields you want to change.")
-    lines.append(f"        Existing techniques ({id_range}) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).")
+    lines.append(f"        Existing techniques ({id_range}) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques) (right-click → open in new tab to keep your progress).")
 
     # --- Technique ID ---
     lines.append("  - type: input")

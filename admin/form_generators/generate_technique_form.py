@@ -101,7 +101,7 @@ def main():
     lines.append("      value: |")
     lines.append("        ## Weaknesses")
     lines.append("        List any existing weakness IDs that apply, and/or propose new weaknesses below.")
-    lines.append("        Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).")
+    lines.append("        Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses) (right-click → open in new tab to keep your progress).")
 
     # --- Existing weakness IDs ---
     lines.append("  - type: textarea")
@@ -142,7 +142,6 @@ def main():
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
     lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
-    lines.append("        You can also propose a new CASE class via the [CASE Issue Tracker](https://github.com/casework/CASE/issues).")
     lines.append("      placeholder: Enter one class per line")
     lines.append("      render: text")
 

@@ -35,7 +35,7 @@ body:
     id: examples
     attributes:
       label: Examples
-      description: Examples of cases where the technique can be used, or tools that offer the technique (one per line, e.g. FTK Imager, Magnet ACQUIRE).
+      description: Examples where the technique can be used, or tools that offer the technique (one per line, e.g. FTK Imager, Magnet ACQUIRE).
       placeholder: Enter one example per line
       render: text
   - type: dropdown

@@ -71,7 +71,7 @@ def main():
     lines.append("    id: examples")
     lines.append("    attributes:")
     lines.append("      label: Examples")
-    lines.append("      description: Examples of cases where the technique can be used, or tools that offer the technique (one per line, e.g. FTK Imager, Magnet ACQUIRE).")
+    lines.append("      description: Examples where the technique can be used, or tools that offer the technique (one per line, e.g. FTK Imager, Magnet ACQUIRE).")
     lines.append("      placeholder: Enter one example per line")
     lines.append("      render: text")
 

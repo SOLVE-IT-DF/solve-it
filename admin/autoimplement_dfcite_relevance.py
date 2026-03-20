@@ -18,6 +18,10 @@ import re
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from solve_it_library.reference_matching import load_reference_corpus
+
 
 # Strict ID patterns — only allow expected format to prevent path traversal
 VALID_ITEM_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,6}$')
@@ -268,6 +272,8 @@ def main():
         pr_title = f"Update DFCite relevance: {dfcite_id} in {item_id}"
 
         item_name = item_data.get("name", "")
+        ref_corpus = load_reference_corpus(project_root)
+        citation_text = ref_corpus.get(dfcite_id, "")
         pr_lines = []
         pr_lines.append("> **This PR was auto-generated** from a DFCite relevance "
                         "update submission. Please review before merging.")
@@ -280,9 +286,10 @@ def main():
         pr_lines.append("| Field | Value |")
         pr_lines.append("|---|---|")
         pr_lines.append(f"| Item | `{item_id}` — {item_name} |")
-        pr_lines.append(f"| Reference | `{dfcite_id}` |")
+        ref_display = f"`{dfcite_id}` — {citation_text}" if citation_text else f"`{dfcite_id}`"
+        pr_lines.append(f"| Reference | {ref_display} |")
         pr_lines.append(f"| Previous summary | {old_relevance or '*(none)*'} |")
-        pr_lines.append(f"| New summary | {relevance_summary} |")
+        pr_lines.append(f"| New summary | {relevance_summary} ({len(relevance_summary)}/280 chars) |")
         pr_lines.append("")
         pr_lines.append("## Attribution")
         pr_lines.append("")

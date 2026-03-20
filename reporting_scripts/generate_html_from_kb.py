@@ -1994,9 +1994,6 @@ body.custom-mode .disabled-btn {{
         <a href="https://www.hargs.co.uk" target="_blank" rel="noopener noreferrer">
           <img src="https://solve-it-df.github.io/www/assets/images/hargs-logo.jpg" alt="HARGS">
         </a>
-        <a href="https://dfrws.org/" target="_blank" rel="noopener noreferrer" class="logo-dfrws">
-          <img src="https://solve-it-df.github.io/www/assets/images/dfrws-logo.png" alt="DFRWS">
-        </a>
       </div>
     </footer>
 

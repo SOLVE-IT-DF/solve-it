@@ -2,8 +2,11 @@
 
 ## March 2026
 
+- **2026-03-20** Updated weakness: Tool fails to display special effects or highlight within a message (DFW-1100) [`97fde6e`](https://github.com/SOLVE-IT-DF/solve-it/commit/97fde6e)
 - **2026-03-20** Updated technique (AUTOIMPLEMENT): Keyword search (case-type wordlists) (DFT-1122) [`f0f969d`](https://github.com/SOLVE-IT-DF/solve-it/commit/f0f969d)
 - **2026-03-20** Updated technique (AUTOIMPLEMENT): Obtain encryption key information using side channel attacks (DFT-1032) [`75ba0f0`](https://github.com/SOLVE-IT-DF/solve-it/commit/75ba0f0)
+- **2026-03-20** Updated mitigation: Manually verify relevant data (DFM-1050) [`97fde6e`](https://github.com/SOLVE-IT-DF/solve-it/commit/97fde6e)
+- **2026-03-20** Updated mitigation: Use dual tool verification (DFM-1027) [`97fde6e`](https://github.com/SOLVE-IT-DF/solve-it/commit/97fde6e)
 - **2026-03-19** Bulk change: 271 updated items [`726212a`](https://github.com/SOLVE-IT-DF/solve-it/commit/726212a)
 - **2026-03-19** Added technique (AUTOIMPLEMENT): Drone app examination (DFT-1179) [`a80bb25`](https://github.com/SOLVE-IT-DF/solve-it/commit/a80bb25)
 - **2026-03-19** Added technique (AUTOIMPLEMENT): Drone app examination (DFT-1179) [`a80bb25`](https://github.com/SOLVE-IT-DF/solve-it/commit/a80bb25)

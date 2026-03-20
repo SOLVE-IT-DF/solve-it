@@ -14,28 +14,13 @@
         "DFW-1255",
         "DFW-1256"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/FileSystem"
+    ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/core/confidence",
         "https://ontology.unifiedcyberontology.org/uco/observable/File",
-        "https://ontology.unifiedcyberontology.org/uco/observable/Directory",
-        "https://ontology.unifiedcyberontology.org/uco/observable/allocationStatus",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftFileID",
-        "https://ontology.unifiedcyberontology.org/uco/observable/extInodeID",
-        "https://ontology.unifiedcyberontology.org/uco/observable/filePath",
-        "https://ontology.unifiedcyberontology.org/uco/observable/fileName",
-        "https://ontology.unifiedcyberontology.org/uco/observable/modifiedTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/accessedTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/creationTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/metadataChangeTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftRecordChangeTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameModifiedTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameAccessedTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameCreatedTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/mftFileNameRecordChangeTime",
-        "https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerID",
-        "https://ontology.unifiedcyberontology.org/uco/observable/ntfsOwnerSID",
-        "https://ontology.unifiedcyberontology.org/uco/observable/ownerSID"
+        "https://ontology.unifiedcyberontology.org/uco/observable/Directory"
     ],
     "references": [
         {

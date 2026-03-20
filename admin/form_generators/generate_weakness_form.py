@@ -41,6 +41,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Categories")
     lines.append("      description: 'Enter one class code per line. Valid codes — ASTM_INCOMP (Incompleteness), ASTM_INAC_EX (Inaccuracy: Existence), ASTM_INAC_AS (Inaccuracy: Association), ASTM_INAC_ALT (Inaccuracy: Alteration), ASTM_INAC_COR (Inaccuracy: Corruption), ASTM_MISINT (Misinterpretation).'")
+    lines.append("      placeholder: Enter one class code per line")
 
     # --- Existing mitigation IDs ---
     lines.append("  - type: textarea")
@@ -48,6 +49,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Existing mitigation IDs")
     lines.append("      description: IDs of existing mitigations that apply to this weakness (one per line, e.g. DFM-1001, DFM-1012).")
+    lines.append("      placeholder: Enter one mitigation ID per line")
     lines.append("      render: text")
 
     # --- Propose new mitigations ---
@@ -56,6 +58,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Propose new mitigations")
     lines.append("      description: Describe new mitigations for this weakness (one per line).")
+    lines.append("      placeholder: Enter one mitigation description per line")
     lines.append("      render: text")
 
     # --- Techniques this applies to ---
@@ -64,6 +67,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Techniques this applies to")
     lines.append("      description: Techniques that this weakness applies to (one per line, e.g. DFT-1001, DFT-1028).")
+    lines.append("      placeholder: Enter one technique ID per line")
     lines.append("      render: text")
 
     # --- References ---
@@ -74,6 +78,7 @@ def main():
     lines.append("      description: |")
     lines.append("        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.")
     lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
+    lines.append("      placeholder: Enter one reference per line")
     lines.append("      render: text")
 
     # --- Any other notes ---

@@ -23,6 +23,7 @@ body:
     attributes:
       label: Synonyms
       description: Other names that might be used for this technique (one per line, e.g. RAM dump, memory dump).
+      placeholder: Enter one synonym per line
       render: text
   - type: textarea
     id: details
@@ -35,6 +36,7 @@ body:
     attributes:
       label: Examples
       description: Examples of cases where the technique can be used, or tools that offer the technique (one per line, e.g. FTK Imager, Magnet ACQUIRE).
+      placeholder: Enter one example per line
       render: text
   - type: dropdown
     id: objective
@@ -83,12 +85,14 @@ body:
     attributes:
       label: Existing weakness IDs
       description: IDs of existing weaknesses that apply to this technique (one per line, e.g. DFW-1004, DFW-1014).
+      placeholder: Enter one weakness ID per line
       render: text
   - type: textarea
     id: new-weaknesses
     attributes:
       label: Propose new weaknesses
       description: Describe new weaknesses for this technique (one per line, e.g. Imaging process may miss data in hidden areas).
+      placeholder: Enter one weakness description per line
       render: text
   - type: textarea
     id: case-input
@@ -98,6 +102,7 @@ body:
         Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
         or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).
         You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
+      placeholder: Enter one class per line
       render: text
   - type: textarea
     id: case-output
@@ -108,6 +113,7 @@ body:
         or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).
         You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
         You can also propose a new CASE class via the [CASE Issue Tracker](https://github.com/casework/CASE/issues).
+      placeholder: Enter one class per line
       render: text
   - type: textarea
     id: references
@@ -116,6 +122,7 @@ body:
       description: |
         Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
         Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
+      placeholder: Enter one reference per line
       render: text
   - type: textarea
     id: other-notes

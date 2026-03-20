@@ -76,6 +76,7 @@ def main():
     lines.append("      description: |")
     lines.append("        The complete new list of synonyms (one per line).")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
+    lines.append("      placeholder: Enter one synonym per line")
     lines.append("      render: text")
 
     # --- Examples ---
@@ -86,6 +87,7 @@ def main():
     lines.append("      description: |")
     lines.append("        The complete new list of examples (one per line, e.g. FTK Imager, Magnet ACQUIRE).")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
+    lines.append("      placeholder: Enter one example per line")
     lines.append("      render: text")
 
     # --- Subtechnique IDs ---
@@ -97,6 +99,7 @@ def main():
     lines.append("        The complete new list of subtechnique IDs (one per line, e.g. DFT-1002.1, DFT-1002.2).")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append(f"        Existing techniques ({id_range}) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).")
+    lines.append("      placeholder: Enter one subtechnique ID per line")
     lines.append("      render: text")
 
     # --- Weakness IDs ---
@@ -108,6 +111,7 @@ def main():
     lines.append("        The complete new list of weakness IDs (one per line, e.g. DFW-1004, DFW-1014).")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).")
+    lines.append("      placeholder: Enter one weakness ID per line")
     lines.append("      render: text")
 
     # --- Proposed new weaknesses ---
@@ -118,6 +122,7 @@ def main():
     lines.append("      description: |")
     lines.append("        Describe new weaknesses for this technique (one per line, e.g. Imaging process may miss data in hidden areas).")
     lines.append("        These will be created as new weakness entries and linked to the technique.")
+    lines.append("      placeholder: Enter one weakness description per line")
     lines.append("      render: text")
 
     # --- CASE input classes ---
@@ -131,6 +136,7 @@ def main():
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
     lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
+    lines.append("      placeholder: Enter one class per line")
     lines.append("      render: text")
 
     # --- CASE output classes ---
@@ -144,6 +150,7 @@ def main():
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.")
     lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
+    lines.append("      placeholder: Enter one class per line")
     lines.append("      render: text")
 
     # --- References ---
@@ -156,6 +163,7 @@ def main():
     lines.append("        New citations will be automatically matched against existing references where possible.")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
+    lines.append("      placeholder: Enter one reference per line")
     lines.append("      render: text")
 
     # --- Any other notes ---

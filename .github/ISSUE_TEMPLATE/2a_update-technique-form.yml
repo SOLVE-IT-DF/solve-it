@@ -41,6 +41,7 @@ body:
       description: |
         The complete new list of synonyms (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
+      placeholder: Enter one synonym per line
       render: text
   - type: textarea
     id: examples
@@ -49,6 +50,7 @@ body:
       description: |
         The complete new list of examples (one per line, e.g. FTK Imager, Magnet ACQUIRE).
         Leave blank to keep the current list. If populated, this replaces the entire list.
+      placeholder: Enter one example per line
       render: text
   - type: textarea
     id: subtechnique-ids
@@ -58,6 +60,7 @@ body:
         The complete new list of subtechnique IDs (one per line, e.g. DFT-1002.1, DFT-1002.2).
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Existing techniques (DFT-1001–DFT-1179) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
+      placeholder: Enter one subtechnique ID per line
       render: text
   - type: textarea
     id: weakness-ids
@@ -67,6 +70,7 @@ body:
         The complete new list of weakness IDs (one per line, e.g. DFW-1004, DFW-1014).
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
+      placeholder: Enter one weakness ID per line
       render: text
   - type: textarea
     id: new-weaknesses
@@ -75,6 +79,7 @@ body:
       description: |
         Describe new weaknesses for this technique (one per line, e.g. Imaging process may miss data in hidden areas).
         These will be created as new weakness entries and linked to the technique.
+      placeholder: Enter one weakness description per line
       render: text
   - type: textarea
     id: case-input
@@ -86,6 +91,7 @@ body:
         Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
         or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.
         You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
+      placeholder: Enter one class per line
       render: text
   - type: textarea
     id: case-output
@@ -97,6 +103,7 @@ body:
         Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
         or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes.
         You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
+      placeholder: Enter one class per line
       render: text
   - type: textarea
     id: references
@@ -107,6 +114,7 @@ body:
         New citations will be automatically matched against existing references where possible.
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
+      placeholder: Enter one reference per line
       render: text
   - type: textarea
     id: other-notes

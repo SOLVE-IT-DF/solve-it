@@ -41,6 +41,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Existing weakness IDs")
     lines.append("      description: IDs of existing weaknesses this mitigation applies to (one per line, e.g. DFW-1001, DFW-1014).")
+    lines.append("      placeholder: Enter one weakness ID per line")
     lines.append("      render: text")
 
     # --- Linked technique ---
@@ -60,6 +61,7 @@ def main():
     lines.append("      description: |")
     lines.append("        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.")
     lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
+    lines.append("      placeholder: Enter one reference per line")
     lines.append("      render: text")
 
     # --- Any other notes ---

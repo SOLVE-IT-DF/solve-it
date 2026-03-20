@@ -55,6 +55,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Synonyms")
     lines.append("      description: Other names that might be used for this technique (one per line, e.g. RAM dump, memory dump).")
+    lines.append("      placeholder: Enter one synonym per line")
     lines.append("      render: text")
 
     # --- Details ---
@@ -71,6 +72,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Examples")
     lines.append("      description: Examples of cases where the technique can be used, or tools that offer the technique (one per line, e.g. FTK Imager, Magnet ACQUIRE).")
+    lines.append("      placeholder: Enter one example per line")
     lines.append("      render: text")
 
     # --- Objective dropdown ---
@@ -107,6 +109,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Existing weakness IDs")
     lines.append("      description: IDs of existing weaknesses that apply to this technique (one per line, e.g. DFW-1004, DFW-1014).")
+    lines.append("      placeholder: Enter one weakness ID per line")
     lines.append("      render: text")
 
     # --- Proposed new weaknesses ---
@@ -115,6 +118,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Propose new weaknesses")
     lines.append("      description: Describe new weaknesses for this technique (one per line, e.g. Imaging process may miss data in hidden areas).")
+    lines.append("      placeholder: Enter one weakness description per line")
     lines.append("      render: text")
 
     # --- CASE input classes ---
@@ -126,6 +130,7 @@ def main():
     lines.append("        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)")
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
     lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
+    lines.append("      placeholder: Enter one class per line")
     lines.append("      render: text")
 
     # --- CASE output classes ---
@@ -138,6 +143,7 @@ def main():
     lines.append("        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).")
     lines.append("        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).")
     lines.append("        You can also propose a new CASE class via the [CASE Issue Tracker](https://github.com/casework/CASE/issues).")
+    lines.append("      placeholder: Enter one class per line")
     lines.append("      render: text")
 
     # --- References ---
@@ -148,6 +154,7 @@ def main():
     lines.append("      description: |")
     lines.append("        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.")
     lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
+    lines.append("      placeholder: Enter one reference per line")
     lines.append("      render: text")
 
     # --- Any other notes ---

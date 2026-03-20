@@ -58,6 +58,7 @@ def main():
     lines.append("    attributes:")
     lines.append("      label: Categories")
     lines.append("      description: 'Enter one class code per line. Leave blank to keep current values. If populated, this replaces the entire list. Valid codes — ASTM_INCOMP (Incompleteness), ASTM_INAC_EX (Inaccuracy: Existence), ASTM_INAC_AS (Inaccuracy: Association), ASTM_INAC_ALT (Inaccuracy: Alteration), ASTM_INAC_COR (Inaccuracy: Corruption), ASTM_MISINT (Misinterpretation).'")
+    lines.append("      placeholder: Enter one class code per line")
 
     # --- Mitigation IDs ---
     lines.append("  - type: textarea")
@@ -68,6 +69,7 @@ def main():
     lines.append("        The complete new list of mitigation IDs (one per line, e.g. DFM-1001, DFM-1012).")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Existing mitigations can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).")
+    lines.append("      placeholder: Enter one mitigation ID per line")
     lines.append("      render: text")
 
     # --- Proposed new mitigations ---
@@ -78,6 +80,7 @@ def main():
     lines.append("      description: |")
     lines.append("        Describe new mitigations for this weakness (one per line).")
     lines.append("        These will be created as new mitigation entries and linked to the weakness.")
+    lines.append("      placeholder: Enter one mitigation description per line")
     lines.append("      render: text")
 
     # --- References ---
@@ -90,6 +93,7 @@ def main():
     lines.append("        New citations will be automatically matched against existing references where possible.")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
+    lines.append("      placeholder: Enter one reference per line")
     lines.append("      render: text")
 
     # --- Any other notes ---

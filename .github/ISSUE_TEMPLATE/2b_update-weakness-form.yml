@@ -27,6 +27,7 @@ body:
     attributes:
       label: Categories
       description: 'Enter one class code per line. Leave blank to keep current values. If populated, this replaces the entire list. Valid codes — ASTM_INCOMP (Incompleteness), ASTM_INAC_EX (Inaccuracy: Existence), ASTM_INAC_AS (Inaccuracy: Association), ASTM_INAC_ALT (Inaccuracy: Alteration), ASTM_INAC_COR (Inaccuracy: Corruption), ASTM_MISINT (Misinterpretation).'
+      placeholder: Enter one class code per line
   - type: textarea
     id: mitigation-ids
     attributes:
@@ -35,6 +36,7 @@ body:
         The complete new list of mitigation IDs (one per line, e.g. DFM-1001, DFM-1012).
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Existing mitigations can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).
+      placeholder: Enter one mitigation ID per line
       render: text
   - type: textarea
     id: new-mitigations
@@ -43,6 +45,7 @@ body:
       description: |
         Describe new mitigations for this weakness (one per line).
         These will be created as new mitigation entries and linked to the weakness.
+      placeholder: Enter one mitigation description per line
       render: text
   - type: textarea
     id: references
@@ -53,6 +56,7 @@ body:
         New citations will be automatically matched against existing references where possible.
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
+      placeholder: Enter one reference per line
       render: text
   - type: textarea
     id: other-notes

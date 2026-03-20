@@ -21,6 +21,7 @@ body:
     attributes:
       label: Existing weakness IDs
       description: IDs of existing weaknesses this mitigation applies to (one per line, e.g. DFW-1001, DFW-1014).
+      placeholder: Enter one weakness ID per line
       render: text
   - type: input
     id: linked-technique
@@ -36,6 +37,7 @@ body:
       description: |
         Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
         Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
+      placeholder: Enter one reference per line
       render: text
   - type: textarea
     id: other-notes

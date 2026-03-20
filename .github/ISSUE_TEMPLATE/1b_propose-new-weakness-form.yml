@@ -21,23 +21,27 @@ body:
     attributes:
       label: Categories
       description: 'Enter one class code per line. Valid codes — ASTM_INCOMP (Incompleteness), ASTM_INAC_EX (Inaccuracy: Existence), ASTM_INAC_AS (Inaccuracy: Association), ASTM_INAC_ALT (Inaccuracy: Alteration), ASTM_INAC_COR (Inaccuracy: Corruption), ASTM_MISINT (Misinterpretation).'
+      placeholder: Enter one class code per line
   - type: textarea
     id: existing-mitigations
     attributes:
       label: Existing mitigation IDs
       description: IDs of existing mitigations that apply to this weakness (one per line, e.g. DFM-1001, DFM-1012).
+      placeholder: Enter one mitigation ID per line
       render: text
   - type: textarea
     id: new-mitigations
     attributes:
       label: Propose new mitigations
       description: Describe new mitigations for this weakness (one per line).
+      placeholder: Enter one mitigation description per line
       render: text
   - type: textarea
     id: relevant-techniques
     attributes:
       label: Techniques this applies to
       description: Techniques that this weakness applies to (one per line, e.g. DFT-1001, DFT-1028).
+      placeholder: Enter one technique ID per line
       render: text
   - type: textarea
     id: references
@@ -46,6 +50,7 @@ body:
       description: |
         Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
         Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
+      placeholder: Enter one reference per line
       render: text
   - type: textarea
     id: other-notes

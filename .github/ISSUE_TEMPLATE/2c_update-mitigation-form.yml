@@ -49,6 +49,7 @@ body:
         New citations will be automatically matched against existing references where possible.
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
+      placeholder: Enter one reference per line
       render: text
   - type: textarea
     id: other-notes

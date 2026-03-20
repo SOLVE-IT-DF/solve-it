@@ -84,6 +84,7 @@ def main():
     lines.append("        New citations will be automatically matched against existing references where possible.")
     lines.append("        Leave blank to keep the current list. If populated, this replaces the entire list.")
     lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
+    lines.append("      placeholder: Enter one reference per line")
     lines.append("      render: text")
 
     # --- Any other notes ---

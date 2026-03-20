@@ -60,7 +60,7 @@ def main():
     lines.append("      label: References")
     lines.append("      description: |")
     lines.append("        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.")
-    lines.append("        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).")
+    lines.append("        You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is important (max 280 chars).")
     lines.append("      placeholder: |")
     lines.append("        Enter one reference per line")
     lines.append("        DFCite-xxxx | reason why this reference is important for this mitigation (max 280 chars)")

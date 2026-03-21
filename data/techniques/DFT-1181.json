@@ -1,0 +1,21 @@
+{
+    "id": "DFT-1181",
+    "name": "Examine smart home app",
+    "description": "Examine the data stored by an app designed to control, monitor or program smart home capabilities.",
+    "synonyms": [],
+    "details": "There are many other components to a smart home system including the devices themselves (possibly different hubs and sensors), plus the online content. This technique focuses on the app.",
+    "subtechniques": [],
+    "examples": [
+        "SmartThings",
+        "Apple Home",
+        "Philips Hue"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/SmartHomeAppFiles"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/location/Location"
+    ],
+    "references": []
+}

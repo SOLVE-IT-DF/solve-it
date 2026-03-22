@@ -114,6 +114,8 @@ def build_comment(fields, project_root):
 
     is_match = bool(result)
 
+    explorer_refs_url = "https://explore.solveit-df.org/#references"
+
     if is_match:
         cite_id, match_type = result
         existing_text = corpus.get(cite_id, "")
@@ -131,9 +133,14 @@ def build_comment(fields, project_root):
         lines.append("")
         lines.append("If this is indeed the same reference, no new citation file is needed — "
                       f"just use `{cite_id}` when referencing it in techniques, weaknesses, or mitigations.")
+        lines.append("")
+        lines.append(f":mag: [Browse all references in the Explorer]({explorer_refs_url}) to verify this match.")
     else:
         placeholder = "DFCite-____"
         lines.append(f"No existing match found. A reference ID will be assigned during review.")
+        lines.append("")
+        lines.append(f":mag: Reviewers: [search existing references in the Explorer]({explorer_refs_url}) "
+                      "to double-check for duplicates before assigning an ID.")
         lines.append("")
         lines.append("Proposed file contents:")
         lines.append("")

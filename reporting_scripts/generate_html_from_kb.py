@@ -2317,7 +2317,7 @@ function dfciteRelevanceFormUrl(itemType, itemId, ref) {{
   const r = resolveRef(ref);
   if (!r.citeId) return '';
   const p = new URLSearchParams();
-  p.set('template', '2d_update-dfcite-relevance-form.yml');
+  p.set('template', '2e_update-dfcite-relevance-form.yml');
   p.set('labels', 'content: update dfcite relevance,form input');
   p.set('title', `Update DFCite relevance: ${{r.citeId}} in ${{itemId}}`);
   p.set('item-id', itemId);
@@ -3270,7 +3270,7 @@ function buildReferenceDetail(citeId, refData, cite) {{
   // Action buttons
   html += `<div class="detail-section" style="padding:12px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">`;
   if (!CUSTOM_MODE) {{
-    html += `<a href="${{REPO_URL}}/issues/new?template=2f_update-reference-form.yml&labels=content%3A+update+reference%2Cform+input&title=Update+reference%3A+${{encodeURIComponent(citeId)}}&dfcite-id=${{encodeURIComponent(citeId)}}" target="_blank" rel="noopener" class="propose-update-btn" style="background:#a78bfa">&#9998; Update this DFCite</a>`;
+    html += `<a href="${{REPO_URL}}/issues/new?template=2d_update-reference-form.yml&labels=content%3A+update+reference%2Cform+input&title=Update+reference%3A+${{encodeURIComponent(citeId)}}&dfcite-id=${{encodeURIComponent(citeId)}}" target="_blank" rel="noopener" class="propose-update-btn" style="background:#a78bfa">&#9998; Update this DFCite</a>`;
   }}
   const srcExt = (cite && cite.txt) ? '.txt' : (cite && cite.bib) ? '.bib' : '.txt';
   html += `<a href="${{REPO_URL}}/blob/main/data/references/${{encodeURIComponent(citeId)}}${{srcExt}}" target="_blank" rel="noopener" class="view-source-btn">View source in GitHub</a>`;

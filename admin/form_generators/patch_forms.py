@@ -110,8 +110,8 @@ def main():
         else:
             print(f"No changes needed in {filename} (already up to date)")
 
-    # --- 2. Patch objective ID list in 2e ---
-    move_form = '2e_move-technique-form.yml'
+    # --- 2. Patch objective ID list in 2f ---
+    move_form = '2f_move-technique-form.yml'
     path = os.path.join(template_dir, move_form)
     with open(path) as f:
         text = f.read()

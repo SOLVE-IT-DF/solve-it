@@ -227,7 +227,7 @@ Unlike a search engine, which can find a paper but leaves you to work out *which
 
 Many existing references have empty relevancy strings — these are shown as faded entries in the [SOLVE-IT Explorer](https://explore.solveit-df.org/), signalling that a contribution is welcome.
 
-To add or update a relevancy string, use the **[Update DFCite relevance](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2d_update-dfcite-relevance-form.yml)** form. You'll need:
+To add or update a relevancy string, use the **[Update DFCite relevance](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2e_update-dfcite-relevance-form.yml)** form. You'll need:
 
 - The **item ID** the reference is attached to (e.g. `DFT-1005`, `DFW-1106`, or `DFM-1061`)
 - The **DFCite ID** (e.g. `DFCite-1018`)
@@ -421,7 +421,7 @@ There are separate update forms for each content type:
 - [Update a technique](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2a_update-technique-form.yml)
 - [Update a weakness](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2b_update-weakness-form.yml)
 - [Update a mitigation](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2c_update-mitigation-form.yml)
-- [Update DFCite relevance](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2d_update-dfcite-relevance-form.yml)
+- [Update DFCite relevance](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2e_update-dfcite-relevance-form.yml)
 
 **How updates work:**
 - You must provide the existing item's ID (e.g. `DFT-1002`)

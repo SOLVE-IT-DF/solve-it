@@ -26,11 +26,13 @@ body:
     attributes:
       label: Cite in items
       description: |
-        Optional. Specify items where this reference should be cited, one per line.
+        Optional. List items where this reference should be cited, with specific relevancy strings, one per line.
+        Supported item types: techniques (DFT-xxxx), weaknesses (DFW-xxxx), or mitigations (DFM-xxxx).
         Format: ITEM_ID | relevance summary (max 280 chars).
       placeholder: |
         Enter one item per line
-        e.g. DFT-xxxx | Why this reference is relevant to this item
+        e.g. DFT-1001 | Why this reference is relevant to this technique
+        e.g. DFW-1002 | Why this reference is relevant to this weakness
       render: text
   - type: textarea
     id: notes

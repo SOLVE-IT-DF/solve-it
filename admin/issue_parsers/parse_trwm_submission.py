@@ -81,7 +81,11 @@ def normalize_to_kb_schema(item, field_list):
     normalized = {}
     for field in field_list:
         if field in item:
-            normalized[field] = item[field]
+            value = item[field]
+            # References must be a list of dicts; filter out bare strings
+            if field == "references" and isinstance(value, list):
+                value = [r for r in value if isinstance(r, dict)]
+            normalized[field] = value
         else:
             # Determine default based on what other items typically have
             if field in ("synonyms", "subtechniques", "examples", "weaknesses",
@@ -238,6 +242,17 @@ def validate_submission(trwm_data, new_items):
     'warning' or 'info'.
     """
     notes = []
+
+    # Check for non-dict references (bare strings are invalid)
+    for category in ("techniques", "weaknesses", "mitigations"):
+        for item_id, item in trwm_data.get(category, {}).items():
+            bad_refs = [r for r in item.get("references", []) if not isinstance(r, dict)]
+            if bad_refs:
+                notes.append((
+                    "warning",
+                    f"**{item_id}**: `references` contained {len(bad_refs)} non-dict "
+                    f"entry/entries ({bad_refs!r}) — these were removed"
+                ))
 
     # Check CASE classes
     for tid, technique in trwm_data.get("techniques", {}).items():

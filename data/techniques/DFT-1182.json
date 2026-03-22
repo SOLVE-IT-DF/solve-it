@@ -22,7 +22,5 @@
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/observable/Timeline"
     ],
-    "references": [
-        "timeline"
-    ]
+    "references": []
 }

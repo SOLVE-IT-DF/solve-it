@@ -1474,6 +1474,7 @@ body.custom-mode .disabled-btn {{
   line-height: 1.5;
 }}
 .ref-item:last-child {{ border-bottom: none; }}
+.ref-item[data-show-type="reference"]:hover {{ background: var(--gray-50); border-radius: 4px; }}
 .inline-cite {{
   color: var(--blue-600, #2563eb);
   cursor: help;
@@ -1579,6 +1580,11 @@ body.custom-mode .disabled-btn {{
   .main-area.shifted {{ margin-right: 0; }}
   .stats-banner {{ grid-template-columns: repeat(2, 1fr); }}
   html, body {{ overflow-x: hidden; overscroll-behavior-x: none; }}
+  .ref-table thead {{ display: none; }}
+  .ref-table tbody tr {{ display: block; border-bottom: 1px solid var(--gray-200); padding: 10px 0; }}
+  .ref-table tbody td {{ display: block; padding: 4px 12px; }}
+  .ref-table tbody td:nth-child(2), .ref-table tbody td:nth-child(3) {{ display: none; }}
+  .ref-cited-cell {{ padding-top: 6px !important; }}
 }}
 
 /* ── Misc ──────────────────────────────────────────────────── */
@@ -1590,6 +1596,29 @@ body.custom-mode .disabled-btn {{
 }}
 .github-link:hover {{ color: rgba(255,255,255,.85); }}
 .ref-table {{ table-layout: fixed; width: 100%; }}
+tr[data-show-type="reference"] {{ cursor: pointer; transition: background var(--transition); }}
+tr[data-show-type="reference"]:hover {{ background: var(--gray-50); }}
+tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
+.ref-detail-actions {{ display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }}
+.ref-action-btn {{
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; border-radius: 12px; font-size: .72rem; font-weight: 600;
+  font-family: var(--font-body); cursor: pointer; text-decoration: none;
+  border: 1px solid var(--gray-200); background: var(--gray-50); color: var(--gray-700);
+  transition: var(--transition);
+}}
+.ref-action-btn:hover {{ background: var(--gray-200); color: var(--gray-900); text-decoration: none; }}
+.ref-bibtex-toggle {{
+  font-size: .72rem; color: var(--blue); cursor: pointer; margin-top: 6px;
+  user-select: none; text-decoration: underline dotted;
+}}
+.ref-bibtex-pre {{
+  display: none; margin-top: 6px; padding: 10px; background: var(--gray-50);
+  border: 1px solid var(--gray-200); border-radius: 4px; font-size: .72rem;
+  line-height: 1.5; white-space: pre-wrap; word-break: break-word; max-height: 300px; overflow-y: auto;
+}}
+.ref-bibtex-pre.open {{ display: block; }}
+.detail-row-id.r {{ color: #a78bfa; }}
 .ref-cell {{
   padding: 8px 12px;
   font-size: .82rem;
@@ -2068,9 +2097,10 @@ function resolveRef(ref) {{
 
 function renderRef(ref, itemType, itemId) {{
   const r = resolveRef(ref);
-  let html = `<div class="ref-item">${{linkify(r.text)}}`;
+  const clickable = r.citeId ? ` data-show-id="${{esc(r.citeId)}}" data-show-type="reference" style="cursor:pointer"` : '';
+  let html = `<div class="ref-item"${{clickable}}>${{linkify(r.text)}}`;
   if (r.citeId) {{
-    html += ` <span style="font-size:.72rem;color:var(--gray-400);font-family:var(--font-mono)">[` + esc(r.citeId) + `]</span>`;
+    html += ` <span style="font-size:.72rem;color:#a78bfa;font-family:var(--font-mono)">[` + esc(r.citeId) + `]</span>`;
     const cite = CiteMap[r.citeId];
     if (cite) {{
       html += `<span class="copy-cite" title="Copy citation text" onclick="copyCite('${{esc(r.citeId)}}','txt');event.stopPropagation()">&#128203;</span>`;
@@ -2078,7 +2108,7 @@ function renderRef(ref, itemType, itemId) {{
     }}
   }}
   const editIcon = (!CUSTOM_MODE && itemType && itemId && r.citeId)
-    ? `<a href="${{dfciteRelevanceFormUrl(itemType, itemId, ref)}}" target="_blank" rel="noopener" title="Update relevance summary" style="font-size:.72rem;color:var(--gray-300);text-decoration:none;cursor:pointer;margin-left:6px;font-style:normal">[edit]</a>`
+    ? `<a href="${{dfciteRelevanceFormUrl(itemType, itemId, ref)}}" target="_blank" rel="noopener" title="Update relevance summary" onclick="event.stopPropagation()" style="font-size:.72rem;color:var(--gray-300);text-decoration:none;cursor:pointer;margin-left:6px;font-style:normal">[edit]</a>`
     : '';
   html += r.relevance
     ? `<div style="margin-top:2px;font-size:.78rem;font-style:italic;display:flex;align-items:baseline"><span style="color:var(--green)">Relevance: ${{esc(r.relevance)}}</span>${{editIcon}}</div>`
@@ -2852,6 +2882,25 @@ function showDetail(id, type, skipHash) {{
   updateSelectionHighlights();
   updateBackButton();
 
+  // Reference detail — early return branch
+  if (type === 'reference') {{
+    const cite = CiteMap[id];
+    if (!window._refMap) renderReferences();
+    const refData = (window._refMap || {{}})[id];
+    if (!cite && !refData) return;
+    const truncName = (cite && cite.text) ? (cite.text.length > 80 ? cite.text.slice(0, 80).replace(/\\s\\S*$/, '') + '...' : cite.text) : id;
+    document.getElementById('dp-id').innerHTML =
+      `<span style="color:#a78bfa">${{esc(id)}}</span>
+       <span class="type-label">Reference</span>`;
+    document.getElementById('dp-name').textContent = truncName;
+    document.getElementById('dp-objective').style.display = 'none';
+    document.getElementById('dp-original-objective').style.display = 'none';
+    document.getElementById('dp-body').innerHTML = buildReferenceDetail(id, refData, cite);
+    document.getElementById('detailPanel').classList.add('open');
+    document.getElementById('mainArea').classList.add('shifted');
+    return;
+  }}
+
   const obj = type === 'technique'  ? TMap[id]
             : type === 'weakness'   ? WMap[id]
             : type === 'mitigation' ? MMap[id]
@@ -3184,6 +3233,111 @@ function buildMitigationDetail(m) {{
   return html;
 }}
 
+function citeSearchQuery(citeId) {{
+  const cite = CiteMap[citeId];
+  const text = cite ? (cite.text || '') : '';
+  const cleaned = text.replace(/https?:\\/\\/[^\\s,;)"]+/g, '').trim();
+  return cleaned.length > 120 ? cleaned.slice(0, 120).replace(/\\s\\S*$/, '') : cleaned;
+}}
+
+function googleUrl(citeId) {{
+  return 'https://www.google.com/search?q=' + encodeURIComponent(citeSearchQuery(citeId));
+}}
+
+function scholarUrl(citeId) {{
+  const cite = CiteMap[citeId];
+  const text = cite ? (cite.text || '') : '';
+  const doiMatch = text.match(/10\\.\\d{{4,}}\\/\\S+/);
+  if (doiMatch) return 'https://scholar.google.com/scholar?q=' + encodeURIComponent(doiMatch[0]);
+  return 'https://scholar.google.com/scholar?q=' + encodeURIComponent(citeSearchQuery(citeId));
+}}
+
+function findRelevance(entityType, entityId, citeId) {{
+  const map = {{technique: TMap, weakness: WMap, mitigation: MMap}};
+  const entity = (map[entityType] || {{}})[entityId];
+  if (!entity || !entity.references) return '';
+  for (const ref of entity.references) {{
+    if (ref && typeof ref === 'object' && ref.DFCite_id === citeId) {{
+      return ref.relevance_summary_280 || '';
+    }}
+  }}
+  return '';
+}}
+
+function buildReferenceDetail(citeId, refData, cite) {{
+  let html = '';
+
+  // Action buttons
+  html += `<div class="detail-section" style="padding:12px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">`;
+  if (!CUSTOM_MODE) {{
+    html += `<a href="${{REPO_URL}}/issues/new?template=2c_update-reference-form.yml&labels=content%3A+update+reference%2Cform+input&title=Update+reference%3A+${{encodeURIComponent(citeId)}}&dfcite-id=${{encodeURIComponent(citeId)}}" target="_blank" rel="noopener" class="propose-update-btn" style="background:#a78bfa">&#9998; Update this DFCite</a>`;
+  }}
+  const srcExt = (cite && cite.txt) ? '.txt' : (cite && cite.bib) ? '.bib' : '.txt';
+  html += `<a href="${{REPO_URL}}/blob/main/data/references/${{encodeURIComponent(citeId)}}${{srcExt}}" target="_blank" rel="noopener" class="view-source-btn">View source in GitHub</a>`;
+  html += `</div>`;
+
+  // Action pills
+  html += `<div class="detail-section"><div class="ref-detail-actions">`;
+  html += `<span class="ref-action-btn" onclick="copyCite('${{esc(citeId)}}','txt')" title="Copy plaintext citation">&#128203; Copy text</span>`;
+  if (cite && cite.bib) {{
+    html += `<span class="ref-action-btn" onclick="copyCite('${{esc(citeId)}}','bib')" title="Copy BibTeX">&#128218; Copy BibTeX</span>`;
+  }} else {{
+    html += `<span class="ref-action-btn" style="opacity:.35;cursor:not-allowed;pointer-events:none" title="No BibTeX available">&#128218; Copy BibTeX</span>`;
+  }}
+  html += `<a class="ref-action-btn" href="${{googleUrl(citeId)}}" target="_blank" rel="noopener" title="Search Google">&#128270; Google</a>`;
+  html += `<a class="ref-action-btn" href="${{scholarUrl(citeId)}}" target="_blank" rel="noopener" title="Search Google Scholar">&#127891; Google Scholar</a>`;
+  html += `</div></div>`;
+
+  // Citation text
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Citation Text</div>
+    ${{refData && refData.text ? `<div class="detail-text">${{linkify(refData.text)}}</div>` : '<div class="empty-message">No citation text available.</div>'}}
+  </div>`;
+
+  // Raw BibTeX
+  if (cite && cite.raw_bib) {{
+    const bibId = 'bib-' + citeId.replace(/[^a-zA-Z0-9_-]/g, '');
+    html += `<div class="detail-section">
+      <div class="detail-section-title">BibTeX</div>
+      <div class="ref-bibtex-toggle" onclick="document.getElementById('${{bibId}}').classList.toggle('open');this.textContent=document.getElementById('${{bibId}}').classList.contains('open')?'Hide BibTeX':'Show BibTeX'">Show BibTeX</div>
+      <pre class="ref-bibtex-pre" id="${{bibId}}">${{esc(cite.raw_bib)}}</pre>
+    </div>`;
+  }}
+
+  // Cited by sections
+  const types = [
+    ['techniques', 'technique', 'Techniques', TMap, 't'],
+    ['weaknesses', 'weakness', 'Weaknesses', WMap, 'w'],
+    ['mitigations', 'mitigation', 'Mitigations', MMap, 'm']
+  ];
+  types.forEach(([plural, singular, label, map, cls]) => {{
+    const ids = refData ? (refData[plural] || []) : [];
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Cited By: ${{label}} <span class="badge">${{ids.length}}</span></div>
+      ${{!ids.length ? '<div class="empty-message">Not cited by any ' + label.toLowerCase() + '.</div>' : ''}}
+      <div class="detail-list">
+        ${{ids.map(eid => {{
+          const entity = map[eid];
+          const rel = findRelevance(singular, eid, citeId);
+          const editUrl = !CUSTOM_MODE ? dfciteRelevanceFormUrl(singular, eid, {{DFCite_id: citeId, relevance_summary_280: rel}}) : '';
+          const editLink = editUrl ? `<a href="${{editUrl}}" target="_blank" rel="noopener" title="Update relevance summary" style="font-size:.72rem;color:var(--gray-300);text-decoration:none;cursor:pointer;margin-left:6px;font-style:normal">[edit]</a>` : '';
+          return `<div class="detail-row" data-show-id="${{esc(eid)}}" data-show-type="${{singular}}">
+            <span class="detail-row-id ${{cls}}">${{esc(eid)}}</span>
+            <span class="detail-row-name">${{esc(entity ? entity.name : eid)}}
+              ${{rel
+                ? `<br><small style="font-style:italic;color:var(--green)">Relevance: ${{esc(rel)}}</small>${{editLink}}`
+                : `<br><small style="font-style:italic;color:var(--red)">No relevance summary</small>${{editLink}}`
+              }}
+            </span>
+          </div>`;
+        }}).join('')}}
+      </div>
+    </div>`;
+  }});
+
+  return html;
+}}
+
 function closeDetail(skipHash) {{
   S.selected = null;
   detailHistory.length = 0;
@@ -3201,6 +3355,23 @@ function goBack() {{
   S.selected = prev;
   updateSelectionHighlights();
   updateBackButton();
+
+  // Reference goBack — early return branch
+  if (prev.type === 'reference') {{
+    const cite = CiteMap[prev.id];
+    if (!window._refMap) renderReferences();
+    const refData = (window._refMap || {{}})[prev.id];
+    if (!cite && !refData) return;
+    const truncName = (cite && cite.text) ? (cite.text.length > 80 ? cite.text.slice(0, 80).replace(/\\s\\S*$/, '') + '...' : cite.text) : prev.id;
+    document.getElementById('dp-id').innerHTML =
+      `<span style="color:#a78bfa">${{esc(prev.id)}}</span>
+       <span class="type-label">Reference</span>`;
+    document.getElementById('dp-name').textContent = truncName;
+    document.getElementById('dp-objective').style.display = 'none';
+    document.getElementById('dp-original-objective').style.display = 'none';
+    document.getElementById('dp-body').innerHTML = buildReferenceDetail(prev.id, refData, cite);
+    return;
+  }}
 
   const obj = prev.type === 'technique'  ? TMap[prev.id]
             : prev.type === 'weakness'   ? WMap[prev.id]
@@ -3260,6 +3431,11 @@ function updateSelectionHighlights() {{
     el.classList.toggle('selected',
       S.selected && S.selected.type === 'weakness' && el.dataset.wid === S.selected.id);
   }});
+  // Reference rows
+  document.querySelectorAll('tr[data-show-type="reference"]').forEach(el => {{
+    el.classList.toggle('selected',
+      S.selected && S.selected.type === 'reference' && el.dataset.showId === S.selected.id);
+  }});
 }}
 
 // ── Rendering: References table ─────────────────────────────────────
@@ -3292,6 +3468,9 @@ function renderReferences() {{
   DB.techniques.forEach(t  => (t.references||[]).forEach(r => addRef(r,'techniques',t.id)));
   DB.weaknesses.forEach(w  => (w.references||[]).forEach(r => addRef(r,'weaknesses',w.id)));
   DB.mitigations.forEach(m => (m.references||[]).forEach(r => addRef(r,'mitigations',m.id)));
+
+  window._refMap = refMap;
+  window._refHasSummary = refHasSummary;
 
   let items = Object.entries(refMap).filter(([key, cb]) => {{
     if (S.rtype !== 'all' && cb[S.rtype].length === 0) return false;
@@ -3363,7 +3542,8 @@ function renderReferences() {{
     let copyBtns = '';
     if (citeId) copyBtns += `<span class="copy-cite" title="Copy plaintext citation" onclick="copyCite('${{esc(citeId)}}','txt');event.stopPropagation()">&#128203;</span>`;
     if (hasBib) copyBtns += `<span class="copy-cite" title="Copy BibTeX citation" onclick="copyCite('${{esc(citeId)}}','bib');event.stopPropagation()">&#128218;</span>`;
-    html += `<tr><td style="font-family:var(--font-mono);font-size:.78rem;color:var(--gray-500)">${{esc(citeId)}}</td><td style="text-align:center">${{hasTxt ? tick : cross}}</td><td style="text-align:center">${{hasBib ? tick : cross}}</td><td class="ref-cell">${{linkify(cb.text)}} ${{copyBtns}}</td><td class="ref-cited-cell">${{chips}}</td></tr>`;
+    const rowAttrs = citeId ? ` data-show-id="${{esc(citeId)}}" data-show-type="reference"` : '';
+    html += `<tr${{rowAttrs}}><td style="font-family:var(--font-mono);font-size:.78rem;color:var(--gray-500)">${{esc(citeId)}}</td><td style="text-align:center">${{hasTxt ? tick : cross}}</td><td style="text-align:center">${{hasBib ? tick : cross}}</td><td class="ref-cell">${{linkify(cb.text)}} ${{copyBtns}}</td><td class="ref-cited-cell">${{chips}}</td></tr>`;
   }});
 
   html += '</tbody></table></div>';
@@ -3539,6 +3719,8 @@ document.addEventListener('click', function(e) {{
 
 // Delegated click handler for data-show-id/data-show-type attributes (avoids inline onclick XSS risk)
 document.addEventListener('click', function(e) {{
+  // Don't intercept clicks on external links inside clickable containers
+  if (e.target.closest('a[href]')) return;
   const el = e.target.closest('[data-show-id]');
   if (el) showDetail(el.dataset.showId, el.dataset.showType);
 }});
@@ -3775,6 +3957,13 @@ function handleHash() {{
     location.replace('#' + id);
     return;
   }}
+  // DFCite deep links
+  if (/^DFCite-\\d+$/.test(id)) {{
+    switchView('references', true);
+    showDetail(id, 'reference', true);
+    return;
+  }}
+
   const type = id.startsWith('DFT-') ? 'technique'
              : id.startsWith('DFW-') ? 'weakness'
              : id.startsWith('DFM-') ? 'mitigation'

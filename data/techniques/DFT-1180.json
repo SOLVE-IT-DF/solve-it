@@ -1,0 +1,25 @@
+{
+    "id": "DFT-1180",
+    "name": "Extract file(s) from a pre-deletion container",
+    "description": "An examination of the operating system structures that represent the 'pre-deletion' container (i.e. Recycle Bin/Trash) to extract those files and potentially additional metadata such as original path or date it was moved.",
+    "synonyms": [
+        "Recycle Bin examination",
+        "Trash examination"
+    ],
+    "details": "Content in pre-deletion containers such as the recycle bin/trash is not always viewable in a useful form without further processing. \nThis further processing should provide access to the file content but also potentially additional information such as data sent to recycle bin, or original path.",
+    "subtechniques": [],
+    "examples": [
+        "Windows Recycle Bin",
+        "macOS Trash"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/File",
+        "https://ontology.unifiedcyberontology.org/uco/observable/path",
+        "https://ontology.solveit-df.org/solveit/observable/DateTimeStamp"
+    ],
+    "references": []
+}

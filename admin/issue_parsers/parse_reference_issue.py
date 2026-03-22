@@ -121,7 +121,13 @@ def build_comment(fields, project_root):
         lines.append("")
         lines.append(f"> {existing_text[:300]}{'...' if len(existing_text) > 300 else ''}")
         lines.append("")
-        lines.append(f"Match type: {match_type}")
+        match_explanations = {
+            "direct_id": "You submitted an existing DFCite ID.",
+            "url": "A URL in your citation matches an existing reference.",
+            "doi": "A DOI in your citation matches an existing reference.",
+            "prefix": "The beginning of your citation text matches an existing reference.",
+        }
+        lines.append(f"Match type: `{match_type}` — {match_explanations.get(match_type, '')}")
         lines.append("")
         lines.append("If this is indeed the same reference, no new citation file is needed — "
                       f"just use `{cite_id}` when referencing it in techniques, weaknesses, or mitigations.")

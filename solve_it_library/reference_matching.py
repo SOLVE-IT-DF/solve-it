@@ -66,6 +66,31 @@ def _extract_urls(text: str) -> set:
     return set(_URL_RE.findall(text))
 
 
+# ── DOI extraction helper ────────────────────────────────────────────────────
+
+_DOI_PATTERNS = [
+    re.compile(r"https?://doi\.org/(10\.\d{4,9}/[^\s,)>]+)"),
+    re.compile(r"doi:\s*(10\.\d{4,9}/[^\s,)>]+)", re.IGNORECASE),
+    re.compile(r"(?<!\w)(10\.\d{4,9}/[^\s,)>]+)"),
+]
+
+
+def _extract_dois(text: str) -> set:
+    """Extract and normalize DOIs from a string.
+
+    Handles:
+        - ``https://doi.org/10.XXXX/...`` → ``10.XXXX/...``
+        - ``doi: 10.XXXX/...`` → ``10.XXXX/...``
+        - Bare ``10.XXXX/...`` → as-is
+    """
+    dois = set()
+    for pattern in _DOI_PATTERNS:
+        for m in pattern.finditer(text):
+            doi = m.group(1).rstrip(".")
+            dois.add(doi.lower())
+    return dois
+
+
 # ── Single-reference matching ─────────────────────────────────────────────────
 
 def match_reference(
@@ -78,7 +103,8 @@ def match_reference(
     Matching strategies (tried in order):
         1. Direct DFCite ID — text matches ``DFCite-\\d+``
         2. URL overlap — a URL found in both the input and a corpus entry
-        3. Prefix match — first *prefix_len* chars match (case-insensitive)
+        3. DOI overlap — a DOI found in both the input and a corpus entry
+        4. Prefix match — first *prefix_len* chars match (case-insensitive)
 
     Returns:
         (DFCite_id, match_type) or None
@@ -103,7 +129,14 @@ def match_reference(
             if input_urls & corpus_urls:
                 return (cite_id, "url")
 
-    # 3. Prefix match (first N chars, case-insensitive)
+    # 3. DOI overlap match
+    input_dois = _extract_dois(stripped)
+    if input_dois:
+        for cite_id, corpus_text in corpus.items():
+            if input_dois & _extract_dois(corpus_text):
+                return (cite_id, "doi")
+
+    # 4. Prefix match (first N chars, case-insensitive)
     input_prefix = stripped[:prefix_len].lower()
     if len(input_prefix) >= 10:  # only attempt if there's enough text
         for cite_id, corpus_text in corpus.items():

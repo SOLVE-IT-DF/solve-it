@@ -46,7 +46,7 @@ body:
     attributes:
       label: References
       description: |
-        The complete new list of references — existing DFCite IDs, one per line. If you need to add a new reference, please use the Propose New Reference form first.
+        The complete new list of references — existing DFCite IDs, one per line. If you need to add a new reference, please use the [Propose New Reference](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) form first.
         Leave blank to keep the current list. If populated, this replaces the entire list.
         You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is useful for this mitigation (max 280 chars).
         Focus on why the reference matters to this specific item, not just what it is about.

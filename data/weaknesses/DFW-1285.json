@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1285",
+    "name": "Recovering an account used for a gaming application that was not actually used",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1248",
+        "DFM-1050",
+        "DFM-1027"
+    ],
+    "references": []
+}

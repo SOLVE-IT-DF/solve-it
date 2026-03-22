@@ -22,6 +22,17 @@ body:
       description: Paste BibTeX if available (optional). BibTeX is the preferred format and if provided the SOLVE-IT Explorer offers direct BibTeX export from the UI.
       render: text
   - type: textarea
+    id: cite-in-items
+    attributes:
+      label: Cite in items
+      description: |
+        Optional. Specify items where this reference should be cited, one per line.
+        Format: ITEM_ID | relevance summary (max 280 chars).
+      placeholder: |
+        Enter one item per line
+        e.g. DFT-xxxx | Why this reference is relevant to this item
+      render: text
+  - type: textarea
     id: notes
     attributes:
       label: Notes

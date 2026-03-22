@@ -350,6 +350,7 @@ flowchart LR
 
 **Optional fields:**
 - BibTeX entry
+- Cite in items — specify items (techniques, weaknesses, mitigations) where this reference should be cited, one per line in `ITEM_ID | relevance summary` format. The auto-implement PR will add the reference to these items automatically.
 - Notes on where it's used and why it's relevant
 
 **Pipeline:** Preview → ID assignment → Auto-implement → PR → Merge
@@ -361,13 +362,14 @@ flowchart LR
     C -->|Yes| D[Use existing DFCite ID]
     C -->|No| E[assigned ID]
     E --> F[autoimplement]
-    F --> G["PR created<br/>• DFCite-XXXX.txt<br/>• DFCite-XXXX.bib"]
+    F --> G["PR created<br/>• DFCite-XXXX.txt<br/>• DFCite-XXXX.bib<br/>• cited items updated"]
     G --> H[Merge]
 ```
 
 **What gets created:**
 - `data/references/DFCite-XXXX.txt` (citation text)
 - `data/references/DFCite-XXXX.bib` (BibTeX, if provided)
+- If "Cite in items" was specified: the referenced items' JSON files are updated with the new DFCite entry
 
 
 It is worth supplying bibtex if you can since the SOLVE-IT Explorer offers direct copying of the bibtex citation file from within the UI, making it easy to refer to. 

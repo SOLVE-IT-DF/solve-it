@@ -4,6 +4,7 @@ Unit tests for admin/autoimplement_new_reference.py
 Covers the parsing and extraction functions without hitting the GitHub API.
 """
 
+import json
 import os
 import sys
 import tempfile
@@ -334,6 +335,224 @@ class TestFullPreviewParsing(unittest.TestCase):
         """Existing match should be detected, no ID extracted for assignment."""
         self.assertTrue(mod.is_existing_match(self.FULL_PREVIEW_EXISTING))
         self.assertIsNone(mod.extract_dfcite_id(self.FULL_PREVIEW_EXISTING))
+
+
+class TestExtractCiteInItems(unittest.TestCase):
+
+    def test_parses_json_from_comment(self):
+        comment = (
+            "<!-- REFERENCE_PREVIEW -->\n"
+            "Some text\n\n"
+            "<!-- CITE_IN_ITEMS -->\n\n"
+            "### Cite in items\n\n"
+            "| Item | Relevance summary | Status |\n"
+            "|---|---|---|\n"
+            "| `DFT-1001` | Reason | Found |\n\n"
+            "```json\n"
+            '[{"item_id": "DFT-1001", "relevance_summary": "Reason"}]\n'
+            "```\n"
+        )
+        result = mod.extract_cite_in_items(comment)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["item_id"], "DFT-1001")
+        self.assertEqual(result[0]["relevance_summary"], "Reason")
+
+    def test_returns_empty_when_marker_missing(self):
+        comment = (
+            "<!-- REFERENCE_PREVIEW -->\n"
+            "Reference ID **DFCite-1058** has been assigned.\n"
+        )
+        result = mod.extract_cite_in_items(comment)
+        self.assertEqual(result, [])
+
+    def test_empty_json_array(self):
+        comment = (
+            "<!-- CITE_IN_ITEMS -->\n"
+            "```json\n"
+            "[]\n"
+            "```\n"
+        )
+        result = mod.extract_cite_in_items(comment)
+        self.assertEqual(result, [])
+
+    def test_malformed_json_graceful(self):
+        comment = (
+            "<!-- CITE_IN_ITEMS -->\n"
+            "```json\n"
+            "not valid json\n"
+            "```\n"
+        )
+        result = mod.extract_cite_in_items(comment)
+        self.assertEqual(result, [])
+
+    def test_multiple_items(self):
+        items = [
+            {"item_id": "DFT-1001", "relevance_summary": "Reason 1"},
+            {"item_id": "DFW-1002", "relevance_summary": "Reason 2"},
+        ]
+        comment = (
+            "<!-- CITE_IN_ITEMS -->\n"
+            "```json\n"
+            f"{json.dumps(items, indent=2)}\n"
+            "```\n"
+        )
+        result = mod.extract_cite_in_items(comment)
+        self.assertEqual(len(result), 2)
+
+
+class TestResolveItemPath(unittest.TestCase):
+
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp()
+        for subdir in ("techniques", "weaknesses", "mitigations"):
+            os.makedirs(os.path.join(self.tmpdir, "data", subdir))
+
+    def _create_item(self, subdir, item_id):
+        filepath = os.path.join(self.tmpdir, "data", subdir, f"{item_id}.json")
+        with open(filepath, 'w') as f:
+            json.dump({"id": item_id, "references": []}, f)
+        return filepath
+
+    def test_technique_found(self):
+        self._create_item("techniques", "DFT-1001")
+        result = mod.resolve_item_path("DFT-1001", self.tmpdir)
+        self.assertIsNotNone(result)
+        self.assertTrue(result.endswith("DFT-1001.json"))
+
+    def test_weakness_found(self):
+        self._create_item("weaknesses", "DFW-1001")
+        result = mod.resolve_item_path("DFW-1001", self.tmpdir)
+        self.assertIsNotNone(result)
+
+    def test_mitigation_found(self):
+        self._create_item("mitigations", "DFM-1001")
+        result = mod.resolve_item_path("DFM-1001", self.tmpdir)
+        self.assertIsNotNone(result)
+
+    def test_invalid_id_returns_none(self):
+        self.assertIsNone(mod.resolve_item_path("INVALID-123", self.tmpdir))
+
+    def test_nonexistent_file_returns_none(self):
+        self.assertIsNone(mod.resolve_item_path("DFT-9999", self.tmpdir))
+
+    def test_path_traversal_returns_none(self):
+        self.assertIsNone(mod.resolve_item_path("../../../etc", self.tmpdir))
+
+
+class TestAddReferenceToItem(unittest.TestCase):
+
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp()
+
+    def _create_item_file(self, item_id, references=None):
+        filepath = os.path.join(self.tmpdir, f"{item_id}.json")
+        data = {"id": item_id, "name": "Test", "references": references or []}
+        with open(filepath, 'w') as f:
+            json.dump(data, f, indent=4)
+            f.write('\n')
+        return filepath
+
+    def test_adds_new_reference(self):
+        filepath = self._create_item_file("DFT-1001")
+        status = mod.add_reference_to_item(filepath, "DFCite-1058", "Test relevance")
+        self.assertEqual(status, "added")
+
+        with open(filepath) as f:
+            data = json.load(f)
+        self.assertEqual(len(data["references"]), 1)
+        self.assertEqual(data["references"][0]["DFCite_id"], "DFCite-1058")
+        self.assertEqual(data["references"][0]["relevance_summary_280"], "Test relevance")
+
+    def test_skips_when_already_present(self):
+        filepath = self._create_item_file("DFT-1001", references=[
+            {"DFCite_id": "DFCite-1058", "relevance_summary_280": "Existing"}
+        ])
+        status = mod.add_reference_to_item(filepath, "DFCite-1058", "New text")
+        self.assertEqual(status, "exists")
+
+        with open(filepath) as f:
+            data = json.load(f)
+        self.assertEqual(len(data["references"]), 1)
+        # Should not have changed
+        self.assertEqual(data["references"][0]["relevance_summary_280"], "Existing")
+
+    def test_works_with_empty_references(self):
+        filepath = self._create_item_file("DFT-1001", references=[])
+        status = mod.add_reference_to_item(filepath, "DFCite-1058", "Reason")
+        self.assertEqual(status, "added")
+
+    def test_preserves_existing_references(self):
+        filepath = self._create_item_file("DFT-1001", references=[
+            {"DFCite_id": "DFCite-1001", "relevance_summary_280": "First ref"}
+        ])
+        status = mod.add_reference_to_item(filepath, "DFCite-1058", "Second ref")
+        self.assertEqual(status, "added")
+
+        with open(filepath) as f:
+            data = json.load(f)
+        self.assertEqual(len(data["references"]), 2)
+        self.assertEqual(data["references"][0]["DFCite_id"], "DFCite-1001")
+        self.assertEqual(data["references"][1]["DFCite_id"], "DFCite-1058")
+
+    def test_json_formatting(self):
+        filepath = self._create_item_file("DFT-1001")
+        mod.add_reference_to_item(filepath, "DFCite-1058", "Reason")
+
+        with open(filepath) as f:
+            content = f.read()
+        # Should have indent=4 and trailing newline
+        self.assertTrue(content.endswith('\n'))
+        self.assertIn('    ', content)
+
+    def test_error_on_nonexistent_file(self):
+        status = mod.add_reference_to_item("/nonexistent/path.json", "DFCite-1058", "R")
+        self.assertEqual(status, "error")
+
+
+class TestFullCommentWithCiteInItems(unittest.TestCase):
+    """Integration test: parse a full comment that includes cite-in-items."""
+
+    FULL_COMMENT_WITH_CITE = (
+        "<!-- REFERENCE_PREVIEW -->\n"
+        "Reference ID **DFCite-1058** has been assigned.\n\n"
+        "Proposed file contents:\n\n"
+        "**`data/references/DFCite-1058.txt`**\n"
+        "```\n"
+        "Smith, J. (2024), Test Reference.\n"
+        "```\n\n"
+        "<!-- CITE_IN_ITEMS -->\n\n"
+        "### Cite in items\n\n"
+        "| Item | Relevance summary | Status |\n"
+        "|---|---|---|\n"
+        "| `DFT-1001` | Describes the technique | Found |\n"
+        "| `DFW-1002` | Related weakness | Found |\n\n"
+        "```json\n"
+        '[\n'
+        '  {"item_id": "DFT-1001", "relevance_summary": "Describes the technique"},\n'
+        '  {"item_id": "DFW-1002", "relevance_summary": "Related weakness"}\n'
+        ']\n'
+        "```\n\n"
+        "---\n"
+        "*This comment was automatically generated from the reference proposal form.*"
+    )
+
+    def test_full_parse(self):
+        """Extract all parts from a realistic comment with cite-in-items."""
+        body = self.FULL_COMMENT_WITH_CITE
+
+        # Standard extraction still works
+        self.assertFalse(mod.is_existing_match(body))
+        dfcite_id = mod.extract_dfcite_id(body)
+        self.assertEqual(dfcite_id, "DFCite-1058")
+
+        txt = mod.extract_txt_content(body)
+        self.assertIn("Smith", txt)
+
+        # Cite-in-items extraction
+        cite_items = mod.extract_cite_in_items(body)
+        self.assertEqual(len(cite_items), 2)
+        self.assertEqual(cite_items[0]["item_id"], "DFT-1001")
+        self.assertEqual(cite_items[1]["item_id"], "DFW-1002")
 
 
 class TestSlugify(unittest.TestCase):

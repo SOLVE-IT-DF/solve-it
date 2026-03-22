@@ -3270,7 +3270,24 @@ function buildReferenceDetail(citeId, refData, cite) {{
   // Action buttons
   html += `<div class="detail-section" style="padding:12px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">`;
   if (!CUSTOM_MODE) {{
-    html += `<a href="${{REPO_URL}}/issues/new?template=2d_update-reference-form.yml&labels=content%3A+update+reference%2Cform+input&title=Update+reference%3A+${{encodeURIComponent(citeId)}}&dfcite-id=${{encodeURIComponent(citeId)}}" target="_blank" rel="noopener" class="propose-update-btn" style="background:#a78bfa">&#9998; Update this DFCite</a>`;
+    const _up = new URLSearchParams();
+    _up.set('template', '2d_update-reference-form.yml');
+    _up.set('labels', 'content: update reference,form input');
+    _up.set('title', 'Update reference: ' + citeId);
+    _up.set('dfcite-id', citeId);
+    if (cite && cite.raw_txt) _up.set('new-citation-text', cite.raw_txt);
+    if (cite && cite.raw_bib) _up.set('new-bibtex', cite.raw_bib);
+    if (refData) {{
+      const citeLines = [];
+      [['techniques','technique'],['weaknesses','weakness'],['mitigations','mitigation']].forEach(([plural, singular]) => {{
+        (refData[plural] || []).forEach(eid => {{
+          const rel = findRelevance(singular, eid, citeId);
+          citeLines.push(eid + ' | ' + (rel || ''));
+        }});
+      }});
+      if (citeLines.length) _up.set('cite-in-items', citeLines.join('\\n'));
+    }}
+    html += `<a href="${{REPO_URL}}/issues/new?${{_up.toString()}}" target="_blank" rel="noopener" class="propose-update-btn" style="background:#a78bfa">&#9998; Update this DFCite</a>`;
   }}
   const srcExt = (cite && cite.txt) ? '.txt' : (cite && cite.bib) ? '.bib' : '.txt';
   html += `<a href="${{REPO_URL}}/blob/main/data/references/${{encodeURIComponent(citeId)}}${{srcExt}}" target="_blank" rel="noopener" class="view-source-btn">View source in GitHub</a>`;

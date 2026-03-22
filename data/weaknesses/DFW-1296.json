@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1296",
+    "name": "The filtered timeline misses relevant entries because the tool did not filter correctly",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1250"
+    ],
+    "references": []
+}

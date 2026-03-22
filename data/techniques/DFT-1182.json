@@ -1,0 +1,28 @@
+{
+    "id": "DFT-1182",
+    "name": "Filter timeline for relevant entries ",
+    "description": "Provide some criteria that selects only a subset of timeline entries from a set. ",
+    "synonyms": [],
+    "details": "Filtering might be on timestamp type, within a defined time range, related to a particular file, or matching against some other content associated with the timestamp entries. ",
+    "subtechniques": [],
+    "examples": [
+        "Plaso",
+        "TimeSketch"
+    ],
+    "weaknesses": [
+        "DFW-1295",
+        "DFW-1296",
+        "DFW-1297",
+        "DFW-1298",
+        "DFW-1299"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/Timeline"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/Timeline"
+    ],
+    "references": [
+        "timeline"
+    ]
+}

@@ -3,6 +3,7 @@
 ## March 2026
 
 - **2026-03-22** Updated reference (AUTOIMPLEMENT): DFCite-1020 in DFT-1134 (DFCite-1020) [`be842c3`](https://github.com/SOLVE-IT-DF/solve-it/commit/be842c3)
+- **2026-03-22** Updated reference (AUTOIMPLEMENT): DFCite-1018 in DFT-1005 (DFCite-1018) [`3d521c0`](https://github.com/SOLVE-IT-DF/solve-it/commit/3d521c0)
 - **2026-03-20** Updated weakness: Tool fails to display special effects or highlight within a message (DFW-1100) [`97fde6e`](https://github.com/SOLVE-IT-DF/solve-it/commit/97fde6e)
 - **2026-03-20** Updated technique (AUTOIMPLEMENT): Keyword search (case-type wordlists) (DFT-1122) [`f0f969d`](https://github.com/SOLVE-IT-DF/solve-it/commit/f0f969d)
 - **2026-03-20** Updated technique (AUTOIMPLEMENT): Obtain encryption key information using side channel attacks (DFT-1032) [`75ba0f0`](https://github.com/SOLVE-IT-DF/solve-it/commit/75ba0f0)

@@ -9,6 +9,8 @@ body:
         This form updates the relevance summary for a specific reference citation (DFCite)
         within a technique, weakness, or mitigation. The relevance summary explains why this
         reference is relevant to the item it is cited in (max 280 characters).
+
+        > For guidance on writing relevance summaries see the [Detailed Contributor Guide — Relevancy Strings](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#relevancy-strings) section and the [Style Guide — Relevance summaries](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#relevance-summaries) section.
   - type: input
     id: item-id
     attributes:

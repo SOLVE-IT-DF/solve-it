@@ -3,25 +3,31 @@ description: Propose a new mitigation using a structured form
 title: "Create new mitigation: [mitigation name]"
 labels: ["content: new mitigation", "form input"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        > Please read the [Contributing Guidelines](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTING.md) before submitting. For step-by-step instructions see the [Detailed Contributor Guide — New mitigation](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#new-mitigation) section, and for naming and writing conventions see the [Style Guide — Mitigations](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#style-guide-for-mitigations) section.
   - type: input
     id: mitigation-name
     attributes:
       label: Mitigation name
-      description: A suggested name for the mitigation.
+      description: A name for the mitigation. Use sentence case, no full stop. Use an imperative verb phrase (e.g. "Use dual tool verification", "Manually verify relevant data").
     validations:
       required: true
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: A longer description of the mitigation.
+      description: What the mitigation does and how it addresses the weakness (1–2 sentences). Be specific enough that an investigator could act on it. You can cite references inline using [DFCite-xxxx].
       render: text
   - type: textarea
     id: existing-weaknesses
     attributes:
       label: Existing weakness IDs
-      description: IDs of existing weaknesses this mitigation applies to (one per line, e.g. DFW-1001, DFW-1014).
-      placeholder: Enter one weakness ID per line
+      description: IDs of existing weaknesses this mitigation applies to (one per line).
+      placeholder: |
+        Enter one weakness ID per line
+        e.g. DFW-xxxx
       render: text
   - type: input
     id: linked-technique
@@ -37,6 +43,7 @@ body:
       description: |
         Existing DFCite IDs, one per line. If you need to add a new reference, please use the Propose New Reference form first.
         You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is useful for this mitigation (max 280 chars).
+        Focus on why the reference matters to this specific item, not just what it is about.
       placeholder: |
         Enter one reference per line
         DFCite-xxxx | reason why this reference is useful for this mitigation (max 280 chars)

@@ -447,6 +447,7 @@ There are separate update forms for each content type:
 - If your reference doesn't exist yet, create it first using the [Propose new reference](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) form, then use the assigned DFCite ID in your submission.
 - Always check if a reference already exists before proposing a new one — the preview will flag duplicates
 - Include a **relevance summary** (max 280 characters) explaining why each reference matters to the specific item
+- **Inline citations:** You can cite references directly in description, details, and examples text fields using `[DFCite-xxxx]` (e.g. `[DFCite-1018]`). These are rendered as citation links in the Explorer. The validator checks that any inline-cited DFCite IDs exist in the knowledge base.
 
 ### Common mitigations
 

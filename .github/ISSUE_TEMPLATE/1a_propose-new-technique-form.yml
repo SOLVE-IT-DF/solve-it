@@ -3,18 +3,22 @@ description: Propose a new technique using a structured form
 title: "Create new technique: [technique name]"
 labels: ["content: new technique", "form input"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        > Please read the [Contributing Guidelines](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTING.md) before submitting. For step-by-step instructions see the [Detailed Contributor Guide — New technique](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#new-technique) section, and for naming and writing conventions see the [Style Guide — Techniques](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#style-guide-for-techniques) section.
   - type: input
     id: technique-name
     attributes:
       label: Technique name
-      description: The name for the technique (synonyms can be provided below).
+      description: The name for the technique. Use sentence case, start with an imperative verb (e.g. "Connect", "Locate", "Use"). Synonyms can be provided in a later field.
     validations:
       required: true
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: A short description of what the technique does (extended details can be provided below).
+      description: A short description of what the technique does (1–2 sentences). Often uses "The process of…" construction. Extended details can be provided in a later field. You can cite references inline using [DFCite-xxxx].
       render: text
     validations:
       required: true
@@ -23,18 +27,20 @@ body:
     attributes:
       label: Synonyms
       description: Other names that might be used for this technique (one per line, e.g. RAM dump, memory dump).
+      placeholder: Enter one synonym per line
       render: text
   - type: textarea
     id: details
     attributes:
       label: Details
-      description: A longer set of details can be provided to describe the technique.
+      description: A longer set of details can be provided to describe the technique. You can cite references inline using [DFCite-xxxx].
       render: text
   - type: textarea
     id: examples
     attributes:
       label: Examples
-      description: Examples of cases where the technique can be used, or tools that offer the technique (one per line, e.g. FTK Imager, Magnet ACQUIRE).
+      description: Examples where the technique can be used, or tools that offer the technique (one per line). You can cite references inline using [DFCite-xxxx].
+      placeholder: Enter one example per line
       render: text
   - type: dropdown
     id: objective
@@ -77,48 +83,63 @@ body:
       value: |
         ## Weaknesses
         List any existing weakness IDs that apply, and/or propose new weaknesses below.
-        Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
+        Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses) (right-click → open in new tab to keep your progress).
   - type: textarea
     id: existing-weaknesses
     attributes:
       label: Existing weakness IDs
-      description: IDs of existing weaknesses that apply to this technique (one per line, e.g. DFW-1004, DFW-1014).
+      description: IDs of existing weaknesses that apply to this technique (one per line).
+      placeholder: |
+        Enter one weakness ID per line
+        e.g. DFW-xxxx
       render: text
   - type: textarea
     id: new-weaknesses
     attributes:
       label: Propose new weaknesses
       description: Describe new weaknesses for this technique (one per line, e.g. Imaging process may miss data in hidden areas).
+      placeholder: Enter one weakness description per line
       render: text
   - type: textarea
     id: case-input
     attributes:
-      label: CASE input classes
+      label: Ontology input classes
       description: |
-        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
-        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).
-        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
+        Optional. Full IRIs of classes from CASE, UCO, or SOLVE-IT ontologies that describe the input to this technique, one per line.
+        Leave blank if unsure — these can always be added later.
+        Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),
+        [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
+        To propose a new class, describe it in the notes section below.
+      placeholder: "Enter one full IRI per line, e.g. https://ontology.unifiedcyberontology.org/uco/observable/File"
       render: text
   - type: textarea
     id: case-output
     attributes:
-      label: CASE output classes
+      label: Ontology output classes
       description: |
-        Refer to [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html)
-        or the [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html) for suitable classes (one per line).
-        You can also make use of the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
-        You can also propose a new CASE class via the [CASE Issue Tracker](https://github.com/casework/CASE/issues).
+        Optional. Full IRIs of classes from CASE, UCO, or SOLVE-IT ontologies that describe the output of this technique, one per line.
+        Leave blank if unsure — these can always be added later.
+        Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),
+        [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
+        To propose a new class, describe it in the notes section below.
+      placeholder: "Enter one full IRI per line, e.g. https://ontology.unifiedcyberontology.org/uco/observable/File"
       render: text
   - type: textarea
     id: references
     attributes:
       label: References
       description: |
-        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
-        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
+        Existing DFCite IDs, one per line. If you need to add a new reference, please use the [Propose New Reference](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) form first.
+        You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is useful for this technique (max 280 chars).
+        Focus on why the reference matters to this specific item, not just what it is about.
+      placeholder: |
+        Enter one reference per line
+        DFCite-xxxx | reason why this reference is useful for this technique (max 280 chars)
       render: text
   - type: textarea
     id: other-notes
     attributes:
       label: Any other notes
-      description: Any additional information or context you'd like to provide.
+      description: |
+        Any additional information or context you'd like to provide.
+        If you left the ontology class fields blank, a brief description of the types of data the technique takes as input and produces as output is still very helpful.

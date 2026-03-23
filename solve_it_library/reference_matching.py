@@ -1,9 +1,10 @@
 """
 Shared reference matching module for issue parsers.
 
-Matches user-submitted citation text (from GitHub issue forms) against the
-existing DFCite reference corpus, and assigns new DFCite IDs when no match
-is found.
+Validates user-submitted DFCite IDs (from GitHub issue forms) against the
+existing reference corpus.  Free-text citations are rejected — contributors
+must create references separately using the "Propose new reference" form
+before referencing them in techniques, weaknesses, or mitigations.
 """
 
 import os
@@ -65,6 +66,31 @@ def _extract_urls(text: str) -> set:
     return set(_URL_RE.findall(text))
 
 
+# ── DOI extraction helper ────────────────────────────────────────────────────
+
+_DOI_PATTERNS = [
+    re.compile(r"https?://doi\.org/(10\.\d{4,9}/[^\s,)>]+)"),
+    re.compile(r"doi:\s*(10\.\d{4,9}/[^\s,)>]+)", re.IGNORECASE),
+    re.compile(r"(?<!\w)(10\.\d{4,9}/[^\s,)>]+)"),
+]
+
+
+def _extract_dois(text: str) -> set:
+    """Extract and normalize DOIs from a string.
+
+    Handles:
+        - ``https://doi.org/10.XXXX/...`` → ``10.XXXX/...``
+        - ``doi: 10.XXXX/...`` → ``10.XXXX/...``
+        - Bare ``10.XXXX/...`` → as-is
+    """
+    dois = set()
+    for pattern in _DOI_PATTERNS:
+        for m in pattern.finditer(text):
+            doi = m.group(1).rstrip(".")
+            dois.add(doi.lower())
+    return dois
+
+
 # ── Single-reference matching ─────────────────────────────────────────────────
 
 def match_reference(
@@ -77,7 +103,8 @@ def match_reference(
     Matching strategies (tried in order):
         1. Direct DFCite ID — text matches ``DFCite-\\d+``
         2. URL overlap — a URL found in both the input and a corpus entry
-        3. Prefix match — first *prefix_len* chars match (case-insensitive)
+        3. DOI overlap — a DOI found in both the input and a corpus entry
+        4. Prefix match — first *prefix_len* chars match (case-insensitive)
 
     Returns:
         (DFCite_id, match_type) or None
@@ -102,7 +129,14 @@ def match_reference(
             if input_urls & corpus_urls:
                 return (cite_id, "url")
 
-    # 3. Prefix match (first N chars, case-insensitive)
+    # 3. DOI overlap match
+    input_dois = _extract_dois(stripped)
+    if input_dois:
+        for cite_id, corpus_text in corpus.items():
+            if input_dois & _extract_dois(corpus_text):
+                return (cite_id, "doi")
+
+    # 4. Prefix match (first N chars, case-insensitive)
     input_prefix = stripped[:prefix_len].lower()
     if len(input_prefix) >= 10:  # only attempt if there's enough text
         for cite_id, corpus_text in corpus.items():
@@ -112,37 +146,8 @@ def match_reference(
     return None
 
 
-# ── Next ID assignment ────────────────────────────────────────────────────────
-
-def get_next_dfcite_id(project_root: str) -> str:
-    """Scan data/references/ for the highest DFCite ID and return the next one."""
-    refs_dir = os.path.join(project_root, "data", "references")
-    max_num = 1000  # start from DFCite-1001 if empty
-
-    if os.path.isdir(refs_dir):
-        for fname in os.listdir(refs_dir):
-            m = re.match(r"DFCite-(\d+)\.", fname)
-            if m:
-                num = int(m.group(1))
-                if num > max_num:
-                    max_num = num
-
-    return f"DFCite-{max_num + 1}"
-
-
-def _next_id_after(current_max: int) -> str:
-    """Return the next DFCite ID string given a numeric maximum."""
-    return f"DFCite-{current_max + 1}"
-
 
 # ── Batch processing ──────────────────────────────────────────────────────────
-
-_MATCH_TYPE_LABELS = {
-    "direct_id": "Direct ID",
-    "url": "URL match",
-    "prefix": "Prefix match",
-}
-
 
 _DFCITE_RE = re.compile(r"^DFCite-\d{4,6}$")
 
@@ -153,8 +158,9 @@ def process_reference_lines(
 ) -> Tuple[List[Dict[str, str]], List[str], List[Tuple[str, str]], List[str]]:
     """Process a list of user-submitted reference lines.
 
-    For each line, attempts to match against the existing corpus.  Unmatched
-    lines are assigned new DFCite IDs.
+    Only DFCite IDs are accepted.  Free-text citations are rejected with a
+    message directing the contributor to create the reference first using
+    the "Propose new reference" form.
 
     Args:
         lines: Non-empty reference lines from the issue form.
@@ -163,24 +169,15 @@ def process_reference_lines(
     Returns:
         processed_refs: List of ``{"DFCite_id": ..., "relevance_summary_280": ""}`` dicts.
         match_report: Human-readable lines for the GitHub comment.
-        new_citations: List of ``(DFCite_id, raw_text)`` for newly created references.
-        warnings: List of warning strings for invalid DFCite IDs etc.
+        new_citations: Always empty (kept for API compatibility).
+        warnings: List of warning strings for invalid or free-text references.
     """
     corpus = load_reference_corpus(project_root)
 
     processed_refs: List[Dict[str, str]] = []
     match_report: List[str] = []
-    new_citations: List[Tuple[str, str]] = []
+    new_citations: List[Tuple[str, str]] = []  # always empty now
     warnings: List[str] = []
-
-    # Find current max ID for new assignments
-    max_num = 1000
-    for cite_id in corpus:
-        m = re.match(r"DFCite-(\d+)$", cite_id)
-        if m:
-            num = int(m.group(1))
-            if num > max_num:
-                max_num = num
 
     seen_ids = set()
 
@@ -203,44 +200,40 @@ def process_reference_lines(
             ref_part = line
             relevance = ""
 
-        result = match_reference(ref_part, corpus)
-
-        if result:
-            cite_id, match_type = result
-            if cite_id not in seen_ids:
-                processed_refs.append({
-                    "DFCite_id": cite_id,
-                    "relevance_summary_280": relevance,
-                })
-                seen_ids.add(cite_id)
-            label = _MATCH_TYPE_LABELS.get(match_type, match_type)
-            truncated = ref_part[:80] + ("..." if len(ref_part) > 80 else "")
-            report_line = f'- Matched "{truncated}" → **{cite_id}** ({label})'
-            if relevance:
-                report_line += f' — relevance: "{relevance}"'
-            match_report.append(report_line)
-        elif _DFCITE_RE.match(ref_part):
-            # User provided a DFCite ID that doesn't exist in the corpus
-            warnings.append(
-                f'`{ref_part}` was not found in the reference corpus. '
-                f'Please check the ID — it may be a typo. '
-                f'Existing references can be browsed in `data/references/`.'
-            )
-            match_report.append(f'- :warning: **{ref_part}** not found in corpus (skipped)')
+        if _DFCITE_RE.match(ref_part):
+            # User provided a DFCite ID — check it exists
+            if ref_part in corpus:
+                if ref_part not in seen_ids:
+                    processed_refs.append({
+                        "DFCite_id": ref_part,
+                        "relevance_summary_280": relevance,
+                    })
+                    seen_ids.add(ref_part)
+                report_line = f'- **{ref_part}** found in corpus'
+                if relevance:
+                    report_line += f' — relevance: "{relevance}"'
+                match_report.append(report_line)
+            else:
+                warnings.append(
+                    f'`{ref_part}` was not found in the reference corpus. '
+                    f'Please check the ID — it may be a typo. '
+                    f'Existing references can be browsed in `data/references/`.'
+                )
+                match_report.append(f'- :warning: **{ref_part}** not found in corpus (skipped)')
         else:
-            # Assign new DFCite ID
-            max_num += 1
-            new_id = f"DFCite-{max_num}"
-            processed_refs.append({
-                "DFCite_id": new_id,
-                "relevance_summary_280": relevance,
-            })
-            seen_ids.add(new_id)
-            new_citations.append((new_id, ref_part))
+            # Free-text citation — reject it
             truncated = ref_part[:80] + ("..." if len(ref_part) > 80 else "")
-            report_line = f'- New reference assigned: **{new_id}** for "{truncated}"'
-            if relevance:
-                report_line += f' — relevance: "{relevance}"'
-            match_report.append(report_line)
+            warnings.append(
+                f'Free-text citation not accepted: "{truncated}". '
+                f'Please create the reference first using the '
+                f'[Propose new reference](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) '
+                f'form, then use the assigned DFCite ID here.'
+            )
+            match_report.append(
+                f'- :warning: Free-text citation rejected: "{truncated}" — '
+                f'please [create the reference first]'
+                f'(https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) '
+                f'and use its DFCite ID'
+            )
 
     return processed_refs, match_report, new_citations, warnings

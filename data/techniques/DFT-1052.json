@@ -28,7 +28,7 @@
     "references": [
         {
             "DFCite_id": "DFCite-1058",
-            "relevance_summary_280": ""
+            "relevance_summary_280": "Provides a demo of timeline generation in python and shows what fields can be stored in a timeline entry. Shows provenance back to source file (offset/line number etc). Goes on to programaticallly extract 'high-level events' from the timeline."
         },
         {
             "DFCite_id": "DFCite-1039",

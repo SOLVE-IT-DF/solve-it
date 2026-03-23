@@ -3,49 +3,65 @@ description: Propose a new weakness using a structured form
 title: "Create new weakness: [weakness name]"
 labels: ["content: new weakness", "form input"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        > Please read the [Contributing Guidelines](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTING.md) before submitting. For step-by-step instructions see the [Detailed Contributor Guide — New weakness](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#new-weakness) section, and for naming and writing conventions see the [Style Guide — Weaknesses](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#style-guide-for-weaknesses) section.
   - type: input
     id: weakness-name
     attributes:
       label: Weakness name
-      description: A suggested, fairly short name for the weakness.
+      description: A short name for the weakness. Use sentence case, no full stop. Where possible, name both the problem and its cause (e.g. "Missing the existence of a device by missing synchronisation artefacts").
     validations:
       required: true
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: A longer description of the nature of the weakness.
+      description: What can go wrong and why it matters (1–2 sentences, active voice). Avoid naming specific tools. You can cite references inline using [DFCite-xxxx].
       render: text
   - type: textarea
     id: categories
     attributes:
       label: Categories
       description: 'Enter one class code per line. Valid codes — ASTM_INCOMP (Incompleteness), ASTM_INAC_EX (Inaccuracy: Existence), ASTM_INAC_AS (Inaccuracy: Association), ASTM_INAC_ALT (Inaccuracy: Alteration), ASTM_INAC_COR (Inaccuracy: Corruption), ASTM_MISINT (Misinterpretation).'
+      placeholder: Enter one class code per line
   - type: textarea
     id: existing-mitigations
     attributes:
       label: Existing mitigation IDs
-      description: IDs of existing mitigations that apply to this weakness (one per line, e.g. DFM-1001, DFM-1012).
+      description: IDs of existing mitigations that apply to this weakness (one per line).
+      placeholder: |
+        Enter one mitigation ID per line
+        e.g. DFM-xxxx
       render: text
   - type: textarea
     id: new-mitigations
     attributes:
       label: Propose new mitigations
       description: Describe new mitigations for this weakness (one per line).
+      placeholder: Enter one mitigation description per line
       render: text
   - type: textarea
     id: relevant-techniques
     attributes:
       label: Techniques this applies to
-      description: Techniques that this weakness applies to (one per line, e.g. DFT-1001, DFT-1028).
+      description: Techniques that this weakness applies to (one per line).
+      placeholder: |
+        Enter one technique ID per line
+        e.g. DFT-xxxx
       render: text
   - type: textarea
     id: references
     attributes:
       label: References
       description: |
-        Existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line. New citations will be automatically matched against existing references where possible.
-        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
+        Existing DFCite IDs, one per line. If you need to add a new reference, please use the [Propose New Reference](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) form first.
+        You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is useful for this weakness (max 280 chars).
+        Focus on why the reference matters to this specific item, not just what it is about.
+      placeholder: |
+        Enter one reference per line
+        DFCite-xxxx | reason why this reference is useful for this weakness (max 280 chars)
       render: text
   - type: textarea
     id: other-notes

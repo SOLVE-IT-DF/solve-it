@@ -13,7 +13,7 @@ The SOLVE-IT knowledge base (Systematic Objective-based Listing of Various Estab
 
 
 ## Contributing
-This is a community project so please see [CONTRIBUTING.md](CONTRIBUTING.md) for information on how to contribute to the knowledge base.
+This is a community project — see [CONTRIBUTING.md](CONTRIBUTING.md) to get started, or the [Detailed Contributor Guide](CONTRIBUTOR_GUIDE.md) for detailed instructions on submitting techniques, weaknesses, mitigations, and references.
 
 ## Repository Structure
 
@@ -68,6 +68,6 @@ The file `solve-it.json` is the default categorisation of the techniques, but ot
 - an MCP server providing LLM access to SOLVE-IT [here](https://github.com/CKE-Proto/solve_it_mcp) 
 
 
-## Contributing to the knowledge base
+## Citing SOLVE-IT
 
 ```Hargreaves, C., van Beek, H., Casey, E., SOLVE-IT: A proposed digital forensic knowledge base inspired by MITRE ATT&CK, Forensic Science International: Digital Investigation, Volume 52, Supplement, 2025, 301864, ISSN 2666-2817, https://doi.org/10.1016/j.fsidi.2025.301864```

@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from parse_technique_issue import parse_issue_body
 from solve_it_library import KnowledgeBase
+from solve_it_library.reference_matching import load_reference_corpus
 
 
 ITEM_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,6}$')
@@ -117,12 +118,19 @@ def main():
     current_relevance = matching_ref.get("relevance_summary_280", "")
     item_name = item.get("name", "")
 
+    # Look up citation text
+    ref_corpus = load_reference_corpus(base_path)
+    citation_text = ref_corpus.get(dfcite_id, "")
+
     lines = []
     lines.append("<!-- DFCITE_RELEVANCE_UPDATE -->")
     lines.append(f"## Update DFCite relevance: {dfcite_id} in {item_id}")
     lines.append("")
     lines.append(f"**Item:** `{item_id}` — {item_name}")
-    lines.append(f"**Reference:** `{dfcite_id}`")
+    if citation_text:
+        lines.append(f"**Reference:** `{dfcite_id}` — {citation_text}")
+    else:
+        lines.append(f"**Reference:** `{dfcite_id}`")
     lines.append("")
     lines.append("### Current relevance summary")
     lines.append("")

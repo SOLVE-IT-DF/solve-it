@@ -19,8 +19,9 @@ import subprocess
 import sys
 
 
-# Strict ID pattern for DFCite references
+# Strict ID patterns
 VALID_DFCITE_RE = re.compile(r'^DFCite-\d{4,6}$')
+VALID_ITEM_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,6}$')
 
 
 def run(cmd, **kwargs):
@@ -137,6 +138,97 @@ def extract_bib_content(comment_body):
     if match:
         return match.group(1).strip()
     return None
+
+
+def extract_cite_in_items(comment_body):
+    """Extract cite-in-items JSON from the preview comment.
+
+    Looks for the <!-- CITE_IN_ITEMS --> marker, then extracts the JSON
+    array from the following ```json code block.
+    Returns [] if marker not found (backward compatible).
+    """
+    if "<!-- CITE_IN_ITEMS -->" not in comment_body:
+        return []
+
+    # Extract from the section after the marker
+    marker_pos = comment_body.index("<!-- CITE_IN_ITEMS -->")
+    after_marker = comment_body[marker_pos:]
+
+    pattern = re.compile(r'```json\s*\n(.*?)\n```', re.DOTALL)
+    match = pattern.search(after_marker)
+    if match:
+        try:
+            data = json.loads(match.group(1))
+            if isinstance(data, list):
+                return data
+        except json.JSONDecodeError:
+            pass
+    return []
+
+
+def resolve_item_path(item_id, project_root):
+    """Map an item ID to its JSON file path.
+
+    Returns the path if the file exists, None otherwise.
+    Validates against path traversal.
+    """
+    if not VALID_ITEM_ID_RE.match(item_id):
+        return None
+
+    prefix_to_dir = {
+        "DFT": "techniques",
+        "DFW": "weaknesses",
+        "DFM": "mitigations",
+    }
+    prefix = item_id.split("-")[0]
+    subdir = prefix_to_dir.get(prefix)
+    if subdir is None:
+        return None
+
+    data_dir = os.path.join(project_root, "data", subdir)
+    filepath = os.path.join(data_dir, f"{item_id}.json")
+
+    # Path traversal check
+    real_dir = os.path.realpath(data_dir)
+    real_path = os.path.realpath(filepath)
+    if not real_path.startswith(real_dir + os.sep):
+        return None
+
+    if not os.path.exists(filepath):
+        return None
+
+    return filepath
+
+
+def add_reference_to_item(filepath, dfcite_id, relevance_summary):
+    """Add a DFCite reference to an item's references array.
+
+    Returns "added", "exists", or "error".
+    """
+    try:
+        with open(filepath) as f:
+            item_data = json.load(f)
+
+        references = item_data.get("references", [])
+
+        # Check if already present
+        for ref in references:
+            if isinstance(ref, dict) and ref.get("DFCite_id") == dfcite_id:
+                return "exists"
+
+        references.append({
+            "DFCite_id": dfcite_id,
+            "relevance_summary_280": relevance_summary,
+        })
+        item_data["references"] = references
+
+        with open(filepath, 'w') as f:
+            json.dump(item_data, f, indent=4)
+            f.write('\n')
+
+        return "added"
+    except Exception:
+        return "error"
 
 
 def sanitise_git_value(value):
@@ -301,12 +393,36 @@ def main():
             written_files.append(bib_path)
             print(f"  Written: {bib_path}", file=sys.stderr)
 
+        # 9b. Cite in items
+        cite_items = extract_cite_in_items(comment_body)
+        cite_results = []
+        if cite_items:
+            print("Adding reference to cited items...", file=sys.stderr)
+            for item in cite_items:
+                item_id = item.get("item_id", "")
+                relevance = item.get("relevance_summary", "")
+                item_path = resolve_item_path(item_id, project_root)
+                if item_path is None:
+                    cite_results.append((item_id, "not found"))
+                    print(f"  Skipped: {item_id} (not found)", file=sys.stderr)
+                    continue
+                status = add_reference_to_item(item_path, dfcite_id, relevance)
+                cite_results.append((item_id, status))
+                if status == "added":
+                    written_files.append(item_path)
+                print(f"  {item_id}: {status}", file=sys.stderr)
+
         # 10. Commit
         for f in written_files:
             run(["git", "add", f], cwd=project_root)
 
+        items_added = sum(1 for _, s in cite_results if s == "added")
+        cite_suffix = ""
+        if items_added:
+            cite_suffix = f" and cite in {items_added} item(s)"
+
         commit_msg = (
-            f"Add new reference: {dfcite_id}\n\n"
+            f"Add new reference: {dfcite_id}{cite_suffix}\n\n"
             f"Auto-implemented from issue #{args.issue_number}."
         )
 
@@ -340,6 +456,15 @@ def main():
         pr_lines.append("## Citation text")
         pr_lines.append("")
         pr_lines.append(f"> {txt_content}")
+        if cite_results:
+            pr_lines.append("")
+            pr_lines.append("## Cited in items")
+            pr_lines.append("")
+            pr_lines.append("| Item | Status |")
+            pr_lines.append("|---|---|")
+            for item_id, status in cite_results:
+                pr_lines.append(f"| `{item_id}` | {status} |")
+
         pr_lines.append("")
         pr_lines.append("## Attribution")
         pr_lines.append("")
@@ -361,6 +486,8 @@ def main():
                 "--head", branch_name,
                 "--title", pr_title,
                 "--body-file", pr_body_file,
+                "--label", "content: new reference",
+                "--label", "autoimplement",
             ], cwd=project_root)
         finally:
             if os.path.exists(pr_body_file):

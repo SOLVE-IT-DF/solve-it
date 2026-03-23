@@ -7,9 +7,10 @@ body:
     attributes:
       value: |
         ## Update an existing weakness
-        Use this form to propose changes to an existing weakness.
-        **Leave fields blank (or all unchecked) to keep current values.** Only fill in fields you want to change.
-        Existing weaknesses (DFW-1001–DFW-1278) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
+        Use this form to propose changes to an existing weakness. Fields may be prefilled or blank depending on how you accessed this form. If blank, leaving the fields blank will keep current values. Only fill in fields you want to change. If information is pre-filled, simply edit that information.
+        Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses) (right-click → open in new tab to keep your progress).
+
+        > For general guidance see the [Contributing Guidelines](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTING.md). For how updates work see the [Detailed Contributor Guide — Update an existing item](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#update-an-existing-item) section, and for naming and writing conventions see the [Style Guide — Weaknesses](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#style-guide-for-weaknesses) section.
   - type: input
     id: weakness-id
     attributes:
@@ -21,20 +22,24 @@ body:
     id: new-weakness-name
     attributes:
       label: New weakness name
-      description: Leave blank to keep the current name.
+      description: "Leave blank to keep the current name. If changing: use sentence case, no full stop. Where possible, name both the problem and its cause (e.g. \"Missing the existence of a device by missing synchronisation artefacts\")."
   - type: textarea
     id: categories
     attributes:
       label: Categories
       description: 'Enter one class code per line. Leave blank to keep current values. If populated, this replaces the entire list. Valid codes — ASTM_INCOMP (Incompleteness), ASTM_INAC_EX (Inaccuracy: Existence), ASTM_INAC_AS (Inaccuracy: Association), ASTM_INAC_ALT (Inaccuracy: Alteration), ASTM_INAC_COR (Inaccuracy: Corruption), ASTM_MISINT (Misinterpretation).'
+      placeholder: Enter one class code per line
   - type: textarea
     id: mitigation-ids
     attributes:
       label: Mitigation IDs
       description: |
-        The complete new list of mitigation IDs (one per line, e.g. DFM-1001, DFM-1012).
+        The complete new list of mitigation IDs (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Existing mitigations can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/mitigations).
+      placeholder: |
+        Enter one mitigation ID per line
+        e.g. DFM-xxxx
       render: text
   - type: textarea
     id: new-mitigations
@@ -43,16 +48,20 @@ body:
       description: |
         Describe new mitigations for this weakness (one per line).
         These will be created as new mitigation entries and linked to the weakness.
+      placeholder: Enter one mitigation description per line
       render: text
   - type: textarea
     id: references
     attributes:
       label: References
       description: |
-        The complete new list of references — existing DFCite IDs (e.g. DFCite-1003) or full citation text, one per line.
-        New citations will be automatically matched against existing references where possible.
+        The complete new list of references — existing DFCite IDs, one per line. If you need to add a new reference, please use the [Propose New Reference](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) form first.
         Leave blank to keep the current list. If populated, this replaces the entire list.
-        Optionally add a relevance summary using a pipe, e.g. DFCite-1003 | Describes the validation methodology (max 280 chars).
+        You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is useful for this weakness (max 280 chars).
+        Focus on why the reference matters to this specific item, not just what it is about.
+      placeholder: |
+        Enter one reference per line
+        DFCite-xxxx | reason why this reference is useful for this weakness (max 280 chars)
       render: text
   - type: textarea
     id: other-notes

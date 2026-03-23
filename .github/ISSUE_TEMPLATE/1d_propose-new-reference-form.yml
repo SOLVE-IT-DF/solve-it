@@ -3,11 +3,15 @@ description: Propose a new reference citation for the knowledge base
 title: "Propose new reference: [citation]"
 labels: ["content: new reference", "form input"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        > Please read the [Contributing Guidelines](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTING.md) before submitting. For step-by-step instructions see the [Detailed Contributor Guide — New reference](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#new-reference) section, and for citation and relevance summary conventions see the [Style Guide — References](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#style-guide-for-references) section.
   - type: textarea
     id: citation-text
     attributes:
       label: Citation text
-      description: The full citation text or URL for the reference (e.g. Author, A., 2024. Title of work. Publisher. https://example.com).
+      description: The full citation in Harvard style or a URL. Include a DOI where possible to assist in matching.
       render: text
     validations:
       required: true
@@ -15,10 +19,23 @@ body:
     id: bibtex-entry
     attributes:
       label: BibTeX entry
-      description: Paste BibTeX if available (optional).
+      description: Paste BibTeX if available (optional). BibTeX is the preferred format and if provided the SOLVE-IT Explorer offers direct BibTeX export from the UI.
+      render: text
+  - type: textarea
+    id: cite-in-items
+    attributes:
+      label: Cite in items
+      description: |
+        Optional. List items where this reference should be cited, with specific relevancy strings, one per line.
+        Supported item types: techniques (DFT-xxxx), weaknesses (DFW-xxxx), or mitigations (DFM-xxxx).
+        Format: ITEM_ID | relevance summary (max 280 chars).
+      placeholder: |
+        Enter one item per line
+        e.g. DFT-1001 | Why this reference is relevant to this technique
+        e.g. DFW-1002 | Why this reference is relevant to this weakness
       render: text
   - type: textarea
     id: notes
     attributes:
       label: Notes
-      description: Any additional context about this reference. You should specify where you intend to cite this and why? E.g. which techniques, weaknesses or mitigations.
+      description: Any additional context about this reference. Specify where you intend to cite this and why (e.g. which techniques, weaknesses, or mitigations).

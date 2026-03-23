@@ -499,7 +499,7 @@ def phase2_cross_references(
 
         # Inline citation check: [DFCite-xxxx] markers in text fields
         inline_bad = 0
-        text_fields = ["description", "details", "name"]
+        text_fields = ["description", "details", "examples"]
         for items, label in [
             (techniques, "Technique"),
             (weaknesses, "Weakness"),
@@ -507,7 +507,8 @@ def phase2_cross_references(
         ]:
             for item_id, data in items.items():
                 for field in text_fields:
-                    text = data.get(field, "") or ""
+                    value = data.get(field, "") or ""
+                    text = "\n".join(value) if isinstance(value, list) else value
                     for cite_id in find_inline_citations(text):
                         if cite_id not in citation_ids:
                             result.fail(f"{label} {item_id} field \"{field}\" has inline citation [{cite_id}] that does not exist")
@@ -765,11 +766,35 @@ def phase5_completeness(
         if t.get("CASE_input_classes") or t.get("CASE_output_classes")
     )
     citation_count = len(citations) if citations else 0
+
+    # Technique status classification (matching Explorer definitions)
+    stable = 0
+    partial = 0
+    placeholder = 0
+    for t in techniques.values():
+        num_weak = len(t.get("weaknesses") or [])
+        has_desc = bool((t.get("description") or "").strip())
+        num_mit = sum(
+            len(weaknesses.get(wid, {}).get("mitigations") or [])
+            for wid in (t.get("weaknesses") or [])
+        )
+        if num_weak == 0:
+            placeholder += 1
+        elif not has_desc or num_mit == 0:
+            partial += 1
+        else:
+            stable += 1
+
+    weakness_count = len(weaknesses)
+    mitigation_count = len(mitigations)
     result.pass_(
         f"Completeness stats: {total} techniques, "
         f"{has_description} with description, "
         f"{has_weaknesses} with weaknesses, "
-        f"{has_case} with CASE classes, "
+        f"{has_case} with ontology classes, "
+        f"{stable} stable, {partial} partial, {placeholder} placeholder, "
+        f"{weakness_count} weaknesses total, "
+        f"{mitigation_count} mitigations total, "
         f"{citation_count} citations",
         verbose=True,  # always show stats
     )
@@ -1018,7 +1043,7 @@ def _write_markdown_summary(result: ValidationResult, filepath: str):
             stats_line = msg.replace("Completeness stats: ", "")
             break
 
-    lines = [f"## KB Validation Summary ({status})", ""]
+    lines = [f"## Validation: {'Passed' if f == 0 else 'Failed'}", ""]
 
     if f == 0:
         lines.append(f"**{p} checks passed** | **{w} warnings**")
@@ -1067,8 +1092,36 @@ def _write_markdown_summary(result: ValidationResult, filepath: str):
         lines.append("</details>")
 
     if stats_line:
+        # Parse stats line into a completeness table
+        stats = {}
+        for part in stats_line.split(", "):
+            part = part.strip()
+            for key in ("techniques", "with description", "with weaknesses",
+                        "with ontology classes", "citations",
+                        "stable", "partial", "placeholder",
+                        "weaknesses total", "mitigations total"):
+                if key in part:
+                    stats[key] = part.split()[0]
+                    break
+
         lines.append("")
-        lines.append(f"**Completeness:** {stats_line}")
+        lines.append("<details>")
+        lines.append("<summary>Completeness summary</summary>")
+        lines.append("")
+        lines.append("| Metric | Count |")
+        lines.append("|--------|------:|")
+        lines.append(f"| **Techniques** | **{stats.get('techniques', '?')}** |")
+        lines.append(f"| — with description | {stats.get('with description', '?')} |")
+        lines.append(f"| — with weaknesses | {stats.get('with weaknesses', '?')} |")
+        lines.append(f"| — with ontology classes | {stats.get('with ontology classes', '?')} |")
+        lines.append(f"| — stable | {stats.get('stable', '?')} |")
+        lines.append(f"| — partial | {stats.get('partial', '?')} |")
+        lines.append(f"| — placeholder | {stats.get('placeholder', '?')} |")
+        lines.append(f"| **Weaknesses** | **{stats.get('weaknesses total', '?')}** |")
+        lines.append(f"| **Mitigations** | **{stats.get('mitigations total', '?')}** |")
+        lines.append(f"| **References** | **{stats.get('citations', '?')}** |")
+        lines.append("")
+        lines.append("</details>")
 
     with open(filepath, "w") as fh:
         fh.write("\n".join(lines) + "\n")

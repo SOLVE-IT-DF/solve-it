@@ -8,7 +8,7 @@ GitHub Actions workflow to automatically implement TRWM submissions from issue f
 
 ### Customisable HTML explorer views (2026-03-09)
 
-Added support for custom HTML explorer views, allowing filtered/branded versions of the knowledge base (PR [#318](https://github.com/SOLVE-IT-DF/solve-it/pull/318)).
+Added support for custom HTML explorer views, allowing reorganisation of technqiues in the knowledge base (PR [#318](https://github.com/SOLVE-IT-DF/solve-it/pull/318)).
 
 ### Knowledge base validation (2026-03-05)
 

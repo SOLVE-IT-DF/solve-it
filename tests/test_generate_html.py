@@ -84,5 +84,39 @@ class TestGitCredits(unittest.TestCase):
             f"rename following may be broken")
 
 
+class TestHiddenFieldsCoverage(unittest.TestCase):
+    """Every hideable field in all_fields must have a HIDDEN_FIELDS.has() check in the JS."""
+
+    @classmethod
+    def setUpClass(cls):
+        src_path = REPO_ROOT / "reporting_scripts" / "generate_html_from_kb.py"
+        cls.source = src_path.read_text()
+
+    def test_all_fields_includes_credits_fields(self):
+        """Regression: properties, contributors, reviewers must be in all_fields."""
+        # Extract the all_fields list from the source
+        match = re.search(r"all_fields\s*=\s*\[([^\]]+)\]", self.source, re.DOTALL)
+        self.assertIsNotNone(match, "Could not find all_fields list in source")
+        fields = re.findall(r"'(\w+)'", match.group(1))
+        for field in ('properties', 'contributors', 'reviewers'):
+            self.assertIn(field, fields,
+                f"'{field}' missing from all_fields — it won't be hideable via config")
+
+    def test_hideable_fields_have_js_checks(self):
+        """Every field in all_fields (except id/name) must have a HIDDEN_FIELDS.has() guard."""
+        match = re.search(r"all_fields\s*=\s*\[([^\]]+)\]", self.source, re.DOTALL)
+        self.assertIsNotNone(match)
+        fields = re.findall(r"'(\w+)'", match.group(1))
+        # id and name are always shown
+        for field in fields:
+            if field in ('id', 'name'):
+                continue
+            self.assertIn(
+                f"HIDDEN_FIELDS.has('{field}')",
+                self.source,
+                f"No HIDDEN_FIELDS.has('{field}') check found in JS — "
+                f"this field won't be hidden even when configured as hidden")
+
+
 if __name__ == '__main__':
     unittest.main()

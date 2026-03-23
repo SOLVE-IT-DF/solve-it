@@ -123,6 +123,11 @@ def main():
         "The technique ID (T____) will be assigned during review.",
         f"Technique ID **{technique_id}** has been assigned.",
     )
+    # Update next steps text (new workflow)
+    revised_body = revised_body.replace(
+        "The next step is for a reviewer to check this submission. Once approved, the technique will be assigned an ID and the reviewer will advise on the best route to add it to the knowledge base.",
+        f"Technique ID **{technique_id}** has been assigned. A reviewer will now advise on the best route to add it to the knowledge base.",
+    )
 
     if revised_body == old_body:
         print("Error: replacement produced no changes — is DFT-____ already replaced?",

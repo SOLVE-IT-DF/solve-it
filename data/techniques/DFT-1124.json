@@ -11,9 +11,12 @@
     "weaknesses": [
         "DFW-1052"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/KeywordIndex",
+        "https://ontology.solveit-df.org/solveit/observable/Wordlist"
+    ],
     "CASE_output_classes": [
-        "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult"
+        "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResultSet"
     ],
     "references": [
         {

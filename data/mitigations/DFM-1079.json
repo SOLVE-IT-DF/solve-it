@@ -1,5 +1,6 @@
 {
     "id": "DFM-1079",
     "name": "Analyse file content to detect incompatibility between the content and the recovered file system metadata",
+    "description": "",
     "references": []
 }

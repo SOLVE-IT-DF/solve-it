@@ -50,5 +50,24 @@ class TestReferencePreviewMarker(unittest.TestCase):
         self.assertTrue(comment.startswith("<!-- REFERENCE_PREVIEW -->"))
 
 
+    def test_cite_in_items_marker_present_when_items_specified(self):
+        fields = {
+            "Citation text": "Smith, J. (2099), A totally unique test reference for unit testing.",
+            "BibTeX entry": "_No response_",
+            "Cite in items": "DFT-1001 | Test relevance",
+        }
+        comment = build_comment(fields, self._project_root())
+        self.assertIn("<!-- CITE_IN_ITEMS -->", comment)
+
+    def test_cite_in_items_marker_absent_when_empty(self):
+        fields = {
+            "Citation text": "Smith, J. (2099), A totally unique test reference for unit testing.",
+            "BibTeX entry": "_No response_",
+            "Cite in items": "",
+        }
+        comment = build_comment(fields, self._project_root())
+        self.assertNotIn("<!-- CITE_IN_ITEMS -->", comment)
+
+
 if __name__ == "__main__":
     unittest.main()

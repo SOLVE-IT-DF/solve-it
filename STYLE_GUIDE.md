@@ -178,6 +178,10 @@ The `relevance_summary_280` field is a max 280-character explanation of *why* th
 * Use active voice; focus on the reference's specific contribution to the item.
 * For large references (books, long papers), include the relevant page, chapter, or section number in the summary to help readers find the relevant content.
 
+### **Inline citations**
+
+You can cite references directly within description, details, and examples text using `[DFCite-xxxx]` syntax (e.g. `[DFCite-1018]`). These are rendered as clickable citation links in the Explorer. Use inline citations when a specific claim or statement in the text is supported by a reference — this is in addition to listing the reference in the item's `references` array with a relevance summary.
+
 ### **Placement**
 
 References supporting a technique definition go in the technique file; references highlighting a weakness go in the weakness file; references describing a mitigation go in the mitigation file.

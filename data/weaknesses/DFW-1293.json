@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1293",
+    "name": "Presenting a live contact from a gaming app that does not exist",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1245",
+        "DFM-1027",
+        "DFM-1243"
+    ],
+    "references": []
+}

@@ -1,0 +1,10 @@
+{
+    "id": "DFW-1295",
+    "name": "The filtered timeline misses relevant entries because filtering criteria was too strict",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [],
+    "references": []
+}

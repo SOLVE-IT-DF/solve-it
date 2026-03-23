@@ -499,7 +499,7 @@ def phase2_cross_references(
 
         # Inline citation check: [DFCite-xxxx] markers in text fields
         inline_bad = 0
-        text_fields = ["description", "details", "name"]
+        text_fields = ["description", "details", "examples"]
         for items, label in [
             (techniques, "Technique"),
             (weaknesses, "Weakness"),
@@ -507,7 +507,8 @@ def phase2_cross_references(
         ]:
             for item_id, data in items.items():
                 for field in text_fields:
-                    text = data.get(field, "") or ""
+                    value = data.get(field, "") or ""
+                    text = "\n".join(value) if isinstance(value, list) else value
                     for cite_id in find_inline_citations(text):
                         if cite_id not in citation_ids:
                             result.fail(f"{label} {item_id} field \"{field}\" has inline citation [{cite_id}] that does not exist")

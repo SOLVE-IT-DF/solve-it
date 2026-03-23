@@ -1,0 +1,44 @@
+{
+    "id": "DFT-1177",
+    "name": "Examination of a mutiplayer game app",
+    "description": "Extracting artifacts from multiplayer gaming apps.",
+    "synonyms": [
+        "gaming app examination"
+    ],
+    "details": "Multiplayer game apps often offer messaging, contacts/friends, and other features that could contain data that may be relevant to many types of case.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1279",
+        "DFW-1287",
+        "DFW-1288",
+        "DFW-1289",
+        "DFW-1290",
+        "DFW-1291",
+        "DFW-1292",
+        "DFW-1293",
+        "DFW-1294",
+        "DFW-1280",
+        "DFW-1281",
+        "DFW-1282",
+        "DFW-1283",
+        "DFW-1284",
+        "DFW-1285",
+        "DFW-1286"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/GamingAppFiles"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Message",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Contact",
+        "https://ontology.unifiedcyberontology.org/uco/configuration/Configuration",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Account"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1143",
+            "relevance_summary_280": ""
+        }
+    ]
+}

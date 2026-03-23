@@ -1,0 +1,17 @@
+{
+    "id": "DFT-1165",
+    "name": "Extract software configuration information",
+    "description": "Examination of one or more files to extract configuration information for a piece of software.",
+    "synonyms": [],
+    "details": "A configuration file of a browser for example may contain the home page that is set or other information. This technique extracts and presents that configuration information.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ApplicationFiles"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/configuration/Configuration"
+    ],
+    "references": []
+}

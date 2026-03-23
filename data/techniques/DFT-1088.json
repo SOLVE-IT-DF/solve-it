@@ -10,11 +10,13 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Message",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Contact"
+    ],
     "CASE_output_classes": [
-        "https://ontology.unifiedcyberontology.org/uco/core/Relationship",
-        "https://ontology.unifiedcyberontology.org/uco/core/kindOfRelationship",
-        "https://ontology.unifiedcyberontology.org/uco/core/confidence"
+        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedRelationship",
+        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedCommunication"
     ],
     "references": [
         {

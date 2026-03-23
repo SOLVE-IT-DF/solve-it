@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1297",
+    "name": "The filtered timeline includes entries that are not relevant because the filtering criteria was too broad",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1251",
+        "DFM-1252"
+    ],
+    "references": []
+}

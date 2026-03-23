@@ -28,10 +28,13 @@
         "DFW-1101",
         "DFW-1102"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ChatAppFiles"
+    ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/Message",
-        "https://ontology.unifiedcyberontology.org/uco/observable/SMSMessage"
+        "https://ontology.unifiedcyberontology.org/uco/observable/SMSMessage",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Contact"
     ],
     "references": []
 }

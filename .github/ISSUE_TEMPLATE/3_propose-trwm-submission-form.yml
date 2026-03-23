@@ -3,6 +3,10 @@ description: Submit a technique with weaknesses and mitigations from the TRWM SO
 title: "TRWM submission: {technique name}"
 labels: ["trwm"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        > Please read the [Contributing Guidelines](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTING.md) before submitting. For step-by-step instructions see the [Detailed Contributor Guide — TRWM bulk submission](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#trwm-bulk-submission) section. A link to more detailed guidance on the process will be available in future. For naming and writing conventions see the Style Guide sections for [Techniques](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#style-guide-for-techniques), [Weaknesses](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#style-guide-for-weaknesses), and [Mitigations](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#style-guide-for-mitigations).
   - type: dropdown
     id: submission-type
     attributes:
@@ -38,8 +42,8 @@ body:
         - "Detect anti-forensics and other anomalies"
         - "Establish identities"
         - "Create visualizations"
-        - "Reconstruct events"
         - "Conduct research"
+        - "Reconstruct events"
         - "Produce documentation"
         - Other (specify below)
     validations:

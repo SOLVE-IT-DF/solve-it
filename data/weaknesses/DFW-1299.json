@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1299",
+    "name": "A filtered timeline is presented as a full timeline",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1253"
+    ],
+    "references": []
+}

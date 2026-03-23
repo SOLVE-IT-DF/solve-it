@@ -28,7 +28,7 @@
         },
         {
             "DFCite_id": "DFCite-1059",
-            "relevance_summary_280": ""
+            "relevance_summary_280": "Section 8 covers volume shadow copies in a broader paper on Windows Vista. It describes using a virtualised or cloned system along with standard vssadmin commands to mount volumes. This is outdated now and offline parsing is typically possible."
         },
         {
             "DFCite_id": "DFCite-1087",

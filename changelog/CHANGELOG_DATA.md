@@ -4,6 +4,7 @@
 
 - **2026-03-23** Updated technique: Filter timeline for relevant entries  (DFT-1182) [`98de3c7`](https://github.com/SOLVE-IT-DF/solve-it/commit/98de3c7)
 - **2026-03-23** Updated technique (AUTOIMPLEMENT): Use time anchors to estimate clock offset (DFT-1134) [`fff3784`](https://github.com/SOLVE-IT-DF/solve-it/commit/fff3784)
+- **2026-03-23** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`f66596a`](https://github.com/SOLVE-IT-DF/solve-it/commit/f66596a)
 - **2026-03-22** Added technique (TRWM): Filter timeline for relevant entries (DFT-1182) [`e64f133`](https://github.com/SOLVE-IT-DF/solve-it/commit/e64f133)
 - **2026-03-22** Updated reference (AUTOIMPLEMENT): DFCite-1020 in DFT-1134 (DFCite-1020) [`be842c3`](https://github.com/SOLVE-IT-DF/solve-it/commit/be842c3)
 - **2026-03-22** Updated reference (AUTOIMPLEMENT): DFCite-1018 in DFT-1005 (DFCite-1018) [`3d521c0`](https://github.com/SOLVE-IT-DF/solve-it/commit/3d521c0)

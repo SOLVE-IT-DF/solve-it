@@ -21,7 +21,9 @@
         }
     ],
     "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ClockOffset"
+    ],
     "weaknesses": [
         "DFW-1260",
         "DFW-1261",

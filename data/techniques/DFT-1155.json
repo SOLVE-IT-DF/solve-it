@@ -12,9 +12,12 @@
     "weaknesses": [
         "DFW-1150"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/keywordSearchTerm"
+    ],
     "CASE_output_classes": [
-        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent"
+        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent",
+        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedWebSearch"
     ],
     "references": []
 }

@@ -25,9 +25,9 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/Directory"
     ],
     "references": [
-        {
+ {
             "DFCite_id": "DFCite-1030",
-            "relevance_summary_280": ""
-        }
+            "relevance_summary_280": "Defines a standardised vocabulary for classifying, authenticating and evaluating non-allocated file recovery results."
+        }        
     ]
 }

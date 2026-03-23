@@ -24,7 +24,9 @@
         "DFW-1250",
         "DFW-1251"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/BrowserAppFiles"
+    ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/URLHistory",
         "https://ontology.unifiedcyberontology.org/uco/observable/CookieHistory",

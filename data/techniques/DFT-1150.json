@@ -25,11 +25,11 @@
     "references": [
         {
             "DFCite_id": "DFCite-1030",
-            "relevance_summary_280": ""
+            "relevance_summary_280": "Defines a standardized vocabulary for classifying, authenticating and evaluating non-allocated file recovery results"
         },
         {
             "DFCite_id": "DFCite-1024",
-            "relevance_summary_280": ""
+            "relevance_summary_280": "The foundational text book on file system forensic analysis"
         }
     ]
 }

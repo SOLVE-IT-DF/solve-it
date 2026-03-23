@@ -27,7 +27,7 @@
         "DFW-1286"
     ],
     "CASE_input_classes": [
-        "GamingAppFiles"
+        "https://ontology.solveit-df.org/solveit/observable/GamingAppFiles"
     ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/Message",
@@ -35,5 +35,10 @@
         "https://ontology.unifiedcyberontology.org/uco/configuration/Configuration",
         "https://ontology.unifiedcyberontology.org/uco/observable/Account"
     ],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1143",
+            "relevance_summary_280": ""
+        }
+    ]
 }

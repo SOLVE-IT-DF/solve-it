@@ -7,7 +7,8 @@
     ],
     "details": "This can involve refinement approaches such as: filtering irrelevant entries, highlighting key entries, or aggregating entries into more meaningful events. This may result in a filtered timeline, or a set of highlighted timeline entries",
     "subtechniques": [
-        "DFT-1134"
+        "DFT-1134",
+        "DFT-1182"
     ],
     "examples": [
         "TimeSketch (Berggren et al. 2014)",

@@ -7,12 +7,14 @@ body:
     attributes:
       value: |
         ## Move a technique
+        For general guidance see the [Contributing Guidelines](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTING.md) and the [Detailed Contributor Guide](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md).
+
         Provide the technique to move and where it should go.
         - To move a technique under a **different objective**, set the destination to an objective ID (e.g. `DFO-1010`).
         - To make a technique a **subtechnique** of another technique, set the destination to a technique ID (e.g. `DFT-1015`).
         - To **promote** a subtechnique to a top-level technique, set the destination to an objective ID.
 
-        Existing techniques (DFT-1001–DFT-1179) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques) (right-click → open in new tab to keep your progress).
+        Existing techniques can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques) (right-click → open in new tab to keep your progress).
 
         **Objective IDs for reference:**
         - `DFO-1015` — Prepare for a digital investigation

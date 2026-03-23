@@ -227,7 +227,7 @@ Unlike a search engine, which can find a paper but leaves you to work out *which
 
 Many existing references have empty relevancy strings — these are shown as faded entries in the [SOLVE-IT Explorer](https://explore.solveit-df.org/), signalling that a contribution is welcome.
 
-To add or update a relevancy string, use the **[Update DFCite relevance](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2d_update-dfcite-relevance-form.yml)** form. You'll need:
+To add or update a relevancy string, use the **[Update DFCite relevance](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2e_update-dfcite-relevance-form.yml)** form. You'll need:
 
 - The **item ID** the reference is attached to (e.g. `DFT-1005`, `DFW-1106`, or `DFM-1061`)
 - The **DFCite ID** (e.g. `DFCite-1018`)
@@ -350,6 +350,7 @@ flowchart LR
 
 **Optional fields:**
 - BibTeX entry
+- Cite in items — specify items (techniques, weaknesses, mitigations) where this reference should be cited, one per line in `ITEM_ID | relevance summary` format. The auto-implement PR will add the reference to these items automatically.
 - Notes on where it's used and why it's relevant
 
 **Pipeline:** Preview → ID assignment → Auto-implement → PR → Merge
@@ -361,13 +362,14 @@ flowchart LR
     C -->|Yes| D[Use existing DFCite ID]
     C -->|No| E[assigned ID]
     E --> F[autoimplement]
-    F --> G["PR created<br/>• DFCite-XXXX.txt<br/>• DFCite-XXXX.bib"]
+    F --> G["PR created<br/>• DFCite-XXXX.txt<br/>• DFCite-XXXX.bib<br/>• cited items updated"]
     G --> H[Merge]
 ```
 
 **What gets created:**
 - `data/references/DFCite-XXXX.txt` (citation text)
 - `data/references/DFCite-XXXX.bib` (BibTeX, if provided)
+- If "Cite in items" was specified: the referenced items' JSON files are updated with the new DFCite entry
 
 
 It is worth supplying bibtex if you can since the SOLVE-IT Explorer offers direct copying of the bibtex citation file from within the UI, making it easy to refer to. 
@@ -419,7 +421,7 @@ There are separate update forms for each content type:
 - [Update a technique](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2a_update-technique-form.yml)
 - [Update a weakness](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2b_update-weakness-form.yml)
 - [Update a mitigation](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2c_update-mitigation-form.yml)
-- [Update DFCite relevance](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2d_update-dfcite-relevance-form.yml)
+- [Update DFCite relevance](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=2e_update-dfcite-relevance-form.yml)
 
 **How updates work:**
 - You must provide the existing item's ID (e.g. `DFT-1002`)
@@ -445,6 +447,7 @@ There are separate update forms for each content type:
 - If your reference doesn't exist yet, create it first using the [Propose new reference](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) form, then use the assigned DFCite ID in your submission.
 - Always check if a reference already exists before proposing a new one — the preview will flag duplicates
 - Include a **relevance summary** (max 280 characters) explaining why each reference matters to the specific item
+- **Inline citations:** You can cite references directly in description, details, and examples text fields using `[DFCite-xxxx]` (e.g. `[DFCite-1018]`). These are rendered as citation links in the Explorer. The validator checks that any inline-cited DFCite IDs exist in the knowledge base.
 
 ### Common mitigations
 

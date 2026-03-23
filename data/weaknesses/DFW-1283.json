@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1283",
+    "name": "Failure to recover a live account used in a gaming application",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1248",
+        "DFM-1027"
+    ],
+    "references": []
+}

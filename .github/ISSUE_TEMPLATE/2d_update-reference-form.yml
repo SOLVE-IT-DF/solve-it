@@ -1,0 +1,53 @@
+name: "Update Reference (DFCite)"
+description: Propose changes to an existing reference citation
+title: "Update reference: [DFCite-xxxx]"
+labels: ["content: update reference", "form input"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Update an existing reference (DFCite)
+        Use this form to propose changes to the citation text or BibTeX for an existing DFCite.
+        Fields may be prefilled or blank depending on how you accessed this form.
+        Only fill in fields you want to change — leave blank to keep current values.
+
+        > For general guidance see the [Contributing Guidelines](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTING.md). For citation and relevance summary conventions see the [Style Guide — References](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#style-guide-for-references) section.
+        > Existing references can be browsed in the [SOLVE-IT Explorer — References](https://explore.solveit-df.org/#references) tab.
+  - type: input
+    id: dfcite-id
+    attributes:
+      label: DFCite ID
+      description: The ID of the reference to update (e.g. DFCite-1001).
+    validations:
+      required: true
+  - type: textarea
+    id: new-citation-text
+    attributes:
+      label: New citation text
+      description: Leave blank to keep the current citation text. Use Harvard style. Include a DOI where possible.
+      render: text
+  - type: textarea
+    id: new-bibtex
+    attributes:
+      label: New BibTeX entry
+      description: Leave blank to keep the current BibTeX. Paste the full BibTeX entry.
+      render: text
+  - type: textarea
+    id: cite-in-items
+    attributes:
+      label: Cite in additional items
+      description: |
+        Optional. List additional items where this reference should be cited, one per line.
+        This adds the reference to items — it does not remove existing citations.
+        Supported item types: techniques (DFT-xxxx), weaknesses (DFW-xxxx), or mitigations (DFM-xxxx).
+        Format: ITEM_ID | relevance summary (max 280 chars).
+      placeholder: |
+        Enter one item per line
+        e.g. DFT-1001 | Why this reference is relevant to this technique
+        e.g. DFW-1002 | Why this reference is relevant to this weakness
+      render: text
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Any additional context about the proposed changes (e.g. correcting an author name, updating a URL, adding a DOI).

@@ -51,7 +51,7 @@ def find_current_objectives(kb, technique_id):
 
 
 def build_move_comment(technique_id, technique_name, dest_id, dest_label,
-                       move_type, move_description, changes):
+                       move_type, move_description, changes, rationale=None):
     """Build the summary comment for a proposed move."""
     lines = []
     lines.append(f"## Proposed move: {technique_id} ({technique_name})")
@@ -60,6 +60,11 @@ def build_move_comment(technique_id, technique_name, dest_id, dest_label,
     lines.append("")
     lines.append(move_description)
     lines.append("")
+    if rationale:
+        lines.append("### Rationale")
+        lines.append("")
+        lines.append(rationale)
+        lines.append("")
     lines.append("### Changes required")
     lines.append("")
     for change in changes:
@@ -97,6 +102,11 @@ def main():
     if not re.match(r'^(DFT|DFO)-\d{4,6}$', dest_id):
         print(f"Error: Invalid destination ID format: '{dest_id}'. Expected DFT-xxxx or DFO-xxxx.", file=sys.stderr)
         sys.exit(1)
+
+    # Extract rationale
+    from update_utils import is_no_response
+    rationale_raw = fields.get("Rationale", "").strip()
+    rationale = rationale_raw if not is_no_response(rationale_raw) else None
 
     # Load knowledge base
     base_path = os.path.join(os.path.dirname(__file__), '..', '..')
@@ -170,7 +180,7 @@ def main():
             changes.append(f"Add `{technique_id}` to objective `{dest_label}` techniques list")
 
         comment = build_move_comment(technique_id, technique_name, dest_id, dest_label,
-                                     move_type, move_description, changes)
+                                     move_type, move_description, changes, rationale)
 
     else:
         # Demoting to subtechnique of another technique
@@ -219,7 +229,7 @@ def main():
         changes.append(f"Add `{technique_id}` to `{dest_id}` ({dest_name}) subtechniques list")
 
         comment = build_move_comment(technique_id, technique_name, dest_id, dest_label,
-                                     move_type, move_description, changes)
+                                     move_type, move_description, changes, rationale)
 
     _output(comment, args.output)
 

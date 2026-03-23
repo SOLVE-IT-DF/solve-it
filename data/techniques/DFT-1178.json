@@ -1,0 +1,20 @@
+{
+    "id": "DFT-1178",
+    "name": "Writing bitstream data to a raw image format",
+    "description": "Storage of bitstream data recovered from a digital device as raw files.",
+    "synonyms": [
+        "store dd image",
+        "write dd image"
+    ],
+    "details": "Bitstream data resulting from disk imaging stored in a raw format. The imaged data may be stored as one file or split into several segments. The raw files may also be accompanied by complementary separate metadata files.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/Bitstream"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/RawImage"
+    ],
+    "references": []
+}

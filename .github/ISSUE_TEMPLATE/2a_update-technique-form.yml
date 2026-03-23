@@ -7,9 +7,10 @@ body:
     attributes:
       value: |
         ## Update an existing technique
-        Use this form to propose changes to an existing technique.
-        **Leave fields blank to keep current values.** Only fill in fields you want to change.
-        Existing techniques (DFT-1001–DFT-1179) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques) (right-click → open in new tab to keep your progress).
+        Use this form to propose changes to an existing technique. Fields may be prefilled or blank depending on how you accessed this form. If blank, leaving the fields blank will keep current values. Only fill in fields you want to change. If information is pre-filled, simply edit that information.
+        Existing techniques can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques) (right-click → open in new tab to keep your progress).
+
+        > For general guidance see the [Contributing Guidelines](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTING.md). For how updates work see the [Detailed Contributor Guide — Update an existing item](https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#update-an-existing-item) section, and for naming and writing conventions see the [Style Guide — Techniques](https://github.com/SOLVE-IT-DF/solve-it/blob/main/STYLE_GUIDE.md#style-guide-for-techniques) section.
   - type: input
     id: technique-id
     attributes:
@@ -21,18 +22,18 @@ body:
     id: new-technique-name
     attributes:
       label: New technique name
-      description: Leave blank to keep the current name.
+      description: "Leave blank to keep the current name. If changing: use sentence case, start with an imperative verb (e.g. \"Connect\", \"Locate\", \"Use\"). Synonyms can be updated in a later field."
   - type: textarea
     id: new-description
     attributes:
       label: New description
-      description: Leave blank to keep the current description.
+      description: Leave blank to keep the current description. You can cite references inline using [DFCite-xxxx].
       render: text
   - type: textarea
     id: new-details
     attributes:
       label: New details
-      description: Leave blank to keep the current details.
+      description: Leave blank to keep the current details. You can cite references inline using [DFCite-xxxx].
       render: text
   - type: textarea
     id: synonyms
@@ -48,7 +49,7 @@ body:
     attributes:
       label: Examples
       description: |
-        The complete new list of examples (one per line, e.g. FTK Imager, Magnet ACQUIRE).
+        The complete new list of examples (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
       placeholder: Enter one example per line
       render: text
@@ -57,20 +58,24 @@ body:
     attributes:
       label: Subtechnique IDs
       description: |
-        The complete new list of subtechnique IDs (one per line, e.g. DFT-1002.1, DFT-1002.2).
+        The complete new list of subtechnique IDs (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
-        Existing techniques (DFT-1001–DFT-1179) can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
-      placeholder: Enter one subtechnique ID per line
+        Existing techniques can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
+      placeholder: |
+        Enter one subtechnique ID per line
+        e.g. DFT-xxxx
       render: text
   - type: textarea
     id: weakness-ids
     attributes:
       label: Weakness IDs
       description: |
-        The complete new list of weakness IDs (one per line, e.g. DFW-1004, DFW-1014).
+        The complete new list of weakness IDs (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
         Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
-      placeholder: Enter one weakness ID per line
+      placeholder: |
+        Enter one weakness ID per line
+        e.g. DFW-xxxx
       render: text
   - type: textarea
     id: new-weaknesses
@@ -112,9 +117,10 @@ body:
     attributes:
       label: References
       description: |
-        The complete new list of references — existing DFCite IDs, one per line. If you need to add a new reference, please use the Propose New Reference form first.
+        The complete new list of references — existing DFCite IDs, one per line. If you need to add a new reference, please use the [Propose New Reference](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) form first.
         Leave blank to keep the current list. If populated, this replaces the entire list.
         You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is useful for this technique (max 280 chars).
+        Focus on why the reference matters to this specific item, not just what it is about.
       placeholder: |
         Enter one reference per line
         DFCite-xxxx | reason why this reference is useful for this technique (max 280 chars)

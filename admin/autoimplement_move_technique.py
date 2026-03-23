@@ -113,6 +113,11 @@ def main():
 
     validate_id(technique_id)
 
+    # Extract rationale
+    from update_utils import is_no_response
+    rationale_raw = fields.get("Rationale", "").strip()
+    rationale = rationale_raw if not is_no_response(rationale_raw) else None
+
     # 3. Load KB and validate
     kb = KnowledgeBase(project_root, 'solve-it.json')
 
@@ -308,6 +313,13 @@ def main():
             obj_labels = ', '.join(f"`{oid}` ({oname})" for oid, oname in current_objectives)
             pr_lines.append(f"| Previous objective(s) | {obj_labels} |")
         pr_lines.append("")
+
+        # Rationale
+        if rationale:
+            pr_lines.append("## Rationale")
+            pr_lines.append("")
+            pr_lines.append(rationale)
+            pr_lines.append("")
 
         # Changes
         pr_lines.append("## Changes")

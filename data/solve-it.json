@@ -101,8 +101,7 @@
             "DFT-1114",
             "DFT-1003",
             "DFT-1022",
-            "DFT-1017",
-            "DFT-1015",
+            "DFT-1017",            
             "DFT-1162",
             "DFT-1111",
             "DFT-1018",
@@ -120,7 +119,8 @@
         "description": "Store acquired data in one or more formats for subsequent examination and analysis",
         "techniques": [
             "DFT-1025",
-            "DFT-1026"
+            "DFT-1026",
+            "DFT-1178"
         ],
         "references": []
     },
@@ -184,7 +184,8 @@
             "DFT-1098",
             "DFT-1083",
             "DFT-1116",
-            "DFT-1149"
+            "DFT-1149",
+            "DFT-1180"
         ],
         "references": []
     },
@@ -207,6 +208,7 @@
             "DFT-1108",
             "DFT-1109",
             "DFT-1133",
+            "DFT-1177",
             "DFT-1179"
         ],
         "references": []
@@ -228,7 +230,8 @@
             "DFT-1120",
             "DFT-1167",
             "DFT-1169",
-            "DFT-1121"
+            "DFT-1121",
+            "DFT-1165"
         ],
         "references": []
     },
@@ -242,7 +245,8 @@
             "DFT-1050",
             "DFT-1049",
             "DFT-1118",
-            "DFT-1086"
+            "DFT-1086",
+            "DFT-1182"
         ],
         "references": []
     },
@@ -301,8 +305,22 @@
         "references": []
     },
     {
-        "id": "DFO-1001",
+        "id": "DFO-1004",
         "sort_order": 19,
+        "name": "Conduct research",
+        "description": "Conduct research to gain additional knowledge to support the acquisition, extraction, or interpretation of digital evidence.",
+        "techniques": [
+            "DFT-1090",
+            "DFT-1095",
+            "DFT-1089",
+            "DFT-1101",
+            "DFT-1119"
+        ],
+        "references": []
+    },
+    {
+        "id": "DFO-1001",
+        "sort_order": 20,
         "name": "Reconstruct events",
         "description": "Use available digital evidence to formulate and test hypotheses about events.",
         "techniques": [
@@ -312,20 +330,6 @@
             "DFT-1154",
             "DFT-1155",
             "DFT-1156"
-        ],
-        "references": []
-    },
-    {
-        "id": "DFO-1004",
-        "sort_order": 20,
-        "name": "Conduct research",
-        "description": "Conduct research to gain additional knowledge to support the acquisition, extraction, or interpretation of digital evidence.",
-        "techniques": [
-            "DFT-1090",
-            "DFT-1095",
-            "DFT-1089",
-            "DFT-1101",
-            "DFT-1119"
         ],
         "references": []
     },

@@ -133,8 +133,11 @@ If validation passes and the PR looks good, merge it. The issue will be automati
 **What to check before adding `assigned ID`:**
 - The preview shows the citation text and file contents — verify they look correct
 - If the preview says the reference matches an existing citation, no new entry is needed
+- If the submitter specified "Cite in items", check the preview table — verify the item IDs and relevance summaries look reasonable, and note any "Not found" warnings
 
 **Duplicate handling:** If the preview comment indicates the reference matches an existing citation, the auto-implement script posts a "no action needed" comment and exits without creating a PR.
+
+**Cite in items:** If the submitter specified items to cite, the auto-implement PR will include updates to those items' JSON files (adding the DFCite reference). Check the PR diff to verify the references were added correctly. Items that were not found at implementation time are skipped and noted in the PR body.
 
 **Race protection:** The script checks that the DFCite files don't already exist before writing, in case another submission took the same ID.
 

@@ -1571,8 +1571,10 @@ body.custom-mode .disabled-btn {{
   .topnav-tabs {{ display: none; }}
   .burger-btn {{ display: flex; }}
   .topnav {{ position: relative; }}
-  .detail-panel {{ width: 100vw; overflow-x: hidden; touch-action: pan-y; }}
-  .detail-body {{ overflow-x: hidden; overscroll-behavior: none; touch-action: pan-y; }}
+  .detail-panel {{ width: 100vw; overflow-x: hidden; touch-action: pan-y; overscroll-behavior: contain; }}
+  .detail-panel.open ~ .main-area, .detail-panel.open ~ * {{ pointer-events: none; }}
+  .detail-body {{ overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; }}
+  .detail-body > :last-child {{ padding-bottom: 40px; }}
   .detail-panel, .detail-body, .detail-section {{
     max-width: 100vw;
     box-sizing: border-box;
@@ -1580,6 +1582,7 @@ body.custom-mode .disabled-btn {{
   .main-area.shifted {{ margin-right: 0; }}
   .stats-banner {{ grid-template-columns: repeat(2, 1fr); }}
   html, body {{ overflow-x: hidden; overscroll-behavior-x: none; }}
+  body.panel-open {{ overflow: hidden; touch-action: none; }}
   .ref-table thead {{ display: none; }}
   .ref-table tbody tr {{ display: block; border-bottom: 1px solid var(--gray-200); padding: 10px 0; }}
   .ref-table tbody td {{ display: block; padding: 4px 12px; }}
@@ -2898,6 +2901,7 @@ function showDetail(id, type, skipHash) {{
     document.getElementById('dp-body').innerHTML = buildReferenceDetail(id, refData, cite);
     document.getElementById('detailPanel').classList.add('open');
     document.getElementById('mainArea').classList.add('shifted');
+    document.body.classList.add('panel-open');
     return;
   }}
 
@@ -2951,6 +2955,7 @@ function showDetail(id, type, skipHash) {{
   document.getElementById('dp-body').innerHTML = body;
   document.getElementById('detailPanel').classList.add('open');
   document.getElementById('mainArea').classList.add('shifted');
+  document.body.classList.add('panel-open');
 }}
 
 function buildCreditsHtml(item) {{
@@ -3360,6 +3365,7 @@ function closeDetail(skipHash) {{
   detailHistory.length = 0;
   document.getElementById('detailPanel').classList.remove('open');
   document.getElementById('mainArea').classList.remove('shifted');
+  document.body.classList.remove('panel-open');
   if (!skipHash) history.replaceState(null, '', location.pathname);
   updateSelectionHighlights();
   updateBackButton();

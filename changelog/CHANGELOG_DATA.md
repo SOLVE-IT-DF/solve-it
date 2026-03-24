@@ -2,6 +2,7 @@
 
 ## March 2026
 
+- **2026-03-24** Updated technique (AUTOIMPLEMENT): Access internal storage via bootable environment (DFT-1113) [`5b00701`](https://github.com/SOLVE-IT-DF/solve-it/commit/5b00701)
 - **2026-03-23** Updated technique: Filter timeline for relevant entries  (DFT-1182) [`98de3c7`](https://github.com/SOLVE-IT-DF/solve-it/commit/98de3c7)
 - **2026-03-23** Updated technique (AUTOIMPLEMENT): Use time anchors to estimate clock offset (DFT-1134) [`fff3784`](https://github.com/SOLVE-IT-DF/solve-it/commit/fff3784)
 - **2026-03-23** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`f66596a`](https://github.com/SOLVE-IT-DF/solve-it/commit/f66596a)

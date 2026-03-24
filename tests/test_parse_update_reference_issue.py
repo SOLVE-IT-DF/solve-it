@@ -330,20 +330,32 @@ class TestBuildCommentCiteInItems(unittest.TestCase):
         self.assertIn("| `DFT-1001`", comment)
         self.assertIn("Triage tool", comment)
 
-    def test_already_cited_flagged(self):
-        """DFCite-1003 is cited by DFM-1238 in the real KB."""
+    def test_already_cited_with_new_relevance_flagged_as_update(self):
+        """DFCite-1003 is cited by DFM-1238 with empty relevance — supplying
+        a new relevance string should flag it as a relevance update."""
         comment, _ = self._build(**{
             "Cite in additional items": "DFM-1238 | Already cited"
         })
         self.assertIn("already cite", comment)
         self.assertIn("DFM-1238", comment)
-        self.assertIn("will be skipped", comment)
+        self.assertIn("relevance will be updated", comment)
 
-    def test_already_cited_excluded_from_summary(self):
-        """Already-cited items should not count as a change."""
+    def test_already_cited_same_relevance_skipped(self):
+        """When the supplied relevance matches the existing one, the item
+        should be skipped with no change."""
+        comment, _ = self._build(**{
+            "Cite in additional items": "DFM-1238 | "
+        })
+        # Empty relevance matches existing empty — should be skipped
+        self.assertNotIn("relevance will be updated", comment)
+        self.assertNotIn("**Cite in items**: add to", comment)
+
+    def test_already_cited_relevance_update_in_summary(self):
+        """A relevance update should appear in the summary of changes."""
         comment, _ = self._build(**{
             "Cite in additional items": "DFM-1238 | Already cited"
         })
+        self.assertIn("update relevance in 1 item(s)", comment)
         self.assertNotIn("**Cite in items**: add to", comment)
 
     def test_mix_new_and_already_cited(self):
@@ -351,7 +363,7 @@ class TestBuildCommentCiteInItems(unittest.TestCase):
             "Cite in additional items": "DFT-1001 | New one\nDFM-1238 | Existing"
         })
         self.assertIn("add to 1 new item(s)", comment)
-        self.assertIn("already cite", comment)
+        self.assertIn("relevance will be updated", comment)
 
     def test_invalid_cite_format_shows_warning(self):
         comment, _ = self._build(**{

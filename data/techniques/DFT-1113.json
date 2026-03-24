@@ -1,13 +1,13 @@
 {
     "id": "DFT-1113",
     "name": "Access internal storage via bootable environment",
-    "description": "Booting the suspected computer device into forensically-sound bootable software-write blocked operating system in order to image the disks.",
+    "description": "Booting the suspected computer device into an alternative operating system in order to image the attached disks.",
     "synonyms": [],
-    "details": "",
+    "details": "These operating systems are usually modified to contain forensic imaging tools and to avoid writing to the attached storage through the use of software write blocking (DFT-1013)",
     "subtechniques": [],
     "examples": [
         "WinFE - Windows Forensic Environment, is forensically sound, bootable Windows operation system that can be burned into USB and plug the USB into suspected device. Then, after changing boot order, booting to the USB to create forensic images from the tested Windows, MacOS and Linux systems.",
-        "PALADIN Forensic - is a modified “live” Linux distribution based on Ubuntu that simplifies various forensics tasks in a forensically sound manner via the PALADIN Toolbox."
+        "PALADIN Forensic - is a modified \u201clive\u201d Linux distribution based on Ubuntu that simplifies various forensics tasks in a forensically sound manner via the PALADIN Toolbox."
     ],
     "weaknesses": [
         "DFW-1177",

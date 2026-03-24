@@ -38,10 +38,11 @@ def load_raw_file(path):
 def find_cited_by(kb, dfcite_id):
     """Find all items that cite a given DFCite ID.
 
-    Returns (cited_by, existing_ids) where cited_by is a list of
-    (type, id, name) tuples and existing_ids is a set of item IDs.
+    Returns (cited_by, existing_refs) where cited_by is a list of
+    (type, id, name) tuples and existing_refs is a dict mapping
+    item_id -> current relevance_summary_280.
     """
-    existing_ids = set()
+    existing_refs = {}
     cited_by = []
     for label, collection in [("technique", kb.techniques),
                                ("weakness", kb.weaknesses),
@@ -50,8 +51,8 @@ def find_cited_by(kb, dfcite_id):
             for ref in item.get("references", []):
                 if isinstance(ref, dict) and ref.get("DFCite_id") == dfcite_id:
                     cited_by.append((label, item["id"], item.get("name", "")))
-                    existing_ids.add(item["id"])
-    return cited_by, existing_ids
+                    existing_refs[item["id"]] = ref.get("relevance_summary_280", "")
+    return cited_by, existing_refs
 
 
 def build_comment(fields, project_root):

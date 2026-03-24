@@ -3,7 +3,9 @@
 ## March 2026
 
 - **2026-03-24** Updated technique (AUTOIMPLEMENT): Access internal storage via bootable environment (DFT-1113) [`5b00701`](https://github.com/SOLVE-IT-DF/solve-it/commit/5b00701)
+- **2026-03-24** Updated technique (AUTOIMPLEMENT): Location-based event reconstruction (DFT-1087) [`103806a`](https://github.com/SOLVE-IT-DF/solve-it/commit/103806a)
 - **2026-03-24** Updated mitigation (AUTOIMPLEMENT): Estimate clock offset at a specific point in time using time anchoring (DFM-1225) [`14a56c0`](https://github.com/SOLVE-IT-DF/solve-it/commit/14a56c0)
+- **2026-03-24** Added reference (AUTOIMPLEMENT): DFCite-1146 [`103806a`](https://github.com/SOLVE-IT-DF/solve-it/commit/103806a)
 - **2026-03-24** Added reference (AUTOIMPLEMENT): DFCite-1020 [`14a56c0`](https://github.com/SOLVE-IT-DF/solve-it/commit/14a56c0)
 - **2026-03-23** Updated technique: Filter timeline for relevant entries  (DFT-1182) [`98de3c7`](https://github.com/SOLVE-IT-DF/solve-it/commit/98de3c7)
 - **2026-03-23** Updated technique (AUTOIMPLEMENT): Use time anchors to estimate clock offset (DFT-1134) [`fff3784`](https://github.com/SOLVE-IT-DF/solve-it/commit/fff3784)

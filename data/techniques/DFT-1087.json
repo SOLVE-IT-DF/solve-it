@@ -13,5 +13,10 @@
         "https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent",
         "https://ontology.unifiedcyberontology.org/uco/location/Location"
     ],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1146",
+            "relevance_summary_280": "Provides Bayesian framework to evaluate location-related information"
+        }
+    ]
 }

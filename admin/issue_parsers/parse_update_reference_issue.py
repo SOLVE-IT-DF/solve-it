@@ -179,7 +179,26 @@ def build_comment(fields, project_root):
     # Cited by — show which items already reference this DFCite
     from solve_it_library import KnowledgeBase
     kb = KnowledgeBase(project_root, 'solve-it.json')
-    cited_by, existing_cited_by = find_cited_by(kb, dfcite_id)
+    cited_by, existing_refs = find_cited_by(kb, dfcite_id)
+
+    # Classify cite-in-items into three categories:
+    # - new: item doesn't cite this reference yet
+    # - update_relevance: item already cites it but with different/empty relevance
+    # - unchanged: item already cites it with the same relevance (skip)
+    new_cite_items = []
+    update_relevance_items = []
+    unchanged_items = []
+    for item in cite_items:
+        iid = item["item_id"]
+        if iid not in existing_refs:
+            new_cite_items.append(item)
+        else:
+            current_rel = existing_refs[iid]
+            proposed_rel = item.get("relevance_summary", "")
+            if proposed_rel and proposed_rel != current_rel:
+                update_relevance_items.append(item)
+            else:
+                unchanged_items.append(item)
 
     # Summary of changes
     lines.append("### Summary of changes")
@@ -193,10 +212,10 @@ def build_comment(fields, project_root):
         changes.append("- **Citation text**: new `.txt` file will be created")
     if new_bib and not current_bib:
         changes.append("- **BibTeX**: new `.bib` file will be created")
-    new_cite_items = [i for i in cite_items if i["item_id"] not in existing_cited_by]
-    already_cited = [i for i in cite_items if i["item_id"] in existing_cited_by]
     if new_cite_items:
         changes.append(f"- **Cite in items**: add to {len(new_cite_items)} new item(s)")
+    if update_relevance_items:
+        changes.append(f"- **Cite in items**: update relevance in {len(update_relevance_items)} item(s)")
     if not changes:
         lines.append("No changes detected.")
     else:
@@ -214,6 +233,8 @@ def build_comment(fields, project_root):
         data["new_bib"] = new_bib
     if new_cite_items:
         data["cite_in_items"] = new_cite_items
+    if update_relevance_items:
+        data["update_relevance_items"] = update_relevance_items
     lines.append(json.dumps(data, indent=4))
     lines.append("```")
     lines.append("")
@@ -235,11 +256,27 @@ def build_comment(fields, project_root):
                 lines.append(f"- {warn}")
             lines.append("")
 
-        if already_cited:
-            lines.append(f":information_source: {len(already_cited)} item(s) already cite "
-                         f"this reference (will be skipped):")
-            for item in already_cited:
-                lines.append(f"- `{item['item_id']}` — already cited")
+        if unchanged_items:
+            lines.append(f":information_source: {len(unchanged_items)} item(s) already cite "
+                         f"this reference with the same relevance (will be skipped):")
+            for item in unchanged_items:
+                lines.append(f"- `{item['item_id']}` — already cited, no change")
+            lines.append("")
+
+        if update_relevance_items:
+            lines.append(f":pencil2: {len(update_relevance_items)} item(s) already cite "
+                         f"this reference but relevance will be updated:")
+            lines.append("")
+            lines.append("| Item | Current relevance | Proposed relevance |")
+            lines.append("|---|---|---|")
+            for item in update_relevance_items:
+                current_rel = existing_refs.get(item["item_id"], "")
+                display_current = current_rel if current_rel else "*(empty)*"
+                lines.append(
+                    f"| `{item['item_id']}` "
+                    f"| {display_current} "
+                    f"| {item['relevance_summary']} |"
+                )
             lines.append("")
 
         if new_cite_items:

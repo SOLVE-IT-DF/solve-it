@@ -149,6 +149,28 @@ def add_reference_to_item(filepath, dfcite_id, relevance_summary):
         return "error"
 
 
+def update_reference_relevance(filepath, dfcite_id, relevance_summary):
+    """Update the relevance_summary_280 for an existing DFCite reference in an item.
+
+    Returns "updated", "not found", or "error".
+    """
+    try:
+        with open(filepath) as f:
+            item_data = json.load(f)
+
+        for ref in item_data.get("references", []):
+            if isinstance(ref, dict) and ref.get("DFCite_id") == dfcite_id:
+                ref["relevance_summary_280"] = relevance_summary
+                with open(filepath, 'w') as f:
+                    json.dump(item_data, f, indent=4)
+                    f.write('\n')
+                return "updated"
+
+        return "not found"
+    except Exception:
+        return "error"
+
+
 def sanitise_git_value(value):
     """Remove characters that could cause issues in git --author strings."""
     return re.sub(r'[<>\n\r]', '', value).strip()
@@ -220,8 +242,9 @@ def main():
     new_txt = data.get("new_txt")
     new_bib = data.get("new_bib")
     cite_items = data.get("cite_in_items", [])
+    update_relevance_items = data.get("update_relevance_items", [])
 
-    if not new_txt and not new_bib and not cite_items:
+    if not new_txt and not new_bib and not cite_items and not update_relevance_items:
         no_action_msg = (
             "No changes detected in the preview data — nothing to implement.\n\n"
             "The `autoimplement` label has been processed but no PR was created."
@@ -247,10 +270,10 @@ def main():
         print(f"Error: path traversal detected for {dfcite_id}.bib", file=sys.stderr)
         sys.exit(1)
 
-    # For updates, the .txt file should already exist (unless we're adding a new .bib)
-    if (new_txt or not new_bib) and not os.path.exists(txt_path):
-        print(f"Error: {txt_path} does not exist — cannot update a reference "
-              "that doesn't exist.", file=sys.stderr)
+    # For file updates, the .txt file should already exist
+    if (new_txt or new_bib) and not os.path.exists(txt_path) and not os.path.exists(bib_path):
+        print(f"Error: neither {dfcite_id}.txt nor {dfcite_id}.bib exist — "
+              "cannot update a reference that doesn't exist.", file=sys.stderr)
         sys.exit(1)
 
     # 5. Get submitter info
@@ -326,6 +349,26 @@ def main():
                     written_files.append(item_path)
                 print(f"  {item_id}: {status}", file=sys.stderr)
 
+        # Update relevance for items that already cite this reference
+        relevance_results = []
+        if update_relevance_items:
+            print("Updating relevance summaries...", file=sys.stderr)
+            for item in update_relevance_items:
+                item_id = item.get("item_id", "")
+                relevance = item.get("relevance_summary", "")
+                item_path = resolve_item_path(item_id, project_root)
+                if item_path is None:
+                    relevance_results.append((item_id, "not found"))
+                    print(f"  Skipped: {item_id} (not found)", file=sys.stderr)
+                    continue
+                status = update_reference_relevance(
+                    item_path, dfcite_id, relevance,
+                )
+                relevance_results.append((item_id, status))
+                if status == "updated":
+                    written_files.append(item_path)
+                print(f"  {item_id}: {status}", file=sys.stderr)
+
         if not written_files:
             no_action_msg = (
                 "No files were changed (items may already cite this reference).\n\n"
@@ -343,19 +386,25 @@ def main():
             run(["git", "add", f], cwd=project_root)
 
         items_added = sum(1 for _, s in cite_results if s == "added")
-        cite_suffix = ""
+        items_updated = sum(1 for _, s in relevance_results if s == "updated")
+        extra_parts = []
         if items_added:
-            cite_suffix = f" and cite in {items_added} item(s)"
+            extra_parts.append(f"cite in {items_added} item(s)")
+        if items_updated:
+            extra_parts.append(f"update relevance in {items_updated} item(s)")
+        extra_suffix = ""
+        if extra_parts:
+            extra_suffix = " and " + ", ".join(extra_parts)
 
         file_changes = " and ".join(changes_summary)
         if file_changes:
             commit_msg = (
-                f"Update reference {dfcite_id}: {file_changes}{cite_suffix}\n\n"
+                f"Update reference {dfcite_id}: {file_changes}{extra_suffix}\n\n"
                 f"Auto-implemented from issue #{args.issue_number}."
             )
         else:
             commit_msg = (
-                f"Update reference {dfcite_id}: cite in {items_added} item(s)\n\n"
+                f"Update reference {dfcite_id}: {', '.join(extra_parts)}\n\n"
                 f"Auto-implemented from issue #{args.issue_number}."
             )
 
@@ -407,6 +456,15 @@ def main():
             pr_lines.append("| Item | Status |")
             pr_lines.append("|---|---|")
             for item_id, status in cite_results:
+                pr_lines.append(f"| `{item_id}` | {status} |")
+            pr_lines.append("")
+
+        if relevance_results:
+            pr_lines.append("## Relevance updates")
+            pr_lines.append("")
+            pr_lines.append("| Item | Status |")
+            pr_lines.append("|---|---|")
+            for item_id, status in relevance_results:
                 pr_lines.append(f"| `{item_id}` | {status} |")
             pr_lines.append("")
 

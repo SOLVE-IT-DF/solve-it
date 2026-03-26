@@ -2,6 +2,7 @@
 
 ## March 2026
 
+- **2026-03-26** Updated technique (AUTOIMPLEMENT): Disk imaging (DFT-1002) [`e542842`](https://github.com/SOLVE-IT-DF/solve-it/commit/e542842)
 - **2026-03-24** Updated technique (AUTOIMPLEMENT): Access internal storage via bootable environment (DFT-1113) [`5b00701`](https://github.com/SOLVE-IT-DF/solve-it/commit/5b00701)
 - **2026-03-24** Updated technique (AUTOIMPLEMENT): Location-based event reconstruction (DFT-1087) [`103806a`](https://github.com/SOLVE-IT-DF/solve-it/commit/103806a)
 - **2026-03-24** Updated mitigation (AUTOIMPLEMENT): Estimate clock offset at a specific point in time using time anchoring (DFM-1225) [`14a56c0`](https://github.com/SOLVE-IT-DF/solve-it/commit/14a56c0)

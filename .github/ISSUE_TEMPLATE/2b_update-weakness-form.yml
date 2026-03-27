@@ -24,6 +24,12 @@ body:
       label: New weakness name
       description: "Leave blank to keep the current name. If changing: use sentence case, no full stop. Where possible, name both the problem and its cause (e.g. \"Missing the existence of a device by missing synchronisation artefacts\")."
   - type: textarea
+    id: new-description
+    attributes:
+      label: New description
+      description: Leave blank to keep the current description. You can cite references inline using [DFCite-xxxx].
+      render: text
+  - type: textarea
     id: categories
     attributes:
       label: Categories

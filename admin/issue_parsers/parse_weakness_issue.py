@@ -71,6 +71,7 @@ def build_weakness_json(fields, project_root=None):
     weakness = {
         "id": "DFW-____",
         "name": fields.get("Weakness name", ""),
+        "description": fields.get("Description", ""),
         "categories": categories,
         "mitigations": lines_to_list(fields.get("Existing mitigation IDs", "")),
         "references": processed_refs,

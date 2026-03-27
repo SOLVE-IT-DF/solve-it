@@ -36,6 +36,7 @@ def build_mitigation_json(fields, project_root=None):
     mitigation = {
         "id": "DFM-____",
         "name": fields.get("Mitigation name", ""),
+        "description": fields.get("Description", ""),
     }
 
     technique = fields.get("Linked technique", "").strip()

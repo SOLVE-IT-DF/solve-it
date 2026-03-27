@@ -36,9 +36,10 @@ class TestParseWeaknessClasses(unittest.TestCase):
         self.assertEqual(invalid, [])
 
 
-def _make_fields(classes_text="", name="Test weakness"):
+def _make_fields(classes_text="", name="Test weakness", description=""):
     return {
         "Weakness name": name,
+        "Description": description,
         "Categories": classes_text,
         "Existing mitigation IDs": "",
         "Techniques this applies to": "",
@@ -80,6 +81,16 @@ class TestBuildWeaknessJson(unittest.TestCase):
         weakness, _, _, errors = build_weakness_json(fields)
         self.assertIsNone(weakness)
         self.assertTrue(any("BAD_CODE" in e for e in errors))
+
+    def test_description_included(self):
+        fields = _make_fields("ASTM_INCOMP", description="A test description")
+        weakness, _, _, _ = build_weakness_json(fields)
+        self.assertEqual(weakness["description"], "A test description")
+
+    def test_description_empty_by_default(self):
+        fields = _make_fields("ASTM_INCOMP")
+        weakness, _, _, _ = build_weakness_json(fields)
+        self.assertEqual(weakness["description"], "")
 
 
 if __name__ == '__main__':

@@ -23,6 +23,12 @@ body:
     attributes:
       label: New mitigation name
       description: "Leave blank to keep the current name. If changing: use sentence case, no full stop. Use an imperative verb phrase (e.g. \"Use dual tool verification\", \"Manually verify relevant data\")."
+  - type: textarea
+    id: new-description
+    attributes:
+      label: New description
+      description: Leave blank to keep the current description. You can cite references inline using [DFCite-xxxx].
+      render: text
   - type: dropdown
     id: linked-technique-action
     attributes:

@@ -13,6 +13,7 @@ from update_utils import is_no_response
 SAMPLE_WEAKNESS = {
     "id": "DFW-1001",
     "name": "Test weakness",
+    "description": "Original description",
     "categories": ["ASTM_INCOMP"],
     "mitigations": ["DFM-1001"],
     "references": [],
@@ -78,6 +79,30 @@ class TestApplyUpdates(unittest.TestCase):
         updated, _, _, errors = apply_updates(current, fields)
         self.assertIsNone(updated)
         self.assertTrue(any("BAD_CODE" in e for e in errors))
+
+    def test_update_description(self):
+        fields = {
+            "New weakness name": "_No response_",
+            "New description": "Updated description",
+            "Categories": "_No response_",
+            "Mitigation IDs": "_No response_",
+            "References": "_No response_",
+        }
+        current = copy.deepcopy(SAMPLE_WEAKNESS)
+        updated, _, _, _ = apply_updates(current, fields)
+        self.assertEqual(updated["description"], "Updated description")
+
+    def test_description_no_change_when_blank(self):
+        fields = {
+            "New weakness name": "_No response_",
+            "New description": "_No response_",
+            "Categories": "_No response_",
+            "Mitigation IDs": "_No response_",
+            "References": "_No response_",
+        }
+        current = copy.deepcopy(SAMPLE_WEAKNESS)
+        updated, _, _, _ = apply_updates(current, fields)
+        self.assertEqual(updated["description"], "Original description")
 
 
 if __name__ == '__main__':

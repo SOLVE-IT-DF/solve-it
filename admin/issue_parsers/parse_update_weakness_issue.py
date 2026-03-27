@@ -44,6 +44,10 @@ def apply_updates(current, fields, project_root=None):
     if not is_no_response(name):
         updated["name"] = name.strip()
 
+    description = fields.get("New description", "")
+    if not is_no_response(description):
+        updated["description"] = description.strip()
+
     # Categories — blank means no change
     classes_raw = fields.get("Categories", "")
     if not is_no_response(classes_raw):

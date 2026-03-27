@@ -42,6 +42,10 @@ def apply_updates(current, fields, project_root=None):
     if not is_no_response(name):
         updated["name"] = name.strip()
 
+    description = fields.get("New description", "")
+    if not is_no_response(description):
+        updated["description"] = description.strip()
+
     # Linked technique — uses dropdown to disambiguate no-change vs remove
     action = fields.get("Linked technique action", "No change").strip()
     if action.startswith("Set new value"):

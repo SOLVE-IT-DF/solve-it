@@ -90,7 +90,7 @@ def extract_proposed_json(comment_body):
     Returns the parsed dict, or None if not found.
     """
     proposed_match = re.search(
-        r'### Proposed\s*\n```json\s*\n(.*?)\n```',
+        r'### Proposed\s*\n```(?:json)?\s*\n(.*?)\n```',
         comment_body, re.DOTALL,
     )
     if proposed_match:

@@ -6,7 +6,9 @@
     "details": "",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": [],
+    "weaknesses": [
+        "DFW-1300"
+    ],
     "CASE_input_classes": [
         "https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed",
         "https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition"

@@ -2124,22 +2124,62 @@ function resolveInlineCites(text) {{
   if (!text) return '';
   return esc(text).replace(/\\[DFCite-\\d+\\]/g, function(marker) {{
     const citeId = marker.slice(1, -1);
-    const plain = citeText(citeId);
+    const cite = CiteMap[citeId];
+    const plain = cite ? (cite.text || citeId) : citeId;
     if (!plain || plain === citeId) return marker;
-    const short = extractShortCite(plain);
+    const short = extractShortCiteFromBib(cite) || extractShortCite(plain) || marker;
     return `<span class="inline-cite" title="${{esc(plain)}}">${{short}}</span>`;
   }});
+}}
+
+function extractShortCiteFromBib(cite) {{
+  if (!cite || !cite.raw_bib) return '';
+  const bib = cite.raw_bib;
+  // Extract author field (handles both {{braced}} and unbraced values)
+  const am = bib.match(/author\\s*=\\s*(?:\\{{\\{{([^}}]*?)\\}}\\}}|\\{{([^}}]*?)\\}})/i);
+  if (!am) return '';
+  const rawAuthor = (am[1] || am[2] || '').trim();
+  if (!rawAuthor) return '';
+  // Extract year from year field, date field, or note/url as fallback
+  const yrm = bib.match(/(?:year|date)\\s*=\\s*\\{{?([^}},]*)\\}}?/i);
+  let year = '';
+  if (yrm) {{
+    const yrMatch = yrm[1].match(/(1[89]\\d{{2}}|20[0-3]\\d)/);
+    year = yrMatch ? yrMatch[1] : '';
+  }}
+  if (!year) year = 'n.d.';
+  // Handle multiple authors (BibTeX uses " and " separator)
+  const authors = rawAuthor.split(/\\s+and\\s+/);
+  const firstSurname = authors[0].includes(',')
+    ? authors[0].split(',')[0].trim()
+    : authors[0].trim();
+  if (authors.length === 1) return `(${{firstSurname}}, ${{year}})`;
+  if (authors.length === 2) {{
+    const secondSurname = authors[1].includes(',')
+      ? authors[1].split(',')[0].trim()
+      : authors[1].trim();
+    return `(${{firstSurname}} and ${{secondSurname}}, ${{year}})`;
+  }}
+  return `(${{firstSurname}} et al., ${{year}})`;
 }}
 
 function extractShortCite(plain) {{
   if (!plain) return '';
   const ym = plain.match(/\\b(1[89]\\d{{2}}|20[0-3]\\d)\\b/);
-  if (!ym) return '';
-  const year = ym[1];
+  const nd = !ym ? plain.match(/\\b(undated|n\\.d\\.|no date)\\b/i) : null;
+  if (!ym && !nd) return '';
+  const year = ym ? ym[1] : 'n.d.';
+  const yearIndex = ym ? ym.index : nd.index;
   const fc = plain.indexOf(',');
-  if (fc <= 0) return '';
-  const firstAuthor = plain.slice(0, fc).trim();
-  const beforeYear = plain.slice(0, ym.index);
+  let firstAuthor;
+  if (fc > 0 && fc < yearIndex) {{
+    firstAuthor = plain.slice(0, fc).trim();
+  }} else {{
+    firstAuthor = plain.slice(0, yearIndex).replace(/[\\s(]+$/, '').trim();
+    if (!firstAuthor) return '';
+    return `(${{firstAuthor}}, ${{year}})`;
+  }}
+  const beforeYear = plain.slice(0, yearIndex);
   const andParts = beforeYear.split(' and ');
   if (andParts.length === 1) return `(${{firstAuthor}}, ${{year}})`;
   const authorInits = andParts[0].match(/[A-Z]\\.(?:[A-Z]\\.)*/g);

@@ -36,9 +36,9 @@ body:
         - `DFO-1019` — Detect anti-forensics and other anomalies
         - `DFO-1008` — Establish identities
         - `DFO-1009` — Create visualizations
-        - `DFO-1001` — Reconstruct events
         - `DFO-1004` — Conduct research
-        - `DFO-1020` — Produce documentation
+        - `DFO-1001` — Reconstruct events
+        - `DFO-1020` — Document digital forensic activities
   - type: input
     id: technique-id
     attributes:

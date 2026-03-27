@@ -1,7 +1,7 @@
 {
     "id": "DFT-1014",
     "name": "Document the chain of custody",
-    "description": "- A process that tracks the movement of evidence through its collection, safeguarding, and analysis lifecycle by documenting each person who handled the evidence, the date/time it was collected or transferred, and the purpose for the transfer [DFCite-1147].",
+    "description": "A process that tracks the movement of evidence through its collection, safeguarding, and analysis lifecycle by documenting each person who handled the evidence, the date/time it was collected or transferred, and the purpose for the transfer [DFCite-1147].",
     "synonyms": [
         "CoC",
         "Continuity of evidence"

@@ -336,7 +336,7 @@
     {
         "id": "DFO-1020",
         "sort_order": 21,
-        "name": "Produce documentation",
+        "name": "Document digital forensic activities",
         "description": "Create documentation about techniques used and findings.",
         "techniques": [
             "DFT-1091",

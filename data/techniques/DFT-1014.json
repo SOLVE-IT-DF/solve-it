@@ -9,5 +9,10 @@
     "weaknesses": [],
     "CASE_output_classes": [],
     "CASE_input_classes": [],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1147",
+            "relevance_summary_280": "Contains a definition of 'chain of custody'"
+        }
+    ]
 }

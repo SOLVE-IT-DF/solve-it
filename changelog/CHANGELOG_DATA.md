@@ -3,6 +3,10 @@
 ## March 2026
 
 - **2026-03-27** Updated technique (AUTOIMPLEMENT): Chain of custody documentation (DFT-1014) [`aa6a465`](https://github.com/SOLVE-IT-DF/solve-it/commit/aa6a465)
+- **2026-03-27** Updated technique (AUTOIMPLEMENT): Document the chain of custody (DFT-1014) [`5e70b60`](https://github.com/SOLVE-IT-DF/solve-it/commit/5e70b60)
+- **2026-03-27** Updated technique: Document the chain of custody (DFT-1014) [`ebff7d1`](https://github.com/SOLVE-IT-DF/solve-it/commit/ebff7d1)
+- **2026-03-27** Updated technique: Document the chain of custody (DFT-1014) [`5fbddcd`](https://github.com/SOLVE-IT-DF/solve-it/commit/5fbddcd)
+- **2026-03-27** Updated technique: Document the chain of custody (DFT-1014) [`6a49337`](https://github.com/SOLVE-IT-DF/solve-it/commit/6a49337)
 - **2026-03-27** Added reference (AUTOIMPLEMENT): DFCite-1147 [`aa6a465`](https://github.com/SOLVE-IT-DF/solve-it/commit/aa6a465)
 - **2026-03-26** Updated technique (AUTOIMPLEMENT): Disk imaging (DFT-1002) [`e542842`](https://github.com/SOLVE-IT-DF/solve-it/commit/e542842)
 - **2026-03-24** Updated technique (AUTOIMPLEMENT): Access internal storage via bootable environment (DFT-1113) [`5b00701`](https://github.com/SOLVE-IT-DF/solve-it/commit/5b00701)

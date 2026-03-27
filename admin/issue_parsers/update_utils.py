@@ -106,4 +106,10 @@ def build_update_comment(item_type, item_id, item_name, before, after):
     lines.append("")
     lines.append("---")
     lines.append("*This comment was automatically generated from the update form.*")
+    lines.append("")
+    lines.append("> **Revising this proposal?** If discussion leads to changes, "
+                 "anyone can post a new comment containing a `### Proposed` heading "
+                 "followed by a `` ```json `` code block with the revised JSON. "
+                 "Auto-implement will use the **most recent** such comment. "
+                 "The bot will automatically validate the revised JSON.")
     return '\n'.join(lines)

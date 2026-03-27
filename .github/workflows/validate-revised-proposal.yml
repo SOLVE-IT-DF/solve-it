@@ -1,0 +1,49 @@
+name: Validate Revised Proposal
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+
+jobs:
+  validate:
+    # Only run when:
+    # 1. The comment contains a ### Proposed JSON block
+    # 2. The issue has an update content label
+    # 3. The commenter is not the bot (avoid infinite loops)
+    if: >-
+      contains(github.event.comment.body, '### Proposed') &&
+      (
+        contains(github.event.issue.labels.*.name, 'content: update technique') ||
+        contains(github.event.issue.labels.*.name, 'content: update weakness') ||
+        contains(github.event.issue.labels.*.name, 'content: update mitigation')
+      ) &&
+      github.event.comment.user.login != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: pip install pydantic pybtex
+
+    - name: Write comment body to file
+      run: printenv COMMENT_BODY > comment_body.md
+      env:
+        COMMENT_BODY: ${{ github.event.comment.body }}
+
+    - name: Validate revised proposal
+      run: |
+        python3 admin/validate_revised_proposal.py \
+          --issue-number "$ISSUE_NUMBER" \
+          --comment-body-file comment_body.md
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}

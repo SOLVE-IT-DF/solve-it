@@ -433,7 +433,15 @@ There are separate update forms for each content type:
 
 **Pipeline for DFCite relevance updates:** Preview → Auto-implement (no ID assignment needed)
 
-**Pipeline for other updates:** Currently processed manually by reviewers
+**Pipeline for other updates:** Preview → Discussion → Auto-implement
+
+**Revising a proposal after discussion:**
+If discussion on an update issue leads to changes from the original proposal, anyone can post a revised version:
+1. Copy the JSON from the bot's `### Proposed` block
+2. Edit it with the agreed-upon changes
+3. Post a new comment with a `### Proposed` heading followed by the revised JSON in a `` ```json `` code block
+4. The bot will automatically validate the revised JSON and post a result
+5. When ready, a reviewer adds the `autoimplement` label — auto-implement uses the **most recent** `### Proposed` comment
 
 ---
 

@@ -1299,7 +1299,7 @@ body.custom-mode .disabled-btn {{
   height: calc(100vh - 100px);
   background: var(--white);
   border-left: 1px solid var(--gray-200);
-  transition: right .25s ease, box-shadow .25s ease, visibility 0s .25s;
+  transition: right .25s ease, width .25s ease, box-shadow .25s ease, visibility 0s .25s;
   z-index: 400;
   display: flex;
   flex-direction: column;
@@ -1307,6 +1307,290 @@ body.custom-mode .disabled-btn {{
   visibility: hidden;
 }}
 .detail-panel.open {{ right: 0; box-shadow: var(--shadow-lg); visibility: visible; transition-delay: 0s; }}
+
+/* Expanded (slide-screenshot) mode: wider panel with grid layout */
+.detail-panel.expanded {{ width: 100vw; }}
+/* Grid-wrapper divs are transparent (display: contents) in normal mode */
+.dg-top-left, .dg-top-right, .dg-col-1, .dg-col-2, .dg-col-3, .dg-bottom, .dg-end,
+.dg-hero, .dg-wm, .dg-meta, .dg-refs {{ display: contents; }}
+/* Expanded: two-column top strip; middle row has a narrow left + wide 2-col-spanning right; full-width bottom; 3-col credits at end */
+.detail-panel.expanded .detail-body {{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+    "tl  tl  tr"
+    "c1  c2  c2"
+    "bot bot bot"
+    "end end end";
+  padding: 0;
+}}
+.detail-panel.expanded .dg-top-left  {{ display: flex; flex-direction: column; grid-area: tl; background: var(--gray-50); }}
+.detail-panel.expanded .dg-top-right {{ display: flex; flex-direction: column; grid-area: tr; background: var(--gray-50); border-left: 1px solid var(--gray-100); }}
+.detail-panel.expanded .dg-col-1     {{ display: flex; flex-direction: column; grid-area: c1; border-top: 1px solid var(--gray-100); }}
+.detail-panel.expanded .dg-col-2     {{ display: flex; flex-direction: column; grid-area: c2; border-top: 1px solid var(--gray-100); border-left: 1px solid var(--gray-100); }}
+.detail-panel.expanded .dg-col-3     {{ display: none; }}
+.detail-panel.expanded .dg-bottom    {{ display: flex; flex-direction: column; grid-area: bot; border-top: 1px solid var(--gray-100); }}
+.detail-panel.expanded .dg-end       {{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-area: end;
+  border-top: 1px solid var(--gray-100);
+}}
+.detail-panel.expanded .dg-end > .detail-section + .detail-section {{ border-left: 1px solid var(--gray-100); }}
+/* Let list sections in the wide c2 cell flow into 2 columns for compactness.
+   Override the default flex container since multi-column layout requires a block container. */
+.detail-panel.expanded .dg-col-2 .detail-list {{
+  display: block;
+  columns: 2;
+  column-gap: 8px;
+}}
+.detail-panel.expanded .dg-col-2 .detail-row {{
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+}}
+/* Constrain prose width in top-left for readability */
+.detail-panel.expanded .dg-top-left .detail-text {{
+  max-width: 90ch;
+  font-size: .95rem;
+  line-height: 1.7;
+}}
+.detail-panel.expanded .detail-section-title {{
+  font-size: .72rem;
+  letter-spacing: .08em;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--gray-200);
+  margin-bottom: 10px;
+}}
+.detail-panel.expanded .detail-text {{ font-size: .88rem; }}
+.detail-panel.expanded .detail-row {{ font-size: .84rem; }}
+/* Hero band styling for weakness / mitigation (and presentation mode) */
+.detail-hero-id {{
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}}
+.detail-hero-name {{
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 4px;
+  color: var(--gray-900);
+}}
+.detail-hero-stats {{
+  font-size: .82rem;
+  color: var(--gray-600);
+  margin-top: 10px;
+  line-height: 1.5;
+}}
+.detail-hero-stats strong {{ color: var(--gray-900); font-weight: 700; }}
+.detail-hero-tech {{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+}}
+.detail-hero-tech:hover {{ background: var(--gray-50); border-color: var(--blue); }}
+.detail-hero-tech .hero-tech-id {{
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  color: var(--blue);
+  font-weight: 700;
+}}
+.detail-hero-tech .hero-tech-name {{ font-size: .88rem; color: var(--gray-800); }}
+/* Mitigation-type grid swap: c1 wide, c2 narrow */
+.detail-panel.expanded.type-m .detail-body {{
+  grid-template-areas:
+    "tl  tl  tr"
+    "c1  c1  c2"
+    "bot bot bot"
+    "end end end";
+}}
+.detail-panel.expanded.type-m .dg-col-1 {{ border-left: none; border-right: 1px solid var(--gray-100); }}
+.detail-panel.expanded.type-m .dg-col-2 {{ border-left: none; }}
+.detail-panel.expanded.type-m .dg-col-1 .detail-list {{
+  display: block;
+  columns: 2;
+  column-gap: 8px;
+}}
+.detail-panel.expanded.type-m .dg-col-1 .detail-row {{
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+}}
+/* Presentation mode: two-column layout for slide screenshots */
+.detail-panel.present .detail-body {{
+  display: grid;
+  grid-template-columns: 1fr 2.2fr;
+  grid-template-areas:
+    "hero wm"
+    "meta wm"
+    "refs refs";
+  padding: 0;
+}}
+.detail-panel.present .dg-hero  {{ display: flex; flex-direction: column; grid-area: hero; background: var(--gray-50); border-right: 1px solid var(--gray-100); }}
+.detail-panel.present .dg-wm    {{ display: flex; flex-direction: column; grid-area: wm; padding: 16px 20px; }}
+.detail-panel.present .dg-meta  {{ display: flex; flex-direction: column; grid-area: meta; background: var(--gray-50); border-top: 1px solid var(--gray-100); border-right: 1px solid var(--gray-100); padding: 12px 18px; font-size: .78rem; color: var(--gray-600); }}
+.detail-panel.present .dg-refs  {{ display: flex; flex-direction: column; grid-area: refs; border-top: 1px solid var(--gray-100); }}
+/* In present mode: hide the non-present grid wrappers */
+.detail-panel.present .dg-top-left,
+.detail-panel.present .dg-top-right,
+.detail-panel.present .dg-col-1,
+.detail-panel.present .dg-col-2,
+.detail-panel.present .dg-col-3,
+.detail-panel.present .dg-bottom,
+.detail-panel.present .dg-end {{ display: none; }}
+/* And hide present-only wrappers when NOT in present mode (they're always in DOM) */
+.detail-panel:not(.present) .dg-hero,
+.detail-panel:not(.present) .dg-wm,
+.detail-panel:not(.present) .dg-meta,
+.detail-panel:not(.present) .dg-refs {{ display: none; }}
+/* Nested weakness+mitigation groups in presentation mode */
+.wm-group {{
+  border-left: 3px solid #d6a46e;
+  padding: 8px 0 8px 12px;
+  margin-bottom: 14px;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+}}
+.wm-group .wm-weakness {{
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}}
+.wm-group .wm-weakness:hover {{ background: var(--gray-50); }}
+.wm-group .wm-weakness-id {{
+  font-family: var(--font-mono);
+  font-size: .76rem;
+  color: #7b3f00;
+  font-weight: 700;
+  min-width: 72px;
+}}
+.wm-group .wm-weakness-name {{ font-size: .88rem; color: var(--gray-900); line-height: 1.35; }}
+.wm-group .wm-weakness-cats {{ font-size: .7rem; color: var(--gray-500); margin-left: 6px; }}
+.wm-mitigations {{
+  margin-top: 6px;
+  padding-left: 20px;
+  border-left: 2px dashed var(--green-border, #95d3a4);
+}}
+.wm-mitigations .wm-mit {{
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 2px 0;
+  cursor: pointer;
+  font-size: .78rem;
+}}
+.wm-mitigations .wm-mit:hover {{ background: var(--gray-50); }}
+.wm-mitigations .wm-mit::before {{
+  content: "\\21B3";
+  color: var(--gray-400);
+  font-size: .82rem;
+  margin-right: 2px;
+}}
+.wm-mitigations .wm-mit-id {{
+  font-family: var(--font-mono);
+  color: var(--green);
+  font-weight: 600;
+  min-width: 64px;
+}}
+.wm-mitigations .wm-mit-name {{ color: var(--gray-800); line-height: 1.3; }}
+.empty-nested {{
+  display: block;
+  padding: 4px 0 2px 20px;
+  font-size: .76rem;
+  color: var(--red);
+  font-style: italic;
+  opacity: .7;
+}}
+.wm-tree {{
+  columns: 2;
+  column-gap: 24px;
+  column-fill: balance;
+}}
+.wm-more-pill {{
+  display: inline-block;
+  margin-left: 64px;
+  margin-top: 4px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: var(--gray-100);
+  color: var(--gray-600);
+  font-size: .7rem;
+}}
+/* Collapsible details in presentation hero */
+.hero-details > summary::-webkit-details-marker {{ display: none; }}
+.hero-details > summary::marker {{ content: ''; }}
+.hero-details .hero-details-chev {{
+  display: inline-block;
+  font-size: .7rem;
+  color: var(--gray-500);
+  transition: transform .15s ease;
+  margin-right: 4px;
+}}
+.hero-details[open] .hero-details-chev {{ transform: rotate(90deg); }}
+/* Present button states */
+.detail-present {{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: var(--transition);
+}}
+.detail-present:hover {{ background: rgba(255,255,255,.2); color: #fff; }}
+.detail-panel.present .detail-present {{ background: rgba(110,180,255,.25); color: #fff; border-color: rgba(110,180,255,.5); }}
+/* CASE class tag wrapping for long URLs */
+.case-tag {{
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  text-decoration: none;
+  color: inherit;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+  max-width: 100%;
+  line-height: 1.4;
+}}
+.detail-expand {{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: var(--transition);
+}}
+.detail-expand:hover {{ background: rgba(255,255,255,.2); color: #fff; }}
+.detail-expand .icon-collapse {{ display: none; }}
+.detail-panel.expanded .detail-expand .icon-expand {{ display: none; }}
+.detail-panel.expanded .detail-expand .icon-collapse {{ display: block; }}
+/* Expand button hidden in the current UI (infrastructure retained for future use) */
+.detail-expand {{ display: none !important; }}
+/* Both wide-mode buttons hidden on narrow / mobile screens */
+@media (max-width: 620px) {{
+  .detail-expand, .detail-present {{ display: none !important; }}
+}}
 
 .detail-topbar {{
   background: var(--navy);
@@ -1421,13 +1705,15 @@ body.custom-mode .disabled-btn {{
   align-items: center;
   gap: 8px;
 }}
-.detail-section-title .badge {{
+.detail-section-title .badge,
+.detail-row .badge {{
   background: var(--gray-100);
   padding: 1px 6px;
   border-radius: 10px;
   font-size: .65rem;
   color: var(--gray-500);
 }}
+.detail-row .badge {{ margin-left: 6px; font-weight: 600; }}
 .detail-text {{
   font-size: .875rem;
   line-height: 1.65;
@@ -2046,6 +2332,13 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
       <button class="detail-link" id="dpLink" title="Copy link">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.715 6.542L3.343 7.914a3 3 0 104.243 4.243l1.828-1.829A3 3 0 008.586 5.5L8 6.086a1.002 1.002 0 00-.154.199 2 2 0 01.861 3.337L6.88 11.45a2 2 0 11-2.83-2.83l.793-.792a4.018 4.018 0 01-.128-1.287z"/><path d="M11.285 9.458l1.372-1.372a3 3 0 10-4.243-4.243L6.586 5.671A3 3 0 007.414 10.5l.586-.586a1.002 1.002 0 00.154-.199 2 2 0 01-.861-3.337L9.12 4.55a2 2 0 112.83 2.83l-.793.792c.112.42.155.855.128 1.287z"/></svg>
       </button>
+      <button class="detail-expand" id="dpExpand" title="Expand panel to full width">
+        <svg class="icon-expand" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 1.5h5a.5.5 0 010 1h-3.79l3.14 3.15a.5.5 0 01-.7.7L2 3.21V7a.5.5 0 01-1 0V2a.5.5 0 01.5-.5zm13 0a.5.5 0 01.5.5v5a.5.5 0 01-1 0V3.21l-3.15 3.14a.5.5 0 01-.7-.7L13.29 2.5H9.5a.5.5 0 010-1h5zM1.5 9a.5.5 0 01.5.5v3.79l3.15-3.14a.5.5 0 01.7.7L2.71 13.5H6.5a.5.5 0 010 1h-5a.5.5 0 01-.5-.5v-5A.5.5 0 011.5 9zm13 0a.5.5 0 01.5.5v5a.5.5 0 01-.5.5h-5a.5.5 0 010-1h3.79l-3.14-3.15a.5.5 0 01.7-.7L14 12.79V9.5a.5.5 0 01.5-.5z"/></svg>
+        <svg class="icon-collapse" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M6.5 1.5a.5.5 0 01.5.5v5a.5.5 0 01-.5.5h-5a.5.5 0 010-1h3.79L1.65 3.35a.5.5 0 11.7-.7L5.5 5.79V2a.5.5 0 01.5-.5h.5zm3 0a.5.5 0 01.5.5v3.79l3.15-3.14a.5.5 0 01.7.7L10.71 6.5H14.5a.5.5 0 010 1h-5a.5.5 0 01-.5-.5v-5a.5.5 0 01.5-.5zM2 8.5h5a.5.5 0 01.5.5v5a.5.5 0 01-1 0v-3.79l-3.15 3.14a.5.5 0 01-.7-.7L5.79 9.5H2a.5.5 0 010-1zm7 0h5a.5.5 0 010 1h-3.79l3.14 3.15a.5.5 0 01-.7.7L9.5 10.21V14a.5.5 0 01-1 0V9a.5.5 0 01.5-.5z"/></svg>
+      </button>
+      <button class="detail-present hidden" id="dpPresent" title="Switch to presentation view (weaknesses with mitigations nested \u2013 for slide screenshots)">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M14 2a1 1 0 011 1v7a1 1 0 01-1 1H9.05l.9 2.7.95-.3a.5.5 0 01.32.95l-3 1a.5.5 0 01-.63-.32l-1-3a.5.5 0 11.95-.31l.3.91.85-2.63H2a1 1 0 01-1-1V3a1 1 0 011-1h12zm-1 1H3v6h10V3z"/></svg>
+      </button>
       <button class="detail-close" id="dpClose" title="Close (Esc)">&#10005;</button>
     </div>
     <div class="detail-body" id="dp-body"></div>
@@ -2377,6 +2670,7 @@ function updateBtn(type, obj) {{
   const srcUrl = `${{REPO_URL}}/blob/main/data/${{folder}}/${{obj.id}}.json`;
   const el = document.createElement('div');
   el.className = 'detail-section';
+  el.dataset.col = 'top-left';
   el.style.cssText = 'padding:12px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap';
 
   if (CUSTOM_MODE) {{
@@ -2922,6 +3216,9 @@ function showDetail(id, type, skipHash) {{
   if (S.selected) detailHistory.push({{...S.selected}});
   S.selected = {{id, type}};
   if (!skipHash) history.replaceState(null, '', '#' + id);
+  // Any new selection starts in narrow sidebar view; presentation is always an explicit click
+  document.getElementById('detailPanel').classList.remove('expanded', 'present');
+  if (typeof updateViewButtonTitles === 'function') updateViewButtonTitles();
   updateSelectionHighlights();
   updateBackButton();
 
@@ -2938,7 +3235,10 @@ function showDetail(id, type, skipHash) {{
     document.getElementById('dp-name').textContent = truncName;
     document.getElementById('dp-objective').style.display = 'none';
     document.getElementById('dp-original-objective').style.display = 'none';
-    document.getElementById('dp-body').innerHTML = buildReferenceDetail(id, refData, cite);
+    const refBody2 = buildReferenceDetail(id, refData, cite);
+    document.getElementById('dp-body').innerHTML = refBody2;
+    window._dpFlatHtml = refBody2;
+    if (document.getElementById('detailPanel').classList.contains('expanded')) reorganizeForGrid();
     document.getElementById('detailPanel').classList.add('open');
     document.getElementById('mainArea').classList.add('shifted');
     document.body.classList.add('panel-open');
@@ -2982,9 +3282,17 @@ function showDetail(id, type, skipHash) {{
     dpOrigObj.style.display = 'none';
   }}
 
+  const panel = document.getElementById('detailPanel');
+  // Present mode only makes sense for techniques — clear it when switching away
+  if (type !== 'technique') panel.classList.remove('present');
+  panel.classList.toggle('type-m', type === 'mitigation');
+  document.getElementById('dpPresent').classList.toggle('hidden', type !== 'technique');
+
   let body = '';
 
-  if (type === 'technique') {{
+  if (type === 'technique' && panel.classList.contains('present')) {{
+    body += buildTechniquePresentationDetail(obj);
+  }} else if (type === 'technique') {{
     body += buildTechniqueDetail(obj);
   }} else if (type === 'weakness') {{
     body += buildWeaknessDetail(obj);
@@ -2993,9 +3301,32 @@ function showDetail(id, type, skipHash) {{
   }}
 
   document.getElementById('dp-body').innerHTML = body;
-  document.getElementById('detailPanel').classList.add('open');
+  window._dpFlatHtml = body;
+  if (panel.classList.contains('expanded')) reorganizeForGrid();
+  panel.classList.add('open');
   document.getElementById('mainArea').classList.add('shifted');
   document.body.classList.add('panel-open');
+}}
+
+function reorganizeForGrid() {{
+  const body = document.getElementById('dp-body');
+  const buckets = {{'top-left':[], 'top-right':[], c1:[], c2:[], c3:[], bot:[], end:[], hero:[], wm:[], meta:[], refs:[]}};
+  [...body.children].forEach(el => {{
+    const col = (el.dataset && el.dataset.col) || 'top-left';
+    (buckets[col] || buckets['top-left']).push(el);
+  }});
+  body.innerHTML = '';
+  [['top-left','dg-top-left'], ['top-right','dg-top-right'], ['c1','dg-col-1'], ['c2','dg-col-2'], ['c3','dg-col-3'], ['bot','dg-bottom'], ['end','dg-end'], ['hero','dg-hero'], ['wm','dg-wm'], ['meta','dg-meta'], ['refs','dg-refs']].forEach(([key, cls]) => {{
+    const w = document.createElement('div');
+    w.className = cls;
+    buckets[key].forEach(el => w.appendChild(el));
+    body.appendChild(w);
+  }});
+}}
+
+function unwrapGrid() {{
+  const body = document.getElementById('dp-body');
+  if (window._dpFlatHtml != null) body.innerHTML = window._dpFlatHtml;
 }}
 
 function buildCreditsHtml(item) {{
@@ -3011,19 +3342,19 @@ function buildCreditsHtml(item) {{
     if (edits)    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{edits}}</td></tr>`;
     if (created)  rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{created}}</td></tr>`;
     if (modified) rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Last Modified</td><td>${{modified}}</td></tr>`;
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="end">
       <div class="detail-section-title">Properties</div>
       <table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>
     </div>`;
   }}
   if (!HIDDEN_FIELDS.has('contributors') && contributors.length) {{
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="end">
       <div class="detail-section-title">Contributors <span class="badge">${{contributors.length}}</span></div>
       <div class="detail-tags">${{contributors.map(n => `<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div>
     </div>`;
   }}
   if (!HIDDEN_FIELDS.has('reviewers') && reviewers.length) {{
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="end">
       <div class="detail-section-title">Reviewers <span class="badge">${{reviewers.length}}</span></div>
       <div class="detail-tags">${{reviewers.map(n => `<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div>
     </div>`;
@@ -3035,14 +3366,14 @@ function buildTechniqueDetail(t) {{
   let html = updateBtn('technique', t);
 
   if (!HIDDEN_FIELDS.has('description')) {{
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="top-left">
       <div class="detail-section-title">Description</div>
       ${{t.description ? `<div class="detail-text">${{resolveInlineCites(t.description)}}</div>` : '<div class="empty-message">No description.</div>'}}
     </div>`;
   }}
 
   if (!HIDDEN_FIELDS.has('details')) {{
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="top-left">
       <div class="detail-section-title">Details</div>
       ${{t.details ? `<div class="detail-text">${{resolveInlineCites(t.details)}}</div>` : '<div class="empty-message">No details.</div>'}}
     </div>`;
@@ -3050,7 +3381,7 @@ function buildTechniqueDetail(t) {{
 
   if (!HIDDEN_FIELDS.has('synonyms')) {{
     const syns = t.synonyms || [];
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="c1">
       <div class="detail-section-title">Also Known As <span class="badge">${{syns.length}}</span></div>
       ${{syns.length ? `<div class="detail-tags">${{syns.map(s=>`<span class="detail-tag">${{esc(s)}}</span>`).join('')}}</div>` : '<div class="empty-message">No synonyms.</div>'}}
     </div>`;
@@ -3059,7 +3390,7 @@ function buildTechniqueDetail(t) {{
   // Sub-techniques
   if (!HIDDEN_FIELDS.has('subtechniques')) {{
     const subs = t.subtechniques || [];
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="c1">
       <div class="detail-section-title">Sub-techniques <span class="badge">${{subs.length}}</span></div>
       ${{!subs.length ? '<div class="empty-message">No sub-techniques.</div>' : ''}}
       <div class="detail-list">
@@ -3076,7 +3407,7 @@ function buildTechniqueDetail(t) {{
 
   if (!HIDDEN_FIELDS.has('examples')) {{
     const exs = t.examples || [];
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="c1">
       <div class="detail-section-title">Examples <span class="badge">${{exs.length}}</span></div>
       ${{exs.length ? exs.map(e=>`<div class="detail-text" style="padding:3px 0;border-bottom:1px solid #f0f0f0">${{esc(e)}}</div>`).join('') : '<div class="empty-message">No examples.</div>'}}
     </div>`;
@@ -3085,7 +3416,7 @@ function buildTechniqueDetail(t) {{
   // Potential Weaknesses
   if (!HIDDEN_FIELDS.has('weaknesses')) {{
     const wids = t.weaknesses || [];
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="c2">
       <div class="detail-section-title">Potential Weaknesses <span class="badge">${{wids.length}}</span></div>
       ${{!wids.length ? '<div class="empty-message">No weaknesses documented.</div>' : ''}}
       <div class="detail-list">
@@ -3094,10 +3425,12 @@ function buildTechniqueDetail(t) {{
           const cats = w ? wCats(w) : [];
           const wpfx = w && w._extension_prefix ? w._extension_prefix : '';
           const wsfx = w && w._extension_suffix ? w._extension_suffix : '';
+          const mcount = (w && w.mitigations) ? w.mitigations.length : 0;
           return `<div class="detail-row" data-show-id="${{esc(wid)}}" data-show-type="weakness">
             <span class="detail-row-id w">${{esc(wid)}}</span>
             <span class="detail-row-name">
               ${{wpfx}}${{w ? esc(w.name) : esc(wid)}}${{wsfx}}
+              <span class="badge" title="${{mcount}} mitigation${{mcount===1?'':'s'}}">${{mcount}}</span>
               ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.map(c=>c.replace('ASTM_','')).join(', ')}}</small>` : ''}}
             </span>
           </div>`;
@@ -3108,26 +3441,24 @@ function buildTechniqueDetail(t) {{
 
   if (!HIDDEN_FIELDS.has('CASE_input_classes')) {{
     const cin = t.CASE_input_classes || [];
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="top-right">
       <div class="detail-section-title">CASE Input Classes <span class="badge">${{cin.length}}</span></div>
-      ${{cin.length ? `<div class="detail-tags">${{cin.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE input classes.</div>'}}
+      ${{cin.length ? `<div class="detail-tags">${{cin.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag case-tag">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE input classes.</div>'}}
     </div>`;
   }}
 
   if (!HIDDEN_FIELDS.has('CASE_output_classes')) {{
     const cout = t.CASE_output_classes || [];
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="top-right">
       <div class="detail-section-title">CASE Output Classes <span class="badge">${{cout.length}}</span></div>
-      ${{cout.length ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag" style="font-family:var(--font-mono);font-size:.72rem;text-decoration:none;color:inherit">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE output classes.</div>'}}
+      ${{cout.length ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag case-tag">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE output classes.</div>'}}
     </div>`;
   }}
-
-  html += buildCreditsHtml(t);
 
   // References
   if (!HIDDEN_FIELDS.has('references')) {{
     const refs = t.references || [];
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="bot">
       <div class="detail-section-title">References <span style="text-transform:none">(DFCites)</span> <span class="badge">${{refs.length}}</span></div>
       ${{refs.length ? refs.map(r => renderRef(r, 'technique', t.id)).join('') : '<div class="empty-message">No references.</div>'}}
     </div>`;
@@ -3135,11 +3466,13 @@ function buildTechniqueDetail(t) {{
 
   // SOLVE-IT-X extension content
   if (t._extension_html) {{
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="bot">
       <div class="detail-section-title">SOLVE-IT-X</div>
       <div class="detail-text">${{t._extension_html}}</div>
     </div>`;
   }}
+
+  html += buildCreditsHtml(t);
 
   return html;
 }}
@@ -3148,16 +3481,37 @@ function buildWeaknessDetail(w) {{
   let html = updateBtn('weakness', w);
 
   const cats = wCats(w);
-  html += `<div class="detail-section">
+  const tids = IDX.weakness_to_techniques[w.id] || [];
+  const mids = w.mitigations || [];
+
+  // Hero: categories + summary stats
+  html += `<div class="detail-section" data-col="top-left">
     <div class="detail-section-title">Error Categories <span class="badge">${{cats.length}}</span></div>
     ${{cats.length ? `<div class="cat-grid">
       ${{cats.map(c => `<span class="cat-tag" style="font-size:.78rem;padding:4px 10px" title="${{esc(c)}}">${{esc(c.replace('ASTM_',''))}}<br><small style="font-weight:400;font-family:var(--font-body)">${{esc(CAT_LABELS[c]||'')}}</small></span>`).join('')}}
     </div>` : '<div class="empty-message">No error categories.</div>'}}
+    <div class="detail-hero-stats">Affects <strong>${{tids.length}}</strong> technique${{tids.length===1?'':'s'}} · Addressed by <strong>${{mids.length}}</strong> mitigation${{mids.length===1?'':'s'}} · <strong>${{cats.length}}</strong> ASTM categor${{cats.length===1?'y':'ies'}}</div>
   </div>`;
 
+  // Stats / metadata card at top-right
+  const edits = w._edits || 0;
+  const created = w._created || '';
+  const modified = w._modified || '';
+  if (edits || created || modified || tids.length || mids.length) {{
+    let rows = '';
+    if (edits)    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{edits}}</td></tr>`;
+    if (created)  rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{created}}</td></tr>`;
+    if (modified) rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Last Modified</td><td>${{modified}}</td></tr>`;
+    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Techniques</td><td>${{tids.length}}</td></tr>`;
+    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Mitigations</td><td>${{mids.length}}</td></tr>`;
+    html += `<div class="detail-section" data-col="top-right">
+      <div class="detail-section-title">Summary</div>
+      <table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>
+    </div>`;
+  }}
+
   // Techniques that include this weakness
-  const tids = IDX.weakness_to_techniques[w.id] || [];
-  html += `<div class="detail-section">
+  html += `<div class="detail-section" data-col="c1">
     <div class="detail-section-title">Techniques <span class="badge">${{tids.length}}</span></div>
     ${{!tids.length ? '<div class="empty-message">No techniques reference this weakness.</div>' : ''}}
     <div class="detail-list">
@@ -3171,9 +3525,8 @@ function buildWeaknessDetail(w) {{
     </div>
   </div>`;
 
-  // Mitigations
-  const mids = w.mitigations || [];
-  html += `<div class="detail-section">
+  // Mitigations — with inline technique-link badge
+  html += `<div class="detail-section" data-col="c2">
     <div class="detail-section-title">Mitigations <span class="badge">${{mids.length}}</span></div>
     ${{!mids.length ? '<div class="empty-message">No mitigations documented.</div>' : ''}}
     <div class="detail-list">
@@ -3181,29 +3534,34 @@ function buildWeaknessDetail(w) {{
         const m = MMap[mid];
         const mpfx = m && m._extension_prefix ? m._extension_prefix : '';
         const msfx = m && m._extension_suffix ? m._extension_suffix : '';
+        const mtid = m && m.technique ? m.technique : '';
+        const mtname = mtid && TMap[mtid] ? TMap[mtid].name : '';
         return `<div class="detail-row" data-show-id="${{esc(mid)}}" data-show-type="mitigation">
           <span class="detail-row-id m">${{esc(mid)}}</span>
-          <span class="detail-row-name">${{mpfx}}${{esc(m ? m.name : mid)}}${{msfx}}</span>
+          <span class="detail-row-name">
+            ${{mpfx}}${{esc(m ? m.name : mid)}}${{msfx}}
+            ${{mtid ? `<br><small style="color:var(--gray-500)">via <span style="font-family:var(--font-mono);color:var(--blue);font-weight:600">${{esc(mtid)}}</span> ${{esc(mtname)}}</small>` : ''}}
+          </span>
         </div>`;
       }}).join('')}}
     </div>
   </div>`;
 
-  html += buildCreditsHtml(w);
-
   const wrefs = w.references || [];
-  html += `<div class="detail-section">
+  html += `<div class="detail-section" data-col="bot">
     <div class="detail-section-title">References <span style="text-transform:none">(DFCites)</span> <span class="badge">${{wrefs.length}}</span></div>
     ${{wrefs.length ? wrefs.map(r => renderRef(r, 'weakness', w.id)).join('') : '<div class="empty-message">No references.</div>'}}
   </div>`;
 
   // SOLVE-IT-X extension content
   if (w._extension_html) {{
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="bot">
       <div class="detail-section-title">SOLVE-IT-X</div>
       <div class="detail-text">${{w._extension_html}}</div>
     </div>`;
   }}
+
+  html += buildCreditsHtml(w);
 
   return html;
 }}
@@ -3211,9 +3569,42 @@ function buildWeaknessDetail(w) {{
 function buildMitigationDetail(m) {{
   let html = updateBtn('mitigation', m);
 
-  // Weaknesses addressed
+  // Pre-compute counts for hero + stats
   const wids = IDX.mitigation_to_weaknesses[m.id] || [];
-  html += `<div class="detail-section">
+  const tset = new Set();
+  wids.forEach(wid => (IDX.weakness_to_techniques[wid]||[]).forEach(tid => tset.add(tid)));
+  const tids = Array.from(tset);
+  const mtechName = m.technique && TMap[m.technique] ? TMap[m.technique].name : '';
+
+  // Hero (top-left, spans 2 cols in CSS): Implemented By + stats summary
+  html += `<div class="detail-section" data-col="top-left">
+    <div class="detail-section-title">Implemented By Technique</div>
+    ${{m.technique ? `<div class="detail-hero-tech" data-show-id="${{esc(m.technique)}}" data-show-type="technique">
+      <span class="hero-tech-id">${{esc(m.technique)}}</span>
+      <span class="hero-tech-name">${{esc(mtechName || m.technique)}}</span>
+    </div>` : '<div class="empty-message">No linked technique.</div>'}}
+    <div class="detail-hero-stats">Addresses <strong>${{wids.length}}</strong> weakness${{wids.length===1?'':'es'}} · Applies to <strong>${{tids.length}}</strong> technique${{tids.length===1?'':'s'}}</div>
+  </div>`;
+
+  // Stats / metadata card at top-right
+  const edits = m._edits || 0;
+  const created = m._created || '';
+  const modified = m._modified || '';
+  if (edits || created || modified || wids.length || tids.length) {{
+    let rows = '';
+    if (edits)    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{edits}}</td></tr>`;
+    if (created)  rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{created}}</td></tr>`;
+    if (modified) rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Last Modified</td><td>${{modified}}</td></tr>`;
+    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Weaknesses</td><td>${{wids.length}}</td></tr>`;
+    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Techniques</td><td>${{tids.length}}</td></tr>`;
+    html += `<div class="detail-section" data-col="top-right">
+      <div class="detail-section-title">Summary</div>
+      <table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>
+    </div>`;
+  }}
+
+  // Weaknesses addressed (wide — c1 spans 2 cols under .type-m grid swap)
+  html += `<div class="detail-section" data-col="c1">
     <div class="detail-section-title">Weaknesses Addressed <span class="badge">${{wids.length}}</span></div>
     ${{!wids.length ? '<div class="empty-message">No weaknesses reference this mitigation.</div>' : ''}}
     <div class="detail-list">
@@ -3222,10 +3613,12 @@ function buildMitigationDetail(m) {{
         const cats = w ? wCats(w) : [];
         const wpfx = w && w._extension_prefix ? w._extension_prefix : '';
         const wsfx = w && w._extension_suffix ? w._extension_suffix : '';
+        const mcount = (w && w.mitigations) ? w.mitigations.length : 0;
         return `<div class="detail-row" data-show-id="${{esc(wid)}}" data-show-type="weakness">
           <span class="detail-row-id w">${{esc(wid)}}</span>
           <span class="detail-row-name">
             ${{wpfx}}${{esc(w ? w.name : wid)}}${{wsfx}}
+            <span class="badge" title="${{mcount}} mitigation${{mcount===1?'':'s'}}">${{mcount}}</span>
             ${{cats.length ? `<br><small style="color:var(--gray-500)">${{cats.map(c=>c.replace('ASTM_','')).join(', ')}}</small>` : ''}}
           </span>
         </div>`;
@@ -3233,11 +3626,8 @@ function buildMitigationDetail(m) {{
     </div>
   </div>`;
 
-  // Techniques via weaknesses
-  const tset = new Set();
-  wids.forEach(wid => (IDX.weakness_to_techniques[wid]||[]).forEach(tid => tset.add(tid)));
-  const tids = Array.from(tset);
-  html += `<div class="detail-section">
+  // Applies To Techniques (narrow — c2)
+  html += `<div class="detail-section" data-col="c2">
     <div class="detail-section-title">Applies To Techniques <span class="badge">${{tids.length}}</span></div>
     ${{!tids.length ? '<div class="empty-message">No techniques.</div>' : ''}}
     <div class="detail-list">
@@ -3251,27 +3641,186 @@ function buildMitigationDetail(m) {{
     </div>
   </div>`;
 
-  html += `<div class="detail-section">
-    <div class="detail-section-title">Implemented By Technique</div>
-    ${{m.technique ? `<div class="detail-row" data-show-id="${{esc(m.technique)}}" data-show-type="technique">
-      <span class="detail-row-id t">${{esc(m.technique)}}</span>
-      <span class="detail-row-name">${{esc(TMap[m.technique] ? TMap[m.technique].name : m.technique)}}</span>
-    </div>` : '<div class="empty-message">No linked technique.</div>'}}
-  </div>`;
-
-  html += buildCreditsHtml(m);
-
   const mrefs = m.references || [];
-  html += `<div class="detail-section">
+  html += `<div class="detail-section" data-col="bot">
     <div class="detail-section-title">References <span style="text-transform:none">(DFCites)</span> <span class="badge">${{mrefs.length}}</span></div>
     ${{mrefs.length ? mrefs.map(r => renderRef(r, 'mitigation', m.id)).join('') : '<div class="empty-message">No references.</div>'}}
   </div>`;
 
   // SOLVE-IT-X extension content
   if (m._extension_html) {{
-    html += `<div class="detail-section">
+    html += `<div class="detail-section" data-col="bot">
       <div class="detail-section-title">SOLVE-IT-X</div>
       <div class="detail-text">${{m._extension_html}}</div>
+    </div>`;
+  }}
+
+  html += buildCreditsHtml(m);
+
+  return html;
+}}
+
+/* Presentation (slide screenshot) builder for techniques.
+   Layout: left hero (description + AKA + sub-techs + CASE I/O), right weakness→mitigation tree, bottom refs + meta. */
+function buildTechniquePresentationDetail(t) {{
+  const MAX_MITS_PER_WEAKNESS = 6;
+  const wids = t.weaknesses || [];
+  const refs = t.references || [];
+  const contributors = t._contributors || [];
+  const reviewers = t._reviewers || [];
+
+  let html = '';
+
+  // ── Hero (left column) ──
+  let hero = '';
+  hero += updateBtn('technique', t).replace('data-col="top-left"', 'data-col="hero"');
+  if (t.description) {{
+    hero += `<div class="detail-section" data-col="hero">
+      <div class="detail-section-title">Description</div>
+      <div class="detail-text">${{resolveInlineCites(t.description)}}</div>
+    </div>`;
+  }}
+  if (t.details) {{
+    hero += `<div class="detail-section" data-col="hero" style="padding-top:8px">
+      <details class="hero-details">
+        <summary class="detail-section-title" style="cursor:pointer;user-select:none;list-style:none">
+          <span class="hero-details-chev">\u25B8</span> Details
+        </summary>
+        <div class="detail-text" style="margin-top:8px">${{resolveInlineCites(t.details)}}</div>
+      </details>
+    </div>`;
+  }}
+  const syns = t.synonyms || [];
+  if (syns.length) {{
+    hero += `<div class="detail-section" data-col="hero">
+      <div class="detail-section-title">Also Known As</div>
+      <div class="detail-tags">${{syns.map(s=>`<span class="detail-tag">${{esc(s)}}</span>`).join('')}}</div>
+    </div>`;
+  }}
+  const subs = t.subtechniques || [];
+  if (subs.length) {{
+    hero += `<div class="detail-section" data-col="hero">
+      <div class="detail-section-title">Sub-techniques <span class="badge">${{subs.length}}</span></div>
+      <div class="detail-list">
+        ${{subs.map(sid => {{
+          const st = TMap[sid];
+          return `<div class="detail-row" data-show-id="${{esc(sid)}}" data-show-type="technique">
+            <span class="tech-cell-sub" style="font-size:.72rem;padding:2px 8px;min-width:52px;text-align:center">${{esc(sid)}}</span>
+            <span class="detail-row-name">${{esc(st ? st.name : sid)}}</span>
+          </div>`;
+        }}).join('')}}
+      </div>
+    </div>`;
+  }}
+  const exs = t.examples || [];
+  if (exs.length) {{
+    hero += `<div class="detail-section" data-col="hero" style="padding-top:8px">
+      <details class="hero-details">
+        <summary class="detail-section-title" style="cursor:pointer;user-select:none;list-style:none">
+          <span class="hero-details-chev">\u25B8</span> Examples <span class="badge">${{exs.length}}</span>
+        </summary>
+        <div style="margin-top:8px">
+          ${{exs.map(e=>`<div class="detail-text" style="padding:3px 0;border-bottom:1px solid #f0f0f0">${{esc(e)}}</div>`).join('')}}
+        </div>
+      </details>
+    </div>`;
+  }}
+  const _edits = t._edits || 0, _created = t._created || '', _modified = t._modified || '';
+  if (_edits || _created || _modified || contributors.length > 6 || reviewers.length > 6) {{
+    let _rows = '';
+    if (_edits)    _rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{_edits}}</td></tr>`;
+    if (_created)  _rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{_created}}</td></tr>`;
+    if (_modified) _rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Last Modified</td><td>${{_modified}}</td></tr>`;
+    hero += `<div class="detail-section" data-col="hero" style="padding-top:8px">
+      <details class="hero-details">
+        <summary class="detail-section-title" style="cursor:pointer;user-select:none;list-style:none">
+          <span class="hero-details-chev">\u25B8</span> Properties &amp; full credits
+        </summary>
+        ${{_rows ? `<table style="font-family:var(--font-mono);font-size:.82rem;margin-top:8px">${{_rows}}</table>` : ''}}
+        ${{contributors.length > 6 ? `<div style="margin-top:8px"><small style="color:var(--gray-500);font-weight:600">All contributors (${{contributors.length}})</small><div class="detail-tags" style="margin-top:4px">${{contributors.map(n=>`<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div></div>` : ''}}
+        ${{reviewers.length > 6 ? `<div style="margin-top:6px"><small style="color:var(--gray-500);font-weight:600">All reviewers (${{reviewers.length}})</small><div class="detail-tags" style="margin-top:4px">${{reviewers.map(n=>`<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div></div>` : ''}}
+      </details>
+    </div>`;
+  }}
+  const cin = t.CASE_input_classes || [];
+  const cout = t.CASE_output_classes || [];
+  hero += `<div class="detail-section" data-col="hero">
+    <div class="detail-section-title">CASE Classes</div>
+    <div style="margin-bottom:6px">
+      <small style="color:var(--gray-500);font-weight:600">Input</small>
+      ${{cin.length
+        ? `<div class="detail-tags">${{cin.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag case-tag">${{esc(c.split('/').slice(-3).join('/'))}}</a>`).join('')}}</div>`
+        : `<div class="empty-message" style="font-size:.75rem">None</div>`}}
+    </div>
+    <div>
+      <small style="color:var(--gray-500);font-weight:600">Output</small>
+      ${{cout.length
+        ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag case-tag">${{esc(c.split('/').slice(-3).join('/'))}}</a>`).join('')}}</div>`
+        : `<div class="empty-message" style="font-size:.75rem">None</div>`}}
+    </div>
+  </div>`;
+  html += hero;
+
+  // ── Weakness → Mitigation tree (right column) ──
+  let wm = `<div class="detail-section" data-col="wm">
+    <div class="detail-section-title">Weaknesses &amp; Mitigations <span class="badge">${{wids.length}}</span></div>
+    ${{!wids.length ? '<div class="empty-message">No weaknesses documented.</div>' : ''}}
+    <div class="wm-tree">
+      ${{wids.map(wid => {{
+        const w = WMap[wid];
+        const cats = w ? wCats(w) : [];
+        const wpfx = w && w._extension_prefix ? w._extension_prefix : '';
+        const wsfx = w && w._extension_suffix ? w._extension_suffix : '';
+        const mids = (w && w.mitigations) ? w.mitigations : [];
+        const shown = mids.slice(0, MAX_MITS_PER_WEAKNESS);
+        const overflow = mids.length - shown.length;
+        return `<div class="wm-group">
+          <div class="wm-weakness" data-show-id="${{esc(wid)}}" data-show-type="weakness">
+            <span class="wm-weakness-id">${{esc(wid)}}</span>
+            <span class="wm-weakness-name">
+              ${{wpfx}}${{w ? esc(w.name) : esc(wid)}}${{wsfx}}
+              ${{cats.length ? `<span class="wm-weakness-cats">[${{cats.map(c=>c.replace('ASTM_','')).join(', ')}}]</span>` : ''}}
+            </span>
+          </div>
+          ${{mids.length === 0 ? `<div class="empty-nested">No documented mitigation</div>` : `
+          <div class="wm-mitigations">
+            ${{shown.map(mid => {{
+              const m = MMap[mid];
+              const mpfx = m && m._extension_prefix ? m._extension_prefix : '';
+              const msfx = m && m._extension_suffix ? m._extension_suffix : '';
+              return `<div class="wm-mit" data-show-id="${{esc(mid)}}" data-show-type="mitigation">
+                <span class="wm-mit-id">${{esc(mid)}}</span>
+                <span class="wm-mit-name">${{mpfx}}${{esc(m ? m.name : mid)}}${{msfx}}</span>
+              </div>`;
+            }}).join('')}}
+            ${{overflow > 0 ? `<div class="wm-more-pill">+${{overflow}} more mitigation${{overflow===1?'':'s'}}</div>` : ''}}
+          </div>`}}
+        </div>`;
+      }}).join('')}}
+    </div>
+  </div>`;
+  html += wm;
+
+  // ── Meta footer (left-bottom): compact counts + separate contributor/reviewer lines ──
+  const mitTotal = wids.reduce((sum, wid) => sum + ((WMap[wid] && WMap[wid].mitigations) ? WMap[wid].mitigations.length : 0), 0);
+  const CAP = 6;
+  const contribsInline = contributors.slice(0, CAP);
+  const contribsExtra = Math.max(0, contributors.length - contribsInline.length);
+  const reviewersInline = reviewers.slice(0, CAP);
+  const reviewersExtra = Math.max(0, reviewers.length - reviewersInline.length);
+  html += `<div class="detail-section" data-col="meta" style="border-bottom:none">
+    <div style="line-height:1.5">
+      <strong>${{wids.length}}</strong> weakness${{wids.length===1?'':'es'}} · <strong>${{mitTotal}}</strong> mitigation${{mitTotal===1?'':'s'}} · <strong>${{refs.length}}</strong> reference${{refs.length===1?'':'s'}}
+    </div>
+    ${{contribsInline.length ? `<div style="margin-top:6px"><small style="color:var(--gray-500)">Contributors:</small> ${{contribsInline.map(n=>`<span class="credit-tag" data-person="${{esc(n)}}" style="font-size:.72rem">${{esc(n)}}</span>`).join(' ')}}${{contribsExtra ? ` <span class="badge">+${{contribsExtra}}</span>` : ''}}</div>` : ''}}
+    ${{reviewersInline.length ? `<div style="margin-top:4px"><small style="color:var(--gray-500)">Reviewers:</small> ${{reviewersInline.map(n=>`<span class="credit-tag" data-person="${{esc(n)}}" style="font-size:.72rem">${{esc(n)}}</span>`).join(' ')}}${{reviewersExtra ? ` <span class="badge">+${{reviewersExtra}}</span>` : ''}}</div>` : ''}}
+  </div>`;
+
+  // ── References (kept, spans full width) ──
+  if (refs.length) {{
+    html += `<div class="detail-section" data-col="refs">
+      <div class="detail-section-title">References <span style="text-transform:none">(DFCites)</span> <span class="badge">${{refs.length}}</span></div>
+      ${{refs.map(r => renderRef(r, 'technique', t.id)).join('')}}
     </div>`;
   }}
 
@@ -3416,6 +3965,9 @@ function goBack() {{
   if (!prev) return closeDetail();
   // Navigate without pushing to history (avoid showDetail's push)
   S.selected = prev;
+  // Back-navigation also returns to narrow sidebar
+  document.getElementById('detailPanel').classList.remove('expanded', 'present');
+  if (typeof updateViewButtonTitles === 'function') updateViewButtonTitles();
   updateSelectionHighlights();
   updateBackButton();
 
@@ -3432,7 +3984,10 @@ function goBack() {{
     document.getElementById('dp-name').textContent = truncName;
     document.getElementById('dp-objective').style.display = 'none';
     document.getElementById('dp-original-objective').style.display = 'none';
-    document.getElementById('dp-body').innerHTML = buildReferenceDetail(prev.id, refData, cite);
+    const refBody = buildReferenceDetail(prev.id, refData, cite);
+    document.getElementById('dp-body').innerHTML = refBody;
+    window._dpFlatHtml = refBody;
+    if (document.getElementById('detailPanel').classList.contains('expanded')) reorganizeForGrid();
     return;
   }}
 
@@ -3472,11 +4027,19 @@ function goBack() {{
     dpOrigObj2.style.display = 'none';
   }}
 
+  const panel = document.getElementById('detailPanel');
+  if (prev.type !== 'technique') panel.classList.remove('present');
+  panel.classList.toggle('type-m', prev.type === 'mitigation');
+  document.getElementById('dpPresent').classList.toggle('hidden', prev.type !== 'technique');
+
   let body = '';
-  if (prev.type === 'technique') body = buildTechniqueDetail(obj);
+  if (prev.type === 'technique' && panel.classList.contains('present')) body = buildTechniquePresentationDetail(obj);
+  else if (prev.type === 'technique') body = buildTechniqueDetail(obj);
   else if (prev.type === 'weakness') body = buildWeaknessDetail(obj);
   else if (prev.type === 'mitigation') body = buildMitigationDetail(obj);
   document.getElementById('dp-body').innerHTML = body;
+  window._dpFlatHtml = body;
+  if (panel.classList.contains('expanded')) reorganizeForGrid();
 }}
 
 function updateBackButton() {{
@@ -3752,6 +4315,44 @@ searchClear.addEventListener('click', () => {{
 
 document.getElementById('dpClose').addEventListener('click', () => closeDetail());
 document.getElementById('dpBack').addEventListener('click', goBack);
+function updateViewButtonTitles() {{
+  const panel = document.getElementById('detailPanel');
+  const expanded = panel.classList.contains('expanded');
+  const present = panel.classList.contains('present');
+  document.getElementById('dpExpand').title = expanded ? 'Collapse panel' : 'Expand panel to full width';
+  document.getElementById('dpPresent').title = present
+    ? 'Exit presentation view'
+    : 'Switch to presentation view (weaknesses with mitigations nested \u2013 for slide screenshots)';
+}}
+document.getElementById('dpExpand').addEventListener('click', () => {{
+  const panel = document.getElementById('detailPanel');
+  const expanding = !panel.classList.contains('expanded');
+  panel.classList.toggle('expanded');
+  if (!expanding) panel.classList.remove('present'); // collapsing exits presentation mode
+  if (expanding) reorganizeForGrid(); else unwrapGrid();
+  // If present was on and we're re-rendering, swap to the right builder
+  if (!expanding && S.selected && S.selected.type === 'technique') {{
+    const body = buildTechniqueDetail(TMap[S.selected.id]);
+    document.getElementById('dp-body').innerHTML = body;
+    window._dpFlatHtml = body;
+  }}
+  updateViewButtonTitles();
+}});
+document.getElementById('dpPresent').addEventListener('click', () => {{
+  const panel = document.getElementById('detailPanel');
+  const enabling = !panel.classList.contains('present');
+  if (enabling) {{
+    panel.classList.add('present', 'expanded'); // presentation implies expanded width + grid
+  }} else {{
+    panel.classList.remove('present', 'expanded'); // turning off presentation returns to narrow sidebar
+  }}
+  if (!S.selected || S.selected.type !== 'technique') {{ updateViewButtonTitles(); return; }}
+  const body = enabling ? buildTechniquePresentationDetail(TMap[S.selected.id]) : buildTechniqueDetail(TMap[S.selected.id]);
+  document.getElementById('dp-body').innerHTML = body;
+  window._dpFlatHtml = body;
+  if (panel.classList.contains('expanded')) reorganizeForGrid();
+  updateViewButtonTitles();
+}});
 document.getElementById('dpLink').addEventListener('click', () => {{
   const url = location.href;
   navigator.clipboard.writeText(url).then(() => {{

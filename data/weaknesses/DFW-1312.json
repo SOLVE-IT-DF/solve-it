@@ -1,0 +1,20 @@
+{
+    "id": "DFW-1312",
+    "name": "Timeline entry is in an incorrect sequence due to underlying timestamp being based on an incorrect clock",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1225"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1020",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1019",
+            "relevance_summary_280": "Summarises that clock-related challenges originate from the system time which is used to derive timestamps. If the clock is incorrect, all timestamps originating from this clock are incorrect (Section 6.1.1)"
+        }
+    ]
+}

@@ -2,6 +2,10 @@
 
 Describes features and tooling updates.
 
+### HTML viewer presentation mode (2026-04-16)
+
+Added a presentation view to the detail panel (technique only) for slide screenshots: a full-width two-column layout with weaknesses shown alongside their mitigations as a nested tree. Weakness and mitigation panels also gained hero and summary cards, mitigation counts now appear inline on weakness rows.
+
 ### Autoimplement workflow (2026-03-14)
 
 GitHub Actions workflow to automatically implement TRWM submissions from issue forms into the knowledge base, including validation and detailed PR summaries.

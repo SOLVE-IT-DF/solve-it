@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1313",
+    "name": "Timeline entry is in an incorrect sequence due to timezone already applied to timestamp",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1263"
+    ],
+    "references": []
+}

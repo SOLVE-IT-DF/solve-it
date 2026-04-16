@@ -5,7 +5,8 @@
         "name": "Prepare for a digital investigation",
         "description": "Conduct activities in preparation of conducting a digital investigation",
         "techniques": [
-            "DFT-1110"
+            "DFT-1110",
+            "DFT-1184"
         ],
         "references": []
     },

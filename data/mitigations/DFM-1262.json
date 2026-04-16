@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1262",
+    "name": "Test that timeline tools represent timeline entries with the same value at the same point in time, not in an artificial order",
+    "references": []
+}

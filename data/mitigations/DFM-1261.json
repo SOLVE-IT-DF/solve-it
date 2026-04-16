@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1261",
+    "name": "Test that timeline sorting correctly represents entries with low resolution timestamps",
+    "references": []
+}

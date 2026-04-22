@@ -110,6 +110,39 @@ def extract_json_blocks(comment_body):
     return blocks
 
 
+DFCITE_FILE_RE = re.compile(r'^DFCite-\d{4,6}$')
+
+
+def extract_refs_map(comment_body):
+    """Extract the DFCite → BibTeX map from the assigned preview comment.
+
+    After ``assign_trwm_ids.py`` runs, keys are real DFCite IDs. Returns {}
+    if no ``TRWM_REFS_MAP`` marker is present.
+    """
+    match = re.search(r'<!-- TRWM_REFS_MAP: ({.*?}) -->', comment_body, re.DOTALL)
+    if not match:
+        return {}
+    try:
+        data = json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return {}
+    # Guard against unassigned placeholders leaking through
+    return {k: v for k, v in data.items() if DFCITE_FILE_RE.match(k)}
+
+
+def write_reference_file(project_root, cite_id, bibtex_text):
+    """Write a .bib file for a newly-assigned DFCite. Returns the path written."""
+    if not DFCITE_FILE_RE.match(cite_id):
+        raise ValueError(f"Invalid DFCite ID: {cite_id}")
+    refs_dir = os.path.join(project_root, "data", "references")
+    os.makedirs(refs_dir, exist_ok=True)
+    path = os.path.join(refs_dir, f"{cite_id}.bib")
+    content = bibtex_text if bibtex_text.endswith("\n") else bibtex_text + "\n"
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    return path
+
+
 def parse_objective_from_issue(issue_body):
     """Extract the Objective field from the issue body."""
     # GitHub issue forms produce ### Objective\n\nvalue
@@ -285,6 +318,11 @@ def main():
         print("Error: no JSON blocks found in the assigned comment.", file=sys.stderr)
         sys.exit(1)
 
+    # Extract newly-assigned DFCite reference content (post-substitution)
+    refs_to_write = extract_refs_map(assigned_comment["body"])
+    if refs_to_write:
+        print(f"New reference files to write: {len(refs_to_write)}", file=sys.stderr)
+
     # Classify blocks
     techniques = []
     weaknesses = []
@@ -409,6 +447,11 @@ def main():
             if path:
                 written_files.append(path)
 
+        # 8b. Write new DFCite .bib files for freshly-minted references
+        for cite_id, bibtex in refs_to_write.items():
+            path = write_reference_file(write_root, cite_id, bibtex)
+            written_files.append(path)
+
         # 9. Update solve-it.json (skip for updates — technique already assigned)
         if objective_name and techniques and not is_update:
             if update_solve_it_json(write_root, objective_name, technique_id):
@@ -440,11 +483,14 @@ def main():
             run(["git", "add", f], cwd=project_root)
 
         verb = "Update" if is_update else "Add"
+        commit_extras = (
+            f", {len(refs_to_write)} reference(s)" if refs_to_write else ""
+        )
         commit_msg = (
             f"{verb} TRWM submission: {technique_name} ({technique_id})\n\n"
             f"Auto-implemented from issue #{args.issue_number}.\n\n"
             f"Includes {len(techniques)} technique(s), {len(weaknesses)} weakness(es), "
-            f"{len(mitigations)} mitigation(s)."
+            f"{len(mitigations)} mitigation(s){commit_extras}."
         )
 
         run([
@@ -475,6 +521,8 @@ def main():
                         f"`{t['id']}` — {t['name']} |")
         pr_lines.append(f"| Weaknesses | {len(weaknesses)} | see below |")
         pr_lines.append(f"| Mitigations | {len(mitigations)} | see below |")
+        if refs_to_write:
+            pr_lines.append(f"| References (new DFCites) | {len(refs_to_write)} | see below |")
         if objective_name:
             pr_lines.append(f"| Objective | — | {objective_name} |")
         pr_lines.append("")
@@ -509,6 +557,17 @@ def main():
             pr_lines.append("|---|---|")
             for m in mitigations:
                 pr_lines.append(f"| `{m['id']}` | {m['name']} |")
+            pr_lines.append("")
+
+        # Newly minted DFCite references
+        if refs_to_write:
+            pr_lines.append("## New references")
+            pr_lines.append("")
+            pr_lines.append("The following `.bib` files were created for citations "
+                            "submitted as bare BibTeX and approved during review:")
+            pr_lines.append("")
+            for cite_id in sorted(refs_to_write.keys()):
+                pr_lines.append(f"- `data/references/{cite_id}.bib`")
             pr_lines.append("")
 
         # Existing KB references

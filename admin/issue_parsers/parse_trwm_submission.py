@@ -25,6 +25,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from parse_technique_issue import parse_issue_body
 from solve_it_library import KnowledgeBase
+from solve_it_library.reference_matching import (
+    find_candidate_matches,
+    load_reference_corpus,
+    load_reference_signatures,
+    match_reference_strict,
+)
 from update_utils import build_change_summary
 
 
@@ -95,6 +101,85 @@ def normalize_to_kb_schema(item, field_list):
             else:
                 normalized[field] = ""
     return normalized
+
+
+def resolve_bare_references(trwm_data, project_root):
+    """Resolve bare-string references in a TRWM submission.
+
+    For each string reference found in techniques/weaknesses/mitigations:
+      - strict-match against existing DFCite corpus; if confident, substitute
+        ``{"DFCite_id": "DFCite-XXXX", "relevance_summary_280": ""}``.
+      - otherwise allocate a ``DFCite-____-N`` placeholder, record the original
+        text + permissive candidate matches for reviewer display, and substitute
+        ``{"DFCite_id": "DFCite-____-N", "relevance_summary_280": ""}``.
+
+    Identical bare strings are deduped to the same placeholder.
+
+    Returns:
+        dfcite_placeholders: dict mapping placeholder -> {"text": str,
+        "candidates": [{"cite_id", "score", "reason"}, ...]}
+    """
+    corpus = {}
+    signatures = {}
+    if project_root:
+        try:
+            corpus = load_reference_corpus(project_root)
+            signatures = load_reference_signatures(project_root)
+        except Exception as e:
+            print(f"Warning: could not load reference corpus: {e}", file=sys.stderr)
+
+    dfcite_placeholders = {}
+    content_to_placeholder = {}
+    next_idx = 0
+
+    for category in ("techniques", "weaknesses", "mitigations"):
+        for item_id, item in trwm_data.get(category, {}).items():
+            refs = item.get("references")
+            if not isinstance(refs, list):
+                continue
+            new_refs = []
+            for r in refs:
+                if isinstance(r, dict):
+                    new_refs.append(r)
+                    continue
+                if not isinstance(r, str):
+                    continue
+                text = r.strip()
+                if not text:
+                    continue
+
+                match = match_reference_strict(text, corpus, signatures)
+                if match is not None:
+                    cite_id, _ = match
+                    new_refs.append({
+                        "DFCite_id": cite_id,
+                        "relevance_summary_280": "",
+                    })
+                    continue
+
+                key = text  # exact string; helper export is deterministic
+                if key in content_to_placeholder:
+                    placeholder = content_to_placeholder[key]
+                else:
+                    next_idx += 1
+                    placeholder = f"DFCite-____-{next_idx}"
+                    content_to_placeholder[key] = placeholder
+                    candidates = find_candidate_matches(text, corpus, signatures)
+                    dfcite_placeholders[placeholder] = {
+                        "text": text,
+                        "candidates": [
+                            {"cite_id": c.cite_id, "score": round(c.score, 2),
+                             "reason": c.reason}
+                            for c in candidates
+                        ],
+                    }
+                new_refs.append({
+                    "DFCite_id": placeholder,
+                    "relevance_summary_280": "",
+                })
+            item["references"] = new_refs
+
+    return dfcite_placeholders
 
 
 def build_placeholder_map(trwm_data):
@@ -243,17 +328,6 @@ def validate_submission(trwm_data, new_items):
     """
     notes = []
 
-    # Check for non-dict references (bare strings are invalid)
-    for category in ("techniques", "weaknesses", "mitigations"):
-        for item_id, item in trwm_data.get(category, {}).items():
-            bad_refs = [r for r in item.get("references", []) if not isinstance(r, dict)]
-            if bad_refs:
-                notes.append((
-                    "warning",
-                    f"**{item_id}**: `references` contained {len(bad_refs)} non-dict "
-                    f"entry/entries ({bad_refs!r}) — these were removed"
-                ))
-
     # Check CASE classes
     for tid, technique in trwm_data.get("techniques", {}).items():
         for field in ("CASE_input_classes", "CASE_output_classes"):
@@ -385,8 +459,11 @@ def detect_removed_weaknesses(trwm_data, kb):
 
 
 def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
-                  ref_warnings, submission_type, reviewer_notes=None, kb=None):
+                  ref_warnings, submission_type, reviewer_notes=None, kb=None,
+                  dfcite_placeholders=None):
     """Build the GitHub comment markdown."""
+    if dfcite_placeholders is None:
+        dfcite_placeholders = {}
     lines = []
 
     lines.append("<!-- TRWM_PREVIEW -->")
@@ -405,6 +482,8 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
     lines.append(f"| Techniques | {len(new_items['techniques'])} | {len(existing_items['techniques'])} |")
     lines.append(f"| Weaknesses | {len(new_items['weaknesses'])} | {len(existing_items['weaknesses'])} |")
     lines.append(f"| Mitigations | {len(new_items['mitigations'])} | {len(existing_items['mitigations'])} |")
+    if dfcite_placeholders:
+        lines.append(f"| References (new DFCites) | {len(dfcite_placeholders)} | — |")
     lines.append("")
 
     # Objective info
@@ -512,6 +591,40 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
             lines.append("```")
             lines.append("")
 
+    # New DFCite references — unmatched bare refs, to be minted on assign-id
+    if dfcite_placeholders:
+        lines.append("---")
+        lines.append("")
+        lines.append(f"### New references to review ({len(dfcite_placeholders)})")
+        lines.append("")
+        lines.append("The following citation(s) were submitted as bare text and could not be "
+                     "confidently matched to an existing `DFCite`. They will be assigned new "
+                     "`DFCite-XXXX` IDs when the `assigned ID` label is added.")
+        lines.append("")
+        lines.append(":mag: **Reviewer:** check the *possible matches* below before labelling. "
+                     "If any is actually a duplicate, ask the contributor to resubmit using the "
+                     "existing `DFCite` ID.")
+        lines.append("")
+        for placeholder in sorted(dfcite_placeholders.keys()):
+            info = dfcite_placeholders[placeholder]
+            lines.append(f"#### `{placeholder}`")
+            lines.append("")
+            text = info["text"]
+            fence = "```bibtex" if text.lstrip().startswith("@") else "```"
+            lines.append(fence)
+            lines.append(text)
+            lines.append("```")
+            lines.append("")
+            candidates = info["candidates"]
+            if candidates:
+                lines.append("Possible existing matches:")
+                for c in candidates:
+                    lines.append(f"- **{c['cite_id']}** ({c['reason']})")
+                lines.append("")
+            else:
+                lines.append("No near-miss candidates found in the existing corpus.")
+                lines.append("")
+
     # Existing item references — for updates, show BEFORE/AFTER; otherwise just list
     if is_update and kb:
         # Show BEFORE/AFTER for updated weaknesses and mitigations
@@ -584,6 +697,11 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
 
     # Hidden ID map for the assignment script
     lines.append(f"<!-- TRWM_ID_MAP: {json.dumps(placeholder_map)} -->")
+    if dfcite_placeholders:
+        # Store only the citation text per placeholder — candidates are advisory
+        # for the reviewer and not needed downstream.
+        refs_map = {p: info["text"] for p, info in dfcite_placeholders.items()}
+        lines.append(f"<!-- TRWM_REFS_MAP: {json.dumps(refs_map)} -->")
     lines.append("")
 
     # Footer
@@ -667,6 +785,10 @@ def main():
             print(f"Error: Missing required key '{key}' in TRWM JSON", file=sys.stderr)
             sys.exit(1)
 
+    # Resolve bare-string references: strict-match to existing DFCites or
+    # assign DFCite-____-N placeholders (mutates trwm_data in place).
+    dfcite_placeholders = resolve_bare_references(trwm_data, args.project_root)
+
     # Build placeholder map and classify items
     placeholder_map, new_items, existing_items = build_placeholder_map(trwm_data)
 
@@ -691,6 +813,7 @@ def main():
     comment = build_comment(
         trwm_data, fields, placeholder_map, new_items, existing_items,
         ref_warnings, submission_type, reviewer_notes, kb=kb,
+        dfcite_placeholders=dfcite_placeholders,
     )
 
     if args.output:

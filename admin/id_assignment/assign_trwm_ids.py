@@ -56,12 +56,27 @@ def extract_id_map(comment_body):
     return json.loads(match.group(1))
 
 
-def count_needed_ids(id_map):
-    """Count how many IDs are needed per type from the placeholder map.
+def extract_refs_map(comment_body):
+    """Extract the DFCite placeholder → BibTeX map from the preview comment.
 
-    Returns: {"technique": count, "weakness": count, "mitigation": count}
+    The map is embedded as: <!-- TRWM_REFS_MAP: {"DFCite-____-1": "@article{...}", ...} -->
+    Returns {} if not present.
     """
-    counts = {"technique": 0, "weakness": 0, "mitigation": 0}
+    match = re.search(r'<!-- TRWM_REFS_MAP: ({.*?}) -->', comment_body, re.DOTALL)
+    if not match:
+        return {}
+    try:
+        return json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return {}
+
+
+def count_needed_ids(id_map, refs_map=None):
+    """Count how many IDs are needed per type from the placeholder maps.
+
+    Returns: {"technique": count, "weakness": count, "mitigation": count, "citation": count}
+    """
+    counts = {"technique": 0, "weakness": 0, "mitigation": 0, "citation": 0}
     for placeholder in id_map.values():
         if placeholder.startswith("DFT-"):
             counts["technique"] += 1
@@ -69,20 +84,24 @@ def count_needed_ids(id_map):
             counts["weakness"] += 1
         elif placeholder.startswith("DFM-"):
             counts["mitigation"] += 1
+    if refs_map:
+        counts["citation"] = len(refs_map)
     return counts
 
 
-def build_replacement_map(id_map, scanner):
+def build_replacement_map(id_map, scanner, refs_map=None):
     """Build a map from placeholders to real IDs.
 
     Args:
         id_map: {temp_id: placeholder} from the preview comment
         scanner: IDScanner instance with scanned IDs
+        refs_map: optional {DFCite-____-N: bibtex_text} from the preview comment
 
     Returns:
-        {placeholder: real_id} e.g. {"DFT-____": "DFT-1176", "DFW-____-1": "DFW-1279"}
+        {placeholder: real_id} covering techniques, weaknesses, mitigations,
+        and (when refs_map is given) DFCites.
     """
-    counts = count_needed_ids(id_map)
+    counts = count_needed_ids(id_map, refs_map)
     replacement_map = {}
 
     # Get next available IDs for each type
@@ -110,6 +129,14 @@ def build_replacement_map(id_map, scanner):
     else:
         next_mitigation_ids = []
 
+    if counts["citation"] > 0:
+        next_citation_ids = scanner.find_next_available(
+            scanner.citation_ids, scanner.reserved_citation_ids,
+            count=counts["citation"],
+        )
+    else:
+        next_citation_ids = []
+
     # Assign IDs to placeholders in order
     t_idx, w_idx, m_idx = 0, 0, 0
 
@@ -127,6 +154,14 @@ def build_replacement_map(id_map, scanner):
         else:
             continue
         replacement_map[placeholder] = real_id
+
+    # DFCite placeholders — sort by numeric suffix for stable assignment
+    if refs_map:
+        def _dfcite_idx(p):
+            m = re.search(r'-(\d+)$', p)
+            return int(m.group(1)) if m else 0
+        for c_idx, placeholder in enumerate(sorted(refs_map.keys(), key=_dfcite_idx)):
+            replacement_map[placeholder] = f"DFCite-{next_citation_ids[c_idx]}"
 
     return replacement_map
 
@@ -188,7 +223,9 @@ def main():
               file=sys.stderr)
         sys.exit(1)
 
-    if not id_map:
+    refs_map = extract_refs_map(preview["body"])
+
+    if not id_map and not refs_map:
         print("No new items to assign IDs to.", file=sys.stderr)
         # Post informational comment so reviewer knows to proceed
         info_comment = (
@@ -201,12 +238,29 @@ def main():
         sys.exit(0)
 
     # 4. Build replacement map (placeholder -> real ID)
-    replacement_map = build_replacement_map(id_map, scanner)
+    replacement_map = build_replacement_map(id_map, scanner, refs_map=refs_map)
     print(f"Replacement map: {replacement_map}", file=sys.stderr)
 
     # 5. Apply replacements to the preview comment
     old_body = preview["body"]
     revised_body = apply_replacements(old_body, replacement_map)
+
+    # Also rewrite the TRWM_REFS_MAP so its keys are the real DFCite IDs,
+    # making it usable by the autoimplement step to write .bib files.
+    if refs_map:
+        resolved_refs_map = {
+            replacement_map[placeholder]: text
+            for placeholder, text in refs_map.items()
+            if placeholder in replacement_map
+        }
+        # Replace the TRWM_REFS_MAP block with one keyed on real DFCite IDs
+        revised_body = re.sub(
+            r'<!-- TRWM_REFS_MAP: ({.*?}) -->',
+            f'<!-- TRWM_REFS_MAP: {json.dumps(resolved_refs_map)} -->',
+            revised_body,
+            count=1,
+            flags=re.DOTALL,
+        )
 
     # Update header text
     revised_body = revised_body.replace(

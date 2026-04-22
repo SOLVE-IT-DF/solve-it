@@ -9,9 +9,149 @@ before referencing them in techniques, weaknesses, or mitigations.
 
 import os
 import re
-from typing import Dict, List, Optional, Tuple
+from difflib import SequenceMatcher
+from typing import Dict, List, NamedTuple, Optional, Tuple
+
+from pybtex.database import parse_string as _parse_bibtex
 
 from solve_it_library.citation_utils import bibtex_to_harvard
+
+
+# ── Signature extraction ──────────────────────────────────────────────────────
+# A "signature" is a (normalised_title, first_author_surname, year) tuple used
+# to compare two references regardless of surface formatting (BibTeX vs
+# Harvard plaintext). Title uses similarity; surname + year are exact-match.
+
+
+class RefSignature(NamedTuple):
+    """Normalised signature of a reference used for matching."""
+    title: str            # normalised: lowercased, punctuation stripped, whitespace collapsed
+    first_author: str     # lowercased surname of first author, or ""
+    year: str             # 4-digit year, or ""
+
+
+_PUNCT_RE = re.compile(r"[^\w\s]")
+_WS_RE = re.compile(r"\s+")
+_YEAR_RE = re.compile(r"\b(1[89]\d{2}|20[0-4]\d)\b")
+
+
+def _normalize_title(title: str) -> str:
+    if not title:
+        return ""
+    t = title.replace("{", "").replace("}", "").replace("\\", "")
+    t = _PUNCT_RE.sub(" ", t.lower())
+    t = _WS_RE.sub(" ", t).strip()
+    return t
+
+
+def _signature_from_bibtex(bibtex_str: str) -> Optional[RefSignature]:
+    try:
+        bib_data = _parse_bibtex(bibtex_str, "bibtex")
+    except Exception:
+        return None
+    if not bib_data.entries:
+        return None
+    entry = list(bib_data.entries.values())[0]
+    fields = entry.fields
+
+    title = _normalize_title(fields.get("title", ""))
+    year = (fields.get("year", "") or "").strip()
+    ym = _YEAR_RE.search(year)
+    year = ym.group(1) if ym else ""
+
+    surname = ""
+    persons = entry.persons.get("author") or entry.persons.get("editor") or []
+    if persons:
+        first = persons[0]
+        if first.last_names:
+            surname = " ".join(first.last_names).lower().strip()
+            surname = _PUNCT_RE.sub("", surname)
+
+    if not title and not surname and not year:
+        return None
+    return RefSignature(title=title, first_author=surname, year=year)
+
+
+def _signature_from_plaintext(text: str) -> Optional[RefSignature]:
+    if not text:
+        return None
+    stripped = text.strip()
+
+    ym = _YEAR_RE.search(stripped)
+    year = ym.group(1) if ym else ""
+
+    surname = ""
+    first_comma = stripped.find(",")
+    if first_comma > 0:
+        surname = stripped[:first_comma].strip().lower()
+        surname = _PUNCT_RE.sub("", surname)
+
+    title = ""
+    if ym:
+        after_year = stripped[ym.end():].lstrip(".,;: ")
+        dot = after_year.find(".")
+        title_raw = after_year[:dot] if dot > 0 else after_year
+        title = _normalize_title(title_raw)
+
+    if not title and not surname and not year:
+        return None
+    return RefSignature(title=title, first_author=surname, year=year)
+
+
+def _extract_signature(text: str) -> Optional[RefSignature]:
+    """Extract a signature from either BibTeX (starts with ``@``) or plaintext."""
+    if not text:
+        return None
+    stripped = text.lstrip()
+    if stripped.startswith("@"):
+        sig = _signature_from_bibtex(stripped)
+        if sig is not None:
+            return sig
+    return _signature_from_plaintext(text)
+
+
+def load_reference_signatures(project_root: str) -> Dict[str, RefSignature]:
+    """Build a DFCite_id → RefSignature lookup.
+
+    Prefers the .bib file when present (more structured), falls back to the
+    Harvard plaintext otherwise.
+    """
+    refs_dir = os.path.join(project_root, "data", "references")
+    signatures: Dict[str, RefSignature] = {}
+    if not os.path.isdir(refs_dir):
+        return signatures
+
+    ids = set()
+    for fname in os.listdir(refs_dir):
+        m = re.match(r"(DFCite-\d+)\.(txt|bib)$", fname)
+        if m:
+            ids.add(m.group(1))
+
+    for cite_id in ids:
+        bib_path = os.path.join(refs_dir, f"{cite_id}.bib")
+        txt_path = os.path.join(refs_dir, f"{cite_id}.txt")
+        sig: Optional[RefSignature] = None
+        if os.path.isfile(bib_path):
+            try:
+                with open(bib_path, "r", encoding="utf-8") as f:
+                    sig = _signature_from_bibtex(f.read())
+            except OSError:
+                sig = None
+        if sig is None and os.path.isfile(txt_path):
+            try:
+                with open(txt_path, "r", encoding="utf-8") as f:
+                    sig = _signature_from_plaintext(f.read())
+            except OSError:
+                sig = None
+        if sig is not None:
+            signatures[cite_id] = sig
+    return signatures
+
+
+def _title_similarity(a: str, b: str) -> float:
+    if not a or not b:
+        return 0.0
+    return SequenceMatcher(None, a, b).ratio()
 
 
 # ── Corpus loading ────────────────────────────────────────────────────────────
@@ -145,6 +285,122 @@ def match_reference(
 
     return None
 
+
+# ── Signature-based matching (strict + permissive) ────────────────────────────
+# Used to link bare-string references in TRWM submissions to existing DFCite
+# entries when URL/DOI/prefix matching misses (e.g. BibTeX vs Harvard text
+# for the same paper). Strict = silent auto-link; permissive = flag for human.
+
+STRICT_TITLE_SIMILARITY = 0.9
+PERMISSIVE_TITLE_SIMILARITY = 0.7
+
+
+def match_reference_strict(
+    text: str,
+    corpus: Dict[str, str],
+    signatures: Optional[Dict[str, RefSignature]] = None,
+) -> Optional[Tuple[str, str]]:
+    """High-confidence match — safe for silent auto-link.
+
+    Tries ``match_reference`` first (URL/DOI/ID/prefix). If that misses,
+    falls back to signature match requiring: title similarity ≥ 0.9 AND same
+    year AND same first-author surname.
+
+    Returns (DFCite_id, match_type) or None.
+    """
+    primary = match_reference(text, corpus)
+    if primary is not None:
+        return primary
+
+    if signatures is None:
+        return None
+
+    input_sig = _extract_signature(text)
+    if input_sig is None or not input_sig.title:
+        return None
+
+    best: Optional[Tuple[str, float]] = None
+    for cite_id, sig in signatures.items():
+        if not sig.title:
+            continue
+        if input_sig.year and sig.year and input_sig.year != sig.year:
+            continue
+        if (input_sig.first_author and sig.first_author
+                and input_sig.first_author != sig.first_author):
+            continue
+        score = _title_similarity(input_sig.title, sig.title)
+        if score >= STRICT_TITLE_SIMILARITY and (best is None or score > best[1]):
+            best = (cite_id, score)
+
+    if best is not None:
+        return (best[0], "signature")
+    return None
+
+
+class CandidateMatch(NamedTuple):
+    cite_id: str
+    score: float
+    reason: str  # short human-readable explanation
+
+
+def find_candidate_matches(
+    text: str,
+    corpus: Dict[str, str],
+    signatures: Optional[Dict[str, RefSignature]] = None,
+    limit: int = 5,
+) -> List[CandidateMatch]:
+    """Permissive match — surfaces possible duplicates for human review.
+
+    Never used for auto-linking. Returns up to *limit* candidates ordered by
+    confidence.
+    """
+    if signatures is None:
+        return []
+    input_sig = _extract_signature(text)
+    if input_sig is None:
+        return []
+
+    candidates: List[CandidateMatch] = []
+    seen = set()
+
+    # URL/DOI overlap — strong signal even without title
+    input_urls = _extract_urls(text)
+    input_dois = _extract_dois(text)
+    for cite_id, corpus_text in corpus.items():
+        if input_urls and (input_urls & _extract_urls(corpus_text)):
+            candidates.append(CandidateMatch(cite_id, 1.0, "shared URL"))
+            seen.add(cite_id)
+        elif input_dois and (input_dois & _extract_dois(corpus_text)):
+            candidates.append(CandidateMatch(cite_id, 1.0, "shared DOI"))
+            seen.add(cite_id)
+
+    # Signature-based candidates
+    for cite_id, sig in signatures.items():
+        if cite_id in seen:
+            continue
+        if not sig.title and not input_sig.title:
+            continue
+        title_score = _title_similarity(input_sig.title, sig.title) if (input_sig.title and sig.title) else 0.0
+        year_match = bool(input_sig.year and sig.year and input_sig.year == sig.year)
+        surname_match = bool(
+            input_sig.first_author and sig.first_author
+            and input_sig.first_author == sig.first_author
+        )
+
+        reasons = []
+        score = 0.0
+        if title_score >= PERMISSIVE_TITLE_SIMILARITY:
+            reasons.append(f"title similarity {title_score:.0%}")
+            score = max(score, title_score)
+        if year_match and surname_match:
+            reasons.append("same author + year")
+            score = max(score, 0.7)
+
+        if reasons:
+            candidates.append(CandidateMatch(cite_id, score, ", ".join(reasons)))
+
+    candidates.sort(key=lambda c: c.score, reverse=True)
+    return candidates[:limit]
 
 
 # ── Batch processing ──────────────────────────────────────────────────────────

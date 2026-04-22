@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1320",
+    "name": "Failure to extract the creation time of a notification due to tool error",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1267"
+    ],
+    "references": []
+}

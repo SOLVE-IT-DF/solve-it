@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1316",
+    "name": "Failure to recover a notification due to a tool error parsing the relevant data",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1265"
+    ],
+    "references": []
+}

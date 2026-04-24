@@ -21,5 +21,10 @@
         "https://ontology.unifiedcyberontology.org/uco/observable/httpRequestHeader",
         "https://ontology.solveit-df.org/solveit/observable/httpResponseHeader"
     ],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1148",
+            "relevance_summary_280": "Provides a description of the google Chrome cache structures"
+        }
+    ]
 }

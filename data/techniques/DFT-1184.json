@@ -1,0 +1,28 @@
+{
+    "id": "DFT-1184",
+    "name": "Sort timeline entries chronologically",
+    "description": "Order a timeline based on the values in the timestamp entry.",
+    "synonyms": [],
+    "details": "This may be applied automatically to a generated timeline or may be applied as a separate process. ",
+    "subtechniques": [],
+    "examples": [
+        "Plaso",
+        "TimeSketch"
+    ],
+    "weaknesses": [
+        "DFW-1308",
+        "DFW-1309",
+        "DFW-1310",
+        "DFW-1311",
+        "DFW-1312",
+        "DFW-1313",
+        "DFW-1314"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/Timeline"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/SortedTimeline"
+    ],
+    "references": []
+}

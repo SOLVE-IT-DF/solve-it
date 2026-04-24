@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1308",
+    "name": "Sorted timeline is missing timeline entries due to tool error during sort process",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1259"
+    ],
+    "references": []
+}

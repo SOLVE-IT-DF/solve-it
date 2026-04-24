@@ -1,0 +1,17 @@
+{
+    "id": "DFW-1311",
+    "name": "Timeline entry is in an incorrect sequence due to resolution of the timestamp used",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1261",
+        "DFM-1262"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1019",
+            "relevance_summary_280": "Mentions different timestamp resolutions, e.g. hh:mm vs. hh:mm:ss (Section 6.1.2)"
+        }
+    ]
+}

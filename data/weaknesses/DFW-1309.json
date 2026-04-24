@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1309",
+    "name": "Sorted timeline is missing timeline entries because timeline contained entries not based on timestamps",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1260"
+    ],
+    "references": []
+}

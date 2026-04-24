@@ -1,5 +1,9 @@
 # SOLVE-IT Knowledge Base Changelog
 
+## April 2026
+
+- **2026-04-16** Added technique (TRWM): Sort timeline entries chronologically (DFT-1184) [`a2500fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/a2500fb)
+
 ## March 2026
 
 - **2026-03-27** Added weakness (AUTOIMPLEMENT): Missing deleted but recoverable volumes from unpartitioned space (DFW-1300) [`688253c`](https://github.com/SOLVE-IT-DF/solve-it/commit/688253c)

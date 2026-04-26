@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1318",
+    "name": "Failure to recover a notification due to it being deleted because of it being viewed and cleared",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1125",
+        "DFM-1266"
+    ],
+    "references": []
+}

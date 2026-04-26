@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1315",
+    "name": "Failure to recover a notification due to not attempting to parse the relevant data",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1264"
+    ],
+    "references": []
+}

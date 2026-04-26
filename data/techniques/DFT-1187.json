@@ -1,0 +1,23 @@
+{
+    "id": "DFT-1187",
+    "name": "Extract content from compound files",
+    "description": "The process of extracting files and objects contained within compound files, including archives, Office documents, PDFs, and email containers, surfacing the contained items as first-class files for further analysis.",
+    "synonyms": [
+        "Container file expansion",
+        "Compound file expansion",
+        "Embedded file extraction"
+    ],
+    "details": "'Compound file' is used here in the broad sense: any file format whose payload is one or more other files. \n\nThis covers user-downloaded archives (.zip, .rar, .7z, .tar), images and objects embedded in Office documents (.docx / .xlsx / .pptx, and legacy .doc / .xls / .ppt that use the Microsoft Compound File Binary Format, attachments and embedded streams in PDFs, and attachments inside email containers. \n\nExtracting them surfaces each contained item as a first-class file so downstream techniques such as file-type identification, extension-mismatch detection, and hash matching can operate on the content. \n\nThis is distinct from DFT-1045, which decodes archive containers produced by the forensic extraction pipeline (e.g. an iOS file-system extraction packaged as a TAR file); this technique is applied later in the workflow, against compound files encountered within user data. The technique should be applied recursively because extracted items may themselves be compound files.",
+    "subtechniques": [],
+    "examples": [
+        "Autopsy Embedded File Extractor module"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/File"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "references": []
+}

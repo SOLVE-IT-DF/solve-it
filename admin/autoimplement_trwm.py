@@ -117,15 +117,24 @@ def extract_refs_map(comment_body):
     """Extract the DFCite → BibTeX map from the assigned preview comment.
 
     After ``assign_trwm_ids.py`` runs, keys are real DFCite IDs. Returns {}
-    if no ``TRWM_REFS_MAP`` marker is present.
+    if no ``TRWM_REFS_MAP`` marker is present. Aborts if the marker is
+    present but the payload fails to parse — silently dropping it would
+    let the run finish with techniques pointing at DFCite IDs that have
+    no .bib file on disk.
     """
     match = re.search(r'<!-- TRWM_REFS_MAP: ({.*?}) -->', comment_body, re.DOTALL)
     if not match:
         return {}
     try:
         data = json.loads(match.group(1))
-    except json.JSONDecodeError:
-        return {}
+    except json.JSONDecodeError as e:
+        print(
+            f"Error: TRWM_REFS_MAP marker is present but its payload is not "
+            f"valid JSON ({e}). This usually means the assign-IDs step "
+            f"corrupted the map. Refusing to proceed — refs would be lost.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
     # Guard against unassigned placeholders leaking through
     return {k: v for k, v in data.items() if DFCITE_FILE_RE.match(k)}
 

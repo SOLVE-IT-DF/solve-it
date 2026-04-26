@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1314",
+    "name": "Timeline entry is in an incorrect sequence due to a time offset being applied that is incorrect for the timeline entry",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1225"
+    ],
+    "references": []
+}

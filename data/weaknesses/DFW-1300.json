@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1300",
+    "name": "Missing deleted but recoverable volumes from unpartitioned space",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1044"
+    ],
+    "references": []
+}

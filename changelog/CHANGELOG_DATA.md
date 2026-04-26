@@ -1,7 +1,15 @@
 # SOLVE-IT Knowledge Base Changelog
 
+## April 2026
+
+- **2026-04-22** Updated technique (AUTOIMPLEMENT): Browser cache examination (DFT-1138) [`7bcc596`](https://github.com/SOLVE-IT-DF/solve-it/commit/7bcc596)
+- **2026-04-22** Added reference (AUTOIMPLEMENT): DFCite-1148 [`7bcc596`](https://github.com/SOLVE-IT-DF/solve-it/commit/7bcc596)
+- **2026-04-16** Added technique (TRWM): Sort timeline entries chronologically (DFT-1184) [`a2500fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/a2500fb)
+
 ## March 2026
 
+- **2026-03-27** Added weakness (AUTOIMPLEMENT): Missing deleted but recoverable volumes from unpartitioned space (DFW-1300) [`688253c`](https://github.com/SOLVE-IT-DF/solve-it/commit/688253c)
+- **2026-03-27** Added weakness (AUTOIMPLEMENT): Missing deleted but recoverable volumes from unpartitioned space (DFW-1300) [`688253c`](https://github.com/SOLVE-IT-DF/solve-it/commit/688253c)
 - **2026-03-27** Updated technique (AUTOIMPLEMENT): Chain of custody documentation (DFT-1014) [`aa6a465`](https://github.com/SOLVE-IT-DF/solve-it/commit/aa6a465)
 - **2026-03-27** Updated technique (AUTOIMPLEMENT): Document the chain of custody (DFT-1014) [`5e70b60`](https://github.com/SOLVE-IT-DF/solve-it/commit/5e70b60)
 - **2026-03-27** Updated technique: Document the chain of custody (DFT-1014) [`ebff7d1`](https://github.com/SOLVE-IT-DF/solve-it/commit/ebff7d1)

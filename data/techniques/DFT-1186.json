@@ -1,0 +1,23 @@
+{
+    "id": "DFT-1186",
+    "name": "Compute per-file hash values",
+    "description": "The process of computing one or more hash digests for each file in a set, producing per-file digests that can subsequently be used for matching, deduplication, or integrity comparison.",
+    "synonyms": [
+        "File hashing",
+        "Per-file hashing"
+    ],
+    "details": "This technique does vary based on the kind of digest produced: cryptographic-digest computation for exact matching, and fuzzy or similarity-digest computation for approximate matching. \n\nThe output of this technique is typically consumed by hash-matching techniques including DFT-1047, DFT-1050, and DFT-1051. \n\nThis technique is distinct from DFT-1042, which hashes the entire bitstream of a source device for acquisition integrity rather than individual files within the file system.",
+    "subtechniques": [],
+    "examples": [
+        "Autopsy hash lookup ingest module computing per-file hashes",
+        "md5sum / sha256sum applied recursively over a mounted forensic image"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/hash"
+    ],
+    "references": []
+}

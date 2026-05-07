@@ -1,8 +1,8 @@
 {
     "id": "DFW-1072",
-    "name": "Recovering incorrect contents of a live file",
+    "name": "Recovering incorrect contents of an allocated file",
     "categories": [
-        "ASTM_INAC_ALT"
+        "ASTM_INAC_EX"
     ],
     "mitigations": [
         "DFM-1050",

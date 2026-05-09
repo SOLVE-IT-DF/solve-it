@@ -1,7 +1,7 @@
 {
     "id": "DFT-1060",
     "name": "Enumerate allocated files and folders",
-    "description": "This involves parsing the live file system data structures and reconstructing the file system of the target media or device.",
+    "description": "This involves parsing the allocated file system data structures and reconstructing the file system of the target media or device.",
     "synonyms": [
         "file system parsing"
     ],
@@ -43,7 +43,7 @@
         },
         {
             "DFCite_id": "DFCite-1024",
-            "relevance_summary_280": ""
+            "relevance_summary_280": "Provides one of, if not the main text for file system forensics and covers the theory and implementation details of several file systems."
         }
     ]
 }

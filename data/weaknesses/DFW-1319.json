@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1319",
+    "name": "Associating a notification with an incorrect application due to tool error",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1265"
+    ],
+    "references": []
+}

@@ -1,7 +1,7 @@
 {
     "id": "DFT-1168",
     "name": "Identify volumes",
-    "description": "From a partition or data from a full disk, identify volumes and extract file systems.",
+    "description": "From a partition or data from a full disk, identify volumes.",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

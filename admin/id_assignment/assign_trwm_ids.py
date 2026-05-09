@@ -253,10 +253,13 @@ def main():
             for placeholder, text in refs_map.items()
             if placeholder in replacement_map
         }
-        # Replace the TRWM_REFS_MAP block with one keyed on real DFCite IDs
+        # Replace the TRWM_REFS_MAP block with one keyed on real DFCite IDs.
+        # Use a callable replacement so re.sub does not reinterpret backslash
+        # escapes (e.g. \n) inside the JSON-encoded BibTeX values.
+        replacement = f'<!-- TRWM_REFS_MAP: {json.dumps(resolved_refs_map)} -->'
         revised_body = re.sub(
             r'<!-- TRWM_REFS_MAP: ({.*?}) -->',
-            f'<!-- TRWM_REFS_MAP: {json.dumps(resolved_refs_map)} -->',
+            lambda _m: replacement,
             revised_body,
             count=1,
             flags=re.DOTALL,

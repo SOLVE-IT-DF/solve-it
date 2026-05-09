@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1265",
+    "name": "Test that the tool used correctly recovers operating system notifications from the data structures examined",
+    "references": []
+}

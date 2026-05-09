@@ -1,6 +1,7 @@
 {
     "id": "DFW-1068",
-    "name": "Failing to identify the existence of a live file",
+    "name": "Failing to identify the existence of an allocated file",
+    "description": "",
     "categories": [
         "ASTM_INCOMP"
     ],

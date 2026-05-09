@@ -1,6 +1,6 @@
 {
     "id": "DFW-1069",
-    "name": "Failing to identify the existence of a live directory",
+    "name": "Failing to identify the existence of an allocated directory",
     "categories": [
         "ASTM_INCOMP"
     ],

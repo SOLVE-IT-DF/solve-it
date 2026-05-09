@@ -1,0 +1,38 @@
+{
+    "id": "DFT-1185",
+    "name": "Extract data from OS-level notifications",
+    "description": "Recovery of the notifications produced by applications that are stored by the operating system. ",
+    "synonyms": [
+        "Notification analysis",
+        "WPN analysis"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1315",
+        "DFW-1316",
+        "DFW-1317",
+        "DFW-1318",
+        "DFW-1319",
+        "DFW-1320",
+        "DFW-1321"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Message"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Message",
+        "https://ontology.solveit-df.org/solveit/observable/DateTimeStamp"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1149",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1150",
+            "relevance_summary_280": ""
+        }
+    ]
+}

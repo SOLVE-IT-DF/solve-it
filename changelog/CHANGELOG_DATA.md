@@ -1,14 +1,31 @@
 # SOLVE-IT Knowledge Base Changelog
 
+## May 2026
+
+- **2026-05-07** Updated weakness: Presenting an allocated file as non-allocated (DFW-1078) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
+- **2026-05-07** Updated weakness: Presenting a non-allocated file as an allocated file (DFW-1077) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
+- **2026-05-07** Updated weakness: Recovering an incorrect listing of an allocated directory (DFW-1073) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
+- **2026-05-07** Updated weakness: Recovering incorrect contents of an allocated file (DFW-1072) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
+- **2026-05-07** Updated weakness: Failing to recover a complete listing of an allocated directory (DFW-1071) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
+- **2026-05-07** Updated weakness: Failing to recover the complete contents of an allocated file (DFW-1070) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
+- **2026-05-07** Updated weakness: Failing to identify the existence of an allocated directory (DFW-1069) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
+- **2026-05-07** Updated weakness: Failing to identify the existence of an allocated file (DFW-1068) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
+- **2026-05-07** Updated technique: Identify volumes (DFT-1168) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
+- **2026-05-07** Updated technique: Enumerate allocated files and folders (DFT-1060) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
+- **2026-05-05** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`db6b4ef`](https://github.com/SOLVE-IT-DF/solve-it/commit/db6b4ef)
+
 ## April 2026
 
+- **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
 - **2026-04-22** Updated technique (AUTOIMPLEMENT): Browser cache examination (DFT-1138) [`7bcc596`](https://github.com/SOLVE-IT-DF/solve-it/commit/7bcc596)
 - **2026-04-22** Added reference (AUTOIMPLEMENT): DFCite-1148 [`7bcc596`](https://github.com/SOLVE-IT-DF/solve-it/commit/7bcc596)
+- **2026-04-16** Added technique (TRWM): Sort timeline entries chronologically (DFT-1184) [`a2500fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/a2500fb)
 - **2026-04-16** Added technique (TRWM): Sort timeline entries chronologically (DFT-1184) [`a2500fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/a2500fb)
 - **2026-04-16** Added technique (TRWM): Sort timeline entries chronologically (DFT-1184) [`a2500fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/a2500fb)
 
 ## March 2026
 
+- **2026-03-27** Added weakness (AUTOIMPLEMENT): Missing deleted but recoverable volumes from unpartitioned space (DFW-1300) [`688253c`](https://github.com/SOLVE-IT-DF/solve-it/commit/688253c)
 - **2026-03-27** Added weakness (AUTOIMPLEMENT): Missing deleted but recoverable volumes from unpartitioned space (DFW-1300) [`688253c`](https://github.com/SOLVE-IT-DF/solve-it/commit/688253c)
 - **2026-03-27** Added weakness (AUTOIMPLEMENT): Missing deleted but recoverable volumes from unpartitioned space (DFW-1300) [`688253c`](https://github.com/SOLVE-IT-DF/solve-it/commit/688253c)
 - **2026-03-27** Added weakness (AUTOIMPLEMENT): Missing deleted but recoverable volumes from unpartitioned space (DFW-1300) [`688253c`](https://github.com/SOLVE-IT-DF/solve-it/commit/688253c)

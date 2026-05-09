@@ -1,6 +1,6 @@
 {
     "id": "DFW-1071",
-    "name": "Failing to recover a complete listing of a live directory",
+    "name": "Failing to recover a complete listing of an allocated directory",
     "categories": [
         "ASTM_INCOMP"
     ],

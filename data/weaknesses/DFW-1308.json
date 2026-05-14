@@ -5,7 +5,8 @@
         "ASTM_INCOMP"
     ],
     "mitigations": [
-        "DFM-1259"
+        "DFM-1259",
+        "DFM-1269"
     ],
     "references": []
 }

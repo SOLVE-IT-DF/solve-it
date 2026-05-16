@@ -1,0 +1,19 @@
+{
+    "id": "DFW-1323",
+    "name": "Important traces of user activity may remain in API responses, but if related artefacts are not thoroughly analysed, critical forensic information may be missed or misinterpreted",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1050",
+        "DFM-1270",
+        "DFM-1271"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1151",
+            "relevance_summary_280": "Highlights the need for systematic analysis of API response fields to recover forensic evidence that would otherwise be overlooked."
+        }
+    ]
+}

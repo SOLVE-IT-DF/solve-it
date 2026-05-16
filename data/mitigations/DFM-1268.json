@@ -1,0 +1,10 @@
+{
+    "id": "DFM-1268",
+    "name": "Collect from all available API endpoints, including internal and undocumented ones identified via client reverse engineering",
+    "references": [
+        {
+            "DFCite_id": "DFCite-1151",
+            "relevance_summary_280": "Describes a methodology for identifying and collecting from public, internal, and undocumented API endpoints via reverse engineering of cloud client applications."
+        }
+    ]
+}

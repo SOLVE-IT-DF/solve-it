@@ -218,26 +218,37 @@
     {
         "id": "DFO-1002",
         "sort_order": 13,
-        "name": "Extract artifacts, or content of specific types",
-        "description": "Process data to extract artifacts or stored content of specific types.",
+        "name": "Extract data from specific formats",
+        "description": "Process data to extract artifacts from specific data formats.",
         "techniques": [
-            "DFT-1021",
-            "DFT-1071",
-            "DFT-1076",
             "DFT-1100",
-            "DFT-1099",
-            "DFT-1052",
-            "DFT-1053",
-            "DFT-1056",
-            "DFT-1120",
+            "DFT-1187",
             "DFT-1167",
-            "DFT-1169",
-            "DFT-1121",
-            "DFT-1165",
-            "DFT-1187"
+            "DFT-1099",
+            "DFT-1071"
+            
         ],
         "references": []
     },
+    {
+        "id": "DFO-1023",
+        "sort_order": 13,
+        "name": "Extract specific artifact types",
+        "description": "Process data to extract specific types of artifact",
+        "techniques": [
+            "DFT-1052",
+            "DFT-1121",
+            "DFT-1169",
+            "DFT-1165",
+            "DFT-1053",
+            "DFT-1056",
+            "DFT-1021",
+            "DFT-1120",
+            "DFT-1076"
+        ],
+        "references": []
+    },
+
     {
         "id": "DFO-1012",
         "sort_order": 14,

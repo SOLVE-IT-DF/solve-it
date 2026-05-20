@@ -15,14 +15,19 @@
 - **2026-05-05** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`db6b4ef`](https://github.com/SOLVE-IT-DF/solve-it/commit/db6b4ef)
 - **2026-05-05** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`db6b4ef`](https://github.com/SOLVE-IT-DF/solve-it/commit/db6b4ef)
 - **2026-05-05** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`db6b4ef`](https://github.com/SOLVE-IT-DF/solve-it/commit/db6b4ef)
+- **2026-05-05** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`db6b4ef`](https://github.com/SOLVE-IT-DF/solve-it/commit/db6b4ef)
 
 ## April 2026
 
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
+- **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
+- **2026-04-26** Added reference (TRWM): DFCite-1150 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
 - **2026-04-26** Added reference (TRWM): DFCite-1150 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
 - **2026-04-26** Added reference (TRWM): DFCite-1149 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
+- **2026-04-26** Added reference (TRWM): DFCite-1149 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
+- **2026-04-22** Added technique (TRWM): Extract data from OS-level notifications (DFT-1185) [`aba429e`](https://github.com/SOLVE-IT-DF/solve-it/commit/aba429e)
 - **2026-04-22** Added technique (TRWM): Extract data from OS-level notifications (DFT-1185) [`aba429e`](https://github.com/SOLVE-IT-DF/solve-it/commit/aba429e)
 - **2026-04-22** Updated technique (AUTOIMPLEMENT): Browser cache examination (DFT-1138) [`7bcc596`](https://github.com/SOLVE-IT-DF/solve-it/commit/7bcc596)
 - **2026-04-22** Added reference (AUTOIMPLEMENT): DFCite-1148 [`7bcc596`](https://github.com/SOLVE-IT-DF/solve-it/commit/7bcc596)

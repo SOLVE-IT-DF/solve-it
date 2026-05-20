@@ -30,7 +30,8 @@ body:
         - `DFO-1013` — Access partitions, volumes and file systems data
         - `DFO-1017` — Extract artifacts stored by the operating system
         - `DFO-1011` — Extract artifacts stored by applications
-        - `DFO-1002` — Extract artifacts, or content of specific types
+        - `DFO-1002` — Extract data from specific formats
+        - `DFO-1023` — Extract specific artifact types
         - `DFO-1012` — Locate potentially relevant content
         - `DFO-1003` — Review content for relevance
         - `DFO-1019` — Detect anti-forensics and other anomalies

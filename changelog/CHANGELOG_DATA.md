@@ -2,6 +2,7 @@
 
 ## May 2026
 
+- **2026-05-14** Added mitigation (AUTOIMPLEMENT): Count timeline entries before and after sorting a timeline and check they are the same (DFM-1268) [`dd219f0`](https://github.com/SOLVE-IT-DF/solve-it/commit/dd219f0)
 - **2026-05-07** Updated weakness: Presenting an allocated file as non-allocated (DFW-1078) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
 - **2026-05-07** Updated weakness: Presenting a non-allocated file as an allocated file (DFW-1077) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
 - **2026-05-07** Updated weakness: Recovering an incorrect listing of an allocated directory (DFW-1073) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
@@ -16,6 +17,7 @@
 - **2026-05-05** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`db6b4ef`](https://github.com/SOLVE-IT-DF/solve-it/commit/db6b4ef)
 - **2026-05-05** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`db6b4ef`](https://github.com/SOLVE-IT-DF/solve-it/commit/db6b4ef)
 - **2026-05-05** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`db6b4ef`](https://github.com/SOLVE-IT-DF/solve-it/commit/db6b4ef)
+- **2026-05-05** Updated technique (AUTOIMPLEMENT): Timeline analysis (DFT-1086) [`db6b4ef`](https://github.com/SOLVE-IT-DF/solve-it/commit/db6b4ef)
 
 ## April 2026
 
@@ -23,10 +25,15 @@
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
+- **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
+- **2026-04-26** Added technique (AUTOIMPLEMENT): Compute per-file hash values (DFT-1186) [`84b7089`](https://github.com/SOLVE-IT-DF/solve-it/commit/84b7089)
+- **2026-04-26** Added reference (TRWM): DFCite-1150 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
 - **2026-04-26** Added reference (TRWM): DFCite-1150 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
 - **2026-04-26** Added reference (TRWM): DFCite-1150 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
 - **2026-04-26** Added reference (TRWM): DFCite-1149 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
 - **2026-04-26** Added reference (TRWM): DFCite-1149 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
+- **2026-04-26** Added reference (TRWM): DFCite-1149 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
+- **2026-04-22** Added technique (TRWM): Extract data from OS-level notifications (DFT-1185) [`aba429e`](https://github.com/SOLVE-IT-DF/solve-it/commit/aba429e)
 - **2026-04-22** Added technique (TRWM): Extract data from OS-level notifications (DFT-1185) [`aba429e`](https://github.com/SOLVE-IT-DF/solve-it/commit/aba429e)
 - **2026-04-22** Added technique (TRWM): Extract data from OS-level notifications (DFT-1185) [`aba429e`](https://github.com/SOLVE-IT-DF/solve-it/commit/aba429e)
 - **2026-04-22** Updated technique (AUTOIMPLEMENT): Browser cache examination (DFT-1138) [`7bcc596`](https://github.com/SOLVE-IT-DF/solve-it/commit/7bcc596)

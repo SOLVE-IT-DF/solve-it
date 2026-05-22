@@ -1,6 +1,7 @@
 {
     "id": "DFW-1298",
-    "name": "The filtered timeline includes entries that are not relevant because the the tool did not filter correctly",
+    "name": "The filtered timeline includes entries that are not relevant because the tool did not filter correctly",
+    "description": "",
     "categories": [
         "ASTM_INAC_EX",
         "ASTM_INAC_AS"

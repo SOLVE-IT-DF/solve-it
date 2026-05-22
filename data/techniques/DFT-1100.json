@@ -1,8 +1,10 @@
 {
     "id": "DFT-1100",
-    "name": "EXIF data extraction",
-    "description": "",
-    "synonyms": [],
+    "name": "Extract metadata from within images",
+    "description": "The extraction of metadata from within images (pictures). e.g. EXIF, XMP. IPTC, iTXt etc.",
+    "synonyms": [
+        "EXIF extraction"
+    ],
     "details": "",
     "subtechniques": [],
     "examples": [],

@@ -27,6 +27,7 @@
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Compute per-file hash values (DFT-1186) [`84b7089`](https://github.com/SOLVE-IT-DF/solve-it/commit/84b7089)
+- **2026-04-26** Added technique (AUTOIMPLEMENT): Compute per-file hash values (DFT-1186) [`84b7089`](https://github.com/SOLVE-IT-DF/solve-it/commit/84b7089)
 - **2026-04-26** Added reference (TRWM): DFCite-1150 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
 - **2026-04-26** Added reference (TRWM): DFCite-1150 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)
 - **2026-04-26** Added reference (TRWM): DFCite-1150 [`665c485`](https://github.com/SOLVE-IT-DF/solve-it/commit/665c485)

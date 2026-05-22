@@ -2,7 +2,9 @@
 
 ## May 2026
 
+- **2026-05-22** Updated technique (AUTOIMPLEMENT): Extract metadata from within images (DFT-1100) [`8cfe75d`](https://github.com/SOLVE-IT-DF/solve-it/commit/8cfe75d)
 - **2026-05-14** Updated weakness (AUTOIMPLEMENT): The filtered timeline includes entries that are not relevant because the tool did not filter correctly (DFW-1298) [`e0fbb39`](https://github.com/SOLVE-IT-DF/solve-it/commit/e0fbb39)
+- **2026-05-14** Added mitigation (AUTOIMPLEMENT): Count timeline entries before and after sorting a timeline and check they are the same (DFM-1268) [`dd219f0`](https://github.com/SOLVE-IT-DF/solve-it/commit/dd219f0)
 - **2026-05-14** Added mitigation (AUTOIMPLEMENT): Count timeline entries before and after sorting a timeline and check they are the same (DFM-1268) [`dd219f0`](https://github.com/SOLVE-IT-DF/solve-it/commit/dd219f0)
 - **2026-05-07** Updated weakness: Presenting an allocated file as non-allocated (DFW-1078) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
 - **2026-05-07** Updated weakness: Presenting a non-allocated file as an allocated file (DFW-1077) [`1aa4c4b`](https://github.com/SOLVE-IT-DF/solve-it/commit/1aa4c4b)
@@ -27,6 +29,7 @@
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Extract content from compound files (DFT-1187) [`3a97825`](https://github.com/SOLVE-IT-DF/solve-it/commit/3a97825)
+- **2026-04-26** Added technique (AUTOIMPLEMENT): Compute per-file hash values (DFT-1186) [`84b7089`](https://github.com/SOLVE-IT-DF/solve-it/commit/84b7089)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Compute per-file hash values (DFT-1186) [`84b7089`](https://github.com/SOLVE-IT-DF/solve-it/commit/84b7089)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Compute per-file hash values (DFT-1186) [`84b7089`](https://github.com/SOLVE-IT-DF/solve-it/commit/84b7089)
 - **2026-04-26** Added technique (AUTOIMPLEMENT): Compute per-file hash values (DFT-1186) [`84b7089`](https://github.com/SOLVE-IT-DF/solve-it/commit/84b7089)

@@ -347,6 +347,28 @@ def _parse_git_log_output(output: str, credits: dict, rename_map: dict,
                     credits[item_id]["modified"] = current_date
 
 
+def get_source_data_date(repo_root: Path) -> str | None:
+    """Return the date (YYYY-MM-DD) of the most recent commit touching data/.
+
+    Used so the viewer's footer date reflects when the source data was last
+    updated, not when the page was rebuilt — keeps the rendered HTML stable
+    across rebuilds that find no underlying changes. Returns None if the path
+    has no git history or git is unavailable.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", "data/"],
+            capture_output=True, text=True, cwd=str(repo_root), timeout=10,
+        )
+        if result.returncode == 0:
+            out = result.stdout.strip()
+            if out:
+                return out
+    except Exception:
+        pass
+    return None
+
+
 def extract_git_credits(repo_root: Path) -> dict:
     """Extract contributor and reviewer names from git history for each data file.
 
@@ -481,7 +503,7 @@ def weakness_cats(w: dict) -> list[str]:
 # Main HTML generator
 # ─────────────────────────────────────────────────────────────────────────────
 
-def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
+def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_date: str | None = None) -> str:
     # ── Enrich data with SOLVE-IT-X extension content ─────────────────
     extension_main_html = ""
     hidden_fields_json = "[]"
@@ -540,7 +562,7 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
             "placeholder": {"fg": "#c0392b", "bg": "#fdf3f2", "border": "#f0c8c4"},
         }
 
-    generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+    generated_at = source_date or datetime.now().strftime("%Y-%m-%d")
     # Sanitise </script> sequences to prevent early tag closure when embedded in HTML
     data_json    = json.dumps(db, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
     idx_json     = json.dumps({
@@ -2304,7 +2326,7 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
     <footer class="site-footer">
       <div class="footer-copyright">&copy; {footer_year} SOLVE-IT</div>
       <div class="footer-generated">
-        Generated {generated_at} &mdash;
+        Data updated {generated_at} &mdash;
         <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank">github.com/SOLVE-IT-DF/solve-it</a>
       </div>
       <div class="footer-supported">
@@ -4781,8 +4803,10 @@ def main() -> None:
                 people[name][cat]["reviewed"] += 1
     db["credits"] = people
 
+    source_date = get_source_data_date(repo_root) if (repo_root / ".git").exists() else None
+
     idx = build_indices(db, kb=kb)
-    html = generate_html(db, idx, custom=getattr(args, "custom", False), kb=kb)
+    html = generate_html(db, idx, custom=getattr(args, "custom", False), kb=kb, source_date=source_date)
 
     out = Path(args.output)
     out.write_text(html, encoding="utf-8")

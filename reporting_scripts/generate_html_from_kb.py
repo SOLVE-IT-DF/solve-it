@@ -1142,6 +1142,7 @@ body.custom-mode .disabled-btn {{
   transition: background .1s;
   position: relative;
 }}
+.tech-cell:active {{ cursor: grabbing; }}
 .tech-cell:last-child {{ border-bottom: none; }}
 .tech-cell:hover {{ background: var(--blue-pale); }}
 .tech-cell.selected {{ background: var(--blue-pale); border-left-color: var(--blue); }}
@@ -1274,6 +1275,7 @@ body.custom-mode .disabled-btn {{
 .attck-table tr:last-child td {{ border-bottom: none; }}
 .attck-table tbody tr {{ transition: background var(--transition); cursor: pointer; }}
 .attck-table tbody tr:hover {{ background: var(--blue-pale); }}
+.attck-table tbody tr[draggable="true"]:active {{ cursor: grabbing; }}
 .attck-table tbody tr.selected {{ background: var(--blue-pale); }}
 
 .tid  {{ font-family: var(--font-mono); color: var(--blue); font-weight: 600; white-space: nowrap; font-size: .8rem; }}
@@ -1631,6 +1633,8 @@ body.custom-mode .disabled-btn {{
   flex: 1;
   min-width: 0;
 }}
+.detail-topbar-meta[draggable="true"] {{ cursor: grab; }}
+.detail-topbar-meta[draggable="true"]:active {{ cursor: grabbing; }}
 .detail-topbar-id {{
   font-family: var(--font-mono);
   font-size: .95rem;
@@ -2810,6 +2814,18 @@ function renderMatrix() {{
       cell.className = `tech-cell ${{cls}}${{sel?' selected':''}}`;
       cell.dataset.id = t.id;
       cell.title = `${{t.id}} — ${{t.name}} (${{STATUS_LABEL[st]||st}})`;
+      // Allow dragging a technique into the SOLVE-IT workflow builder, which may
+      // be open in a side-by-side window on a different origin. The builder only
+      // needs the technique ID; it reconstructs the rest from the live KB.
+      cell.draggable = true;
+      cell.addEventListener('dragstart', (e) => {{
+        // text/plain with a sentinel survives the cross-origin drag and guards
+        // against stray dragged text creating nodes in the builder.
+        e.dataTransfer.setData('text/plain', 'solveit-technique:' + t.id);
+        // Custom type for same-app drags where the browser preserves it.
+        e.dataTransfer.setData('application/solveit-technique', t.id);
+        e.dataTransfer.effectAllowed = 'copy';
+      }});
       // Apply custom border colour if extension overrides the default for this status
       if (t._bg_colour && t._bg_colour !== STATUS_BG_COLOURS[st]) {{
         cell.style.borderLeftColor = t._bg_colour;
@@ -3093,7 +3109,7 @@ function renderTechniquesTable() {{
             const sel = S.selected && S.selected.id === t.id && S.selected.type === 'technique';
             const obj = T2Obj[t.id];
             const typeLabel = t._isSub ? `<span style="font-size:.7rem;color:var(--gray-500)">sub</span>` : (t.subtechniques||[]).length > 0 ? `<span style="font-size:.7rem;color:var(--blue)">parent</span>` : '';
-            return `<tr class="${{sel?'selected':''}}" data-show-id="${{esc(t.id)}}" data-show-type="technique">
+            return `<tr class="${{sel?'selected':''}}" draggable="true" data-show-id="${{esc(t.id)}}" data-show-type="technique">
               <td><span class="tid">${{esc(t.id)}}</span></td>
               <td>${{esc(t.name)}}</td>
               <td style="font-size:.78rem;color:var(--gray-700)">${{obj ? esc(obj.name) : '<span class="empty-message">—</span>'}}</td>
@@ -3238,6 +3254,13 @@ function showDetail(id, type, skipHash) {{
   if (S.selected) detailHistory.push({{...S.selected}});
   S.selected = {{id, type}};
   if (!skipHash) history.replaceState(null, '', '#' + id);
+  // Only techniques can be dragged into the workflow builder, so the topbar
+  // meta (ID + title) is draggable only when a technique is being shown.
+  const _dtm = document.querySelector('.detail-topbar-meta');
+  if (_dtm) {{
+    if (type === 'technique') _dtm.setAttribute('draggable', 'true');
+    else _dtm.removeAttribute('draggable');
+  }}
   // Any new selection starts in narrow sidebar view; presentation is always an explicit click
   document.getElementById('detailPanel').classList.remove('expanded', 'present');
   if (typeof updateViewButtonTitles === 'function') updateViewButtonTitles();
@@ -4409,6 +4432,27 @@ document.addEventListener('click', function(e) {{
   if (e.target.closest('a[href]')) return;
   const el = e.target.closest('[data-show-id]');
   if (el) showDetail(el.dataset.showId, el.dataset.showType);
+}});
+
+// Delegated dragstart so techniques can be dragged into the SOLVE-IT workflow
+// builder (open in a side-by-side window, possibly a different origin). The
+// builder only needs the technique ID; it rebuilds the rest from the live KB.
+// Sources: the grid cells (their own handler), technique table rows
+// (data-show-type="technique"), and the detail topbar (current technique).
+document.addEventListener('dragstart', function(e) {{
+  let id = null;
+  const row = e.target.closest('[data-show-id][data-show-type="technique"]');
+  if (row) {{
+    id = row.dataset.showId;
+  }} else if (e.target.closest('.detail-topbar-meta') && S.selected && S.selected.type === 'technique') {{
+    id = S.selected.id;
+  }}
+  if (!id) return;
+  // text/plain with a sentinel survives the cross-origin drag and guards
+  // against stray dragged text creating nodes in the builder.
+  e.dataTransfer.setData('text/plain', 'solveit-technique:' + id);
+  e.dataTransfer.setData('application/solveit-technique', id);
+  e.dataTransfer.effectAllowed = 'copy';
 }});
 
 // Delegated click handler for objective table rows

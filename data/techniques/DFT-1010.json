@@ -11,8 +11,12 @@
         "DFW-1116",
         "DFW-1117"
     ],
-    "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Device"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Device"
+    ],
     "references": [
         {
             "DFCite_id": "DFCite-1086",

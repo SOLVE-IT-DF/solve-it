@@ -1,8 +1,9 @@
 {
     "id": "DFT-1155",
-    "name": "Operation-based event reconstruction",
+    "name": "Reconstruct that a specific event may have occurred",
     "description": "The process of reconstructing that an operation occurred on a digital system",
     "synonyms": [
+        "Operation-based event reconstruction",
         "Activity-based event reconstruction",
         "Action-based event reconstruction"
     ],

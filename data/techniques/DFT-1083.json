@@ -1,11 +1,14 @@
 {
     "id": "DFT-1083",
-    "name": "Memory examination (OS-level)",
-    "description": "",
+    "name": "Extract artifacts from operating system memory structures",
+    "description": "Examination of the operating system structures that allows individual processes to be listed and pages used by specific processes to be enumerated.",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "EPROCESS blocks",
+        "VAD trees"
+    ],
     "weaknesses": [],
     "CASE_input_classes": [],
     "CASE_output_classes": [],

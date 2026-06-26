@@ -1,6 +1,6 @@
 {
     "id": "DFT-1072",
-    "name": "Chat app examination",
+    "name": "Extract artifacts from chat app(s)",
     "description": "Analysis of the files that provide the backing store for a chat or messenger application",
     "synonyms": [
         "Messenger app analysis"

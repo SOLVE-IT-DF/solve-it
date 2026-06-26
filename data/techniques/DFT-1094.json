@@ -1,6 +1,6 @@
 {
     "id": "DFT-1094",
-    "name": "Disclosure",
+    "name": "Disclose investigation material to an authorized legal authority",
     "description": "",
     "synonyms": [],
     "details": "",
@@ -9,5 +9,14 @@
     "weaknesses": [],
     "CASE_input_classes": [],
     "CASE_output_classes": [],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1154",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1155",
+            "relevance_summary_280": "Page 6 outlines type of material in a case (in England and Wales) and then how it can be treated with regard to disclosure."
+        }
+    ]
 }

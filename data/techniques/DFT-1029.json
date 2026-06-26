@@ -1,6 +1,6 @@
 {
     "id": "DFT-1029",
-    "name": "Access data from a desoldered eMMC via a chip reader",
+    "name": "Read data from a desoldered eMMC via a chip reader",
     "description": "",
     "synonyms": [],
     "details": "",

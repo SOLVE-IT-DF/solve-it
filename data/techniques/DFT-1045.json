@@ -1,6 +1,6 @@
 {
     "id": "DFT-1045",
-    "name": "Decode standard archive format",
+    "name": "Read contents from standard archive file(s)",
     "description": "Extract files from a common archive format e.g. TAR, RAR, ZIP",
     "synonyms": [],
     "details": "",

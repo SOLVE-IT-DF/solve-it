@@ -1,6 +1,6 @@
 {
     "id": "DFT-1179",
-    "name": "Drone app examination",
+    "name": "Extract artifacts from drone/UAV app(s)",
     "description": "The examination of a mobile app used to control Unmanned Areial Vehicles (UAVs) or 'drones'.",
     "synonyms": [
         "UAV app examination"

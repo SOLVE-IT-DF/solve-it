@@ -1,6 +1,6 @@
 {
     "id": "DFT-1015",
-    "name": "Privacy preserving selective extraction",
+    "name": "Collect logical files selectively based on privacy preserving criteria",
     "description": "Previewing a data source and selecting a subset of the data for collection into a container such as a tar/zip file or a forensic image format for the purposes of protecting the privacy of the complainant or witness.",
     "synonyms": [],
     "details": "",

@@ -1,6 +1,6 @@
 {
     "id": "DFT-1115",
-    "name": "Visualisation of geolocation information",
+    "name": "Visualize geolocation information",
     "description": "Presenting points or paths visually using extracted data, typically on a map",
     "synonyms": [],
     "details": "",
@@ -10,8 +10,14 @@
         "Magnet Axiom 'World map view' (Magnet 2020)"
     ],
     "weaknesses": [],
-    "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_input_classes": 
+    [
+        "https://ontology.unifiedcyberontology.org/uco/location/Location"
+    ],
+    "CASE_output_classes": 
+    [
+
+    ],
     "references": [
         {
             "DFCite_id": "DFCite-1092",

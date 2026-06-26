@@ -1,6 +1,6 @@
 {
     "id": "DFT-1107",
-    "name": "Health/Fitness app examination",
+    "name": "Extract artifacts from health/fitness app(s)",
     "description": "",
     "synonyms": [],
     "details": "",
@@ -10,6 +10,7 @@
     "CASE_input_classes": [
         "https://ontology.solveit-df.org/solveit/observable/HealthAppFiles"
     ],
-    "CASE_output_classes": [],
+    "CASE_output_classes": [
+    ],
     "references": []
 }

@@ -1,6 +1,6 @@
 {
     "id": "DFT-1144",
-    "name": "Browser profile enumeration",
+    "name": "Enumerate browser profiles",
     "description": "The enumeration of the separate user profiles set up within a browser",
     "synonyms": [],
     "details": "",

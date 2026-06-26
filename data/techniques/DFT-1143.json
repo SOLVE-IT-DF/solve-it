@@ -1,6 +1,6 @@
 {
     "id": "DFT-1143",
-    "name": "Browser configuration examination",
+    "name": "Extract browser configuration artifacts",
     "description": "The examination of a browsers configuration",
     "synonyms": [],
     "details": "",

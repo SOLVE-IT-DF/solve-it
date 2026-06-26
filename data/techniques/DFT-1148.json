@@ -1,6 +1,6 @@
 {
     "id": "DFT-1148",
-    "name": "Browser web storage examination",
+    "name": "Extract browser web storage artifacts",
     "description": "The examination of ",
     "synonyms": [
         "browser storage examination",

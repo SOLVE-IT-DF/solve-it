@@ -1,6 +1,6 @@
 {
     "id": "DFT-1142",
-    "name": "Browser downloads examination",
+    "name": "Extract browser download artifacts",
     "description": "The examination of records of files downloaded with a browser",
     "synonyms": [],
     "details": "",

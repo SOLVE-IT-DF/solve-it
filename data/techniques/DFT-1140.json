@@ -1,6 +1,6 @@
 {
     "id": "DFT-1140",
-    "name": "Browser autofill examination",
+    "name": "Extract browser autofill artifacts",
     "description": "The examination of data that is stored to autocomplete entries in forms",
     "synonyms": [],
     "details": "",

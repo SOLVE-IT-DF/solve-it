@@ -1,11 +1,15 @@
 {
     "id": "DFT-1095",
-    "name": "Instrumentation",
-    "description": "",
+    "name": "Instrument a piece of running software",
+    "description": "This can be done during experiments to help ascertain functionality, or potential forensic artifacts",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "IDA Pro",
+        "Frida",
+        "Fiddler"
+    ],
     "weaknesses": [],
     "CASE_input_classes": [],
     "CASE_output_classes": [],

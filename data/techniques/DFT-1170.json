@@ -1,6 +1,6 @@
 {
     "id": "DFT-1170",
-    "name": "Decode forensic image format (logical)",
+    "name": "Read contents from logical forensic container file(s)",
     "description": "Decodes logical image formats such as L01, AD1, CTR, or AFF4-L. The output here is not an image file but rather a set of files and their metadata.",
     "synonyms": [
         "Logical image decoding",

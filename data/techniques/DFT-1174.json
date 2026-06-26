@@ -8,6 +8,7 @@
     "examples": [],
     "weaknesses": [],
     "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/File",
         "https://ontology.solveit-df.org/solveit/observable/ADBPullData",
         "https://ontology.solveit-df.org/solveit/observable/AFCExtractionData"
     ],

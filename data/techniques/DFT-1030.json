@@ -1,9 +1,9 @@
 {
     "id": "DFT-1030",
-    "name": "Data read from unmanaged NAND",
+    "name": "Read data from unmanaged NAND",
     "description": "",
     "synonyms": [],
-    "details": "",
+    "details": "Data read in this way will need decoding to be made accessible, e.g. via DFT-1029",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],

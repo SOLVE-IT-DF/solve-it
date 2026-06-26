@@ -1,6 +1,6 @@
 {
     "id": "DFT-1016",
-    "name": "Live data collection",
+    "name": "Collect specific pieces of information from a live running device",
     "description": "Running commands on a live system to collect specific pieces of information e.g. running processes or open ports",
     "synonyms": [
         "Live response data collection",
@@ -20,7 +20,9 @@
         "DFW-1035",
         "DFW-1036"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Device"
+    ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/Process",
         "https://ontology.unifiedcyberontology.org/uco/observable/NetworkConnection",

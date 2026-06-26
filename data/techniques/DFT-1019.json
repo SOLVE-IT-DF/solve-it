@@ -1,7 +1,7 @@
 {
     "id": "DFT-1019",
-    "name": "Mobile backup extraction",
-    "description": "Using the backup capability of a device to extract a subset of its contents",
+    "name": "Extract a backup from a mobile device",
+    "description": "Using the in-built backup capability of a device to extract a subset of its contents",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

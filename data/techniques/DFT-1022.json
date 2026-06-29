@@ -1,9 +1,9 @@
 {
     "id": "DFT-1022",
-    "name": "Mobile device screenshot based capture",
+    "name": "Capture mobile device screenshots (manually)",
     "description": "An examiner directly manipulates the target mobile device using the device's input interface (i.e., keypads and buttons), and records the content shown on the display of the device. (Fukami et al 2021)",
     "synonyms": [],
-    "details": "",
+    "details": "This is the manual version of DFT-1163. The device is controlled manually, and screenshots are captured manually.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],

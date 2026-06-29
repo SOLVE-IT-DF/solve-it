@@ -1,6 +1,6 @@
 {
     "id": "DFT-1027",
-    "name": "Data read using JTAG",
+    "name": "Read data from a device using JTAG",
     "description": "",
     "synonyms": [],
     "details": "",

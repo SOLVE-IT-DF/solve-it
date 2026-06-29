@@ -1,8 +1,10 @@
 {
     "id": "DFT-1064",
-    "name": "File carving",
+    "name": "Carve non-allocated files",
     "description": "The process of recovering files from non-allocated space using only the structural properties of files.",
-    "synonyms": [],
+    "synonyms": [
+        "file carving"        
+    ],
     "details": "File carving should result in not just the file content, but the offset in which it was found and the offset base (i.e. the disk, volume, or offset within another file). This approach uses internal files structural information only - if residual file system metadata is used then the complementary technique T1150 is more applicable.",
     "subtechniques": [],
     "examples": [

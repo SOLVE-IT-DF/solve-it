@@ -1,8 +1,8 @@
 {
     "id": "DFT-1035",
-    "name": "Dictionary attack",
+    "name": "Attack a stored credential or device using a dictionary-based approach",
     "description": "A dictionary attack is a password cracking technique where an attacker uses a list of passwords, called a dictionary, to attempt to guess a password.",
-    "synonyms": [],
+    "synonyms": ["dictionary attack"],
     "details": "Dictionary attacks use list compiled common passwords that are likely to be used by people, such as dictionary words, names, common patterns or existing lists of popular or leaked passwords.  Therefore, success depends on the quality and of dictionary list.",
     "subtechniques": [],
     "examples": [],

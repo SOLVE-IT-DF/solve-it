@@ -1,18 +1,22 @@
 {
     "id": "DFT-1050",
-    "name": "Hash matching (locate)",
+    "name": "Locate relevant files using a hashset to identify files of interest",
     "description": "",
-    "synonyms": [],
+    "synonyms": [
+        "Hash matching (locate)"
+    ],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [
         "DFW-1132"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet",
+        "https://ontology.solveit-df.org/solveit/observable/HashSet"
+    ],
     "CASE_output_classes": [
-        "https://ontology.unifiedcyberontology.org/uco/observable/File",
-        "https://ontology.unifiedcyberontology.org/uco/analysis/classification"
+        "https://ontology.solveit-df.org/solveit/observable/FilteredFileSet"        
     ],
     "references": []
 }

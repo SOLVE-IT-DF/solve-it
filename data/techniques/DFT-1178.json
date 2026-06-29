@@ -1,6 +1,6 @@
 {
     "id": "DFT-1178",
-    "name": "Writing bitstream data to a raw image format",
+    "name": "Store bitstream data in a raw image format",
     "description": "Storage of bitstream data recovered from a digital device as raw files.",
     "synonyms": [
         "store dd image",

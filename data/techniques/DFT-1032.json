@@ -1,6 +1,6 @@
 {
     "id": "DFT-1032",
-    "name": "Obtain encryption key information using side channel attacks",
+    "name": "Recover encryption/decryption key information using side channel attacks",
     "description": "",
     "synonyms": [],
     "details": "",

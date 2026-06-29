@@ -25,7 +25,7 @@
     "references": [
         {
             "DFCite_id": "DFCite-1057",
-            "relevance_summary_280": "Demonstrates extraction of synchronisation artefacts referencing connected devices across cloud services, mobile devices and computers. Directly supports DFT-1116 by showing how sync records serve as indicators of associated devices warranting further acquisition."
+            "relevance_summary_280": "Demonstrates extraction of synchronization artifacts referencing connected devices across cloud services, mobile devices and computers. Directly supports DFT-1116 by showing how sync records serve as indicators of associated devices warranting further acquisition."
         },
         {
             "DFCite_id": "DFCite-1001",

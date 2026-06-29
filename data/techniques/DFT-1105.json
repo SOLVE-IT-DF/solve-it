@@ -1,9 +1,9 @@
 {
     "id": "DFT-1105",
-    "name": "Memory examination (application-level)",
-    "description": "",
+    "name": "Examine memory dump from an application",
+    "description": "Examination of the specific structures from the memory of a specific application",
     "synonyms": [],
-    "details": "",
+    "details": "These could be extracted from a physical memory dump through analysis of operating system memory structures to extract specific process memory, or obtained directly on a live system.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],

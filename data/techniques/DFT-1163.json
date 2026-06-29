@@ -1,9 +1,9 @@
 {
     "id": "DFT-1163",
-    "name": "Automated screenshot-based capture of a mobile device",
+    "name": "Capture mobile device screenshots (automatically)",
     "description": "Programmatically controlling a mobile device while capturing screenshots of the display.",
     "synonyms": [],
-    "details": "",
+    "details": "This is the automated version of DFT-1022. The device is controlled programmatically, and screenshots are captured automatically.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],

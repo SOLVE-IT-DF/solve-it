@@ -1,6 +1,6 @@
 {
     "id": "DFT-1026",
-    "name": "Writing data to standard archive format",
+    "name": "Store data in standard archive format",
     "description": "Storing acquired data in a standard archive format such as rar, tar or zip",
     "synonyms": [],
     "details": "This is commonly used with mobile file system extractions, but mobile backups can also sometimes be compressed into an archive.",

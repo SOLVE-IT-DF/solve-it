@@ -1,6 +1,6 @@
 {
     "id": "DFT-1117",
-    "name": "Time-based event reconstruction",
+    "name": "Reconstruct the time that an event may have occurred",
     "description": "The process of assigning a time component to a reconstructed event",
     "synonyms": [
         "Temporal-based event reconstruction"

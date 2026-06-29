@@ -1,6 +1,6 @@
 {
     "id": "DFT-1049",
-    "name": "Keyword searching",
+    "name": "Keyword search",
     "description": "This technique involves searching data in the case for specific strings",
     "synonyms": [
         "string search"

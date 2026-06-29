@@ -13,5 +13,10 @@
     "weaknesses": [],
     "CASE_input_classes": [],
     "CASE_output_classes": [],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1156",
+            "relevance_summary_280": "The GitHub pages for Frida (Dynamic instrumentation toolkit for developers, reverse-engineers, and security researchers.)"
+        }
+    ]
 }

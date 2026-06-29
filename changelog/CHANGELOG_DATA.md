@@ -2,6 +2,7 @@
 
 ## June 2026
 
+- **2026-06-26** Updated weakness: Inability to enable required service due to locked device (DFW-1274) [`c27d987`](https://github.com/SOLVE-IT-DF/solve-it/commit/c27d987)
 - **2026-06-26** Updated technique: Extract data from operating system notifications (DFT-1185) [`56b751a`](https://github.com/SOLVE-IT-DF/solve-it/commit/56b751a)
 - **2026-06-26** Updated technique: Sort a timeline so entries are ordered chronologically (DFT-1184) [`da638e5`](https://github.com/SOLVE-IT-DF/solve-it/commit/da638e5)
 - **2026-06-26** Updated technique: Filter a timeline for relevant entries (DFT-1182) [`0aa8d5f`](https://github.com/SOLVE-IT-DF/solve-it/commit/0aa8d5f)
@@ -147,10 +148,14 @@
 - **2026-06-26** Updated technique: Triage devices or media (DFT-1001) [`a63d1fc`](https://github.com/SOLVE-IT-DF/solve-it/commit/a63d1fc)
 - **2026-06-26** Added reference: DFCite-1155 [`6c36951`](https://github.com/SOLVE-IT-DF/solve-it/commit/6c36951)
 - **2026-06-26** Added reference: DFCite-1154 [`6c36951`](https://github.com/SOLVE-IT-DF/solve-it/commit/6c36951)
+- **2026-06-25** Updated technique (AUTOIMPLEMENT): Instrumentation (DFT-1095) [`33edcd7`](https://github.com/SOLVE-IT-DF/solve-it/commit/33edcd7)
+- **2026-06-25** Added reference (AUTOIMPLEMENT): DFCite-1156 [`33edcd7`](https://github.com/SOLVE-IT-DF/solve-it/commit/33edcd7)
 - **2026-06-25** Added reference (AUTOIMPLEMENT): DFCite-1155 [`cd533fd`](https://github.com/SOLVE-IT-DF/solve-it/commit/cd533fd)
 - **2026-06-25** Added reference (AUTOIMPLEMENT): DFCite-1155 [`cd533fd`](https://github.com/SOLVE-IT-DF/solve-it/commit/cd533fd)
 - **2026-06-25** Added reference (AUTOIMPLEMENT): DFCite-1155 [`cd533fd`](https://github.com/SOLVE-IT-DF/solve-it/commit/cd533fd)
 - **2026-06-25** Added reference (AUTOIMPLEMENT): DFCite-1155 [`cd533fd`](https://github.com/SOLVE-IT-DF/solve-it/commit/cd533fd)
+- **2026-06-25** Added reference (AUTOIMPLEMENT): DFCite-1155 [`cd533fd`](https://github.com/SOLVE-IT-DF/solve-it/commit/cd533fd)
+- **2026-06-25** Added reference (AUTOIMPLEMENT): DFCite-1154 [`d0fcaa5`](https://github.com/SOLVE-IT-DF/solve-it/commit/d0fcaa5)
 - **2026-06-25** Added reference (AUTOIMPLEMENT): DFCite-1154 [`d0fcaa5`](https://github.com/SOLVE-IT-DF/solve-it/commit/d0fcaa5)
 
 ## May 2026

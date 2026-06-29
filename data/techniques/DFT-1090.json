@@ -1,9 +1,9 @@
 {
     "id": "DFT-1090",
-    "name": "Experimentation",
-    "description": "",
+    "name": "Experiment with software to ascertain forensic artifacts",
+    "description": "The process of running software in a controlled environment to observe its behavior and identify potential forensic artifacts.",
     "synonyms": [],
-    "details": "",
+    "details": "The equivalent of `dynamic analysis` of malware, but applied to software in general. This can involve running the software in a controlled environment and observing its behavior, inputs, and outputs to gain insights into its functionality and potential for event reconstruction.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],

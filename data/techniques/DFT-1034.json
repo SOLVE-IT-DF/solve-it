@@ -1,8 +1,9 @@
 {
     "id": "DFT-1034",
-    "name": "Brute force attack",
+    "name": "Attack a stored credential or device using a brute force approach",
     "description": "A brute force attack, or exhaustive search is a password cracking approach where every combination of characters is tested until the correct one is found. This method is \"guaranteed to work\" given infinite time and resources which in a real-life scenario is not feasible.",
     "synonyms": [
+        "brute force attack",
         "exhaustive password search"
     ],
     "details": "Brute force attack involves trying every possible combination in a defined search space to find the correct value. The search space could be limited to just numbers, for example in the case of a 4-digit PIN number, or alphanumerical values or even the full ASCII character set. The larger the search space, the longer it takes to complete a brute force attack.",

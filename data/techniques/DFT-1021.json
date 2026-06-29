@@ -1,6 +1,6 @@
 {
     "id": "DFT-1021",
-    "name": "Configuration file examination",
+    "name": "Extract artifacts from a configuration file",
     "description": "Examination of a file that was designed for storing configuration information for a piece of software (e.g. an application or operating system feature)",
     "synonyms": [],
     "details": "",

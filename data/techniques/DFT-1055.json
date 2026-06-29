@@ -1,11 +1,15 @@
 {
     "id": "DFT-1055",
-    "name": "File system content inspection",
-    "description": "",
-    "synonyms": [],
+    "name": "Examine file and folder structure",
+    "description": "The process of examining the directory hierarchy, file and folder names (rather than file contents) to identify potentially relevant material.",
+    "synonyms": [
+        "Directory structure review"
+    
+    ],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": [        
+    ],
     "weaknesses": [],
     "CASE_input_classes": [],
     "CASE_output_classes": [],

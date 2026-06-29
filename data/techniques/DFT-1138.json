@@ -1,6 +1,6 @@
 {
     "id": "DFT-1138",
-    "name": "Browser cache examination",
+    "name": "Extract browser cache artifacts",
     "description": "The examination of the content saved locally by browsers to improve performance",
     "synonyms": [
         "web cache examination",

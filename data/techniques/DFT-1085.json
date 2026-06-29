@@ -1,6 +1,6 @@
 {
     "id": "DFT-1085",
-    "name": "Identify conflation",
+    "name": "Conflate specific account identifiers to a single user identity",
     "description": "",
     "synonyms": [],
     "details": "",

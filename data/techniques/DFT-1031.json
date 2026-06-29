@@ -1,6 +1,6 @@
 {
     "id": "DFT-1031",
-    "name": "Key recovery from memory",
+    "name": "Recover encryption/decryption key from memory",
     "description": "This describes the technique whereby an attempt is made to extract key material from memory, or a memory acquisition of a running system to fascinate the decryption of some data ",
     "synonyms": [],
     "details": "",

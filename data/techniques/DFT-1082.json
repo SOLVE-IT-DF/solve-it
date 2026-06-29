@@ -1,11 +1,14 @@
 {
     "id": "DFT-1082",
-    "name": "Document content analysis",
+    "name": "Examine document content",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "Microsoft Word",
+        "Pages"        
+    ],
     "weaknesses": [],
     "CASE_input_classes": [],
     "CASE_output_classes": [],

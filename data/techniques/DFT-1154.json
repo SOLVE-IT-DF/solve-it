@@ -1,8 +1,9 @@
 {
     "id": "DFT-1154",
-    "name": "Identity-based event reconstruction",
+    "name": "Reconstruct an identity associated with an event",
     "description": "The process of attempting to link an identity (account, person etc.) to a reconstructed event",
     "synonyms": [
+        "Identity-based event reconstruction",
         "Resolving the person-device gap",
         "Resolving the person-account gap,"
     ],

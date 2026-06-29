@@ -1,11 +1,15 @@
 {
     "id": "DFT-1066",
-    "name": "Log file examination (OS)",
+    "name": "Extract artifacts from operating system log files",
     "description": "",
-    "synonyms": [],
+    "synonyms": [
+        "event log examination"
+    ],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "Windows Event Logs"
+    ],
     "weaknesses": [],
     "CASE_input_classes": [],
     "CASE_output_classes": [

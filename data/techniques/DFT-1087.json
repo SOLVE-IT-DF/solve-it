@@ -1,6 +1,6 @@
 {
     "id": "DFT-1087",
-    "name": "Location-based event reconstruction",
+    "name": "Reconstruct the location-based properties of an event",
     "description": "The process of assigning location properties to a reconstructed event",
     "synonyms": [],
     "details": "",

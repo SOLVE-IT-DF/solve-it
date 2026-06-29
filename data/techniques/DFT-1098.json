@@ -1,15 +1,21 @@
 {
     "id": "DFT-1098",
-    "name": "User account analysis (OS)",
-    "description": "Examination of information related to user account creation and logins",
-    "synonyms": [],
-    "details": "",
+    "name": "Enumerate operating system user accounts",
+    "description": "Examination of operating system artifacts to determine user accounts",
+    "synonyms": [
+        "User account analysis (OS)"
+    ],
+    "details": "This might include which accounts exist on the system, when they were created, etc.",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "Windows SAM file"
+    ],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
     "CASE_output_classes": [
-        "https://ontology.unifiedcyberontology.org/uco/observable/UserAccount",
+        "https://ontology.unifiedcyberontology.org/uco/observable/UserAccount",        
         "https://ontology.unifiedcyberontology.org/uco/observable/accountType"
     ],
     "references": []

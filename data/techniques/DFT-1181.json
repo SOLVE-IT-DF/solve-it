@@ -1,6 +1,6 @@
 {
     "id": "DFT-1181",
-    "name": "Examine smart home app",
+    "name": "Extract artifacts from smart home app(s)",
     "description": "Examine the data stored by an app designed to control, monitor or program smart home capabilities.",
     "synonyms": [],
     "details": "There are many other components to a smart home system including the devices themselves (possibly different hubs and sensors), plus the online content. This technique focuses on the app.",

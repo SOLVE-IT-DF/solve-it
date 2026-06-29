@@ -1,6 +1,6 @@
 {
     "id": "DFT-1139",
-    "name": "Browser session examination",
+    "name": "Extract browser session artifacts",
     "description": "The examination of sessions and open tabs and their individual histories",
     "synonyms": [],
     "details": "",

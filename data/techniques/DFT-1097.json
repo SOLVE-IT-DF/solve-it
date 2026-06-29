@@ -1,13 +1,17 @@
 {
     "id": "DFT-1097",
-    "name": "Installed programs identification (OS)",
+    "name": "Extract operating system artifacts indicating installed software",
     "description": "Extraction and analysis of information that allows programs installed on an OS to be identified.",
-    "synonyms": [],
+    "synonyms": [
+        "Installed software identification (OS)"
+    ],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet"
+    ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/Application",
         "https://ontology.unifiedcyberontology.org/uco/observable/ApplicationVersion"

@@ -1,6 +1,6 @@
 {
     "id": "DFT-1092",
-    "name": "Produce tag-based automated report",
+    "name": "Generate tag-based automated report",
     "description": "Generate a report in PDF, HTML or other format that compiles tagged (or bookmarked) items from a case into a package that can be reviewed.",
     "synonyms": [
         "Produce bookmark-based automated report"

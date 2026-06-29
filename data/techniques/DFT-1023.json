@@ -1,13 +1,16 @@
 {
     "id": "DFT-1023",
-    "name": "Cloud data collection to access data via a live web page using credentials",
+    "name": "Collect data from cloud service via a live web page using credentials",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Credential",
+        "https://ontology.unifiedcyberontology.org/uco/observable/OnlineService"
+    ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"
     ],

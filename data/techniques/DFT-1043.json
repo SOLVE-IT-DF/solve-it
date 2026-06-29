@@ -1,6 +1,6 @@
 {
     "id": "DFT-1043",
-    "name": "Access forensic image content (bitstream)",
+    "name": "Read bitstream from forensic image container file(s)",
     "description": "The decoding of a forensic format such as EWF such that the raw sectors can be accessed by a forensic tool (typically performed on-the-fly internally in a tool.)",
     "synonyms": [
         "Read forensic format",

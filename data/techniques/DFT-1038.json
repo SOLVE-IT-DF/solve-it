@@ -1,8 +1,8 @@
 {
     "id": "DFT-1038",
-    "name": "Rainbow table-based password attack",
+    "name": "Attack a stored credential or device using a rainbow table-based approach",
     "description": "",
-    "synonyms": [],
+    "synonyms": ["rainbow table attack"],
     "details": "",
     "subtechniques": [],
     "examples": [],

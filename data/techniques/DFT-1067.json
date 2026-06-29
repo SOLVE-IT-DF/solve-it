@@ -1,13 +1,16 @@
 {
     "id": "DFT-1067",
-    "name": "Cloud synchronisation feature examination (OS)",
-    "description": "",
+    "name": "Extract artifacts from operating system cloud synchronization features",
+    "description": "Focuses on operating system level cloud syncronization features, such as iCloud Drive and OneDrive, which may be used to synchronize files between a local system and a cloud service.",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "iCloud Drive",
+        "OneDrive"
+    ],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": ["https://ontology.solveit-df.org/solveit/observable/FileSet"],
     "CASE_output_classes": [],
     "references": []
 }

@@ -1,6 +1,6 @@
 {
     "id": "DFT-1149",
-    "name": "File versioning feature examination",
+    "name": "Extract artifacts from the file versioning feature",
     "description": "Extraction of data from the versioning system used by an operating system to store older versions of files.",
     "synonyms": [
         "shadow copy examination",

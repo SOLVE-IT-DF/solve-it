@@ -1,13 +1,25 @@
 {
     "id": "DFT-1053",
-    "name": "Entity extraction",
-    "description": "",
-    "synonyms": [],
+    "name": "Extract 'entities' from a data source",
+    "description": "Extracting common types of entity in a data source e.g. email addresses, IP addresses, domain names, URLs, credit card numbers, etc.",
+    "synonyms": [
+        "entity extraction"
+    ],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "bulk extractor"
+    ],
     "weaknesses": [],
-    "CASE_input_classes": [],
-    "CASE_output_classes": [],
-    "references": []
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed",
+        "https://ontology.solveit-df.org/solveit/observable/FileSet",
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet"
+    ],
+    "references": [
+
+    ]
 }

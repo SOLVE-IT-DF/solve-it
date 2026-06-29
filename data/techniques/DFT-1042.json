@@ -1,7 +1,7 @@
 {
     "id": "DFT-1042",
-    "name": "Hash verification of source device against stored data",
-    "description": "Computing the hash function of the entire contents of a disk, recording it, and then subsequently computing the hash over any disk image created to detect if any content is different (adapted from Lyle 2002)",
+    "name": "Verify hash of imaged data matches the hash of the source device",
+    "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
@@ -14,9 +14,9 @@
         "DFW-1127",
         "DFW-1128"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": ["https://ontology.unifiedcyberontology.org/uco/observable/hash"],
     "CASE_output_classes": [
-        "https://ontology.unifiedcyberontology.org/uco/observable/hash"
+        "https://ontology.solveit-df.org/solveit/observable/HashVerificationResult"
     ],
     "references": [
         {

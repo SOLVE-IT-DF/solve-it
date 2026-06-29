@@ -1,6 +1,6 @@
 {
     "id": "DFT-1176",
-    "name": "Identification of synthetic images",
+    "name": "Classify if an image is potentially synthetically generated",
     "description": "Classification of images with respect to their origin, i.e., whether they are synthetically generated or naturally captured by a camera.",
     "synonyms": [
         "Deepfake Detection, Synthetic Image Detection, Image Source Attribution, Image Authentication, Image Source Classification"
@@ -9,7 +9,11 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/RasterPicture"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification"
+    ],
     "references": []
 }

@@ -1,6 +1,6 @@
 {
     "id": "DFT-1164",
-    "name": "Direct data read from a block device",
+    "name": "Read data directly from a block device",
     "description": "Rather than imaging a block device, this involves accessing it directly without the expectation of saving block data to a forensic image format.",
     "synonyms": [],
     "details": "This would typically be followed by processing of the data that is read to then provide a live view of partitions and file systems, and facilitates logical file extraction or any other direct operations on the data.",

@@ -1,6 +1,6 @@
 {
     "id": "DFT-1010",
-    "name": "Place device in faraday environment",
+    "name": "Place device in a faraday environment",
     "description": "Place a device in an environment designed to shield a mobile phone or small digital device from radio waves entering the environment and reaching the device, and to stop radio waves escaping from the environment (adapted from Lennox-Steele & Nisbet (2016))",
     "synonyms": [],
     "details": "Environment should block: mobile network, Wi-Fi, and Bluetooth and all other RF.",

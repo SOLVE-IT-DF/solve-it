@@ -1,6 +1,6 @@
 {
     "id": "DFT-1044",
-    "name": "Mobile backup decoding",
+    "name": "Decode data stored in a mobile backup format",
     "description": "Processing an extracted mobile device backup to access the files contained within.",
     "synonyms": [],
     "details": "",

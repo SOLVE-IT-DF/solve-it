@@ -1,8 +1,10 @@
 {
     "id": "DFT-1020",
-    "name": "Mobile file system extraction",
+    "name": "Extract the file system from a mobile device",
     "description": "Accessing the file system(s) of the device and extracting a set of files (full or partial depending on level of access)",
-    "synonyms": [],
+    "synonyms": [
+        "file system extraction"
+    ],
     "details": "Note that Fukami et al (2021) states \"In order to conduct effective file system extraction, rooting the device is required.\" See T1040. Usually results in a zip/tar file. Rooting may provide access to the file system, but files may still be encrypted. Attacking the user pin, usually on device, using T1034, or T1035 may be necessary, unless the PIN can be obtained from the device user (T1037)",
     "subtechniques": [],
     "examples": [],

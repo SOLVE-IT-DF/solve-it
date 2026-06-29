@@ -1,6 +1,6 @@
 {
     "id": "DFT-1069",
-    "name": "Browser examination",
+    "name": "Extract artifacts from a web browser",
     "description": "Recovery of information left from web browsing activity (derived from Oh et al (2011))",
     "synonyms": [],
     "details": "This may involve: history, cached items, bookmarks, cookies, saved passwords, form data.",

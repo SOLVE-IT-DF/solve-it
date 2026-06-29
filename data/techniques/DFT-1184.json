@@ -1,6 +1,6 @@
 {
     "id": "DFT-1184",
-    "name": "Sort timeline entries chronologically",
+    "name": "Sort a timeline so entries are ordered chronologically",
     "description": "Order a timeline based on the values in the timestamp entry.",
     "synonyms": [],
     "details": "This may be applied automatically to a generated timeline or may be applied as a separate process. ",

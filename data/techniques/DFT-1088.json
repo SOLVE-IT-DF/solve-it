@@ -1,10 +1,11 @@
 {
     "id": "DFT-1088",
-    "name": "Relational-based event reconstruction",
+    "name": "Reconstruct an relations between events properties of events",
     "description": "The process of determining the existence and nature of relationships between entities during event reconstruction",
     "synonyms": [
         "Relational analysis",
-        "Connection-based event reconstruction"
+        "Connection-based event reconstruction",
+        "Relation-based event reconstruction"
     ],
     "details": "",
     "subtechniques": [],

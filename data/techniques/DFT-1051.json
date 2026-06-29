@@ -1,16 +1,17 @@
 {
     "id": "DFT-1051",
-    "name": "Fuzzy hash matching",
+    "name": "Locate potentially relevant files using fuzzy hash matching",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
     "CASE_output_classes": [
-        "https://ontology.unifiedcyberontology.org/uco/observable/File",
-        "https://ontology.unifiedcyberontology.org/uco/analysis/classification"
+        "https://ontology.solveit-df.org/solveit/observable/FilteredFileSet"        
     ],
     "references": []
 }

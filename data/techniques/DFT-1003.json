@@ -1,8 +1,9 @@
 {
     "id": "DFT-1003",
-    "name": "Memory imaging",
+    "name": "Copy pages from physical memory",
     "description": "Involves creating a copy of the live memory data of a running system",
     "synonyms": [
+        "Memory imaging",
         "RAM dump",
         "RAM imaging",
         "memory dump"

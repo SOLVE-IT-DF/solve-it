@@ -1,13 +1,18 @@
 {
     "id": "DFT-1084",
-    "name": "Extraction of user accounts",
-    "description": "",
+    "name": "Extract potentially user-identifying content from account information",
+    "description": "Analysis of user account information to extract content that may help identify the person associated with an account, such as usernames, real names, password hints, security questions, recovery email addresses, and profile details.",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/UserAccount"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/identity/Person",
+        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedRelationship"
+    ],
     "references": []
 }

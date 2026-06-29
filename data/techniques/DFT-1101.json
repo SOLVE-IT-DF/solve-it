@@ -1,14 +1,17 @@
 {
     "id": "DFT-1101",
-    "name": "Cell site survey",
+    "name": "Conduct cell site survey",
     "description": "Taking measurements to assess which cells actually provide service at a specific location (adapted from Tart et al 2012).",
     "synonyms": [],
     "details": "Can involve: spot sample, location survey, area survey, cell survey (Tart et al 2012)",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/location/Location"
+    ],
+    "CASE_output_classes": [        
+    ],
     "references": [
         {
             "DFCite_id": "DFCite-1121",

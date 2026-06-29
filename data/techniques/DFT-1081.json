@@ -1,10 +1,12 @@
 {
     "id": "DFT-1081",
-    "name": "Image content analysis",
+    "name": "Examine image/picture content",
     "description": "",
     "synonyms": [],
     "details": "",
-    "subtechniques": [],
+    "subtechniques": [
+        "DFT-1176"
+    ],
     "examples": [],
     "weaknesses": [],
     "CASE_input_classes": [],

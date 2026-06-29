@@ -1,6 +1,6 @@
 {
     "id": "DFT-1177",
-    "name": "Examination of a mutiplayer game app",
+    "name": "Extract artifacts from multiplayer game app(s)",
     "description": "Extracting artifacts from multiplayer gaming apps.",
     "synonyms": [
         "gaming app examination"

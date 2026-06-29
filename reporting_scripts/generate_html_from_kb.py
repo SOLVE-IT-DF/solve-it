@@ -1633,8 +1633,6 @@ body.custom-mode .disabled-btn {{
   flex: 1;
   min-width: 0;
 }}
-.detail-topbar-meta[draggable="true"] {{ cursor: grab; }}
-.detail-topbar-meta[draggable="true"]:active {{ cursor: grabbing; }}
 .detail-topbar-id {{
   font-family: var(--font-mono);
   font-size: .95rem;
@@ -1708,6 +1706,48 @@ body.custom-mode .disabled-btn {{
 }}
 .detail-link:hover {{ background: rgba(255,255,255,.2); color: #fff; }}
 .detail-link.copied {{ background: var(--green); border-color: var(--green); color: #fff; }}
+.detail-link[draggable="true"] {{ cursor: pointer; }}
+/* Drag-handle button in the detail topbar: drags the shown technique. Matches
+   the other topbar buttons; the grip cursor signals it is for dragging. */
+.detail-drag {{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.7);
+  cursor: grab;
+  flex-shrink: 0;
+  transition: var(--transition);
+}}
+.detail-drag:hover {{ background: rgba(255,255,255,.2); color: #fff; }}
+.detail-drag:active {{ cursor: grabbing; }}
+.detail-drag.hidden {{ display: none; }}
+/* Per-row action icons in the techniques table (copy link + drag handle). */
+.row-actions {{ white-space: nowrap; text-align: center; }}
+.row-act {{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--gray-400);
+  cursor: pointer;
+  transition: var(--transition);
+  vertical-align: middle;
+}}
+.row-act + .row-act {{ margin-left: 2px; }}
+.row-act:hover {{ background: var(--gray-100); color: var(--gray-700); border-color: var(--gray-200); }}
+.row-act.rowdrag {{ cursor: grab; }}
+.row-act.rowdrag:active {{ cursor: grabbing; }}
+.row-act.copied {{ background: var(--green); border-color: var(--green); color: #fff; }}
 
 .detail-body {{
   flex: 1;
@@ -2355,8 +2395,11 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
         <div id="dp-objective" style="font-size:.72rem;color:rgba(255,255,255,.45);margin-top:2px;display:none"></div>
         <div id="dp-original-objective" style="font-size:.72rem;color:rgba(255,255,255,.35);margin-top:1px;display:none"></div>
       </div>
-      <button class="detail-link" id="dpLink" title="Copy link">
+      <button class="detail-link copylink" id="dpLink" title="Copy link (or drag onto a document for the URL)" draggable="true">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.715 6.542L3.343 7.914a3 3 0 104.243 4.243l1.828-1.829A3 3 0 008.586 5.5L8 6.086a1.002 1.002 0 00-.154.199 2 2 0 01.861 3.337L6.88 11.45a2 2 0 11-2.83-2.83l.793-.792a4.018 4.018 0 01-.128-1.287z"/><path d="M11.285 9.458l1.372-1.372a3 3 0 10-4.243-4.243L6.586 5.671A3 3 0 007.414 10.5l.586-.586a1.002 1.002 0 00.154-.199 2 2 0 01-.861-3.337L9.12 4.55a2 2 0 112.83 2.83l-.793.792c.112.42.155.855.128 1.287z"/></svg>
+      </button>
+      <button class="detail-drag hidden" id="dpDrag" title="Drag this technique into the workflow builder, or onto a document for a reference" draggable="true">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.35"/><circle cx="10.5" cy="3" r="1.35"/><circle cx="5.5" cy="8" r="1.35"/><circle cx="10.5" cy="8" r="1.35"/><circle cx="5.5" cy="13" r="1.35"/><circle cx="10.5" cy="13" r="1.35"/></svg>
       </button>
       <button class="detail-expand" id="dpExpand" title="Expand panel to full width">
         <svg class="icon-expand" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 1.5h5a.5.5 0 010 1h-3.79l3.14 3.15a.5.5 0 01-.7.7L2 3.21V7a.5.5 0 01-1 0V2a.5.5 0 01.5-.5zm13 0a.5.5 0 01.5.5v5a.5.5 0 01-1 0V3.21l-3.15 3.14a.5.5 0 01-.7-.7L13.29 2.5H9.5a.5.5 0 010-1h5zM1.5 9a.5.5 0 01.5.5v3.79l3.15-3.14a.5.5 0 01.7.7L2.71 13.5H6.5a.5.5 0 010 1h-5a.5.5 0 01-.5-.5v-5A.5.5 0 011.5 9zm13 0a.5.5 0 01.5.5v5a.5.5 0 01-.5.5h-5a.5.5 0 010-1h3.79l-3.14-3.15a.5.5 0 01.7-.7L14 12.79V9.5a.5.5 0 01.5-.5z"/></svg>
@@ -2820,8 +2863,10 @@ function renderMatrix() {{
       cell.draggable = true;
       cell.addEventListener('dragstart', (e) => {{
         // text/plain with a sentinel survives the cross-origin drag and guards
-        // against stray dragged text creating nodes in the builder.
-        e.dataTransfer.setData('text/plain', 'solveit-technique:' + t.id);
+        // against stray dragged text creating nodes in the builder. Including the
+        // name makes it a readable reference when dropped into a document; the
+        // builder parses out the DFT-id and ignores the trailing name.
+        e.dataTransfer.setData('text/plain', 'SOLVE-IT-Technique:' + t.id + (t.name ? ':' + t.name : ''));
         // Custom type for same-app drags where the browser preserves it.
         e.dataTransfer.setData('application/solveit-technique', t.id);
         e.dataTransfer.effectAllowed = 'copy';
@@ -3103,13 +3148,14 @@ function renderTechniquesTable() {{
           ${{sortTh('CASE In','cin','ts','tsDir','width:65px;text-align:center')}}
           ${{sortTh('CASE Out','cout','ts','tsDir','width:70px;text-align:center')}}
           ${{sortTh('Edits','edits','ts','tsDir','width:55px;text-align:center')}}
+          <th style="width:62px;text-align:center">Actions</th>
         </tr></thead>
         <tbody>
           ${{items.map(t => {{
             const sel = S.selected && S.selected.id === t.id && S.selected.type === 'technique';
             const obj = T2Obj[t.id];
             const typeLabel = t._isSub ? `<span style="font-size:.7rem;color:var(--gray-500)">sub</span>` : (t.subtechniques||[]).length > 0 ? `<span style="font-size:.7rem;color:var(--blue)">parent</span>` : '';
-            return `<tr class="${{sel?'selected':''}}" draggable="true" data-show-id="${{esc(t.id)}}" data-show-type="technique">
+            return `<tr class="${{sel?'selected':''}}" data-show-id="${{esc(t.id)}}" data-show-type="technique">
               <td><span class="tid">${{esc(t.id)}}</span></td>
               <td>${{esc(t.name)}}</td>
               <td style="font-size:.78rem;color:var(--gray-700)">${{obj ? esc(obj.name) : '<span class="empty-message">—</span>'}}</td>
@@ -3122,6 +3168,14 @@ function renderTechniquesTable() {{
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.CASE_input_classes||[]).length}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.CASE_output_classes||[]).length}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{t._edits||0}}</td>
+              <td class="row-actions">
+                <button type="button" class="row-act copylink" data-link-id="${{esc(t.id)}}" draggable="true" title="Copy link (or drag onto a document for the URL)" aria-label="Copy link to ${{esc(t.id)}}">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M4.715 6.542L3.343 7.914a3 3 0 104.243 4.243l1.828-1.829A3 3 0 008.586 5.5L8 6.086a1.002 1.002 0 00-.154.199 2 2 0 01.861 3.337L6.88 11.45a2 2 0 11-2.83-2.83l.793-.792a4.018 4.018 0 01-.128-1.287z"/><path d="M11.285 9.458l1.372-1.372a3 3 0 10-4.243-4.243L6.586 5.671A3 3 0 007.414 10.5l.586-.586a1.002 1.002 0 00.154-.199 2 2 0 01-.861-3.337L9.12 4.55a2 2 0 112.83 2.83l-.793.792c.112.42.155.855.128 1.287z"/></svg>
+                </button>
+                <button type="button" class="row-act rowdrag" data-drag-id="${{esc(t.id)}}" draggable="true" title="Drag this technique into the workflow builder, or onto a document for a reference" aria-label="Drag ${{esc(t.id)}}">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.35"/><circle cx="10.5" cy="3" r="1.35"/><circle cx="5.5" cy="8" r="1.35"/><circle cx="10.5" cy="8" r="1.35"/><circle cx="5.5" cy="13" r="1.35"/><circle cx="10.5" cy="13" r="1.35"/></svg>
+                </button>
+              </td>
             </tr>`;
           }}).join('')}}
         </tbody>
@@ -3254,13 +3308,8 @@ function showDetail(id, type, skipHash) {{
   if (S.selected) detailHistory.push({{...S.selected}});
   S.selected = {{id, type}};
   if (!skipHash) history.replaceState(null, '', '#' + id);
-  // Only techniques can be dragged into the workflow builder, so the topbar
-  // meta (ID + title) is draggable only when a technique is being shown.
-  const _dtm = document.querySelector('.detail-topbar-meta');
-  if (_dtm) {{
-    if (type === 'technique') _dtm.setAttribute('draggable', 'true');
-    else _dtm.removeAttribute('draggable');
-  }}
+  // The topbar meta (ID + title) is plain selectable text, so it can be copied;
+  // dragging a technique is done via the dedicated drag-handle button instead.
   // Any new selection starts in narrow sidebar view; presentation is always an explicit click
   document.getElementById('detailPanel').classList.remove('expanded', 'present');
   if (typeof updateViewButtonTitles === 'function') updateViewButtonTitles();
@@ -3332,6 +3381,8 @@ function showDetail(id, type, skipHash) {{
   if (type !== 'technique') panel.classList.remove('present');
   panel.classList.toggle('type-m', type === 'mitigation');
   document.getElementById('dpPresent').classList.toggle('hidden', type !== 'technique');
+  // The drag handle only applies to techniques (only they drop into the builder).
+  document.getElementById('dpDrag').classList.toggle('hidden', type !== 'technique');
 
   let body = '';
 
@@ -4398,13 +4449,19 @@ document.getElementById('dpPresent').addEventListener('click', () => {{
   if (panel.classList.contains('expanded')) reorganizeForGrid();
   updateViewButtonTitles();
 }});
-document.getElementById('dpLink').addEventListener('click', () => {{
-  const url = location.href;
+// Delegated copy-link handler for any .copylink control (detail topbar and the
+// technique table rows). A data-link-id builds that item's deep link; without
+// one (the topbar button) it copies the current page URL.
+document.addEventListener('click', function(e) {{
+  const btn = e.target.closest('.copylink');
+  if (!btn) return;
+  const id = btn.dataset.linkId;
+  const url = id ? (location.href.split('#')[0] + '#' + id) : location.href;
+  const prevTitle = btn.title;
   navigator.clipboard.writeText(url).then(() => {{
-    const btn = document.getElementById('dpLink');
     btn.classList.add('copied');
     btn.title = 'Copied!';
-    setTimeout(() => {{ btn.classList.remove('copied'); btn.title = 'Copy link'; }}, 1500);
+    setTimeout(() => {{ btn.classList.remove('copied'); btn.title = prevTitle; }}, 1500);
   }});
 }});
 
@@ -4430,27 +4487,46 @@ document.addEventListener('click', function(e) {{
 document.addEventListener('click', function(e) {{
   // Don't intercept clicks on external links inside clickable containers
   if (e.target.closest('a[href]')) return;
+  // The per-row action icons (copy link / drag handle) act on their own, not as
+  // a click-through to open the row's detail.
+  if (e.target.closest('.row-actions')) return;
   const el = e.target.closest('[data-show-id]');
   if (el) showDetail(el.dataset.showId, el.dataset.showType);
 }});
 
-// Delegated dragstart so techniques can be dragged into the SOLVE-IT workflow
-// builder (open in a side-by-side window, possibly a different origin). The
-// builder only needs the technique ID; it rebuilds the rest from the live KB.
-// Sources: the grid cells (their own handler), technique table rows
-// (data-show-type="technique"), and the detail topbar (current technique).
+// Delegated dragstart for the explicit drag controls. The grid cells keep their
+// own handler; here we serve the copy-link icons (drag the item's URL) and the
+// technique drag handles in the table rows and the detail topbar. Dragging is no
+// longer tied to a whole row or the topbar meta, so that text stays selectable.
 document.addEventListener('dragstart', function(e) {{
+  // 1) A copy-link control: drag the item's URL, so dropping into a document
+  //    yields the link. A data-link-id builds that item's deep link; without one
+  //    (the topbar button) the current page URL is used.
+  const linkEl = e.target.closest('.copylink');
+  if (linkEl) {{
+    const lid = linkEl.dataset.linkId;
+    const url = lid ? (location.href.split('#')[0] + '#' + lid) : location.href;
+    e.dataTransfer.setData('text/plain', url);
+    e.dataTransfer.setData('text/uri-list', url);
+    e.dataTransfer.effectAllowed = 'copy';
+    return;
+  }}
+  // 2) A technique drag handle: the row handle carries its own id; the topbar
+  //    handle uses the currently shown technique.
   let id = null;
-  const row = e.target.closest('[data-show-id][data-show-type="technique"]');
-  if (row) {{
-    id = row.dataset.showId;
-  }} else if (e.target.closest('.detail-topbar-meta') && S.selected && S.selected.type === 'technique') {{
+  const rowHandle = e.target.closest('.rowdrag');
+  if (rowHandle) {{
+    id = rowHandle.dataset.dragId;
+  }} else if (e.target.closest('.detail-drag') && S.selected && S.selected.type === 'technique') {{
     id = S.selected.id;
   }}
   if (!id) return;
   // text/plain with a sentinel survives the cross-origin drag and guards
-  // against stray dragged text creating nodes in the builder.
-  e.dataTransfer.setData('text/plain', 'solveit-technique:' + id);
+  // against stray dragged text creating nodes in the builder. Including the name
+  // makes it a readable reference when dropped into a document; the builder
+  // parses out the DFT-id and ignores the trailing name.
+  const _nm = (TMap[id] && TMap[id].name) ? ':' + TMap[id].name : '';
+  e.dataTransfer.setData('text/plain', 'SOLVE-IT-Technique:' + id + _nm);
   e.dataTransfer.setData('application/solveit-technique', id);
   e.dataTransfer.effectAllowed = 'copy';
 }});

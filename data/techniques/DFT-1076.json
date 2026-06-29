@@ -1,6 +1,6 @@
 {
     "id": "DFT-1076",
-    "name": "Log file examination",
+    "name": "Extract artifacts from log files",
     "description": "Examination of a file that was designed for incremental logging from a piece of software (e.g. an application or operating system feature)",
     "synonyms": [],
     "details": "These could be in a variety of formats e.g. plain text, JSON, XML, binary, etc.",

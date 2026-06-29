@@ -1,9 +1,10 @@
 {
     "id": "DFT-1052",
-    "name": "Timeline generation",
+    "name": "Generate timeline",
     "description": "The extraction and normalisation of timestamps from a data source into a set of timeline entries",
     "synonyms": [
-        "timelining"
+        "timelining",
+        "timeline generation"
     ],
     "details": "",
     "subtechniques": [
@@ -20,10 +21,12 @@
         "DFW-1151",
         "DFW-1269"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet",
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet"
+        ],
     "CASE_output_classes": [
-        "https://ontology.solveit-df.org/solveit/observable/Timeline",
-        "https://ontology.solveit-df.org/solveit/observable/TimelineEntry"
+        "https://ontology.solveit-df.org/solveit/observable/Timeline"        
     ],
     "references": [
         {

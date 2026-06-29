@@ -1,13 +1,14 @@
 {
     "id": "DFT-1011",
-    "name": "Store seized devices in evidence bags",
+    "name": "Store seized devices or media in evidence bags",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_input_classes": ["https://ontology.unifiedcyberontology.org/uco/observable/Device"],
+    "CASE_output_classes": ["https://ontology.unifiedcyberontology.org/uco/observable/Device",
+                            "https://ontology.caseontology.org/case/investigation/exhibitNumber"],
     "references": []
 }

@@ -1,7 +1,7 @@
 {
     "id": "DFT-1118",
     "name": "Locate relevant files by path",
-    "description": "Use the path of file name to determine potential relevance of artefact",
+    "description": "Use the path of file name to determine potential relevance of artifact",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

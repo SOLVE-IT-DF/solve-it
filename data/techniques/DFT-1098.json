@@ -1,11 +1,11 @@
 {
     "id": "DFT-1098",
     "name": "Enumerate operating system user accounts",
-    "description": "Examination of operating system artifacts to determine user accounts",
+    "description": "Examination of operating system artifacts to determine user accounts that exist or have previously existed on the system.",
     "synonyms": [
         "User account analysis (OS)"
     ],
-    "details": "This might include which accounts exist on the system, when they were created, etc.",
+    "details": "",
     "subtechniques": [
         "DFT-1188",
         "DFT-1189"

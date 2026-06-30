@@ -1,5 +1,7 @@
 {
     "id": "DFM-1005",
-    "name": "Testing to ensure software and hardware setup detects HPAs",
+    "name": "Testing to ensure that the software and hardware disk imaging setup can detect HPAs",
+    "description": "Tests have been performed that the combination of hardware and software used can detect when HPAs are present.",
+    "technique": null,
     "references": []
 }

@@ -6,7 +6,10 @@
         "User account analysis (OS)"
     ],
     "details": "This might include which accounts exist on the system, when they were created, etc.",
-    "subtechniques": [],
+    "subtechniques": [
+        "DFT-1188",
+        "DFT-1189"
+    ],
     "examples": [
         "Windows SAM file"
     ],

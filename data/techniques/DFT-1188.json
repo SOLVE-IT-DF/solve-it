@@ -1,0 +1,18 @@
+{
+    "id": "DFT-1188",
+    "name": "Enumerate allocated operating system user accounts",
+    "description": "Extract allocated user accounts from operating system artifacts.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": ["Windows SAM file enumeration"],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/UserAccount",        
+        "https://ontology.unifiedcyberontology.org/uco/observable/accountType"
+    ],
+    "references": []
+}

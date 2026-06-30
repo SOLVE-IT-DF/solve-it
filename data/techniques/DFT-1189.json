@@ -1,0 +1,19 @@
+{
+    "id": "DFT-1189",
+    "name": "Recover potential non-allocated operating system user accounts",
+    "description": "Using residual artifacts to determine potential previous but currently not allocated operating system user accounts.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": ["Non allocated space from SAM file",
+                 "Older entries in Windows Event logs"],
+    "weaknesses": [],
+ "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/UserAccount",        
+        "https://ontology.unifiedcyberontology.org/uco/observable/accountType",
+        "https://ontology.unifiedcyberontology.org/uco/core/confidence"
+    ],    "references": []
+}

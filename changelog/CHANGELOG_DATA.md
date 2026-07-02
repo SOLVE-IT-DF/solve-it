@@ -306,6 +306,8 @@
 - **2026-06-25** Added reference (AUTOIMPLEMENT): DFCite-1154 [`d0fcaa5`](https://github.com/SOLVE-IT-DF/solve-it/commit/d0fcaa5)
 - **2026-06-25** Added reference (AUTOIMPLEMENT): DFCite-1154 [`d0fcaa5`](https://github.com/SOLVE-IT-DF/solve-it/commit/d0fcaa5)
 - **2026-06-24** Updated technique (AUTOIMPLEMENT): Place device in faraday environment (DFT-1010) [`1ec328e`](https://github.com/SOLVE-IT-DF/solve-it/commit/1ec328e)
+- **2026-06-24** Updated technique (AUTOIMPLEMENT): Place device in faraday environment (DFT-1010) [`1ec328e`](https://github.com/SOLVE-IT-DF/solve-it/commit/1ec328e)
+- **2026-06-23** Updated technique (AUTOIMPLEMENT): Read forensic image content (bitstream) (DFT-1043) [`96f54b0`](https://github.com/SOLVE-IT-DF/solve-it/commit/96f54b0)
 - **2026-06-23** Updated technique (AUTOIMPLEMENT): Read forensic image content (bitstream) (DFT-1043) [`96f54b0`](https://github.com/SOLVE-IT-DF/solve-it/commit/96f54b0)
 
 ## May 2026

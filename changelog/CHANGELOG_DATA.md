@@ -1,5 +1,9 @@
 # SOLVE-IT Knowledge Base Changelog
 
+## July 2026
+
+- **2026-07-06** Added technique (TRWM): Extract operating system version(s) from data source (DFT-1190) [`63fa548`](https://github.com/SOLVE-IT-DF/solve-it/commit/63fa548)
+
 ## June 2026
 
 - **2026-06-30** Updated mitigation (AUTOIMPLEMENT): Testing to ensure that the software and hardware disk imaging setup can detect HPAs (DFM-1005) [`4261109`](https://github.com/SOLVE-IT-DF/solve-it/commit/4261109)
@@ -309,6 +313,8 @@
 - **2026-06-24** Updated technique (AUTOIMPLEMENT): Place device in faraday environment (DFT-1010) [`1ec328e`](https://github.com/SOLVE-IT-DF/solve-it/commit/1ec328e)
 - **2026-06-24** Updated technique (AUTOIMPLEMENT): Place device in faraday environment (DFT-1010) [`1ec328e`](https://github.com/SOLVE-IT-DF/solve-it/commit/1ec328e)
 - **2026-06-24** Updated technique (AUTOIMPLEMENT): Place device in faraday environment (DFT-1010) [`1ec328e`](https://github.com/SOLVE-IT-DF/solve-it/commit/1ec328e)
+- **2026-06-24** Updated technique (AUTOIMPLEMENT): Place device in faraday environment (DFT-1010) [`1ec328e`](https://github.com/SOLVE-IT-DF/solve-it/commit/1ec328e)
+- **2026-06-23** Updated technique (AUTOIMPLEMENT): Read forensic image content (bitstream) (DFT-1043) [`96f54b0`](https://github.com/SOLVE-IT-DF/solve-it/commit/96f54b0)
 - **2026-06-23** Updated technique (AUTOIMPLEMENT): Read forensic image content (bitstream) (DFT-1043) [`96f54b0`](https://github.com/SOLVE-IT-DF/solve-it/commit/96f54b0)
 - **2026-06-23** Updated technique (AUTOIMPLEMENT): Read forensic image content (bitstream) (DFT-1043) [`96f54b0`](https://github.com/SOLVE-IT-DF/solve-it/commit/96f54b0)
 - **2026-06-23** Updated technique (AUTOIMPLEMENT): Read forensic image content (bitstream) (DFT-1043) [`96f54b0`](https://github.com/SOLVE-IT-DF/solve-it/commit/96f54b0)

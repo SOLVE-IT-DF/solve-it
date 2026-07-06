@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1324",
+    "name": "Failure to extract the operating system version due to a tool accessing the wrong artifact",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1272"
+    ],
+    "references": []
+}

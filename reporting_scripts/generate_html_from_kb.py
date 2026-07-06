@@ -1891,6 +1891,30 @@ body.custom-mode .disabled-btn {{
 }}
 .view-source-btn:hover {{ background: var(--gray-700); text-decoration: none; color: #fff; }}
 .propose-update-btn svg {{ flex-shrink: 0; }}
+.prop-gh-btns {{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}}
+.prop-gh-btn {{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+  border-radius: 5px;
+  font-size: .74rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+}}
+.prop-gh-btn:hover {{ background: var(--gray-200); border-color: var(--gray-500); color: var(--gray-900); text-decoration: none; }}
+.prop-gh-btn svg {{ flex-shrink: 0; }}
 
 /* Transitions */
 .view {{
@@ -2117,13 +2141,13 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 32px;
   background: #fff;
   border-radius: 6px;
-  padding: 0 10px;
+  padding: 0 9px;
 }}
 .footer-supported img {{
-  height: 24px;
+  height: 20px;
   width: auto;
 }}
 .footer-supported .logo-dfrws img {{
@@ -3428,6 +3452,26 @@ function unwrapGrid() {{
   if (window._dpFlatHtml != null) body.innerHTML = window._dpFlatHtml;
 }}
 
+// Buttons linking to the backing JSON file's commit history and to an issue-tracker
+// search for any mention of the item's ID (both current DFx-#### and legacy X#### forms,
+// including closed issues). Returns '' for items whose ID doesn't match a known pattern.
+function githubLinksHtml(item) {{
+  const id = item.id || '';
+  const m = id.match(/^DF([TWM])-(\\d+)$/);
+  if (!m) return '';
+  const folder = {{T: 'techniques', W: 'weaknesses', M: 'mitigations'}}[m[1]];
+  const letter = m[1], num = m[2];
+  const historyUrl = `${{REPO_URL}}/commits/main/data/${{folder}}/${{id}}.json`;
+  const searchQ = `"${{id}}" OR "${{letter}}${{num}}" OR "${{letter}}-${{num}}"`;
+  const searchUrl = `${{REPO_URL}}/issues?q=${{encodeURIComponent(searchQ)}}`;
+  const commitIco = '<svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M10.5 7.75a2.5 2.5 0 01-4.9 0H1.75a.75.75 0 010-1.5h3.85a2.5 2.5 0 014.9 0h3.85a.75.75 0 010 1.5H10.5zM8 8.25a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z"/></svg>';
+  const searchIco = '<svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M10.68 11.74a6 6 0 01-7.922-8.982 6 6 0 018.982 7.922l3.04 3.04a.749.749 0 01-1.06 1.06l-3.04-3.04zM11.5 7a4.5 4.5 0 10-9 0 4.5 4.5 0 009 0z"/></svg>';
+  return `<div class="prop-gh-btns">
+    <a class="prop-gh-btn" href="${{historyUrl}}" target="_blank" rel="noopener noreferrer">${{commitIco}} Show git history</a>
+    <a class="prop-gh-btn" href="${{searchUrl}}" target="_blank" rel="noopener noreferrer">${{searchIco}} Search git issue mentions</a>
+  </div>`;
+}}
+
 function buildCreditsHtml(item) {{
   let html = '';
   const edits = item._edits || 0;
@@ -3435,15 +3479,17 @@ function buildCreditsHtml(item) {{
   const modified = item._modified || '';
   const contributors = item._contributors || [];
   const reviewers = item._reviewers || [];
-  if (!edits && !created && !contributors.length && !reviewers.length) return '';
-  if (!HIDDEN_FIELDS.has('properties') && (edits || created || modified)) {{
+  const ghLinks = githubLinksHtml(item);
+  if (!edits && !created && !contributors.length && !reviewers.length && !ghLinks) return '';
+  if (!HIDDEN_FIELDS.has('properties') && (edits || created || modified || ghLinks)) {{
     let rows = '';
     if (edits)    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{edits}}</td></tr>`;
     if (created)  rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{created}}</td></tr>`;
     if (modified) rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Last Modified</td><td>${{modified}}</td></tr>`;
     html += `<div class="detail-section" data-col="end">
       <div class="detail-section-title">Properties</div>
-      <table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>
+      ${{rows ? `<table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>` : ''}}
+      ${{ghLinks}}
     </div>`;
   }}
   if (!HIDDEN_FIELDS.has('contributors') && contributors.length) {{
@@ -3825,7 +3871,8 @@ function buildTechniquePresentationDetail(t) {{
     </div>`;
   }}
   const _edits = t._edits || 0, _created = t._created || '', _modified = t._modified || '';
-  if (_edits || _created || _modified || contributors.length > 6 || reviewers.length > 6) {{
+  const _gh = githubLinksHtml(t);
+  if (_edits || _created || _modified || _gh || contributors.length > 6 || reviewers.length > 6) {{
     let _rows = '';
     if (_edits)    _rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{_edits}}</td></tr>`;
     if (_created)  _rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{_created}}</td></tr>`;
@@ -3836,6 +3883,7 @@ function buildTechniquePresentationDetail(t) {{
           <span class="hero-details-chev">\u25B8</span> Properties &amp; full credits
         </summary>
         ${{_rows ? `<table style="font-family:var(--font-mono);font-size:.82rem;margin-top:8px">${{_rows}}</table>` : ''}}
+        ${{_gh}}
         ${{contributors.length > 6 ? `<div style="margin-top:8px"><small style="color:var(--gray-500);font-weight:600">All contributors (${{contributors.length}})</small><div class="detail-tags" style="margin-top:4px">${{contributors.map(n=>`<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div></div>` : ''}}
         ${{reviewers.length > 6 ? `<div style="margin-top:6px"><small style="color:var(--gray-500);font-weight:600">All reviewers (${{reviewers.length}})</small><div class="detail-tags" style="margin-top:4px">${{reviewers.map(n=>`<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div></div>` : ''}}
       </details>

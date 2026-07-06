@@ -2123,7 +2123,7 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
   padding: 0 10px;
 }}
 .footer-supported img {{
-  height: 28px;
+  height: 24px;
   width: auto;
 }}
 .footer-supported .logo-dfrws img {{
@@ -2377,6 +2377,9 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
         <span>Supported by:</span>
         <a href="https://www.hargs.co.uk" target="_blank" rel="noopener noreferrer">
           <img src="https://solve-it-df.github.io/www/assets/images/hargs-logo.jpg" alt="HARGS">
+        </a>
+        <a href="https://www.cke-ltd.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://solve-it-df.github.io/www/assets/images/cke-logo-simple.png" alt="CKE Ltd">
         </a>
       </div>
     </footer>

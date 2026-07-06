@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1329",
+    "name": "Failure to highlight previous versions of the operating system that were used on the device",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1273"
+    ],
+    "references": []
+}

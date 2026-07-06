@@ -186,7 +186,8 @@
             "DFT-1116",
             "DFT-1149",
             "DFT-1180",
-            "DFT-1185"
+            "DFT-1185",
+            "DFT-1190"
         ],
         "references": []
     },
@@ -248,7 +249,6 @@
         ],
         "references": []
     },
-
     {
         "id": "DFO-1012",
         "sort_order": 14,

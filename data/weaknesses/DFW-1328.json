@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1328",
+    "name": "Extracting a previous operating system version as if it were the current because a tool uses an incorrect or outdated artifact",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1272"
+    ],
+    "references": []
+}

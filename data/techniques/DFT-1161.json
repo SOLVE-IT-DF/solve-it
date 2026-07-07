@@ -16,8 +16,8 @@
         "FOREST (open-source cloud forensic tool)"
     ],
     "weaknesses": [
-        "DFW-1322",
-        "DFW-1323"
+        "DFW-1338",
+        "DFW-1339"
     ],
     "CASE_input_classes": [ "https://ontology.unifiedcyberontology.org/uco/observable/OnlineService"],
     "CASE_output_classes": [

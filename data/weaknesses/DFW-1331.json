@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1331",
+    "name": "Failure to recover last modified time associated with an allocated Registry key because of a parsing error in the tool used",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1274"
+    ],
+    "references": []
+}

@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1337",
+    "name": "Presenting an allocated Registry key's modification time as the modification time for a specific value.",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1275"
+    ],
+    "references": []
+}

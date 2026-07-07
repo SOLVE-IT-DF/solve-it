@@ -1,0 +1,34 @@
+{
+    "id": "DFT-1191",
+    "name": "Parse allocated structures in Windows HIVE files",
+    "description": "Enumerate the allocated structures within HIVE files (typically Windows Registry) to extract the tree structure along with keys and their values. ",
+    "synonyms": [
+        "Registry analysis"
+    ],
+    "details": "This focuses on the data structure enumeration only, rather than taking a specific key and performing analysis on the data contained within. It covers allocated keys and values only.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1330",
+        "DFW-1331",
+        "DFW-1332",
+        "DFW-1333",
+        "DFW-1334",
+        "DFW-1335",
+        "DFW-1336",
+        "DFW-1337"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/WindowsRegistryHive"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/WindowsRegistryKey",
+        "https://ontology.unifiedcyberontology.org/uco/observable/WindowsRegistryValue"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1158",
+            "relevance_summary_280": ""
+        }
+    ]
+}

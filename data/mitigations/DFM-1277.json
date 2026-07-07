@@ -1,9 +1,9 @@
 {
-    "id": "DFM-1269",
+    "id": "DFM-1277",
     "name": "Monitor structural changes to the target API and update parsing logic to prevent silent data loss",
     "references": [
         {
-            "DFCite_id": "DFCite-1151",
+            "DFCite_id": "DFCite-1159",
             "relevance_summary_280": "Demonstrates how tracking API structural changes over time enables forensic tools to adapt parsing logic and avoid silent data loss when service vendors modify their APIs."
         }
     ]

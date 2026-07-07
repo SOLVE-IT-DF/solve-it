@@ -2,6 +2,7 @@
 
 ## July 2026
 
+- **2026-07-07** Added technique (TRWM): Parse allocated structures in Windows HIVE files (DFT-1191) [`8532396`](https://github.com/SOLVE-IT-DF/solve-it/commit/8532396)
 - **2026-07-06** Added technique (TRWM): Extract operating system version(s) from data source (DFT-1190) [`63fa548`](https://github.com/SOLVE-IT-DF/solve-it/commit/63fa548)
 
 ## June 2026

@@ -31,6 +31,9 @@ class IDScanner:
         self.reserved_mitigation_ids: Dict[int, List[Tuple[int, str, str]]] = {}
         self.reserved_weakness_ids: Dict[int, List[Tuple[int, str, str]]] = {}
         self.reserved_citation_ids: Dict[int, List[Tuple[int, str, str]]] = {}
+
+        # True only if the GitHub issue/PR scan completed successfully
+        self.github_scan_ok = False
     
     def scan_local_files(self):
         """Scan local JSON files for existing IDs"""
@@ -90,17 +93,18 @@ class IDScanner:
                 print("Continuing with local file scan only...")
                 return
             
-            # Get issues with comments
+            # Run gh from the project root so it can resolve the repository
+            # regardless of the directory the script is invoked from
             issues_result = subprocess.run(
                 ["gh", "issue", "list", "--limit", "100", "--json", "number,title,body,comments", "--state", "all"],
-                capture_output=True, text=True, check=True
+                capture_output=True, text=True, check=True, cwd=self.project_root
             )
             issues = json.loads(issues_result.stdout)
-            
+
             # Get PRs with comments
             prs_result = subprocess.run(
                 ["gh", "pr", "list", "--limit", "100", "--json", "number,title,body,comments", "--state", "all"],
-                capture_output=True, text=True, check=True
+                capture_output=True, text=True, check=True, cwd=self.project_root
             )
             prs = json.loads(prs_result.stdout)
             
@@ -170,6 +174,8 @@ class IDScanner:
                   f"{len(self.reserved_mitigation_ids)} reserved mitigation IDs, " +
                   f"{len(self.reserved_weakness_ids)} reserved weakness IDs, " +
                   f"{len(self.reserved_citation_ids)} reserved citation IDs in GitHub")
+
+            self.github_scan_ok = True
             
         except FileNotFoundError:
             print("Warning: GitHub CLI (gh) not found.")
@@ -233,6 +239,14 @@ class IDScanner:
         report.append("SOLVE-IT ID Usage Report")
         report.append("=" * 50)
         report.append("")
+
+        if not self.github_scan_ok:
+            report.append("!" * 50)
+            report.append("WARNING: GitHub issue/PR scan DID NOT RUN.")
+            report.append("All values below EXCLUDE GITHUB RESERVATIONS and")
+            report.append("must not be used to assign new IDs.")
+            report.append("!" * 50)
+            report.append("")
         
         # Current usage summary
         report.append("Current Usage:")
@@ -342,7 +356,16 @@ class IDScanner:
         report.append(f"  Next Mitigation: DFM-{mitigation_next[0] if mitigation_next else 'N/A'}")
         report.append(f"  Next Weakness:   DFW-{weakness_next[0] if weakness_next else 'N/A'}")
         report.append(f"  Next Citation:   DFCite-{citation_next[0] if citation_next else 'N/A'}")
-        
+
+        if not self.github_scan_ok:
+            report.append("")
+            report.append("!" * 50)
+            report.append("WARNING: values above EXCLUDE GITHUB RESERVATIONS")
+            report.append("(the GitHub issue/PR scan did not run - see start")
+            report.append("of output for the reason). Do not assign IDs from")
+            report.append("this report.")
+            report.append("!" * 50)
+
         return "\n".join(report)
     
     def run(self):

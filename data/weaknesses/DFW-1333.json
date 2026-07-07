@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1333",
+    "name": "Mapping an allocated Registry key to an incorrect point in the Registry tree structure because of a parsing error in the tool used",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1274"
+    ],
+    "references": []
+}

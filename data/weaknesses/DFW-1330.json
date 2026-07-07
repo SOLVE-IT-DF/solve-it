@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1330",
+    "name": "Failure to recover an allocated Registry key because of a parsing error in the tool used",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1274"
+    ],
+    "references": []
+}

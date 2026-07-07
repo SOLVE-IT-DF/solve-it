@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1335",
+    "name": "Presenting an allocated Registry value that does not exist because of a parsing error in the tool used",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1274"
+    ],
+    "references": []
+}

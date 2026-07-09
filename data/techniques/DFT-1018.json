@@ -1,16 +1,18 @@
 {
     "id": "DFT-1018",
-    "name": "Remote data collection",
+    "name": "Collect data from a remote networked device",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/NetworkConnection"
+    ],
     "CASE_output_classes": [
-        "https://ontology.unifiedcyberontology.org/uco/observable/Image",
-        "https://ontology.unifiedcyberontology.org/uco/observable/File"
+        "https://ontology.solveit-df.org/solveit/observable/ForensicImageContainer",
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
     ],
     "references": []
 }

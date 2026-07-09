@@ -1,0 +1,27 @@
+{
+    "id": "DFT-1190",
+    "name": "Extract operating system version(s) from data source",
+    "description": "The process of extracting and processing the artifacts that describe the current operating system version and associated version details e.g. build, service pack etc.",
+    "synonyms": [],
+    "details": "Each operating system will have a specific artifact that allows this to be performed e.g. details from the Registry on Windows. \n\nIt is also sometimes possible to determine older versions of the operating system which have been used, with timestamps, which may be useful for later functional reconstruction (DFT-1156)",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1324",
+        "DFW-1325",
+        "DFW-1326",
+        "DFW-1327",
+        "DFW-1328",
+        "DFW-1329"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1157",
+            "relevance_summary_280": ""
+        }
+    ]
+}

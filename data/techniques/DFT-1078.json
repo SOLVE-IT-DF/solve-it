@@ -1,11 +1,14 @@
 {
     "id": "DFT-1078",
-    "name": "Cloud sync app examination",
-    "description": "",
+    "name": "Extract artifacts from cloud synchronization app(s)",
+    "description": "Involves examination of cloud synchronization artifacts from apps rather than those built into the operating system.",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "Dropbox",
+        "Google Drive"
+    ],
     "weaknesses": [],
     "CASE_input_classes": [],
     "CASE_output_classes": [],

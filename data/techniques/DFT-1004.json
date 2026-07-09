@@ -1,9 +1,10 @@
 {
     "id": "DFT-1004",
-    "name": "Selective file acquisition",
+    "name": "Collect logical files selectively",
     "description": "Views a set of files (typically via direct access from previewing) and acquires a subset of them.",
     "synonyms": [
-        "Logical imaging"
+        "Logical imaging",
+        "Logical acquisition"
     ],
     "details": "This selection of files would subsequently be stored into a container such as a tar/zip file or a forensic image format.",
     "subtechniques": ["DFT-1015"],

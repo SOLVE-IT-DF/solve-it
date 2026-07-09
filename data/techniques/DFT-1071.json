@@ -1,6 +1,6 @@
 {
     "id": "DFT-1071",
-    "name": "SQLite database examination",
+    "name": "Extract data from SQLite database(s)",
     "description": "Examination of a SQLite database file(s) to extract information from within.",
     "synonyms": [
         "database forensics"

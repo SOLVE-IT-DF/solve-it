@@ -1,13 +1,15 @@
 {
     "id": "DFT-1106",
-    "name": "Deep fake detection (video)",
+    "name": "Classify if a video is potentially synthetically generated",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/VideoFile"
+    ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification",
         "https://ontology.unifiedcyberontology.org/uco/analysis/classificationConfidence"

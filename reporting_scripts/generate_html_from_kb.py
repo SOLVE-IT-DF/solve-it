@@ -347,6 +347,28 @@ def _parse_git_log_output(output: str, credits: dict, rename_map: dict,
                     credits[item_id]["modified"] = current_date
 
 
+def get_source_data_date(repo_root: Path) -> str | None:
+    """Return the date (YYYY-MM-DD) of the most recent commit touching data/.
+
+    Used so the viewer's footer date reflects when the source data was last
+    updated, not when the page was rebuilt — keeps the rendered HTML stable
+    across rebuilds that find no underlying changes. Returns None if the path
+    has no git history or git is unavailable.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", "data/"],
+            capture_output=True, text=True, cwd=str(repo_root), timeout=10,
+        )
+        if result.returncode == 0:
+            out = result.stdout.strip()
+            if out:
+                return out
+    except Exception:
+        pass
+    return None
+
+
 def extract_git_credits(repo_root: Path) -> dict:
     """Extract contributor and reviewer names from git history for each data file.
 
@@ -481,7 +503,7 @@ def weakness_cats(w: dict) -> list[str]:
 # Main HTML generator
 # ─────────────────────────────────────────────────────────────────────────────
 
-def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
+def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_date: str | None = None) -> str:
     # ── Enrich data with SOLVE-IT-X extension content ─────────────────
     extension_main_html = ""
     hidden_fields_json = "[]"
@@ -540,7 +562,7 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None) -> str:
             "placeholder": {"fg": "#c0392b", "bg": "#fdf3f2", "border": "#f0c8c4"},
         }
 
-    generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+    generated_at = source_date or datetime.now().strftime("%Y-%m-%d")
     # Sanitise </script> sequences to prevent early tag closure when embedded in HTML
     data_json    = json.dumps(db, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
     idx_json     = json.dumps({
@@ -1120,6 +1142,7 @@ body.custom-mode .disabled-btn {{
   transition: background .1s;
   position: relative;
 }}
+.tech-cell:active {{ cursor: grabbing; }}
 .tech-cell:last-child {{ border-bottom: none; }}
 .tech-cell:hover {{ background: var(--blue-pale); }}
 .tech-cell.selected {{ background: var(--blue-pale); border-left-color: var(--blue); }}
@@ -1252,6 +1275,7 @@ body.custom-mode .disabled-btn {{
 .attck-table tr:last-child td {{ border-bottom: none; }}
 .attck-table tbody tr {{ transition: background var(--transition); cursor: pointer; }}
 .attck-table tbody tr:hover {{ background: var(--blue-pale); }}
+.attck-table tbody tr[draggable="true"]:active {{ cursor: grabbing; }}
 .attck-table tbody tr.selected {{ background: var(--blue-pale); }}
 
 .tid  {{ font-family: var(--font-mono); color: var(--blue); font-weight: 600; white-space: nowrap; font-size: .8rem; }}
@@ -1682,6 +1706,48 @@ body.custom-mode .disabled-btn {{
 }}
 .detail-link:hover {{ background: rgba(255,255,255,.2); color: #fff; }}
 .detail-link.copied {{ background: var(--green); border-color: var(--green); color: #fff; }}
+.detail-link[draggable="true"] {{ cursor: pointer; }}
+/* Drag-handle button in the detail topbar: drags the shown technique. Matches
+   the other topbar buttons; the grip cursor signals it is for dragging. */
+.detail-drag {{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.7);
+  cursor: grab;
+  flex-shrink: 0;
+  transition: var(--transition);
+}}
+.detail-drag:hover {{ background: rgba(255,255,255,.2); color: #fff; }}
+.detail-drag:active {{ cursor: grabbing; }}
+.detail-drag.hidden {{ display: none; }}
+/* Per-row action icons in the techniques table (copy link + drag handle). */
+.row-actions {{ white-space: nowrap; text-align: center; }}
+.row-act {{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--gray-400);
+  cursor: pointer;
+  transition: var(--transition);
+  vertical-align: middle;
+}}
+.row-act + .row-act {{ margin-left: 2px; }}
+.row-act:hover {{ background: var(--gray-100); color: var(--gray-700); border-color: var(--gray-200); }}
+.row-act.rowdrag {{ cursor: grab; }}
+.row-act.rowdrag:active {{ cursor: grabbing; }}
+.row-act.copied {{ background: var(--green); border-color: var(--green); color: #fff; }}
 
 .detail-body {{
   flex: 1;
@@ -1825,6 +1891,30 @@ body.custom-mode .disabled-btn {{
 }}
 .view-source-btn:hover {{ background: var(--gray-700); text-decoration: none; color: #fff; }}
 .propose-update-btn svg {{ flex-shrink: 0; }}
+.prop-gh-btns {{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}}
+.prop-gh-btn {{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+  border-radius: 5px;
+  font-size: .74rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+}}
+.prop-gh-btn:hover {{ background: var(--gray-200); border-color: var(--gray-500); color: var(--gray-900); text-decoration: none; }}
+.prop-gh-btn svg {{ flex-shrink: 0; }}
 
 /* Transitions */
 .view {{
@@ -2051,13 +2141,13 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 32px;
   background: #fff;
   border-radius: 6px;
-  padding: 0 10px;
+  padding: 0 9px;
 }}
 .footer-supported img {{
-  height: 28px;
+  height: 20px;
   width: auto;
 }}
 .footer-supported .logo-dfrws img {{
@@ -2304,13 +2394,16 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
     <footer class="site-footer">
       <div class="footer-copyright">&copy; {footer_year} SOLVE-IT</div>
       <div class="footer-generated">
-        Generated {generated_at} &mdash;
+        Data updated {generated_at} &mdash;
         <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank">github.com/SOLVE-IT-DF/solve-it</a>
       </div>
       <div class="footer-supported">
         <span>Supported by:</span>
         <a href="https://www.hargs.co.uk" target="_blank" rel="noopener noreferrer">
           <img src="https://solve-it-df.github.io/www/assets/images/hargs-logo.jpg" alt="HARGS">
+        </a>
+        <a href="https://www.cke-ltd.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://solve-it-df.github.io/www/assets/images/cke-logo-simple.png" alt="CKE Ltd">
         </a>
       </div>
     </footer>
@@ -2329,8 +2422,11 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
         <div id="dp-objective" style="font-size:.72rem;color:rgba(255,255,255,.45);margin-top:2px;display:none"></div>
         <div id="dp-original-objective" style="font-size:.72rem;color:rgba(255,255,255,.35);margin-top:1px;display:none"></div>
       </div>
-      <button class="detail-link" id="dpLink" title="Copy link">
+      <button class="detail-link copylink" id="dpLink" title="Copy link (or drag onto a document for the URL)" draggable="true">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.715 6.542L3.343 7.914a3 3 0 104.243 4.243l1.828-1.829A3 3 0 008.586 5.5L8 6.086a1.002 1.002 0 00-.154.199 2 2 0 01.861 3.337L6.88 11.45a2 2 0 11-2.83-2.83l.793-.792a4.018 4.018 0 01-.128-1.287z"/><path d="M11.285 9.458l1.372-1.372a3 3 0 10-4.243-4.243L6.586 5.671A3 3 0 007.414 10.5l.586-.586a1.002 1.002 0 00.154-.199 2 2 0 01-.861-3.337L9.12 4.55a2 2 0 112.83 2.83l-.793.792c.112.42.155.855.128 1.287z"/></svg>
+      </button>
+      <button class="detail-drag hidden" id="dpDrag" title="Drag this technique into the workflow builder, or onto a document for a reference" draggable="true">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.35"/><circle cx="10.5" cy="3" r="1.35"/><circle cx="5.5" cy="8" r="1.35"/><circle cx="10.5" cy="8" r="1.35"/><circle cx="5.5" cy="13" r="1.35"/><circle cx="10.5" cy="13" r="1.35"/></svg>
       </button>
       <button class="detail-expand" id="dpExpand" title="Expand panel to full width">
         <svg class="icon-expand" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 1.5h5a.5.5 0 010 1h-3.79l3.14 3.15a.5.5 0 01-.7.7L2 3.21V7a.5.5 0 01-1 0V2a.5.5 0 01.5-.5zm13 0a.5.5 0 01.5.5v5a.5.5 0 01-1 0V3.21l-3.15 3.14a.5.5 0 01-.7-.7L13.29 2.5H9.5a.5.5 0 010-1h5zM1.5 9a.5.5 0 01.5.5v3.79l3.15-3.14a.5.5 0 01.7.7L2.71 13.5H6.5a.5.5 0 010 1h-5a.5.5 0 01-.5-.5v-5A.5.5 0 011.5 9zm13 0a.5.5 0 01.5.5v5a.5.5 0 01-.5.5h-5a.5.5 0 010-1h3.79l-3.14-3.15a.5.5 0 01.7-.7L14 12.79V9.5a.5.5 0 01.5-.5z"/></svg>
@@ -2788,6 +2884,20 @@ function renderMatrix() {{
       cell.className = `tech-cell ${{cls}}${{sel?' selected':''}}`;
       cell.dataset.id = t.id;
       cell.title = `${{t.id}} — ${{t.name}} (${{STATUS_LABEL[st]||st}})`;
+      // Allow dragging a technique into the SOLVE-IT workflow builder, which may
+      // be open in a side-by-side window on a different origin. The builder only
+      // needs the technique ID; it reconstructs the rest from the live KB.
+      cell.draggable = true;
+      cell.addEventListener('dragstart', (e) => {{
+        // text/plain with a sentinel survives the cross-origin drag and guards
+        // against stray dragged text creating nodes in the builder. Including the
+        // name makes it a readable reference when dropped into a document; the
+        // builder parses out the DFT-id and ignores the trailing name.
+        e.dataTransfer.setData('text/plain', 'SOLVE-IT-Technique:' + t.id + (t.name ? ':' + t.name : ''));
+        // Custom type for same-app drags where the browser preserves it.
+        e.dataTransfer.setData('application/solveit-technique', t.id);
+        e.dataTransfer.effectAllowed = 'copy';
+      }});
       // Apply custom border colour if extension overrides the default for this status
       if (t._bg_colour && t._bg_colour !== STATUS_BG_COLOURS[st]) {{
         cell.style.borderLeftColor = t._bg_colour;
@@ -3065,6 +3175,7 @@ function renderTechniquesTable() {{
           ${{sortTh('CASE In','cin','ts','tsDir','width:65px;text-align:center')}}
           ${{sortTh('CASE Out','cout','ts','tsDir','width:70px;text-align:center')}}
           ${{sortTh('Edits','edits','ts','tsDir','width:55px;text-align:center')}}
+          <th style="width:62px;text-align:center">Actions</th>
         </tr></thead>
         <tbody>
           ${{items.map(t => {{
@@ -3084,6 +3195,14 @@ function renderTechniquesTable() {{
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.CASE_input_classes||[]).length}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{(t.CASE_output_classes||[]).length}}</td>
               <td style="text-align:center;font-family:var(--font-mono);font-size:.8rem">${{t._edits||0}}</td>
+              <td class="row-actions">
+                <button type="button" class="row-act copylink" data-link-id="${{esc(t.id)}}" draggable="true" title="Copy link (or drag onto a document for the URL)" aria-label="Copy link to ${{esc(t.id)}}">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M4.715 6.542L3.343 7.914a3 3 0 104.243 4.243l1.828-1.829A3 3 0 008.586 5.5L8 6.086a1.002 1.002 0 00-.154.199 2 2 0 01.861 3.337L6.88 11.45a2 2 0 11-2.83-2.83l.793-.792a4.018 4.018 0 01-.128-1.287z"/><path d="M11.285 9.458l1.372-1.372a3 3 0 10-4.243-4.243L6.586 5.671A3 3 0 007.414 10.5l.586-.586a1.002 1.002 0 00.154-.199 2 2 0 01-.861-3.337L9.12 4.55a2 2 0 112.83 2.83l-.793.792c.112.42.155.855.128 1.287z"/></svg>
+                </button>
+                <button type="button" class="row-act rowdrag" data-drag-id="${{esc(t.id)}}" draggable="true" title="Drag this technique into the workflow builder, or onto a document for a reference" aria-label="Drag ${{esc(t.id)}}">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.35"/><circle cx="10.5" cy="3" r="1.35"/><circle cx="5.5" cy="8" r="1.35"/><circle cx="10.5" cy="8" r="1.35"/><circle cx="5.5" cy="13" r="1.35"/><circle cx="10.5" cy="13" r="1.35"/></svg>
+                </button>
+              </td>
             </tr>`;
           }}).join('')}}
         </tbody>
@@ -3216,6 +3335,8 @@ function showDetail(id, type, skipHash) {{
   if (S.selected) detailHistory.push({{...S.selected}});
   S.selected = {{id, type}};
   if (!skipHash) history.replaceState(null, '', '#' + id);
+  // The topbar meta (ID + title) is plain selectable text, so it can be copied;
+  // dragging a technique is done via the dedicated drag-handle button instead.
   // Any new selection starts in narrow sidebar view; presentation is always an explicit click
   document.getElementById('detailPanel').classList.remove('expanded', 'present');
   if (typeof updateViewButtonTitles === 'function') updateViewButtonTitles();
@@ -3287,6 +3408,8 @@ function showDetail(id, type, skipHash) {{
   if (type !== 'technique') panel.classList.remove('present');
   panel.classList.toggle('type-m', type === 'mitigation');
   document.getElementById('dpPresent').classList.toggle('hidden', type !== 'technique');
+  // The drag handle only applies to techniques (only they drop into the builder).
+  document.getElementById('dpDrag').classList.toggle('hidden', type !== 'technique');
 
   let body = '';
 
@@ -3329,6 +3452,26 @@ function unwrapGrid() {{
   if (window._dpFlatHtml != null) body.innerHTML = window._dpFlatHtml;
 }}
 
+// Buttons linking to the backing JSON file's commit history and to an issue-tracker
+// search for any mention of the item's ID (both current DFx-#### and legacy X#### forms,
+// including closed issues). Returns '' for items whose ID doesn't match a known pattern.
+function githubLinksHtml(item) {{
+  const id = item.id || '';
+  const m = id.match(/^DF([TWM])-(\\d+)$/);
+  if (!m) return '';
+  const folder = {{T: 'techniques', W: 'weaknesses', M: 'mitigations'}}[m[1]];
+  const letter = m[1], num = m[2];
+  const historyUrl = `${{REPO_URL}}/commits/main/data/${{folder}}/${{id}}.json`;
+  const searchQ = `"${{id}}" OR "${{letter}}${{num}}" OR "${{letter}}-${{num}}"`;
+  const searchUrl = `${{REPO_URL}}/issues?q=${{encodeURIComponent(searchQ)}}`;
+  const commitIco = '<svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M10.5 7.75a2.5 2.5 0 01-4.9 0H1.75a.75.75 0 010-1.5h3.85a2.5 2.5 0 014.9 0h3.85a.75.75 0 010 1.5H10.5zM8 8.25a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z"/></svg>';
+  const searchIco = '<svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M10.68 11.74a6 6 0 01-7.922-8.982 6 6 0 018.982 7.922l3.04 3.04a.749.749 0 01-1.06 1.06l-3.04-3.04zM11.5 7a4.5 4.5 0 10-9 0 4.5 4.5 0 009 0z"/></svg>';
+  return `<div class="prop-gh-btns">
+    <a class="prop-gh-btn" href="${{historyUrl}}" target="_blank" rel="noopener noreferrer">${{commitIco}} Show git history</a>
+    <a class="prop-gh-btn" href="${{searchUrl}}" target="_blank" rel="noopener noreferrer">${{searchIco}} Search git issue mentions</a>
+  </div>`;
+}}
+
 function buildCreditsHtml(item) {{
   let html = '';
   const edits = item._edits || 0;
@@ -3336,15 +3479,17 @@ function buildCreditsHtml(item) {{
   const modified = item._modified || '';
   const contributors = item._contributors || [];
   const reviewers = item._reviewers || [];
-  if (!edits && !created && !contributors.length && !reviewers.length) return '';
-  if (!HIDDEN_FIELDS.has('properties') && (edits || created || modified)) {{
+  const ghLinks = githubLinksHtml(item);
+  if (!edits && !created && !contributors.length && !reviewers.length && !ghLinks) return '';
+  if (!HIDDEN_FIELDS.has('properties') && (edits || created || modified || ghLinks)) {{
     let rows = '';
     if (edits)    rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{edits}}</td></tr>`;
     if (created)  rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{created}}</td></tr>`;
     if (modified) rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Last Modified</td><td>${{modified}}</td></tr>`;
     html += `<div class="detail-section" data-col="end">
       <div class="detail-section-title">Properties</div>
-      <table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>
+      ${{rows ? `<table style="font-family:var(--font-mono);font-size:.82rem">${{rows}}</table>` : ''}}
+      ${{ghLinks}}
     </div>`;
   }}
   if (!HIDDEN_FIELDS.has('contributors') && contributors.length) {{
@@ -3726,7 +3871,8 @@ function buildTechniquePresentationDetail(t) {{
     </div>`;
   }}
   const _edits = t._edits || 0, _created = t._created || '', _modified = t._modified || '';
-  if (_edits || _created || _modified || contributors.length > 6 || reviewers.length > 6) {{
+  const _gh = githubLinksHtml(t);
+  if (_edits || _created || _modified || _gh || contributors.length > 6 || reviewers.length > 6) {{
     let _rows = '';
     if (_edits)    _rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Edits</td><td>${{_edits}}</td></tr>`;
     if (_created)  _rows += `<tr><td style="color:var(--gray-500);padding:2px 12px 2px 0">Created</td><td>${{_created}}</td></tr>`;
@@ -3737,6 +3883,7 @@ function buildTechniquePresentationDetail(t) {{
           <span class="hero-details-chev">\u25B8</span> Properties &amp; full credits
         </summary>
         ${{_rows ? `<table style="font-family:var(--font-mono);font-size:.82rem;margin-top:8px">${{_rows}}</table>` : ''}}
+        ${{_gh}}
         ${{contributors.length > 6 ? `<div style="margin-top:8px"><small style="color:var(--gray-500);font-weight:600">All contributors (${{contributors.length}})</small><div class="detail-tags" style="margin-top:4px">${{contributors.map(n=>`<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div></div>` : ''}}
         ${{reviewers.length > 6 ? `<div style="margin-top:6px"><small style="color:var(--gray-500);font-weight:600">All reviewers (${{reviewers.length}})</small><div class="detail-tags" style="margin-top:4px">${{reviewers.map(n=>`<span class="credit-tag" data-person="${{esc(n)}}">${{esc(n)}}</span>`).join('')}}</div></div>` : ''}}
       </details>
@@ -4353,13 +4500,19 @@ document.getElementById('dpPresent').addEventListener('click', () => {{
   if (panel.classList.contains('expanded')) reorganizeForGrid();
   updateViewButtonTitles();
 }});
-document.getElementById('dpLink').addEventListener('click', () => {{
-  const url = location.href;
+// Delegated copy-link handler for any .copylink control (detail topbar and the
+// technique table rows). A data-link-id builds that item's deep link; without
+// one (the topbar button) it copies the current page URL.
+document.addEventListener('click', function(e) {{
+  const btn = e.target.closest('.copylink');
+  if (!btn) return;
+  const id = btn.dataset.linkId;
+  const url = id ? (location.href.split('#')[0] + '#' + id) : location.href;
+  const prevTitle = btn.title;
   navigator.clipboard.writeText(url).then(() => {{
-    const btn = document.getElementById('dpLink');
     btn.classList.add('copied');
     btn.title = 'Copied!';
-    setTimeout(() => {{ btn.classList.remove('copied'); btn.title = 'Copy link'; }}, 1500);
+    setTimeout(() => {{ btn.classList.remove('copied'); btn.title = prevTitle; }}, 1500);
   }});
 }});
 
@@ -4385,8 +4538,48 @@ document.addEventListener('click', function(e) {{
 document.addEventListener('click', function(e) {{
   // Don't intercept clicks on external links inside clickable containers
   if (e.target.closest('a[href]')) return;
+  // The per-row action icons (copy link / drag handle) act on their own, not as
+  // a click-through to open the row's detail.
+  if (e.target.closest('.row-actions')) return;
   const el = e.target.closest('[data-show-id]');
   if (el) showDetail(el.dataset.showId, el.dataset.showType);
+}});
+
+// Delegated dragstart for the explicit drag controls. The grid cells keep their
+// own handler; here we serve the copy-link icons (drag the item's URL) and the
+// technique drag handles in the table rows and the detail topbar. Dragging is no
+// longer tied to a whole row or the topbar meta, so that text stays selectable.
+document.addEventListener('dragstart', function(e) {{
+  // 1) A copy-link control: drag the item's URL, so dropping into a document
+  //    yields the link. A data-link-id builds that item's deep link; without one
+  //    (the topbar button) the current page URL is used.
+  const linkEl = e.target.closest('.copylink');
+  if (linkEl) {{
+    const lid = linkEl.dataset.linkId;
+    const url = lid ? (location.href.split('#')[0] + '#' + lid) : location.href;
+    e.dataTransfer.setData('text/plain', url);
+    e.dataTransfer.setData('text/uri-list', url);
+    e.dataTransfer.effectAllowed = 'copy';
+    return;
+  }}
+  // 2) A technique drag handle: the row handle carries its own id; the topbar
+  //    handle uses the currently shown technique.
+  let id = null;
+  const rowHandle = e.target.closest('.rowdrag');
+  if (rowHandle) {{
+    id = rowHandle.dataset.dragId;
+  }} else if (e.target.closest('.detail-drag') && S.selected && S.selected.type === 'technique') {{
+    id = S.selected.id;
+  }}
+  if (!id) return;
+  // text/plain with a sentinel survives the cross-origin drag and guards
+  // against stray dragged text creating nodes in the builder. Including the name
+  // makes it a readable reference when dropped into a document; the builder
+  // parses out the DFT-id and ignores the trailing name.
+  const _nm = (TMap[id] && TMap[id].name) ? ':' + TMap[id].name : '';
+  e.dataTransfer.setData('text/plain', 'SOLVE-IT-Technique:' + id + _nm);
+  e.dataTransfer.setData('application/solveit-technique', id);
+  e.dataTransfer.effectAllowed = 'copy';
 }});
 
 // Delegated click handler for objective table rows
@@ -4781,8 +4974,10 @@ def main() -> None:
                 people[name][cat]["reviewed"] += 1
     db["credits"] = people
 
+    source_date = get_source_data_date(repo_root) if (repo_root / ".git").exists() else None
+
     idx = build_indices(db, kb=kb)
-    html = generate_html(db, idx, custom=getattr(args, "custom", False), kb=kb)
+    html = generate_html(db, idx, custom=getattr(args, "custom", False), kb=kb, source_date=source_date)
 
     out = Path(args.output)
     out.write_text(html, encoding="utf-8")

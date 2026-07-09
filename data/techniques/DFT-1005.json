@@ -1,6 +1,6 @@
 {
     "id": "DFT-1005",
-    "name": "Conduct a search of a crime scene",
+    "name": "Search a crime scene for relevant physical evidence",
     "description": "The process of 'carefully documenting the conditions at a crime scene and identifying all relevant physical evidence.' (Birzer 2018).",
     "synonyms": [
         "Crime scene investigation",
@@ -9,7 +9,7 @@
         "Incident scene examination",
         "Scene search"
     ],
-    "details": "The UK's Forensic Science Regulator (FSR) guidance refers to \"Incident scene examination\" which takes a holistic approach and considers an incident scene in conjunction with the requirements of an investigation and the criminal justice system. The aim of incident scene examination is to identify and locate, or note the absence of, physical material which has relevance and significance to inform the investigation including, where relevant, the reconstruction of past events.",
+    "details": "The UK's Forensic Science Regulator (FSR) guidance refers to \"Incident scene examination\" which takes a holistic approach and considers an incident scene in conjunction with the requirements of an investigation and the criminal justice system. The aim of incident scene examination is to identify and locate, or note the absence of, physical material which has relevance and significance to inform the investigation including, where relevant, the reconstruction of past events.\nThe techqniue does not restrict to searching for digital devices as other physical objects may be relevant e.g. contain passwords.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [

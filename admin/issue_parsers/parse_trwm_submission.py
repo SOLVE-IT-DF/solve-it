@@ -48,12 +48,26 @@ TECHNIQUE_FIELDS = [
 ]
 
 WEAKNESS_FIELDS = [
-    "id", "name", "categories", "mitigations", "references",
+    "id", "name", "description", "categories", "mitigations", "references",
 ]
 
 MITIGATION_FIELDS = [
-    "id", "name", "references",
+    "id", "name", "description", "technique", "references",
 ]
+
+# Optional weakness/mitigation fields whose key is omitted from the
+# normalized output when the value is empty, matching the KB file convention
+# (most weakness/mitigation files have no "description"/"technique" key
+# rather than an empty string). This also keeps update diffs clean when
+# neither side has the field. Not applied to techniques, whose KB files
+# always include a "description" key (sometimes empty).
+WM_OMIT_IF_EMPTY = frozenset({"description", "technique"})
+
+# Optional descriptive fields that older TRWM Helper bundles either omit or
+# always send as "". For updates to existing items, an empty submitted value
+# preserves the current KB value rather than erasing it (clearing a
+# description must be done via the update form instead).
+PRESERVE_IF_EMPTY = {"description", "technique"}
 
 # Default values by type
 FIELD_DEFAULTS = {
@@ -82,8 +96,13 @@ def extract_json_from_field(text):
     return text
 
 
-def normalize_to_kb_schema(item, field_list):
-    """Normalize an item to the full KB schema, including all fields."""
+def normalize_to_kb_schema(item, field_list, omit_if_empty=frozenset()):
+    """Normalize an item to the full KB schema, including all fields.
+
+    Fields missing from the item (e.g. bundles from older TRWM Helper
+    versions) get empty defaults. Fields in omit_if_empty are left out
+    entirely when empty, matching the KB file convention.
+    """
     normalized = {}
     for field in field_list:
         if field in item:
@@ -91,16 +110,32 @@ def normalize_to_kb_schema(item, field_list):
             # References must be a list of dicts; filter out bare strings
             if field == "references" and isinstance(value, list):
                 value = [r for r in value if isinstance(r, dict)]
-            normalized[field] = value
         else:
             # Determine default based on what other items typically have
             if field in ("synonyms", "subtechniques", "examples", "weaknesses",
                          "CASE_input_classes", "CASE_output_classes",
                          "mitigations", "references"):
-                normalized[field] = []
+                value = []
             else:
-                normalized[field] = ""
+                value = ""
+        if field in omit_if_empty and not value:
+            continue
+        normalized[field] = value
     return normalized
+
+
+def preserve_kb_fields(submitted, kb_item):
+    """Carry existing KB values through an update when the submission is silent.
+
+    Older TRWM Helper bundles omit descriptive fields (or send them as ""),
+    so an empty submitted value here means "not provided", not "clear it".
+    Returns the submitted dict with those fields backfilled from the KB item.
+    """
+    merged = dict(submitted)
+    for field in PRESERVE_IF_EMPTY:
+        if not merged.get(field) and kb_item.get(field):
+            merged[field] = kb_item[field]
+    return merged
 
 
 def resolve_bare_references(trwm_data, project_root):
@@ -563,6 +598,7 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
             kb_weakness = normalize_to_kb_schema(
                 apply_placeholders(weakness, placeholder_map),
                 WEAKNESS_FIELDS,
+                omit_if_empty=WM_OMIT_IF_EMPTY,
             )
             lines.append(f"#### {weakness['name']} (`{placeholder}`)")
             lines.append("")
@@ -583,6 +619,7 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
             kb_mitigation = normalize_to_kb_schema(
                 apply_placeholders(mitigation, placeholder_map),
                 MITIGATION_FIELDS,
+                omit_if_empty=WM_OMIT_IF_EMPTY,
             )
             lines.append(f"#### {mitigation['name']} (`{placeholder}`)")
             lines.append("")
@@ -639,7 +676,9 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
                     submitted = normalize_to_kb_schema(
                         apply_placeholders(weakness, placeholder_map),
                         WEAKNESS_FIELDS,
+                        omit_if_empty=WM_OMIT_IF_EMPTY,
                     )
+                    submitted = preserve_kb_fields(submitted, kb_item)
                     lines.extend(build_update_section(
                         "weakness", weakness["id"], kb_item, submitted))
                 else:
@@ -658,7 +697,9 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
                     submitted = normalize_to_kb_schema(
                         apply_placeholders(mitigation, placeholder_map),
                         MITIGATION_FIELDS,
+                        omit_if_empty=WM_OMIT_IF_EMPTY,
                     )
+                    submitted = preserve_kb_fields(submitted, kb_item)
                     lines.extend(build_update_section(
                         "mitigation", mitigation["id"], kb_item, submitted))
                 else:

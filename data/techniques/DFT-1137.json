@@ -1,6 +1,6 @@
 {
     "id": "DFT-1137",
-    "name": "Browser history examination",
+    "name": "Extract browser history artifacts",
     "description": "The examination of the history component of a web browser.",
     "synonyms": [
         "web history examination",

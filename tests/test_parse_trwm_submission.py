@@ -8,7 +8,8 @@ import unittest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'admin', 'issue_parsers'))
 from parse_trwm_submission import (
     normalize_to_kb_schema, resolve_bare_references, validate_submission,
-    TECHNIQUE_FIELDS, WEAKNESS_FIELDS, MITIGATION_FIELDS,
+    preserve_kb_fields,
+    TECHNIQUE_FIELDS, WEAKNESS_FIELDS, MITIGATION_FIELDS, WM_OMIT_IF_EMPTY,
 )
 
 
@@ -42,6 +43,81 @@ class TestNormalizeReferences(unittest.TestCase):
         item = {"id": "DFT-9999", "name": "Test"}
         result = normalize_to_kb_schema(item, TECHNIQUE_FIELDS)
         self.assertEqual(result["references"], [])
+
+
+class TestDescriptionAndTechniqueFields(unittest.TestCase):
+    """Weakness/mitigation description (and mitigation technique) must
+    survive normalization when present, be omitted when empty (matching KB
+    file convention), and default gracefully for older TRWM bundles."""
+
+    def test_weakness_description_preserved(self):
+        item = {"id": "DFW-9999", "name": "Test", "description": "More detail."}
+        result = normalize_to_kb_schema(item, WEAKNESS_FIELDS,
+                                        omit_if_empty=WM_OMIT_IF_EMPTY)
+        self.assertEqual(result["description"], "More detail.")
+
+    def test_mitigation_description_and_technique_preserved(self):
+        item = {"id": "DFM-9999", "name": "Test",
+                "description": "More detail.", "technique": "DFT-1001"}
+        result = normalize_to_kb_schema(item, MITIGATION_FIELDS,
+                                        omit_if_empty=WM_OMIT_IF_EMPTY)
+        self.assertEqual(result["description"], "More detail.")
+        self.assertEqual(result["technique"], "DFT-1001")
+
+    def test_old_bundle_without_description_omits_key(self):
+        # Older TRWM bundles have no description key on weaknesses
+        item = {"id": "DFW-9999", "name": "Test"}
+        result = normalize_to_kb_schema(item, WEAKNESS_FIELDS,
+                                        omit_if_empty=WM_OMIT_IF_EMPTY)
+        self.assertNotIn("description", result)
+
+    def test_empty_description_and_technique_omitted(self):
+        # Older TRWM bundles send description/technique as "" on mitigations
+        item = {"id": "DFM-9999", "name": "Test",
+                "description": "", "technique": ""}
+        result = normalize_to_kb_schema(item, MITIGATION_FIELDS,
+                                        omit_if_empty=WM_OMIT_IF_EMPTY)
+        self.assertNotIn("description", result)
+        self.assertNotIn("technique", result)
+
+    def test_technique_empty_description_still_included(self):
+        # Technique KB files always include the description key, even empty
+        item = {"id": "DFT-9999", "name": "Test"}
+        result = normalize_to_kb_schema(item, TECHNIQUE_FIELDS)
+        self.assertEqual(result["description"], "")
+
+
+class TestPreserveKbFields(unittest.TestCase):
+    """On updates, an empty submitted description/technique preserves the
+    existing KB value instead of erasing it (older TRWM bundles cannot
+    express these fields)."""
+
+    def test_kb_description_preserved_when_submission_silent(self):
+        submitted = {"id": "DFW-1001", "name": "Test"}
+        kb_item = {"id": "DFW-1001", "name": "Test",
+                   "description": "Existing detail."}
+        merged = preserve_kb_fields(submitted, kb_item)
+        self.assertEqual(merged["description"], "Existing detail.")
+
+    def test_kb_technique_preserved_when_submission_silent(self):
+        submitted = {"id": "DFM-1001", "name": "Test"}
+        kb_item = {"id": "DFM-1001", "name": "Test", "technique": "DFT-1001"}
+        merged = preserve_kb_fields(submitted, kb_item)
+        self.assertEqual(merged["technique"], "DFT-1001")
+
+    def test_submitted_value_wins_when_present(self):
+        submitted = {"id": "DFW-1001", "name": "Test",
+                     "description": "New detail."}
+        kb_item = {"id": "DFW-1001", "name": "Test",
+                   "description": "Existing detail."}
+        merged = preserve_kb_fields(submitted, kb_item)
+        self.assertEqual(merged["description"], "New detail.")
+
+    def test_no_kb_value_leaves_submission_unchanged(self):
+        submitted = {"id": "DFW-1001", "name": "Test"}
+        kb_item = {"id": "DFW-1001", "name": "Test"}
+        merged = preserve_kb_fields(submitted, kb_item)
+        self.assertNotIn("description", merged)
 
 
 class TestValidateSubmissionReferences(unittest.TestCase):

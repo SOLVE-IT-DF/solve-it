@@ -1,14 +1,19 @@
 {
     "id": "DFT-1056",
-    "name": "Entity connection enumeration",
-    "description": "",
+    "name": "Enumerate connections between artifacts",
+    "description": "Finds references between artifacts, such as operating system artifacts that refer to a specific file",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "AXIOM Connections feature"
+    ],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ObservableObject"
+    ],
     "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet",
         "https://ontology.unifiedcyberontology.org/uco/observable/ObservableRelationship"
     ],
     "references": []

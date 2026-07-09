@@ -1,8 +1,10 @@
 {
     "id": "DFT-1028",
-    "name": "Chip-off",
+    "name": "Physically remove a storage chip from a device (chip-off)",
     "description": "",
-    "synonyms": [],
+    "synonyms": [
+        "chip-off"
+    ],
     "details": "",
     "subtechniques": [],
     "examples": [],

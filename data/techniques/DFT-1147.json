@@ -1,6 +1,6 @@
 {
     "id": "DFT-1147",
-    "name": "Browser cookie examination",
+    "name": "Extract browser cookie artifacts",
     "description": "The examination of stored browser cookies",
     "synonyms": [],
     "details": "",

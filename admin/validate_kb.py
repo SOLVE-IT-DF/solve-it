@@ -214,6 +214,12 @@ def phase1_data_loading(
             result.pass_(f"Loaded {len(objectives)} objectives from solve-it.json", verbose)
     except (json.JSONDecodeError, OSError) as exc:
         result.fail(f"Failed to load solve-it.json: {exc}")
+        if isinstance(exc, json.JSONDecodeError) and "delimiter" in str(exc):
+            result.fail(
+                "  Hint: this can happen when two autoimplement PRs both append a "
+                "new last entry to the same objective and main is merged in. "
+                "Try: python3 admin/normalise_solve_it_json.py"
+            )
 
     return techniques, weaknesses, mitigations, objectives, citations
 

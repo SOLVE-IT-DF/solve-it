@@ -1,6 +1,6 @@
 {
     "id": "DFT-1120",
-    "name": "Automated artifact extraction from app data",
+    "name": "Extract artifacts from app data automatically",
     "description": "The use of automation to extract pieces of data that are potentially useful for a digital forensic investigation from app data.",
     "synonyms": [
         "Automated trace extraction"

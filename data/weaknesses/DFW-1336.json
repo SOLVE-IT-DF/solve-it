@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1336",
+    "name": "Associating an allocated Registry value with an incorrect key because of a parsing error in the tool used",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1274"
+    ],
+    "references": []
+}

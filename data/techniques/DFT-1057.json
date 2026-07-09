@@ -7,10 +7,11 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/AcquiredData"
+    ],
     "CASE_output_classes": [
-        "https://ontology.unifiedcyberontology.org/uco/observable/path",
-        "https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification"
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet"        
     ],
     "references": [
         {

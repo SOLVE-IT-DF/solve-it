@@ -1,6 +1,6 @@
 {
     "id": "DFT-1172",
-    "name": "Access raw image content",
+    "name": "Read bitstream from raw image file(s)",
     "description": "This technique reads data from a raw image e.g. a dd image.",
     "synonyms": [
         "read dd file"

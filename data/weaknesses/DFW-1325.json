@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1325",
+    "name": "Failure to extract the operating system version because a tool parses the relevant artefact incorrectly",
+    "description": "This weakness captures failing to extract a version at all, contrasted with extracting an incorrect version covered elsewhere. ",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1272"
+    ],
+    "references": []
+}

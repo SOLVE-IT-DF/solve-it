@@ -1,8 +1,10 @@
 {
     "id": "DFT-1171",
-    "name": "Access file system via live operating system",
+    "name": "Access a file system via live operating system",
     "description": "This involves accessing a live system and relying on the operating system's parsing of the file system to access files.",
-    "synonyms": [],
+    "synonyms": [
+        "Access file system via the running operating system"
+    ],
     "details": "",
     "subtechniques": [],
     "examples": [],

@@ -1,6 +1,6 @@
 {
     "id": "DFT-1182",
-    "name": "Filter timeline for relevant entries ",
+    "name": "Filter a timeline for relevant entries",
     "description": "Provide some criteria that selects only a subset of timeline entries from a set. ",
     "synonyms": [],
     "details": "Filtering might be on timestamp type, within a defined time range, related to a particular file, or matching against some other content associated with the timestamp entries. ",

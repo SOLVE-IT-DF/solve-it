@@ -1,6 +1,6 @@
 {
     "id": "DFT-1001",
-    "name": "Triage",
+    "name": "Triage devices or media",
     "description": "Digital forensic triage is a partial forensic examination conducted under (significant) time and resource constraints [DFCite-1115].",
     "synonyms": [],
     "details": "Involves the ranking of apprehended digital items in terms of their importance to a case and likelihood that they contain the data required [DFCite-1131]. It can involve multiple techniques to identify devices of most interest such as keyword searching, hash matching, media review etc.",

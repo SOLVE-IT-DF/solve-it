@@ -1,13 +1,16 @@
 {
     "id": "DFT-1046",
-    "name": "Privileged material protection",
+    "name": "Redact digital forensic tool results to protect privileged material",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet",
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet"
+    ],
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/observable/RedactedFileSet",
         "https://ontology.solveit-df.org/solveit/observable/RedactedArtifactSet"

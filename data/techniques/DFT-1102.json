@@ -1,13 +1,16 @@
 {
     "id": "DFT-1102",
-    "name": "Decode data from image from unmanaged NAND",
+    "name": "Decode data extracted from unmanaged NAND",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ContentData"
+    ],
+    "CASE_output_classes": [        
+    ],
     "references": []
 }

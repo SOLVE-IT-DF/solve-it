@@ -1,13 +1,15 @@
 {
     "id": "DFT-1017",
-    "name": "Network packet capture",
+    "name": "Capture network packets",
     "description": "",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/NetworkInterface"
+    ],
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/observable/NetworkPacketCapture"
     ],

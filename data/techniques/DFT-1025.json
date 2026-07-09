@@ -1,10 +1,12 @@
 {
     "id": "DFT-1025",
-    "name": "Writing bitstream data to a forensic image format",
+    "name": "Store bitstream data in a forensic image format",
     "description": "Storage of bitstream data recovered from a digital device",
     "synonyms": [
         "store disk image container",
-        "store image file"
+        "store image file",
+        "write data to a forensic image format",
+        "write data to a disk image container"
     ],
     "details": "The storage of bitstream data resulting from disk imaging, in formats such as: EWF, AFF4. The imaged data may be split into several linked container formats. e.g. e01, e02 e03 etc. This technique represents storage of data in container formats, whereas DFT-1178 represents data stored in raw files. ",
     "subtechniques": [],

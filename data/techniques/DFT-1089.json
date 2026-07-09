@@ -1,13 +1,16 @@
 {
     "id": "DFT-1089",
-    "name": "Source code review",
-    "description": "",
+    "name": "Review source code of software",
+    "description": "Typically to  understand it's capabilities, the artifacts it produces, or what user actions could be potentially reconstructed",
     "synonyms": [],
-    "details": "",
+    "details": "The equivalent of `static analysis` of malware, but applied to software in general.",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
-    "CASE_output_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Code"
+    ],
+    "CASE_output_classes": [        
+    ],
     "references": []
 }

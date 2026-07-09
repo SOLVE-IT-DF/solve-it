@@ -1,13 +1,17 @@
 {
     "id": "DFT-1100",
-    "name": "EXIF data extraction",
-    "description": "",
-    "synonyms": [],
+    "name": "Extract metadata from within images",
+    "description": "The extraction of metadata from within images (pictures). e.g. EXIF, XMP. IPTC, iTXt etc.",
+    "synonyms": [
+        "EXIF extraction"
+    ],
     "details": "",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/RasterPicture"
+    ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/exifData"
     ],

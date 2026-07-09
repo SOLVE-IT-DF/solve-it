@@ -1,0 +1,38 @@
+{
+    "id": "DFT-1193",
+    "name": "Read metadata from within a forensic image container",
+    "description": "The processes of reading the metadata values stored within forensic container formats",
+    "synonyms": [],
+    "details": "This has been differentiated from reading data from text files that accompany raw disk images, but includes metadata stored within logical formats. ",
+    "subtechniques": [],
+    "examples": [
+        "EWF",
+        "AFF4"
+    ],
+    "weaknesses": [
+        "DFW-1344",
+        "DFW-1348",
+        "DFW-1349",
+        "DFW-1350",
+        "DFW-1351",
+        "DFW-1352",
+        "DFW-1353",
+        "DFW-1354",
+        "DFW-1355",
+        "DFW-1345",
+        "DFW-1346",
+        "DFW-1347"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer",
+        "https://ontology.solveit-df.org/solveit/observable/LogicalImageContainer"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.caseontology.org/case/investigation/exhibitNumber",
+        "https://ontology.unifiedcyberontology.org/uco/core/name",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Note",
+        "https://ontology.unifiedcyberontology.org/uco/core/description",
+        "https://ontology.unifiedcyberontology.org/uco/types/Hash"
+    ],
+    "references": []
+}

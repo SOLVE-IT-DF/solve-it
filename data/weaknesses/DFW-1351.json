@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1351",
+    "name": "The examiner name is not retrieved from the metadata inside a forensic container because of a programming error in the tool used",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1027"
+    ],
+    "references": []
+}

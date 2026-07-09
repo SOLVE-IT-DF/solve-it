@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1342",
+    "name": "Data is added to a mobile device because not all relevant connectivity settings were configured correctly",
+    "description": "Data on a mobile device is added post-seizure because not all relevant connectivity settings were configured correctly",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_ALT"
+    ],
+    "mitigations": [
+        "DFM-1278",
+        "DFM-1279"
+    ],
+    "references": []
+}

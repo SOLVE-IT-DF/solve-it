@@ -1,7 +1,7 @@
 {
     "id": "DFT-1161",
     "name": "Collect data from cloud service via API using credentials",
-    "description": "Copying data from a cloud service using the officially supported API of the provider.,
+    "description": "Copying data from a cloud service using the officially supported API of the provider.",
     "synonyms": [
         "Cloud Data Collection via RESTful API",
         "API-based cloud acquisition"

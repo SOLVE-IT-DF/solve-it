@@ -1,0 +1,18 @@
+{
+    "id": "DFW-1338",
+    "name": "Failing to acquire data due to omission of undocumented endpoints",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1050",
+        "DFM-1276",
+        "DFM-1277"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1159",
+            "relevance_summary_280": "Discusses limitations of API-based cloud acquisition and how endpoint coverage affects completeness of collected data."
+        }
+    ]
+}

@@ -11,8 +11,10 @@
     "examples": [],
     "weaknesses": [],
     "CASE_input_classes": [
+        "https://ontology.caseontology.org/case/investigation/ProvenanceRecord"
     ],
     "CASE_output_classes": [
+        "https://ontology.caseontology.org/case/investigation/ProvenanceRecord"
     ],
     "references": [
         {

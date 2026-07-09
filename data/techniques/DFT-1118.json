@@ -1,9 +1,11 @@
 {
     "id": "DFT-1118",
     "name": "Locate relevant files by path",
-    "description": "Use the path of file name to determine potential relevance of artifact",
-    "synonyms": [],
-    "details": "",
+    "description": "Use the path of file name to determine potential relevance of the file.",
+    "synonyms": [
+        "Filename matching"
+    ],
+    "details": "There are multiple applications of this, for example: within a tool to determine what processing should occur to a file, or flagging files with particular extensions.",
     "subtechniques": [],
     "examples": [
         "Autopsy Interesting Files module",
@@ -18,7 +20,8 @@
         "https://ontology.solveit-df.org/solveit/observable/FileSet"
     ],
     "CASE_output_classes": [
-        "https://ontology.unifiedcyberontology.org/uco/observable/File"
+        "https://ontology.unifiedcyberontology.org/uco/observable/File",
+        "https://ontology.solveit-df.org/solveit/observable/FilteredFileSet"
     ],
     "references": [
         {

@@ -6,7 +6,8 @@
     ],
     "mitigations": [
         "DFM-1259",
-        "DFM-1268"
+        "DFM-1268",
+        "DFM-1269"
     ],
     "references": []
 }

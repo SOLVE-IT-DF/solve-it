@@ -13,9 +13,11 @@
     "weaknesses": [
         "DFW-1257"
     ],
-    "CASE_input_classes": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet"
+    ],
     "CASE_output_classes": [
-        "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResult"
+        "https://ontology.solveit-df.org/solveit/observable/KeywordSearchResultSet"
     ],
     "references": [
         {

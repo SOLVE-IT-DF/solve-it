@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1341",
+    "name": "Data on a mobile device is overwritten because the connectivity settings were subsequently reset by an automated process",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_ALT"
+    ],
+    "mitigations": [
+        "DFM-1278"
+    ],
+    "references": []
+}

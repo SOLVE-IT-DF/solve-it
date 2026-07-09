@@ -1,0 +1,25 @@
+{
+    "id": "DFT-1192",
+    "name": "Disable connectivity using device configuration settings",
+    "description": "This involves changing settings on a device to attempt to remove any connectivity options so that data cannot be sent or received over typical RF channels. This may involve multiple settings e.g. airplane mode and separate Bluetooth and WiFi toggles.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "airplane mode",
+        "flight mode"
+    ],
+    "weaknesses": [
+        "DFW-1340",
+        "DFW-1341",
+        "DFW-1342",
+        "DFW-1343"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/MobileDevice"
+    ],
+    "references": []
+}

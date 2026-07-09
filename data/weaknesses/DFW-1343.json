@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1343",
+    "name": "Data is added to a mobile device because the connectivity settings were subsequently reset by an automated process",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_ALT"
+    ],
+    "mitigations": [
+        "DFM-1278"
+    ],
+    "references": []
+}

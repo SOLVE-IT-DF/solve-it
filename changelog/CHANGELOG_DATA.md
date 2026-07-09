@@ -2,7 +2,19 @@
 
 ## July 2026
 
+- **2026-07-10** Updated technique: Collect data from cloud service via API using credentials (DFT-1161) [`5531de1`](https://github.com/SOLVE-IT-DF/solve-it/commit/5531de1)
+- **2026-07-07** Added weakness: Failing to acquire data because of filtering (DFW-1339) [`94402a9`](https://github.com/SOLVE-IT-DF/solve-it/commit/94402a9)
+- **2026-07-07** Updated weakness: Failing to acquire data due to omission of undocumented endpoints (DFW-1338) [`d0f7649`](https://github.com/SOLVE-IT-DF/solve-it/commit/d0f7649)
+- **2026-07-07** Updated weakness: Failing to acquire data due to omission of undocumented endpoints (DFW-1338) [`1286a87`](https://github.com/SOLVE-IT-DF/solve-it/commit/1286a87)
+- **2026-07-07** Deleted weakness: Important traces of user activity may remain in API responses, but if related artefacts are not thoroughly analysed, critical forensic information may be missed or misinterpreted (DFW-1323) [`94402a9`](https://github.com/SOLVE-IT-DF/solve-it/commit/94402a9)
 - **2026-07-07** Added technique (TRWM): Parse allocated structures in Windows HIVE files (DFT-1191) [`8532396`](https://github.com/SOLVE-IT-DF/solve-it/commit/8532396)
+- **2026-07-07** Updated technique: DFT-1161 [`125a6d8`](https://github.com/SOLVE-IT-DF/solve-it/commit/125a6d8)
+- **2026-07-07** Updated technique: DFT-1161 [`3e7ce3b`](https://github.com/SOLVE-IT-DF/solve-it/commit/3e7ce3b)
+- **2026-07-07** Updated mitigation: Monitor structural changes to the target API and update parsing logic to prevent silent data loss (DFM-1277) [`6d739c1`](https://github.com/SOLVE-IT-DF/solve-it/commit/6d739c1)
+- **2026-07-07** Updated mitigation: Collect from all available API endpoints, including undocumented ones identified via client reverse engineering (DFM-1276) [`d376f2c`](https://github.com/SOLVE-IT-DF/solve-it/commit/d376f2c)
+- **2026-07-07** Updated reference: DFCite-1161 [`b33ea50`](https://github.com/SOLVE-IT-DF/solve-it/commit/b33ea50)
+- **2026-07-07** Updated reference: DFCite-1160 [`b894ec7`](https://github.com/SOLVE-IT-DF/solve-it/commit/b894ec7)
+- **2026-07-07** Updated reference: DFCite-1159 [`399ba6d`](https://github.com/SOLVE-IT-DF/solve-it/commit/399ba6d)
 - **2026-07-06** Added technique (TRWM): Extract operating system version(s) from data source (DFT-1190) [`63fa548`](https://github.com/SOLVE-IT-DF/solve-it/commit/63fa548)
 
 ## June 2026
@@ -324,6 +336,16 @@
 ## May 2026
 
 - **2026-05-22** Updated technique (AUTOIMPLEMENT): Extract metadata from within images (DFT-1100) [`8cfe75d`](https://github.com/SOLVE-IT-DF/solve-it/commit/8cfe75d)
+- **2026-05-16** Added weakness: Important traces of user activity may remain in API responses, but if related artefacts are not thoroughly analysed, critical forensic information may be missed or misinterpreted (DFW-1323) [`e8b4b18`](https://github.com/SOLVE-IT-DF/solve-it/commit/e8b4b18)
+- **2026-05-16** Added weakness: API-based collection may miss some important user data due to filtering, omission of internal/undocumented endpoints, or structural changes to the API, which can lead to forensic gaps (DFW-1322) [`e8b4b18`](https://github.com/SOLVE-IT-DF/solve-it/commit/e8b4b18)
+- **2026-05-16** Added technique: Cloud data collection to access data via APIs using credentials (DFT-1161) [`e8b4b18`](https://github.com/SOLVE-IT-DF/solve-it/commit/e8b4b18)
+- **2026-05-16** Added mitigation: Cross-validate API-derived artefacts against independent sources to improve reliability (DFM-1271) [`e8b4b18`](https://github.com/SOLVE-IT-DF/solve-it/commit/e8b4b18)
+- **2026-05-16** Added mitigation: Systematically analyse all fields and timestamps in API responses to recover evidence that would otherwise be missed (DFM-1270) [`e8b4b18`](https://github.com/SOLVE-IT-DF/solve-it/commit/e8b4b18)
+- **2026-05-16** Added mitigation: Monitor structural changes to the target API and update parsing logic to prevent silent data loss (DFM-1269) [`e8b4b18`](https://github.com/SOLVE-IT-DF/solve-it/commit/e8b4b18)
+- **2026-05-16** Added mitigation: Collect from all available API endpoints, including internal and undocumented ones identified via client reverse engineering (DFM-1268) [`e8b4b18`](https://github.com/SOLVE-IT-DF/solve-it/commit/e8b4b18)
+- **2026-05-16** Added reference: DFCite-1153 [`e8b4b18`](https://github.com/SOLVE-IT-DF/solve-it/commit/e8b4b18)
+- **2026-05-16** Added reference: DFCite-1152 [`e8b4b18`](https://github.com/SOLVE-IT-DF/solve-it/commit/e8b4b18)
+- **2026-05-16** Added reference: DFCite-1151 [`e8b4b18`](https://github.com/SOLVE-IT-DF/solve-it/commit/e8b4b18)
 - **2026-05-14** Updated weakness (AUTOIMPLEMENT): The filtered timeline includes entries that are not relevant because the tool did not filter correctly (DFW-1298) [`e0fbb39`](https://github.com/SOLVE-IT-DF/solve-it/commit/e0fbb39)
 - **2026-05-14** Updated weakness (AUTOIMPLEMENT): The filtered timeline includes entries that are not relevant because the tool did not filter correctly (DFW-1298) [`e0fbb39`](https://github.com/SOLVE-IT-DF/solve-it/commit/e0fbb39)
 - **2026-05-14** Updated weakness (AUTOIMPLEMENT): The filtered timeline includes entries that are not relevant because the tool did not filter correctly (DFW-1298) [`e0fbb39`](https://github.com/SOLVE-IT-DF/solve-it/commit/e0fbb39)

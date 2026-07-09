@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1372",
+    "name": "Failing to acquire data because an outdated or incomplete schema was used",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1291"
+    ],
+    "references": []
+}

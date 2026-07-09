@@ -16,16 +16,39 @@
         "FOREST (open-source cloud forensic tool)"
     ],
     "weaknesses": [
-        "DFW-1338",
-        "DFW-1339"
+        "DFW-1356",
+        "DFW-1367",
+        "DFW-1371",
+        "DFW-1372",
+        "DFW-1373",
+        "DFW-1374",
+        "DFW-1375",
+        "DFW-1376",
+        "DFW-1377",
+        "DFW-1357",
+        "DFW-1358",
+        "DFW-1359",
+        "DFW-1360",
+        "DFW-1361",
+        "DFW-1362",
+        "DFW-1363",
+        "DFW-1364",
+        "DFW-1365",
+        "DFW-1366",
+        "DFW-1368",
+        "DFW-1369",
+        "DFW-1370"
     ],
-    "CASE_input_classes": [ "https://ontology.unifiedcyberontology.org/uco/observable/OnlineService"],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/OnlineService"
+    ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/Message",
         "https://ontology.unifiedcyberontology.org/uco/observable/File",
         "https://ontology.unifiedcyberontology.org/uco/observable/ContentData",
         "https://ontology.unifiedcyberontology.org/uco/observable/Account",
-        "https://ontology.unifiedcyberontology.org/uco/observable/EventRecord"
+        "https://ontology.unifiedcyberontology.org/uco/observable/EventRecord",
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
     ],
     "references": [
         {

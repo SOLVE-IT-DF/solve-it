@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1366",
+    "name": "Inaccurate information collected resulting from data format conversions",
+    "categories": [
+        "ASTM_INAC_ALT"
+    ],
+    "mitigations": [],
+    "references": []
+}

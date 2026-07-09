@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1365",
+    "name": "Failing to acquire data because of acquisition of non-production environment\"",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1286",
+        "DFM-1287"
+    ],
+    "references": []
+}

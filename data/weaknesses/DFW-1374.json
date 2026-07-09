@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1374",
+    "name": "Failing to acquire data because of client-side API limiting or throttling",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1292"
+    ],
+    "references": []
+}

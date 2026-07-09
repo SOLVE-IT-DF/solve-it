@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1358",
+    "name": "Failing to acquire data because historical records were not acquired",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1297"
+    ],
+    "references": []
+}

@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1369",
+    "name": "Failing to acquire data structure because metadata and relationships were not acquired",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1288"
+    ],
+    "references": []
+}

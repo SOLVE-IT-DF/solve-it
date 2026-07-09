@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1360",
+    "name": "Failing to acquire data because historical records were lost during format conversions",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1298",
+        "DFM-1297"
+    ],
+    "references": []
+}

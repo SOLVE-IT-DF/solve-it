@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1345",
+    "name": "The case description retrieved from the metadata inside a forensic container is incorrect because of a programming error in the tool used",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1027",
+        "DFM-1280"
+    ],
+    "references": []
+}

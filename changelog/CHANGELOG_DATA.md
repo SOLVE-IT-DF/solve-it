@@ -2,6 +2,7 @@
 
 ## July 2026
 
+- **2026-07-12** Added technique (AUTOIMPLEMENT): Classify if audio is potentially synthetically generated (DFT-1194) [`70a2f1a`](https://github.com/SOLVE-IT-DF/solve-it/commit/70a2f1a)
 - **2026-07-10** Updated technique: Collect data from cloud service via API using credentials (DFT-1161) [`5531de1`](https://github.com/SOLVE-IT-DF/solve-it/commit/5531de1)
 - **2026-07-09** Added technique (TRWM): Read metadata from within a forensic image container (DFT-1193) [`3557ded`](https://github.com/SOLVE-IT-DF/solve-it/commit/3557ded)
 - **2026-07-09** Added technique (TRWM): Disable connectivity using device configuration settings (DFT-1192) [`ac38359`](https://github.com/SOLVE-IT-DF/solve-it/commit/ac38359)

@@ -1,0 +1,28 @@
+{
+    "id": "DFT-1194",
+    "name": "Classify if audio is potentially synthetically generated",
+    "description": "Classification of audio with respect to its origin, i.e., whether it is synthetically generated (e.g. text-to-speech synthesis or voice conversion) or naturally captured from a live speaker.",
+    "synonyms": [
+        "Audio deepfake detection",
+        "Synthetic speech detection",
+        "Voice clone detection",
+        "Audio anti-spoofing",
+        "Speech spoofing countermeasure"
+    ],
+    "details": "Audio content is analyzed for traces of synthetic generation. Methods include neural anti-spoofing classifiers (e.g. spectro-temporal graph attention networks trained on spoofed/bona-fide speech corpora) and signal-level analyses such as higher-order spectral (bispectral) statistics. The output is typically a classifier-predicted score or confidence that the audio is synthetically generated, or extracted signal traces that aid the analyst in assessing the audio's origin. This completes the modality triad alongside the existing video (DFT-1106) and image (DFT-1176) synthetic-classification techniques.",
+    "subtechniques": [],
+    "examples": [
+        "AASIST-family neural anti-spoofing classifiers",
+        "ASVspoof challenge countermeasure systems",
+        "Bispectral / higher-order spectral analysis of speech",
+        "Project VIC Media Authentication Analyzer (AASIST-L neural detector + bispectrum heuristic in production)"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/AudioFile"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/analysis/ArtifactClassification"
+    ],
+    "references": []
+}

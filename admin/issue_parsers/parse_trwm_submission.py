@@ -736,6 +736,21 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
                 lines.append(f"- `{item['id']}` — {item.get('name', 'Unknown')}")
             lines.append("")
 
+    # Revision guidance — this comment (not the issue body) is what the
+    # automation reads, so revisions requested during review belong here.
+    lines.append("---")
+    lines.append("")
+    lines.append("### Revising this submission")
+    lines.append("")
+    lines.append("If a reviewer requests changes, edit the JSON blocks in this comment "
+                 "directly, keeping the hidden markers and any temporary IDs unchanged. "
+                 "The JSON export in the issue body is only read when the issue is "
+                 "opened, so editing it alone has no effect. Adding or removing whole "
+                 "items requires regenerating this preview from a corrected issue body "
+                 "instead — see [Revising a TRWM submission]"
+                 "(https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#revising-a-trwm-submission).")
+    lines.append("")
+
     # Hidden ID map for the assignment script
     lines.append(f"<!-- TRWM_ID_MAP: {json.dumps(placeholder_map)} -->")
     if dfcite_placeholders:

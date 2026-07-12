@@ -7,6 +7,7 @@ import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'admin', 'issue_parsers'))
 from parse_trwm_submission import (
+    build_comment,
     normalize_to_kb_schema, resolve_bare_references, validate_submission,
     preserve_kb_fields,
     TECHNIQUE_FIELDS, WEAKNESS_FIELDS, MITIGATION_FIELDS, WM_OMIT_IF_EMPTY,
@@ -278,6 +279,39 @@ class TestResolveBareReferences(unittest.TestCase):
         refs = trwm_data["techniques"]["DFT-temp-0001"]["references"]
         self.assertEqual(refs[0]["DFCite_id"], "DFCite-7777")
         self.assertEqual(placeholders, {})
+
+
+class TestBuildCommentRevisionGuidance(unittest.TestCase):
+    """The preview comment must tell reviewers where revisions go."""
+
+    def _build(self):
+        trwm_data = {"techniques": {}, "weaknesses": {}, "mitigations": {}}
+        fields = {"Objective": "Prepare for a digital investigation"}
+        placeholder_map = {"DFT-temp-0001": "DFT-____"}
+        new_items = {
+            "techniques": [{"id": "DFT-temp-0001", "name": "Test technique"}],
+            "weaknesses": [],
+            "mitigations": [],
+        }
+        existing_items = {"techniques": [], "weaknesses": [], "mitigations": []}
+        return build_comment(trwm_data, fields, placeholder_map, new_items,
+                             existing_items, [], "New technique")
+
+    def test_revision_section_present(self):
+        comment = self._build()
+        self.assertIn("### Revising this submission", comment)
+        self.assertIn("edit the JSON blocks in this comment", comment)
+
+    def test_links_to_contributor_guide(self):
+        comment = self._build()
+        self.assertIn(
+            "CONTRIBUTOR_GUIDE.md#revising-a-trwm-submission", comment)
+
+    def test_hidden_markers_still_present_after_guidance(self):
+        comment = self._build()
+        self.assertIn("<!-- TRWM_PREVIEW -->", comment)
+        self.assertLess(comment.index("### Revising this submission"),
+                        comment.index("<!-- TRWM_ID_MAP:"))
 
 
 if __name__ == '__main__':

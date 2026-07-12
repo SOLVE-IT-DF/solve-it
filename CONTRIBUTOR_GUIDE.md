@@ -412,6 +412,27 @@ flowchart LR
 - `solve-it.json` updated
 - All cross-references linked automatically
 
+### Revising a TRWM submission
+
+If a reviewer requests changes to a TRWM submission, there is no need to re-export from the TRWM Helper or open a new issue. However, the edits must be made in the right place.
+
+The automation does not read the JSON export in the issue body after submission. When the issue is opened, a preview comment is generated from the export, and every later stage works from that comment: the ID assignment step replaces the temporary IDs in it, and the implementation step extracts its JSON blocks to write the data files. The issue body is only read for the "Submission type" and "Objective" fields. The export in the body is therefore a record of what was submitted, and editing it changes nothing downstream on its own.
+
+**Changing the wording of existing items.** For changes to names, descriptions, categories, or other fields of items already in the submission, edit the JSON blocks in the preview comment directly (this requires write access to the repository). Two things must be left intact:
+
+- the hidden markers (`<!-- TRWM_PREVIEW -->`, `<!-- TRWM_ID_MAP: ... -->`, `<!-- TRWM_REFS_MAP: ... -->`), which are visible when editing the comment but not when reading it
+- the temporary IDs (`DFT-temp-0001` and so on), which the ID assignment step matches by exact string
+
+**Adding or removing items.** This changes the set of temporary IDs, so the hidden ID map in the preview comment would no longer match. In this case, regenerate the preview from a corrected body instead:
+
+1. Edit the JSON export in the issue body.
+2. Delete the outdated preview comment (the automation uses the first preview comment it finds, so a stale one would take precedence).
+3. Close and reopen the issue to generate a fresh preview.
+
+**Changing the objective or submission type.** These two fields are read from the issue body at implementation time, so edit them there. A proposed new objective is handled manually during review in any case.
+
+**Timing.** Make revisions before the `assigned ID` label is applied. After ID assignment, a second preview comment exists (the copy with real IDs), and the implementation step reads that one, so any later edits must be made in the assigned copy instead.
+
 ---
 
 ### Update an existing item
@@ -463,6 +484,10 @@ Some mitigations are broadly applicable and worth knowing about:
 - **DFM-1027** Use dual tool verification
 - **DFM-1050** Manually verify relevant data
 - **DFM-1055** Correlation of data extracted with data from service provider
+
+### What if a reviewer requests changes to my TRWM submission?
+
+Edits go in the automation's preview comment, not in the JSON export in the issue body (the export is only read once, when the issue is opened). See [Revising a TRWM submission](#revising-a-trwm-submission) for the full procedure, including the cases where the preview needs regenerating.
 
 ### Workflow-based research
 

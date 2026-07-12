@@ -572,6 +572,72 @@ class TestUpdateTechniqueWeaknesses(unittest.TestCase):
         self.assertIn("Invalid", warning)
 
 
+class TestUpdateTechniqueSubtechniques(unittest.TestCase):
+    """Test adding subtechnique IDs to parent technique files."""
+
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp()
+        os.makedirs(os.path.join(self.tmpdir, "data", "techniques"))
+        self.parent = {
+            "id": "DFT-1079",
+            "name": "Examine audio content",
+            "subtechniques": [],
+            "references": [],
+        }
+        self.filepath = os.path.join(self.tmpdir, "data", "techniques", "DFT-1079.json")
+        with open(self.filepath, "w") as f:
+            json.dump(self.parent, f, indent=4)
+            f.write('\n')
+
+    def test_adds_subtechnique(self):
+        fpath, warning = mod.update_technique_subtechniques(self.tmpdir, "DFT-1079", "DFT-1200")
+        self.assertIsNotNone(fpath)
+        self.assertIsNone(warning)
+        with open(self.filepath) as f:
+            data = json.load(f)
+        self.assertIn("DFT-1200", data["subtechniques"])
+
+    def test_duplicate_skipped(self):
+        mod.update_technique_subtechniques(self.tmpdir, "DFT-1079", "DFT-1200")
+        fpath, warning = mod.update_technique_subtechniques(self.tmpdir, "DFT-1079", "DFT-1200")
+        self.assertIsNone(fpath)
+        self.assertIsNone(warning)
+        with open(self.filepath) as f:
+            data = json.load(f)
+        self.assertEqual(data["subtechniques"].count("DFT-1200"), 1)
+
+    def test_creates_subtechniques_key_if_missing(self):
+        del self.parent["subtechniques"]
+        with open(self.filepath, "w") as f:
+            json.dump(self.parent, f, indent=4)
+            f.write('\n')
+        fpath, warning = mod.update_technique_subtechniques(self.tmpdir, "DFT-1079", "DFT-1200")
+        self.assertIsNotNone(fpath)
+        self.assertIsNone(warning)
+        with open(self.filepath) as f:
+            data = json.load(f)
+        self.assertEqual(data["subtechniques"], ["DFT-1200"])
+
+    def test_missing_file_returns_warning(self):
+        fpath, warning = mod.update_technique_subtechniques(self.tmpdir, "DFT-9999", "DFT-1200")
+        self.assertIsNone(fpath)
+        self.assertIsNotNone(warning)
+        self.assertIn("not found", warning)
+
+    def test_invalid_id_returns_warning(self):
+        fpath, warning = mod.update_technique_subtechniques(self.tmpdir, "INVALID", "DFT-1200")
+        self.assertIsNone(fpath)
+        self.assertIsNotNone(warning)
+        self.assertIn("Invalid", warning)
+
+    def test_other_fields_preserved(self):
+        mod.update_technique_subtechniques(self.tmpdir, "DFT-1079", "DFT-1200")
+        with open(self.filepath) as f:
+            data = json.load(f)
+        self.assertEqual(data["name"], "Examine audio content")
+        self.assertEqual(data["references"], [])
+
+
 class TestUpdateWeaknessMitigations(unittest.TestCase):
     """Test adding mitigation IDs to parent weakness files."""
 
@@ -643,6 +709,23 @@ class TestMetadataStripping(unittest.TestCase):
             data = json.load(f)
         self.assertNotIn("_parent_techniques", data)
         self.assertNotIn("_parent_weaknesses", data)
+
+    def test_parent_techniques_not_in_written_technique_file(self):
+        block = {
+            "id": "DFT-9999",
+            "name": "Test subtechnique",
+            "subtechniques": [],
+            "weaknesses": [],
+            "references": [],
+            "_parent_techniques": ["DFT-1079"],
+        }
+        block.pop("_parent_techniques", [])
+        block.pop("_parent_weaknesses", [])
+        path = mod.write_data_file(self.tmpdir, "technique", block)
+        with open(path) as f:
+            data = json.load(f)
+        self.assertNotIn("_parent_techniques", data)
+        self.assertEqual(data["subtechniques"], [])
 
     def test_parent_weaknesses_not_in_written_file(self):
         block = {

@@ -5,8 +5,9 @@ file and opening a PR.
 
 Finds the assigned-ID comment (the revised preview comment posted by the
 assign_{type}_id.py script), extracts the JSON block, writes it to the
-appropriate data/ directory, updates solve-it.json for techniques, and
-opens a PR attributed to the original issue submitter.
+appropriate data/ directory, updates solve-it.json for techniques (or the
+parent technique's subtechniques list when _parent_techniques is present),
+and opens a PR attributed to the original issue submitter.
 
 Handles both DFCite-format references (dicts with DFCite_id) and old-format
 raw string references (matched against the corpus or flagged as PENDING).
@@ -476,6 +477,44 @@ def update_technique_weaknesses(project_root, technique_id, weakness_id):
     return filepath, None
 
 
+def update_technique_subtechniques(project_root, parent_id, subtechnique_id):
+    """Add a technique ID to a parent technique's subtechniques list.
+
+    Returns (filepath_or_None, warning_or_None).
+    """
+    if not VALID_ID_RE.match(parent_id):
+        return None, f"Invalid parent technique ID format: '{parent_id}'"
+
+    filepath = os.path.join(project_root, "data", "techniques", f"{parent_id}.json")
+
+    # Path traversal protection
+    real_dir = os.path.realpath(os.path.join(project_root, "data", "techniques"))
+    real_path = os.path.realpath(filepath)
+    if not real_path.startswith(real_dir + os.sep):
+        return None, f"Path traversal detected for {parent_id}"
+
+    if not os.path.exists(filepath):
+        return None, f"Parent technique file `{parent_id}.json` not found — cannot auto-add subtechnique"
+
+    with open(filepath) as f:
+        data = json.load(f)
+
+    if subtechnique_id in data.get("subtechniques", []):
+        print(f"  {subtechnique_id} already in {parent_id}'s subtechniques list", file=sys.stderr)
+        return None, None
+
+    if "subtechniques" not in data:
+        data["subtechniques"] = []
+    data["subtechniques"].append(subtechnique_id)
+
+    with open(filepath, 'w') as f:
+        json.dump(data, f, indent=4)
+        f.write('\n')
+
+    print(f"  Added {subtechnique_id} to {parent_id}'s subtechniques list", file=sys.stderr)
+    return filepath, None
+
+
 def update_weakness_mitigations(project_root, weakness_id, mitigation_id):
     """Add a mitigation ID to a weakness's mitigations list.
 
@@ -750,14 +789,32 @@ def main():
 
         written_files = [filepath]
 
-        # 10. Update solve-it.json for techniques
+        # 10. Update solve-it.json for techniques.
+        # Subtechniques (a parent technique was given) are reached via the
+        # parent's subtechniques list, not the objective list, so skip.
         if item_type == "technique" and objective_name:
-            if update_solve_it_json(write_root, objective_name, item_id):
+            if parent_techniques:
+                print(f"  Parent technique specified — not adding {item_id} to "
+                      f"objective '{objective_name}' in solve-it.json", file=sys.stderr)
+            elif update_solve_it_json(write_root, objective_name, item_id):
                 solve_it_path = os.path.join(write_root, "data", "solve-it.json")
                 written_files.append(solve_it_path)
 
         # 10b. Update parent items
         parent_update_warnings = []
+
+        if item_type == "technique":
+            for tid in parent_techniques:
+                normalized = normalize_id(tid)
+                if not normalized:
+                    parent_update_warnings.append(
+                        f"Could not update parent technique `{tid}` — invalid ID format")
+                    continue
+                fpath, warning = update_technique_subtechniques(write_root, normalized, item_id)
+                if fpath:
+                    written_files.append(fpath)
+                if warning:
+                    parent_update_warnings.append(warning)
 
         if item_type == "weakness":
             for tid in parent_techniques:
@@ -855,7 +912,10 @@ def main():
         pr_lines.append(f"| Type | {type_label} |")
         pr_lines.append(f"| ID | `{item_id}` |")
         pr_lines.append(f"| Name | {item_name} |")
-        if objective_name:
+        if item_type == "technique" and parent_techniques:
+            parents = ", ".join(f"`{normalize_id(t) or t}`" for t in parent_techniques)
+            pr_lines.append(f"| Parent technique | {parents} |")
+        elif objective_name:
             pr_lines.append(f"| Objective | {objective_name} |")
         pr_lines.append("")
 

@@ -101,6 +101,14 @@ def build_technique_json(fields, project_root=None):
         "CASE_output_classes": lines_to_list(fields.get("Ontology output classes", "")),
         "references": processed_refs,
     }
+
+    # Optional parent technique — makes this a subtechnique. Carried in the
+    # preview JSON as _parent_techniques (stripped before the data file is
+    # written, mirroring the weakness parser's parent mechanism).
+    parent_techniques = lines_to_list(fields.get("Parent technique ID", ""))
+    if parent_techniques:
+        technique["_parent_techniques"] = parent_techniques
+
     return technique, match_report, new_citations, ref_warnings
 
 
@@ -160,6 +168,27 @@ def build_comment(technique, fields, match_report=None, new_citations=None, ref_
         for w in new_weaknesses:
             url = build_weakness_link(w)
             lines.append(f"- [`{w}`]({url})")
+
+    # Parent technique (subtechnique placement)
+    parent_techniques = technique.get("_parent_techniques", [])
+    if parent_techniques:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### Parent technique")
+        lines.append("")
+        lines.append("This technique is proposed as a subtechnique of:")
+        lines.append("")
+        for tid in parent_techniques:
+            lines.append(f"- Technique **{tid}**")
+        lines.append("")
+        lines.append("On implementation it will be added to the parent's subtechniques list "
+                      "instead of directly under the objective.")
+        for tid in parent_techniques:
+            if not re.match(r'^(DFT-|T)\d{4,6}$', tid):
+                lines.append("")
+                lines.append(f":warning: `{tid}` does not look like a valid technique ID "
+                             "(expected e.g. DFT-1079) — this will need correcting before implementation.")
 
     # Next steps
     objective = fields.get("Objective", "").strip()

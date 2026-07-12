@@ -79,6 +79,12 @@ body:
     attributes:
       label: Propose new objective
       description: If your technique doesn't fit an existing objective, propose one here.
+  - type: input
+    id: parent-technique
+    attributes:
+      label: Parent technique ID
+      description: Optional. If this should be a subtechnique of an existing technique, give the parent technique ID (e.g. DFT-1079). It will then be linked from the parent's subtechniques list rather than listed directly under the objective.
+      placeholder: "e.g. DFT-1079"
   - type: markdown
     attributes:
       value: |

@@ -4,7 +4,9 @@
     "description": "",
     "synonyms": [],
     "details": "",
-    "subtechniques": [],
+    "subtechniques": [
+        "DFT-1194"
+    ],
     "examples": [],
     "weaknesses": [],
     "CASE_input_classes": [],

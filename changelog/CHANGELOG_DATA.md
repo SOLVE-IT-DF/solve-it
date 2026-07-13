@@ -2,6 +2,7 @@
 
 ## July 2026
 
+- **2026-07-13** Added weakness (AUTOIMPLEMENT): Relevant keywords not returned by live search due to improper handling of character encoding (DFW-1378) [`eb24b22`](https://github.com/SOLVE-IT-DF/solve-it/commit/eb24b22)
 - **2026-07-12** Added technique (AUTOIMPLEMENT): Classify if audio is potentially synthetically generated (DFT-1194) [`70a2f1a`](https://github.com/SOLVE-IT-DF/solve-it/commit/70a2f1a)
 - **2026-07-10** Updated technique: Collect data from cloud service via API using credentials (DFT-1161) [`5531de1`](https://github.com/SOLVE-IT-DF/solve-it/commit/5531de1)
 - **2026-07-09** Added technique (TRWM): Read metadata from within a forensic image container (DFT-1193) [`3557ded`](https://github.com/SOLVE-IT-DF/solve-it/commit/3557ded)

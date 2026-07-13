@@ -9,7 +9,8 @@
     "subtechniques": [],
     "examples": [],
     "weaknesses": [
-        "DFW-1200"
+        "DFW-1200",
+        "DFW-1378"
     ],
     "CASE_input_classes": [],
     "CASE_output_classes": [

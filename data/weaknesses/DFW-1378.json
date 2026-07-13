@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1378",
+    "name": "Relevant keywords not returned by live search due to improper handling of character encoding",
+    "description": "Keyword searching (live) does not handle character encoding properly, causing search terms to miss content and fail to find relevant data (false negative).",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1034",
+        "DFM-1027"
+    ],
+    "references": []
+}

@@ -11,7 +11,8 @@
     "weaknesses": [
         "DFW-1193",
         "DFW-1194",
-        "DFW-1195"
+        "DFW-1195",
+        "DFW-1378"
     ],
     "CASE_input_classes": [],
     "CASE_output_classes": [

@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1299",
+    "name": "Cryptographically sign generated forensic analysis reports with an asymmetric key",
+    "description": "Sign analysis reports and export bundles with an asymmetric key (e.g., Ed25519, ECDSA) and embed signatures in a manifest so subsequent tampering is detectable without relying solely on storing a hash in a separate location (DFM-1108).",
+    "references": []
+}

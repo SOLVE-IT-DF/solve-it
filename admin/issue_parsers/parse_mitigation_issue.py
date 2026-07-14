@@ -15,8 +15,19 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
-from parse_technique_issue import parse_issue_body, lines_to_list
+from parse_technique_issue import parse_issue_body, lines_to_list, unknown_field_labels
 from solve_it_library.reference_matching import process_reference_lines
+
+# Field labels produced by 1c_propose-new-mitigation-form.yml. Anything else in
+# a parsed body is ignored by the .get() lookups below, so warn about it.
+KNOWN_FIELD_LABELS = [
+    "Mitigation name",
+    "Description",
+    "Existing weakness IDs",
+    "Linked technique",
+    "References",
+    "Any other notes",
+]
 
 
 def build_mitigation_json(fields, project_root=None):
@@ -59,6 +70,23 @@ def build_comment(mitigation, fields, match_report=None, new_citations=None, ref
     lines.append(json.dumps(mitigation, indent=4))
     lines.append("```")
 
+    # Unrecognised field headings — content under these was ignored
+    unknown_labels = unknown_field_labels(fields, KNOWN_FIELD_LABELS)
+    if unknown_labels:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### :warning: Unrecognised fields")
+        lines.append("")
+        lines.append("The following headings in the issue body do not match any field "
+                     "in the mitigation form, so their content was **ignored**:")
+        lines.append("")
+        for label in unknown_labels:
+            lines.append(f"- `{label}`")
+        lines.append("")
+        lines.append("If any of these were intended as form fields (for example weakness IDs), "
+                     "edit the issue to use the exact headings from the form, then re-run processing.")
+
     # Reference warnings
     if ref_warnings:
         lines.append("")
@@ -92,6 +120,17 @@ def build_comment(mitigation, fields, match_report=None, new_citations=None, ref
         lines.append("")
         for w in existing_weaknesses:
             lines.append(f"- Weakness **{w}**")
+    else:
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("### :warning: No weaknesses linked")
+        lines.append("")
+        lines.append("The 'Existing weakness IDs' field is empty, so if implemented as-is "
+                     "this mitigation will not be referenced by any weakness (an orphan). "
+                     "This is occasionally intended, but if the submission mentions "
+                     "weaknesses elsewhere in the issue they were **not** picked up — "
+                     "add the IDs to the 'Existing weakness IDs' field before implementing.")
 
     lines.append("")
     lines.append("---")

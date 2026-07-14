@@ -830,6 +830,11 @@ def main():
                     parent_update_warnings.append(warning)
 
         if item_type == "mitigation":
+            if not parent_weaknesses:
+                parent_update_warnings.append(
+                    f"No weaknesses were listed in the submission, so nothing references "
+                    f"`{item_id}` — it will be an orphan mitigation until at least one "
+                    f"weakness is updated to include it")
             for wid in parent_weaknesses:
                 normalized = normalize_id(wid)
                 if not normalized:

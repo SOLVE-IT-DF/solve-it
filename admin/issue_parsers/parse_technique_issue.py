@@ -74,6 +74,16 @@ def lines_to_list(text):
     return [line.strip() for line in text.strip().split('\n') if line.strip()]
 
 
+def unknown_field_labels(fields, known_labels):
+    """Return parsed field labels that do not match any known form label.
+
+    Issue bodies written by hand (or by tooling imitating the form) can use
+    headings the form never produces. Field lookups silently ignore those, so
+    the content in them is lost — return them so the preview comment can warn.
+    """
+    return [label for label in fields if label not in known_labels]
+
+
 def build_technique_json(fields, project_root=None):
     """Build a SOLVE-IT technique JSON dict from parsed form fields.
 

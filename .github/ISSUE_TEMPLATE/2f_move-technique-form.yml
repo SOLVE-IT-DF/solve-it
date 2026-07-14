@@ -39,6 +39,7 @@ body:
         - `DFO-1009` — Create visualizations
         - `DFO-1004` — Conduct research
         - `DFO-1001` — Reconstruct events
+        - `DFO-1024` — Evaluate evidence
         - `DFO-1020` — Document digital forensic activities
   - type: input
     id: technique-id

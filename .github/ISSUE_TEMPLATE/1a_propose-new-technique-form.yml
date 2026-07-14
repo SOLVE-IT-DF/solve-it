@@ -70,6 +70,7 @@ body:
         - "Create visualizations"
         - "Conduct research"
         - "Reconstruct events"
+        - "Evaluate evidence"
         - "Document digital forensic activities"
         - Other (specify below)
     validations:

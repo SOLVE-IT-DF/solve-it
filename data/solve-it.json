@@ -350,8 +350,16 @@
         "references": []
     },
     {
-        "id": "DFO-1020",
+        "id": "DFO-1024",
         "sort_order": 21,
+        "name": "Evaluate evidence",
+        "description": "Evaluate evidence ",
+        "techniques": [],
+        "references": []
+        },
+    {
+        "id": "DFO-1020",
+        "sort_order": 22,
         "name": "Document digital forensic activities",
         "description": "Create documentation about techniques used and findings.",
         "techniques": [

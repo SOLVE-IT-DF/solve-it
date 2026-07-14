@@ -5,7 +5,8 @@
         "ASTM_INAC_COR"
     ],
     "mitigations": [
-        "DFM-1108"
+        "DFM-1108",
+        "DFM-1299"
     ],
     "references": []
 }

@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1386",
+    "name": "A proposed hypothesis is overly specific to details in the case",
+    "description": "Generating hypotheses that focus on specific details available early in an investigation can be too narrow to accomodate new details found later, and increases the risk of confirmation bias, such as focusing on the use of a specific wiping tool rather than any wiping tool being used",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1307"
+    ],
+    "references": []
+}

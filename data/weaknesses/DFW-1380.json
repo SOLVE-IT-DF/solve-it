@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1380",
+    "name": "A proposed hypothesis suffers from a lack of falsifiability",
+    "description": "A scientifically valid hypothesis must present an outcome that can be definitively proven false.",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1301"
+    ],
+    "references": []
+}

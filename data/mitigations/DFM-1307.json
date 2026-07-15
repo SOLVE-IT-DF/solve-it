@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1307",
+    "name": "Do not generate hypotheses that are overly narrow and may increase the risk of over-specificity or confirmation bias. For instance, refer to a class (wiping tool, Trojan horse program) rather than a member of class (e.g., Eraser.exe, Backdoor.exe) to avoid narrowly focusing on a specific detail",
+    "references": []
+}

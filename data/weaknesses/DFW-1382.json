@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1382",
+    "name": "A hypothesis refers to \"device user\" rather than \"suspect\" when a specific individual is under investigation",
+    "description": "When a specific individual is under investigation, address this fact. If the individual's use of a device is challenged, this should be explicitly addressed in hypothesis generation.",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1303"
+    ],
+    "references": []
+}

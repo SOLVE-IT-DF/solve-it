@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1381",
+    "name": "A proposed hypothesis equates correlation with causation",
+    "description": "Causal mechanisms are not explicitly established",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1302"
+    ],
+    "references": []
+}

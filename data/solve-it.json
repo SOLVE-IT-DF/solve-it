@@ -354,9 +354,11 @@
         "sort_order": 21,
         "name": "Evaluate evidence",
         "description": "Evaluate evidence ",
-        "techniques": [],
+        "techniques": [
+            "DFT-1195"
+        ],
         "references": []
-        },
+    },
     {
         "id": "DFO-1020",
         "sort_order": 22,

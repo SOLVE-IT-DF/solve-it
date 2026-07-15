@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1379",
+    "name": "One or more proposed hypotheses are not mutually exclusive",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1300"
+    ],
+    "references": []
+}

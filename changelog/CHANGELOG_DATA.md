@@ -2,6 +2,7 @@
 
 ## July 2026
 
+- **2026-07-15** Added technique (TRWM): Generate Alternative Hypotheses (DFT-1195) [`43fedec`](https://github.com/SOLVE-IT-DF/solve-it/commit/43fedec)
 - **2026-07-14** Updated weakness: Report generated from bookmarks stored in manner that does not prevent tampering or corruption (DFW-1154) [`8107a7d`](https://github.com/SOLVE-IT-DF/solve-it/commit/8107a7d)
 - **2026-07-14** Added mitigation (AUTOIMPLEMENT): Cryptographically sign generated forensic analysis reports with an asymmetric key (DFM-1299) [`36a1e40`](https://github.com/SOLVE-IT-DF/solve-it/commit/36a1e40)
 - **2026-07-13** Added weakness (AUTOIMPLEMENT): Relevant keywords not returned by live search due to improper handling of character encoding (DFW-1378) [`eb24b22`](https://github.com/SOLVE-IT-DF/solve-it/commit/eb24b22)

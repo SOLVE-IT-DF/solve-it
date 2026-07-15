@@ -1,0 +1,30 @@
+{
+    "id": "DFT-1195",
+    "name": "Generate Alternative Hypotheses",
+    "description": "The process of considering what are the alternative possibilities (other than the proposed hypothesis) for the digital forensic artifacts/traces that we are observing",
+    "synonyms": [
+        "Claim",
+        "Proposition"
+    ],
+    "details": "Considering alternative hypotheses is fundamental to scientific practices, and assists in mitigating the potential influence of bias. In investigative mode, experts generate possible explanations. In evaluative mode for expert opinion in court proceedings, the expert focuses on disputed issues and evaluates their observations.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1379",
+        "DFW-1380",
+        "DFW-1381",
+        "DFW-1382",
+        "DFW-1383",
+        "DFW-1384",
+        "DFW-1385",
+        "DFW-1386"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/analysis/Hypothesis",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Observable"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/analysis/HypothesisSet"
+    ],
+    "references": []
+}

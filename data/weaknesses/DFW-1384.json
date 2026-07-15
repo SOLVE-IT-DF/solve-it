@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1384",
+    "name": "Addressing the wrong level of the hierarchy of hypotheses required for the case",
+    "description": "The hierarchy of hypotheses (a.k.a. hierarchy of propositions) are: 1) source level concerns where a trace came from (e.g., which device produced contraband), 2) activity level concerns what act produced it (e.g., who produced contraband), and 3) offense level concerns the criminal issue itself (e.g., whether the suspect knowingly produced contraband) \u2014 with higher levels being more relevant to decision-makers but requiring more case information to evaluate.",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1305"
+    ],
+    "references": []
+}

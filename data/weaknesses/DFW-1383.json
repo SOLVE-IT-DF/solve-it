@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1383",
+    "name": "A proposed hypothesis uses judgmental or loaded terminology",
+    "description": "Judgmental or loaded terminology is outside the scope of digital forensics and could reflect bias",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1304"
+    ],
+    "references": []
+}

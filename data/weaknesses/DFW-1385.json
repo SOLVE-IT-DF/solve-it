@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1385",
+    "name": "A proposed hypothesis uses vague or complex phrasing",
+    "description": "Hypotheses are declarative statements written in the present tense, without ambiguous language, multiple conditions, or conditional verbs (e.g., \"if-then\" or \"would\"). ",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1306"
+    ],
+    "references": []
+}

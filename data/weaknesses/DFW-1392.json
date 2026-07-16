@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1392",
+    "name": "Presentation of the extracted operating system installation date does not highlight that there were previous operating systems installed prior to this date",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1309"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1157",
+            "relevance_summary_280": "Shows additional artifacts for previously installed operating systems."
+        }
+    ]
+}

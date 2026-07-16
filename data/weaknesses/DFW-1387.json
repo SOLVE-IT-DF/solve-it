@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1387",
+    "name": "The operating system installation date is not recovered because the tool fails while decoding the value",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1308"
+    ],
+    "references": []
+}

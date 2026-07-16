@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1394",
+    "name": "Failure to recover mount point mapping because of a tool processing error",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1312"
+    ],
+    "references": []
+}

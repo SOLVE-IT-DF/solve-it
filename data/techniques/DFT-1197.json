@@ -1,0 +1,28 @@
+{
+    "id": "DFT-1197",
+    "name": "Determine mount point mappings within an operating system",
+    "description": "This involves establishing what mount points (including drive letters) within an operating system are mapped to, either a partition or device. ",
+    "synonyms": [
+        "drive letter mapping"
+    ],
+    "details": "On Windows this will typically be mapping drive letters to specific partitions on local disks or removable media, DVD drives, or even mounted encrypted containers. \n\nThe term 'mount point mapping' is used here to include drive letters on Windows and the use of folders as mount points on other operating systems.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1393",
+        "DFW-1394",
+        "DFW-1395",
+        "DFW-1396"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Observable"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Device",
+        "https://ontology.unifiedcyberontology.org/uco/observable/DiskPartition",
+        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedRelationship",
+        "https://ontology.unifiedcyberontology.org/uco/observable/mountPoint",
+        "https://ontology.unifiedcyberontology.org/uco/observable/driveLetter"
+    ],
+    "references": []
+}

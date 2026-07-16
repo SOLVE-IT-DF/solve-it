@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1388",
+    "name": "The operating system installation date is not recovered because the tool examines an incorrect artifact",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1308"
+    ],
+    "references": []
+}

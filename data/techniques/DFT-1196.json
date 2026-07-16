@@ -1,0 +1,29 @@
+{
+    "id": "DFT-1196",
+    "name": "Extract operating system installation date",
+    "description": "Extract the date and time recorded as the installation date of the operating system.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1387",
+        "DFW-1388",
+        "DFW-1389",
+        "DFW-1390",
+        "DFW-1391",
+        "DFW-1392"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Observable"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/installDate"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1157",
+            "relevance_summary_280": "Discusses artifact locations for Windows installation date and details of older versions."
+        }
+    ]
+}

@@ -138,7 +138,7 @@ class MyTestCase(unittest.TestCase):
         technique = kb.get_technique('DFT-1001')
         self.assertEqual(dict, type(technique))
         self.assertEqual('DFT-1001', technique.get('id'))
-        self.assertEqual('Triage', technique.get('name'))
+        self.assertEqual('Triage devices or media', technique.get('name'))
         
         # Test that basic structure exists (exact content may vary)
         self.assertIsNotNone(technique.get('description'))
@@ -170,7 +170,7 @@ class MyTestCase(unittest.TestCase):
         weakness = kb.get_weakness('DFW-1001')
         self.assertEqual(dict, type(weakness))
         self.assertEqual('DFW-1001', weakness.get('id'))
-        self.assertEqual('Excluding a device that contains relevant information', weakness.get('name'))
+        self.assertEqual('Excluding a device during triage that contains relevant information', weakness.get('name'))
         self.assertIsInstance(weakness.get('categories'), list)
         self.assertIn('ASTM_INCOMP', weakness.get('categories'))
         self.assertNotIn('ASTM_MISINT', weakness.get('categories'))
@@ -740,7 +740,7 @@ class MyTestCase(unittest.TestCase):
         # Test known technique-weakness relationships
         t1001 = kb.get_technique('DFT-1001')  # Triage
         if t1001:
-            self.assertEqual(t1001['name'], 'Triage')
+            self.assertEqual(t1001['name'], 'Triage devices or media')
             # DFT-1001 should have weaknesses
             self.assertIsInstance(t1001.get('weaknesses'), list)
             self.assertGreater(len(t1001.get('weaknesses', [])), 0)
@@ -755,7 +755,7 @@ class MyTestCase(unittest.TestCase):
         # Test known weakness-mitigation relationships
         w1001 = kb.get_weakness('DFW-1001')
         if w1001:
-            self.assertEqual(w1001['name'], 'Excluding a device that contains relevant information')
+            self.assertEqual(w1001['name'], 'Excluding a device during triage that contains relevant information')
             # DFW-1001 should have mitigations
             if w1001.get('mitigations'):
                 for mitigation_id in w1001['mitigations']:

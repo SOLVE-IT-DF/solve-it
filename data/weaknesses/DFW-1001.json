@@ -1,6 +1,7 @@
 {
     "id": "DFW-1001",
-    "name": "Excluding a device that contains relevant information",
+    "name": "Excluding a device during triage that contains relevant information",
+    "description": "",
     "categories": [
         "ASTM_INCOMP"
     ],

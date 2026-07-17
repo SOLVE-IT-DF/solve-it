@@ -2,6 +2,7 @@
 
 ## July 2026
 
+- **2026-07-16** Added technique (TRWM): Extract operating system installation date (DFT-1196) [`d3ae3a0`](https://github.com/SOLVE-IT-DF/solve-it/commit/d3ae3a0)
 - **2026-07-15** Added technique (TRWM): Generate Alternative Hypotheses (DFT-1195) [`43fedec`](https://github.com/SOLVE-IT-DF/solve-it/commit/43fedec)
 - **2026-07-14** Updated weakness: Report generated from bookmarks stored in manner that does not prevent tampering or corruption (DFW-1154) [`8107a7d`](https://github.com/SOLVE-IT-DF/solve-it/commit/8107a7d)
 - **2026-07-14** Added mitigation (AUTOIMPLEMENT): Cryptographically sign generated forensic analysis reports with an asymmetric key (DFM-1299) [`36a1e40`](https://github.com/SOLVE-IT-DF/solve-it/commit/36a1e40)

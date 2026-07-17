@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1389",
+    "name": "The operating system installation date extracted does not reflect the time it was installed because the artifact represents an software update, or some other event",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1308"
+    ],
+    "references": []
+}

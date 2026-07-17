@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1393",
+    "name": "Failure to recover mount point mapping because multiple devices have used the mount point and older data has been overwritten",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1310",
+        "DFM-1311"
+    ],
+    "references": []
+}

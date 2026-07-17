@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1395",
+    "name": "Failure to recover mount point mapping because multiple operating systems are present and they use different mappings",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1313"
+    ],
+    "references": []
+}

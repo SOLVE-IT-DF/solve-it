@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1396",
+    "name": "Extracting a relationship between a mount point and device/partition that is incorrect because of a tool processing error",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1312"
+    ],
+    "references": []
+}

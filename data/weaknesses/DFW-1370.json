@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1370",
+    "name": "Failing to acquire cloud service logs because they are stored separately from data",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1289",
+        "DFM-1290"
+    ],
+    "references": []
+}

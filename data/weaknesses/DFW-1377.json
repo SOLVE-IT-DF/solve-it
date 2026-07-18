@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1377",
+    "name": "Failing to acquire data because credentials used have expired or were revoked",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1295"
+    ],
+    "references": []
+}

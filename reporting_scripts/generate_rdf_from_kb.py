@@ -27,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from solve_it_library import KnowledgeBase
-from rdflib import Graph, Namespace, Literal, URIRef, RDF, RDFS, XSD
+from rdflib import Graph, Namespace, Literal, URIRef, RDF, RDFS, OWL, XSD
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -44,6 +44,7 @@ SOLVEIT_DATA = Namespace("https://ontology.solveit-df.org/solveit/data/")
 # External ontologies
 UCO_CORE = Namespace("https://ontology.unifiedcyberontology.org/uco/core/")
 UCO_OBSERVABLE = Namespace("https://ontology.unifiedcyberontology.org/uco/observable/")
+UCO_ACTION = Namespace("https://ontology.unifiedcyberontology.org/uco/action/")
 CASE_INVESTIGATION = Namespace("https://ontology.caseontology.org/case/investigation/")
 
 
@@ -67,9 +68,11 @@ def create_rdf_graph(kb, include_objectives=True):
     g.bind("solveit-analysis", SOLVEIT_ANALYSIS)
     g.bind("uco-core", UCO_CORE)
     g.bind("uco-observable", UCO_OBSERVABLE)
+    g.bind("uco-action", UCO_ACTION)
     g.bind("case-investigation", CASE_INVESTIGATION)
     g.bind("rdf", RDF)
     g.bind("rdfs", RDFS)
+    g.bind("owl", OWL)
     g.bind("xsd", XSD)
 
     logger.info("Building RDF graph from knowledge base...")
@@ -100,9 +103,38 @@ def create_rdf_graph(kb, include_objectives=True):
     return g
 
 
+def build_parent_map(kb, techniques):
+    """Map each sub-technique ID to the technique ID(s) that declare it.
+
+    The KB records the relationship in one direction only: a parent lists its
+    subtechniques. The metaclass model needs the reverse, because a
+    sub-technique is expressed as rdfs:subClassOf its parent.
+    """
+    parents = {}
+    for tech_id in techniques:
+        tech = kb.get_technique(tech_id)
+        for sub_id in tech.get('subtechniques', []):
+            parents.setdefault(sub_id, []).append(tech_id)
+    return parents
+
+
 def add_techniques_to_graph(g, kb):
-    """Add all techniques to the RDF graph."""
+    """Add all techniques to the RDF graph.
+
+    Each technique is emitted under the uco-action:Technique metaclass pattern
+    introduced in UCO 1.5.0: it is both an instance of solveit-core:Technique
+    and an owl:Class in its own right, so that a performed investigative action
+    can state which technique it implements by rdf:type.
+
+    UCO requires a Technique instance to be a subclass of uco-action:Action.
+    SOLVE-IT satisfies this by placing root techniques under
+    solveit-core:SolveitInvestigativeAction, which descends from
+    case-investigation:InvestigativeAction and so from uco-action:Action.
+    Sub-techniques inherit it through their parent.
+    """
     techniques = kb.list_techniques()
+    parent_map = build_parent_map(kb, techniques)
+    referenced_classes = set()
 
     for tech_id in techniques:
         tech = kb.get_technique(tech_id)
@@ -110,8 +142,19 @@ def add_techniques_to_graph(g, kb):
         # Create URI for this technique (instance in data namespace)
         tech_uri = SOLVEIT_DATA[f"technique{tech_id}"]
 
-        # Add type
+        # Add type: an instance of the Technique metaclass, and a class itself
         g.add((tech_uri, RDF.type, SOLVEIT_CORE.Technique))
+        g.add((tech_uri, RDF.type, OWL.Class))
+
+        # Place the technique class in the action hierarchy. A sub-technique
+        # sits under its parent; a root technique sits under
+        # SolveitInvestigativeAction directly.
+        parent_ids = parent_map.get(tech_id, [])
+        if parent_ids:
+            for parent_id in parent_ids:
+                g.add((tech_uri, RDFS.subClassOf, SOLVEIT_DATA[f"technique{parent_id}"]))
+        else:
+            g.add((tech_uri, RDFS.subClassOf, SOLVEIT_CORE.SolveitInvestigativeAction))
 
         # Add label
         g.add((tech_uri, RDFS.label, Literal(f"{tech_id}: {tech['name']}", lang="en")))
@@ -153,14 +196,23 @@ def add_techniques_to_graph(g, kb):
             weakness_uri = SOLVEIT_DATA[f"weakness{weakness_id}"]
             g.add((tech_uri, SOLVEIT_CORE.hasPotentialWeakness, weakness_uri))
 
-        # Add CASE input classes (as xsd:anyURI typed literals)
+        # Add CASE input classes as IRI references, not string literals, so a
+        # reasoner can follow them and a validator can check them.
         for case_class_uri in tech.get('CASE_input_classes', []):
-            g.add((tech_uri, SOLVEIT_CORE.hasCASEInputClass, Literal(case_class_uri, datatype=XSD.anyURI)))
+            g.add((tech_uri, SOLVEIT_CORE.hasCASEInputClass, URIRef(case_class_uri)))
+            referenced_classes.add(case_class_uri)
 
-        # Add CASE output classes (as xsd:anyURI typed literals)
+        # Add CASE output classes (already full URIs in the JSON)
         for case_class_uri in tech.get('CASE_output_classes', []):
-            # CASE_output_classes are already full URIs in the JSON
-            g.add((tech_uri, SOLVEIT_CORE.hasCASEOutputClass, Literal(case_class_uri, datatype=XSD.anyURI)))
+            g.add((tech_uri, SOLVEIT_CORE.hasCASEOutputClass, URIRef(case_class_uri)))
+            referenced_classes.add(case_class_uri)
+
+    # Declare every referenced input/output class as an owl:Class. Without a
+    # declaration, an IRI used in class position is a declaration error under
+    # OWL 2 DL. This states only that the IRI names a class, which is what the
+    # KB is asserting anyway; it makes no claim about the class's definition.
+    for class_uri in sorted(referenced_classes):
+        g.add((URIRef(class_uri), RDF.type, OWL.Class))
 
 
 def add_weaknesses_to_graph(g, kb):

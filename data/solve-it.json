@@ -238,7 +238,7 @@
     },
     {
         "id": "DFO-1023",
-        "sort_order": 13,
+        "sort_order": 14,
         "name": "Extract specific artifact types",
         "description": "Process data to extract specific types of artifact",
         "techniques": [
@@ -257,7 +257,7 @@
     },
     {
         "id": "DFO-1012",
-        "sort_order": 14,
+        "sort_order": 15,
         "name": "Locate potentially relevant content",
         "description": "Attempt to find digital artifacts relevant to the investigation.",
         "techniques": [
@@ -271,7 +271,7 @@
     },
     {
         "id": "DFO-1003",
-        "sort_order": 15,
+        "sort_order": 16,
         "name": "Review content for relevance",
         "description": "Review potentially relevant content to determine its significance or meaning.",
         "techniques": [
@@ -286,7 +286,7 @@
     },
     {
         "id": "DFO-1019",
-        "sort_order": 16,
+        "sort_order": 17,
         "name": "Detect anti-forensics and other anomalies",
         "description": "Search for indicators of anti-forensic techniques or other anomalies such as malware, which could affect interpretation.",
         "techniques": [
@@ -302,7 +302,7 @@
     },
     {
         "id": "DFO-1008",
-        "sort_order": 17,
+        "sort_order": 18,
         "name": "Establish identities",
         "description": "Attempt to link data or devices to individuals.",
         "techniques": [
@@ -313,7 +313,7 @@
     },
     {
         "id": "DFO-1009",
-        "sort_order": 18,
+        "sort_order": 19,
         "name": "Create visualizations",
         "description": "Display information using visual representations to assist with analysis.",
         "techniques": [
@@ -324,7 +324,7 @@
     },
     {
         "id": "DFO-1004",
-        "sort_order": 19,
+        "sort_order": 20,
         "name": "Conduct research",
         "description": "Conduct research to gain additional knowledge to support the acquisition, extraction, or interpretation of digital evidence.",
         "techniques": [
@@ -338,7 +338,7 @@
     },
     {
         "id": "DFO-1001",
-        "sort_order": 20,
+        "sort_order": 21,
         "name": "Reconstruct events",
         "description": "Use available digital evidence to formulate and test hypotheses about events.",
         "techniques": [
@@ -353,7 +353,7 @@
     },
     {
         "id": "DFO-1024",
-        "sort_order": 21,
+        "sort_order": 22,
         "name": "Evaluate evidence",
         "description": "Evaluate evidence ",
         "techniques": [
@@ -363,7 +363,7 @@
     },
     {
         "id": "DFO-1020",
-        "sort_order": 22,
+        "sort_order": 23,
         "name": "Document digital forensic activities",
         "description": "Create documentation about techniques used and findings.",
         "techniques": [

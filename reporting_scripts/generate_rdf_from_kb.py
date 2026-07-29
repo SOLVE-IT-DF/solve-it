@@ -347,6 +347,205 @@ def add_objectives_to_graph(g, kb):
             g.add((obj_uri, SOLVEIT_CORE.includesTechnique, tech_uri))
 
 
+# Section layout for the Turtle output. rdflib's own serializer emits subjects
+# in an order that interleaves techniques, weaknesses, mitigations and citations,
+# which makes the file hard to read and hard to diff. Each entry is
+# (heading, blurb, rdf:type to select on, predicate order within a subject,
+#  predicate to sort subjects by — None to sort by identifier).
+TTL_SECTIONS = [
+    (
+        'Objectives',
+        'Investigation objectives, each listing the techniques that can achieve it.\n'
+        '#    Ordered by solveit-core:sortOrder, which is the order objectives are\n'
+        '#    worked through in an investigation, not by DFO identifier.',
+        SOLVEIT_CORE.Objective,
+        ['objectiveID', 'objectiveName', 'objectiveDescription', 'sortOrder',
+         'includesTechnique'],
+        SOLVEIT_CORE.sortOrder,
+    ),
+    (
+        'Techniques',
+        'Each technique is an instance of the solveit-core:Technique metaclass AND\n'
+        '#    an owl:Class in its own right, following uco-action:Technique (UCO 1.5.0).\n'
+        '#    A performed investigative action is typed with the technique class it\n'
+        '#    implements. Root techniques are rdfs:subClassOf\n'
+        '#    solveit-core:SolveitInvestigativeAction; sub-techniques are\n'
+        '#    rdfs:subClassOf their parent technique and inherit the anchor through it.',
+        SOLVEIT_CORE.Technique,
+        ['techniqueID', 'techniqueName', 'techniqueDescription', 'techniqueDetails',
+         'hasSynonym', 'hasExample', 'hasCASEInputClass', 'hasCASEOutputClass',
+         'hasPotentialWeakness', 'hasSubtechnique', 'hasReference'],
+        None,
+    ),
+    (
+        'Weaknesses',
+        'Potential problems arising from a technique, classified against the\n'
+        '#    ASTM E3016-18 error categories.',
+        SOLVEIT_CORE.Weakness,
+        ['weaknessID', 'weaknessName', 'weaknessDescription', 'hasWeaknessClass',
+         'hasPotentialMitigation', 'hasReference'],
+        None,
+    ),
+    (
+        'Mitigations',
+        'Actions that prevent a weakness or reduce its impact.',
+        SOLVEIT_CORE.Mitigation,
+        ['mitigationID', 'mitigationName', 'mitigationDescription',
+         'linksToTechnique', 'hasReference'],
+        None,
+    ),
+    (
+        'Citations',
+        'Reference sources, cited by DFCite id from techniques, weaknesses\n'
+        '#    and mitigations.',
+        SOLVEIT_CORE.Citation,
+        ['citationID', 'citationPlaintext', 'citationBibtex'],
+        None,
+    ),
+]
+
+
+def _natural_key(term, g):
+    """Sort key that orders DFT-1002 before DFT-1042 before DFT-1123.
+
+    Plain string sorting puts DFT-1123 before DFT-142, which is not what a
+    reader expects. Split the local name into text and numeric runs instead.
+    """
+    import re
+    local = str(term).rsplit('/', 1)[-1]
+    return tuple(
+        int(part) if part.isdigit() else part
+        for part in re.split(r'(\d+)', local)
+    )
+
+
+def _section_key(subject, g, sort_pred):
+    """Order subjects within a section.
+
+    By identifier unless the section names a predicate to sort on, in which case
+    that value leads and the identifier breaks ties. Objectives use
+    solveit-core:sortOrder so the section reads in investigation order rather
+    than by DFO number.
+    """
+    ident = _natural_key(subject, g)
+    if sort_pred is None:
+        return (0, ident)
+    value = next(g.objects(subject, sort_pred), None)
+    if value is None:
+        # Anything lacking the sort value goes last, still ordered by identifier.
+        return (1, ident)
+    return (0, (value.toPython(),), ident)
+
+
+def _emit_subject(g, subject, pred_order, nm):
+    """Render one subject as a Turtle block with predicates in a chosen order."""
+    lines = []
+    by_pred = {}
+    for p, o in g.predicate_objects(subject):
+        by_pred.setdefault(p, []).append(o)
+
+    def clause(pred_n3, objs):
+        rendered = sorted(o.n3(nm) for o in objs)
+        if len(rendered) == 1:
+            return f"    {pred_n3} {rendered[0]}"
+        joined = (',\n' + ' ' * (4 + len(pred_n3) + 1)).join(rendered)
+        return f"    {pred_n3} {joined}"
+
+    emitted = set()
+
+    # Types first, then label, then placement in the class hierarchy.
+    for pred, pred_n3 in ((RDF.type, 'a'), (RDFS.label, 'rdfs:label'),
+                          (RDFS.subClassOf, 'rdfs:subClassOf')):
+        if pred in by_pred:
+            lines.append(clause(pred_n3, by_pred[pred]))
+            emitted.add(pred)
+
+    # Then the section's preferred order, then anything left over.
+    ordered = [SOLVEIT_CORE[name] for name in pred_order]
+    leftovers = sorted((p for p in by_pred if p not in emitted and p not in ordered),
+                       key=str)
+    for pred in ordered + leftovers:
+        if pred in by_pred and pred not in emitted:
+            lines.append(clause(pred.n3(nm), by_pred[pred]))
+            emitted.add(pred)
+
+    return f"{subject.n3(nm)}\n" + " ;\n".join(lines) + " .\n"
+
+
+def serialize_grouped(g):
+    """Serialize the graph as Turtle grouped into commented sections.
+
+    Produces the same triples as g.serialize(format='turtle') but ordered so the
+    file can be read top to bottom and diffed sensibly between builds.
+    """
+    nm = g.namespace_manager
+    out = []
+
+    # rdflib pre-binds a long list of well-known vocabularies (brick, csvw,
+    # dcat and so on). Emit only the prefixes the graph actually uses.
+    used = set()
+    for triple in g:
+        for term in triple:
+            if isinstance(term, URIRef):
+                used.add(str(term))
+            elif isinstance(term, Literal) and term.datatype:
+                used.add(str(term.datatype))
+    out.append('\n'.join(
+        f"@prefix {prefix if prefix else ''}: <{uri}> ."
+        for prefix, uri in sorted(nm.namespaces(), key=lambda x: x[0])
+        if any(t.startswith(str(uri)) for t in used)
+    ))
+    out.append('')
+
+    counts = {t: len(set(g.subjects(RDF.type, t))) for _, _, t, _, _ in TTL_SECTIONS}
+    rule = '#' * 65
+    out.append(rule)
+    out.append('#    SOLVE-IT Knowledge Base')
+    out.append('#')
+    out.append('#    Generated from the SOLVE-IT knowledge base JSON by')
+    out.append('#    reporting_scripts/generate_rdf_from_kb.py. Do not edit by hand.')
+    out.append('#')
+    for heading, _, type_uri, _, _ in TTL_SECTIONS:
+        out.append(f"#      {heading + ':':<16}{counts[type_uri]}")
+    out.append(rule)
+    out.append('')
+
+    claimed = set()
+    for heading, blurb, type_uri, pred_order, sort_pred in TTL_SECTIONS:
+        subjects = sorted(
+            set(g.subjects(RDF.type, type_uri)),
+            key=lambda s: _section_key(s, g, sort_pred),
+        )
+        claimed.update(subjects)
+        out.append(rule)
+        out.append(f"#    {heading} ({len(subjects)})")
+        out.append('#')
+        out.append(f"#    {blurb}")
+        out.append(rule)
+        out.append('')
+        for s in subjects:
+            out.append(_emit_subject(g, s, pred_order, nm))
+
+    # Declaration-only stubs for the CASE/UCO classes referenced as technique
+    # inputs and outputs. Without these an IRI in class position is a
+    # declaration error under OWL 2 DL.
+    remaining = sorted((s for s in set(g.subjects()) if s not in claimed),
+                       key=lambda s: _natural_key(s, g))
+    if remaining:
+        out.append(rule)
+        out.append(f"#    Referenced CASE/UCO classes ({len(remaining)})")
+        out.append('#')
+        out.append('#    Declaration only. These name classes defined in CASE/UCO or in')
+        out.append('#    the SOLVE-IT observable modules, referenced above as technique')
+        out.append('#    input and output classes. No definition is asserted here.')
+        out.append(rule)
+        out.append('')
+        for s in remaining:
+            out.append(_emit_subject(g, s, [], nm))
+
+    return '\n'.join(out)
+
+
 def save_graph(g, output_dir, format_type='both'):
     """
     Save the RDF graph to file(s).
@@ -362,8 +561,9 @@ def save_graph(g, output_dir, format_type='both'):
     if format_type in ['ttl', 'both']:
         ttl_file = output_path / 'solve-it-kb.ttl'
         logger.info(f"Writing Turtle output to {ttl_file}")
-        # rdflib Turtle serializer sorts by subject; write with consistent encoding
-        ttl_output = g.serialize(format='turtle')
+        # Grouped into commented sections rather than rdflib's own subject order,
+        # which interleaves techniques, weaknesses, mitigations and citations.
+        ttl_output = serialize_grouped(g)
         with open(ttl_file, 'w', encoding='utf-8') as f:
             f.write(ttl_output)
         logger.info(f"Turtle file written successfully: {ttl_file}")

@@ -65,7 +65,7 @@ The file `solve-it.json` is the default categorisation of the techniques, but ot
    - includes presentations, class exercises, one-page primer, contributing guide for digital forensics researchers.
 - example uses of SOLVE-IT can be found [here](https://github.com/SOLVE-IT-DF/solve-it-examples), 
 - a repository that uses SOLVE-IT to consider applications of AI to digital forensics can be found [here](https://github.com/SOLVE-IT-DF/solve-it-applications-ai-review)
-- an MCP server providing LLM access to SOLVE-IT [here](https://github.com/CKE-Proto/solve_it_mcp) 
+- an MCP server providing LLM access to SOLVE-IT [here](https://github.com/CKE-Proto/mcp_solve-it) (from [Cyber Knowledge Engineering (CKE)](https://www.cke-ltd.com))
 
 
 ## Citing SOLVE-IT

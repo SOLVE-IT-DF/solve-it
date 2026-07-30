@@ -76,11 +76,16 @@ def _discover_solveit_ttl_files(base_api_url=SOLVEIT_ONTOLOGY_GITHUB_API):
         logger.warning(f"Could not discover SOLVE-IT TTL files from GitHub: {exc}")
         return None
 
-# UCO/CASE ontology module URLs for 1.5.0
+# UCO/CASE ontology module URLs for 1.5.0. The knowledge base references terms
+# from case-investigation (ProvenanceRecord, exhibitNumber) and uco-types (Hash),
+# so those modules are loaded too. CASE lays its repository out as
+# ontology/<module>/, without the extra path segment UCO uses.
 UCO_CASE_MODULES = [
     "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/core/core.ttl",
     "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/observable/observable.ttl",
     "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/analysis/analysis.ttl",
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/types/types.ttl",
+    "https://raw.githubusercontent.com/casework/CASE/1.5.0/ontology/investigation/investigation.ttl",
 ]
 
 

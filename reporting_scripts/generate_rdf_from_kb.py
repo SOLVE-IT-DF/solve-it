@@ -19,6 +19,7 @@ Example:
 """
 
 import argparse
+import json
 import sys
 import os
 import logging
@@ -546,6 +547,112 @@ def serialize_grouped(g):
     return '\n'.join(out)
 
 
+def jsonld_node_order(g):
+    """Map each subject IRI to its position in the Turtle section layout.
+
+    JSON-LD in expanded form is a flat array, and an array is ordered, so a
+    reader gets the same objectives -> techniques -> weaknesses -> mitigations ->
+    citations progression as the Turtle instead of one alphabetical run of IRIs.
+    Sorting by @id, as the previous version did, put citations first and split
+    the objectives away from the techniques they list.
+
+    Returns {subject IRI: (section index, position within section)}, built by the
+    same rules serialize_grouped() uses, so the two formats cannot drift.
+    """
+    order = {}
+    claimed = set()
+    for index, (_, _, type_uri, _, sort_pred) in enumerate(TTL_SECTIONS):
+        subjects = sorted(
+            set(g.subjects(RDF.type, type_uri)),
+            key=lambda s: _section_key(s, g, sort_pred),
+        )
+        claimed.update(subjects)
+        for position, subject in enumerate(subjects):
+            order.setdefault(str(subject), (index, position))
+
+    # The declaration-only CASE/UCO class stubs, in the same trailing block the
+    # Turtle gives them.
+    remaining = sorted((s for s in set(g.subjects()) if s not in claimed),
+                       key=lambda s: _natural_key(s, g))
+    for position, subject in enumerate(remaining):
+        order.setdefault(str(subject), (len(TTL_SECTIONS), position))
+    return order
+
+
+def sort_jsonld_values(node):
+    """Sort every multi-valued property of one JSON-LD node, in place.
+
+    rdflib emits each object list in graph iteration order, which carries no
+    meaning and can be reshuffled by an unrelated edit elsewhere in the knowledge
+    base — so a diff between two builds showed changes that were not changes.
+    The Turtle already sorts these lists; this brings the JSON-LD into line.
+    """
+    for value in node.values():
+        if isinstance(value, list) and len(value) > 1:
+            value.sort(key=lambda v: json.dumps(v, sort_keys=True, ensure_ascii=False))
+    return node
+
+
+def _sorted_nested(value):
+    """Rebuild the {"@id": ...} / {"@value": ...} objects with their keys sorted.
+
+    The document keys are ordered deliberately by reorder_jsonld_keys(), so the
+    writer cannot use json.dump(sort_keys=True) to make the file deterministic;
+    the small nested objects are sorted here instead.
+    """
+    if isinstance(value, dict):
+        return {key: _sorted_nested(value[key]) for key in sorted(value)}
+    if isinstance(value, list):
+        return [_sorted_nested(item) for item in value]
+    return value
+
+
+def reorder_jsonld_keys(node, pred_order):
+    """Return one node with its properties in the order the Turtle uses.
+
+    Identity first (@id, @type, label, placement in the class hierarchy), then
+    the section's preferred predicate order, then anything left over
+    alphabetically — the same rules as _emit_subject(). Sorting the keys instead
+    puts techniqueID and techniqueName after the has* lists, which reads oddly
+    for what is meant to be the readable form of the same data.
+    """
+    preferred = ['@id', '@type', str(RDFS.label), str(RDFS.subClassOf)]
+    preferred += [str(SOLVEIT_CORE[name]) for name in pred_order]
+    rank = {key: index for index, key in enumerate(preferred)}
+    keys = sorted(node, key=lambda k: (rank.get(k, len(rank)), k))
+    return {key: _sorted_nested(node[key]) for key in keys}
+
+
+def order_jsonld(jsonld_data, g):
+    """Order a parsed expanded JSON-LD document for reading and for stable diffs.
+
+    Handles both shapes rdflib can return: a bare array of nodes, or an object
+    with an @graph array.
+    """
+    order = jsonld_node_order(g)
+    # Predicate order per section, with an empty order for the trailing
+    # declaration-only block and for anything the graph did not account for.
+    pred_orders = [section[3] for section in TTL_SECTIONS] + [[], []]
+    # Nodes the graph did not account for sort after the known sections, by @id,
+    # rather than staying in whatever order they arrived in.
+    fallback = (len(TTL_SECTIONS) + 1, 0)
+
+    def ordered_nodes(nodes):
+        for node in nodes:
+            sort_jsonld_values(node)
+        nodes.sort(key=lambda n: order.get(n.get('@id', ''), fallback) + (n.get('@id', ''),))
+        return [
+            reorder_jsonld_keys(node, pred_orders[order.get(node.get('@id', ''), fallback)[0]])
+            for node in nodes
+        ]
+
+    if isinstance(jsonld_data, list):
+        return ordered_nodes(jsonld_data)
+    if isinstance(jsonld_data, dict) and '@graph' in jsonld_data:
+        jsonld_data['@graph'] = ordered_nodes(jsonld_data['@graph'])
+    return jsonld_data
+
+
 def save_graph(g, output_dir, format_type='both'):
     """
     Save the RDF graph to file(s).
@@ -571,17 +678,15 @@ def save_graph(g, output_dir, format_type='both'):
     if format_type in ['jsonld', 'both']:
         jsonld_file = output_path / 'solve-it-kb.jsonld'
         logger.info(f"Writing JSON-LD output to {jsonld_file}")
-        # Serialize to string, then sort for deterministic output
-        import json
+        # Serialize to string, then order it: nodes into the same sections as the
+        # Turtle, and every multi-valued property sorted, so the file reads in
+        # knowledge base order and diffs cleanly between builds.
         jsonld_str = g.serialize(format='json-ld')
-        jsonld_data = json.loads(jsonld_str)
-        # Sort @graph entries by @id for stable diffs
-        if isinstance(jsonld_data, list):
-            jsonld_data.sort(key=lambda x: x.get('@id', ''))
-        elif isinstance(jsonld_data, dict) and '@graph' in jsonld_data:
-            jsonld_data['@graph'].sort(key=lambda x: x.get('@id', ''))
+        jsonld_data = order_jsonld(json.loads(jsonld_str), g)
         with open(jsonld_file, 'w', encoding='utf-8') as f:
-            json.dump(jsonld_data, f, indent=2, sort_keys=True, ensure_ascii=False)
+            # No sort_keys: order_jsonld() has already put the keys in the order
+            # the Turtle uses, and sorting would undo it.
+            json.dump(jsonld_data, f, indent=2, ensure_ascii=False)
             f.write('\n')
         logger.info(f"JSON-LD file written successfully: {jsonld_file}")
 

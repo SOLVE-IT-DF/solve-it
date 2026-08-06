@@ -2,6 +2,10 @@
 
 Changes to the knowledge base schema.
 
+### New objective: Evaluate evidence (2026-07-14)
+
+Added "Evaluate evidence" as a new objective, taking the knowledge base from 23 to 24 objectives. It sits between "Reconstruct events" and "Document digital forensic activities", and covers techniques concerned with assessing what the recovered material supports rather than recovering it. The objective was introduced alongside its first technique, Generate Alternative Hypotheses (DFT-1195). Anything consuming the objective list, including issue forms and generated views, reflects the additional entry.
+
 ### Weakness classes migration (2026-03-19)
 
 Migrated weakness ASTM error classification from 6 individual boolean-style fields (`INCOMP`, `INAC-EX`, etc.) to a single `categories` list field. Each class code is now prefixed with `ASTM_` (e.g. `ASTM_INCOMP`, `ASTM_INAC_EX`). 271 weakness files updated. Issue forms changed from checkboxes to textarea input. Ontology updated to use `hasWeaknessClass` object property with `ASTMErrorCategory` named individuals.

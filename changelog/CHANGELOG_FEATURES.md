@@ -2,6 +2,14 @@
 
 Describes features and tooling updates.
 
+### Git history and issue search from the Explorer (2026-07-06)
+
+Added two buttons to the detail panel of the HTML Explorer. "Show git history" opens the commit history of the JSON file that backs the item being viewed, so the sequence of changes to a technique, weakness or mitigation can be read directly. "Search git issue mentions" opens a GitHub issue search for the item's ID, covering both open and closed issues, so the discussion behind a change can be found from the item itself.
+
+### Drag and drop of techniques out of the Explorer (2026-06-20)
+
+Techniques in the HTML Explorer can now be dragged out of the page and dropped into another application open alongside it, including one running on a different origin. The drag carries the technique ID, which the receiving application uses to reconstruct the remaining detail from the knowledge base. Techniques can be dragged from the objective grid, from technique tables, and from the detail panel header.
+
 ### HTML viewer presentation mode (2026-04-16)
 
 Added a presentation view to the detail panel (technique only) for slide screenshots: a full-width two-column layout with weaknesses shown alongside their mitigations as a nested tree. Weakness and mitigation panels also gained hero and summary cards, mitigation counts now appear inline on weakness rows.

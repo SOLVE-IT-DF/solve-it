@@ -648,7 +648,13 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
             for url in t.get(field_name, []):
                 desc = lookup.describe_class(url)
                 if not desc["found"]:
-                    msg = f"Technique {tid} {field_name}: \"{url}\" not found in loaded ontologies"
+                    if desc.get("present"):
+                        msg = (
+                            f"Technique {tid} {field_name}: \"{url}\" is in the loaded "
+                            f"ontologies but is not a class or property"
+                        )
+                    else:
+                        msg = f"Technique {tid} {field_name}: \"{url}\" not found in loaded ontologies"
                     result.warn(msg)
                     ontology_issues.append(msg)
                     bad += 1
@@ -942,6 +948,7 @@ WARNING_CATEGORIES = [
     ("Todo markers", "contains todo marker"),
     ("Not in any objective", "is not listed in any objective"),
     ("Ontology IRI not found", "not found in loaded ontologies"),
+    ("Ontology IRI not a class or property", "is not a class or property"),
     ("Empty relevance summary", "has empty relevance_summary"),
 ]
 

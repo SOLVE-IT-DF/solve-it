@@ -88,6 +88,14 @@ UCO_CASE_MODULES = [
     "https://raw.githubusercontent.com/casework/CASE/1.5.0/ontology/investigation/investigation.ttl",
 ]
 
+# The kinds of ontology term a technique may name among its inputs and outputs.
+# Classes are the common case, but properties are also legitimate: a technique
+# can produce a single value rather than an object, for example
+# case-investigation:exhibitNumber or uco-core:name. Anything else that happens
+# to appear in a loaded ontology, such as a SHACL shape, a named individual or a
+# vocabulary entry, is not a valid input or output.
+ACCEPTED_TERM_TYPES = (OWL.Class, OWL.DatatypeProperty, OWL.ObjectProperty)
+
 
 class OntologyLookup:
     """Loads ontology files and provides class description lookups."""
@@ -242,15 +250,21 @@ class OntologyLookup:
             "data_properties": [],
             "comment": None,
             "found": False,
+            "present": False,
         }
 
-        # Check if the class exists in the ontology
-        is_class = (uri, RDF.type, OWL.Class) in self.graph
-        has_any_triple = any(self.graph.triples((uri, None, None)))
-        if not is_class and not has_any_triple:
+        # Accept the IRI only if it is declared as one of the term types a
+        # technique may name. Testing the declared type rather than the mere
+        # presence of a triple means a term that resolves but is the wrong kind
+        # of thing is still reported, and is distinguished from one that is
+        # absent from the loaded ontologies altogether.
+        if any((uri, RDF.type, t) in self.graph for t in ACCEPTED_TERM_TYPES):
+            result["found"] = True
+        else:
+            result["present"] = any(self.graph.triples((uri, None, None)))
             return result
 
-        result["found"] = True
+        result["present"] = True
 
         # Get rdfs:comment
         for comment in self.graph.objects(uri, RDFS.comment):

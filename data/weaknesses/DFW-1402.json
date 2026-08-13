@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1402",
+    "name": "Calculating an incorrect hash of data stored within a forensic image because it is split over multiple files and not all were included",
+    "description": "For example hashing data only in an E01 file when there was also an E02.",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1316"
+    ],
+    "references": []
+}

@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1316",
+    "name": "Test that cryptographic hashing of split forensic images includes the data from all files that make up that image",
+    "references": []
+}

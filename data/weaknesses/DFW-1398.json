@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1398",
+    "name": "Cryptographic hash of the source data is incorrect because of a hash computation error",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1085",
+        "DFM-1314"
+    ],
+    "references": []
+}

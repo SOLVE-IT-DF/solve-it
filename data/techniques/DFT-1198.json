@@ -1,0 +1,22 @@
+{
+    "id": "DFT-1198",
+    "name": "Compute hash of data read from source device",
+    "description": "Process data accessed on a source device (e.g. attached disk or other media) and compute the cryptographic hash of the data",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1397",
+        "DFW-1398",
+        "DFW-1399",
+        "DFW-1400"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/Bitstream"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/types/Hash"
+    ],
+    "references": []
+}

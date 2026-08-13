@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1314",
+    "name": "Test that cryptographically hashing data on a connected drive/media performs correctly",
+    "description": "This differs from testing hashing data within forensic images as it replicates conditions of hashing external media attached for imaging",
+    "references": []
+}

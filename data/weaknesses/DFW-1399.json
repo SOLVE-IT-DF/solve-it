@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1399",
+    "name": "Source data is changed when cryptographic hash is being computed because of writes made to the source device",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_ALT"
+    ],
+    "mitigations": [
+        "DFM-1007",
+        "DFM-1008"
+    ],
+    "references": []
+}

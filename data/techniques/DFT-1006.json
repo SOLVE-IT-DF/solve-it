@@ -3,7 +3,11 @@
     "name": "Search a crime scene using digital sniffer dogs",
     "description": "The use of canines to locate obscured digital storage devices.",
     "synonyms": [
-        "Digital Storage Device Dogs"
+        "Digital Storage Device Dogs",
+        "Electronic Storage Detection (ESD) sniffing dog",
+        "Storage Detection Police Dogs",
+        "Digital detection dogs",
+        "Digi-dogs"
     ],
     "details": "",
     "subtechniques": [],

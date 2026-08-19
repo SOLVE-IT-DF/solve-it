@@ -88,6 +88,48 @@ UCO_CASE_MODULES = [
     "https://raw.githubusercontent.com/casework/CASE/1.5.0/ontology/investigation/investigation.ttl",
 ]
 
+# UCO modules beyond the default set that the knowledge base draws terms from.
+EXTRA_UCO_MODULES = [
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/configuration/configuration.ttl",
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/identity/identity.ttl",
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/location/location.ttl",
+]
+
+PROJECTVIC_ONTOLOGY_BASE = (
+    "https://raw.githubusercontent.com/Project-VIC-International/CAC-Ontology/main/ontology/"
+)
+
+
+def get_projectvic_ttl_urls():
+    """Fetch the list of non-shape TTL files from the ProjectVic CAC-Ontology repo.
+
+    The knowledge base references ProjectVic terms, so anything that needs to
+    resolve a technique's inputs and outputs needs these alongside UCO and CASE.
+    Returns an empty list if the listing cannot be fetched, leaving the caller
+    to decide what an unresolved term means.
+    """
+    api_url = "https://api.github.com/repos/Project-VIC-International/CAC-Ontology/contents/ontology"
+    try:
+        try:
+            import requests
+            resp = requests.get(
+                api_url, headers={"Accept": "application/vnd.github.v3+json"}, timeout=15)
+            resp.raise_for_status()
+            entries = resp.json()
+        except ImportError:
+            req = urllib.request.Request(
+                api_url, headers={"Accept": "application/vnd.github.v3+json"})
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                entries = json.loads(resp.read())
+        return [
+            PROJECTVIC_ONTOLOGY_BASE + e["name"]
+            for e in entries
+            if e["name"].endswith(".ttl") and "shapes" not in e["name"]
+        ]
+    except Exception:
+        return []
+
+
 # The kinds of ontology term a technique may name among its inputs and outputs.
 # Classes are the common case, but properties are also legitimate: a technique
 # can produce a single value rather than an object, for example
@@ -227,6 +269,21 @@ class OntologyLookup:
             return uri_str.split("#")[-1]
         # Otherwise use the last path segment
         return uri_str.split("/")[-1]
+
+    def term_type(self, uri):
+        """Return the declared type of a term, or None if it is not one we accept.
+
+        Answers "is this IRI a class, a datatype property or an object
+        property?" for callers that need to state a term's kind rather than
+        merely check that it is valid. Returns the URIRef of the declared type
+        so a caller can assert it directly.
+        """
+        if not isinstance(uri, URIRef):
+            uri = URIRef(uri)
+        for term_type in ACCEPTED_TERM_TYPES:
+            if (uri, RDF.type, term_type) in self.graph:
+                return term_type
+        return None
 
     def describe_class(self, class_uri):
         """

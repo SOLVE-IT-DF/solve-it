@@ -626,9 +626,9 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
         )
         # Load additional UCO modules referenced by the KB
         extra_modules = [
-            "https://raw.githubusercontent.com/ucoProject/UCO/1.4.0/ontology/uco/configuration/configuration.ttl",
-            "https://raw.githubusercontent.com/ucoProject/UCO/1.4.0/ontology/uco/identity/identity.ttl",
-            "https://raw.githubusercontent.com/ucoProject/UCO/1.4.0/ontology/uco/location/location.ttl",
+            "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/configuration/configuration.ttl",
+            "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/identity/identity.ttl",
+            "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/location/location.ttl",
         ]
         lookup._load_remote_modules(extra_modules)
 

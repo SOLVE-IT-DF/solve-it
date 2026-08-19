@@ -17,6 +17,7 @@ Usage:
 
 import json
 import logging
+import re
 import urllib.request
 from pathlib import Path
 
@@ -75,11 +76,16 @@ def _discover_solveit_ttl_files(base_api_url=SOLVEIT_ONTOLOGY_GITHUB_API):
         logger.warning(f"Could not discover SOLVE-IT TTL files from GitHub: {exc}")
         return None
 
-# UCO/CASE ontology module URLs for 1.4.0
+# UCO/CASE ontology module URLs for 1.5.0. The knowledge base references terms
+# from case-investigation (ProvenanceRecord, exhibitNumber) and uco-types (Hash),
+# so those modules are loaded too. CASE lays its repository out as
+# ontology/<module>/, without the extra path segment UCO uses.
 UCO_CASE_MODULES = [
-    "https://raw.githubusercontent.com/ucoProject/UCO/1.4.0/ontology/uco/core/core.ttl",
-    "https://raw.githubusercontent.com/ucoProject/UCO/1.4.0/ontology/uco/observable/observable.ttl",
-    "https://raw.githubusercontent.com/ucoProject/UCO/1.4.0/ontology/uco/analysis/analysis.ttl",
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/core/core.ttl",
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/observable/observable.ttl",
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/analysis/analysis.ttl",
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/types/types.ttl",
+    "https://raw.githubusercontent.com/casework/CASE/1.5.0/ontology/investigation/investigation.ttl",
 ]
 
 
@@ -150,8 +156,7 @@ class OntologyLookup:
         self._cache_dir.mkdir(parents=True, exist_ok=True)
 
         for url in urls:
-            filename = url.split("/")[-1]
-            cached_file = self._cache_dir / filename
+            cached_file = self._cache_dir / self._cache_name(url)
 
             # Try loading from cache first
             if cached_file.exists():
@@ -171,6 +176,17 @@ class OntologyLookup:
                 logger.debug(f"Loaded from URL: {url}")
             except Exception as e:
                 logger.warning(f"Failed to load remote module {url}: {e}")
+
+    @staticmethod
+    def _cache_name(url):
+        """Build the cache filename for a remote module URL.
+
+        Derived from the whole URL rather than its last segment. The same
+        filename occurs in every UCO release (observable.ttl and the rest), so a
+        name-only key returns whichever version was fetched first and a version
+        change has no effect until the cache is cleared by hand.
+        """
+        return re.sub(r"[^A-Za-z0-9._-]", "_", url.split("://", 1)[-1])
 
     @staticmethod
     def _download_file(url, dest):

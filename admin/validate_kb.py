@@ -26,7 +26,9 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from pydantic import ValidationError
 from solve_it_library.models import Technique, Weakness, Mitigation, Objective, CitationFiles
 from solve_it_library.citation_utils import find_inline_citations
-from solve_it_library.ontology_utils import OntologyLookup, SOLVEIT_ONTOLOGY_DEFAULT_URL
+from solve_it_library.ontology_utils import (
+    OntologyLookup, SOLVEIT_ONTOLOGY_DEFAULT_URL, EXTRA_UCO_MODULES,
+    get_projectvic_ttl_urls)
 
 
 # ── Output helpers ────────────────────────────────────────────────────────────
@@ -565,34 +567,6 @@ KNOWN_PREFIXES = [
 URL_PATTERN = re.compile(r"^https?://")
 
 
-PROJECTVIC_ONTOLOGY_BASE = (
-    "https://raw.githubusercontent.com/Project-VIC-International/CAC-Ontology/main/ontology/"
-)
-
-
-def _get_projectvic_ttl_urls() -> List[str]:
-    """Fetch the list of non-shape TTL files from the ProjectVic CAC-Ontology repo."""
-    api_url = "https://api.github.com/repos/Project-VIC-International/CAC-Ontology/contents/ontology"
-    try:
-        try:
-            import requests
-            resp = requests.get(api_url, headers={"Accept": "application/vnd.github.v3+json"}, timeout=15)
-            resp.raise_for_status()
-            entries = resp.json()
-        except ImportError:
-            import urllib.request
-            req = urllib.request.Request(api_url, headers={"Accept": "application/vnd.github.v3+json"})
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                entries = json.loads(resp.read())
-        return [
-            PROJECTVIC_ONTOLOGY_BASE + e["name"]
-            for e in entries
-            if e["name"].endswith(".ttl") and "shapes" not in e["name"]
-        ]
-    except Exception:
-        return []
-
-
 def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
                      check_ontology: bool = False) -> List[str]:
     """Validate CASE/UCO class URLs. Returns list of ontology IRI mismatch messages."""
@@ -625,15 +599,10 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
             load_case_uco=True,
         )
         # Load additional UCO modules referenced by the KB
-        extra_modules = [
-            "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/configuration/configuration.ttl",
-            "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/identity/identity.ttl",
-            "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/location/location.ttl",
-        ]
-        lookup._load_remote_modules(extra_modules)
+        lookup._load_remote_modules(EXTRA_UCO_MODULES)
 
         # Load all ProjectVic CAC Ontology modules (excluding SHACL shapes)
-        projectvic_modules = _get_projectvic_ttl_urls()
+        projectvic_modules = get_projectvic_ttl_urls()
         if projectvic_modules:
             lookup._load_remote_modules(projectvic_modules)
         else:
@@ -648,7 +617,13 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
             for url in t.get(field_name, []):
                 desc = lookup.describe_class(url)
                 if not desc["found"]:
-                    msg = f"Technique {tid} {field_name}: \"{url}\" not found in loaded ontologies"
+                    if desc.get("present"):
+                        msg = (
+                            f"Technique {tid} {field_name}: \"{url}\" is in the loaded "
+                            f"ontologies but is not a class or property"
+                        )
+                    else:
+                        msg = f"Technique {tid} {field_name}: \"{url}\" not found in loaded ontologies"
                     result.warn(msg)
                     ontology_issues.append(msg)
                     bad += 1
@@ -942,6 +917,7 @@ WARNING_CATEGORIES = [
     ("Todo markers", "contains todo marker"),
     ("Not in any objective", "is not listed in any objective"),
     ("Ontology IRI not found", "not found in loaded ontologies"),
+    ("Ontology IRI not a class or property", "is not a class or property"),
     ("Empty relevance summary", "has empty relevance_summary"),
 ]
 

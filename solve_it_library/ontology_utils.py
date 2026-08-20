@@ -88,6 +88,56 @@ UCO_CASE_MODULES = [
     "https://raw.githubusercontent.com/casework/CASE/1.5.0/ontology/investigation/investigation.ttl",
 ]
 
+# UCO modules beyond the default set that the knowledge base draws terms from.
+EXTRA_UCO_MODULES = [
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/configuration/configuration.ttl",
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/identity/identity.ttl",
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/location/location.ttl",
+]
+
+PROJECTVIC_ONTOLOGY_BASE = (
+    "https://raw.githubusercontent.com/Project-VIC-International/CAC-Ontology/main/ontology/"
+)
+
+
+def get_projectvic_ttl_urls():
+    """Fetch the list of non-shape TTL files from the ProjectVic CAC-Ontology repo.
+
+    The knowledge base references ProjectVic terms, so anything that needs to
+    resolve a technique's inputs and outputs needs these alongside UCO and CASE.
+    Returns an empty list if the listing cannot be fetched, leaving the caller
+    to decide what an unresolved term means.
+    """
+    api_url = "https://api.github.com/repos/Project-VIC-International/CAC-Ontology/contents/ontology"
+    try:
+        try:
+            import requests
+            resp = requests.get(
+                api_url, headers={"Accept": "application/vnd.github.v3+json"}, timeout=15)
+            resp.raise_for_status()
+            entries = resp.json()
+        except ImportError:
+            req = urllib.request.Request(
+                api_url, headers={"Accept": "application/vnd.github.v3+json"})
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                entries = json.loads(resp.read())
+        return [
+            PROJECTVIC_ONTOLOGY_BASE + e["name"]
+            for e in entries
+            if e["name"].endswith(".ttl") and "shapes" not in e["name"]
+        ]
+    except Exception:
+        return []
+
+
+# The kinds of ontology term a technique may name among its inputs and outputs.
+# Classes are the common case, but properties are also legitimate: a technique
+# can produce a single value rather than an object, for example
+# case-investigation:exhibitNumber or uco-core:name. Anything else that happens
+# to appear in a loaded ontology, such as a SHACL shape, a named individual or a
+# vocabulary entry, is not a valid input or output.
+ACCEPTED_TERM_TYPES = (OWL.Class, OWL.DatatypeProperty, OWL.ObjectProperty)
+
 
 class OntologyLookup:
     """Loads ontology files and provides class description lookups."""
@@ -220,6 +270,21 @@ class OntologyLookup:
         # Otherwise use the last path segment
         return uri_str.split("/")[-1]
 
+    def term_type(self, uri):
+        """Return the declared type of a term, or None if it is not one we accept.
+
+        Answers "is this IRI a class, a datatype property or an object
+        property?" for callers that need to state a term's kind rather than
+        merely check that it is valid. Returns the URIRef of the declared type
+        so a caller can assert it directly.
+        """
+        if not isinstance(uri, URIRef):
+            uri = URIRef(uri)
+        for term_type in ACCEPTED_TERM_TYPES:
+            if (uri, RDF.type, term_type) in self.graph:
+                return term_type
+        return None
+
     def describe_class(self, class_uri):
         """
         Get a description of a class from the loaded ontology.
@@ -242,15 +307,21 @@ class OntologyLookup:
             "data_properties": [],
             "comment": None,
             "found": False,
+            "present": False,
         }
 
-        # Check if the class exists in the ontology
-        is_class = (uri, RDF.type, OWL.Class) in self.graph
-        has_any_triple = any(self.graph.triples((uri, None, None)))
-        if not is_class and not has_any_triple:
+        # Accept the IRI only if it is declared as one of the term types a
+        # technique may name. Testing the declared type rather than the mere
+        # presence of a triple means a term that resolves but is the wrong kind
+        # of thing is still reported, and is distinguished from one that is
+        # absent from the loaded ontologies altogether.
+        if any((uri, RDF.type, t) in self.graph for t in ACCEPTED_TERM_TYPES):
+            result["found"] = True
+        else:
+            result["present"] = any(self.graph.triples((uri, None, None)))
             return result
 
-        result["found"] = True
+        result["present"] = True
 
         # Get rdfs:comment
         for comment in self.graph.objects(uri, RDFS.comment):

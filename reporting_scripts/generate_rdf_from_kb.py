@@ -119,6 +119,30 @@ def build_parent_map(kb, techniques):
     return parents
 
 
+def load_term_type_lookup():
+    """Load the ontologies used to state what kind of term each input/output is.
+
+    Returns None if they cannot be loaded. The generator then emits no type
+    declarations at all rather than guessing, because a wrong declaration is
+    worse than an absent one: it is the assertion a consumer would trust.
+    """
+    try:
+        from solve_it_library.ontology_utils import (
+            OntologyLookup, SOLVEIT_ONTOLOGY_DEFAULT_URL, EXTRA_UCO_MODULES,
+            get_projectvic_ttl_urls)
+        lookup = OntologyLookup(
+            solve_it_ontology_url=SOLVEIT_ONTOLOGY_DEFAULT_URL,
+            load_case_uco=True,
+        )
+        lookup._load_remote_modules(EXTRA_UCO_MODULES + get_projectvic_ttl_urls())
+        return lookup
+    except Exception as exc:  # network, parse, anything
+        logger.warning(
+            "Could not load ontologies to determine input/output term types "
+            "(%s). Terms will be referenced without a type declaration.", exc)
+        return None
+
+
 def add_techniques_to_graph(g, kb):
     """Add all techniques to the RDF graph.
 
@@ -208,12 +232,29 @@ def add_techniques_to_graph(g, kb):
             g.add((tech_uri, SOLVEIT_CORE.hasCASEOutputClass, URIRef(case_class_uri)))
             referenced_classes.add(case_class_uri)
 
-    # Declare every referenced input/output class as an owl:Class. Without a
-    # declaration, an IRI used in class position is a declaration error under
-    # OWL 2 DL. This states only that the IRI names a class, which is what the
-    # KB is asserting anyway; it makes no claim about the class's definition.
-    for class_uri in sorted(referenced_classes):
-        g.add((URIRef(class_uri), RDF.type, OWL.Class))
+    # Declare every referenced input/output term with the type it actually has
+    # in CASE/UCO. Most are classes, but a technique can consume or produce a
+    # single value rather than an object, and then the term is a property:
+    # case-investigation:exhibitNumber, uco-core:name, uco-observable:filePath.
+    # Declaring those an owl:Class stated something false about them, which is
+    # the assertion a consumer would trust. A term whose type cannot be
+    # resolved is referenced without a declaration rather than guessed at.
+    lookup = load_term_type_lookup()
+    if lookup is not None:
+        counts, unresolved = {}, []
+        for class_uri in sorted(referenced_classes):
+            term_type = lookup.term_type(class_uri)
+            if term_type is None:
+                unresolved.append(class_uri)
+                continue
+            g.add((URIRef(class_uri), RDF.type, term_type))
+            counts[str(term_type).rsplit("#", 1)[-1]] = counts.get(
+                str(term_type).rsplit("#", 1)[-1], 0) + 1
+        logger.info("Declared %d input/output terms: %s",
+                    sum(counts.values()),
+                    ", ".join(f"{n} {k}" for k, n in sorted(counts.items())))
+        for term in unresolved:
+            logger.warning("Input/output term not declared, type unresolved: %s", term)
 
 
 def add_weaknesses_to_graph(g, kb):

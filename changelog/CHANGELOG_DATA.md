@@ -2,6 +2,7 @@
 
 ## August 2026
 
+- **2026-08-13** Added technique (TRWM): Compute hash of stored bitstream data (DFT-1199) [`f9d52ce`](https://github.com/SOLVE-IT-DF/solve-it/commit/f9d52ce)
 - **2026-08-13** Added technique (TRWM): Compute hash of data read from source device (DFT-1198) [`5ef2fbf`](https://github.com/SOLVE-IT-DF/solve-it/commit/5ef2fbf)
 
 ## July 2026
@@ -16,6 +17,7 @@
 - **2026-07-15** Updated weakness (AUTOIMPLEMENT): Excluding a device during triage that contains relevant information (DFW-1001) [`7e3c3bc`](https://github.com/SOLVE-IT-DF/solve-it/commit/7e3c3bc)
 - **2026-07-15** Updated weakness (AUTOIMPLEMENT): Excluding a device during triage that contains relevant information (DFW-1001) [`7e3c3bc`](https://github.com/SOLVE-IT-DF/solve-it/commit/7e3c3bc)
 - **2026-07-15** Updated weakness (AUTOIMPLEMENT): Excluding a device during triage that contains relevant information (DFW-1001) [`7e3c3bc`](https://github.com/SOLVE-IT-DF/solve-it/commit/7e3c3bc)
+- **2026-07-15** Updated weakness (AUTOIMPLEMENT): Excluding a device during triage that contains relevant information (DFW-1001) [`7e3c3bc`](https://github.com/SOLVE-IT-DF/solve-it/commit/7e3c3bc)
 - **2026-07-15** Added technique (TRWM): Generate Alternative Hypotheses (DFT-1195) [`43fedec`](https://github.com/SOLVE-IT-DF/solve-it/commit/43fedec)
 - **2026-07-14** Updated weakness: Report generated from bookmarks stored in manner that does not prevent tampering or corruption (DFW-1154) [`8107a7d`](https://github.com/SOLVE-IT-DF/solve-it/commit/8107a7d)
 - **2026-07-14** Added mitigation (AUTOIMPLEMENT): Cryptographically sign generated forensic analysis reports with an asymmetric key (DFM-1299) [`36a1e40`](https://github.com/SOLVE-IT-DF/solve-it/commit/36a1e40)
@@ -24,6 +26,7 @@
 - **2026-07-10** Updated technique: Collect data from cloud service via API using credentials (DFT-1161) [`5531de1`](https://github.com/SOLVE-IT-DF/solve-it/commit/5531de1)
 - **2026-07-09** Added technique (TRWM): Read metadata from within a forensic image container (DFT-1193) [`3557ded`](https://github.com/SOLVE-IT-DF/solve-it/commit/3557ded)
 - **2026-07-09** Added technique (TRWM): Disable connectivity using device configuration settings (DFT-1192) [`ac38359`](https://github.com/SOLVE-IT-DF/solve-it/commit/ac38359)
+- **2026-07-09** Updated technique (TRWM): Collect data from cloud service via API using credentials (DFT-1161) [`053f7eb`](https://github.com/SOLVE-IT-DF/solve-it/commit/053f7eb)
 - **2026-07-09** Updated technique (TRWM): Collect data from cloud service via API using credentials (DFT-1161) [`053f7eb`](https://github.com/SOLVE-IT-DF/solve-it/commit/053f7eb)
 - **2026-07-09** Updated technique (TRWM): Collect data from cloud service via API using credentials (DFT-1161) [`053f7eb`](https://github.com/SOLVE-IT-DF/solve-it/commit/053f7eb)
 - **2026-07-09** Updated technique (TRWM): Collect data from cloud service via API using credentials (DFT-1161) [`053f7eb`](https://github.com/SOLVE-IT-DF/solve-it/commit/053f7eb)

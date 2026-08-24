@@ -148,6 +148,68 @@ def _load_items(directory: Path, model_class, label: str, result: ValidationResu
     return items
 
 
+def _check_objective_sort_order(
+    objectives: List[Dict[str, Any]], result: ValidationResult, verbose: bool
+):
+    """Check that objective sort_order values give one unambiguous ordering.
+
+    sort_order is what consumers order objectives by — the RDF export, the HTML
+    viewer, the issue forms. A duplicate makes the order of the affected pair
+    depend on whatever tie-break the consumer happens to apply, so two tools can
+    legitimately disagree about which comes first. That is a failure.
+
+    A missing value is also a failure: the model allows sort_order to be absent,
+    but an objective with no position cannot be placed.
+
+    Gaps, or a sequence not starting at zero, are only untidy — the ordering is
+    still unambiguous — so those are warnings.
+    """
+    missing = [obj.get("id") or obj.get("name", "?")
+               for obj in objectives if obj.get("sort_order") is None]
+    for ident in missing:
+        result.fail(f"solve-it.json: objective {ident} has no sort_order")
+
+    positioned = [obj for obj in objectives if obj.get("sort_order") is not None]
+
+    by_order: Dict[int, List[str]] = {}
+    for obj in positioned:
+        ident = obj.get("id") or obj.get("name", "?")
+        by_order.setdefault(obj["sort_order"], []).append(ident)
+
+    duplicates = {order: ids for order, ids in by_order.items() if len(ids) > 1}
+    for order, ids in sorted(duplicates.items()):
+        result.fail(
+            f"solve-it.json: sort_order {order} used by {len(ids)} objectives "
+            f"({', '.join(sorted(ids))}) — ordering between them is undefined"
+        )
+
+    if missing or duplicates:
+        return
+
+    values = sorted(by_order)
+    if not values:
+        return
+
+    if values != list(range(len(values))):
+        gaps = sorted(set(range(values[0], values[-1] + 1)) - set(values))
+        if not gaps:
+            detail = ""
+        elif len(gaps) <= 10:
+            detail = f", gaps at {', '.join(str(g) for g in gaps)}"
+        else:
+            shown = ', '.join(str(g) for g in gaps[:10])
+            detail = f", {len(gaps)} gaps starting at {shown}, ..."
+        result.warn(
+            f"solve-it.json: sort_order runs {values[0]}..{values[-1]} for "
+            f"{len(values)} objectives, expected 0..{len(values) - 1}{detail}"
+        )
+    else:
+        result.pass_(
+            f"Objective sort_order values are unique and contiguous (0..{len(values) - 1})",
+            verbose,
+        )
+
+
 def phase1_data_loading(
     project_root: Path, result: ValidationResult, verbose: bool
 ) -> Tuple[Dict, Dict, Dict, List[Dict], Dict]:
@@ -212,6 +274,8 @@ def phase1_data_loading(
                     result.fail(f"solve-it.json: duplicate objective name \"{name}\" (#{seen_names[name]} and #{i})")
                 else:
                     seen_names[name] = i
+
+            _check_objective_sort_order(objectives, result, verbose)
 
             result.pass_(f"Loaded {len(objectives)} objectives from solve-it.json", verbose)
     except (json.JSONDecodeError, OSError) as exc:

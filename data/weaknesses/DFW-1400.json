@@ -1,0 +1,10 @@
+{
+    "id": "DFW-1400",
+    "name": "Source data is changed when cryptographic hash is being computed because of SSD TRIM operations clearing data",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_ALT"
+    ],
+    "mitigations": [],
+    "references": []
+}

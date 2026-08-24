@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1397",
+    "name": "Cryptographic hash of the source data is incorrect because not all data was read from the device",
+    "description": "A failure in reading the data part way through would result in a hash of only some of the data.",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1003"
+    ],
+    "references": []
+}

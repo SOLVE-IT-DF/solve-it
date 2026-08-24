@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1362",
+    "name": "Failing to acquire data because of client-side network outages or interruptions",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1296"
+    ],
+    "references": []
+}

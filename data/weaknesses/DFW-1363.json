@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1363",
+    "name": "Failing to acquire data because of acquisition tool misconfigurations",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1284"
+    ],
+    "references": []
+}

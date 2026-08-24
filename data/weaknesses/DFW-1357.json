@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1357",
+    "name": "Failing to acquire data because of timeout",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1296"
+    ],
+    "references": []
+}

@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1371",
+    "name": "Failing to acquire data because an outdated API was used",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1282"
+    ],
+    "references": []
+}

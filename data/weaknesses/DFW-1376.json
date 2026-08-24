@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1376",
+    "name": "Failing to acquire data because credentials used do not have sufficient permissions",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1294"
+    ],
+    "references": []
+}

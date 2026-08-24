@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1375",
+    "name": "Failing to acquire data because of errors accessing cloud service",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1137"
+    ],
+    "references": []
+}

@@ -1,0 +1,2 @@
+Christlein, V., Riess, C., Jordan, J., Riess, C., & Angelopoulou, E. (2012). An evaluation of popular copy-move forgery detection approaches. IEEE Transactions on information forensics and security, 7(6), 1841-1854.
+https://ieeexplore.ieee.org/iel5/10206/6342844/06301704.pdf?casa_token=iX_DE0LfjeYAAAAA:S1s10l4R5xSxCQqV1KIQLwKvexFhWdYuhQmHeYPi6-Sy07cD5iojhglfqgvUoY0Cfg0L-RPb

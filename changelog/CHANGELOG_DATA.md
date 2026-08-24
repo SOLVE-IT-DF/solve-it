@@ -1,5 +1,9 @@
 # SOLVE-IT Knowledge Base Changelog
 
+## August 2026
+
+- **2026-08-13** Added technique (TRWM): Compute hash of data read from source device (DFT-1198) [`5ef2fbf`](https://github.com/SOLVE-IT-DF/solve-it/commit/5ef2fbf)
+
 ## July 2026
 
 - **2026-07-16** Added technique (TRWM): Determine mount point mappings within an operating system (DFT-1197) [`abcf401`](https://github.com/SOLVE-IT-DF/solve-it/commit/abcf401)
@@ -8,6 +12,8 @@
 - **2026-07-16** Added technique (TRWM): Extract operating system installation date (DFT-1196) [`d3ae3a0`](https://github.com/SOLVE-IT-DF/solve-it/commit/d3ae3a0)
 - **2026-07-16** Added technique (TRWM): Extract operating system installation date (DFT-1196) [`d3ae3a0`](https://github.com/SOLVE-IT-DF/solve-it/commit/d3ae3a0)
 - **2026-07-16** Added technique (TRWM): Extract operating system installation date (DFT-1196) [`d3ae3a0`](https://github.com/SOLVE-IT-DF/solve-it/commit/d3ae3a0)
+- **2026-07-16** Added technique (TRWM): Extract operating system installation date (DFT-1196) [`d3ae3a0`](https://github.com/SOLVE-IT-DF/solve-it/commit/d3ae3a0)
+- **2026-07-15** Updated weakness (AUTOIMPLEMENT): Excluding a device during triage that contains relevant information (DFW-1001) [`7e3c3bc`](https://github.com/SOLVE-IT-DF/solve-it/commit/7e3c3bc)
 - **2026-07-15** Added technique (TRWM): Generate Alternative Hypotheses (DFT-1195) [`43fedec`](https://github.com/SOLVE-IT-DF/solve-it/commit/43fedec)
 - **2026-07-14** Updated weakness: Report generated from bookmarks stored in manner that does not prevent tampering or corruption (DFW-1154) [`8107a7d`](https://github.com/SOLVE-IT-DF/solve-it/commit/8107a7d)
 - **2026-07-14** Added mitigation (AUTOIMPLEMENT): Cryptographically sign generated forensic analysis reports with an asymmetric key (DFM-1299) [`36a1e40`](https://github.com/SOLVE-IT-DF/solve-it/commit/36a1e40)
@@ -16,6 +22,7 @@
 - **2026-07-10** Updated technique: Collect data from cloud service via API using credentials (DFT-1161) [`5531de1`](https://github.com/SOLVE-IT-DF/solve-it/commit/5531de1)
 - **2026-07-09** Added technique (TRWM): Read metadata from within a forensic image container (DFT-1193) [`3557ded`](https://github.com/SOLVE-IT-DF/solve-it/commit/3557ded)
 - **2026-07-09** Added technique (TRWM): Disable connectivity using device configuration settings (DFT-1192) [`ac38359`](https://github.com/SOLVE-IT-DF/solve-it/commit/ac38359)
+- **2026-07-09** Updated technique (TRWM): Collect data from cloud service via API using credentials (DFT-1161) [`053f7eb`](https://github.com/SOLVE-IT-DF/solve-it/commit/053f7eb)
 - **2026-07-09** Updated technique (AUTOIMPLEMENT): Keyword search (over extracted artifacts) (DFT-1151) [`3449f56`](https://github.com/SOLVE-IT-DF/solve-it/commit/3449f56)
 - **2026-07-09** Updated technique (AUTOIMPLEMENT): Keyword search (over extracted artifacts) (DFT-1151) [`3449f56`](https://github.com/SOLVE-IT-DF/solve-it/commit/3449f56)
 - **2026-07-09** Updated technique (AUTOIMPLEMENT): Keyword search (over extracted artifacts) (DFT-1151) [`3449f56`](https://github.com/SOLVE-IT-DF/solve-it/commit/3449f56)

@@ -1,0 +1,20 @@
+{
+    "id": "DFT-1199",
+    "name": "Compute hash of stored bitstream data",
+    "description": "Cryptographically hashing either data exposed directly from a raw image or a decompressed physical image from a container format.",
+    "synonyms": [],
+    "details": "This is usually then compared with a hash stored internally in the disk image, or externally in a text file or another external source.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1401",
+        "DFW-1402"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/BitstreamRandomAccessed"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/types/Hash"
+    ],
+    "references": []
+}

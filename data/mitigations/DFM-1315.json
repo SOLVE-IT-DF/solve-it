@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1315",
+    "name": "Test that cryptographic hashes are calculated correctly over all compression settings used for forensic images",
+    "references": []
+}

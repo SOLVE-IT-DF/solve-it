@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1401",
+    "name": "Calculating an incorrect hash of data stored within a forensic image because internally stored data was not decompressed correctly",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1315"
+    ],
+    "references": []
+}

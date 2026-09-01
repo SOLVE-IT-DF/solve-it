@@ -1,21 +1,34 @@
 # SOLVE-IT Knowledge Base Changelog
 
+## September 2026
+
+- **2026-09-01** Added technique (TRWM): Evaluate observations in light of hypotheses (DFT-1200) [`2af17f9`](https://github.com/SOLVE-IT-DF/solve-it/commit/2af17f9)
+
 ## August 2026
 
 - **2026-08-24** Added reference (AUTOIMPLEMENT): DFCite-1162 [`95c1f2d`](https://github.com/SOLVE-IT-DF/solve-it/commit/95c1f2d)
 - **2026-08-19** Updated technique: Keyword search (live) (logical) (DFT-1127) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
+- **2026-08-19** Updated technique: Keyword search (live) (logical) (DFT-1127) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
+- **2026-08-19** Updated technique: Keyword search (live) (physical) (DFT-1126) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
 - **2026-08-19** Updated technique: Keyword search (live) (physical) (DFT-1126) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
 - **2026-08-19** Updated technique: Keyword search (live) (DFT-1125) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
+- **2026-08-19** Updated technique: Keyword search (live) (DFT-1125) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
+- **2026-08-19** Updated technique: Keyword search (case-specific wordlists) (DFT-1123) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
 - **2026-08-19** Updated technique: Keyword search (case-specific wordlists) (DFT-1123) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
 - **2026-08-19** Updated technique: Keyword search (case-type wordlists) (DFT-1122) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
+- **2026-08-19** Updated technique: Keyword search (case-type wordlists) (DFT-1122) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
+- **2026-08-19** Updated technique: Keyword search (DFT-1049) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
 - **2026-08-19** Updated technique: Keyword search (DFT-1049) [`450870e`](https://github.com/SOLVE-IT-DF/solve-it/commit/450870e)
 - **2026-08-13** Added technique (TRWM): Compute hash of stored bitstream data (DFT-1199) [`f9d52ce`](https://github.com/SOLVE-IT-DF/solve-it/commit/f9d52ce)
 - **2026-08-13** Added technique (TRWM): Compute hash of stored bitstream data (DFT-1199) [`f9d52ce`](https://github.com/SOLVE-IT-DF/solve-it/commit/f9d52ce)
 - **2026-08-13** Added technique (TRWM): Compute hash of stored bitstream data (DFT-1199) [`f9d52ce`](https://github.com/SOLVE-IT-DF/solve-it/commit/f9d52ce)
+- **2026-08-13** Added technique (TRWM): Compute hash of stored bitstream data (DFT-1199) [`f9d52ce`](https://github.com/SOLVE-IT-DF/solve-it/commit/f9d52ce)
 - **2026-08-13** Added technique (TRWM): Compute hash of data read from source device (DFT-1198) [`5ef2fbf`](https://github.com/SOLVE-IT-DF/solve-it/commit/5ef2fbf)
 - **2026-08-13** Added technique (TRWM): Compute hash of data read from source device (DFT-1198) [`5ef2fbf`](https://github.com/SOLVE-IT-DF/solve-it/commit/5ef2fbf)
 - **2026-08-13** Added technique (TRWM): Compute hash of data read from source device (DFT-1198) [`5ef2fbf`](https://github.com/SOLVE-IT-DF/solve-it/commit/5ef2fbf)
 - **2026-08-13** Added technique (TRWM): Compute hash of data read from source device (DFT-1198) [`5ef2fbf`](https://github.com/SOLVE-IT-DF/solve-it/commit/5ef2fbf)
+- **2026-08-13** Added technique (TRWM): Compute hash of data read from source device (DFT-1198) [`5ef2fbf`](https://github.com/SOLVE-IT-DF/solve-it/commit/5ef2fbf)
+- **2026-08-13** Updated technique (AUTOIMPLEMENT): Search a crime scene using digital sniffer dogs (DFT-1006) [`f1084e9`](https://github.com/SOLVE-IT-DF/solve-it/commit/f1084e9)
 - **2026-08-13** Updated technique (AUTOIMPLEMENT): Search a crime scene using digital sniffer dogs (DFT-1006) [`f1084e9`](https://github.com/SOLVE-IT-DF/solve-it/commit/f1084e9)
 - **2026-08-13** Updated technique (AUTOIMPLEMENT): Search a crime scene using digital sniffer dogs (DFT-1006) [`f1084e9`](https://github.com/SOLVE-IT-DF/solve-it/commit/f1084e9)
 - **2026-08-13** Updated technique (AUTOIMPLEMENT): Search a crime scene using digital sniffer dogs (DFT-1006) [`f1084e9`](https://github.com/SOLVE-IT-DF/solve-it/commit/f1084e9)
@@ -36,6 +49,7 @@
 - **2026-07-15** Updated weakness (AUTOIMPLEMENT): Excluding a device during triage that contains relevant information (DFW-1001) [`7e3c3bc`](https://github.com/SOLVE-IT-DF/solve-it/commit/7e3c3bc)
 - **2026-07-15** Updated weakness (AUTOIMPLEMENT): Excluding a device during triage that contains relevant information (DFW-1001) [`7e3c3bc`](https://github.com/SOLVE-IT-DF/solve-it/commit/7e3c3bc)
 - **2026-07-15** Updated weakness (AUTOIMPLEMENT): Excluding a device during triage that contains relevant information (DFW-1001) [`7e3c3bc`](https://github.com/SOLVE-IT-DF/solve-it/commit/7e3c3bc)
+- **2026-07-15** Updated weakness (AUTOIMPLEMENT): Excluding a device during triage that contains relevant information (DFW-1001) [`7e3c3bc`](https://github.com/SOLVE-IT-DF/solve-it/commit/7e3c3bc)
 - **2026-07-15** Added technique (TRWM): Generate Alternative Hypotheses (DFT-1195) [`43fedec`](https://github.com/SOLVE-IT-DF/solve-it/commit/43fedec)
 - **2026-07-14** Updated weakness: Report generated from bookmarks stored in manner that does not prevent tampering or corruption (DFW-1154) [`8107a7d`](https://github.com/SOLVE-IT-DF/solve-it/commit/8107a7d)
 - **2026-07-14** Added mitigation (AUTOIMPLEMENT): Cryptographically sign generated forensic analysis reports with an asymmetric key (DFM-1299) [`36a1e40`](https://github.com/SOLVE-IT-DF/solve-it/commit/36a1e40)
@@ -44,6 +58,7 @@
 - **2026-07-10** Updated technique: Collect data from cloud service via API using credentials (DFT-1161) [`5531de1`](https://github.com/SOLVE-IT-DF/solve-it/commit/5531de1)
 - **2026-07-09** Added technique (TRWM): Read metadata from within a forensic image container (DFT-1193) [`3557ded`](https://github.com/SOLVE-IT-DF/solve-it/commit/3557ded)
 - **2026-07-09** Added technique (TRWM): Disable connectivity using device configuration settings (DFT-1192) [`ac38359`](https://github.com/SOLVE-IT-DF/solve-it/commit/ac38359)
+- **2026-07-09** Updated technique (TRWM): Collect data from cloud service via API using credentials (DFT-1161) [`053f7eb`](https://github.com/SOLVE-IT-DF/solve-it/commit/053f7eb)
 - **2026-07-09** Updated technique (TRWM): Collect data from cloud service via API using credentials (DFT-1161) [`053f7eb`](https://github.com/SOLVE-IT-DF/solve-it/commit/053f7eb)
 - **2026-07-09** Updated technique (TRWM): Collect data from cloud service via API using credentials (DFT-1161) [`053f7eb`](https://github.com/SOLVE-IT-DF/solve-it/commit/053f7eb)
 - **2026-07-09** Updated technique (TRWM): Collect data from cloud service via API using credentials (DFT-1161) [`053f7eb`](https://github.com/SOLVE-IT-DF/solve-it/commit/053f7eb)

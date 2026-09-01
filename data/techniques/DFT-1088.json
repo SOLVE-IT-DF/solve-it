@@ -1,6 +1,6 @@
 {
     "id": "DFT-1088",
-    "name": "Reconstruct an relations between events properties of events",
+    "name": "Reconstruct relations between events or properties of events",
     "description": "The process of determining the existence and nature of relationships between entities during event reconstruction",
     "synonyms": [
         "Relational analysis",

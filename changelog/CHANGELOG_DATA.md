@@ -4,6 +4,7 @@
 
 - **2026-09-01** Added technique (TRWM): Evaluate observations in light of hypotheses (DFT-1200) [`2af17f9`](https://github.com/SOLVE-IT-DF/solve-it/commit/2af17f9)
 - **2026-09-01** Updated technique (AUTOIMPLEMENT): Reconstruct relations between events or properties of events (DFT-1088) [`e0e64b2`](https://github.com/SOLVE-IT-DF/solve-it/commit/e0e64b2)
+- **2026-09-01** Updated mitigation (AUTOIMPLEMENT): Generate hypotheses as declarative statements written either in the present tense or specifying a past time period. (DFM-1306) [`588c3b4`](https://github.com/SOLVE-IT-DF/solve-it/commit/588c3b4)
 
 ## August 2026
 

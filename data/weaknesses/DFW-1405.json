@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1405",
+    "name": "Failure to evaluate observations in light of the hypotheses because analytic output is delivered as fact",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1208"
+    ],
+    "references": []
+}

@@ -1,5 +1,7 @@
 {
     "id": "DFM-1306",
-    "name": "Generate hypotheses as declarative statements written in the present tense.",
+    "name": "Generate hypotheses as declarative statements written either in the present tense or specifying a past time period.",
+    "description": "Digital forensics deals with the remnant results of an event, not the event itself. In digital forensics, we make observations in the present that \"may support only approximations about the past event.\" Any reconstruction or simulation of a past situation is \"incomplete, imperfect and degraded by time passing.\" Even when we boot a disk image in a virtual environment, it is on different hardware with a different network configuration/connection. Effective evaluative practice captures this fact by stating hypotheses in present tense or in terms of current observations relating to a specified time period in the past. For example, \"The defendant is the primary user of the mobile device,\" or \"When the offense occurred, the defendant was the primary user of the mobile device.\" As another example, \"The computer system can render and play the video frames fully\" or \"During the relevant time period, the computer system could render and play the video frames fully.\" Specifying the time period helps avoid mistakenly thinking that it is possible to recreate a past state perfectly, may be different from the latest state of a system, and reminds that there is inherent uncertainty requiring evaluation.",
+    "technique": null,
     "references": []
 }

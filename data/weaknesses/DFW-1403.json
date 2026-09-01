@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1403",
+    "name": "Failure to evaluate observations in light of the hypotheses because the examination was scoped to extracting and reporting artifacts, with no evaluative question posed",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1317"
+    ],
+    "references": []
+}

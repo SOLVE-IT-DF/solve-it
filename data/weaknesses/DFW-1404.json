@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1404",
+    "name": "Failure to evaluate observations in light of the hypotheses because the meaning of the observations was treated as self-evident",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1318"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1165",
+            "relevance_summary_280": ""
+        }
+    ]
+}

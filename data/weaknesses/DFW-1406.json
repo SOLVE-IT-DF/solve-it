@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1406",
+    "name": "Failure to consider alternative hypotheses because the examination was framed by the instructing party's proposition alone",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1319"
+    ],
+    "references": []
+}

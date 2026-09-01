@@ -1,0 +1,42 @@
+{
+    "id": "DFT-1200",
+    "name": "Evaluate observations in light of hypotheses",
+    "description": "The process of assessing the probability or strength of the observations under each of two or more competing hypotheses, and expressing the strength of support for one over another.",
+    "synonyms": [
+        "Evaluative interpretation",
+        "Evidence evaluation",
+        "Likelihood ratio assessment",
+        "Scientific interpretation"
+    ],
+    "details": "In evaluative mode the hypotheses are fixed before evaluation begins and are taken as given, typically from DFT-1195; this technique does not formulate or revise them. The examiner assesses how probable or strong the observations are under each hypothesis in turn, assuming each to be true. Assigning a probability or strength to the observations under a hypothesis requires knowledge of how the system behaves under that hypothesis, drawn from DFT-1090 or from published data. The technique concludes with the strength of support expressed as a likelihood ratio, its verbal equivalent, or other method. Conveying that opinion is DFT-1093.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1403",
+        "DFW-1404",
+        "DFW-1405",
+        "DFW-1406",
+        "DFW-1407"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/analysis/HypothesisSet",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Observable"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/analysis/AnalyticResult"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1163",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1164",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1165",
+            "relevance_summary_280": ""
+        }
+    ]
+}

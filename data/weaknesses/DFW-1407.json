@@ -1,0 +1,16 @@
+{
+    "id": "DFW-1407",
+    "name": "Failure to consider alternative hypotheses because the observations were assessed for how well they fitted the proposed hypothesis, a one-conditional judgment that never requires an alternative to be stated",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1318"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1165",
+            "relevance_summary_280": ""
+        }
+    ]
+}

@@ -1,0 +1,1 @@
+Park, S., Jeong, B., Kim, J. and Park, J., 2026. REPDF: Repairing corrupted PDF files through font mapping and object relationship reconstruction. Forensic Science International: Digital Investigation, 56, 302061. https://doi.org/10.1016/j.fsidi.2026.302061

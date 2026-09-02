@@ -639,10 +639,10 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
         for field_name in ("CASE_input_classes", "CASE_output_classes"):
             for url in t.get(field_name, []):
                 if not URL_PATTERN.match(url):
-                    result.warn(f"Technique {tid} {field_name}: \"{url}\" is not a valid URL")
+                    result.fail(f"Technique {tid} {field_name}: \"{url}\" is not a valid URL")
                     bad += 1
                 elif not any(url.startswith(prefix) for prefix in KNOWN_PREFIXES):
-                    result.warn(
+                    result.fail(
                         f"Technique {tid} {field_name}: \"{url}\" does not match "
                         f"any known ontology prefix"
                     )
@@ -688,7 +688,7 @@ def phase4_case_urls(techniques: Dict, result: ValidationResult, verbose: bool,
                         )
                     else:
                         msg = f"Technique {tid} {field_name}: \"{url}\" not found in loaded ontologies"
-                    result.warn(msg)
+                    result.fail(msg)
                     ontology_issues.append(msg)
                     bad += 1
     if bad == 0:
@@ -1188,7 +1188,7 @@ def _write_ontology_summary(ontology_issues: List[str], filepath: str):
             f"**{len(ontology_issues)} class IRI(s) not found** in the loaded ontologies.",
             "",
             "These IRIs may have been renamed, removed, or not yet published. "
-            "This does not block the build but should be investigated.",
+            "This fails the build.",
             "",
         ]
         for msg in ontology_issues:

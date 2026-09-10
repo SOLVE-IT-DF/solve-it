@@ -1,6 +1,7 @@
 {
     "id": "DFW-1034",
-    "name": "Missing data from the live system due to compromised machine (e.g. rootkit)",
+    "name": "Missing data from the running system due to the device being compromised (e.g. rootkit)",
+    "description": "Malicious software on a device may limit the data reported via queries made to a running device.",
     "categories": [
         "ASTM_INCOMP"
     ],

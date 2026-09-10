@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1331",
+    "name": "Create a persistent log of any errors during data copying process",
+    "description": "During any data copying process e.g. sectors, bytes, files ensure that any errors encountered are logged with clear details as to the scope of the error.",
+    "references": []
+}

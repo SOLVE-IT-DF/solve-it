@@ -1,8 +1,10 @@
 {
     "id": "DFW-1173",
-    "name": "Trusted time source is incorrect",
+    "name": "The recorded time offset is incorrect because the trusted time source used for reference was incorrect",
+    "description": "",
     "categories": [
-        "ASTM_INAC_ALT"
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
     ],
     "mitigations": [],
     "references": []

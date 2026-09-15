@@ -500,6 +500,50 @@ def weakness_cats(w: dict) -> list[str]:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Page assets
+# ─────────────────────────────────────────────────────────────────────────────
+
+ASSETS_DIR = Path(__file__).parent / "assets"
+
+
+def read_asset(name: str, default: str = "") -> str:
+    """Read a file from reporting_scripts/assets/, or return `default`.
+
+    The edit form's CSS and JavaScript live in real files rather than inside
+    this module's f-string template, so that they are not subject to its brace
+    doubling and can be linted and unit tested like ordinary source. They are
+    inlined here at build time, which keeps the generated page a single
+    self-contained file that GitHub Pages can serve with no other requests.
+
+    A missing asset is not fatal: the page is still generated, just without the
+    edit form. That keeps an unrelated build from failing over it.
+    """
+    path = ASSETS_DIR / name
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError:
+        print(f"WARNING: asset not found, generating without it: {path}", file=sys.stderr)
+        return default
+
+
+def read_ontology_terms() -> str:
+    """The baked-in ontology term list, as compact JSON for embedding.
+
+    Built by reporting_scripts/build_ontology_classes.py and checked in, rather
+    than fetched here — see that script for why.
+    """
+    path = ASSETS_DIR / "ontology_classes.json"
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        print(f"WARNING: ontology terms not found, ontology fields will accept free text only: {path}",
+              file=sys.stderr)
+        return "[]"
+    terms = payload.get("terms", []) if isinstance(payload, dict) else payload
+    return json.dumps(terms, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Main HTML generator
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -561,6 +605,17 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_dat
             "partial": {"fg": "#b7741a", "bg": "#fdf8ee", "border": "#f0d8a0"},
             "placeholder": {"fg": "#c0392b", "bg": "#fdf3f2", "border": "#f0c8c4"},
         }
+
+    # Edit form assets. A custom view has editing disabled, so it does not
+    # carry the form or the ontology list it would need.
+    if custom:
+        editor_css = ""
+        editor_js = ""
+        ontology_terms_json = "[]"
+    else:
+        editor_css = read_asset("editor.css")
+        editor_js = read_asset("editor.js")
+        ontology_terms_json = read_ontology_terms()
 
     generated_at = source_date or datetime.now().strftime("%Y-%m-%d")
     # Sanitise </script> sequences to prevent early tag closure when embedded in HTML
@@ -2154,6 +2209,7 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
   height: 22px;
 }}
 
+{editor_css}
 </style>
 </head>
 <body>
@@ -2500,7 +2556,7 @@ function renderRef(ref, itemType, itemId) {{
     }}
   }}
   const editIcon = (!CUSTOM_MODE && itemType && itemId && r.citeId)
-    ? `<a href="${{dfciteRelevanceFormUrl(itemType, itemId, ref)}}" target="_blank" rel="noopener" title="Update relevance summary" onclick="event.stopPropagation()" style="font-size:.72rem;color:var(--gray-300);text-decoration:none;cursor:pointer;margin-left:6px;font-style:normal">[edit]</a>`
+    ? `<a href="#" title="Edit this relevance summary" onclick="event.preventDefault();event.stopPropagation();openEditor('${{itemType}}','${{itemId}}','references')" style="font-size:.72rem;color:var(--gray-300);text-decoration:none;cursor:pointer;margin-left:6px;font-style:normal">[edit]</a>`
     : '';
   html += r.relevance
     ? `<div style="margin-top:2px;font-size:.78rem;font-style:italic;display:flex;align-items:baseline"><span style="color:var(--green)">Relevance: ${{esc(r.relevance)}}</span>${{editIcon}}</div>`
@@ -2698,67 +2754,7 @@ function matchesSearch(item) {{
 }}
 
 const REPO_URL = 'https://github.com/SOLVE-IT-DF/solve-it';
-function joinLines(arr) {{ return (arr||[]).join('\\n'); }}
-function joinRefs(arr) {{ return (arr||[]).map(r => r && r.DFCite_id ? r.DFCite_id + (r.relevance_summary_280 ? ' | ' + r.relevance_summary_280 : '') : String(r)).join('\\n'); }}
-function updateFormUrl(type, obj) {{
-  const templates = {{
-    technique:  '2a_update-technique-form.yml',
-    weakness:   '2b_update-weakness-form.yml',
-    mitigation: '2c_update-mitigation-form.yml',
-  }};
-  const labels = {{
-    technique:  'content: update technique,form input',
-    weakness:   'content: update weakness,form input',
-    mitigation: 'content: update mitigation,form input',
-  }};
-  if (!templates[type]) return '#';
-
-  const p = new URLSearchParams();
-  p.set('template', templates[type]);
-  p.set('title', `Update ${{type}}: ${{obj.id}}: ${{obj.name || ''}}`);
-  p.set('labels', labels[type]);
-
-  if (type === 'technique') {{
-    p.set('technique-id', obj.id);
-    p.set('new-technique-name', obj.name || '');
-    p.set('new-description', obj.description || '');
-    p.set('new-details', obj.details || '');
-    p.set('synonyms', joinLines(obj.synonyms));
-    p.set('examples', joinLines(obj.examples));
-    p.set('subtechnique-ids', joinLines(obj.subtechniques));
-    p.set('weakness-ids', joinLines(obj.weaknesses));
-    p.set('case-input', joinLines(obj.CASE_input_classes));
-    p.set('case-output', joinLines(obj.CASE_output_classes));
-    p.set('references', joinRefs(obj.references));
-  }} else if (type === 'weakness') {{
-    p.set('weakness-id', obj.id);
-    p.set('new-weakness-name', obj.name || '');
-    p.set('weakness-classes', joinLines(obj.categories));
-    p.set('mitigation-ids', joinLines(obj.mitigations));
-    p.set('references', joinRefs(obj.references));
-  }} else if (type === 'mitigation') {{
-    p.set('mitigation-id', obj.id);
-    p.set('new-mitigation-name', obj.name || '');
-    if (obj.technique) p.set('linked-technique-id', obj.technique);
-    p.set('references', joinRefs(obj.references));
-  }}
-
-  return `${{REPO_URL}}/issues/new?${{p.toString()}}`;
-}}
-function dfciteRelevanceFormUrl(itemType, itemId, ref) {{
-  const r = resolveRef(ref);
-  if (!r.citeId) return '';
-  const p = new URLSearchParams();
-  p.set('template', '2e_update-dfcite-relevance-form.yml');
-  p.set('labels', 'content: update dfcite relevance,form input');
-  p.set('title', `Update DFCite relevance: ${{r.citeId}} in ${{itemId}}`);
-  p.set('item-id', itemId);
-  p.set('dfcite-id', r.citeId);
-  if (r.relevance) p.set('relevance-summary', r.relevance);
-  return `${{REPO_URL}}/issues/new?${{p.toString()}}`;
-}}
 function updateBtn(type, obj) {{
-  const url = updateFormUrl(type, obj);
   const btnColor = {{technique:'var(--blue)', weakness:'var(--red)', mitigation:'var(--green)'}}[type] || 'var(--blue)';
   const btnHover = {{technique:'var(--blue-lt)', weakness:'#e74c3c', mitigation:'#22a05b'}}[type] || 'var(--blue-lt)';
   const label = {{technique:'technique', weakness:'weakness', mitigation:'mitigation'}}[type] || type;
@@ -2784,16 +2780,16 @@ function updateBtn(type, obj) {{
     a2.textContent = 'View source in GitHub';
     el.appendChild(a2);
   }} else {{
-    const a1 = document.createElement('a');
-    a1.href = url;
-    a1.target = '_blank';
-    a1.rel = 'noopener';
-    a1.className = 'propose-update-btn';
-    a1.style.background = btnColor;
-    a1.onmouseover = function(){{ this.style.background = btnHover; }};
-    a1.onmouseout = function(){{ this.style.background = btnColor; }};
-    a1.textContent = 'Propose an update to this ' + label;
-    el.appendChild(a1);
+    const b1 = document.createElement('button');
+    b1.type = 'button';
+    b1.className = 'propose-update-btn';
+    b1.style.background = btnColor;
+    b1.style.border = 'none';
+    b1.onmouseover = function(){{ this.style.background = btnHover; }};
+    b1.onmouseout = function(){{ this.style.background = btnColor; }};
+    b1.setAttribute('onclick', `openEditor('${{type}}','${{obj.id}}')`);
+    b1.textContent = 'Suggest an edit to this ' + label;
+    el.appendChild(b1);
 
     const a2 = document.createElement('a');
     a2.href = srcUrl;
@@ -4077,8 +4073,9 @@ function buildReferenceDetail(citeId, refData, cite) {{
         ${{ids.map(eid => {{
           const entity = map[eid];
           const rel = findRelevance(singular, eid, citeId);
-          const editUrl = !CUSTOM_MODE ? dfciteRelevanceFormUrl(singular, eid, {{DFCite_id: citeId, relevance_summary_280: rel}}) : '';
-          const editLink = editUrl ? `<a href="${{editUrl}}" target="_blank" rel="noopener" title="Update relevance summary" style="font-size:.72rem;color:var(--gray-300);text-decoration:none;cursor:pointer;margin-left:6px;font-style:normal">[edit]</a>` : '';
+          const editLink = !CUSTOM_MODE
+            ? `<a href="#" title="Edit this relevance summary" onclick="event.preventDefault();event.stopPropagation();openEditor('${{singular}}','${{esc(eid)}}','references')" style="font-size:.72rem;color:var(--gray-300);text-decoration:none;cursor:pointer;margin-left:6px;font-style:normal">[edit]</a>`
+            : '';
           return `<div class="detail-row" data-show-id="${{esc(eid)}}" data-show-type="${{singular}}">
             <span class="detail-row-id ${{cls}}">${{esc(eid)}}</span>
             <span class="detail-row-name">${{esc(entity ? entity.name : eid)}}
@@ -4837,6 +4834,12 @@ function handleHash() {{
 render();
 handleHash();
 window.addEventListener('hashchange', handleHash);
+// ── Ontology terms for the edit form ─────────────────────────────────
+// Built by reporting_scripts/build_ontology_classes.py from the CASE, UCO and
+// SOLVE-IT ontologies, and baked in here at compile time.
+const ONTOLOGY_TERMS = {ontology_terms_json};
+
+{editor_js}
 </script>
 </body>
 </html>"""

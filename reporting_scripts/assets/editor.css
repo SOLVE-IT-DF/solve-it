@@ -1,0 +1,309 @@
+/* ── Suggest-an-edit form ───────────────────────────────────────────────
+   Loaded verbatim by generate_html_from_kb.py and inlined into the page, so
+   braces here are ordinary CSS and are not f-string escaped. Paired with
+   assets/editor.js. */
+
+.editor-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 26, 48, .55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 4000;
+  padding: 24px;
+}
+.editor-overlay.open { display: flex; }
+
+.editor-dialog {
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  width: min(880px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.editor-head {
+  background: var(--navy);
+  color: #fff;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.editor-head-title { font-size: .95rem; font-weight: 600; flex: 1; }
+.editor-head-id {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  color: rgba(255,255,255,.6);
+  display: block;
+  font-weight: 400;
+}
+.editor-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.7);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+.editor-close:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+.editor-intro {
+  padding: 12px 18px;
+  background: var(--blue-pale);
+  border-bottom: 1px solid var(--gray-200);
+  font-size: .82rem;
+  color: var(--gray-700);
+}
+
+.editor-body { padding: 4px 18px 18px; overflow-y: auto; flex: 1; }
+
+.editor-field { padding: 14px 0; border-bottom: 1px solid var(--gray-100); }
+.editor-field:last-child { border-bottom: none; }
+.editor-field-label {
+  display: block;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 3px;
+}
+.editor-field-help { font-size: .76rem; color: var(--gray-500); margin-bottom: 7px; }
+.editor-field.changed .editor-field-label::after {
+  content: 'changed';
+  margin-left: 8px;
+  font-size: .66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--blue);
+  background: var(--blue-pale);
+  border-radius: 3px;
+  padding: 1px 5px;
+  vertical-align: 1px;
+}
+
+.editor-input, .editor-textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: .85rem;
+  color: var(--gray-900);
+  border: 1px solid var(--gray-300);
+  border-radius: 5px;
+  padding: 7px 9px;
+  background: var(--white);
+}
+.editor-textarea { resize: vertical; min-height: 68px; line-height: 1.45; }
+.editor-input:focus, .editor-textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px var(--blue-pale);
+}
+.editor-input.mono, .editor-textarea.mono { font-family: var(--font-mono); font-size: .8rem; }
+
+/* ── Chip lists (IDs, ontology terms) ───────────────────────────────── */
+.editor-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  border: 1px solid var(--gray-300);
+  border-radius: 5px;
+  padding: 6px;
+  background: var(--white);
+  min-height: 38px;
+}
+.editor-chips:focus-within { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue-pale); }
+.editor-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 4px;
+  padding: 2px 4px 2px 7px;
+  font-size: .78rem;
+  max-width: 100%;
+}
+.editor-chip-id { font-family: var(--font-mono); font-size: .74rem; color: var(--blue); }
+.editor-chip-text {
+  color: var(--gray-700);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 380px;
+}
+.editor-chip.unknown { background: var(--red-bg); border-color: var(--red-border); }
+.editor-chip.unknown .editor-chip-id { color: var(--red); }
+.editor-chip-remove {
+  background: none;
+  border: none;
+  color: var(--gray-500);
+  font-size: .9rem;
+  line-height: 1;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+.editor-chip-remove:hover { background: var(--gray-200); color: var(--gray-900); }
+.editor-chip-input {
+  flex: 1;
+  min-width: 150px;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: .82rem;
+  padding: 3px 2px;
+  background: transparent;
+}
+
+/* ── Autocomplete ───────────────────────────────────────────────────── */
+.editor-suggest-wrap { position: relative; }
+.editor-suggest {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 5px;
+  box-shadow: var(--shadow-md);
+  max-height: 260px;
+  overflow-y: auto;
+  display: none;
+  margin-top: 3px;
+}
+.editor-suggest.open { display: block; }
+.editor-suggest-item {
+  padding: 6px 9px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--gray-100);
+  font-size: .8rem;
+}
+.editor-suggest-item:last-child { border-bottom: none; }
+.editor-suggest-item.active, .editor-suggest-item:hover { background: var(--blue-pale); }
+.editor-suggest-id { font-family: var(--font-mono); font-size: .73rem; color: var(--blue); margin-right: 6px; }
+.editor-suggest-name { color: var(--gray-900); }
+.editor-suggest-meta {
+  display: block;
+  font-size: .72rem;
+  color: var(--gray-500);
+  margin-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.editor-suggest-tag {
+  float: right;
+  margin-left: 4px;
+  font-size: .66rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--gray-500);
+  background: var(--gray-100);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.editor-suggest-tag.src-solveit { color: #8a6100; background: #fdf3dd; }
+.editor-suggest-empty { padding: 8px 9px; font-size: .78rem; color: var(--gray-500); }
+
+/* ── ASTM class checkboxes ──────────────────────────────────────────── */
+.editor-checks { display: flex; flex-direction: column; gap: 4px; }
+.editor-check { display: flex; align-items: flex-start; gap: 7px; font-size: .82rem; cursor: pointer; }
+.editor-check input { margin-top: 3px; }
+.editor-check code { font-family: var(--font-mono); font-size: .76rem; color: var(--red); }
+
+/* ── References ─────────────────────────────────────────────────────── */
+.editor-ref {
+  border: 1px solid var(--gray-200);
+  border-radius: 5px;
+  padding: 8px;
+  margin-bottom: 6px;
+  background: var(--gray-50);
+}
+.editor-ref-top { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.editor-ref-id { font-family: var(--font-mono); font-size: .78rem; color: var(--blue); font-weight: 600; }
+.editor-ref-cite {
+  flex: 1;
+  font-size: .74rem;
+  color: var(--gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.editor-ref-relevance { width: 100%; font-size: .8rem; }
+.editor-ref-count { font-size: .72rem; color: var(--gray-500); text-align: right; margin-top: 2px; }
+.editor-ref-count.over { color: var(--red); font-weight: 600; }
+
+.editor-add-btn {
+  background: var(--white);
+  border: 1px dashed var(--gray-300);
+  border-radius: 5px;
+  color: var(--gray-700);
+  font-size: .8rem;
+  padding: 6px 10px;
+}
+.editor-add-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ── Linked technique (mitigations) ─────────────────────────────────── */
+.editor-radios { display: flex; flex-direction: column; gap: 5px; margin-bottom: 7px; }
+.editor-radio { display: flex; align-items: center; gap: 7px; font-size: .82rem; cursor: pointer; }
+
+/* ── Foot ───────────────────────────────────────────────────────────── */
+.editor-foot {
+  border-top: 1px solid var(--gray-200);
+  background: var(--gray-50);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.editor-status { flex: 1; font-size: .8rem; color: var(--gray-700); min-width: 220px; }
+.editor-status.warn { color: var(--red); }
+.editor-submit {
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: .85rem;
+  font-weight: 600;
+}
+.editor-submit:hover:not(:disabled) { background: var(--blue-lt); }
+.editor-submit:disabled { background: var(--gray-300); cursor: not-allowed; }
+.editor-secondary {
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 5px;
+  color: var(--gray-700);
+  font-size: .82rem;
+  padding: 7px 12px;
+}
+.editor-secondary:hover { border-color: var(--gray-500); }
+
+/* ── Review step ────────────────────────────────────────────────────── */
+.editor-review { padding: 4px 0 10px; }
+.editor-review h4 { font-size: .84rem; margin-bottom: 6px; color: var(--gray-900); }
+.editor-review-diff {
+  font-family: var(--font-mono);
+  font-size: .76rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 5px;
+  padding: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.editor-review-empty { font-size: .82rem; color: var(--gray-500); font-style: italic; }
+
+@media (max-width: 640px) {
+  .editor-overlay { padding: 0; }
+  .editor-dialog { border-radius: 0; height: 100%; width: 100%; }
+  .editor-chip-text { max-width: 180px; }
+}

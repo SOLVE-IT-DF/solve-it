@@ -118,5 +118,63 @@ class TestHiddenFieldsCoverage(unittest.TestCase):
                 f"this field won't be hidden even when configured as hidden")
 
 
+
+class TestEditorAssets(unittest.TestCase):
+    """The edit form's CSS and JavaScript live in reporting_scripts/assets/ and
+    are inlined at build time, so the generated page stays a single file that
+    GitHub Pages can serve on its own. These check they actually arrive.
+
+    The page is generated here rather than read from solveit-viewer.html, so
+    the tests run in this repository's own CI, where nothing builds that file
+    first. Skipping the git-credit pass keeps the build well under a second."""
+
+    @classmethod
+    def setUpClass(cls):
+        from generate_html_from_kb import load_from_local, build_indices, generate_html
+        db = load_from_local(str(REPO_ROOT))
+        cls.html = generate_html(db, build_indices(db))
+
+    def test_editor_javascript_is_inlined(self):
+        self.assertIn("function openEditor(", self.html)
+        self.assertIn("const EDIT_SPECS = {", self.html)
+
+    def test_editor_css_is_inlined(self):
+        self.assertIn(".editor-overlay", self.html)
+        self.assertIn(".editor-chip", self.html)
+
+    def test_page_has_no_external_asset_requests(self):
+        # Inlining is the point: a stylesheet or script fetched at runtime would
+        # break the single-file page and the offline copies people keep.
+        self.assertNotIn('<script src=', self.html)
+        for link in re.findall(r'<link[^>]*rel="stylesheet"[^>]*>', self.html):
+            self.assertIn('fonts.googleapis.com', link,
+                          "only the web font stylesheet may be external")
+
+    def test_ontology_terms_are_baked_in(self):
+        self.assertIn("const ONTOLOGY_TERMS = [", self.html)
+        self.assertIn("unifiedcyberontology.org", self.html)
+
+    def test_edit_button_opens_the_form_rather_than_a_prefilled_template(self):
+        self.assertIn("openEditor(", self.html)
+        self.assertNotIn("2a_update-technique-form.yml", self.html)
+        self.assertNotIn("2b_update-weakness-form.yml", self.html)
+        self.assertNotIn("2c_update-mitigation-form.yml", self.html)
+
+    def test_assets_cannot_terminate_the_tags_they_are_inlined_into(self):
+        # A literal '</script>' or '</style>' anywhere in an asset would close
+        # the block early and break the page, and it would still look correct
+        # in the source file. Cheap to check, silent and total if missed.
+        for name in ('editor.js', 'editor.css'):
+            text = (REPO_ROOT / 'reporting_scripts' / 'assets' / name).read_text()
+            self.assertNotIn('</script', text.lower(), f'{name} would close the script block')
+            self.assertNotIn('</style', text.lower(), f'{name} would close the style block')
+
+    def test_propose_new_forms_still_use_their_templates(self):
+        # Only the *update* path moved into the page; proposing a new item is
+        # unchanged and still opens the issue form directly.
+        self.assertIn("1a_propose-new-technique-form.yml", self.html)
+        self.assertIn("1d_propose-new-reference-form.yml", self.html)
+
+
 if __name__ == '__main__':
     unittest.main()

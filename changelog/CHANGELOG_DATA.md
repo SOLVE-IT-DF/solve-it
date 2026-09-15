@@ -5,6 +5,7 @@
 - **2026-09-03** Updated weakness (AUTOIMPLEMENT): Missing data from the running system due to the device being compromised (e.g. rootkit) (DFW-1034) [`6619972`](https://github.com/SOLVE-IT-DF/solve-it/commit/6619972)
 - **2026-09-02** Added mitigation (AUTOIMPLEMENT): Create a persistent log of any errors during data copying process (DFM-1331) [`bbe7226`](https://github.com/SOLVE-IT-DF/solve-it/commit/bbe7226)
 - **2026-09-02** Added mitigation (AUTOIMPLEMENT): Create a persistent log of any errors during data copying process (DFM-1331) [`bbe7226`](https://github.com/SOLVE-IT-DF/solve-it/commit/bbe7226)
+- **2026-09-02** Added mitigation (AUTOIMPLEMENT): Create a persistent log of any errors during data copying process (DFM-1331) [`bbe7226`](https://github.com/SOLVE-IT-DF/solve-it/commit/bbe7226)
 - **2026-09-01** Added technique (TRWM): Evaluate observations in light of hypotheses (DFT-1200) [`2af17f9`](https://github.com/SOLVE-IT-DF/solve-it/commit/2af17f9)
 - **2026-09-01** Updated technique (AUTOIMPLEMENT): Reconstruct relations between events or properties of events (DFT-1088) [`e0e64b2`](https://github.com/SOLVE-IT-DF/solve-it/commit/e0e64b2)
 - **2026-09-01** Updated technique (AUTOIMPLEMENT): Reconstruct relations between events or properties of events (DFT-1088) [`e0e64b2`](https://github.com/SOLVE-IT-DF/solve-it/commit/e0e64b2)

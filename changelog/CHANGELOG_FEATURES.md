@@ -2,6 +2,10 @@
 
 Describes features and tooling updates.
 
+### Editing items from the Explorer (2026-09-15)
+
+Added an edit form to the detail panel of the HTML Explorer, so a technique, weakness or mitigation can be revised in the page rather than by retyping its current values into a GitHub issue form. The form is prefilled from the item being viewed, offers the CASE, UCO and SOLVE-IT class lists when editing ontology input and output classes, and on submission opens an issue that the existing update pipeline previews as proposed JSON.
+
 ### Git history and issue search from the Explorer (2026-07-06)
 
 Added two buttons to the detail panel of the HTML Explorer. "Show git history" opens the commit history of the JSON file that backs the item being viewed, so the sequence of changes to a technique, weakness or mitigation can be read directly. "Search git issue mentions" opens a GitHub issue search for the item's ID, covering both open and closed issues, so the discussion behind a change can be found from the item itself.

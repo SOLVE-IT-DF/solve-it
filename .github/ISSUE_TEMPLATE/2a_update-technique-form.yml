@@ -27,13 +27,13 @@ body:
     id: new-description
     attributes:
       label: New description
-      description: Leave blank to keep the current description. You can cite references inline using [DFCite-xxxx].
+      description: Leave blank to keep the current description, or enter `_none_` to remove it. You can cite references inline using [DFCite-xxxx].
       render: text
   - type: textarea
     id: new-details
     attributes:
       label: New details
-      description: Leave blank to keep the current details. You can cite references inline using [DFCite-xxxx].
+      description: Leave blank to keep the current details, or enter `_none_` to remove it. You can cite references inline using [DFCite-xxxx].
       render: text
   - type: textarea
     id: synonyms
@@ -42,6 +42,7 @@ body:
       description: |
         The complete new list of synonyms (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
+        Enter `_none_` on its own to empty the list.
       placeholder: Enter one synonym per line
       render: text
   - type: textarea
@@ -51,6 +52,7 @@ body:
       description: |
         The complete new list of examples (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
+        Enter `_none_` on its own to empty the list.
       placeholder: Enter one example per line
       render: text
   - type: textarea
@@ -60,6 +62,7 @@ body:
       description: |
         The complete new list of subtechnique IDs (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
+        Enter `_none_` on its own to empty the list.
         Existing techniques can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/techniques).
       placeholder: |
         Enter one subtechnique ID per line
@@ -72,6 +75,7 @@ body:
       description: |
         The complete new list of weakness IDs (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
+        Enter `_none_` on its own to empty the list.
         Existing weaknesses can be browsed [here](https://github.com/SOLVE-IT-DF/solve-it/tree/main/data/weaknesses).
       placeholder: |
         Enter one weakness ID per line
@@ -93,6 +97,7 @@ body:
       description: |
         The complete new list of ontology input classes as full IRIs (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
+        Enter `_none_` on its own to empty the list.
         Classes from CASE, UCO, or SOLVE-IT ontologies.
         Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),
         [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
@@ -106,6 +111,7 @@ body:
       description: |
         The complete new list of ontology output classes as full IRIs (one per line).
         Leave blank to keep the current list. If populated, this replaces the entire list.
+        Enter `_none_` on its own to empty the list.
         Classes from CASE, UCO, or SOLVE-IT ontologies.
         Browse existing classes at the [CASE Ontology A-Z](https://ontology.caseontology.org/documentation/entities-az.html),
         [SOLVE-IT Ontology A-Z](https://ontology.solveit-df.org/entities-az.html), or the [FOCAL web app](https://focal.hargs.co.uk/#?groups=UCO,CASE,SOLVE-IT).
@@ -119,6 +125,7 @@ body:
       description: |
         The complete new list of references — existing DFCite IDs, one per line. If you need to add a new reference, please use the [Propose New Reference](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=1d_propose-new-reference-form.yml) form first.
         Leave blank to keep the current list. If populated, this replaces the entire list.
+        Enter `_none_` on its own to empty the list.
         You should add a relevance summary using a pipe, e.g. DFCite-xxxx | reason why this reference is useful for this technique (max 280 chars).
         Focus on why the reference matters to this specific item, not just what it is about.
       placeholder: |

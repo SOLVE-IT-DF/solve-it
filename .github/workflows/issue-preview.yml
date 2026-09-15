@@ -8,6 +8,83 @@ permissions:
   issues: write
 
 jobs:
+  # The SOLVE-IT Explorer's "Suggest an edit" form opens a blank issue rather
+  # than an issue template, because GitHub no longer lets a contributor edit
+  # fields a template URL has prefilled. A blank issue cannot carry labels for
+  # a contributor without triage permission (GitHub ignores the `labels=`
+  # query parameter for them), and every job below is gated on labels. So the
+  # form writes a marker into the body, and this job turns it into the labels
+  # the rest of the pipeline expects. It runs first; the update-preview jobs
+  # depend on it and accept either the labels or its output.
+  #
+  # `form input` is deliberately not applied, and adding it back would be a
+  # mistake on both counts. It would not be true — this is a blank issue, not
+  # a form submission — and it would do nothing, because the only thing that
+  # reads it is the `if:` on the jobs below, which tests
+  # github.event.issue.labels: the opened-issue payload, frozen before this
+  # job runs. That is why those jobs also accept this job's output; the output
+  # is what actually makes a preview run for an Explorer submission.
+  #
+  # `content: update <item>` is applied because autoimplement-update-item.yml
+  # and validate-revised-proposal.yml are gated on it, and both fire on later
+  # events whose payloads do carry it by then.
+  #
+  # `explorer` is applied for people rather than automation. An update can
+  # arrive by hand through an issue form, from the Explorer, or as a TRWM
+  # submission, and `explorer` beside the existing `trwm` and `form input`
+  # makes the route each one took visible in the issue list without opening
+  # it. Nothing is gated on it.
+  explorer-labels:
+    runs-on: ubuntu-latest
+    outputs:
+      kind: ${{ steps.detect.outputs.kind }}
+    steps:
+    - name: Detect an Explorer submission and apply its labels
+      id: detect
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+        ISSUE_BODY: ${{ github.event.issue.body }}
+        ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ',') }}
+      run: |
+        # `|| true` because grep exits non-zero on the great majority of
+        # issues, which have no marker. That is the normal case, not an error.
+        kind=$(printenv ISSUE_BODY | grep -oE '<!-- solveit-explorer: update-(technique|weakness|mitigation) -->' | head -n1 | sed -E 's/.*update-([a-z]+).*/update-\1/') || true
+        echo "kind=${kind}" >> "$GITHUB_OUTPUT"
+        if [ -z "$kind" ]; then
+          echo "No Explorer marker in the body; nothing to do."
+          exit 0
+        fi
+        item="${kind#update-}"
+
+        # `gh issue edit` rejects the whole call if any one of the labels does
+        # not exist in the repository, which would take the labels the
+        # pipeline is gated on down with the provenance one. Creating it here
+        # keeps the workflow self-sufficient; it does nothing once it exists.
+        if gh label create explorer \
+             --repo "$GITHUB_REPOSITORY" \
+             --color 1d76db \
+             --description "Submitted through the SOLVE-IT Explorer's edit form" 2>/dev/null; then
+          echo "Created the 'explorer' label."
+        fi
+
+        # Add only what is absent, so a reopened issue is not edited for
+        # nothing and a hand-labelled one is left alone.
+        missing=""
+        for label in "content: update ${item}" "explorer"; do
+          case ",$ISSUE_LABELS," in
+            *",${label},"*) ;;
+            *) missing="${missing:+${missing},}${label}" ;;
+          esac
+        done
+
+        if [ -z "$missing" ]; then
+          echo "Already carries every label the Explorer marker implies."
+        else
+          gh issue edit "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --add-label "$missing"
+          echo "Applied from the Explorer marker: ${missing}"
+        fi
+
   technique-preview:
     if: "${{ contains(github.event.issue.labels.*.name, 'content: new technique') && contains(github.event.issue.labels.*.name, 'form input') }}"
     runs-on: ubuntu-latest
@@ -108,7 +185,8 @@ jobs:
         ISSUE_NUMBER: ${{ github.event.issue.number }}
 
   technique-update-preview:
-    if: "${{ contains(github.event.issue.labels.*.name, 'content: update technique') && contains(github.event.issue.labels.*.name, 'form input') }}"
+    needs: explorer-labels
+    if: "${{ !cancelled() && ((contains(github.event.issue.labels.*.name, 'content: update technique') && contains(github.event.issue.labels.*.name, 'form input')) || needs.explorer-labels.outputs.kind == 'update-technique') }}"
     runs-on: ubuntu-latest
 
     steps:
@@ -141,7 +219,8 @@ jobs:
         ISSUE_NUMBER: ${{ github.event.issue.number }}
 
   weakness-update-preview:
-    if: "${{ contains(github.event.issue.labels.*.name, 'content: update weakness') && contains(github.event.issue.labels.*.name, 'form input') }}"
+    needs: explorer-labels
+    if: "${{ !cancelled() && ((contains(github.event.issue.labels.*.name, 'content: update weakness') && contains(github.event.issue.labels.*.name, 'form input')) || needs.explorer-labels.outputs.kind == 'update-weakness') }}"
     runs-on: ubuntu-latest
 
     steps:
@@ -207,7 +286,8 @@ jobs:
         ISSUE_NUMBER: ${{ github.event.issue.number }}
 
   mitigation-update-preview:
-    if: "${{ contains(github.event.issue.labels.*.name, 'content: update mitigation') && contains(github.event.issue.labels.*.name, 'form input') }}"
+    needs: explorer-labels
+    if: "${{ !cancelled() && ((contains(github.event.issue.labels.*.name, 'content: update mitigation') && contains(github.event.issue.labels.*.name, 'form input')) || needs.explorer-labels.outputs.kind == 'update-mitigation') }}"
     runs-on: ubuntu-latest
 
     steps:

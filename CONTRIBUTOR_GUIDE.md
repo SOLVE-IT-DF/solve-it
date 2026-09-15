@@ -106,7 +106,7 @@ Before proposing new content, search the knowledge base:
 - **[MCP Server](https://github.com/CKE-Proto/solve_it_mcp)** — query via natural language using an LLM
 - **[Machine-readable data](https://data.solveit-df.org)** — TSV and other formats for bulk checking
 
-If the content already exists but needs updating, use an update form instead of proposing a new item. You can do this directly from the [SOLVE-IT Explorer](https://explore.solveit-df.org/) using the "Propose an update" button, which will prepopulate the form with the existing data for ease of editing.
+If the content already exists but needs updating, propose an update instead of a new item. The easiest way is the "Suggest an edit" button on any item in the [SOLVE-IT Explorer](https://explore.solveit-df.org/): it opens the item's current content in an editable form, and when you are finished it prepares the GitHub issue for you.
 
 ### Check open issues
 
@@ -448,9 +448,10 @@ There are separate update forms for each content type:
 - You must provide the existing item's ID (e.g. `DFT-1002`)
 - Leave any field blank to keep its current value
 - Filling in a list field (like weakness IDs) **replaces the entire list** — include all values you want to keep
+- To remove every entry from a list, or to clear the description or details, enter `_none_` on its own. A blank field means "leave this alone", so it is not a way to empty anything
 - "Propose new" fields are additive — new items are created alongside existing ones
 
-> **Tip:** You can submit updates directly from the [SOLVE-IT Explorer](https://explore.solveit-df.org/) using the "Propose an update" button on any item's page. This pre-fills the ID and links you to the correct form.
+> **Tip:** Rather than filling these forms in by hand, use the **"Suggest an edit"** button on any item in the [SOLVE-IT Explorer](https://explore.solveit-df.org/). It opens the item's current content in a form where you can edit it, with the knowledge base available as you go — existing weaknesses and mitigations to link to, and a searchable list of CASE, UCO and SOLVE-IT ontology classes. When you submit, it prepares the GitHub issue with only the fields you changed. Because unchanged fields are not sent, your proposal will not overwrite someone else's edit to a different part of the same item.
 
 **Pipeline for DFCite relevance updates:** Preview → Auto-implement (no ID assignment needed)
 
@@ -495,9 +496,12 @@ Some research outputs map to multiple techniques as part of a workflow (e.g., a 
 
 ### Submitting from the Explorer
 
-The [SOLVE-IT Explorer](https://explore.solveit-df.org/) has direct links to the issue forms:
-- **"Propose an update"** button on any technique, weakness, or mitigation page — pre-fills the item ID
-- **"Propose a new..."** buttons on the Techniques, Weaknesses, Mitigations, and References tabs
+The [SOLVE-IT Explorer](https://explore.solveit-df.org/) is the easiest route in:
+- **"Suggest an edit"** button on any technique, weakness, or mitigation page — edit the item in the Explorer, then submit; it prepares the GitHub issue with your changes
+- **"[edit]"** beside a reference's relevance summary — opens the same form at the references
+- **"Propose a new..."** buttons on the Techniques, Weaknesses, Mitigations, and References tabs — these open the issue forms directly
+
+You can still fill the issue forms in by hand if you prefer; the Explorer is a convenience, not a requirement.
 
 ### What if I don't have all the information?
 

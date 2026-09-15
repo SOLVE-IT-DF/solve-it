@@ -3,6 +3,7 @@ Shared utilities for the update issue parsers.
 
 Provides:
 - is_no_response(value) — checks for blank or '_No response_'
+- is_clear_request(value) — checks for the explicit 'empty this list' sentinel
 - build_change_summary(before, after) — human-readable diff of two JSON dicts
 - build_error_comment(item_type, item_id, browse_url) — error comment when ID not found
 """
@@ -15,6 +16,22 @@ def is_no_response(value):
     if not value:
         return True
     return value.strip() in ('', '_No response_')
+
+
+CLEAR_SENTINEL = '_none_'
+
+
+def is_clear_request(value):
+    """Return True if the value is the explicit 'empty this list' sentinel.
+
+    A blank field means 'leave this alone', so on its own it gives a contributor
+    no way to remove the last entry of a list. A field containing only `_none_`
+    means 'replace this list with an empty one'. The SOLVE-IT Explorer's edit
+    form emits the sentinel when a list has been deliberately emptied.
+    """
+    if not value:
+        return False
+    return value.strip().lower() == CLEAR_SENTINEL
 
 
 def build_change_summary(before, after):

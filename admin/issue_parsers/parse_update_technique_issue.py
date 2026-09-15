@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from parse_technique_issue import parse_issue_body, lines_to_list, build_weakness_link
-from update_utils import is_no_response, build_error_comment, build_update_comment
+from update_utils import is_no_response, is_clear_request, build_error_comment, build_update_comment
 from solve_it_library import KnowledgeBase
 from solve_it_library.reference_matching import process_reference_lines
 
@@ -43,40 +43,58 @@ def apply_updates(current, fields, project_root=None):
         updated["name"] = name.strip()
 
     description = fields.get("New description", "")
-    if not is_no_response(description):
+    if is_clear_request(description):
+        updated["description"] = ""
+    elif not is_no_response(description):
         updated["description"] = description.strip()
 
     details = fields.get("New details", "")
-    if not is_no_response(details):
+    if is_clear_request(details):
+        updated["details"] = ""
+    elif not is_no_response(details):
         updated["details"] = details.strip()
 
-    # List fields — populated means replace entire list
+    # List fields — populated means replace entire list, `_none_` means empty it
     synonyms = fields.get("Synonyms", "")
-    if not is_no_response(synonyms):
+    if is_clear_request(synonyms):
+        updated["synonyms"] = []
+    elif not is_no_response(synonyms):
         updated["synonyms"] = lines_to_list(synonyms)
 
     examples = fields.get("Examples", "")
-    if not is_no_response(examples):
+    if is_clear_request(examples):
+        updated["examples"] = []
+    elif not is_no_response(examples):
         updated["examples"] = lines_to_list(examples)
 
     subtechniques = fields.get("Subtechnique IDs", "")
-    if not is_no_response(subtechniques):
+    if is_clear_request(subtechniques):
+        updated["subtechniques"] = []
+    elif not is_no_response(subtechniques):
         updated["subtechniques"] = lines_to_list(subtechniques)
 
     weaknesses = fields.get("Weakness IDs", "")
-    if not is_no_response(weaknesses):
+    if is_clear_request(weaknesses):
+        updated["weaknesses"] = []
+    elif not is_no_response(weaknesses):
         updated["weaknesses"] = lines_to_list(weaknesses)
 
     case_input = fields.get("Ontology input classes", "")
-    if not is_no_response(case_input):
+    if is_clear_request(case_input):
+        updated["CASE_input_classes"] = []
+    elif not is_no_response(case_input):
         updated["CASE_input_classes"] = lines_to_list(case_input)
 
     case_output = fields.get("Ontology output classes", "")
-    if not is_no_response(case_output):
+    if is_clear_request(case_output):
+        updated["CASE_output_classes"] = []
+    elif not is_no_response(case_output):
         updated["CASE_output_classes"] = lines_to_list(case_output)
 
     references = fields.get("References", "")
-    if not is_no_response(references):
+    if is_clear_request(references):
+        updated["references"] = []
+    elif not is_no_response(references):
         ref_lines = lines_to_list(references)
         if ref_lines and project_root:
             processed_refs, match_report, new_citations, ref_warnings = process_reference_lines(ref_lines, project_root)

@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from parse_technique_issue import parse_issue_body, lines_to_list
-from update_utils import is_no_response, build_error_comment, build_update_comment
+from update_utils import is_no_response, is_clear_request, build_error_comment, build_update_comment
 from solve_it_library import KnowledgeBase
 from solve_it_library.reference_matching import process_reference_lines
 
@@ -43,7 +43,9 @@ def apply_updates(current, fields, project_root=None):
         updated["name"] = name.strip()
 
     description = fields.get("New description", "")
-    if not is_no_response(description):
+    if is_clear_request(description):
+        updated["description"] = ""
+    elif not is_no_response(description):
         updated["description"] = description.strip()
 
     # Linked technique — uses dropdown to disambiguate no-change vs remove
@@ -57,7 +59,9 @@ def apply_updates(current, fields, project_root=None):
 
     # List fields
     references = fields.get("References", "")
-    if not is_no_response(references):
+    if is_clear_request(references):
+        updated["references"] = []
+    elif not is_no_response(references):
         ref_lines = lines_to_list(references)
         if ref_lines and project_root:
             processed_refs, match_report, new_citations, ref_warnings = process_reference_lines(ref_lines, project_root)

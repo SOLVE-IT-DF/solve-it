@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from parse_technique_issue import parse_issue_body, lines_to_list
 from parse_weakness_issue import build_mitigation_link, parse_categories
-from update_utils import is_no_response, build_error_comment, build_update_comment
+from update_utils import is_no_response, is_clear_request, build_error_comment, build_update_comment
 from solve_it_library import KnowledgeBase
 from solve_it_library.models import VALID_WEAKNESS_CLASSES
 from solve_it_library.reference_matching import process_reference_lines
@@ -45,12 +45,16 @@ def apply_updates(current, fields, project_root=None):
         updated["name"] = name.strip()
 
     description = fields.get("New description", "")
-    if not is_no_response(description):
+    if is_clear_request(description):
+        updated["description"] = ""
+    elif not is_no_response(description):
         updated["description"] = description.strip()
 
-    # Categories — blank means no change
+    # Categories — blank means no change, `_none_` means empty the list
     classes_raw = fields.get("Categories", "")
-    if not is_no_response(classes_raw):
+    if is_clear_request(classes_raw):
+        updated["categories"] = []
+    elif not is_no_response(classes_raw):
         valid_classes, invalid_classes = parse_categories(classes_raw)
         if invalid_classes:
             valid_list = ", ".join(sorted(VALID_WEAKNESS_CLASSES))
@@ -61,11 +65,15 @@ def apply_updates(current, fields, project_root=None):
 
     # List fields
     mitigations = fields.get("Mitigation IDs", "")
-    if not is_no_response(mitigations):
+    if is_clear_request(mitigations):
+        updated["mitigations"] = []
+    elif not is_no_response(mitigations):
         updated["mitigations"] = lines_to_list(mitigations)
 
     references = fields.get("References", "")
-    if not is_no_response(references):
+    if is_clear_request(references):
+        updated["references"] = []
+    elif not is_no_response(references):
         ref_lines = lines_to_list(references)
         if ref_lines and project_root:
             processed_refs, match_report, new_citations, ref_warnings = process_reference_lines(ref_lines, project_root)

@@ -4,7 +4,10 @@
 
 - **2026-09-07** Updated technique (AUTOIMPLEMENT): Experiment with software to ascertain forensic artifacts (DFT-1090) [`53711c5`](https://github.com/SOLVE-IT-DF/solve-it/commit/53711c5)
 - **2026-09-03** Updated weakness (AUTOIMPLEMENT): Collecting incorrect data from a running system due to the device being compromised (e.g. rootkit) (DFW-1035) [`f8c979b`](https://github.com/SOLVE-IT-DF/solve-it/commit/f8c979b)
+- **2026-09-03** Updated weakness (AUTOIMPLEMENT): Collecting incorrect data from a running system due to the device being compromised (e.g. rootkit) (DFW-1035) [`f8c979b`](https://github.com/SOLVE-IT-DF/solve-it/commit/f8c979b)
 - **2026-09-03** Updated weakness (AUTOIMPLEMENT): Missing data from the running system due to the device being compromised (e.g. rootkit) (DFW-1034) [`6619972`](https://github.com/SOLVE-IT-DF/solve-it/commit/6619972)
+- **2026-09-03** Updated weakness (AUTOIMPLEMENT): Missing data from the running system due to the device being compromised (e.g. rootkit) (DFW-1034) [`6619972`](https://github.com/SOLVE-IT-DF/solve-it/commit/6619972)
+- **2026-09-02** Added mitigation (AUTOIMPLEMENT): Create a persistent log of any errors during data copying process (DFM-1331) [`bbe7226`](https://github.com/SOLVE-IT-DF/solve-it/commit/bbe7226)
 - **2026-09-02** Added mitigation (AUTOIMPLEMENT): Create a persistent log of any errors during data copying process (DFM-1331) [`bbe7226`](https://github.com/SOLVE-IT-DF/solve-it/commit/bbe7226)
 - **2026-09-02** Added mitigation (AUTOIMPLEMENT): Create a persistent log of any errors during data copying process (DFM-1331) [`bbe7226`](https://github.com/SOLVE-IT-DF/solve-it/commit/bbe7226)
 - **2026-09-02** Added mitigation (AUTOIMPLEMENT): Create a persistent log of any errors during data copying process (DFM-1331) [`bbe7226`](https://github.com/SOLVE-IT-DF/solve-it/commit/bbe7226)

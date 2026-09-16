@@ -14,11 +14,12 @@
         "DFW-1150"
     ],
     "CASE_input_classes": [
-        "https://ontology.unifiedcyberontology.org/uco/observable/keywordSearchTerm"
+        "https://ontology.solveit-df.org/solveit/observable/Timeline",
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet",
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
     ],
     "CASE_output_classes": [
-        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent",
-        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedWebSearch"
+        "https://ontology.solveit-df.org/solveit/analysis/HypothesisedEvent"
     ],
     "references": []
 }

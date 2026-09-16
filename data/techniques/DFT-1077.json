@@ -5,7 +5,14 @@
     "synonyms": [],
     "details": "",
     "subtechniques": [],
-    "examples": [],
+    "examples": [
+        "Windows Photos app",
+        "Apple Photos app",
+        "Lightroom",
+        "digiKam",
+        "XnView MP",
+        "Darktable"
+    ],
     "weaknesses": [],
     "CASE_input_classes": [
         "https://ontology.solveit-df.org/solveit/observable/PhotosAppFiles"

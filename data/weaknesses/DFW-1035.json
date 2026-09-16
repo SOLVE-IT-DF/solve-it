@@ -1,6 +1,7 @@
 {
     "id": "DFW-1035",
-    "name": "Collecting incorrect information from live system due to compromised machine (e.g. rootkit)",
+    "name": "Collecting incorrect data from a running system due to the device being compromised (e.g. rootkit)",
+    "description": "",
     "categories": [
         "ASTM_INCOMP",
         "ASTM_INAC_EX",

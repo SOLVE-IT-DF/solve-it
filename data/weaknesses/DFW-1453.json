@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1453",
+    "name": "An AI response to a question returns an event that did not occur because the supporting data was unreliable, but that was not recognised",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [],
+    "references": []
+}

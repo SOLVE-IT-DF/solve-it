@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1444",
+    "name": "An AI response to a question does not return a relevant event because it was not recognised as relevant",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1343"
+    ],
+    "references": []
+}

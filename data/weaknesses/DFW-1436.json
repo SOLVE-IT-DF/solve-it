@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1436",
+    "name": "An AI response to a query does not provide the reasoning behind the results generated because it was not requested",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [],
+    "references": []
+}

@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1423",
+    "name": "An AI response to a question returns an event with one or more incorrect details because the supporting data was unreliable, but that was not recognised",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1350"
+    ],
+    "references": []
+}

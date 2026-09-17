@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1434",
+    "name": "An AI response to a query for relevant artifacts includes reporting artifacts that do not exist because of model hallucinations",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1337",
+        "DFM-1338"
+    ],
+    "references": []
+}

@@ -1,0 +1,10 @@
+{
+    "id": "DFW-1449",
+    "name": "An AI response to a question asserts a link that does not exist because the supporting data was unreliable but that was not recognised",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [],
+    "references": []
+}

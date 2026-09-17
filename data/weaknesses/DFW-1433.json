@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1433",
+    "name": "An AI response to a question does not return a relevant event because the data needed to reconstruct the event was lost due to context window overflow",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1332"
+    ],
+    "references": []
+}

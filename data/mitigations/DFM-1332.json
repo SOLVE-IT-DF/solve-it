@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1332",
+    "name": "Flag when an AI context window has reached a limit and prevent further processing within that session",
+    "references": []
+}

@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1340",
+    "name": "Ensure that the AI-based system is capable of providing an audit trail of artifacts considered but excluded as relevant, along with the exclusion criteria",
+    "references": []
+}

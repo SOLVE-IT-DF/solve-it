@@ -1,0 +1,23 @@
+{
+    "id": "DFT-1202",
+    "name": "Verify automated results manually",
+    "description": "The process of manually reviewing the results from an automated process and checking the results are correct.",
+    "synonyms": [
+        "manual verification"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "Checking the decoding of a timestamp",
+        "Checking that a recovered record exists"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/analysis/AnalyticResult",
+        "https://ontology.unifiedcyberontology.org/uco/observable/ObservableObject"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/analysis/AnalyticResult"
+    ],
+    "references": []
+}

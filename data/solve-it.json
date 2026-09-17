@@ -360,7 +360,8 @@
         "description": "Evaluate evidence ",
         "techniques": [
             "DFT-1195",
-            "DFT-1200"
+            "DFT-1200",
+            "DFT-1202"
         ],
         "references": []
     },

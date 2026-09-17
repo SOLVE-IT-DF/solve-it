@@ -1,6 +1,7 @@
 {
     "id": "DFW-1037",
-    "name": "Presenting data as complete, that is in reality a partial set",
+    "name": "Presenting data from a mobile backup as complete, when it is in reality a partial set of files from the device",
+    "description": "",
     "categories": [
         "ASTM_MISINT"
     ],

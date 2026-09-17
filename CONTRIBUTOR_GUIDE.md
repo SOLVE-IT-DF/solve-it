@@ -380,7 +380,10 @@ It is worth supplying bibtex if you can since the SOLVE-IT Explorer offers direc
 
 ### TRWM bulk submission
 
-**Form:** [Submit a TRWM](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=3_propose-trwm-submission-form.yml)
+**Form:** [Use the TRWM helper app](https://trwm.hargs.co.uk), [Submit a TRWM](https://github.com/SOLVE-IT-DF/solve-it/issues/new?template=3_propose-trwm-submission-form.yml)
+
+The TRWM Helper App from HARGS Solutions Ltd provides a way to work through the process and produce a json object that can be submitted via the GitHub issue tracker.
+<img width="1387" height="432" alt="image" src="https://github.com/user-attachments/assets/e513f74d-5f25-4e8c-8e4e-2d6752040bfb" />
 
 This is the recommended way to submit a complete technique with all its weaknesses and mitigations at once.
 

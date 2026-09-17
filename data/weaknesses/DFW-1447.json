@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1447",
+    "name": "An AI response to a question does not return a relevant link because it could not correctly interpret the data needed to make the link",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [],
+    "references": []
+}

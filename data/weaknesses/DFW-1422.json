@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1422",
+    "name": "An AI response to a question does not return a relevant event because it found something else relevant and stopped searching",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [],
+    "references": []
+}

@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1429",
+    "name": "An AI response to a query for relevant artifacts is missing one or more relevant artifacts because it found something else relevant and stopped searching",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [],
+    "references": []
+}

@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1431",
+    "name": "An AI response to a query for relevant artifacts is missing one or more relevant artifacts because some were not recognised as relevant",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1333",
+        "DFM-1334",
+        "DFM-1335"
+    ],
+    "references": []
+}

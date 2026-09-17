@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1441",
+    "name": "An observation that contradicts the conclusions drawn by an AI system are not presented when presenting reasoning because contradictory observations were not requested",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [],
+    "references": []
+}

@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1336",
+    "name": "Manually verify artifacts reported as relevant by an AI system",
+    "technique": "DFT-1054",
+    "references": []
+}

@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1440",
+    "name": "An observation referred to in the reasoning provided by an AI system does not exist because of model hallucinations",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1341"
+    ],
+    "references": []
+}

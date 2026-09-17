@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1445",
+    "name": "An observation referred to in the reasoning provided by and AI system does not support the conclusions drawn because the system is unable to accurately reason with the observable data that is available but does so anyway",
+    "categories": [
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [],
+    "references": []
+}

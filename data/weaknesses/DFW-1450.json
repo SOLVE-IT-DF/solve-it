@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1450",
+    "name": "An AI response to a question does not return a relevant event because data needed to reconstruct the event was lost due to compression of the context",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1344"
+    ],
+    "references": []
+}

@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1432",
+    "name": "An AI response to a query for relevant artifacts includes reporting artifacts that are not relevant because the model could not successfully differentiate relevance",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1336"
+    ],
+    "references": []
+}

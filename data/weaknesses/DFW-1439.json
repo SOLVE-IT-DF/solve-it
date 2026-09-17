@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1439",
+    "name": "An AI response to a query provides an inaccurate reasoning behind the results generated",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [],
+    "references": []
+}

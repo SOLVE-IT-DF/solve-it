@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1435",
+    "name": "An AI response to a query does not provide the reasoning behind the results generated because the system is not capable of producing it",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1339",
+        "DFM-1340"
+    ],
+    "references": []
+}

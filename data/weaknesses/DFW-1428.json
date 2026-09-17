@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1428",
+    "name": "An AI response to a query takes a biased tone because of phrasing in an embedded system prompt",
+    "categories": [
+        "ASTM_MISINT"
+    ],
+    "mitigations": [],
+    "references": []
+}

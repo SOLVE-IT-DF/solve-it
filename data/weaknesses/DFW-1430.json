@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1430",
+    "name": "An AI response to a query for relevant artifacts is missing one or more relevant artifacts because the results exceed a context window",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1332"
+    ],
+    "references": []
+}

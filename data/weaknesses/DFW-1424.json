@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1424",
+    "name": "An AI response returns a sequence of events that do not reflect the true ordering of events that occurred because of failure to consider clock inaccuracies",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1227",
+        "DFM-1225"
+    ],
+    "references": []
+}

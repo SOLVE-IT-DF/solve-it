@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1455",
+    "name": "An AI response to a question returns an event with one or more incorrect details because of an incorrect 'interpretation' of the meaning of some artifacts",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1349",
+        "DFM-1347"
+    ],
+    "references": []
+}

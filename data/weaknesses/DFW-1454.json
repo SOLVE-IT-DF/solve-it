@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1454",
+    "name": "An AI response to a question returns an event with one or more incorrect details because of model hallucinations",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1348"
+    ],
+    "references": []
+}

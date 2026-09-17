@@ -1,0 +1,9 @@
+{
+    "id": "DFW-1442",
+    "name": "An observation that contradicts the conclusions drawn by an AI system are not included when presenting reasoning because the system stopped searching for relevant data once it found sufficient supporting information",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [],
+    "references": []
+}

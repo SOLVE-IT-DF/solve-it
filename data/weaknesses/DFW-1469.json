@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1469",
+    "name": "The decoding of bytes into text is different to that which was stored because multi-byte characters were handled incorrectly",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1357",
+        "DFM-1360"
+    ],
+    "references": []
+}

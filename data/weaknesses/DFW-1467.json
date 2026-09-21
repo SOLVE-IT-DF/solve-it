@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1467",
+    "name": "The decoding of bytes into text is missing some characters because the wrong byte size per character was used for decoding",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1357",
+        "DFM-1358"
+    ],
+    "references": []
+}

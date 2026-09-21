@@ -14,7 +14,7 @@
         "DFW-1127"
     ],
     "CASE_input_classes": [
-        "https://ontology.solveit-df.org/solveit/observable/HashVerificationResult"
+        "https://ontology.unifiedcyberontology.org/uco/types/Hash"
     ],
     "CASE_output_classes": [
         "https://ontology.solveit-df.org/solveit/observable/HashVerificationResult"

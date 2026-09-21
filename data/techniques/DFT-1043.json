@@ -18,8 +18,8 @@
     "weaknesses": [
         "DFW-1121",
         "DFW-1122",
-        "DFW-1123",
-        "DFW-1259"
+        "DFW-1259",
+        "Metadata reading is no longer part of this technique so this weakness shouldn't be here."
     ],
     "CASE_input_classes": [
         "https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer"

@@ -1,0 +1,28 @@
+{
+    "id": "DFT-1204",
+    "name": "Verify hash of stored bitstream data matches a stored hash",
+    "description": "Compares a hash computed over stored bitstream data against a recorded hash, to assess whether the stored data has changed since it was written.",
+    "synonyms": [],
+    "details": "The stored hash may be held inside the forensic image container, in an associated text file, or in a separate trusted location. \n\nThe same comparison applies in each case. The hash over the stored data is produced by DFT-1199 (Compute hash of stored bitstream data), and a hash held inside a container is read using DFT-1193 (Read metadata from within a forensic image container). \n\nThis technique covers verification carried out after imaging has finished, whereas DFT-1042 (Verify hash of copied data matches the hash of the data read from source device) covers the comparison made *during imaging* against a hash of data read from the source device.",
+    "subtechniques": [],
+    "examples": [
+        "ewfverify"
+    ],
+    "weaknesses": [
+        "DFW-1042",
+        "DFW-1128",
+        "DFW-1127"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/HashVerificationResult"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/HashVerificationResult"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1168",
+            "relevance_summary_280": ""
+        }
+    ]
+}

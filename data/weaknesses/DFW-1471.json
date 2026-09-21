@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1471",
+    "name": "The decoding of bytes into text is different to that which was stored because the wrong byte endianness was used for decoding",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1362"
+    ],
+    "references": []
+}

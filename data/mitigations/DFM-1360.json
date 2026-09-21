@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1360",
+    "name": "Ensure that multi-byte characters are handled correctly when decoding raw data into strings",
+    "references": []
+}

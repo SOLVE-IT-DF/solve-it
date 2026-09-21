@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1457",
+    "name": "The integer decoded from some data is incorrect because the incorrect number of bytes was examined",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1352"
+    ],
+    "references": []
+}

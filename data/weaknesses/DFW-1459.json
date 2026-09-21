@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1459",
+    "name": "The integer decoded from some data is incorrect because the decoding was signed not unsigned or vice versa",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1354"
+    ],
+    "references": []
+}

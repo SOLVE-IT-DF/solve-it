@@ -1,0 +1,17 @@
+{
+    "id": "DFT-1205",
+    "name": "Decode raw data into data value(s)",
+    "description": "The process of interpreting a sequence of bytes as a typed value, such as a number, a string, or a date, under an assumed encoding.",
+    "synonyms": [],
+    "details": "Decoding is performed inside many other techniques rather than as a separate examination step, which is why its failures are currently recorded against whichever technique consumed the value. This provides a generic version of the technique. \n\nRelated techniques that depend on it include DFT-1191 (Parse allocated structures in Windows HIVE files), DFT-1071 (Extract data from SQLite database(s)) and DFT-1121 (Index a data source for keyword searching). DFT-1044 and DFT-1102 decode specific container formats rather than typed values. ",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1456"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ContentData"
+    ],
+    "CASE_output_classes": [],
+    "references": []
+}

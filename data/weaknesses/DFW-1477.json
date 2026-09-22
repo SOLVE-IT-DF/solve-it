@@ -1,0 +1,10 @@
+{
+    "id": "DFW-1477",
+    "name": "The examiner-entered metadata stored within the forensic container is incorrect because the examiner entered the wrong details",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [],
+    "references": []
+}

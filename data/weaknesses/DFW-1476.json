@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1476",
+    "name": "The examiner-entered metadata stored within the forensic container is incorrect because of a software error in the tool used",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1363"
+    ],
+    "references": []
+}

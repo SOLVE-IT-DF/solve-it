@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1475",
+    "name": "The computed hash(s) were not stored within the forensic container because of a software error in the tool used",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1364"
+    ],
+    "references": []
+}

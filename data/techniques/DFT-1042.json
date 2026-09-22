@@ -1,7 +1,7 @@
 {
     "id": "DFT-1042",
     "name": "Verify hash of copied data matches the hash of the data read from source device",
-    "description": "This technique is part of the imaging process and specifically compares the hash of data read from a source device and data stored within a raw image or a forensic image container. Other techniques allow comparison of hashes of data read within a container against stored hashes (either inside the image file, a sidecar file, or externally)",
+    "description": "Compares a hash of data read from a source device with a hash computed by reading back the copy of that data stored in a raw image or a forensic image container. \n\nThe source hash may be computed as the data is read during imaging, or by reading the source device again at a later point. \n\nWhat distinguishes this technique is that the reference hash comes from reading the source device, rather than from a stored record of that hash. Comparison against a stored hash, whether inside the image file, in a separate file, or held externally, is covered by DFT-1204.",
     "synonyms": [],
     "details": "",
     "subtechniques": [],

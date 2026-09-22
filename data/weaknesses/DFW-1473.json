@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1473",
+    "name": "The examiner-entered metadata was not stored within the forensic container because of a software error in the tool used",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1363"
+    ],
+    "references": []
+}

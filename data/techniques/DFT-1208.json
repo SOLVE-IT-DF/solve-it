@@ -1,0 +1,33 @@
+{
+    "id": "DFT-1208",
+    "name": "Store acquisition metadata in a forensic image format",
+    "description": "Records details such as case and examiner details, and the acquisition hash, within a forensic image container alongside the bitstream data or logical files. ",
+    "synonyms": [],
+    "details": "This is the counterpart of DFT-1193, which reads these same values back. \n\nContainer formats such as EWF and AFF4 carry a case number, evidence number, examiner name, notes and description, together with the cryptographic hash computed during acquisition. \n\nDFT-1025 stores the bitstream itself, whereas this technique records the metadata that accompanies it. The hash written here is the value later verified against by DFT-1204. \n\nMetadata accompanying a raw image is held in a separate file rather than within a container, and is not covered by this technique.",
+    "subtechniques": [],
+    "examples": [
+        "ewfacquire"
+    ],
+    "weaknesses": [
+        "DFW-1473",
+        "DFW-1474",
+        "DFW-1475",
+        "DFW-1476",
+        "DFW-1477",
+        "DFW-1478"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer",
+        "https://ontology.solveit-df.org/solveit/observable/LogicalImageContainer",
+        "https://ontology.caseontology.org/case/investigation/exhibitNumber",
+        "https://ontology.unifiedcyberontology.org/uco/core/name",
+        "https://ontology.unifiedcyberontology.org/uco/core/description",
+        "https://ontology.unifiedcyberontology.org/uco/observable/Note",
+        "https://ontology.unifiedcyberontology.org/uco/types/Hash"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/PhysicalImageContainer",
+        "https://ontology.solveit-df.org/solveit/observable/LogicalImageContainer"
+    ],
+    "references": []
+}

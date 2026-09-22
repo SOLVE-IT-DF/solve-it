@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1478",
+    "name": "The computed hash(s) stored within the forensic container is incorrect because of a software error in the tool used",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1364"
+    ],
+    "references": []
+}

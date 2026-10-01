@@ -1,5 +1,12 @@
 # SOLVE-IT Knowledge Base Changelog
 
+## October 2026
+
+- **2026-10-01** Updated mitigation: Manually verify the artifacts used for an event reconstruction (DFM-1349) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)
+- **2026-10-01** Updated mitigation: Manually verify the interpretation of artifacts used for an event reconstruction (DFM-1346) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)
+- **2026-10-01** Updated mitigation: Manually verify an observation used as part of an AI system's reasoning explanation (DFM-1341) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)
+- **2026-10-01** Updated mitigation: Manual verification of the existence of artifacts reported by an AI system (DFM-1337) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)
+
 ## September 2026
 
 - **2026-09-17** Added technique (TRWM): Use an AI-based prompt for interrogating case data (DFT-1203) [`02611ca`](https://github.com/SOLVE-IT-DF/solve-it/commit/02611ca)

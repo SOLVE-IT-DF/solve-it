@@ -1,5 +1,6 @@
 {
     "id": "DFM-1337",
     "name": "Manual verification of the existence of artifacts reported by an AI system",
+    "technique": "DFT-1202",
     "references": []
 }

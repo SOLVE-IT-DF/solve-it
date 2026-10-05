@@ -2,5 +2,10 @@
     "id": "DFM-1333",
     "name": "Use keyword searching to complement AI-based queries for relevant artifacts",
     "technique": "DFT-1049",
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1169",
+            "relevance_summary_280": "Shows that supplying a keyword list derived from known events raised LLM rule-based anomaly detection on a timeline from a mean score of 0.127 to 0.984 (Table 1, Section 4.3.2)."
+        }
+    ]
 }

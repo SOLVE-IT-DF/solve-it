@@ -2,5 +2,10 @@
     "id": "DFM-1343",
     "name": "Use deterministic event reconstruction approaches to complement AI-based event reconstruction",
     "technique": "DFT-1086",
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1169",
+            "relevance_summary_280": "Shows that instructing the LLM to run a deterministic event reconstruction library raised single-event summarization from a mean score of 0.134 to 1.000 versus the LLM alone (Table 1, Section 4.3.3)."
+        }
+    ]
 }

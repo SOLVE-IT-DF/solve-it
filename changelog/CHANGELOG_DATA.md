@@ -2,6 +2,10 @@
 
 ## October 2026
 
+- **2026-10-05** Updated technique (AUTOIMPLEMENT): Use an AI-based prompt for interrogating case data (DFT-1203) [`81ee09e`](https://github.com/SOLVE-IT-DF/solve-it/commit/81ee09e)
+- **2026-10-05** Updated mitigation (AUTOIMPLEMENT): Use deterministic event reconstruction approaches to complement AI-based event reconstruction (DFM-1343) [`81ee09e`](https://github.com/SOLVE-IT-DF/solve-it/commit/81ee09e)
+- **2026-10-05** Updated mitigation (AUTOIMPLEMENT): Use keyword searching to complement AI-based queries for relevant artifacts (DFM-1333) [`81ee09e`](https://github.com/SOLVE-IT-DF/solve-it/commit/81ee09e)
+- **2026-10-05** Added reference (AUTOIMPLEMENT): DFCite-1169 [`81ee09e`](https://github.com/SOLVE-IT-DF/solve-it/commit/81ee09e)
 - **2026-10-01** Updated mitigation: Manually verify the artifacts used for an event reconstruction (DFM-1349) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)
 - **2026-10-01** Updated mitigation: Manually verify the interpretation of artifacts used for an event reconstruction (DFM-1346) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)
 - **2026-10-01** Updated mitigation: Manually verify an observation used as part of an AI system's reasoning explanation (DFM-1341) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)

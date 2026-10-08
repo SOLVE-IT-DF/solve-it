@@ -1,7 +1,33 @@
 # SOLVE-IT Knowledge Base Changelog
 
+## October 2026
+
+- **2026-10-05** Updated technique (AUTOIMPLEMENT): Use an AI-based prompt for interrogating case data (DFT-1203) [`81ee09e`](https://github.com/SOLVE-IT-DF/solve-it/commit/81ee09e)
+- **2026-10-05** Updated mitigation (AUTOIMPLEMENT): Use deterministic event reconstruction approaches to complement AI-based event reconstruction (DFM-1343) [`81ee09e`](https://github.com/SOLVE-IT-DF/solve-it/commit/81ee09e)
+- **2026-10-05** Updated mitigation (AUTOIMPLEMENT): Use keyword searching to complement AI-based queries for relevant artifacts (DFM-1333) [`81ee09e`](https://github.com/SOLVE-IT-DF/solve-it/commit/81ee09e)
+- **2026-10-05** Added reference (AUTOIMPLEMENT): DFCite-1169 [`81ee09e`](https://github.com/SOLVE-IT-DF/solve-it/commit/81ee09e)
+- **2026-10-01** Updated mitigation: Manually verify the artifacts used for an event reconstruction (DFM-1349) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)
+- **2026-10-01** Updated mitigation: Manually verify the interpretation of artifacts used for an event reconstruction (DFM-1346) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)
+- **2026-10-01** Updated mitigation: Manually verify an observation used as part of an AI system's reasoning explanation (DFM-1341) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)
+- **2026-10-01** Updated mitigation: Manual verification of the existence of artifacts reported by an AI system (DFM-1337) [`d536548`](https://github.com/SOLVE-IT-DF/solve-it/commit/d536548)
+
 ## September 2026
 
+- **2026-09-21** Added technique (TRWM): Decode raw data into data value(s) (DFT-1205) [`288fa94`](https://github.com/SOLVE-IT-DF/solve-it/commit/288fa94)
+- **2026-09-21** Added technique (TRWM): Verify hash of stored bitstream data matches a stored hash (DFT-1204) [`a49f4b2`](https://github.com/SOLVE-IT-DF/solve-it/commit/a49f4b2)
+- **2026-09-21** Updated technique: Verify hash of stored bitstream data matches a stored hash (DFT-1204) [`b6a41dc`](https://github.com/SOLVE-IT-DF/solve-it/commit/b6a41dc)
+- **2026-09-21** Added technique (TRWM): Verify hash of stored bitstream data matches a stored hash (DFT-1204) [`a49f4b2`](https://github.com/SOLVE-IT-DF/solve-it/commit/a49f4b2)
+- **2026-09-21** Updated technique: Verify hash of stored bitstream data matches a stored hash (DFT-1204) [`b6a41dc`](https://github.com/SOLVE-IT-DF/solve-it/commit/b6a41dc)
+- **2026-09-21** Added technique (TRWM): Verify hash of stored bitstream data matches a stored hash (DFT-1204) [`a49f4b2`](https://github.com/SOLVE-IT-DF/solve-it/commit/a49f4b2)
+- **2026-09-21** Updated technique: Verify hash of stored bitstream data matches a stored hash (DFT-1204) [`b6a41dc`](https://github.com/SOLVE-IT-DF/solve-it/commit/b6a41dc)
+- **2026-09-21** Updated technique (AUTOIMPLEMENT): Read bitstream from forensic image container file(s) (DFT-1043) [`fd2f0db`](https://github.com/SOLVE-IT-DF/solve-it/commit/fd2f0db)
+- **2026-09-21** Updated technique (AUTOIMPLEMENT): Read bitstream from forensic image container file(s) (DFT-1043) [`fd2f0db`](https://github.com/SOLVE-IT-DF/solve-it/commit/fd2f0db)
+- **2026-09-21** Updated technique (AUTOIMPLEMENT): Read bitstream from forensic image container file(s) (DFT-1043) [`fd2f0db`](https://github.com/SOLVE-IT-DF/solve-it/commit/fd2f0db)
+- **2026-09-21** Updated mitigation (AUTOIMPLEMENT): Check hash of image matches hash of source device (DFM-1004) [`c7e7782`](https://github.com/SOLVE-IT-DF/solve-it/commit/c7e7782)
+- **2026-09-21** Updated mitigation (AUTOIMPLEMENT): Check hash of image matches hash of source device (DFM-1004) [`c7e7782`](https://github.com/SOLVE-IT-DF/solve-it/commit/c7e7782)
+- **2026-09-17** Updated weakness: Presenting data from a mobile backup as complete, when it is in reality a partial set of files from the device (DFW-1037) [`3c23ea8`](https://github.com/SOLVE-IT-DF/solve-it/commit/3c23ea8)
+- **2026-09-17** Updated weakness: Presenting data from a mobile backup as complete, when it is in reality a partial set of files from the device (DFW-1037) [`3c23ea8`](https://github.com/SOLVE-IT-DF/solve-it/commit/3c23ea8)
+- **2026-09-17** Updated weakness: Presenting data from a mobile backup as complete, when it is in reality a partial set of files from the device (DFW-1037) [`3c23ea8`](https://github.com/SOLVE-IT-DF/solve-it/commit/3c23ea8)
 - **2026-09-17** Added technique (TRWM): Use an AI-based prompt for interrogating case data (DFT-1203) [`02611ca`](https://github.com/SOLVE-IT-DF/solve-it/commit/02611ca)
 - **2026-09-16** Updated technique (AUTOIMPLEMENT): Extract artifacts from photo management app(s) (DFT-1077) [`47ec689`](https://github.com/SOLVE-IT-DF/solve-it/commit/47ec689)
 - **2026-09-15** Updated weakness (AUTOIMPLEMENT): The recorded time offset is incorrect because the trusted time source used for reference was incorrect (DFW-1173) [`2f4589d`](https://github.com/SOLVE-IT-DF/solve-it/commit/2f4589d)
@@ -10,6 +36,9 @@
 - **2026-09-15** Updated weakness (AUTOIMPLEMENT): The recorded time offset is incorrect because the trusted time source used for reference was incorrect (DFW-1173) [`2f4589d`](https://github.com/SOLVE-IT-DF/solve-it/commit/2f4589d)
 - **2026-09-15** Updated weakness (AUTOIMPLEMENT): The recorded time offset is incorrect because the trusted time source used for reference was incorrect (DFW-1173) [`2f4589d`](https://github.com/SOLVE-IT-DF/solve-it/commit/2f4589d)
 - **2026-09-15** Updated weakness (AUTOIMPLEMENT): The recorded time offset is incorrect because the trusted time source used for reference was incorrect (DFW-1173) [`2f4589d`](https://github.com/SOLVE-IT-DF/solve-it/commit/2f4589d)
+- **2026-09-15** Updated weakness (AUTOIMPLEMENT): Presenting data from a mobile backup as complete, when it is in reality a partial set (DFW-1037) [`2953d6f`](https://github.com/SOLVE-IT-DF/solve-it/commit/2953d6f)
+- **2026-09-15** Updated weakness (AUTOIMPLEMENT): Presenting data from a mobile backup as complete, when it is in reality a partial set (DFW-1037) [`2953d6f`](https://github.com/SOLVE-IT-DF/solve-it/commit/2953d6f)
+- **2026-09-15** Updated weakness (AUTOIMPLEMENT): Presenting data from a mobile backup as complete, when it is in reality a partial set (DFW-1037) [`2953d6f`](https://github.com/SOLVE-IT-DF/solve-it/commit/2953d6f)
 - **2026-09-15** Updated technique (AUTOIMPLEMENT): Reconstruct that a specific event may have occurred (DFT-1155) [`ba56e3a`](https://github.com/SOLVE-IT-DF/solve-it/commit/ba56e3a)
 - **2026-09-15** Updated technique (AUTOIMPLEMENT): Reconstruct that a specific event may have occurred (DFT-1155) [`ba56e3a`](https://github.com/SOLVE-IT-DF/solve-it/commit/ba56e3a)
 - **2026-09-15** Updated technique (AUTOIMPLEMENT): Reconstruct that a specific event may have occurred (DFT-1155) [`ba56e3a`](https://github.com/SOLVE-IT-DF/solve-it/commit/ba56e3a)

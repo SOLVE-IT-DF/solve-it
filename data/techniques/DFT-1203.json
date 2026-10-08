@@ -52,5 +52,10 @@
         "https://ontology.unifiedcyberontology.org/uco/core/Annotation",
         "https://ontology.solveit-df.org/solveit/analysis/HypothesisedRelationship"
     ],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1169",
+            "relevance_summary_280": "Proposes a methodology and public Windows 11 timeline dataset with ground truth for quantitatively evaluating LLM-based querying of forensic timeline data, with a ChatGPT case study (Sections 3-4)."
+        }
+    ]
 }

@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1456",
+    "name": "The decoded value is incorrect because the incorrect data type was applied for decoding",
+    "description": "For example a string was decoded as an integer - e.g. \"61 3A\" was decoded as integer 14945 rather than \"a:\" ",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1351"
+    ],
+    "references": []
+}

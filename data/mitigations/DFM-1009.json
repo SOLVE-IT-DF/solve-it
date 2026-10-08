@@ -1,5 +1,7 @@
 {
     "id": "DFM-1009",
     "name": "Check hash of image matches hash of source material",
+    "description": "This mitigation refers to checking the hash of a source *material* and differs from M1004 which refers to source *device*. \n\nThis differs based on whether data on a device needs to be hashed for verification, or a piece of data needs to be hashed (e.g. imaging a raw dd to a forensic container format).",
+    "technique": null,
     "references": []
 }

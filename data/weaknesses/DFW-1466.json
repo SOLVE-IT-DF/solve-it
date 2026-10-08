@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1466",
+    "name": "The decoding of bytes into text is missing some characters because some bytes were skipped due to being unrepresentable with the decoding used",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1357"
+    ],
+    "references": []
+}

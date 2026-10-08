@@ -1,6 +1,6 @@
 {
     "id": "DFW-1478",
-    "name": "The computed hash(s) stored within the forensic container is incorrect because of a software error in the tool used",
+    "name": "The computed hash(s) stored along with the forensic container is incorrect because of a software error in the tool used",
     "categories": [
         "ASTM_INAC_EX"
     ],

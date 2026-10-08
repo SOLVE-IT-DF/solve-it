@@ -1,0 +1,25 @@
+{
+    "id": "DFT-1206",
+    "name": "Decode a number from raw data",
+    "description": "The process of interpreting a sequence of bytes as a numeric value under an assumed width, signedness, and byte order.",
+    "synonyms": [],
+    "details": "Numeric decoding underlies most structured parsing, for example DFT-1191 (Parse allocated structures in Windows HIVE files), where values such as REG_DWORD and REG_QWORD are stored as raw integers. \n\nThis technique groups numbers together to include signed and unsigned, integers and floats, different endianness, and number of bytes considered in the decoding.\n\nNote that strings and timestamps are considered in separate techniques. \n",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1457",
+        "DFW-1458",
+        "DFW-1459",
+        "DFW-1460",
+        "DFW-1461",
+        "DFW-1462",
+        "DFW-1463",
+        "DFW-1464",
+        "DFW-1465"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ContentData"
+    ],
+    "CASE_output_classes": [],
+    "references": []
+}

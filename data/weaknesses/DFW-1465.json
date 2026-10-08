@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1465",
+    "name": "The floating point number decoded from some data is incorrect because the original value could not be fully represented within the bytes available",
+    "description": "For example some fraction that could not be represented exactly within 4 bytes",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1356"
+    ],
+    "references": []
+}

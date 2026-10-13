@@ -3327,8 +3327,13 @@ function renderMitigations() {{
 
 // ── Detail panel ─────────────────────────────────────────────────────
 function showDetail(id, type, skipHash) {{
-  // Push current selection onto history before navigating
-  if (S.selected) detailHistory.push({{...S.selected}});
+  // Push current selection onto history before navigating (re-selecting the open item doesn't count)
+  const dpBody = document.getElementById('dp-body');
+  const isSame = S.selected && S.selected.id === id && S.selected.type === type;
+  if (!isSame) {{
+    if (S.selected) detailHistory.push({{...S.selected, scroll: dpBody.scrollTop}});
+    dpBody.scrollTop = 0;
+  }}
   S.selected = {{id, type}};
   if (!skipHash) history.replaceState(null, '', '#' + id);
   // The topbar meta (ID + title) is plain selectable text, so it can be copied;
@@ -3352,6 +3357,9 @@ function showDetail(id, type, skipHash) {{
     document.getElementById('dp-name').textContent = truncName;
     document.getElementById('dp-objective').style.display = 'none';
     document.getElementById('dp-original-objective').style.display = 'none';
+    // Presentation view and the drag handle only apply to techniques
+    document.getElementById('dpPresent').classList.add('hidden');
+    document.getElementById('dpDrag').classList.add('hidden');
     const refBody2 = buildReferenceDetail(id, refData, cite);
     document.getElementById('dp-body').innerHTML = refBody2;
     window._dpFlatHtml = refBody2;
@@ -4107,83 +4115,10 @@ function closeDetail(skipHash) {{
 function goBack() {{
   const prev = detailHistory.pop();
   if (!prev) return closeDetail();
-  // Navigate without pushing to history (avoid showDetail's push)
-  S.selected = prev;
-  // Back-navigation also returns to narrow sidebar
-  document.getElementById('detailPanel').classList.remove('expanded', 'present');
-  if (typeof updateViewButtonTitles === 'function') updateViewButtonTitles();
-  updateSelectionHighlights();
-  updateBackButton();
-
-  // Reference goBack — early return branch
-  if (prev.type === 'reference') {{
-    const cite = CiteMap[prev.id];
-    if (!window._refMap) renderReferences();
-    const refData = (window._refMap || {{}})[prev.id];
-    if (!cite && !refData) return;
-    const truncName = (cite && cite.text) ? (cite.text.length > 80 ? cite.text.slice(0, 80).replace(/\\s\\S*$/, '') + '...' : cite.text) : prev.id;
-    document.getElementById('dp-id').innerHTML =
-      `<span style="color:#a78bfa">${{esc(prev.id)}}</span>
-       <span class="type-label">Reference</span>`;
-    document.getElementById('dp-name').textContent = truncName;
-    document.getElementById('dp-objective').style.display = 'none';
-    document.getElementById('dp-original-objective').style.display = 'none';
-    const refBody = buildReferenceDetail(prev.id, refData, cite);
-    document.getElementById('dp-body').innerHTML = refBody;
-    window._dpFlatHtml = refBody;
-    if (document.getElementById('detailPanel').classList.contains('expanded')) reorganizeForGrid();
-    return;
-  }}
-
-  const obj = prev.type === 'technique'  ? TMap[prev.id]
-            : prev.type === 'weakness'   ? WMap[prev.id]
-            : prev.type === 'mitigation' ? MMap[prev.id]
-            : null;
-  if (!obj) return;
-
-  const typeLabel = {{technique:'Technique',weakness:'Weakness',mitigation:'Mitigation'}}[prev.type]||prev.type;
-  const idColor   = {{technique:'#6eb4ff',weakness:'#f4a839',mitigation:'#4cba7c'}}[prev.type]||'#6eb4ff';
-  document.getElementById('dp-id').innerHTML =
-    `<span style="color:${{idColor}}">${{esc(prev.id)}}</span>
-     <span class="type-label">${{typeLabel}}</span>
-     ${{prev.type==='technique' ? statusBadge(techStatus(obj)) : ''}}`;
-  document.getElementById('dp-name').textContent = obj.name || '';
-
-  const dpObj2 = document.getElementById('dp-objective');
-  const dpOrigObj2 = document.getElementById('dp-original-objective');
-  if (prev.type === 'technique') {{
-    const _tobj = T2Obj[prev.id];
-    if (_tobj) {{
-      dpObj2.textContent = (CUSTOM_MODE ? 'Category: ' : 'Objective: ') + _tobj.name;
-      dpObj2.style.display = 'block';
-    }} else {{
-      dpObj2.style.display = 'none';
-    }}
-    const _origObj2 = ORIGINAL_T2Obj[prev.id];
-    if (CUSTOM_MODE && _origObj2) {{
-      dpOrigObj2.textContent = 'SOLVE-IT Objective: ' + _origObj2.name;
-      dpOrigObj2.style.display = 'block';
-    }} else {{
-      dpOrigObj2.style.display = 'none';
-    }}
-  }} else {{
-    dpObj2.style.display = 'none';
-    dpOrigObj2.style.display = 'none';
-  }}
-
-  const panel = document.getElementById('detailPanel');
-  if (prev.type !== 'technique') panel.classList.remove('present');
-  panel.classList.toggle('type-m', prev.type === 'mitigation');
-  document.getElementById('dpPresent').classList.toggle('hidden', prev.type !== 'technique');
-
-  let body = '';
-  if (prev.type === 'technique' && panel.classList.contains('present')) body = buildTechniquePresentationDetail(obj);
-  else if (prev.type === 'technique') body = buildTechniqueDetail(obj);
-  else if (prev.type === 'weakness') body = buildWeaknessDetail(obj);
-  else if (prev.type === 'mitigation') body = buildMitigationDetail(obj);
-  document.getElementById('dp-body').innerHTML = body;
-  window._dpFlatHtml = body;
-  if (panel.classList.contains('expanded')) reorganizeForGrid();
+  // Clear the selection so showDetail doesn't push it back onto history
+  S.selected = null;
+  showDetail(prev.id, prev.type);
+  document.getElementById('dp-body').scrollTop = prev.scroll || 0;
 }}
 
 function updateBackButton() {{

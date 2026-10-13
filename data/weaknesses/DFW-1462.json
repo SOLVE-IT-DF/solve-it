@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1462",
+    "name": "The floating point number decoded from some data is incorrect because the endianness used was incorrect",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1355"
+    ],
+    "references": []
+}

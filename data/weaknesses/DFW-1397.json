@@ -5,6 +5,8 @@
     "categories": [
         "ASTM_INAC_EX"
     ],
-    "mitigations": [],
+    "mitigations": [
+        "DFM-1366"
+    ],
     "references": []
 }

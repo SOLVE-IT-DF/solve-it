@@ -5,8 +5,6 @@
     "categories": [
         "ASTM_INAC_EX"
     ],
-    "mitigations": [
-        "DFM-1003"
-    ],
+    "mitigations": [],
     "references": []
 }

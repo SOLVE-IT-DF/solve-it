@@ -1,9 +1,20 @@
 {
     "id": "DFT-1112",
     "name": "Locate and remove physical disks from a device",
-    "description": "Locate physical storage media within devices and removing them",
-    "synonyms": [],
-    "details": "",
+    "description": "Locate the physical storage media inside a device and remove it, so that it can be connected to an examination system for acquisition.",
+    "synonyms": [
+        "Disk removal",
+        "Drive removal",
+        "Hard drive removal",
+        "Remove hard disk",
+        "Remove SSD",
+        "Storage media removal",
+        "Remove storage media",
+        "Physical disk extraction",
+        "Extract drive from device",
+        "Remove internal storage"
+    ],
+    "details": "This applies to devices such as desktop computers, laptops and servers where storage media is installed as a separate, detachable component. Examples include 2.5\" and 3.5\" SATA drives, M.2 SATA and NVMe SSDs, and mSATA drives.\n\nThe removed media is typically then connected via a hardware write blocker (DFT-1012), or connected directly (DFT-1166) with a software write blocker (DFT-1013).\n\nWhere storage is soldered to the motherboard, alternatives can be used e.g.,\n- Accessing the storage in place via a bootable environment (DFT-1113).\n- Removing the storage chip itself (DFT-1028).",
     "subtechniques": [],
     "examples": [],
     "weaknesses": [

@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1361",
+    "name": "Log any character substitutions made when decoding raw data to strings",
+    "references": []
+}

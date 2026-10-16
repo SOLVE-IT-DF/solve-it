@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1468",
+    "name": "The decoding of bytes into text is different to that which was stored because the incorrect decoding scheme was applied",
+    "categories": [
+        "ASTM_INAC_EX",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1359"
+    ],
+    "references": []
+}

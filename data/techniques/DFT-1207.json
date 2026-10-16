@@ -1,0 +1,25 @@
+{
+    "id": "DFT-1207",
+    "name": "Decode a string from raw data",
+    "description": "The process of decoding a sequence of bytes as text under an assumed character encoding.",
+    "synonyms": [
+        "text decoding"
+    ],
+    "details": "\n\n",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1466",
+        "DFW-1467",
+        "DFW-1468",
+        "DFW-1469",
+        "DFW-1470",
+        "DFW-1471",
+        "DFW-1472"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ContentData"
+    ],
+    "CASE_output_classes": [],
+    "references": []
+}

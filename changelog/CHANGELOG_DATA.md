@@ -2,6 +2,7 @@
 
 ## October 2026
 
+- **2026-10-16** Updated technique (AUTOIMPLEMENT): Collect data from cloud service via submission of request to service provider (DFT-1024) [`56333af`](https://github.com/SOLVE-IT-DF/solve-it/commit/56333af)
 - **2026-10-15** Updated weakness (AUTOIMPLEMENT): Cryptographic hash of the source data is incorrect because not all data was read from the device (DFW-1397) [`0679128`](https://github.com/SOLVE-IT-DF/solve-it/commit/0679128)
 - **2026-10-08** Updated weakness: The computed hash(s) stored along with the forensic container is incorrect because of a software error in the tool used (DFW-1478) [`2bb0b41`](https://github.com/SOLVE-IT-DF/solve-it/commit/2bb0b41)
 - **2026-10-08** Updated weakness: The examiner-entered metadata stored along with the forensic container is incorrect because the examiner entered the wrong details (DFW-1477) [`f006485`](https://github.com/SOLVE-IT-DF/solve-it/commit/f006485)

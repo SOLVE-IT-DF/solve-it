@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1365",
+    "name": "Check the number of bytes hashed from a source device matches the device's capacity",
+    "description": "Compare the number of bytes (or sectors) read and hashed against the capacity on the drive label or reported by the device. A shortfall indicates that the hash covers only part of the data on the device.",
+    "references": []
+}

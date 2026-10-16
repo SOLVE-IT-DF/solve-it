@@ -9,7 +9,8 @@
     "weaknesses": [],
     "CASE_input_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/OnlineService",
-        "https://ontology.unifiedcyberontology.org/uco/observable/accountIdentifier"
+        "https://ontology.unifiedcyberontology.org/uco/observable/accountIdentifier",
+        "https://ontology.caseontology.org/case/investigation/Authorization"
     ],
     "CASE_output_classes": [
         "https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile"

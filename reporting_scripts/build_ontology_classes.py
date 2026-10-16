@@ -12,11 +12,15 @@ rebuilt hourly; the ontologies change a few times a year. Fetching and parsing
 about thirty Turtle files on every build would make the hourly job slow and
 would make it fail whenever GitHub was briefly unreachable. So the output is
 checked in, and refreshed by running this script when a new CASE/UCO release
-is published.
+is published. The SOLVE-IT ontology changes far more often than that, so a push
+to its main branch that touches a module triggers
+`.github/workflows/refresh-ontology-classes.yml`, which runs this script against
+the pushed commit and commits the result.
 
 Usage:
     python3 reporting_scripts/build_ontology_classes.py
     python3 reporting_scripts/build_ontology_classes.py --uco-ref 1.5.0 --case-ref 1.5.0
+    python3 reporting_scripts/build_ontology_classes.py --solveit-ref <commit sha>
     python3 reporting_scripts/build_ontology_classes.py --output some/other/path.json
 """
 
@@ -34,10 +38,11 @@ except ImportError:  # pragma: no cover - dependency is declared in requirements
 
 UCO_REPO = "https://raw.githubusercontent.com/ucoProject/UCO"
 CASE_REPO = "https://raw.githubusercontent.com/casework/CASE"
-SOLVEIT_BASE = "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-ontology/main"
+SOLVEIT_REPO = "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-ontology"
 
 DEFAULT_UCO_REF = "1.5.0"
 DEFAULT_CASE_REF = "1.5.0"
+DEFAULT_SOLVEIT_REF = "main"
 
 # Descriptions are shown as one line of context under a search result, so the
 # full rdfs:comment is more than is needed and would roughly double the size of
@@ -91,7 +96,7 @@ CLASS_TYPES = {OWL.Class}
 PROPERTY_TYPES = {OWL.DatatypeProperty, OWL.ObjectProperty, RDF.Property}
 
 
-def source_urls(uco_ref, case_ref):
+def source_urls(uco_ref, case_ref, solveit_ref=DEFAULT_SOLVEIT_REF):
     """Return (url, source_label) pairs for every module to be fetched."""
     urls = []
     for path in UCO_MODULES:
@@ -99,7 +104,7 @@ def source_urls(uco_ref, case_ref):
     for path in CASE_MODULES:
         urls.append((f"{CASE_REPO}/{case_ref}/ontology/{path}", "CASE/UCO"))
     for path in SOLVEIT_MODULES:
-        urls.append((f"{SOLVEIT_BASE}/{path}", "SOLVE-IT"))
+        urls.append((f"{SOLVEIT_REPO}/{solveit_ref}/{path}", "SOLVE-IT"))
     return urls
 
 
@@ -151,11 +156,11 @@ def harvest(graph, source):
     return found
 
 
-def build(uco_ref, case_ref, verbose=True):
+def build(uco_ref, case_ref, solveit_ref=DEFAULT_SOLVEIT_REF, verbose=True):
     """Fetch every module and return the merged, sorted term list."""
     terms = {}
     failures = []
-    for url, source in source_urls(uco_ref, case_ref):
+    for url, source in source_urls(uco_ref, case_ref, solveit_ref):
         graph = Graph()
         try:
             graph.parse(url, format="turtle")
@@ -180,6 +185,11 @@ def main():
     parser = argparse.ArgumentParser(description="Build the baked-in ontology term list")
     parser.add_argument("--uco-ref", default=DEFAULT_UCO_REF, help=f"UCO release tag (default: {DEFAULT_UCO_REF})")
     parser.add_argument("--case-ref", default=DEFAULT_CASE_REF, help=f"CASE release tag (default: {DEFAULT_CASE_REF})")
+    # raw.githubusercontent.com caches a branch for a few minutes, so a build
+    # started straight after a push can read the previous version of `main`.
+    # The refresh workflow passes the pushed commit instead.
+    parser.add_argument("--solveit-ref", default=DEFAULT_SOLVEIT_REF,
+                        help=f"SOLVE-IT ontology branch, tag or commit (default: {DEFAULT_SOLVEIT_REF})")
     parser.add_argument("--output", default=None, help="Output JSON path (default: reporting_scripts/assets/ontology_classes.json)")
     parser.add_argument("--allow-partial", action="store_true",
                         help="Write the file even if some modules could not be fetched")
@@ -187,8 +197,8 @@ def main():
 
     output = Path(args.output) if args.output else Path(__file__).parent / "assets" / "ontology_classes.json"
 
-    print(f"Fetching UCO {args.uco_ref}, CASE {args.case_ref}, SOLVE-IT main")
-    terms, failures = build(args.uco_ref, args.case_ref)
+    print(f"Fetching UCO {args.uco_ref}, CASE {args.case_ref}, SOLVE-IT {args.solveit_ref}")
+    terms, failures = build(args.uco_ref, args.case_ref, args.solveit_ref)
 
     if failures and not args.allow_partial:
         print(f"\n{len(failures)} module(s) could not be fetched. Refusing to write a partial list.", file=sys.stderr)

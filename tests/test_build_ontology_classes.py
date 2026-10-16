@@ -117,6 +117,17 @@ class TestBuild(unittest.TestCase):
         terms, _ = self._run({solveit_url: graph_with((EX.Bitstream, RDF.type, OWL.Class))})
         self.assertEqual([t["source"] for t in terms], ["SOLVE-IT"])
 
+    def test_solveit_modules_default_to_main(self):
+        urls = [u for u, src in boc.source_urls("1.5.0", "1.5.0") if src == "SOLVE-IT"]
+        self.assertTrue(urls)
+        self.assertTrue(all(u.startswith(f"{boc.SOLVEIT_REPO}/main/") for u in urls))
+
+    def test_solveit_ref_pins_only_the_solveit_modules(self):
+        sha = "0123456789abcdef0123456789abcdef01234567"
+        urls = boc.source_urls("1.5.0", "1.5.0", sha)
+        self.assertTrue(all(f"/{sha}/" in u for u, src in urls if src == "SOLVE-IT"))
+        self.assertFalse(any(sha in u for u, src in urls if src != "SOLVE-IT"))
+
     def test_output_is_sorted_by_name(self):
         url = boc.source_urls("1.5.0", "1.5.0")[0][0]
         g = graph_with((EX.Zeta, RDF.type, OWL.Class), (EX.alpha, RDF.type, OWL.Class), (EX.Mid, RDF.type, OWL.Class))

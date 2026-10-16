@@ -31,10 +31,21 @@ python3 reporting_scripts/build_ontology_classes.py
 
 The viewer is rebuilt hourly and the ontologies change a few times a year, so
 fetching around thirty Turtle files on every build would make the hourly job
-slow and would fail it whenever GitHub was briefly unreachable. Run the script
-when a new CASE/UCO release is published, and pass `--uco-ref` / `--case-ref` to pin a
-different version. It refuses to write a partial list if any module fails to
-fetch, unless you pass `--allow-partial`.
+slow and would fail it whenever GitHub was briefly unreachable.
+
+The SOLVE-IT ontology changes often, so its refresh is automatic. A push to
+solve-it-ontology's main branch that touches a `solve_it_*.ttl` module sends a
+`repository_dispatch` event here (from its `notify-solve-it.yml`), and
+`.github/workflows/refresh-ontology-classes.yml` rebuilds the list from the
+pushed commit and commits it if anything changed. That needs the
+`SOLVE_IT_DISPATCH_TOKEN` secret on solve-it-ontology; if a new class is not
+showing up, check that workflow's runs there first.
+
+CASE/UCO releases are not automatic. When one is published, run the script with
+`--uco-ref` / `--case-ref`, or run the refresh workflow by hand after changing
+the defaults. `--solveit-ref` builds from a particular ontology branch or commit
+rather than `main`. The script refuses to write a partial list if any module
+fails to fetch, unless you pass `--allow-partial`.
 
 ## Tests
 

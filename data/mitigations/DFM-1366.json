@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1366",
+    "name": "Check the output of a tool hashing a source device for any read errors",
+    "description": "Review the output or log from the hashing tool for any read errors or skipped sectors on the source device. Any errors mean the hash may not cover all the data on the device.",
+    "references": []
+}

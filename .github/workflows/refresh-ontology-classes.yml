@@ -48,9 +48,12 @@ jobs:
           pip install -r requirements.txt
 
       # Passed through the environment, not interpolated into the script, so a
-      # ref cannot inject shell.
+      # ref cannot inject shell. GITHUB_TOKEN authenticates the GitHub API call
+      # that lists the ontology's modules: Actions runners share IP addresses,
+      # and anonymous calls are limited to 60 an hour per address.
       - name: Build ontology term list
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SOLVEIT_REF: ${{ github.event.client_payload.sha || inputs.solveit_ref || 'main' }}
         run: python reporting_scripts/build_ontology_classes.py --solveit-ref "$SOLVEIT_REF"
 

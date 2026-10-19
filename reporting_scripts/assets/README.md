@@ -41,6 +41,15 @@ pushed commit and commits it if anything changed. That needs the
 `SOLVE_IT_DISPATCH_TOKEN` secret on solve-it-ontology; if a new class is not
 showing up, check that workflow's runs there first.
 
+The SOLVE-IT modules are not listed in the script. It asks the GitHub API for
+the files in the ontology repository at the commit being built and reads every
+top-level `solve_it_*.ttl`, so a new module is picked up on the push that adds
+it. If that listing fails (no network, a bad ref, or the API's rate limit for
+anonymous calls, which is 60 an hour), the script writes nothing. It uses
+`GITHUB_TOKEN` from the environment when there is one; the workflow sets it.
+The UCO and CASE modules are still listed in the script, since they only change
+with a release.
+
 CASE/UCO releases are not automatic. When one is published, run the script with
 `--uco-ref` / `--case-ref`, or run the refresh workflow by hand after changing
 the defaults. `--solveit-ref` builds from a particular ontology branch or commit

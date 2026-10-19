@@ -18,6 +18,9 @@ from rdflib.namespace import SKOS
 
 EX = Namespace("https://example.org/ont/")
 
+# Stands in for the module list the GitHub API would return.
+MODULES = ["solve_it_core.ttl", "solve_it_analysis.ttl"]
+
 
 def graph_with(*triples):
     g = Graph()
@@ -97,7 +100,8 @@ class TestBuild(unittest.TestCase):
             for t in graphs_by_url.get(source, Graph()):
                 self.add(t)
             return self
-        with mock.patch.object(Graph, "parse", fake_parse):
+        with mock.patch.object(Graph, "parse", fake_parse), \
+                mock.patch.object(boc, "discover_solveit_modules", return_value=MODULES):
             return boc.build("1.5.0", "1.5.0", verbose=False)
 
     def test_first_module_wins_on_a_repeated_iri(self):
@@ -112,19 +116,19 @@ class TestBuild(unittest.TestCase):
         self.assertEqual([t["description"] for t in terms if t["name"] == "File"], ["defining module"])
 
     def test_solveit_modules_are_labelled_as_such(self):
-        urls = boc.source_urls("1.5.0", "1.5.0")
+        urls = boc.source_urls("1.5.0", "1.5.0", "main", MODULES)
         solveit_url = next(u for u, src in urls if src == "SOLVE-IT")
         terms, _ = self._run({solveit_url: graph_with((EX.Bitstream, RDF.type, OWL.Class))})
         self.assertEqual([t["source"] for t in terms], ["SOLVE-IT"])
 
     def test_solveit_modules_default_to_main(self):
-        urls = [u for u, src in boc.source_urls("1.5.0", "1.5.0") if src == "SOLVE-IT"]
-        self.assertTrue(urls)
+        urls = [u for u, src in boc.source_urls("1.5.0", "1.5.0", solveit_modules=MODULES) if src == "SOLVE-IT"]
+        self.assertEqual(len(urls), len(MODULES))
         self.assertTrue(all(u.startswith(f"{boc.SOLVEIT_REPO}/main/") for u in urls))
 
     def test_solveit_ref_pins_only_the_solveit_modules(self):
         sha = "0123456789abcdef0123456789abcdef01234567"
-        urls = boc.source_urls("1.5.0", "1.5.0", sha)
+        urls = boc.source_urls("1.5.0", "1.5.0", sha, MODULES)
         self.assertTrue(all(f"/{sha}/" in u for u, src in urls if src == "SOLVE-IT"))
         self.assertFalse(any(sha in u for u, src in urls if src != "SOLVE-IT"))
 
@@ -141,7 +145,60 @@ class TestBuild(unittest.TestCase):
         self.assertEqual([t["name"] for t in terms], ["File"])
 
 
+class TestSelectModules(unittest.TestCase):
+
+    def test_takes_every_module_and_nothing_else(self):
+        paths = ["solve_it_sqlite.ttl", "solve_it_new_module.ttl", "solve_it_core_shapes.ttl",
+                 "README.md", "catalog-v001.xml", "solve_it_core.ttl.bak", "other.ttl"]
+        self.assertEqual(sorted(boc.select_solveit_modules(paths)),
+                         ["solve_it_core_shapes.ttl", "solve_it_new_module.ttl", "solve_it_sqlite.ttl"])
+
+    def test_core_is_read_first_then_name_order(self):
+        paths = ["solve_it_sqlite.ttl", "solve_it_analysis.ttl", "solve_it_core.ttl"]
+        self.assertEqual(boc.select_solveit_modules(paths),
+                         ["solve_it_core.ttl", "solve_it_analysis.ttl", "solve_it_sqlite.ttl"])
+
+    def test_no_modules_is_an_error(self):
+        with self.assertRaises(ValueError):
+            boc.select_solveit_modules(["README.md"])
+
+
+class TestDiscover(unittest.TestCase):
+
+    def _discover(self, env):
+        response = mock.MagicMock()
+        response.__enter__.return_value = response
+        response.read.return_value = json.dumps({"tree": [
+            {"path": "solve_it_core.ttl", "type": "blob"},
+            {"path": "solve_it_x.ttl", "type": "tree"},
+            {"path": "docs", "type": "tree"},
+        ]}).encode()
+        with mock.patch.dict(os.environ, env, clear=True), \
+                mock.patch.object(boc.urllib.request, "urlopen", return_value=response) as urlopen:
+            modules = boc.discover_solveit_modules("abc123")
+        return modules, urlopen.call_args[0][0]
+
+    def test_lists_files_at_the_ref(self):
+        modules, request = self._discover({})
+        self.assertEqual(modules, ["solve_it_core.ttl"])
+        self.assertEqual(request.full_url, f"{boc.SOLVEIT_TREE_API}/abc123")
+        self.assertIsNone(request.get_header("Authorization"))
+
+    def test_sends_github_token_when_set(self):
+        _, request = self._discover({"GITHUB_TOKEN": "t0ken"})
+        self.assertEqual(request.get_header("Authorization"), "Bearer t0ken")
+
+
 class TestMain(unittest.TestCase):
+
+    def test_discovery_failure_writes_nothing_even_with_allow_partial(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            out = os.path.join(d, "ontology_classes.json")
+            with mock.patch.object(boc, "discover_solveit_modules", side_effect=OSError("rate limited")):
+                with mock.patch.object(sys, "argv", ["build_ontology_classes.py", "--output", out, "--allow-partial"]):
+                    self.assertEqual(boc.main(), 1)
+            self.assertFalse(os.path.exists(out))
 
     def test_refuses_to_write_a_partial_list_without_the_flag(self):
         with mock.patch.object(boc, "build", return_value=([], [("u", "err")])):

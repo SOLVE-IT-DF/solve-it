@@ -1,0 +1,31 @@
+{
+    "id": "DFT-1213",
+    "name": "Generate reference data by performing and recording actions",
+    "description": "The process of deliberately performing known actions on a system and recording exactly what was done, how and when, so that the record is ground truth for the traces those actions leave.",
+    "synonyms": [
+        "Create ground truth data",
+        "Generate activity-based reference data"
+    ],
+    "details": "Each recorded action is one piece of ground truth, for example \"file A copied to B by byte copy, between 10:02:03.120 and 10:02:03.141 on the recording host's clock\". Record the exact method used (system call, command or user-interface gesture), since different methods leave different traces, and the environment (operating system, version, drivers, hardware) and clock. The technique is commonly the first part of DFT-1090, followed by preserving the resulting data (DFT-1110, e.g. imaging the system) and analysing the traces; it is also used to build test data for tool testing and datasets, where the behaviour is already known. Its output is the record of the actions, not a conclusion about what traces they leave: working out which traces came from which action is part of DFT-1090.",
+    "subtechniques": [],
+    "examples": [
+        "Building a test image for tool testing by performing a planned sequence of file system operations on a test volume, recording each with its method, start and end times",
+        "Building a labelled dataset by performing scripted user-interface actions on an app in a virtual machine, each action recorded as it is performed",
+        "Automatically exercising an app after each update to generate reference data [DFCite-1034]"
+    ],
+    "weaknesses": [
+        "DFW-1148"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/action/ActionPattern"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/action/ActionLifecycle"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1034",
+            "relevance_summary_280": "Generates reference data automatically by performing app actions after every update, recording what was done: an example of generating ground truth at scale."
+        }
+    ]
+}

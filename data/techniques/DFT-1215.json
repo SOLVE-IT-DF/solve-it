@@ -1,0 +1,36 @@
+{
+    "id": "DFT-1215",
+    "name": "Store content in logical forensic container file(s)",
+    "description": "Storage of a set of files and their metadata within a logical forensic container format such as L01, AD1, CTR or AFF4-L.",
+    "synonyms": [
+        "Create logical image",
+        "Create logical evidence file",
+        "Write files to a logical image format",
+        "Store files in a logical container"
+    ],
+    "details": "Logical container formats store a selected set of files together with file system metadata such as paths, timestamps, sizes and other attributes. Depending on the format, they may also store hashes of individual files and case information. \n\nThis technique represents storage of files in a logical container, whereas DFT-1025 represents storage of bitstream data in a physical image format. The contents of the container are read back using DFT-1170.\n\nThis differs from a simple archive format e.g. DFT-1026 in that forensic specific additions are made e.g. storage of metadata, hashes or provenance, but it does not preclude an archive format being used for the container. \n\nFormats differ in which metadata they are able to record, so some metadata present on the source may not be retained in the container.",
+    "subtechniques": [],
+    "examples": [
+        "EnCase: can create logical evidence files (L01/Lx01) from selected files",
+        "FTK Imager: can create AD1 custom content images from selected files and folders",
+        "X-Ways Forensics: can create evidence file containers (.ctr)",
+        "AFF4-L: logical extension to AFF4 for storing files and their metadata (Cohen, Garfinkel and Schatz, 2009)"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/LogicalImageContainer"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1035",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1069",
+            "relevance_summary_280": ""
+        }
+    ]
+}

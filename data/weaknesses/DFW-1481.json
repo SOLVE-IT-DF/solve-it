@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1481",
+    "name": "Case-type keyword list includes common or ambiguous terms that cause relevant results to be lost among excessive irrelevant hits",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1032"
+    ],
+    "references": []
+}

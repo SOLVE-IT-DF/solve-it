@@ -1,0 +1,19 @@
+{
+    "id": "DFW-1485",
+    "name": "A reported value is interpreted incorrectly because its number base is not stated",
+    "description": "Values such as offsets, sector numbers and identifiers may be expressed in decimal or hexadecimal. A value containing only the digits 0-9 is valid in both bases, so a reader who assumes the wrong base derives a different number and may examine the wrong location or fail to match two references to the same item. Interpretation here means determining what a reported number denotes, not evaluative interpretation of findings.",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1371",
+        "DFM-1372"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1170",
+            "relevance_summary_280": "Provides an example showing that a value can be read as either decimal or hexadecimal, and argues that the number base must be reported with the value."
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "id": "DFM-1375",
+    "name": "State the reference point from which each reported offset is measured",
+    "description": "State whether each offset is measured from the start of the disk image, the start of a named partition, or the start of a named file, so the reader can locate the reported data.",
+    "references": [
+        {
+            "DFCite_id": "DFCite-1170",
+            "relevance_summary_280": "States that the point a position is measured from, such as the start of the disk image, should be reported for the location to be pinned down precisely."
+        }
+    ]
+}

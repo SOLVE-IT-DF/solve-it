@@ -2,6 +2,10 @@
 
 Describes features and tooling updates.
 
+### Slide badges from the Explorer (2026-10-28)
+
+Added a badge button to the detail panel of the HTML Explorer for techniques, weaknesses and mitigations. Clicking it opens a menu to copy the item's slide badge to the clipboard as a PNG, ready to paste into Keynote or other presentation software, in Automatic, Small or Wide size and at Standard, High or Maximum image quality. Dragging the button onto a slide inserts the default badge (Chrome and Edge). Badges are drawn in the browser from the item's ID and name, and the PNG is tagged so it pastes at the same point size on a 1920x1080 slide whatever its resolution.
+
 ### Citations in the combined JSON export (2026-10-28)
 
 The combined JSON export at data.solveit-df.org/solve-it.json now includes a `citations` section alongside techniques, weaknesses, mitigations and objectives. Each DFCite entry carries its raw BibTeX and plaintext, plus a Harvard-style display text, so consumers of the export can show references without parsing BibTeX themselves.

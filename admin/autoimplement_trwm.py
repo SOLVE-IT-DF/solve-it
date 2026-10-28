@@ -139,14 +139,20 @@ def extract_refs_map(comment_body):
     return {k: v for k, v in data.items() if DFCITE_FILE_RE.match(k)}
 
 
-def write_reference_file(project_root, cite_id, bibtex_text):
-    """Write a .bib file for a newly-assigned DFCite. Returns the path written."""
+def write_reference_file(project_root, cite_id, reference_text):
+    """Write the reference file for a newly-assigned DFCite. Returns the path written.
+
+    A submission may give a reference as BibTeX or as a plain-text citation.
+    BibTeX goes to .bib and anything else to .txt, because a plain-text .bib
+    file does not parse and its citation renders with empty display text.
+    """
     if not DFCITE_FILE_RE.match(cite_id):
         raise ValueError(f"Invalid DFCite ID: {cite_id}")
     refs_dir = os.path.join(project_root, "data", "references")
     os.makedirs(refs_dir, exist_ok=True)
-    path = os.path.join(refs_dir, f"{cite_id}.bib")
-    content = bibtex_text if bibtex_text.endswith("\n") else bibtex_text + "\n"
+    ext = ".bib" if reference_text.lstrip().startswith("@") else ".txt"
+    path = os.path.join(refs_dir, f"{cite_id}{ext}")
+    content = reference_text if reference_text.endswith("\n") else reference_text + "\n"
     with open(path, "w", encoding="utf-8") as f:
         f.write(content)
     return path
@@ -456,9 +462,9 @@ def main():
             if path:
                 written_files.append(path)
 
-        # 8b. Write new DFCite .bib files for freshly-minted references
-        for cite_id, bibtex in refs_to_write.items():
-            path = write_reference_file(write_root, cite_id, bibtex)
+        # 8b. Write new DFCite reference files for freshly-minted references
+        for cite_id, reference_text in refs_to_write.items():
+            path = write_reference_file(write_root, cite_id, reference_text)
             written_files.append(path)
 
         # 9. Update solve-it.json (skip for updates — technique already assigned)

@@ -2,7 +2,8 @@
 SOLVE-IT Knowledge Base Combined JSON Exporter
 
 This script generates a single combined JSON file containing all techniques,
-weaknesses, mitigations, and objectives from the SOLVE-IT knowledge base.
+weaknesses, mitigations, objectives, and citations from the SOLVE-IT
+knowledge base.
 
 Usage:
     python generate_combined_json_from_kb.py [-o OUTPUT_PATH]
@@ -41,11 +42,26 @@ def build_combined_json(kb):
 
     objectives = kb.list_objectives()
 
+    # Citations carry the raw BibTeX/plaintext plus the Harvard display text,
+    # so consumers do not need a BibTeX parser to show them. A .bib file that
+    # holds plain text does not parse, so its raw content is the fallback.
+    citations = {}
+    for cite_id in sorted(kb.citations):
+        citation = kb.get_citation(cite_id)
+        display_text = (kb.get_citation_display_text(cite_id)
+                        or citation.get("bibtex") or "")
+        citations[cite_id] = {
+            "bibtex": citation.get("bibtex"),
+            "plaintext": citation.get("plaintext"),
+            "display_text": display_text,
+        }
+
     return {
         "techniques": techniques,
         "weaknesses": weaknesses,
         "mitigations": mitigations,
         "objectives": objectives,
+        "citations": citations,
     }
 
 
@@ -83,7 +99,8 @@ def main():
             f"  Techniques: {len(combined['techniques'])}, "
             f"Weaknesses: {len(combined['weaknesses'])}, "
             f"Mitigations: {len(combined['mitigations'])}, "
-            f"Objectives: {len(combined['objectives'])}"
+            f"Objectives: {len(combined['objectives'])}, "
+            f"Citations: {len(combined['citations'])}"
         )
 
     except Exception as e:

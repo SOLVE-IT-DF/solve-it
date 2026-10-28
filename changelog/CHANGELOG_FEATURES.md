@@ -2,6 +2,10 @@
 
 Describes features and tooling updates.
 
+### Citations in the combined JSON export (2026-10-28)
+
+The combined JSON export at data.solveit-df.org/solve-it.json now includes a `citations` section alongside techniques, weaknesses, mitigations and objectives. Each DFCite entry carries its raw BibTeX and plaintext, plus a Harvard-style display text, so consumers of the export can show references without parsing BibTeX themselves.
+
 ### Editing items from the Explorer (2026-09-15)
 
 Added an edit form to the detail panel of the HTML Explorer, so a technique, weakness or mitigation can be revised in the page rather than by retyping its current values into a GitHub issue form. The form is prefilled from the item being viewed, offers the CASE, UCO and SOLVE-IT class lists when editing ontology input and output classes, and on submission opens an issue that the existing update pipeline previews as proposed JSON.

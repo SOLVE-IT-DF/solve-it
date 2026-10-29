@@ -7439,7 +7439,7 @@
   {
    "uri": "https://ontology.solveit-df.org/solveit/observable/recoveredFromPage",
    "name": "recoveredFromPage",
-   "description": "The page from which this record was physically recovered. Deliberately has no rdfs:domain. Where bytes were found is a fact about them, true whether or not the reconstruction they support turns out to be correct, so it must be assertable of a solveit-analysis:HypothesisedRecord as readily as of an o…",
+   "description": "The page from which this record was physically recovered. Where bytes were found is a fact about them, true whether or not the reconstruction they support turns out to be correct, so the property is used of a solveit-analysis:HypothesisedRecord. A live record is in a page rather than recovered from…",
    "source": "SOLVE-IT",
    "kind": "property"
   },

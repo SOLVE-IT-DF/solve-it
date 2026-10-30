@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1376",
+    "name": "State the reference point generally used in reporting offsets, and note exceptions",
+    "description": "State near the start of the report which point offsets are measured from unless marked otherwise, for example the start of the disk image, and identify the reference point for each offset that departs from it.",
+    "references": []
+}

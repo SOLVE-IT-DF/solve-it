@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1372",
+    "name": "State the number base generally used in reporting, and note exceptions",
+    "description": "State near the start of the report which number base values are given in unless marked otherwise, and mark each value that departs from it. This makes unmarked values unambiguous without annotating every one.",
+    "references": []
+}

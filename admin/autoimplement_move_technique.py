@@ -290,7 +290,7 @@ def main():
         print("Pushing branch...", file=sys.stderr)
         run(["git", "push", "-u", "origin", branch_name], cwd=project_root)
 
-        pr_title = f"Move technique: {technique_name} ({technique_id})"
+        pr_title = f"Move technique: {technique_name} ({technique_id}) by @{issue['user']['login']}"
 
         pr_lines = []
         pr_lines.append("> **This PR was auto-generated** from a move technique "

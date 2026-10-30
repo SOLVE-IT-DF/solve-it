@@ -154,9 +154,9 @@ If validation passes and the PR looks good, merge it. The issue will be automati
 
 TRWM submissions contain a complete technique with all its weaknesses and mitigations in a single issue. The ID assignment step assigns IDs for all items in bulk.
 
-**Bare BibTeX / plaintext references:** TRWM exports from the helper may include references as raw BibTeX (or plaintext) when the contributor hasn't picked an existing `DFCite` ID. The preview parser handles these in two stages:
+**Bare BibTeX / plaintext references:** TRWM exports from the helper may include references as raw BibTeX (or plaintext) when the contributor hasn't picked an existing `DFCite` ID. A new reference that carries a relevance summary arrives as `{"citation_text": "...", "relevance_summary_280": "..."}` rather than a bare string; it goes through the same two stages and keeps its summary. The preview parser handles these in two stages:
 
-1. **Strict auto-link** — if the bare reference matches an existing DFCite via URL, DOI, or normalised title + first-author surname + year, it is silently rewritten to `{"DFCite_id": "DFCite-XXXX", "relevance_summary_280": ""}`.
+1. **Strict auto-link** — if the bare reference matches an existing DFCite via URL, DOI, or normalised title + first-author surname + year, it is silently rewritten to `{"DFCite_id": "DFCite-XXXX", "relevance_summary_280": ""}` (with the submitted summary, if there was one).
 2. **Placeholder + near-miss candidates** — anything not confidently matched gets a `DFCite-____-N` placeholder, and the preview comment's "New references to review" section shows the original BibTeX plus any permissive near-miss candidates (title similarity ≥ 70%, same year + author, etc.).
 
 **What to check before `assigned ID`:**
@@ -164,7 +164,7 @@ TRWM submissions contain a complete technique with all its weaknesses and mitiga
 - If any *is* a duplicate, reject the submission: ask the contributor to resubmit from the Helper with the existing `DFCite-XXXX` typed into the reference row, rather than the raw citation text.
 - If no listed candidate matches (or the list is empty), the `assigned ID` label will mint new `DFCite-XXXX` IDs alongside the technique/weakness/mitigation IDs, and autoimplement will write `data/references/DFCite-XXXX.bib` as part of the PR.
 
-New DFCites created this way start with empty `relevance_summary_280` fields — contributors can fill those in later via a "Update DFCite relevance" issue.
+Where the contributor gave no relevance summary, the `relevance_summary_280` field is left empty — contributors can fill it in later via a "Update DFCite relevance" issue.
 
 ### DFCite relevance update
 

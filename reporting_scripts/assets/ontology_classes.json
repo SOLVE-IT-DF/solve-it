@@ -4042,6 +4042,13 @@
    "kind": "property"
   },
   {
+   "uri": "https://ontology.solveit-df.org/solveit/analysis/hasField",
+   "name": "hasField",
+   "description": "Links a hypothesised record to a decoded field value. It is deliberately not solveit-observable:hasField, whose rdfs:domain is solveit-observable:SQLiteRecord: rdfs:domain is an entailment rule rather than a usage restriction, so reusing that property would infer the hypothesis to be an observed rec…",
+   "source": "SOLVE-IT",
+   "kind": "property"
+  },
+  {
    "uri": "https://ontology.solveit-df.org/solveit/observable/hasField",
    "name": "hasField",
    "description": "Links a SQLite record to a field it contains.",
@@ -4135,7 +4142,7 @@
   {
    "uri": "https://ontology.solveit-df.org/solveit/analysis/hasHypothesis",
    "name": "hasHypothesis",
-   "description": "Links a HypothesisSet to a member Hypothesis it groups as a competing alternative.",
+   "description": "Links a HypothesisSet to a member Hypothesis it groups as a competing alternative. Members must be a Hypothesis or a subclass of one, which is enforced by HypothesisSetShape rather than by an rdfs:range. A range would state the requirement without enforcing it: rdfs:range is an entailment rule, so u…",
    "source": "SOLVE-IT",
    "kind": "property"
   },
@@ -4413,6 +4420,13 @@
    "kind": "class"
   },
   {
+   "uri": "https://ontology.solveit-df.org/solveit/analysis/HypothesisedConfiguration",
+   "name": "HypothesisedConfiguration",
+   "description": "A configuration proposed from the artefacts it left behind, where the configuration itself was never observed - as distinct from one read directly from a settings file or a live system. Settings are given with uco-configuration:configurationEntry and what was configured with uco-configuration:isConf…",
+   "source": "SOLVE-IT",
+   "kind": "class"
+  },
+  {
    "uri": "https://ontology.solveit-df.org/solveit/analysis/hypothesisedDateTime",
    "name": "hypothesisedDateTime",
    "description": "The date and time at which the hypothesised event is believed to have occurred - either an absolute timestamp (DateTimeStamp) or a time interval (DateTimeRange).",
@@ -4434,11 +4448,25 @@
    "kind": "class"
   },
   {
-   "uri": "https://ontology.solveit-df.org/solveit/analysis/HypothesisedRelationship",
-   "name": "HypothesisedRelationship",
-   "description": "A relationship between entities that is hypothesised to exist, such as an inferred association between persons, accounts, devices, or locations based on co-occurrence patterns, shared identifiers, or behavioural analysis.",
+   "uri": "https://ontology.solveit-df.org/solveit/analysis/HypothesisedRecord",
+   "name": "HypothesisedRecord",
+   "description": "A database record hypothesised to have existed, typically reconstructed from deallocated or partially overwritten storage such as freeblocks, unallocated page space, or freelist pages. The claim it makes is one of extent: that these bytes constituted one record, beginning and ending where the recons…",
    "source": "SOLVE-IT",
    "kind": "class"
+  },
+  {
+   "uri": "https://ontology.solveit-df.org/solveit/analysis/HypothesisedRelationship",
+   "name": "HypothesisedRelationship",
+   "description": "A relationship between entities that is hypothesised to exist. This covers inferred associations between persons, accounts, devices or locations - drawn from co-occurrence patterns, shared identifiers, or behavioural analysis - and also structural claims such as attributing a recovered database reco…",
+   "source": "SOLVE-IT",
+   "kind": "class"
+  },
+  {
+   "uri": "https://ontology.solveit-df.org/solveit/analysis/hypothesisedRowid",
+   "name": "hypothesisedRowid",
+   "description": "The rowid this record is believed to have had, where recovery preserved it. Freeblock recovery overwrites the cell header, so a rowid is often not available.",
+   "source": "SOLVE-IT",
+   "kind": "property"
   },
   {
    "uri": "https://ontology.solveit-df.org/solveit/analysis/hypothesisedServiceName",
@@ -4446,6 +4474,13 @@
    "description": "The name of the service or platform hypothesised to have been used (e.g. Google, WhatsApp, iMessage).",
    "source": "SOLVE-IT",
    "kind": "property"
+  },
+  {
+   "uri": "https://ontology.solveit-df.org/solveit/analysis/HypothesisedTableAttribution",
+   "name": "HypothesisedTableAttribution",
+   "description": "The claim that a recovered record belonged to a particular table. The record is the uco-core:source and the table the uco-core:target; neither is itself in doubt, only the link between them. Attribution rests on different grounds in different cases - a record recovered from a freeblock sits on a pag…",
+   "source": "SOLVE-IT",
+   "kind": "class"
   },
   {
    "uri": "https://ontology.solveit-df.org/solveit/analysis/HypothesisedUserAccount",
@@ -7255,6 +7290,13 @@
    "kind": "class"
   },
   {
+   "uri": "https://ontology.solveit-df.org/solveit/observable/providesAccessTo",
+   "name": "providesAccessTo",
+   "description": "The storage medium that this device interface gives access to. The interface is a way of reaching the medium, not the medium itself, so the medium's characteristics (model, serial number, capacity) are stated on the StorageMedium through its DeviceFacet and StorageMediumFacet, not on the interface.…",
+   "source": "SOLVE-IT",
+   "kind": "property"
+  },
+  {
    "uri": "https://ontology.solveit-df.org/solveit/tool-profile/publishedBy",
    "name": "publishedBy",
    "description": "The party that published this profile - a vendor, a testing programme, or a lab. An Identity rather than a name, for the reason hasCASEInputClass became an object property in 0.2.1: a party held in a string literal cannot be followed, cannot be shown to be the same party as one named elsewhere, and…",
@@ -7397,7 +7439,7 @@
   {
    "uri": "https://ontology.solveit-df.org/solveit/observable/recoveredFromPage",
    "name": "recoveredFromPage",
-   "description": "The page from which this record was physically recovered.",
+   "description": "The page from which this record was physically recovered. Where bytes were found is a fact about them, true whether or not the reconstruction they support turns out to be correct, so the property is used of a solveit-analysis:HypothesisedRecord. A live record is in a page rather than recovered from…",
    "source": "SOLVE-IT",
    "kind": "property"
   },
@@ -8223,7 +8265,7 @@
   {
    "uri": "https://ontology.solveit-df.org/solveit/core/SolveitInvestigativeAction",
    "name": "SolveitInvestigativeAction",
-   "description": "An investigative action performed as an instance of one or more SOLVE-IT techniques, recording any mitigations applied on that occasion (0..n via appliedMitigation). The technique(s) used are expressed by rdf:type against the technique class(es), not by a separate property.",
+   "description": "An investigative action, which may be done or performed, as an instance of one or more SOLVE-IT techniques, recording any mitigations applied on that occasion (0..n via appliedMitigation). The technique(s) used are expressed by rdf:type against the technique class(es), not by a separate property.",
    "source": "SOLVE-IT",
    "kind": "class"
   },
@@ -8853,7 +8895,7 @@
   {
    "uri": "https://ontology.solveit-df.org/solveit/core/Technique",
    "name": "Technique",
-   "description": "A digital forensic technique representing how one might achieve an objective by performing an action. Based on the SOLVE-IT knowledge base. This class is a metaclass: its instances are owl:Class entities whose own instances are performed investigative actions.",
+   "description": "A digital forensic technique representing how one might achieve an objective by performing an action. Based on the SOLVE-IT knowledge base. This class is a metaclass: its instances are owl:Class entities whose own instances are investigative actions, planned or performed.",
    "source": "SOLVE-IT",
    "kind": "class"
   },
@@ -10200,6 +10242,13 @@
    "description": "A write blocker is a device that allows read-only access to storage mediums in order to preserve the integrity of the data being analyzed. Examples include Tableau, Cellibrite, Talon, etc.",
    "source": "CASE/UCO",
    "kind": "class"
+  },
+  {
+   "uri": "https://ontology.solveit-df.org/solveit/observable/writeProtectedBy",
+   "name": "writeProtectedBy",
+   "description": "The hardware device or configured software that applies write protection to this interface.",
+   "source": "SOLVE-IT",
+   "kind": "property"
   },
   {
    "uri": "https://ontology.solveit-df.org/solveit/observable/WriteProtectedDeviceInterface",

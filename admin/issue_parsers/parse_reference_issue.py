@@ -25,6 +25,7 @@ from solve_it_library.reference_matching import (
 
 # Valid item ID pattern for cite-in-items
 VALID_ITEM_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,6}$')
+ITEM_PREFIX_TO_DIR = {"DFT": "techniques", "DFW": "weaknesses", "DFM": "mitigations"}
 
 
 def parse_cite_in_items(raw_text):
@@ -69,16 +70,25 @@ def parse_cite_in_items(raw_text):
     return items, errors
 
 
+def lookup_item_name(item_id, project_root):
+    """Return the name of a technique/weakness/mitigation, or "" if unavailable."""
+    subdir = ITEM_PREFIX_TO_DIR.get(item_id.split("-")[0])
+    if subdir is None:
+        return ""
+    filepath = os.path.join(project_root, "data", subdir, f"{item_id}.json")
+    try:
+        with open(filepath, encoding="utf-8") as f:
+            return str(json.load(f).get("name", "")).replace("|", "\\|").strip()
+    except (OSError, ValueError):
+        return ""
+
+
 def validate_cite_items_exist(cite_items, project_root):
     """Check that each cited item's JSON file exists.
 
     Returns (valid_items, warnings).
     """
-    prefix_to_dir = {
-        "DFT": "techniques",
-        "DFW": "weaknesses",
-        "DFM": "mitigations",
-    }
+    prefix_to_dir = ITEM_PREFIX_TO_DIR
     valid = []
     warnings = []
 
@@ -184,13 +194,14 @@ def build_comment(fields, project_root):
                     lines.append("")
 
                 if cite_items:
-                    lines.append("| Item | Relevance summary | Status |")
-                    lines.append("|---|---|---|")
+                    lines.append("| Item | Name | Relevance summary | Status |")
+                    lines.append("|---|---|---|---|")
                     valid_ids = {i["item_id"] for i in valid_items}
                     for item in cite_items:
                         status = "Found" if item["item_id"] in valid_ids else "Not found"
                         lines.append(
                             f"| `{item['item_id']}` "
+                            f"| {lookup_item_name(item['item_id'], project_root)} "
                             f"| {item['relevance_summary']} "
                             f"| {status} |"
                         )

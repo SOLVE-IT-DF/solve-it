@@ -1,0 +1,21 @@
+{
+    "id": "DFT-1210",
+    "name": "Obtain approval for a digital forensic activity",
+    "description": "Obtain the legal or organisational authorisation required before a digital forensic activity can be carried out, e.g. a search warrant, production order or internal sign-off.",
+    "synonyms": [
+        "Obtain a search warrant",
+        "Obtain a production order",
+        "Obtain authorisation"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "Search warrant application approved by a magistrate (US)"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.caseontology.org/case/investigation/Authorization"
+    ],
+    "references": []
+}

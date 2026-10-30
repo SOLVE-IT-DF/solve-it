@@ -1,0 +1,23 @@
+{
+    "id": "DFT-1209",
+    "name": "Extract artifacts from data provided by a service provider",
+    "description": "Parse data supplied by an online service provider into artifacts such as messages, accounts, contacts and events.",
+    "synonyms": [
+        "Warrant return processing",
+        "Search warrant return",
+        "Production order response",
+        "Legal process return"
+    ],
+    "details": "Covers data supplied to law enforcement in response to legal process (see DFT-1024) and data supplied by the provider to the account holder, e.g. Google Takeout or Meta 'Download Your Information'. Formats and field meanings differ between providers and change over time.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/ArchiveFile",
+        "https://ontology.solveit-df.org/solveit/observable/FileSet"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet"
+    ],
+    "references": []
+}

@@ -366,7 +366,7 @@ def main():
         print("Pushing branch...", file=sys.stderr)
         run(["git", "push", "-u", "origin", branch_name], cwd=project_root)
 
-        pr_title = f"Update {type_label}: {item_name} ({item_id})"
+        pr_title = f"Update {type_label}: {item_name} ({item_id}) by @{issue['user']['login']}"
 
         # Build PR body
         change_summary = build_change_summary(current, proposed)

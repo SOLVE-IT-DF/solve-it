@@ -12,17 +12,24 @@ rebuilt hourly; the ontologies change a few times a year. Fetching and parsing
 about thirty Turtle files on every build would make the hourly job slow and
 would make it fail whenever GitHub was briefly unreachable. So the output is
 checked in, and refreshed by running this script when a new CASE/UCO release
-is published.
+is published. The SOLVE-IT ontology changes far more often than that, so a push
+to its main branch that touches a module triggers
+`.github/workflows/refresh-ontology-classes.yml`, which runs this script against
+the pushed commit and commits the result.
 
 Usage:
     python3 reporting_scripts/build_ontology_classes.py
     python3 reporting_scripts/build_ontology_classes.py --uco-ref 1.5.0 --case-ref 1.5.0
+    python3 reporting_scripts/build_ontology_classes.py --solveit-ref <commit sha>
     python3 reporting_scripts/build_ontology_classes.py --output some/other/path.json
 """
 
 import argparse
+import fnmatch
 import json
+import os
 import sys
+import urllib.request
 from pathlib import Path
 
 try:
@@ -34,10 +41,12 @@ except ImportError:  # pragma: no cover - dependency is declared in requirements
 
 UCO_REPO = "https://raw.githubusercontent.com/ucoProject/UCO"
 CASE_REPO = "https://raw.githubusercontent.com/casework/CASE"
-SOLVEIT_BASE = "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-ontology/main"
+SOLVEIT_REPO = "https://raw.githubusercontent.com/SOLVE-IT-DF/solve-it-ontology"
+SOLVEIT_TREE_API = "https://api.github.com/repos/SOLVE-IT-DF/solve-it-ontology/git/trees"
 
 DEFAULT_UCO_REF = "1.5.0"
 DEFAULT_CASE_REF = "1.5.0"
+DEFAULT_SOLVEIT_REF = "main"
 
 # Descriptions are shown as one line of context under a search result, so the
 # full rdfs:comment is more than is needed and would roughly double the size of
@@ -70,36 +79,70 @@ CASE_MODULES = [
     "vocabulary/vocabulary.ttl",
 ]
 
-# SOLVE-IT ontology modules, as paths from the repository root. The knowledge
-# base graph (`docs/data/solve-it-kb.ttl`) is deliberately absent: it holds
+# SOLVE-IT ontology modules are not listed here: they are discovered at build
+# time as every top-level file matching this pattern, so a new module is picked
+# up without a change to this script. It is the same pattern the ontology's
+# notify-solve-it.yml watches. The knowledge base graph
+# (`docs/data/solve-it-kb.ttl`) does not match, which is deliberate: it holds
 # instances of techniques and weaknesses, not classes a technique can take as
-# input or produce as output.
-SOLVEIT_MODULES = [
-    "solve_it_core.ttl",
-    "solve_it_analysis.ttl",
-    "solve_it_observable.ttl",
-    "solve_it_observable_acquisition.ttl",
-    "solve_it_observable_search.ttl",
-    "solve_it_observable_shapes.ttl",
-    "solve_it_observable_timeline.ttl",
-    "solve_it_sqlite.ttl",
-    "solve_it_tool_profile.ttl",
-    "solve_it_weakness_assessment.ttl",
-]
+# input or produce as output. The `*_shapes.ttl` modules do match; they declare
+# no classes or properties of their own, so they add nothing to the list.
+SOLVEIT_MODULE_PATTERN = "solve_it_*.ttl"
+
+# Read first, so that when another module repeats one of its IRIs the defining
+# module's description is kept. The rest follow in name order.
+SOLVEIT_FIRST_MODULE = "solve_it_core.ttl"
 
 CLASS_TYPES = {OWL.Class}
 PROPERTY_TYPES = {OWL.DatatypeProperty, OWL.ObjectProperty, RDF.Property}
 
 
-def source_urls(uco_ref, case_ref):
+class ModuleDiscoveryError(Exception):
+    """The SOLVE-IT ontology's module list could not be fetched."""
+
+
+def discover_solveit_modules(solveit_ref):
+    """List the SOLVE-IT ontology modules at `solveit_ref` through the GitHub API.
+
+    Raises on any failure. Falling back to a fixed list would quietly drop a new
+    module from the Explorer again, which is the problem this replaces.
+
+    Anonymous API calls are limited to 60 an hour per IP address, and GitHub
+    Actions runners share addresses, so a GITHUB_TOKEN in the environment is
+    sent when there is one. A run by hand needs no token.
+    """
+    request = urllib.request.Request(
+        f"{SOLVEIT_TREE_API}/{solveit_ref}",
+        headers={"Accept": "application/vnd.github+json"},
+    )
+    token = os.environ.get("GITHUB_TOKEN")
+    if token:
+        request.add_header("Authorization", f"Bearer {token}")
+    with urllib.request.urlopen(request, timeout=30) as response:
+        tree = json.load(response)
+    return select_solveit_modules(entry["path"] for entry in tree["tree"] if entry["type"] == "blob")
+
+
+def select_solveit_modules(paths):
+    """The module files among top-level `paths`, in the order they are read."""
+    modules = sorted(p for p in paths if fnmatch.fnmatchcase(p, SOLVEIT_MODULE_PATTERN))
+    if not modules:
+        raise ValueError(f"no files matching {SOLVEIT_MODULE_PATTERN} in the ontology repository")
+    if SOLVEIT_FIRST_MODULE in modules:
+        modules.remove(SOLVEIT_FIRST_MODULE)
+        modules.insert(0, SOLVEIT_FIRST_MODULE)
+    return modules
+
+
+def source_urls(uco_ref, case_ref, solveit_ref=DEFAULT_SOLVEIT_REF, solveit_modules=()):
     """Return (url, source_label) pairs for every module to be fetched."""
     urls = []
     for path in UCO_MODULES:
         urls.append((f"{UCO_REPO}/{uco_ref}/ontology/{path}", "CASE/UCO"))
     for path in CASE_MODULES:
         urls.append((f"{CASE_REPO}/{case_ref}/ontology/{path}", "CASE/UCO"))
-    for path in SOLVEIT_MODULES:
-        urls.append((f"{SOLVEIT_BASE}/{path}", "SOLVE-IT"))
+    for path in solveit_modules:
+        urls.append((f"{SOLVEIT_REPO}/{solveit_ref}/{path}", "SOLVE-IT"))
     return urls
 
 
@@ -151,11 +194,19 @@ def harvest(graph, source):
     return found
 
 
-def build(uco_ref, case_ref, verbose=True):
+def build(uco_ref, case_ref, solveit_ref=DEFAULT_SOLVEIT_REF, verbose=True):
     """Fetch every module and return the merged, sorted term list."""
     terms = {}
     failures = []
-    for url, source in source_urls(uco_ref, case_ref):
+    # Raised rather than recorded as a failure: without the module list there is
+    # nothing worth writing, even with --allow-partial. main() reports it.
+    try:
+        solveit_modules = discover_solveit_modules(solveit_ref)
+    except Exception as exc:  # network, rate limit, bad ref, or no modules
+        raise ModuleDiscoveryError(exc) from exc
+    if verbose:
+        print(f"  SOLVE-IT modules at {solveit_ref}: {', '.join(solveit_modules)}")
+    for url, source in source_urls(uco_ref, case_ref, solveit_ref, solveit_modules):
         graph = Graph()
         try:
             graph.parse(url, format="turtle")
@@ -180,6 +231,11 @@ def main():
     parser = argparse.ArgumentParser(description="Build the baked-in ontology term list")
     parser.add_argument("--uco-ref", default=DEFAULT_UCO_REF, help=f"UCO release tag (default: {DEFAULT_UCO_REF})")
     parser.add_argument("--case-ref", default=DEFAULT_CASE_REF, help=f"CASE release tag (default: {DEFAULT_CASE_REF})")
+    # raw.githubusercontent.com caches a branch for a few minutes, so a build
+    # started straight after a push can read the previous version of `main`.
+    # The refresh workflow passes the pushed commit instead.
+    parser.add_argument("--solveit-ref", default=DEFAULT_SOLVEIT_REF,
+                        help=f"SOLVE-IT ontology branch, tag or commit (default: {DEFAULT_SOLVEIT_REF})")
     parser.add_argument("--output", default=None, help="Output JSON path (default: reporting_scripts/assets/ontology_classes.json)")
     parser.add_argument("--allow-partial", action="store_true",
                         help="Write the file even if some modules could not be fetched")
@@ -187,8 +243,13 @@ def main():
 
     output = Path(args.output) if args.output else Path(__file__).parent / "assets" / "ontology_classes.json"
 
-    print(f"Fetching UCO {args.uco_ref}, CASE {args.case_ref}, SOLVE-IT main")
-    terms, failures = build(args.uco_ref, args.case_ref)
+    print(f"Fetching UCO {args.uco_ref}, CASE {args.case_ref}, SOLVE-IT {args.solveit_ref}")
+    try:
+        terms, failures = build(args.uco_ref, args.case_ref, args.solveit_ref)
+    except ModuleDiscoveryError as exc:
+        print(f"\nCould not list the SOLVE-IT ontology modules at {args.solveit_ref}: {exc}", file=sys.stderr)
+        print("Refusing to write the list without them.", file=sys.stderr)
+        return 1
 
     if failures and not args.allow_partial:
         print(f"\n{len(failures)} module(s) could not be fetched. Refusing to write a partial list.", file=sys.stderr)

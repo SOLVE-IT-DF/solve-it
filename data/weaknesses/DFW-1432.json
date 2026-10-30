@@ -8,5 +8,10 @@
     "mitigations": [
         "DFM-1336"
     ],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1171",
+            "relevance_summary_280": "Shows that ChatGPT misclassified default applications such as gedit and Firefox as atypical in Ubuntu 22.04 process listings, and flagged an SSH key as suspicious only because its comment field contained the word \"hacker\" (Section 8.2)."
+        }
+    ]
 }

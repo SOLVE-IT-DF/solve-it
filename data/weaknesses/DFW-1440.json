@@ -7,5 +7,10 @@
     "mitigations": [
         "DFM-1341"
     ],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1171",
+            "relevance_summary_280": "Shows that ChatGPT justified flagging an SSH key as suspicious by citing a non-existent \"username hacker\", although the word \"hacker\" appeared only in the key's comment field (Section 8.2)."
+        }
+    ]
 }

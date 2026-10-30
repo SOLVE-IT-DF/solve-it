@@ -18,6 +18,7 @@ jobs:
         || contains(github.event.issue.labels.*.name, 'content: update weakness')
         || contains(github.event.issue.labels.*.name, 'content: update mitigation')
       )
+      && !contains(github.event.issue.labels.*.name, 'trwm')
     runs-on: ubuntu-latest
 
     steps:

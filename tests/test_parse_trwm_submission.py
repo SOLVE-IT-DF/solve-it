@@ -260,6 +260,56 @@ class TestResolveBareReferences(unittest.TestCase):
         )
         self.assertEqual(placeholders, {})
 
+    def test_new_source_dict_keeps_relevance_on_placeholder(self):
+        root = self._make_project_root({})
+        trwm_data = {
+            "techniques": {
+                "DFT-temp-0001": {
+                    "id": "DFT-temp-0001",
+                    "references": [{
+                        "citation_text": "@article{foo2026, title={A totally new paper}, author={Foo, Bar}, year={2026}}",
+                        "relevance_summary_280": "Describes the technique",
+                    }],
+                }
+            },
+            "weaknesses": {},
+            "mitigations": {},
+        }
+        placeholders = resolve_bare_references(trwm_data, root)
+        refs = trwm_data["techniques"]["DFT-temp-0001"]["references"]
+        self.assertEqual(refs, [{
+            "DFCite_id": "DFCite-____-1",
+            "relevance_summary_280": "Describes the technique",
+        }])
+        self.assertTrue(placeholders["DFCite-____-1"]["text"].startswith("@article"))
+
+    def test_new_source_dict_keeps_relevance_on_strict_match(self):
+        bib = (
+            "@article{known, title={A digital forensic view of Windows 10 notifications}, "
+            "author={Domingues, P and Andrade, L}, year={2022}, journal={Forensic Sciences}}"
+        )
+        root = self._make_project_root({"DFCite-9001": ("bib", bib)})
+        trwm_data = {
+            "techniques": {
+                "DFT-temp-0001": {
+                    "id": "DFT-temp-0001",
+                    "references": [{
+                        "citation_text": bib,
+                        "relevance_summary_280": "Tests the artefact",
+                    }],
+                }
+            },
+            "weaknesses": {},
+            "mitigations": {},
+        }
+        placeholders = resolve_bare_references(trwm_data, root)
+        refs = trwm_data["techniques"]["DFT-temp-0001"]["references"]
+        self.assertEqual(refs, [{
+            "DFCite_id": "DFCite-9001",
+            "relevance_summary_280": "Tests the artefact",
+        }])
+        self.assertEqual(placeholders, {})
+
     def test_url_overlap_matches_existing(self):
         # URL-based strict match should fire via match_reference (not signature)
         root = self._make_project_root({

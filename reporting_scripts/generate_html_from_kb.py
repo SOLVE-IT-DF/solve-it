@@ -1759,6 +1759,19 @@ body.custom-mode .disabled-btn {{
   transition: var(--transition);
   position: relative;
 }}
+.badge-menu {{ display: none; position: fixed; z-index: 10000; width: 230px; padding: 6px;
+  background: #fff; color: var(--gray-900); border: 1px solid var(--gray-200); border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25); font-size: .85rem; }}
+.badge-menu.open {{ display: block; }}
+.badge-menu-h {{ padding: 6px 8px 2px; font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; color: var(--gray-500); }}
+.badge-menu button {{ display: block; width: 100%; text-align: left; padding: 6px 8px; border: 0; border-radius: 5px;
+  background: none; color: inherit; font: inherit; cursor: pointer; }}
+.badge-menu button:hover {{ background: var(--blue-pale); }}
+.badge-q b {{ display: block; font-weight: 600; }}
+.badge-q span {{ display: block; font-size: .72rem; color: var(--gray-500); }}
+.badge-q::before {{ content: ''; float: right; margin-top: 3px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--gray-300); }}
+.badge-q.active::before {{ background: var(--blue); border-color: var(--blue); }}
+.badge-menu-note {{ padding: 6px 8px 4px; font-size: .72rem; color: var(--gray-500); }}
 .detail-link:hover {{ background: rgba(255,255,255,.2); color: #fff; }}
 .detail-link.copied {{ background: var(--green); border-color: var(--green); color: #fff; }}
 .detail-link[draggable="true"] {{ cursor: pointer; }}
@@ -2481,6 +2494,20 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
       <button class="detail-link copylink" id="dpLink" title="Copy link (or drag onto a document for the URL)" draggable="true">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.715 6.542L3.343 7.914a3 3 0 104.243 4.243l1.828-1.829A3 3 0 008.586 5.5L8 6.086a1.002 1.002 0 00-.154.199 2 2 0 01.861 3.337L6.88 11.45a2 2 0 11-2.83-2.83l.793-.792a4.018 4.018 0 01-.128-1.287z"/><path d="M11.285 9.458l1.372-1.372a3 3 0 10-4.243-4.243L6.586 5.671A3 3 0 007.414 10.5l.586-.586a1.002 1.002 0 00.154-.199 2 2 0 01-.861-3.337L9.12 4.55a2 2 0 112.83 2.83l-.793.792c.112.42.155.855.128 1.287z"/></svg>
       </button>
+      <button class="detail-link" id="dpBadge" title="Slide badge: click for size and copy options, or drag onto a slide">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3.5A1.5 1.5 0 013.5 2h9A1.5 1.5 0 0114 3.5v9a1.5 1.5 0 01-1.5 1.5h-9A1.5 1.5 0 012 12.5v-9zM3.5 3a.5.5 0 00-.5.5V6h2.5V3h-2zM6.5 3v3H13V3.5a.5.5 0 00-.5-.5h-6zM13 7H6.5v6h6a.5.5 0 00.5-.5V7zM5.5 13V7H3v5.5a.5.5 0 00.5.5h2z"/></svg>
+      </button>
+      <div class="badge-menu" id="badgeMenu" role="menu">
+        <div class="badge-menu-h">Copy badge</div>
+        <button type="button" data-variant="auto">Automatic size</button>
+        <button type="button" data-variant="small">Small</button>
+        <button type="button" data-variant="wide">Wide</button>
+        <div class="badge-menu-h">Image quality</div>
+        <button type="button" class="badge-q" data-scale="2"><b>Standard</b><span>Fine for on-screen slides, smallest file</span></button>
+        <button type="button" class="badge-q" data-scale="4"><b>High</b><span>Sharp when projected or zoomed (default)</span></button>
+        <button type="button" class="badge-q" data-scale="8"><b>Maximum</b><span>Large file, for print or posters</span></button>
+        <div class="badge-menu-note" id="badgeMenuInfo"></div>
+      </div>
       <button class="detail-drag hidden" id="dpDrag" title="Drag this technique into the workflow builder, or onto a document for a reference" draggable="true">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.35"/><circle cx="10.5" cy="3" r="1.35"/><circle cx="5.5" cy="8" r="1.35"/><circle cx="10.5" cy="8" r="1.35"/><circle cx="5.5" cy="13" r="1.35"/><circle cx="10.5" cy="13" r="1.35"/></svg>
       </button>
@@ -3325,6 +3352,167 @@ function renderMitigations() {{
   `;
 }}
 
+// ── Slide badges (Keynote) ───────────────────────────────────────────
+// Draws the SOLVE-IT slide badge for an item as SVG, then rasterises it to PNG for the
+// clipboard (browsers cannot put PDF/SVG on the clipboard). Geometry, colours and icon
+// paths come from the SOLVE-IT-Resources-Slides-v5 template (1920x1080 deck).
+const BADGE = {{
+  styles: {{
+    technique:  {{panel: '#0A1B2D', label: '#0E7C93', icon: '#18B7D3', title: 'SOLVE-IT TECHNIQUE'}},
+    weakness:   {{panel: '#742631', label: '#B8323F', icon: '#F3A6AE', title: 'SOLVE-IT WEAKNESS'}},
+    mitigation: {{panel: '#145A44', label: '#1E7A55', icon: '#8FDDB8', title: 'SOLVE-IT MITIGATION'}}
+  }},
+  smallW: 439.2, wideW: 760, minH: 161.28, radius: 26.88, panelW: 136.8, panelR: 22.8,
+  textLeft: 167.3, textRightPad: 32, nameSize: 22, labelSize: 18, pitch: 26, ascent: 0.905, margin: 2,
+  icons: {{
+    objective: [
+      {{d: "M 82.141 47.859 C 89.953 55.668 89.953 68.332 82.141 76.141 C 74.332 83.953 61.668 83.953 53.859 76.141 C 46.047 68.332 46.047 55.668 53.859 47.859 C 61.668 40.047 74.332 40.047 82.141 47.859 Z M 82.141 47.859", fill: false, sw: 3.5}},
+      {{d: "M 75.070 54.930 C 78.977 58.836 78.977 65.164 75.070 69.070 C 71.164 72.977 64.836 72.977 60.930 69.070 C 57.023 65.164 57.023 58.836 60.930 54.930 C 64.836 51.023 71.164 51.023 75.070 54.930 Z M 75.070 54.930", fill: false, sw: 3.5}},
+      {{d: "M 72.242 57.758 C 74.586 60.102 74.586 63.898 72.242 66.242 C 69.898 68.586 66.102 68.586 63.758 66.242 C 61.414 63.898 61.414 60.102 63.758 57.758 C 66.102 55.414 69.898 55.414 72.242 57.758 Z M 72.242 57.758", fill: true, sw: 0}},
+      {{d: "M 66.000 50.000 L 69.000 50.000 L 69.000 32.000 L 66.000 32.000 Z M 66.000 50.000", fill: true, sw: 0}},
+      {{d: "M 66.000 92.000 L 69.000 92.000 L 69.000 74.000 L 66.000 74.000 Z M 66.000 92.000", fill: true, sw: 0}},
+      {{d: "M 38.000 63.000 L 56.000 63.000 L 56.000 60.000 L 38.000 60.000 Z M 38.000 63.000", fill: true, sw: 0}},
+      {{d: "M 80.000 63.000 L 98.000 63.000 L 98.000 60.000 L 80.000 60.000 Z M 80.000 63.000", fill: true, sw: 0}}
+    ],
+    technique: [
+      {{d: "M 91.742 41.617 C 99.234 49.109 99.234 61.254 91.742 68.742 C 84.254 76.234 72.109 76.234 64.617 68.742 C 57.129 61.254 57.129 49.109 64.617 41.617 C 72.109 34.129 84.254 34.129 91.742 41.617 Z M 91.742 41.617", fill: false, sw: 2.8}},
+      {{d: "M 63.129 68.734 L 66.062 71.664 C 66.465 72.070 66.465 72.727 66.062 73.133 L 52.133 87.062 C 51.727 87.465 51.070 87.465 50.664 87.062 L 47.734 84.129 C 47.328 83.723 47.328 83.066 47.734 82.664 L 61.664 68.734 C 62.066 68.328 62.723 68.328 63.129 68.734 Z M 63.129 68.734", fill: true, sw: 0}},
+      {{d: "M 66.000 47.812 L 87.773 47.812 L 87.773 46.000 L 66.000 46.000 Z M 66.000 47.812", fill: true, sw: 0}},
+      {{d: "M 66.000 54.812 L 90.883 54.812 L 90.883 53.000 L 66.000 53.000 Z M 66.000 54.812", fill: true, sw: 0}},
+      {{d: "M 66.000 62.812 L 84.145 62.812 L 84.145 61.000 L 66.000 61.000 Z M 66.000 62.812", fill: true, sw: 0}}
+    ],
+    weakness: [
+      {{d: "M 67.930 32.000 L 93.852 78.656 L 42.012 78.656 Z M 67.930 32.000", fill: false, sw: 3.5}},
+      {{d: "M 66.000 61.551 L 70.500 61.551 L 70.500 46.000 L 66.000 46.000 Z M 66.000 61.551", fill: true, sw: 0}},
+      {{d: "M 70.840 64.832 C 71.945 65.938 71.945 67.730 70.840 68.840 C 69.730 69.945 67.938 69.945 66.832 68.840 C 65.723 67.730 65.723 65.938 66.832 64.832 C 67.938 63.723 69.730 63.723 70.840 64.832 Z M 70.840 64.832", fill: true, sw: 0}}
+    ],
+    mitigation: [
+      {{d: "M 68.000 35.000 L 92.000 43.398 L 92.000 62.066 C 92.000 77.000 81.441 85.867 68.000 91.000 C 54.559 85.867 44.000 77.000 44.000 62.066 L 44.000 43.398 Z M 68.000 35.000", fill: false, sw: 3.5}}
+    ]
+  }}
+}};
+
+function badgeWrap(text, maxW, ctx) {{
+  const lines = [];
+  let cur = '';
+  for (const word of String(text).split(/\\s+/).filter(Boolean)) {{
+    const cand = cur ? cur + ' ' + word : word;
+    if (!cur || ctx.measureText(cand).width <= maxW) cur = cand;
+    else {{ lines.push(cur); cur = word; }}
+  }}
+  if (cur) lines.push(cur);
+  return lines;
+}}
+
+function badgeLayout(name, variant, ctx) {{
+  const build = (w, v) => {{
+    const lines = badgeWrap(name, w - BADGE.textLeft - BADGE.textRightPad, ctx);
+    const n = lines.length;
+    const h = Math.max(BADGE.minH, 58.1 + BADGE.pitch * n);
+    const first = n >= 4 ? 42.3 : 93.5 - BADGE.pitch * n / 2;
+    return {{w, h, lines, first, variant: v}};
+  }};
+  if (variant === 'small') return build(BADGE.smallW, 'small');
+  if (variant === 'wide') return build(BADGE.wideW, 'wide');
+  const small = build(BADGE.smallW, 'small');
+  return small.lines.length <= 3 ? small : build(BADGE.wideW, 'wide');
+}}
+
+function badgeSvg(type, id, name, variant) {{
+  const st = BADGE.styles[type];
+  if (!st) return null;
+  const ctx = document.createElement('canvas').getContext('2d');
+  ctx.font = 'bold ' + BADGE.nameSize + 'px Arial, Helvetica, sans-serif';
+  const L = badgeLayout(name || '', variant || 'auto', ctx);
+  const m = BADGE.margin, H = L.h;
+  const x = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const font = 'font-family="Arial, Helvetica, sans-serif" font-weight="bold"';
+  const idW = ctx.measureText(id).width;
+  let s = '<svg xmlns="http://www.w3.org/2000/svg" width="' + (L.w + 2 * m) + '" height="' + (H + 2 * m) +
+          '" viewBox="' + (-m) + ' ' + (-m) + ' ' + (L.w + 2 * m) + ' ' + (H + 2 * m) + '">';
+  s += '<rect width="' + L.w + '" height="' + H + '" rx="' + BADGE.radius + '" fill="#fff"/>';
+  s += '<rect width="' + BADGE.panelW + '" height="' + H + '" rx="' + BADGE.panelR + '" fill="' + st.panel +
+       '" stroke="' + st.panel + '" stroke-width="1.6"/>';
+  s += '<rect x="122.4" width="17.28" height="' + H + '" fill="' + st.panel + '"/>';
+  s += '<rect width="' + L.w + '" height="' + H + '" rx="' + BADGE.radius + '" fill="none" stroke="' + st.panel + '" stroke-width="1.8"/>';
+  s += '<g transform="translate(0 ' + ((H - BADGE.minH) / 2) + ')">';
+  for (const e of BADGE.icons[type]) {{
+    s += e.fill ? '<path d="' + e.d + '" fill="' + st.icon + '"/>'
+                : '<path d="' + e.d + '" fill="none" stroke="' + st.icon + '" stroke-width="' + e.sw + '"/>';
+  }}
+  s += '</g>';
+  const base = (top, size) => top + BADGE.ascent * size;
+  s += '<text x="' + BADGE.textLeft + '" y="' + base(15.3, BADGE.labelSize) + '" ' + font + ' font-size="' + BADGE.labelSize +
+       '" fill="' + st.label + '">' + st.title + '</text>';
+  L.lines.forEach((l, i) => {{
+    s += '<text x="' + BADGE.textLeft + '" y="' + base(L.first + i * BADGE.pitch, BADGE.nameSize) + '" ' + font +
+         ' font-size="' + BADGE.nameSize + '" fill="#0A1B2D">' + x(l) + '</text>';
+  }});
+  s += '<text x="' + (BADGE.panelW / 2 - idW / 2) + '" y="' + base(H - 37.8, BADGE.nameSize) + '" ' + font +
+       ' font-size="' + BADGE.nameSize + '" fill="#fff">' + x(id) + '</text>';
+  return s + '</svg>';
+}}
+
+// Tags the PNG with its pixel density (pHYs chunk) so Keynote pastes it at the badge's
+// point size on a 1920x1080 slide however many pixels it has.
+const CRC_TABLE = (() => {{
+  const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {{ let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; }}
+  return t;
+}})();
+function crc32(bytes) {{
+  let c = 0xFFFFFFFF;
+  for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}}
+function pngWithDpi(buf, scale) {{
+  const src = new Uint8Array(buf);
+  const ppm = Math.round(scale * 72 / 0.0254);
+  const chunk = new Uint8Array(21);                 // length(4) + 'pHYs'(4) + data(9) + crc(4)
+  const dv = new DataView(chunk.buffer);
+  dv.setUint32(0, 9);
+  chunk.set([0x70, 0x48, 0x59, 0x73], 4);
+  dv.setUint32(8, ppm); dv.setUint32(12, ppm); chunk[16] = 1;
+  dv.setUint32(17, crc32(chunk.subarray(4, 17)));
+  const out = new Uint8Array(src.length + 21);      // IHDR ends at byte 33
+  out.set(src.subarray(0, 33), 0); out.set(chunk, 33); out.set(src.subarray(33), 54);
+  return new Blob([out], {{type: 'image/png'}});
+}}
+
+function badgePngBlob(svg, scale) {{
+  return new Promise((resolve, reject) => {{
+    const img = new Image();
+    img.onload = () => {{
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * scale);
+      c.height = Math.round(img.height * scale);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(b => b ? b.arrayBuffer().then(ab => resolve(pngWithDpi(ab, scale))) : reject(new Error('PNG encode failed')), 'image/png');
+    }};
+    img.onerror = () => reject(new Error('SVG render failed'));
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }});
+}}
+
+const BADGE_SCALES = [2, 4, 8];
+function badgeScale() {{
+  try {{ const v = +localStorage.getItem('solveitBadgeScale'); if (BADGE_SCALES.includes(v)) return v; }} catch (e) {{}}
+  return 4;
+}}
+function setBadgeScale(v) {{ try {{ localStorage.setItem('solveitBadgeScale', v); }} catch (e) {{}} }}
+
+// Copies the badge for the open item to the clipboard as a PNG (default 4x pixels, tagged so it pastes at slide size).
+function copyBadge(variant, scale) {{
+  const sel = S.selected;
+  if (!sel) return Promise.resolve(false);
+  const obj = {{technique: TMap, weakness: WMap, mitigation: MMap}}[sel.type];
+  const item = obj && obj[sel.id];
+  const svg = item && badgeSvg(sel.type, sel.id, item.name, variant);
+  if (!svg) return Promise.resolve(false);
+  // Passing a promise keeps the user-gesture valid in Safari while the PNG renders.
+  return navigator.clipboard.write([new ClipboardItem({{'image/png': badgePngBlob(svg, scale || badgeScale())}})]).then(() => true);
+}}
+
 // ── Detail panel ─────────────────────────────────────────────────────
 function showDetail(id, type, skipHash) {{
   // Push current selection onto history before navigating (re-selecting the open item doesn't count)
@@ -3360,6 +3548,7 @@ function showDetail(id, type, skipHash) {{
     // Presentation view and the drag handle only apply to techniques
     document.getElementById('dpPresent').classList.add('hidden');
     document.getElementById('dpDrag').classList.add('hidden');
+    document.getElementById('dpBadge').classList.add('hidden');
     const refBody2 = buildReferenceDetail(id, refData, cite);
     document.getElementById('dp-body').innerHTML = refBody2;
     window._dpFlatHtml = refBody2;
@@ -3414,6 +3603,7 @@ function showDetail(id, type, skipHash) {{
   document.getElementById('dpPresent').classList.toggle('hidden', type !== 'technique');
   // The drag handle only applies to techniques (only they drop into the builder).
   document.getElementById('dpDrag').classList.toggle('hidden', type !== 'technique');
+  document.getElementById('dpBadge').classList.remove('hidden');
 
   let body = '';
 
@@ -4447,6 +4637,90 @@ document.addEventListener('click', function(e) {{
     setTimeout(() => {{ btn.classList.remove('copied'); btn.title = prevTitle; }}, 1500);
   }});
 }});
+
+(function() {{
+  const btn = document.getElementById('dpBadge');
+  const menu = document.getElementById('badgeMenu');
+  const defaultTitle = btn.title;
+  let suppressClick = false;
+
+  function flash(msg, ok) {{
+    btn.title = msg;
+    if (ok) btn.classList.add('copied');
+    setTimeout(() => {{ btn.classList.remove('copied'); btn.title = defaultTitle; }}, 1500);
+  }}
+  function doCopy(variant, scale) {{
+    copyBadge(variant, scale)
+      .then(ok => flash(ok ? 'Badge copied - paste into Keynote' : 'No badge for this item', ok))
+      .catch(() => flash('Could not copy badge (clipboard blocked?)', false));
+  }}
+  function closeMenu() {{ menu.classList.remove('open'); }}
+  function openMenu() {{
+    const cur = badgeScale();
+    menu.querySelectorAll('[data-scale]').forEach(b => b.classList.toggle('active', +b.dataset.scale === cur));
+    const sel = S.selected, maps = {{technique: TMap, weakness: WMap, mitigation: MMap}};
+    const item = sel && maps[sel.type] && maps[sel.type][sel.id];
+    if (item) {{
+      const ctx = document.createElement('canvas').getContext('2d');
+      ctx.font = 'bold ' + BADGE.nameSize + 'px Arial, Helvetica, sans-serif';
+      const L = badgeLayout(item.name || '', 'auto', ctx);
+      const w = Math.round(L.w + 2 * BADGE.margin), h = Math.round(L.h + 2 * BADGE.margin);
+      document.getElementById('badgeMenuInfo').textContent =
+        'This badge: ' + (w * cur) + ' \u00d7 ' + (h * cur) + ' px, pasted at ' + w + ' \u00d7 ' + h +
+        ' pt on a 1920\u00d71080 slide.';
+    }}
+    const r = btn.getBoundingClientRect();
+    menu.style.top = (r.bottom + 6) + 'px';
+    menu.style.right = Math.max(8, window.innerWidth - r.right) + 'px';
+    menu.classList.add('open');
+  }}
+
+  // A click opens the menu; dragging the button inserts the default badge (Automatic size, chosen quality).
+  btn.addEventListener('click', () => {{
+    if (suppressClick) {{ suppressClick = false; return; }}
+    menu.classList.contains('open') ? closeMenu() : openMenu();
+  }});
+
+  // Drag the badge onto a Keynote slide (Chrome/Edge): the PNG is prepared ahead of the drag
+  // because dragstart must hand over its data synchronously.
+  let ready = null;                                 // {{key, url, name}}
+  function prepareDrag() {{
+    const sel = S.selected;
+    if (!sel || sel.type === 'reference') return;
+    const key = sel.id + '|' + badgeScale();
+    if (ready && ready.key === key) return;
+    const item = ({{technique: TMap, weakness: WMap, mitigation: MMap}})[sel.type][sel.id];
+    const svg = item && badgeSvg(sel.type, sel.id, item.name, 'auto');
+    if (!svg) return;
+    badgePngBlob(svg, badgeScale()).then(b => {{
+      const fr = new FileReader();
+      fr.onload = () => {{ ready = {{key, url: fr.result, name: 'SOLVE-IT-' + sel.id + '.png'}}; }};
+      fr.readAsDataURL(b);
+    }});
+  }}
+  btn.draggable = true;
+  ['pointerenter', 'focus', 'pointerdown'].forEach(ev => btn.addEventListener(ev, prepareDrag));
+  btn.addEventListener('dragstart', e => {{
+    closeMenu();
+    const sel = S.selected;
+    if (!ready || !sel || ready.key !== sel.id + '|' + badgeScale()) {{ e.preventDefault(); return; }}
+    e.dataTransfer.effectAllowed = 'copy';
+    e.dataTransfer.setData('DownloadURL', 'image/png:' + ready.name + ':' + ready.url);
+    suppressClick = true;
+    setTimeout(() => {{ suppressClick = false; }}, 300);
+  }});
+
+  menu.addEventListener('click', e => {{
+    const s = e.target.closest('[data-scale]');
+    if (s) {{ setBadgeScale(+s.dataset.scale); openMenu(); return; }}
+    const v = e.target.closest('[data-variant]');
+    if (v) {{ closeMenu(); doCopy(v.dataset.variant); }}
+  }});
+  document.addEventListener('pointerdown', e => {{
+    if (!menu.contains(e.target) && !btn.contains(e.target)) closeMenu();
+  }});
+  document.addEventListener('keydown', e => {{ if (e.key === 'Escape') closeMenu(); }});
+}})();
 
 // Delegated click handler for sortable column headers
 document.addEventListener('click', function(e) {{

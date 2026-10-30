@@ -148,6 +148,10 @@ def resolve_bare_references(trwm_data, project_root):
         text + permissive candidate matches for reviewer display, and substitute
         ``{"DFCite_id": "DFCite-____-N", "relevance_summary_280": ""}``.
 
+    A dict reference with ``citation_text`` but no ``DFCite_id`` (a new
+    source the helper exported with its relevance summary) is resolved the
+    same way, keeping its ``relevance_summary_280``.
+
     Identical bare strings are deduped to the same placeholder.
 
     Returns:
@@ -174,12 +178,17 @@ def resolve_bare_references(trwm_data, project_root):
                 continue
             new_refs = []
             for r in refs:
+                relevance = ""
                 if isinstance(r, dict):
-                    new_refs.append(r)
+                    if r.get("DFCite_id") or not r.get("citation_text"):
+                        new_refs.append(r)
+                        continue
+                    text = str(r["citation_text"]).strip()
+                    relevance = (r.get("relevance_summary_280") or "").strip()
+                elif isinstance(r, str):
+                    text = r.strip()
+                else:
                     continue
-                if not isinstance(r, str):
-                    continue
-                text = r.strip()
                 if not text:
                     continue
 
@@ -188,7 +197,7 @@ def resolve_bare_references(trwm_data, project_root):
                     cite_id, _ = match
                     new_refs.append({
                         "DFCite_id": cite_id,
-                        "relevance_summary_280": "",
+                        "relevance_summary_280": relevance,
                     })
                     continue
 
@@ -210,7 +219,7 @@ def resolve_bare_references(trwm_data, project_root):
                     }
                 new_refs.append({
                     "DFCite_id": placeholder,
-                    "relevance_summary_280": "",
+                    "relevance_summary_280": relevance,
                 })
             item["references"] = new_refs
 

@@ -7439,7 +7439,7 @@
   {
    "uri": "https://ontology.solveit-df.org/solveit/observable/recoveredFromPage",
    "name": "recoveredFromPage",
-   "description": "The page from which this record was physically recovered. Deliberately has no rdfs:domain. Where bytes were found is a fact about them, true whether or not the reconstruction they support turns out to be correct, so it must be assertable of a solveit-analysis:HypothesisedRecord as readily as of an o…",
+   "description": "The page from which this record was physically recovered. Where bytes were found is a fact about them, true whether or not the reconstruction they support turns out to be correct, so the property is used of a solveit-analysis:HypothesisedRecord. A live record is in a page rather than recovered from…",
    "source": "SOLVE-IT",
    "kind": "property"
   },
@@ -8265,7 +8265,7 @@
   {
    "uri": "https://ontology.solveit-df.org/solveit/core/SolveitInvestigativeAction",
    "name": "SolveitInvestigativeAction",
-   "description": "An investigative action performed as an instance of one or more SOLVE-IT techniques, recording any mitigations applied on that occasion (0..n via appliedMitigation). The technique(s) used are expressed by rdf:type against the technique class(es), not by a separate property.",
+   "description": "An investigative action, which may be done or performed, as an instance of one or more SOLVE-IT techniques, recording any mitigations applied on that occasion (0..n via appliedMitigation). The technique(s) used are expressed by rdf:type against the technique class(es), not by a separate property.",
    "source": "SOLVE-IT",
    "kind": "class"
   },
@@ -8895,7 +8895,7 @@
   {
    "uri": "https://ontology.solveit-df.org/solveit/core/Technique",
    "name": "Technique",
-   "description": "A digital forensic technique representing how one might achieve an objective by performing an action. Based on the SOLVE-IT knowledge base. This class is a metaclass: its instances are owl:Class entities whose own instances are performed investigative actions.",
+   "description": "A digital forensic technique representing how one might achieve an objective by performing an action. Based on the SOLVE-IT knowledge base. This class is a metaclass: its instances are owl:Class entities whose own instances are investigative actions, planned or performed.",
    "source": "SOLVE-IT",
    "kind": "class"
   },

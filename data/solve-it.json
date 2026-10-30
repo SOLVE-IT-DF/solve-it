@@ -6,7 +6,8 @@
         "description": "Conduct activities in preparation of conducting a digital investigation",
         "techniques": [
             "DFT-1110",
-            "DFT-1213"
+            "DFT-1213",
+            "DFT-1211"
         ],
         "references": []
     },

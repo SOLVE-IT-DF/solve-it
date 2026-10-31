@@ -2,8 +2,11 @@
 
 ## October 2026
 
+- **2026-10-22** Added technique (AUTOIMPLEMENT): Store content in logical forensic container file(s) (DFT-1215) [`70a5fb0`](https://github.com/SOLVE-IT-DF/solve-it/commit/70a5fb0)
 - **2026-10-20** Added technique (AUTOIMPLEMENT): Generate reference data by performing and recording actions (DFT-1213) [`c534411`](https://github.com/SOLVE-IT-DF/solve-it/commit/c534411)
 - **2026-10-19** Added technique (TRWM): Create a case-specific keyword list (DFT-1212) [`ee0382f`](https://github.com/SOLVE-IT-DF/solve-it/commit/ee0382f)
+- **2026-10-19** Added technique (TRWM): Create a case-specific keyword list (DFT-1212) [`ee0382f`](https://github.com/SOLVE-IT-DF/solve-it/commit/ee0382f)
+- **2026-10-19** Added technique (TRWM): Create a case-type keyword list (DFT-1211) [`663d266`](https://github.com/SOLVE-IT-DF/solve-it/commit/663d266)
 - **2026-10-19** Added technique (TRWM): Create a case-type keyword list (DFT-1211) [`663d266`](https://github.com/SOLVE-IT-DF/solve-it/commit/663d266)
 - **2026-10-16** Added technique (AUTOIMPLEMENT): Obtain approval for a digital forensic activity (DFT-1210) [`1108715`](https://github.com/SOLVE-IT-DF/solve-it/commit/1108715)
 - **2026-10-16** Added technique (AUTOIMPLEMENT): Obtain approval for a digital forensic activity (DFT-1210) [`1108715`](https://github.com/SOLVE-IT-DF/solve-it/commit/1108715)
@@ -55,6 +58,7 @@
 - **2026-10-15** Updated technique: Conflate specific account identifiers to a single user identity (DFT-1085) [`a739e85`](https://github.com/SOLVE-IT-DF/solve-it/commit/a739e85)
 - **2026-10-15** Updated technique: Conflate specific account identifiers to a single user identity (DFT-1085) [`a739e85`](https://github.com/SOLVE-IT-DF/solve-it/commit/a739e85)
 - **2026-10-15** Updated technique: Conflate specific account identifiers to a single user identity (DFT-1085) [`a739e85`](https://github.com/SOLVE-IT-DF/solve-it/commit/a739e85)
+- **2026-10-15** Added mitigation (AUTOIMPLEMENT): Check the output of a tool hashing a source device for any read errors (DFM-1366) [`87662a6`](https://github.com/SOLVE-IT-DF/solve-it/commit/87662a6)
 - **2026-10-15** Added mitigation (AUTOIMPLEMENT): Check the output of a tool hashing a source device for any read errors (DFM-1366) [`87662a6`](https://github.com/SOLVE-IT-DF/solve-it/commit/87662a6)
 - **2026-10-15** Added mitigation (AUTOIMPLEMENT): Check the number of bytes hashed from a source device matches the device's capacity (DFM-1365) [`4458205`](https://github.com/SOLVE-IT-DF/solve-it/commit/4458205)
 - **2026-10-15** Added mitigation (AUTOIMPLEMENT): Check the number of bytes hashed from a source device matches the device's capacity (DFM-1365) [`4458205`](https://github.com/SOLVE-IT-DF/solve-it/commit/4458205)

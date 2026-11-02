@@ -18,6 +18,9 @@ import re
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'issue_parsers'))
+from parse_reference_issue import lookup_item_name
+
 
 # Strict ID patterns
 VALID_DFCITE_RE = re.compile(r'^DFCite-\d{4,6}$')
@@ -453,10 +456,11 @@ def main():
         if cite_results:
             pr_lines.append("## Cited in items")
             pr_lines.append("")
-            pr_lines.append("| Item | Status |")
-            pr_lines.append("|---|---|")
+            pr_lines.append("| Item | Name | Status |")
+            pr_lines.append("|---|---|---|")
             for item_id, status in cite_results:
-                pr_lines.append(f"| `{item_id}` | {status} |")
+                name = lookup_item_name(item_id, project_root)
+                pr_lines.append(f"| `{item_id}` | {name} | {status} |")
             pr_lines.append("")
 
         if relevance_results:

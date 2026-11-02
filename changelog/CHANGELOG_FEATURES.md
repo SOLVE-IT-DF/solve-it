@@ -2,9 +2,9 @@
 
 Describes features and tooling updates.
 
-### Slide badges as SVG or PNG from the Explorer (2026-11-02)
+### Slide badges from the Explorer (2026-11-02)
 
-The slide badge button in the detail panel of the HTML Explorer now offers a choice of badge shape (Auto, Standard or Wide) and file format. SVG is a vector file at the badge's size in points, so it needs no resizing in Keynote. PNG can be copied to the clipboard at Low quality, which pastes at the right size, or High quality, which has four times the pixels and needs resizing after pasting. A slide width box scales the size to the slide in use, and the resize guidance states the width to set. Dragging the button onto a slide delivers the same file. The clipboard drops the size tag that a PNG carries, which is why a pasted PNG lands at its pixel size.
+The Explorer's detail panel has a 'badge' button that produces an image (the technique, weakness or mitigation ID and name) for use in slides or other media. The menu offers three shapes (Auto, Standard or Wide) and two formats. SVG is a vector file at the badge's size in points, so it needs no resizing. PNG can be copied to the clipboard at Low quality, which pastes at the right size, or High quality, which has four times the pixels and needs resizing after pasting. A slide width box scales the size to the slide in use, and the resize guidance states the width to set. Dragging the button onto a slide delivers the same file.
 
 ### Citations in the combined JSON export (2026-10-28)
 

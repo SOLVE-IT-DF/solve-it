@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1488",
+    "name": "Correct password is not included in the dictionary because contextual information about the user was not used to generate candidates",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1094",
+        "DFM-1205"
+    ],
+    "references": []
+}

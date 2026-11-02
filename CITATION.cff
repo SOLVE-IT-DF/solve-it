@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use SOLVE-IT, please cite the paper below."
+title: "SOLVE-IT: Systematic Objective-based Listing of Various Established digital Investigation Techniques"
+abstract: "A digital forensics knowledge base, conceptually inspired by MITRE ATT&CK, that captures techniques used in digital investigations together with their potential weaknesses and mitigations."
+authors:
+  - given-names: Christopher
+    family-names: Hargreaves
+  - given-names: Harm
+    family-names: van Beek
+  - given-names: Eoghan
+    family-names: Casey
+repository-code: "https://github.com/SOLVE-IT-DF/solve-it"
+url: "https://solveit-df.org"
+license: MIT
+keywords:
+  - digital forensics
+  - knowledge base
+  - error mitigation
+preferred-citation:
+  type: article
+  title: "SOLVE-IT: A proposed digital forensic knowledge base inspired by MITRE ATT&CK"
+  authors:
+    - given-names: Christopher
+      family-names: Hargreaves
+    - given-names: Harm
+      family-names: van Beek
+    - given-names: Eoghan
+      family-names: Casey
+  journal: "Forensic Science International: Digital Investigation"
+  volume: 52
+  start: "301864"
+  year: 2025
+  month: 3
+  issn: "2666-2817"
+  doi: "10.1016/j.fsidi.2025.301864"
+  url: "https://doi.org/10.1016/j.fsidi.2025.301864"

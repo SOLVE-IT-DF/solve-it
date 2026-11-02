@@ -1,9 +1,9 @@
 {
     "id": "DFW-1065",
-    "name": "Failing to correctly parse start sector pointers from partition tables",
+    "name": "Missing partitions because of a failure to correctly follow start sector pointers",
+    "description": "The tool decodes a start sector value correctly but calculates the wrong location from it, for example by applying a relative offset in an extended partition chain from the wrong base, so it misses the partition.",
     "categories": [
-        "ASTM_INCOMP",
-        "ASTM_INAC_EX"
+        "ASTM_INCOMP"
     ],
     "mitigations": [
         "DFM-1047"

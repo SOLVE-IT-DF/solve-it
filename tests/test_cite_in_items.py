@@ -15,6 +15,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'admin', 'issue
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from parse_reference_issue import (
+    build_cite_table,
     build_comment,
     parse_cite_in_items,
     validate_cite_items_exist,
@@ -258,6 +259,30 @@ class TestBuildCommentCiteInItems(unittest.TestCase):
         self.assertIsInstance(data, list)
         self.assertEqual(len(data), 2)
         self.assertEqual(data[0]["item_id"], "DFT-1001")
+
+
+class TestBuildCiteTable(unittest.TestCase):
+    def _root(self):
+        d = tempfile.mkdtemp()
+        os.makedirs(os.path.join(d, "data", "weaknesses"))
+        with open(os.path.join(d, "data", "weaknesses", "DFW-1001.json"), "w") as f:
+            json.dump({"name": "A | B weakness"}, f)
+        return d
+
+    def test_columns_and_counts(self):
+        rows = build_cite_table([("DFW-1001", "Short text.", "added")], self._root())
+        self.assertEqual(rows[0], "| Item | Name | Relevance summary | Relevance chars | Status |")
+        self.assertEqual(rows[1], "|---|---|---|---|---|")
+        self.assertEqual(rows[2], "| `DFW-1001` | A \\| B weakness | Short text. | 11 | added |")
+
+    def test_relevance_pipe_and_newline_do_not_break_row(self):
+        rows = build_cite_table([("DFW-1001", "one | two\nthree", "added")], self._root())
+        self.assertEqual(rows[2].count("\n"), 0)
+        self.assertIn("one \\| two three", rows[2])
+
+    def test_missing_item_has_empty_name(self):
+        rows = build_cite_table([("DFW-9999", "x", "not found")], self._root())
+        self.assertEqual(rows[2], "| `DFW-9999` |  | x | 1 | not found |")
 
 
 if __name__ == "__main__":

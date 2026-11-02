@@ -665,6 +665,7 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_dat
                     _all_refs.add(_r["DFCite_id"])
                 elif isinstance(_r, str) and _r.strip() and _r.strip().lower() != "todo":
                     _all_refs.add(_r.strip())
+    _all_refs.update(db.get("citations", {}))  # uncited references are listed too
     n_r = len(_all_refs)
 
     n_complete    = statuses.count("complete")
@@ -4363,6 +4364,10 @@ function renderReferences() {{
   DB.techniques.forEach(t  => (t.references||[]).forEach(r => addRef(r,'techniques',t.id)));
   DB.weaknesses.forEach(w  => (w.references||[]).forEach(r => addRef(r,'weaknesses',w.id)));
   DB.mitigations.forEach(m => (m.references||[]).forEach(r => addRef(r,'mitigations',m.id)));
+  // Keep references that are not cited by any item yet
+  Object.keys(CiteMap).forEach(id => {{
+    if (!refMap[id]) refMap[id] = {{text: citeText(id).trim(), citeId: id, techniques:[], weaknesses:[], mitigations:[]}};
+  }});
 
   window._refMap = refMap;
   window._refHasSummary = refHasSummary;
@@ -4438,7 +4443,7 @@ function renderReferences() {{
     if (citeId) copyBtns += `<span class="copy-cite" title="Copy plaintext citation" onclick="copyCite('${{esc(citeId)}}','txt');event.stopPropagation()">&#128203;</span>`;
     if (hasBib) copyBtns += `<span class="copy-cite" title="Copy BibTeX citation" onclick="copyCite('${{esc(citeId)}}','bib');event.stopPropagation()">&#128218;</span>`;
     const rowAttrs = citeId ? ` data-show-id="${{esc(citeId)}}" data-show-type="reference"` : '';
-    html += `<tr${{rowAttrs}}><td style="font-family:var(--font-mono);font-size:.78rem;color:var(--gray-500)">${{esc(citeId)}}</td><td style="text-align:center">${{hasTxt ? tick : cross}}</td><td style="text-align:center">${{hasBib ? tick : cross}}</td><td class="ref-cell">${{linkify(cb.text)}} ${{copyBtns}}</td><td class="ref-cited-cell">${{chips}}</td></tr>`;
+    html += `<tr${{rowAttrs}}><td style="font-family:var(--font-mono);font-size:.78rem;color:var(--gray-500)">${{esc(citeId)}}</td><td style="text-align:center">${{hasTxt ? tick : cross}}</td><td style="text-align:center">${{hasBib ? tick : cross}}</td><td class="ref-cell">${{linkify(cb.text)}} ${{copyBtns}}</td><td class="ref-cited-cell">${{chips || '<span style="font-size:.75rem;color:var(--gray-500)">Not cited</span>'}}</td></tr>`;
   }});
 
   html += '</tbody></table></div>';
@@ -4854,7 +4859,7 @@ document.addEventListener('click', function(e) {{
 
 document.addEventListener('keydown', e => {{
   if (e.key === 'Escape') {{ closeDetail(); }}
-  if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement !== searchInput) {{
+  if (e.key === '/' && !e.ctrlKey && !e.metaKey && !(e.target.closest('input, textarea, select') || e.target.isContentEditable)) {{
     e.preventDefault();
     searchInput.focus();
     searchInput.select();

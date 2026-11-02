@@ -1,0 +1,21 @@
+{
+    "id": "DFT-1214",
+    "name": "Verify results by checking output of multiple tools",
+    "description": "Compare the results from multiple tools (often referred to a dual tool) to check the output is the same.",
+    "synonyms": [
+        "dual tool verification",
+        "multi-tool verification"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/analysis/AnalyticResult",
+        "https://ontology.unifiedcyberontology.org/uco/observable/ObservableObject"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/analysis/AnalyticResult"
+    ],
+    "references": []
+}

@@ -7,5 +7,10 @@
     "mitigations": [
         "DFM-1343"
     ],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1171",
+            "relevance_summary_280": "Shows that ChatGPT did not identify an ARP spoofing attack in tcpdump output where one MAC address claimed many IP addresses, offering ARP spoofing as an explanation only when explicitly asked (Section 8.4)."
+        }
+    ]
 }

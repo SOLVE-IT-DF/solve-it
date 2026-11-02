@@ -9,5 +9,10 @@
         "DFM-1334",
         "DFM-1335"
     ],
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1171",
+            "relevance_summary_280": "Shows that ChatGPT missed an ncat reverse shell in a process listing, even when asked specifically for reverse shells, and recognized it only once ncat was named in the prompt (Section 8.3)."
+        }
+    ]
 }

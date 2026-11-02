@@ -93,6 +93,7 @@ EXTRA_UCO_MODULES = [
     "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/configuration/configuration.ttl",
     "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/identity/identity.ttl",
     "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/location/location.ttl",
+    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/action/action.ttl",
 ]
 
 PROJECTVIC_ONTOLOGY_BASE = (

@@ -2,6 +2,10 @@
 
 Describes features and tooling updates.
 
+### Data changelog no longer repeats entries (2026-11-02)
+
+The data changelog listed some changes many times over, for example one technique addition up to 14 times. Each daily update re-read older commits that had arrived through merged branches and added their entries again. The generator now ignores an entry when the same commit has already recorded the same action on the same item, and the existing repeats have been removed (2,449 entries became 1,103, with every distinct change kept). The "(AUTOIMPLEMENT)" label has also been dropped from entries, since it named the automation that wrote the commit and not anything about the change. The "(TRWM)" label is kept.
+
 ### Slide badges from the Explorer (2026-11-02)
 
 The Explorer's detail panel has a 'badge' button that produces an image (the technique, weakness or mitigation ID and name) for use in slides or other media. The menu offers three shapes (Auto, Standard or Wide) and two formats. SVG is a vector file at the badge's size in points, so it needs no resizing. PNG can be copied to the clipboard at Low quality, which pastes at the right size, or High quality, which has four times the pixels and needs resizing after pasting. A slide width box scales the size to the slide in use, and the resize guidance states the width to set. Dragging the button onto a slide delivers the same file.

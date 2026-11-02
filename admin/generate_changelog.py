@@ -430,6 +430,30 @@ def deduplicate(a_entries: list[dict], b_entries: list[dict]) -> list[dict]:
     return result
 
 
+def entry_key(entry: dict) -> tuple:
+    """Identity of a changelog entry: the same commit changing the same item in the same way."""
+    return (entry.get("commit"), entry["id"], entry["action"])
+
+
+def drop_duplicates(entries: list[dict]) -> list[dict]:
+    """Return entries with repeats of the same (commit, id, action) removed, keeping the first.
+
+    `git log <sha>..HEAD` also returns older commits that arrived through
+    merged branches, so an append run can see the same commit again. Applying
+    this to the combined existing and new entries stops those repeats being
+    written, and removes any already in the file.
+    """
+    seen = set()
+    result = []
+    for entry in entries:
+        key = entry_key(entry)
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append(entry)
+    return result
+
+
 # ---------------------------------------------------------------------------
 # JSONL I/O
 # ---------------------------------------------------------------------------
@@ -512,7 +536,9 @@ def render_markdown(entries: list[dict], path: Path) -> None:
                 action = entry["action"].capitalize()
 
             item_type = entry["type"]
-            source_tag = f" ({entry['source'].upper()})" if entry["source"] != "manual" else ""
+            # Only TRWM submissions are labelled: the other sources describe which
+            # automation wrote the commit, which tells a reader nothing about the change.
+            source_tag = " (TRWM)" if entry["source"] == "trwm" else ""
 
             # For references with "DFCite-XXXX in DFT-XXXX" style names, use as-is
             name_part = entry["name"]
@@ -647,7 +673,10 @@ def main():
         return
 
     # Combine with existing entries and sort chronologically
-    all_entries = existing_entries + new_entries
+    all_entries = drop_duplicates(existing_entries + new_entries)
+    removed = len(existing_entries) + len(new_entries) - len(all_entries)
+    if removed:
+        print(f"Dropped {removed} duplicate entries (same commit, item and action).")
     all_entries.sort(key=lambda e: (e["date"], e["id"]))
 
     # Backfill commit_url for any existing entries missing it

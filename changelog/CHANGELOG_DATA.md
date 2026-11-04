@@ -1,5 +1,9 @@
 # SOLVE-IT Knowledge Base Changelog
 
+## November 2026
+
+- **2026-11-04** Updated technique: Decode raw data into data value(s) (DFT-1205) [`b9bb16d`](https://github.com/SOLVE-IT-DF/solve-it/commit/b9bb16d)
+
 ## October 2026
 
 - **2026-10-28** Updated weakness: An AI response to a question does not return a relevant event because it was not recognised as relevant (DFW-1444) [`f442951`](https://github.com/SOLVE-IT-DF/solve-it/commit/f442951)

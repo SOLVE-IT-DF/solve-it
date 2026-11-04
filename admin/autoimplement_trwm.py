@@ -4,8 +4,9 @@ Auto-implements a TRWM submission by creating data files and opening a PR.
 
 Finds the assigned-ID preview comment, extracts JSON blocks, writes them
 to the appropriate data/ directories, updates solve-it.json with the
-technique under the correct objective, and opens a PR attributed to
-the original issue submitter.
+technique under the correct objective (or, for a subtechnique, adds it to
+the parent technique's subtechniques list instead), and opens a PR
+attributed to the original issue submitter.
 
 Supports both new submissions and updates to existing techniques.
 
@@ -23,6 +24,7 @@ import sys
 
 # Strict ID patterns — only allow expected format to prevent path traversal
 VALID_ID_RE = re.compile(r'^(DFT|DFW|DFM)-\d{4,6}$')
+TECHNIQUE_ID_RE = re.compile(r'^DFT-\d{4,6}$')
 
 
 def run(cmd, **kwargs):
@@ -159,6 +161,87 @@ def parse_objective_from_issue(issue_body):
     if match:
         return match.group(1).strip()
     return None
+
+
+def _issue_form_field(issue_body, label):
+    """Return the raw text of an issue-form field, or '' if absent/empty."""
+    match = re.search(
+        r'^### ' + re.escape(label) + r'[ \t]*\n(.*?)(?=^### |\Z)',
+        issue_body, re.MULTILINE | re.DOTALL,
+    )
+    if not match:
+        return ""
+    value = match.group(1).strip()
+    return "" if value == "_No response_" else value
+
+
+def parse_parent_technique_from_issue(issue_body):
+    """Extract the parent technique ID for a subtechnique submission.
+
+    Reads the form's "Parent technique (optional)" field first. Falls back
+    to the ``parent_technique`` of the technique in the Helper JSON export,
+    used only when it is a real ID (the Helper leaves it empty when the
+    parent has not been allocated an ID yet).
+
+    Returns (parent_id_or_None, warning_or_None).
+    """
+    raw = _issue_form_field(issue_body, "Parent technique (optional)")
+    if raw:
+        candidate = raw.split()[0].strip().upper()
+        if TECHNIQUE_ID_RE.match(candidate):
+            return candidate, None
+        return None, (f"Parent technique `{raw}` is not a valid technique ID — "
+                      f"ignored; the technique was placed under its objective")
+
+    export = _issue_form_field(issue_body, "TRWM Helper JSON export")
+    fenced = re.search(r'```(?:json)?\s*\n(.*?)```', export, re.DOTALL)
+    if fenced:
+        export = fenced.group(1)
+    try:
+        data = json.loads(export) if export else {}
+    except json.JSONDecodeError:
+        return None, None
+    techniques = data.get("techniques", {}) if isinstance(data, dict) else {}
+    if isinstance(techniques, dict):
+        for technique in techniques.values():
+            if not isinstance(technique, dict):
+                continue
+            value = (technique.get("parent_technique") or "").strip().upper()
+            if TECHNIQUE_ID_RE.match(value):
+                return value, None
+    return None, None
+
+
+def update_parent_subtechniques(project_root, parent_id, subtechnique_id):
+    """Add a technique ID to its parent technique's subtechniques list.
+
+    Returns (filepath_or_None, warning_or_None).
+    """
+    if not TECHNIQUE_ID_RE.match(parent_id):
+        return None, f"Invalid parent technique ID format: '{parent_id}'"
+
+    filepath = os.path.join(project_root, "data", "techniques", f"{parent_id}.json")
+    if not os.path.exists(filepath):
+        return None, (f"Parent technique file `{parent_id}.json` not found — "
+                      f"add `{subtechnique_id}` to its subtechniques by hand")
+
+    with open(filepath, encoding="utf-8") as f:
+        data = json.load(f)
+
+    subtechniques = data.setdefault("subtechniques", [])
+    if subtechnique_id in subtechniques:
+        print(f"  {subtechnique_id} already in {parent_id}'s subtechniques list",
+              file=sys.stderr)
+        return None, None
+    subtechniques.append(subtechnique_id)
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4)
+        f.write("\n")
+
+    print(f"  Added {subtechnique_id} to {parent_id}'s subtechniques list",
+          file=sys.stderr)
+    return filepath, None
 
 
 def parse_submission_type_from_issue(issue_body):
@@ -364,6 +447,18 @@ def main():
                   file=sys.stderr)
             objective_name = None
 
+    # 4b. Parent technique — a new subtechnique is linked from its parent
+    # instead of being listed directly under the objective
+    parent_id, parent_warning = parse_parent_technique_from_issue(issue["body"])
+    if parent_warning:
+        print(f"Warning: {parent_warning}", file=sys.stderr)
+    if parent_id and is_update:
+        print(f"Parent technique {parent_id} ignored for an update submission",
+              file=sys.stderr)
+        parent_id = None
+    elif parent_id:
+        print(f"Parent technique: {parent_id}", file=sys.stderr)
+
     # 5. Get submitter info for attribution
     author_name, author_email = get_submitter_info(issue)
     print(f"Submitter: {author_name} <{author_email}>", file=sys.stderr)
@@ -390,6 +485,12 @@ def main():
             os.path.join(project_root, "data", "solve-it.json"),
             os.path.join(dry_run_dir, "data", "solve-it.json"),
         )
+        # Copy the parent technique so the subtechnique link can be added
+        if parent_id:
+            src = os.path.join(project_root, "data", "techniques", f"{parent_id}.json")
+            if os.path.exists(src):
+                shutil.copy(src, os.path.join(dry_run_dir, "data", "techniques",
+                                               f"{parent_id}.json"))
         # For updates, copy existing files so overwrite works in dry-run
         if is_update:
             for block in blocks:
@@ -461,8 +562,23 @@ def main():
             path = write_reference_file(write_root, cite_id, bibtex)
             written_files.append(path)
 
-        # 9. Update solve-it.json (skip for updates — technique already assigned)
-        if objective_name and techniques and not is_update:
+        # 9. Place the technique (skip for updates — already placed).
+        # A subtechnique is reached through its parent's subtechniques list,
+        # so it is not also listed under the objective in solve-it.json.
+        placement_warnings = [parent_warning] if parent_warning else []
+        parent_linked = False
+        if parent_id and techniques and not is_update:
+            path, warning = update_parent_subtechniques(
+                write_root, parent_id, technique_id)
+            if path:
+                written_files.append(path)
+            if warning:
+                placement_warnings.append(warning)
+            parent_linked = warning is None
+            if parent_linked and objective_name:
+                print(f"  Subtechnique of {parent_id} — not adding {technique_id} "
+                      f"to objective '{objective_name}'", file=sys.stderr)
+        if objective_name and techniques and not is_update and not parent_linked:
             if update_solve_it_json(write_root, objective_name, technique_id):
                 solve_it_path = os.path.join(write_root, "data", "solve-it.json")
                 written_files.append(solve_it_path)
@@ -532,9 +648,18 @@ def main():
         pr_lines.append(f"| Mitigations | {len(mitigations)} | see below |")
         if refs_to_write:
             pr_lines.append(f"| References (new DFCites) | {len(refs_to_write)} | see below |")
-        if objective_name:
+        if parent_linked:
+            pr_lines.append(f"| Parent technique | — | `{parent_id}` (added as subtechnique) |")
+        elif objective_name:
             pr_lines.append(f"| Objective | — | {objective_name} |")
         pr_lines.append("")
+
+        if placement_warnings:
+            pr_lines.append("## Manual steps")
+            pr_lines.append("")
+            for warning in placement_warnings:
+                pr_lines.append(f"- :warning: {warning}")
+            pr_lines.append("")
 
         # List of files created/updated
         files_header = "Files updated/created" if is_update else "Files"

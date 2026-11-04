@@ -364,6 +364,63 @@ KNOWN_CASE_PREFIXES = [
     "https://ontology.solveit-df.org/solveit/",
     "https://cacontology.projectvic.org/",
 ]
+PARENT_FIELD_LABEL = "Parent technique (optional)"
+
+
+def resolve_parent_technique(fields, trwm_data):
+    """Work out the parent technique for a new TRWM technique, if any.
+
+    The issue form's "Parent technique (optional)" field takes precedence.
+    The Helper export's own ``parent_technique`` is used as a fallback, but
+    only when it holds a real ID: the Helper leaves it empty (or a temp ID)
+    when the parent has no allocated ID yet, which is why the form field
+    exists.
+
+    Returns (parent_id_or_None, raw_value_or_None). ``raw_value`` is the
+    text that was supplied, so the caller can report an invalid entry.
+    """
+    raw = (fields.get(PARENT_FIELD_LABEL, "") or "").strip()
+    if raw and raw != "_No response_":
+        candidate = raw.split()[0].strip().upper()
+        if REAL_TECHNIQUE_RE.match(candidate):
+            return candidate, raw
+        return None, raw
+
+    for technique in trwm_data.get("techniques", {}).values():
+        value = (technique.get("parent_technique") or "").strip().upper()
+        if REAL_TECHNIQUE_RE.match(value):
+            return value, value
+    return None, None
+
+
+def check_parent_technique(parent_id, raw_value, kb, submission_type):
+    """Return reviewer notes for the parent technique field."""
+    notes = []
+    if raw_value and not parent_id:
+        notes.append((
+            "warning",
+            f"**Parent technique**: `{raw_value}` is not a valid technique ID "
+            f"(expected e.g. `DFT-1002`) — it will be ignored"
+        ))
+        return notes
+    if not parent_id:
+        return notes
+    if submission_type == "Update existing technique":
+        notes.append((
+            "info",
+            f"**Parent technique** `{parent_id}` is ignored for updates — use a "
+            f"move-technique issue to change where an existing technique sits"
+        ))
+        return notes
+    if kb is not None and kb.get_technique(parent_id) is None:
+        notes.append((
+            "warning",
+            f"**Parent technique** `{parent_id}` was not found in the knowledge base — "
+            f"the subtechnique link will need adding by hand"
+        ))
+    return notes
+
+
 def validate_submission(trwm_data, new_items):
     """Run lightweight validation checks on the submission.
 
@@ -504,7 +561,7 @@ def detect_removed_weaknesses(trwm_data, kb):
 
 def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
                   ref_warnings, submission_type, reviewer_notes=None, kb=None,
-                  dfcite_placeholders=None):
+                  dfcite_placeholders=None, parent_technique=None):
     """Build the GitHub comment markdown."""
     if dfcite_placeholders is None:
         dfcite_placeholders = {}
@@ -529,6 +586,20 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
     if dfcite_placeholders:
         lines.append(f"| References (new DFCites) | {len(dfcite_placeholders)} | — |")
     lines.append("")
+
+    # Parent technique — a new subtechnique is linked from its parent rather
+    # than listed under the objective
+    if parent_technique and not is_update:
+        parent_name = ""
+        if kb is not None:
+            kb_parent = kb.get_technique(parent_technique)
+            if kb_parent:
+                parent_name = f" — {kb_parent.get('name', '')}"
+        lines.append(f"**Parent technique:** `{parent_technique}`{parent_name}")
+        lines.append("")
+        lines.append("The new technique will be added to this parent's `subtechniques` "
+                     "list instead of being listed directly under the objective.")
+        lines.append("")
 
     # Objective info
     objective = fields.get("Objective", "").strip()
@@ -874,11 +945,17 @@ def main():
     # Run lightweight validation
     reviewer_notes = validate_submission(trwm_data, new_items)
 
+    # Parent technique (subtechnique placement)
+    parent_technique, parent_raw = resolve_parent_technique(fields, trwm_data)
+    reviewer_notes += check_parent_technique(
+        parent_technique, parent_raw, kb, submission_type)
+
     # Build the comment
     comment = build_comment(
         trwm_data, fields, placeholder_map, new_items, existing_items,
         ref_warnings, submission_type, reviewer_notes, kb=kb,
         dfcite_placeholders=dfcite_placeholders,
+        parent_technique=parent_technique,
     )
 
     if args.output:

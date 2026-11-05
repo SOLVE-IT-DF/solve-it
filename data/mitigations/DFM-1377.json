@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1377",
+    "name": "Filter dictionary candidates to match the known password length, character set, or format constraints of the target",
+    "references": []
+}

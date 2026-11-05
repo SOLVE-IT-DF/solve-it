@@ -1,0 +1,38 @@
+{
+    "id": "DFT-1218",
+    "name": "Create a password dictionary for a credential attack",
+    "description": "The process of compiling a list of candidate passwords or passcodes to be used in a dictionary-based attack against a stored credential or device.",
+    "synonyms": [
+        "create a password cracking wordlist",
+        "build a password dictionary"
+    ],
+    "details": "A password dictionary may combine generic sources, such as common or previously leaked passwords, with contextual candidates derived from the case, such as names, dates, and words recovered from seized devices or other data associated with the user. Candidates may be expanded using mangling rules and ordered by estimated likelihood. The output is consumed by dictionary-based attacks (DFT-1035). The quality criteria differ from those for keyword lists: the aim is to include the correct password within the number of attempts or the time available, rather than to locate relevant content.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1488",
+        "DFW-1489"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/Wordlist"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1075",
+            "relevance_summary_280": "Proposes PCWQ, a framework for evaluating the quality of password cracking wordlists."
+        },
+        {
+            "DFCite_id": "DFCite-1076",
+            "relevance_summary_280": "Investigates how context-based password cracking dictionaries can be optimised for performance in digital forensic investigations."
+        },
+        {
+            "DFCite_id": "DFCite-1077",
+            "relevance_summary_280": "Breaks passwords from over 3.9 billion real-world accounts into fragments and classifies them by semantic meaning, showing the role of contextual information in password choice, which informs which candidates to include in a password dictionary."
+        },
+        {
+            "DFCite_id": "DFCite-1094",
+            "relevance_summary_280": "Describes a tool that generates a wordlist from data extracted from evidence for use in password cracking."
+        }
+    ]
+}

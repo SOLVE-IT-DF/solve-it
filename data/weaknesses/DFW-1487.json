@@ -1,0 +1,19 @@
+{
+    "id": "DFW-1487",
+    "name": "A reported value is interpreted incorrectly because the reference point it is measured from is not stated",
+    "description": "An offset may be measured from the start of a disk image, the start of a partition, or the start of a file, and a file may not be stored contiguously. A reader who assumes the wrong reference point looks in the wrong place for the reported data. Interpretation here means determining what a reported number denotes, not evaluative interpretation of findings.",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1375",
+        "DFM-1376"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1170",
+            "relevance_summary_280": "Shows that an offset may be measured from the start of a disk image, a partition or a file, and argues that the reference point must be stated to locate the data."
+        }
+    ]
+}

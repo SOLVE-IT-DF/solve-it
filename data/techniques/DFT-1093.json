@@ -1,12 +1,16 @@
 {
     "id": "DFT-1093",
     "name": "Write expert report",
-    "description": "",
+    "description": "The process of writing a report that sets out the findings of a digital forensic examination and the basis for them.",
     "synonyms": [],
     "details": "",
     "subtechniques": [],
     "examples": [],
-    "weaknesses": [],
+    "weaknesses": [
+        "DFW-1485",
+        "DFW-1486",
+        "DFW-1487"
+    ],
     "CASE_input_classes": [],
     "CASE_output_classes": [
         "https://cacontology.projectvic.org/case-management#ExpertReport"

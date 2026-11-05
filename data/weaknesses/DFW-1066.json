@@ -1,6 +1,7 @@
 {
     "id": "DFW-1066",
-    "name": "Missing deleted but recoverable partitions from unpartitioned space",
+    "name": "Missing deleted but recoverable partitions because of a failure to search for recoverable data",
+    "description": "The tool lists only the partitions that a table still records and does not search unpartitioned space for file system signatures or orphaned partition structures, so a deleted but recoverable partition is missed.",
     "categories": [
         "ASTM_INCOMP"
     ],

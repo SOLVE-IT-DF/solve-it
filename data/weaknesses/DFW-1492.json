@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1492",
+    "name": "Specific file format is not reported because a more specific result is recorded using a coarse categorization",
+    "description": "The method determines a specific format or version, but the result is recorded or reported only as a broader category, such as a MIME type, a type family or a vendor-defined group, so distinctions the method made are unavailable to later analysis, filtering and reporting.",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1380",
+        "DFM-1381"
+    ],
+    "references": []
+}

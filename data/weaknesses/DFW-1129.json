@@ -7,7 +7,8 @@
     "mitigations": [
         "DFM-1109",
         "DFM-1111",
-        "DFM-1112"
+        "DFM-1112",
+        "DFM-1382"
     ],
     "references": [
         {

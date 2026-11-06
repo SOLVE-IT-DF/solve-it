@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1378",
+    "name": "Ensure that all file type checks run, rather than stopping on first match",
+    "references": []
+}

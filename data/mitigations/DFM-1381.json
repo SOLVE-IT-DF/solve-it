@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1381",
+    "name": "Check whether the type a tool reports is its identification result or a category mapped from it",
+    "description": "Some tools derive a category or MIME type from a more specific internal result; establish which one the tool reports before relying on it.",
+    "references": []
+}

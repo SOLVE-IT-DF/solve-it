@@ -1,5 +1,18 @@
 {
     "id": "DFM-1112",
     "name": "Use of AI to classify files in addition to standard programmatic methods",
-    "references": []
+    "references": [
+        {
+            "DFCite_id": "DFCite-1141",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1002",
+            "relevance_summary_280": ""
+        },
+        {
+            "DFCite_id": "DFCite-1078",
+            "relevance_summary_280": ""
+        }
+    ]
 }

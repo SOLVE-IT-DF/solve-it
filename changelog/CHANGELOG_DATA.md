@@ -2,6 +2,10 @@
 
 ## November 2026
 
+- **2026-11-08** Updated mitigation (TRWM): Use of AI to classify files in addition to standard programmatic methods (DFM-1112) [`f19b9b5`](https://github.com/SOLVE-IT-DF/solve-it/commit/f19b9b5)
+- **2026-11-07** Updated mitigation: Record the specific format, and its version where relevant, alongside any category (DFM-1380) [`854d0ea`](https://github.com/SOLVE-IT-DF/solve-it/commit/854d0ea)
+- **2026-11-07** Updated mitigation: Use a file type identification method that reports the specific format, and its version where relevant (DFM-1379) [`ae68d8b`](https://github.com/SOLVE-IT-DF/solve-it/commit/ae68d8b)
+- **2026-11-06** Updated technique (TRWM): Identify file types (DFT-1063) [`1cbce0f`](https://github.com/SOLVE-IT-DF/solve-it/commit/1cbce0f)
 - **2026-11-04** Updated technique: Decode raw data into data value(s) (DFT-1205) [`b9bb16d`](https://github.com/SOLVE-IT-DF/solve-it/commit/b9bb16d)
 - **2026-11-02** Updated weakness: Missing partitions because of a failure to check the integrity of the partition table (DFW-1067) [`67133fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/67133fb)
 - **2026-11-02** Updated weakness: Missing deleted but recoverable partitions because of a failure to search for recoverable data (DFW-1066) [`67133fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/67133fb)

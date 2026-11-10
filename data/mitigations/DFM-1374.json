@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1374",
+    "name": "State the unit of measurement generally used in reporting, and note exceptions",
+    "description": "State near the start of the report which unit positions and sizes are given in unless marked otherwise, including the sector or cluster size in bytes where those units are used, and mark each value that departs from it.",
+    "references": []
+}

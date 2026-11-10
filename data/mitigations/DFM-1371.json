@@ -1,0 +1,11 @@
+{
+    "id": "DFM-1371",
+    "name": "State the number base of each reported numeric value",
+    "description": "Mark each value that is not in decimal, for example with a 0x prefix or a subscript 16. A value containing only the digits 0-9 is ambiguous unless its base is marked.",
+    "references": [
+        {
+            "DFCite_id": "DFCite-1170",
+            "relevance_summary_280": "States that the number base in which a reported value is expressed should be given, as well as its unit of measurement."
+        }
+    ]
+}

@@ -18,6 +18,9 @@ import re
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'issue_parsers'))
+from parse_reference_issue import build_cite_table
+
 
 # Strict ID patterns
 VALID_DFCITE_RE = re.compile(r'^DFCite-\d{4,6}$')
@@ -333,11 +336,13 @@ def main():
 
         # Add cite-in-items
         cite_results = []
+        cite_relevance = {}
         if cite_items:
             print("Adding reference to cited items...", file=sys.stderr)
             for item in cite_items:
                 item_id = item.get("item_id", "")
                 relevance = item.get("relevance_summary", "")
+                cite_relevance[item_id] = relevance
                 item_path = resolve_item_path(item_id, project_root)
                 if item_path is None:
                     cite_results.append((item_id, "not found"))
@@ -453,10 +458,10 @@ def main():
         if cite_results:
             pr_lines.append("## Cited in items")
             pr_lines.append("")
-            pr_lines.append("| Item | Status |")
-            pr_lines.append("|---|---|")
-            for item_id, status in cite_results:
-                pr_lines.append(f"| `{item_id}` | {status} |")
+            pr_lines.extend(build_cite_table(
+                [(item_id, cite_relevance.get(item_id, ""), status)
+                 for item_id, status in cite_results],
+                project_root))
             pr_lines.append("")
 
         if relevance_results:

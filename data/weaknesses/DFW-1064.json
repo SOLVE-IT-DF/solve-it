@@ -1,6 +1,7 @@
 {
     "id": "DFW-1064",
-    "name": "Making incorrect assumptions about sector size e.g. 512 rather than 4096",
+    "name": "Missing partitions because of incorrect assumptions about sector size",
+    "description": "The tool decodes a start sector value correctly but multiplies it by the wrong sector size, such as 512 bytes instead of 4096 bytes, so it reads from the wrong byte offset and misses the partition.",
     "categories": [
         "ASTM_INCOMP"
     ],

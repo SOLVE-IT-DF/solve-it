@@ -1,0 +1,19 @@
+{
+    "id": "DFT-1216",
+    "name": "Prevent a device from screen-locking",
+    "description": "A live device may lock it's screen behind a password or pincode if not interacted with. This could mean loosing access to data. This technique involves applying some measure to stop the device from locking.",
+    "synonyms": [],
+    "details": "",
+    "subtechniques": [],
+    "examples": [
+        "\"mouse jigglers\": http://www.cru-inc.com/products/wiebetech/mouse_jiggler/"
+    ],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Device"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/observable/Device"
+    ],
+    "references": []
+}

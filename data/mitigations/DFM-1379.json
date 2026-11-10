@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1379",
+    "name": "Use a file type identification method that reports the specific format, and its version where relevant",
+    "description": "For example, a PRONOM PUID distinguishes PDF 1.4 (fmt/18) from PDF 2.0 (fmt/1129), where the MIME type application/pdf does not.",
+    "references": []
+}

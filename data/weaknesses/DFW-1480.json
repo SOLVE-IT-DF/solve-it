@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1480",
+    "name": "Relevant terms omitted from the case-type keyword list because spelling, language, or regional variants are not included",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1031",
+        "DFM-1368"
+    ],
+    "references": []
+}

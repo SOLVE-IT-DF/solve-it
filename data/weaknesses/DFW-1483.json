@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1483",
+    "name": "Variants of identifiers, such as nicknames, usernames, alternative spellings, or transliterations, are not included in the case-specific keyword list",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1031",
+        "DFM-1369"
+    ],
+    "references": []
+}

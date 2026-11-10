@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from parse_technique_issue import parse_issue_body
-from parse_reference_issue import parse_cite_in_items, validate_cite_items_exist
+from parse_reference_issue import parse_cite_in_items, validate_cite_items_exist, build_cite_table
 from update_utils import is_no_response
 from solve_it_library.reference_matching import load_reference_corpus
 
@@ -280,16 +280,12 @@ def build_comment(fields, project_root):
             lines.append("")
 
         if new_cite_items:
-            lines.append("| Item | Relevance summary | Status |")
-            lines.append("|---|---|---|")
             valid_ids = {i["item_id"] for i in valid_items}
-            for item in new_cite_items:
-                status = "Found" if item["item_id"] in valid_ids else "Not found"
-                lines.append(
-                    f"| `{item['item_id']}` "
-                    f"| {item['relevance_summary']} "
-                    f"| {status} |"
-                )
+            lines.extend(build_cite_table(
+                [(i["item_id"], i["relevance_summary"],
+                  "Found" if i["item_id"] in valid_ids else "Not found")
+                 for i in new_cite_items],
+                project_root))
             lines.append("")
 
     # Existing cited-by

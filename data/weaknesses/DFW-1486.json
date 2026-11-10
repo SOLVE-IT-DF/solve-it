@@ -1,0 +1,19 @@
+{
+    "id": "DFW-1486",
+    "name": "A reported value is interpreted incorrectly because its unit of measurement is not stated",
+    "description": "A position or size may be expressed in bytes, sectors, clusters or blocks, and the size of a sector or cluster varies between devices and file systems. A reader who assumes the wrong unit derives a different location or size. Interpretation here means determining what a reported number denotes, not evaluative interpretation of findings.",
+    "categories": [
+        "ASTM_INAC_AS",
+        "ASTM_MISINT"
+    ],
+    "mitigations": [
+        "DFM-1373",
+        "DFM-1374"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1170",
+            "relevance_summary_280": "Argues that the unit of measurement must be stated with a reported value, with the example of a reported position: '34556 what? Bytes, sectors, blocks?'"
+        }
+    ]
+}

@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'admin', 'issue
 from parse_trwm_submission import (
     build_comment,
     normalize_to_kb_schema, resolve_bare_references, validate_submission,
-    preserve_kb_fields,
+    preserve_kb_fields, resolve_parent_technique, check_parent_technique,
     TECHNIQUE_FIELDS, WEAKNESS_FIELDS, MITIGATION_FIELDS, WM_OMIT_IF_EMPTY,
 )
 
@@ -362,6 +362,53 @@ class TestBuildCommentRevisionGuidance(unittest.TestCase):
         self.assertIn("<!-- TRWM_PREVIEW -->", comment)
         self.assertLess(comment.index("### Revising this submission"),
                         comment.index("<!-- TRWM_ID_MAP:"))
+
+
+class TestParentTechnique(unittest.TestCase):
+    """The form's parent technique field makes the new technique a subtechnique."""
+
+    TRWM = {"techniques": {"DFT-temp-0001": {"name": "T", "parent_technique": ""}}}
+
+    def test_form_field_used(self):
+        fields = {"Parent technique (optional)": "DFT-1205"}
+        self.assertEqual(resolve_parent_technique(fields, self.TRWM),
+                         ("DFT-1205", "DFT-1205"))
+
+    def test_form_field_normalised(self):
+        fields = {"Parent technique (optional)": " dft-1205 (Decode raw data)"}
+        parent, _ = resolve_parent_technique(fields, self.TRWM)
+        self.assertEqual(parent, "DFT-1205")
+
+    def test_no_response_falls_back_to_export(self):
+        fields = {"Parent technique (optional)": "_No response_"}
+        trwm = {"techniques": {"DFT-temp-0001": {"parent_technique": "DFT-1049"}}}
+        self.assertEqual(resolve_parent_technique(fields, trwm)[0], "DFT-1049")
+
+    def test_temp_id_in_export_ignored(self):
+        trwm = {"techniques": {"DFT-temp-0002": {"parent_technique": "DFT-temp-0001"}}}
+        self.assertEqual(resolve_parent_technique({}, trwm), (None, None))
+
+    def test_invalid_form_value_reported(self):
+        fields = {"Parent technique (optional)": "decode raw data"}
+        parent, raw = resolve_parent_technique(fields, self.TRWM)
+        self.assertIsNone(parent)
+        notes = check_parent_technique(parent, raw, None, "New technique")
+        self.assertEqual(notes[0][0], "warning")
+
+    def test_unknown_parent_warns(self):
+        class FakeKB:
+            def get_technique(self, tid):
+                return None
+        notes = check_parent_technique("DFT-9999", "DFT-9999", FakeKB(), "New technique")
+        self.assertIn("not found", notes[0][1])
+
+    def test_comment_shows_parent(self):
+        trwm = {"techniques": {}, "weaknesses": {}, "mitigations": {}}
+        new_items = {"techniques": [], "weaknesses": [], "mitigations": []}
+        comment = build_comment(trwm, {}, {}, new_items, new_items, [],
+                                "New technique", parent_technique="DFT-1205")
+        self.assertIn("**Parent technique:** `DFT-1205`", comment)
+
 
 
 if __name__ == '__main__':

@@ -1,0 +1,26 @@
+{
+    "id": "DFT-1212",
+    "name": "Create a case-specific keyword list",
+    "description": "The process of compiling a list of keywords derived from the details of a specific case, such as names, places, usernames, and other identifiers, for use in keyword searches.",
+    "synonyms": [
+        "case-specific wordlist"
+    ],
+    "details": "Case-specific keyword lists are usually derived from the case brief, witness statements, and other case material, and may be extended as new identifiers emerge during the examination. Typical entries include names of people and organizations, nicknames, addresses, telephone numbers, email addresses, account names, and transaction references. The output is consumed by keyword searching using case-specific wordlists (DFT-1123). This complements case-type keyword lists. Case-specific information may also be used as input when creating a password dictionary.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1482",
+        "DFW-1483",
+        "DFW-1484"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/Wordlist"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1074",
+            "relevance_summary_280": "Measures the effectiveness of case-type wordlists when used to supplement case-specific keywords, which informs how a case-specific keyword list relates to and is complemented by case-type lists."
+        }
+    ]
+}

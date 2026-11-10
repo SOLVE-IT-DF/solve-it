@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1482",
+    "name": "Relevant identifiers from the case material are not included in the case-specific keyword list",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1141",
+        "DFM-1142",
+        "DFM-1152"
+    ],
+    "references": []
+}

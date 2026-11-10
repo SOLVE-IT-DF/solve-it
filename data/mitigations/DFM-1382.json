@@ -1,0 +1,11 @@
+{
+    "id": "DFM-1382",
+    "name": "Avoid using signatures that are too weak to identify a file type on their own, except to confirm the type suggested by the extension",
+    "description": "Short or generic header signatures, such as one or two bytes or common text, match many unrelated files. Using them alone to assign a type produces false identifications; restricting them to confirming the type suggested by the extension, or reporting them as weak, keeps the signature's evidential weight visible.",
+    "references": [
+        {
+            "DFCite_id": "DFCite-1133",
+            "relevance_summary_280": "Provides an implementation of this mitigation and is the origin of the term 'weak' used in this mitigation"
+        }
+    ]
+}

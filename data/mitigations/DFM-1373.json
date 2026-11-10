@@ -1,0 +1,11 @@
+{
+    "id": "DFM-1373",
+    "name": "State the unit of measurement of each reported position or size",
+    "description": "Give the unit (for example bytes or sectors) with every position or size, and where sectors or clusters are used, state their size in bytes.",
+    "references": [
+        {
+            "DFCite_id": "DFCite-1170",
+            "relevance_summary_280": "States that the unit of measurement should be reported with a position, using the example '34556 what? Bytes, sectors, blocks?'"
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+{
+    "id": "DFT-1211",
+    "name": "Create a case-type keyword list",
+    "description": "The process of compiling a reusable list of keywords associated with a particular type of offense or investigation, for use in later keyword searches.",
+    "synonyms": [
+        "case-type wordlist",
+        "offense-type keyword list"
+    ],
+    "details": "Case-type keyword lists are typically prepared in advance of any specific investigation and maintained over time, for example a list of terms associated with drug supply, fraud, or child sexual exploitation. They capture the vocabulary, slang, code words, and abbreviations typically used in that type of case. The output is consumed by keyword searching using case-type wordlists (DFT-1122). This differs from creating a case-specific keyword list, which is built from the details of an individual case, and from creating a password dictionary, which serves a different purpose and has different quality criteria.",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1479",
+        "DFW-1480",
+        "DFW-1481"
+    ],
+    "CASE_input_classes": [],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/Wordlist"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1074",
+            "relevance_summary_280": "Examines how the effectiveness of keyword lists used in digital forensics can be measured, which informs how case-type keyword lists are compiled and evaluated."
+        }
+    ]
+}

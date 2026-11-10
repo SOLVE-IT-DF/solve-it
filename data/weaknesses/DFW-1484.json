@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1484",
+    "name": "Case-specific keyword list is not updated when new identifiers emerge during the investigation",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1370"
+    ],
+    "references": []
+}

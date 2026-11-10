@@ -1,0 +1,6 @@
+{
+    "id": "DFM-1380",
+    "name": "Record the specific format, and its version where relevant, alongside any category",
+    "description": "Keep the identifier the method produced, for example a PRONOM PUID, in addition to any MIME type or category, so that later filtering and reporting can use it.",
+    "references": []
+}

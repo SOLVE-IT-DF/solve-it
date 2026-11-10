@@ -1,0 +1,14 @@
+{
+    "id": "DFW-1491",
+    "name": "Specific file format is not reported because the identification method returns only a coarse categorization",
+    "description": "The method itself distinguishes only broad types, for example a MIME type that covers every version of a format, or a type for a container rather than the format built on it, so the specific format or version is never determined.",
+    "categories": [
+        "ASTM_INCOMP",
+        "ASTM_INAC_AS"
+    ],
+    "mitigations": [
+        "DFM-1379",
+        "DFM-1111"
+    ],
+    "references": []
+}

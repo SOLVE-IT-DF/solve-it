@@ -3,6 +3,12 @@
 ## November 2026
 
 - **2026-11-04** Updated technique: Decode raw data into data value(s) (DFT-1205) [`b9bb16d`](https://github.com/SOLVE-IT-DF/solve-it/commit/b9bb16d)
+- **2026-11-02** Updated weakness: Missing partitions because of a failure to check the integrity of the partition table (DFW-1067) [`67133fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/67133fb)
+- **2026-11-02** Updated weakness: Missing deleted but recoverable partitions because of a failure to search for recoverable data (DFW-1066) [`67133fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/67133fb)
+- **2026-11-02** Updated weakness: Missing partitions because of a failure to correctly follow start sector pointers (DFW-1065) [`67133fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/67133fb)
+- **2026-11-02** Updated weakness: Missing partitions because of incorrect assumptions about sector size (DFW-1064) [`67133fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/67133fb)
+- **2026-11-02** Updated weakness: Missing partitions because of incorrect decoding of data in the partition table (DFW-1063) [`67133fb`](https://github.com/SOLVE-IT-DF/solve-it/commit/67133fb)
+- **2026-11-02** Added technique (TRWM): Create a password dictionary for a credential attack (DFT-1218) [`642294e`](https://github.com/SOLVE-IT-DF/solve-it/commit/642294e)
 
 ## October 2026
 

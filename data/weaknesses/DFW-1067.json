@@ -1,7 +1,9 @@
 {
     "id": "DFW-1067",
-    "name": "Failure to check the integrity of partition table (where possible e.g. GPT)",
+    "name": "Missing partitions because of a failure to check the integrity of the partition table",
+    "description": "The tool does not verify built-in checksums or compare the primary and backup tables, so it accepts a corrupt table and does not list partitions that exist.",
     "categories": [
+        "ASTM_INCOMP",
         "ASTM_INAC_COR"
     ],
     "mitigations": [

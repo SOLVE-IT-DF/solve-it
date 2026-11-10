@@ -1,9 +1,9 @@
 {
     "id": "DFW-1063",
-    "name": "Incorrectly parsing the partitions table(s)",
+    "name": "Missing partitions because of incorrect decoding of data in the partition table",
+    "description": "The tool converts the bytes of a partition table entry to the wrong value, such as by using the wrong field width or byte order, so a partition that exists is not listed. This covers errors in decoding bytes into values only; errors in using a correctly decoded value are separate weaknesses.",
     "categories": [
-        "ASTM_INCOMP",
-        "ASTM_INAC_EX"
+        "ASTM_INCOMP"
     ],
     "mitigations": [
         "DFM-1047",

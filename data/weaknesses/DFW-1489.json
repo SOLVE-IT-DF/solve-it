@@ -1,0 +1,11 @@
+{
+    "id": "DFW-1489",
+    "name": "Dictionary contains candidates that cannot be valid passwords for the target because known password constraints, such as length, character set, or format, were not considered",
+    "categories": [
+        "ASTM_INAC_EX"
+    ],
+    "mitigations": [
+        "DFM-1377"
+    ],
+    "references": []
+}

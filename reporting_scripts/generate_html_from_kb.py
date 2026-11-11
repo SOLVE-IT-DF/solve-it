@@ -678,7 +678,8 @@ def read_ontology_terms() -> str:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_date: str | None = None,
-                  source_commit: str | None = None, explorer_version: str | None = None) -> str:
+                  source_commit: str | None = None, explorer_version: str | None = None,
+                  version_info: dict | None = None) -> str:
     # ── Enrich data with SOLVE-IT-X extension content ─────────────────
     extension_main_html = ""
     hidden_fields_json = "[]"
@@ -750,12 +751,23 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_dat
 
     generated_at = source_date or datetime.now().strftime("%Y-%m-%d")
     # Footer identity: which Explorer code and which knowledge base content.
-    # Each part is left out, not guessed, when git could not supply it.
+    # The knowledge base part comes from data/solveit_version.json when it
+    # exists; otherwise from git. Each part is left out, not guessed, when
+    # neither can supply it.
+    if version_info and version_info.get("committed_at"):
+        generated_at = version_info["committed_at"][:10]
     try:
         kb_date = datetime.strptime(generated_at, "%Y-%m-%d").strftime("%-d %b %Y")
     except ValueError:
         kb_date = generated_at
-    if source_commit:
+    if version_info:
+        commit_esc = esc(version_info.get("commit", ""))
+        version_esc = esc(version_info["version"])
+        version_link = (f'<a href="https://github.com/SOLVE-IT-DF/solve-it/commit/{commit_esc}" target="_blank" '
+                        f'title="commit {commit_esc[:9]}">{version_esc}</a>' if commit_esc else version_esc)
+        schema_part = f', schema {esc(version_info["schema"])}' if version_info.get("schema") else ""
+        kb_identity_html = f"Knowledge base {version_link}{schema_part} ({esc(kb_date)})"
+    elif source_commit:
         commit_esc = esc(source_commit)
         kb_identity_html = (f'Knowledge base: commit <a href="https://github.com/SOLVE-IT-DF/solve-it/commit/{commit_esc}" '
                             f'target="_blank">{commit_esc}</a> ({esc(kb_date)})')
@@ -5431,7 +5443,8 @@ def main() -> None:
 
     idx = build_indices(db, kb=kb)
     html = generate_html(db, idx, custom=getattr(args, "custom", False), kb=kb, source_date=source_date,
-                         source_commit=source_commit, explorer_version=explorer_version)
+                         source_commit=source_commit, explorer_version=explorer_version,
+                         version_info=kb.get_version_info() if kb is not None else None)
 
     out = Path(args.output)
     out.write_text(html, encoding="utf-8")

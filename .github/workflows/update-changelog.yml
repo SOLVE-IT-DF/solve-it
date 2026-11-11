@@ -34,4 +34,14 @@ jobs:
         git add changelog/changelog.jsonl changelog/CHANGELOG_DATA.md
         git diff --cached --quiet && echo "No changes to commit" && exit 0
         git commit -m "Update changelog [skip ci]"
-        git push
+        # The "Update data version" workflow also pushes to main; retry on a
+        # rejected push. Only this job writes the changelog files, so the
+        # rebase cannot conflict on them.
+        for attempt in 1 2 3 4 5; do
+          if git pull --rebase --quiet origin main && git push; then
+            exit 0
+          fi
+          sleep $((attempt * 5))
+        done
+        echo "Could not push the changelog update after 5 attempts" >&2
+        exit 1

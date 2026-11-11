@@ -24,6 +24,10 @@ that renumbers every later version. This comment and the markers are HTML
 comments, so they do not appear on the website's changelog page.
 -->
 
+### Knowledge base and schema version numbers (2026-11-11)
+
+The knowledge base data now has a version number, 0.MINOR.PATCH, recorded with the schema version and the commit it describes in `data/solveit_version.json`. A workflow updates it on every change to `data/`: adding, deleting or renaming a technique, weakness or mitigation, or adding an objective, raises the minor number; any other change raises the patch number. Numbering was replayed from the whole history, so the first version file is 0.97.0. The schema has its own version, MAJOR.MINOR, set by hand when the structure changes (5.1, see the structure changelog). The combined JSON export carries the record as `solveit_version`, the Turtle and JSON-LD exports as an ontology header, the Excel workbook on its Info sheet, and the Explorer footer shows it, for example "Knowledge base 0.97.0, schema 5.1 (10 Nov 2026)".
+
 ### Explorer version and knowledge base commit in the footer (2026-11-11)
 
 The footer of the Explorer and the custom viewer now shows the Explorer's version and the knowledge base commit the page was built from, for example "Explorer 1.6.0 · Knowledge base: commit eac86fbf8 (10 Nov 2026)". The commit links to GitHub. The version is worked out from this changelog and the git history each time the page is built: each new Explorer feature recorded here raises the minor number (1.0 was the launch on 2026-02-23), and any other change to the Explorer's code raises the patch number. The date is now the date a change was merged into main; previously it could be the earlier date it was written on a branch.

@@ -396,6 +396,26 @@ class KnowledgeBase:
 
     # --- Public Query Methods ---
 
+    def get_version_info(self) -> Optional[Dict[str, str]]:
+        """
+        Return the knowledge base version record from data/solveit_version.json.
+
+        The record has 'version' (data version, 0.MINOR.PATCH), 'schema'
+        (schema version, MAJOR.MINOR), 'commit' (the commit on main it
+        describes) and 'committed_at' (that commit's time, UTC). It is kept up
+        to date by admin/data_version.py. Returns None if the file is missing
+        or unreadable, e.g. in a copy of the data made before it existed.
+        """
+        path = os.path.join(self.data_path, 'solveit_version.json')
+        try:
+            with open(path, encoding='utf-8') as f:
+                info = json.load(f)
+        except (OSError, ValueError):
+            return None
+        if not isinstance(info, dict) or 'version' not in info:
+            return None
+        return info
+
     def list_available_mappings(self) -> List[str]:
         """
         Lists the filenames of potential objective mapping JSON files found
@@ -410,6 +430,10 @@ class KnowledgeBase:
             for filename in os.listdir(self.data_path):
                 # Check if it's a file, ends with .json, and not in excluded dirs (implicit check)
                 full_path = os.path.join(self.data_path, filename)
+                # solveit_version.json records the data and schema versions; it
+                # is not an objective mapping.
+                if filename == 'solveit_version.json':
+                    continue
                 if os.path.isfile(full_path) and filename.lower().endswith('.json'):
                     # Basic check to exclude known subdirs - assumes mappings
                     # are top-level in data/

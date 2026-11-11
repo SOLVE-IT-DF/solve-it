@@ -63,7 +63,7 @@ DATA_DIR_TYPE = {
     "data/references": "reference",
 }
 
-SKIP_FILES = {"data/solve-it.json"}
+SKIP_FILES = {"data/solve-it.json", "data/solveit_version.json"}
 
 # Filename → ID patterns (new and old formats)
 FILE_ID_RE = re.compile(r"(DFT-\d+|DFW-\d+|DFM-\d+|DFCite-\d+)")

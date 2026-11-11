@@ -351,13 +351,14 @@ def get_source_data_date(repo_root: Path) -> str | None:
     """Return the date (YYYY-MM-DD) of the most recent commit touching data/.
 
     Used so the viewer's footer date reflects when the source data was last
-    updated, not when the page was rebuilt — keeps the rendered HTML stable
+    updated (on the first-parent line: see get_source_data_commit), not when
+    the page was rebuilt — keeps the rendered HTML stable
     across rebuilds that find no underlying changes. Returns None if the path
     has no git history or git is unavailable.
     """
     try:
         result = subprocess.run(
-            ["git", "log", "-1", "--format=%cs", "--", "data/"],
+            ["git", "log", "-1", "--first-parent", "--format=%cs", "--", "data/"],
             capture_output=True, text=True, cwd=str(repo_root), timeout=10,
         )
         if result.returncode == 0:
@@ -367,6 +368,135 @@ def get_source_data_date(repo_root: Path) -> str | None:
     except Exception:
         pass
     return None
+
+
+def get_source_data_commit(repo_root: Path) -> str | None:
+    """Return the short hash of the most recent commit touching data/.
+
+    Pairs with get_source_data_date: together they identify the knowledge base
+    content the page was built from. Both follow the first-parent line, so for
+    a change that arrived through a pull request they give the merge commit
+    and its date (when the change entered the knowledge base), not the
+    branch commit (when it was written, which can be weeks earlier). Without
+    --first-parent, git returns one or the other depending on whether other
+    data changes were merged in between. HEAD is deliberately not used, because
+    commits that change no content (changelog bot commits, code changes) would
+    then alter the page and trigger a viewer redeploy for nothing.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--first-parent", "--format=%h", "--", "data/"],
+            capture_output=True, text=True, cwd=str(repo_root), timeout=10,
+        )
+        if result.returncode == 0:
+            out = result.stdout.strip()
+            if out:
+                return out
+    except Exception:
+        pass
+    return None
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Explorer version
+#
+# The Explorer's version is calculated from git history at build time; it is
+# not stored anywhere, so nothing has to be bumped by hand or by a bot.
+#
+#   MAJOR  fixed at 1 (1.0.0 is the Explorer's launch, 2026-02-23).
+#   MINOR  the number of Explorer feature entries in
+#          changelog/CHANGELOG_FEATURES.md, minus one. An entry counts when the
+#          line directly under its heading is EXPLORER_FEATURE_MARKER.
+#   PATCH  the number of first-parent commits on the current branch that
+#          changed EXPLORER_CODE_PATHS after the latest feature entry reached
+#          that branch.
+#
+# Changing these rules renumbers past versions, so treat them as fixed.
+# ─────────────────────────────────────────────────────────────────────────────
+
+EXPLORER_MAJOR = 1
+EXPLORER_FEATURE_MARKER = "<!-- explorer: feature -->"
+FEATURES_CHANGELOG = "changelog/CHANGELOG_FEATURES.md"
+EXPLORER_CODE_PATHS = (
+    "reporting_scripts/generate_html_from_kb.py",
+    "reporting_scripts/assets/editor.css",
+    "reporting_scripts/assets/editor.js",
+)
+
+
+def _git(repo_root: Path, *args: str) -> str | None:
+    """Run a git command in repo_root; return stdout, or None on any failure."""
+    try:
+        result = subprocess.run(
+            ["git", *args], capture_output=True, text=True,
+            cwd=str(repo_root), timeout=30,
+        )
+    except Exception:
+        return None
+    if result.returncode != 0:
+        return None
+    return result.stdout
+
+
+def get_explorer_version(code_root: Path) -> str | None:
+    """Return the Explorer version, e.g. '1.6.0', or None if it cannot be worked out.
+
+    code_root is the repository holding this script, which is not necessarily
+    the repository the data was loaded from (--local can point elsewhere).
+    None is returned when there is no git history (a source archive) or the
+    history is shallow, because a count from partial history would be wrong
+    rather than merely missing.
+    """
+    if _git(code_root, "rev-parse", "--is-shallow-repository") != "false\n":
+        return None
+
+    changelog = code_root / FEATURES_CHANGELOG
+    try:
+        lines = changelog.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return None
+    features = sum(
+        1 for i, line in enumerate(lines)
+        if line.startswith("### ")
+        and i + 1 < len(lines) and lines[i + 1].strip() == EXPLORER_FEATURE_MARKER
+    )
+    if features == 0:
+        return None
+    minor = features - 1
+
+    # The latest commit that changed the number of markers in the changelog.
+    added = _git(code_root, "log", "-1", "--format=%H",
+                 f"-S{EXPLORER_FEATURE_MARKER}", "--", FEATURES_CHANGELOG)
+    if not added or not added.strip():
+        return None
+    added = added.strip()
+
+    # Patch commits are counted along the first-parent line, so the starting
+    # point must be on that line too. If the entry came in on a merged branch,
+    # start from the merge that brought it in, otherwise the merge itself
+    # (which carries the feature's code) would be counted as a fix.
+    first_parent = _git(code_root, "rev-list", "--first-parent", "HEAD")
+    if first_parent is None:
+        return None
+    first_parent = first_parent.split()
+    if added in first_parent:
+        start = added
+    else:
+        descendants = _git(code_root, "rev-list", "--ancestry-path", f"{added}..HEAD")
+        if descendants is None:
+            return None
+        descendants = set(descendants.split())
+        # first_parent is newest first, so the last match is the earliest merge.
+        on_line = [c for c in first_parent if c in descendants]
+        if not on_line:
+            return None
+        start = on_line[-1]
+
+    count = _git(code_root, "rev-list", "--count", "--first-parent",
+                 f"{start}..HEAD", "--", *EXPLORER_CODE_PATHS)
+    if count is None:
+        return None
+    return f"{EXPLORER_MAJOR}.{minor}.{int(count)}"
 
 
 def extract_git_credits(repo_root: Path) -> dict:
@@ -547,7 +677,8 @@ def read_ontology_terms() -> str:
 # Main HTML generator
 # ─────────────────────────────────────────────────────────────────────────────
 
-def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_date: str | None = None) -> str:
+def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_date: str | None = None,
+                  source_commit: str | None = None, explorer_version: str | None = None) -> str:
     # ── Enrich data with SOLVE-IT-X extension content ─────────────────
     extension_main_html = ""
     hidden_fields_json = "[]"
@@ -618,6 +749,19 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_dat
         ontology_terms_json = read_ontology_terms()
 
     generated_at = source_date or datetime.now().strftime("%Y-%m-%d")
+    # Footer identity: which Explorer code and which knowledge base content.
+    # Each part is left out, not guessed, when git could not supply it.
+    try:
+        kb_date = datetime.strptime(generated_at, "%Y-%m-%d").strftime("%-d %b %Y")
+    except ValueError:
+        kb_date = generated_at
+    if source_commit:
+        commit_esc = esc(source_commit)
+        kb_identity_html = (f'Knowledge base: commit <a href="https://github.com/SOLVE-IT-DF/solve-it/commit/{commit_esc}" '
+                            f'target="_blank">{commit_esc}</a> ({esc(kb_date)})')
+    else:
+        kb_identity_html = f"Knowledge base updated {esc(kb_date)}"
+    explorer_version_html = f"Explorer {esc(explorer_version)} &middot; " if explorer_version else ""
     # Sanitise </script> sequences to prevent early tag closure when embedded in HTML
     data_json    = json.dumps(db, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
     idx_json     = json.dumps({
@@ -2472,8 +2616,7 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
     <footer class="site-footer">
       <div class="footer-copyright">&copy; {footer_year} SOLVE-IT</div>
       <div class="footer-generated">
-        Data updated {generated_at} &mdash;
-        <a href="https://github.com/SOLVE-IT-DF/solve-it" target="_blank">github.com/SOLVE-IT-DF/solve-it</a>
+        {explorer_version_html}{kb_identity_html}
       </div>
       <div class="footer-supported">
         <span>Supported by:</span>
@@ -5280,9 +5423,15 @@ def main() -> None:
     db["credits"] = people
 
     source_date = get_source_data_date(repo_root) if (repo_root / ".git").exists() else None
+    source_commit = get_source_data_commit(repo_root) if (repo_root / ".git").exists() else None
+    # The version belongs to this script's repository, which --local may not be.
+    explorer_version = get_explorer_version(Path(script_dir).parent)
+    if explorer_version:
+        print(f"  Explorer version: {explorer_version}")
 
     idx = build_indices(db, kb=kb)
-    html = generate_html(db, idx, custom=getattr(args, "custom", False), kb=kb, source_date=source_date)
+    html = generate_html(db, idx, custom=getattr(args, "custom", False), kb=kb, source_date=source_date,
+                         source_commit=source_commit, explorer_version=explorer_version)
 
     out = Path(args.output)
     out.write_text(html, encoding="utf-8")

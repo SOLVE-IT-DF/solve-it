@@ -55,5 +55,133 @@ class TestSourceLabel(unittest.TestCase):
         self.assertIn("Added technique:", self.render("manual"))
 
 
+
+class TestObjectiveChanges(unittest.TestCase):
+    """data/solve-it.json changes: objectives added, removed, renamed; techniques moved."""
+
+    @staticmethod
+    def objs(*specs):
+        return [{"id": i, "name": n, "description": "", "techniques": list(t)} for i, n, t in specs]
+
+    def changes(self, before, after):
+        from generate_changelog import objective_changes
+        names = {"DFT-1001": "Image a disk", "DFT-1002": "Hash a file"}
+        return objective_changes(before, after, lambda tid: names.get(tid, tid))
+
+    BASE = (("DFO-1001", "Acquire", ["DFT-1001"]), ("DFO-1002", "Preserve", ["DFT-1002"]))
+
+    def test_new_objective_is_recorded_as_added(self):
+        out = self.changes(self.objs(*self.BASE), self.objs(*self.BASE, ("DFO-1003", "Evaluate evidence", [])))
+        self.assertEqual(out, [{"action": "added", "type": "objective", "id": "DFO-1003", "name": "Evaluate evidence"}])
+
+    def test_removed_objective_is_recorded_as_deleted(self):
+        out = self.changes(self.objs(*self.BASE), self.objs(self.BASE[0]))
+        self.assertEqual([(c["action"], c["id"]) for c in out], [("deleted", "DFO-1002")])
+
+    def test_renamed_objective_is_recorded_as_updated(self):
+        after = self.objs(("DFO-1001", "Acquire data", ["DFT-1001"]), self.BASE[1])
+        self.assertEqual([(c["action"], c["id"], c["name"]) for c in self.changes(self.objs(*self.BASE), after)],
+                         [("updated", "DFO-1001", "Acquire data")])
+
+    def test_technique_moved_between_objectives(self):
+        after = self.objs(("DFO-1001", "Acquire", []), ("DFO-1002", "Preserve", ["DFT-1002", "DFT-1001"]))
+        out = self.changes(self.objs(*self.BASE), after)
+        self.assertEqual(out, [{"action": "moved", "type": "technique", "id": "DFT-1001",
+                                "name": 'Image a disk, from "Acquire" to "Preserve"'}])
+
+    def test_new_technique_placed_under_an_objective_is_not_a_separate_entry(self):
+        from generate_changelog import objective_changes
+        after = self.objs(("DFO-1001", "Acquire", ["DFT-1001", "DFT-1009"]), self.BASE[1])
+        self.assertEqual(objective_changes(self.objs(*self.BASE), after,
+                                           changed_techniques=frozenset({"DFT-1009"})), [])
+
+    def test_existing_technique_added_to_a_second_objective_updates_that_objective(self):
+        after = self.objs(self.BASE[0], ("DFO-1002", "Preserve", ["DFT-1002", "DFT-1001"]))
+        self.assertEqual([(c["action"], c["id"]) for c in self.changes(self.objs(*self.BASE), after)],
+                         [("updated", "DFO-1002")])
+
+    def test_objective_gaining_an_id_is_not_a_deletion_and_an_addition(self):
+        before = [{"name": "Acquire", "techniques": ["DFT-1001"]}, {"name": "Preserve", "techniques": ["DFT-1002"]}]
+        self.assertEqual(self.changes(before, self.objs(*self.BASE)), [])
+
+    def test_existing_technique_removed_from_its_only_objective_updates_it(self):
+        after = self.objs(("DFO-1001", "Acquire", []), self.BASE[1])
+        self.assertEqual([(c["action"], c["id"]) for c in self.changes(self.objs(*self.BASE), after)],
+                         [("updated", "DFO-1001")])
+
+    def test_existing_unplaced_technique_placed_updates_the_objective(self):
+        after = self.objs(("DFO-1001", "Acquire", ["DFT-1001", "DFT-1009"]), self.BASE[1])
+        from generate_changelog import objective_changes
+        out = objective_changes(self.objs(*self.BASE), after)   # DFT-1009 not added by this commit
+        self.assertEqual([(c["action"], c["id"]) for c in out], [("updated", "DFO-1001")])
+
+    def test_deleted_technique_leaving_its_objective_is_not_a_separate_entry(self):
+        from generate_changelog import objective_changes
+        after = self.objs(("DFO-1001", "Acquire", []), self.BASE[1])
+        self.assertEqual(objective_changes(self.objs(*self.BASE), after,
+                                           changed_techniques=frozenset({"DFT-1001"})), [])
+
+    def test_objective_id_change_is_recorded_as_updated(self):
+        after = self.objs(("DFO-1009", "Acquire", ["DFT-1001"]), self.BASE[1])
+        self.assertEqual([(c["action"], c["id"]) for c in self.changes(self.objs(*self.BASE), after)],
+                         [("updated", "DFO-1009")])
+
+    def test_unparseable_side_gives_no_entries(self):
+        self.assertEqual(self.changes(None, self.objs(*self.BASE)), [])
+
+    def test_move_renders_readably(self):
+        e = {"date": "2026-11-11", "action": "moved", "type": "technique", "id": "DFT-1001",
+             "name": 'Image a disk, from "Acquire" to "Preserve"', "commit": "abc1234", "source": "manual", "issue": None}
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "c.md"
+            render_markdown([e], out)
+            self.assertIn('Moved technique: Image a disk, from "Acquire" to "Preserve" (DFT-1001)', out.read_text())
+
+
+
+class TestObjectiveEntriesEndToEnd(unittest.TestCase):
+    """Run the generator's main() on a throwaway repository: a commit Strategy A
+    recognises that also moves its technique must give both entries, and a new
+    technique's placement must not get one."""
+
+    def test_update_and_move_in_one_commit_are_both_recorded(self):
+        import json, subprocess
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+
+            def git(*a):
+                return subprocess.run(["git", *a], cwd=root, check=True, capture_output=True, text=True).stdout
+
+            def write(rel, obj):
+                (root / rel).parent.mkdir(parents=True, exist_ok=True)
+                (root / rel).write_text(json.dumps(obj, indent=4) + "\n", encoding="utf-8")
+
+            git("init", "-q", "-b", "main")
+            git("config", "user.email", "t@example.invalid"); git("config", "user.name", "T")
+            git("config", "commit.gpgsign", "false")
+            write("data/techniques/DFT-1001.json", {"id": "DFT-1001", "name": "Image a disk"})
+            write("data/solve-it.json", [{"id": "DFO-1001", "name": "Acquire", "techniques": ["DFT-1001"]},
+                                         {"id": "DFO-1002", "name": "Preserve", "techniques": []}])
+            git("add", "-A"); git("commit", "-q", "-m", "initial")
+            write("data/techniques/DFT-1001.json", {"id": "DFT-1001", "name": "Image a storage device"})
+            write("data/techniques/DFT-1009.json", {"id": "DFT-1009", "name": "Brand new"})
+            write("data/solve-it.json", [{"id": "DFO-1001", "name": "Acquire", "techniques": ["DFT-1009"]},
+                                         {"id": "DFO-1002", "name": "Preserve", "techniques": ["DFT-1001"]}])
+            git("add", "-A")
+            git("commit", "-q", "-m", "Update TRWM submission: Image a storage device (DFT-1001)")
+            script = Path(__file__).resolve().parent.parent / "admin" / "generate_changelog.py"
+            out = subprocess.run([sys.executable, str(script), "--project-root", str(root), "--dry-run"],
+                                 capture_output=True, text=True, check=True).stdout
+            entries = [json.loads(l) for l in out.splitlines() if l.startswith("{")]
+            last = [e for e in entries if e["commit"] == git("rev-parse", "--short=7", "HEAD").strip()]
+            kinds = sorted((e["action"], e["type"], e["id"]) for e in last)
+            self.assertIn(("moved", "technique", "DFT-1001"), kinds)
+            self.assertTrue(any(k[2] == "DFT-1001" and k[0] != "moved" for k in kinds),
+                            "the Strategy A entry for DFT-1001 must survive alongside the move")
+            self.assertFalse(any(k[1] == "objective" for k in kinds),
+                             "placing the new DFT-1009 is covered by its own entry")
+            move = next(e for e in last if e["action"] == "moved")
+            self.assertEqual(list(move)[:3], ["date", "action", "type"])
+
 if __name__ == "__main__":
     unittest.main()

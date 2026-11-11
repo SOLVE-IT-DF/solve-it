@@ -1,0 +1,74 @@
+name: Update data version
+
+# Keeps data/solveit_version.json in step with main. Every change to data/ gets
+# a new data version (see admin/data_version.py for the rules), and the file
+# also records the schema version (SCHEMA_VERSION in solve_it_library/models.py)
+# and the commit it describes. Every generated output copies it.
+#
+# The script rebuilds the file from a full replay of main's history each time,
+# so it cannot inherit an error: GitHub may skip a queued run (it keeps at most
+# one waiting run per concurrency group), a pull request may carry an edited
+# copy of the file, or the schema may change with no data change. The file is
+# owned by this workflow; never edit it by hand.
+#
+# Pushes made with GITHUB_TOKEN do not start workflows, so this run's own commit
+# cannot trigger it again. The paths filter deliberately includes the version
+# file: a merged pull request that edited it must trigger a rebuild.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'solve_it_library/models.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data-version
+  cancel-in-progress: false
+
+jobs:
+  update-data-version:
+    # Not in forks: a fork's own version commits would diverge from upstream.
+    if: github.repository == 'SOLVE-IT-DF/solve-it'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Update the version file and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Another bot (the changelog update) also pushes to main. On a
+          # rejected push, start again from the latest main rather than
+          # rebasing, so a conflict is impossible and the file always
+          # describes the main it is pushed onto.
+          for attempt in 1 2 3 4 5; do
+            git fetch --quiet origin main
+            git reset --quiet --hard origin/main
+            python admin/data_version.py bump --ref HEAD
+            git add data/solveit_version.json
+            if git diff --cached --quiet; then
+              echo "Version file unchanged"
+              exit 0
+            fi
+            version=$(python -c "import json; d = json.load(open('data/solveit_version.json')); print(d['version'] + ', schema ' + d['schema'])")
+            git commit --quiet -m "Update data version to ${version} [skip ci]"
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep $((attempt * 5))
+          done
+          echo "Could not push the version update after 5 attempts" >&2
+          exit 1

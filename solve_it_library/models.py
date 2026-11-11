@@ -10,6 +10,22 @@ from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field, validator, field_validator, ConfigDict
 
 
+# --- Schema version ---
+#
+# The version of the structure these models define, as MAJOR.MINOR. Change it
+# in the same pull request as any change to the structure of the data:
+#   MAJOR  a change existing readers cannot handle: a field removed or
+#          renamed, or the format of a value changed (e.g. the ID scheme).
+#   MINOR  an addition existing readers can ignore, such as a new field.
+# Edits that accept the same data (docstrings, messages, stricter checks of
+# values already required) are not schema changes.
+#
+# It is copied into data/solveit_version.json by admin/data_version.py, and
+# from there into every generated output. Record each change, with its new
+# version, in changelog/CHANGELOG_STRUCTURE.md.
+SCHEMA_VERSION = "5.1"
+
+
 # --- ASTM Error Class Mapping ---
 
 ASTM_CLASS_MAPPING = {

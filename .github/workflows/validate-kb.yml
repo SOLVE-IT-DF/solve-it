@@ -32,6 +32,41 @@ jobs:
           --check-ontology
           --markdown-summary kb_validation_summary.md
           --ontology-summary ontology_iri_report.md
+      - name: Check whether the schema version needs changing
+        # A warning, not a failure: some edits to models.py (docstrings,
+        # messages, checks that accept the same data) are not schema changes.
+        # See the comment above SCHEMA_VERSION in solve_it_library/models.py.
+        if: github.event_name == 'pull_request'
+        run: |
+          # HEAD is the PR merged into its base; HEAD^1 is exactly that base.
+          BASE_SHA=$(git rev-parse HEAD^1)
+          if git diff --quiet "$BASE_SHA" HEAD -- solve_it_library/models.py; then
+            exit 0
+          fi
+          if git diff "$BASE_SHA" HEAD -- solve_it_library/models.py | grep -qE '^[-+]SCHEMA_VERSION'; then
+            echo "SCHEMA_VERSION changed in this pull request."
+            exit 0
+          fi
+          msg="solve_it_library/models.py changed but SCHEMA_VERSION did not. If this changes the structure of the data, update SCHEMA_VERSION and add an entry to changelog/CHANGELOG_STRUCTURE.md."
+          echo "::warning file=solve_it_library/models.py::${msg}"
+          printf '\n> [!WARNING]\n> %s\n' "$msg" >> kb_validation_summary.md
+      - name: Check the version file was not edited
+        # data/solveit_version.json is owned by the "Update data version"
+        # workflow, which rebuilds it after merge; an edited copy is ignored.
+        if: github.event_name == 'pull_request'
+        run: |
+          # HEAD is the PR merged into its base; HEAD^1 is exactly that base.
+          BASE_SHA=$(git rev-parse HEAD^1)
+          if git diff --quiet "$BASE_SHA" HEAD -- data/solveit_version.json; then
+            exit 0
+          fi
+          # The pull request that first adds the file is expected to.
+          if ! git cat-file -e "$BASE_SHA:data/solveit_version.json" 2>/dev/null; then
+            exit 0
+          fi
+          msg="data/solveit_version.json was changed. It is maintained by the Update data version workflow after merge; please drop the change from this pull request."
+          echo "::warning file=data/solveit_version.json::${msg}"
+          printf '\n> [!WARNING]\n> %s\n' "$msg" >> kb_validation_summary.md
       - name: Run tests
         run: python -m pytest tests/ -v
       - name: Save PR number

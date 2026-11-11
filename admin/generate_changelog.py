@@ -63,7 +63,7 @@ DATA_DIR_TYPE = {
     "data/references": "reference",
 }
 
-SKIP_FILES = {"data/solve-it.json"}
+SKIP_FILES = {"data/solve-it.json", "data/solveit_version.json"}
 
 # Filename → ID patterns (new and old formats)
 FILE_ID_RE = re.compile(r"(DFT-\d+|DFW-\d+|DFM-\d+|DFCite-\d+)")
@@ -407,6 +407,134 @@ def strategy_b(commit: dict) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
+# Objective changes (data/solve-it.json)
+# ---------------------------------------------------------------------------
+#
+# data/solve-it.json lists the objectives and the techniques under each. Both
+# strategies above skip it, so changes to objectives are detected here, for
+# every commit that touches it. Recorded:
+#   - an objective added or removed;
+#   - an objective renamed or its description changed;
+#   - a technique moved from one objective to another;
+#   - an existing technique added to or removed from an objective, including
+#     one placed for the first time or removed from its only objective
+#     (recorded as an update to that objective).
+# A technique added or deleted in the same commit is not recorded here: its
+# own added or deleted entry covers it.
+
+OBJECTIVES_FILE = "data/solve-it.json"
+
+
+def _objective_key(obj: dict) -> str:
+    return str(obj.get("id") or obj.get("name") or "")
+
+
+def objective_changes(before, after, technique_name=lambda tid: tid,
+                      changed_techniques=frozenset()) -> list[dict]:
+    """Compare two parsed objective lists and return change descriptions.
+
+    Each description is {action, type, id, name}. Returns [] if either side is
+    not a list of objectives (for example a file committed with a syntax error).
+    changed_techniques holds the IDs of techniques added or deleted by the same
+    commit; their placement under objectives is not reported separately.
+    """
+    if not isinstance(before, list) or not isinstance(after, list):
+        return []
+    old = {_objective_key(o): o for o in before if isinstance(o, dict) and _objective_key(o)}
+    new = {_objective_key(o): o for o in after if isinstance(o, dict) and _objective_key(o)}
+    changes = []
+
+    def describe(action, key, obj):
+        return {"action": action, "type": "objective", "id": key, "name": obj.get("name") or key}
+
+    # An objective whose key changed but whose name did not is the same
+    # objective (for example when objectives were given DFO- IDs): pair them
+    # up rather than reporting a deletion and an addition.
+    gone = old.keys() - new.keys()
+    arrived = new.keys() - old.keys()
+    by_name = {(old[k].get("name") or "").casefold(): k for k in gone}
+    renamed_key = {}
+    for k in arrived:
+        match = by_name.pop((new[k].get("name") or "").casefold(), None)
+        if match:
+            renamed_key[match] = k
+    for key in sorted(arrived - set(renamed_key.values())):
+        changes.append(describe("added", key, new[key]))
+    for key in sorted(gone - renamed_key.keys()):
+        changes.append(describe("deleted", key, old[key]))
+    # Compare paired objectives under their new keys from here on.
+    old = {renamed_key.get(k, k): v for k, v in old.items()}
+
+    updated = set()
+    # Pairing by name covers objectives first given DFO- IDs. A change from one
+    # DFO- ID to another is a real change to the objective: record it.
+    for was_key, now_key in renamed_key.items():
+        if was_key.startswith("DFO-") and now_key.startswith("DFO-"):
+            updated.add(now_key)
+    for key in new.keys() & old.keys():
+        if any((new[key].get(f) or "") != (old[key].get(f) or "") for f in ("name", "description")):
+            updated.add(key)
+
+    def placement(objs):
+        where = defaultdict(set)
+        for key, obj in objs.items():
+            for tid in obj.get("techniques") or []:
+                where[tid].add(key)
+        return where
+
+    was, now = placement(old), placement(new)
+    for tid in sorted(set(was) | set(now)):
+        placed_before, placed_after = was.get(tid, set()), now.get(tid, set())
+        if tid in changed_techniques and not (placed_before and placed_after):
+            continue  # a new or deleted technique: its own entry covers it
+        removed_from = (placed_before - placed_after) & new.keys()
+        added_to = (placed_after - placed_before) & old.keys()
+        if removed_from and added_to:
+            names = lambda keys: " and ".join(f'"{new[k].get("name") or k}"' for k in sorted(keys))
+            changes.append({"action": "moved", "type": "technique", "id": tid,
+                            "name": f"{technique_name(tid)}, from {names(removed_from)} to {names(added_to)}"})
+        else:
+            updated |= removed_from | added_to
+
+    for key in sorted(updated):
+        changes.append(describe("updated", key, new[key]))
+    return changes
+
+
+def objective_entries(commit: dict) -> list[dict]:
+    """Changelog entries for objective changes made by one commit."""
+    if not any(path == OBJECTIVES_FILE for _, path, _ in get_diff_tree(commit["sha"])):
+        return []
+
+    def load(rev):
+        text = read_file_at_commit(rev, OBJECTIVES_FILE)
+        try:
+            return json.loads(text) if text else []
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            return None
+
+    def technique_name(tid):
+        return extract_name_from_json(commit["sha"], f"data/techniques/{tid}.json") or tid
+
+    # Techniques added or deleted (renames count as both) by this commit.
+    changed = set()
+    for status, path, old_path in get_diff_tree(commit["sha"]):
+        if status in "ADR":
+            for p in (path, old_path):
+                item_type, item_id = classify_data_file(p) if p else (None, None)
+                if item_type == "technique" and item_id:
+                    changed.add(item_id)
+
+    changes = objective_changes(load(commit["sha"] + "~1"), load(commit["sha"]),
+                                technique_name, frozenset(changed))
+    issue = extract_issue(commit["body"]) or extract_issue(commit["subject"])
+    # Same field order as the other entries in changelog.jsonl.
+    return [{"date": commit["date"], "action": c["action"], "type": c["type"], "id": c["id"],
+             "name": c["name"], "commit": commit["sha"][:7], "source": "manual", "issue": issue}
+            for c in changes]
+
+
+# ---------------------------------------------------------------------------
 # Deduplication and merging
 # ---------------------------------------------------------------------------
 
@@ -642,6 +770,7 @@ def main():
 
     all_a = []
     all_b = []
+    all_objective = []
 
     for i, commit in enumerate(commits):
         a_entries = strategy_a(commit)
@@ -650,11 +779,16 @@ def main():
         else:
             b_entries = strategy_b(commit)
             all_b.extend(b_entries)
+        # Objective changes are checked for every commit: a commit Strategy A
+        # recognises can still move a technique between objectives.
+        all_objective.extend(objective_entries(commit))
 
         if (i + 1) % 100 == 0:
             print(f"  ...processed {i + 1}/{len(commits)} commits")
 
-    new_entries = deduplicate(all_a, all_b)
+    # Objective entries are kept out of deduplicate(), which keys on commit and
+    # ID only: a technique updated and moved in one commit needs both entries.
+    new_entries = deduplicate(all_a, all_b) + all_objective
 
     # Add commit URL to new entries
     commit_base_url = get_repo_commit_url()
@@ -664,7 +798,7 @@ def main():
 
     print(
         f"Found {len(new_entries)} new entries "
-        f"(Strategy A: {len(all_a)}, Strategy B: {len(all_b)})"
+        f"(Strategy A: {len(all_a)}, Strategy B: {len(all_b)}, objectives: {len(all_objective)})"
     )
 
     if args.dry_run:

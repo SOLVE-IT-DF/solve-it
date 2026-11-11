@@ -56,13 +56,19 @@ def build_combined_json(kb):
             "display_text": display_text,
         }
 
-    return {
+    combined = {}
+    version_info = kb.get_version_info()
+    if version_info:
+        # Which knowledge base content and schema this export was built from.
+        combined["solveit_version"] = version_info
+    combined.update({
         "techniques": techniques,
         "weaknesses": weaknesses,
         "mitigations": mitigations,
         "objectives": objectives,
         "citations": citations,
-    }
+    })
+    return combined
 
 
 def main():

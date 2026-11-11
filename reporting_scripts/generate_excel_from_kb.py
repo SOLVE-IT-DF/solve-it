@@ -621,6 +621,16 @@ if __name__ == '__main__':
     info_sheet.write_string(7, 0, "Proportion of techniques with weaknesses")
     info_sheet.write_number(7, 1, round(total_techniques_with_weaknesses / len(kb.list_techniques()), 2))
 
+    # Which knowledge base content and schema the workbook was built from
+    version_info = kb.get_version_info()
+    if version_info:
+        for row, (label, key) in enumerate((("Data version", "version"),
+                                            ("Schema version", "schema"),
+                                            ("Source commit", "commit"),
+                                            ("Commit time (UTC)", "committed_at")), start=8):
+            info_sheet.write_string(row, 0, label)
+            info_sheet.write_string(row, 1, str(version_info.get(key, "")))
+
     workbook.close()
 
     print("Workbook generation complete.")

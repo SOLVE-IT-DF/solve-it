@@ -14,6 +14,15 @@ class TestCombinedJson(unittest.TestCase):
         cls.kb = KnowledgeBase('.', 'solve-it.json')
         cls.combined = generate_combined_json_from_kb.build_combined_json(cls.kb)
 
+    def test_version_record_comes_first_and_matches_the_version_file(self):
+        import json
+        with open('data/solveit_version.json', encoding='utf-8') as f:
+            expected = json.load(f)
+        self.assertEqual(next(iter(self.combined)), "solveit_version")
+        self.assertEqual(self.combined["solveit_version"], expected)
+        for key in ("version", "schema", "commit", "committed_at"):
+            self.assertIn(key, self.combined["solveit_version"])
+
     def test_existing_sections_present(self):
         for key in ("techniques", "weaknesses", "mitigations", "objectives"):
             self.assertIn(key, self.combined)

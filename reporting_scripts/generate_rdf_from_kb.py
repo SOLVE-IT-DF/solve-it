@@ -47,6 +47,12 @@ UCO_CORE = Namespace("https://ontology.unifiedcyberontology.org/uco/core/")
 UCO_OBSERVABLE = Namespace("https://ontology.unifiedcyberontology.org/uco/observable/")
 UCO_ACTION = Namespace("https://ontology.unifiedcyberontology.org/uco/action/")
 CASE_INVESTIGATION = Namespace("https://ontology.caseontology.org/case/investigation/")
+DCTERMS = Namespace("http://purl.org/dc/terms/")
+
+# The knowledge base graph describes itself with an ontology header, as the
+# SOLVE-IT ontology modules do. Its subject is the data namespace IRI, which
+# is where knowledge base entries live, not an ontology term.
+KB_HEADER = URIRef(str(SOLVEIT_DATA))
 
 
 def create_rdf_graph(kb, include_objectives=True):
@@ -75,8 +81,10 @@ def create_rdf_graph(kb, include_objectives=True):
     g.bind("rdfs", RDFS)
     g.bind("owl", OWL)
     g.bind("xsd", XSD)
+    g.bind("dcterms", DCTERMS)
 
     logger.info("Building RDF graph from knowledge base...")
+    add_version_header(g, kb)
 
     # Add techniques
     logger.info("Adding techniques to graph...")
@@ -102,6 +110,31 @@ def create_rdf_graph(kb, include_objectives=True):
     logger.info(f"RDF graph built successfully with {len(g)} triples")
 
     return g
+
+
+def add_version_header(g, kb):
+    """State which version of the knowledge base the graph was built from.
+
+    Reads data/solveit_version.json through the library; adds nothing when the
+    file is absent (a copy of the data made before it existed).
+    """
+    info = kb.get_version_info()
+    if not info:
+        return
+    g.add((KB_HEADER, RDF.type, OWL.Ontology))
+    g.add((KB_HEADER, OWL.versionInfo, Literal(info["version"])))
+    if info.get("committed_at"):
+        # normalize=False keeps the text exactly as in the version file ("...Z"),
+        # rather than rdflib rewriting it as "+00:00".
+        g.add((KB_HEADER, DCTERMS.modified,
+               Literal(info["committed_at"], datatype=XSD.dateTime, normalize=False)))
+    if info.get("commit"):
+        g.add((KB_HEADER, DCTERMS.source,
+               URIRef(f"https://github.com/SOLVE-IT-DF/solve-it/commit/{info['commit']}")))
+    g.add((KB_HEADER, RDFS.comment, Literal(
+        f"SOLVE-IT knowledge base data version {info['version']}"
+        + (f", schema version {info['schema']}" if info.get("schema") else "")
+        + (f", built from commit {info['commit']}" if info.get("commit") else "") + ".")))
 
 
 def build_parent_map(kb, techniques):
@@ -553,6 +586,15 @@ def serialize_grouped(g):
     out.append('')
 
     claimed = set()
+    if (KB_HEADER, RDF.type, OWL.Ontology) in g:
+        claimed.add(KB_HEADER)
+        out.append(rule)
+        out.append('#    Knowledge base version')
+        out.append('#')
+        out.append('#    Data version, schema version and the commit this file was built from.')
+        out.append(rule)
+        out.append('')
+        out.append(_emit_subject(g, KB_HEADER, [], nm))
     for heading, blurb, type_uri, pred_order, sort_pred in TTL_SECTIONS:
         subjects = sorted(
             set(g.subjects(RDF.type, type_uri)),
@@ -602,6 +644,9 @@ def jsonld_node_order(g):
     """
     order = {}
     claimed = set()
+    if (KB_HEADER, RDF.type, OWL.Ontology) in g:
+        claimed.add(KB_HEADER)
+        order[str(KB_HEADER)] = (-1, 0)
     for index, (_, _, type_uri, _, sort_pred) in enumerate(TTL_SECTIONS):
         subjects = sorted(
             set(g.subjects(RDF.type, type_uri)),

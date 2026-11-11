@@ -263,6 +263,8 @@ class MyTestCase(unittest.TestCase):
         mappings = kb.list_available_mappings()
         self.assertIsInstance(mappings, list)
         self.assertIn('solve-it.json', mappings)
+        self.assertNotIn('solveit_version.json', mappings,
+                         'the version file is not an objective mapping')
 
     def test_list_objectives(self):
         """

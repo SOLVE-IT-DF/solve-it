@@ -227,6 +227,20 @@ class TestFooter(unittest.TestCase):
         self.assertIn(">9fd7804</a> (30 Oct 2026)", self.with_ids)
         self.assertIn('href="https://github.com/SOLVE-IT-DF/solve-it/commit/9fd7804"', self.with_ids)
 
+    def test_footer_prefers_the_version_file(self):
+        from generate_html_from_kb import load_from_local, build_indices, generate_html
+        repo_root = Path(os.path.dirname(__file__)).parent
+        db = load_from_local(str(repo_root))
+        html = generate_html(db, build_indices(db), source_date="2026-10-30", source_commit="9fd7804",
+                             explorer_version="1.6.0",
+                             version_info={"version": "0.97.0", "schema": "5.0",
+                                           "commit": "eac86fbf8b960e5ca1e2eddf501fe2937110be1f",
+                                           "committed_at": "2026-11-10T21:35:42Z"})
+        self.assertIn("Explorer 1.6.0 &middot; Knowledge base <a href=", html)
+        self.assertIn('/commit/eac86fbf8b960e5ca1e2eddf501fe2937110be1f"', html)
+        self.assertIn(">0.97.0</a>, schema 5.0 (10 Nov 2026)", html)
+        self.assertNotIn("9fd7804", html)
+
     def test_footer_omits_what_is_unknown(self):
         self.assertIn("Knowledge base updated 30 Oct 2026", self.without)
         self.assertNotIn("Explorer 1.", self.without)

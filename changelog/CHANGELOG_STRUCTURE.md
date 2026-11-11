@@ -9,7 +9,7 @@ Instructions for anyone changing the structure of the data (people and AI agents
 change SCHEMA_VERSION in solve_it_library/models.py in the same pull request,
 following the rule above, and add an entry here with a "Schema version: X.Y" line
 directly under its heading. A change to content only (new items, a new objective)
-is not a schema change; record it with "No schema change" instead.
+is not a schema change and does not belong here: the data changelog records it.
 -->
 
 ### Version file added to the data folder (2026-11-11)
@@ -17,12 +17,6 @@ is not a schema change; record it with "No schema change" instead.
 Schema version: 5.1
 
 Added `data/solveit_version.json`, which records the knowledge base data version, the schema version and the commit they describe. A workflow updates it on every change to `data/`; it is not edited by hand. It is not an objective mapping, and `list_available_mappings()` no longer lists it. The combined JSON export carries the same record under a new top-level `solveit_version` key, and the RDF export as an ontology header on the data namespace.
-
-### New objective: Evaluate evidence (2026-07-14)
-
-No schema change: this added content, not structure.
-
-Added "Evaluate evidence" as a new objective, taking the knowledge base from 23 to 24 objectives. It sits between "Reconstruct events" and "Document digital forensic activities", and covers techniques concerned with assessing what the recovered material supports rather than recovering it. The objective was introduced alongside its first technique, Generate Alternative Hypotheses (DFT-1195). Anything consuming the objective list, including issue forms and generated views, reflects the additional entry.
 
 ### Weakness classes migration (2026-03-19)
 

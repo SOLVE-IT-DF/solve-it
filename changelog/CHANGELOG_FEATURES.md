@@ -24,6 +24,10 @@ that renumbers every later version. This comment and the markers are HTML
 comments, so they do not appear on the website's changelog page.
 -->
 
+### Objective changes in the data changelog (2026-11-11)
+
+The data changelog now records changes to objectives: an objective added, removed, renamed, re-described or given a different ID; a technique moved from one objective to another; and an existing technique placed under, or removed from, an objective. A technique added or deleted in the same commit is covered by its own entry. Previously changes to `data/solve-it.json` were not recorded at all. Entries were added for the changes since objectives were given DFO- IDs on 2026-02-27 (PR [#299](https://github.com/SOLVE-IT-DF/solve-it/pull/299)); three of them come from branch commits made just before the IDs existed and are recorded under the IDs those objectives were given, including "Evaluate evidence" (DFO-1024), which moves out of the structure changelog because it changed content, not structure. Earlier changes are not backfilled: before the IDs, objectives were identified only by name, so a renamed objective cannot be told apart from one removed and another added.
+
 ### Knowledge base and schema version numbers (2026-11-11)
 
 The knowledge base data now has a version number, 0.MINOR.PATCH, recorded with the schema version and the commit it describes in `data/solveit_version.json`. A workflow updates it on every change to `data/`: adding, deleting or renaming a technique, weakness or mitigation, or adding an objective, raises the minor number; any other change raises the patch number. Numbering was replayed from the whole history, so the first version file is 0.97.0. The schema has its own version, MAJOR.MINOR, set by hand when the structure changes (5.1, see the structure changelog). The combined JSON export carries the record as `solveit_version`, the Turtle and JSON-LD exports as an ontology header, the Excel workbook on its Info sheet, and the Explorer footer shows it, for example "Knowledge base 0.97.0, schema 5.1 (10 Nov 2026)".

@@ -4,6 +4,7 @@ Each entry starts with the knowledge base data version it arrived in. The versio
 
 ## November 2026
 
+- <a id="data-0.98.2"></a>**0.98.2** · 2026-11-12 · Added reference: DFCite-1172 [`0e26543`](https://github.com/SOLVE-IT-DF/solve-it/commit/0e26543)
 - <a id="data-0.98.1"></a>**0.98.1** · 2026-11-10 · Updated weakness: Recovered (non-allocated) file content is incorrect due to an incorrect assumption that the file was contiguous (DFW-1254) [`212037a`](https://github.com/SOLVE-IT-DF/solve-it/commit/212037a)
 - <a id="data-0.97.0"></a>**0.97.0** · 2026-11-08 · Updated mitigation (TRWM): Use of AI to classify files in addition to standard programmatic methods (DFM-1112) [`f19b9b5`](https://github.com/SOLVE-IT-DF/solve-it/commit/f19b9b5)
 - **0.97.0** · 2026-11-07 · Updated mitigation: Record the specific format, and its version where relevant, alongside any category (DFM-1380) [`854d0ea`](https://github.com/SOLVE-IT-DF/solve-it/commit/854d0ea)

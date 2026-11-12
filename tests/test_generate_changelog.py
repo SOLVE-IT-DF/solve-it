@@ -183,5 +183,94 @@ class TestObjectiveEntriesEndToEnd(unittest.TestCase):
             move = next(e for e in last if e["action"] == "moved")
             self.assertEqual(list(move)[:3], ["date", "action", "type"])
 
+
+class TestVersionAnchors(unittest.TestCase):
+    """Version numbers and anchors that the Explorer footer links to."""
+
+    MARK = "<!-- explorer: feature -->"
+
+    def features(self):
+        return "\n".join(["# Features Changelog", "",
+                          "### Newest (2026-03-01)", self.MARK, "", "Text.", "",
+                          "### Not the Explorer (2026-02-15)", "", "Text.", "",
+                          "### Oldest (2026-02-01)", self.MARK, "", "Text.", ""])
+
+    def test_explorer_versions_count_up_from_the_oldest_marked_entry(self):
+        from generate_changelog import annotate_features_changelog
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "f.md"
+            p.write_text(self.features())
+            self.assertTrue(annotate_features_changelog(p))
+            lines = p.read_text().split("\n")
+            self.assertEqual(lines[3], self.MARK)       # marker stays directly under its heading
+            self.assertEqual(lines[4], '<a id="explorer-1.1"></a>Explorer version 1.1')
+            self.assertIn('<a id="explorer-1.0"></a>Explorer version 1.0', lines)
+            self.assertEqual(sum('id="explorer-' in l for l in lines), 2)
+            self.assertFalse(annotate_features_changelog(p), "a second run must change nothing")
+
+    def test_schema_lines_get_anchors_once(self):
+        from generate_changelog import annotate_structure_changelog
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "s.md"
+            p.write_text("### A (2026-01-01)\n\nSchema version: 5.1\n")
+            self.assertTrue(annotate_structure_changelog(p))
+            self.assertIn('<a id="schema-5.1"></a>Schema version: 5.1', p.read_text())
+            self.assertFalse(annotate_structure_changelog(p))
+
+    def test_lines_start_with_the_version_and_each_version_is_anchored_once(self):
+        es = [dict(entry(commit="aaaaaaa", id="DFT-1001", date="2026-11-06"), version="0.97.0"),
+              dict(entry(commit="bbbbbbb", id="DFT-1002", date="2026-11-08"), version="0.97.0"),
+              dict(entry(commit="ccccccc", id="DFT-1003", date="2026-11-09"), version="0.96.1")]
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "c.md"
+            render_markdown(es, out)
+            text = out.read_text()
+        lines = [l for l in text.splitlines() if l.startswith("- ")]
+        self.assertTrue(lines[0].startswith('- <a id="data-0.97.0"></a>**0.97.0** · 2026-11-08 · '))
+        self.assertTrue(lines[1].startswith("- **0.97.0** · 2026-11-06 · "))
+        self.assertTrue(lines[2].startswith('- <a id="data-0.96.1"></a>**0.96.1**'),
+                        "a newer date in an older version must not split 0.97.0's entries")
+        self.assertEqual(text.count('id="data-0.97.0"'), 1)
+
+
+class TestVersionsEndToEnd(unittest.TestCase):
+    """main() gives each entry the version of the merge that brought it in, and
+    adds an entry for a version nothing else describes."""
+
+    def test_versions_follow_merges(self):
+        import json, subprocess
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+
+            def git(*a):
+                return subprocess.run(["git", *a], cwd=root, check=True, capture_output=True, text=True).stdout
+
+            def write(rel, obj):
+                (root / rel).parent.mkdir(parents=True, exist_ok=True)
+                (root / rel).write_text(json.dumps(obj) + "\n", encoding="utf-8")
+
+            git("init", "-q", "-b", "main")
+            git("config", "user.email", "t@example.invalid"); git("config", "user.name", "T")
+            git("config", "commit.gpgsign", "false")
+            write("data/techniques/DFT-1001.json", {"id": "DFT-1001", "name": "Image a disk"})
+            write("data/solve-it.json", [{"id": "DFO-1001", "name": "Acquire", "techniques": ["DFT-1001"]}])
+            git("add", "-A"); git("commit", "-q", "-m", "initial")                      # 0.1.0
+            git("switch", "-q", "-c", "b")
+            write("data/techniques/DFT-1001.json", {"id": "DFT-1001", "name": "Image a storage device"})
+            git("add", "-A"); git("commit", "-q", "-m", "reword on a branch")
+            branch_commit = git("rev-parse", "--short=7", "HEAD").strip()
+            git("switch", "-q", "main"); git("merge", "-q", "--no-ff", "-m", "Merge b", "b")   # 0.1.1
+            write("data/dfrws.json", [{"name": "Other mapping", "techniques": []}])
+            git("add", "-A"); git("commit", "-q", "-m", "alternative mapping only")          # 0.1.2
+            script = Path(__file__).resolve().parent.parent / "admin" / "generate_changelog.py"
+            subprocess.run([sys.executable, str(script), "--project-root", str(root)],
+                           capture_output=True, text=True, check=True)
+            entries = [json.loads(l) for l in (root / "changelog" / "changelog.jsonl").read_text().splitlines()]
+            by_commit = {e["commit"]: e for e in entries}
+            self.assertEqual(by_commit[branch_commit]["version"], "0.1.1")
+            self.assertEqual({e["version"] for e in entries}, {"0.1.0", "0.1.1", "0.1.2"})
+            mapping = [e for e in entries if e["version"] == "0.1.2"]
+            self.assertEqual([(m["type"], m["name"]) for m in mapping], [("objective mapping", "dfrws.json")])
+
 if __name__ == "__main__":
     unittest.main()

@@ -143,6 +143,18 @@ class TestExplorerVersion(unittest.TestCase):
         self.repo.git("merge", "-q", "--no-ff", "-m", "Merge fix/y", "fix/y")
         self.assertEqual(self.version(), "1.1.1")
 
+    def test_changelog_annotation_does_not_change_the_version(self):
+        # admin/generate_changelog.py puts an "Explorer version" line under each
+        # marker; the calculation must be unaffected.
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'admin'))
+        from generate_changelog import annotate_features_changelog
+        self.repo.set_features(3)
+        self.repo.commit("entries")
+        before = self.version()
+        annotate_features_changelog(self.repo.path / CHANGELOG)
+        self.repo.commit("annotate")
+        self.assertEqual(self.version(), before)
+
     def test_marker_must_be_directly_under_a_heading(self):
         self.repo.set_features(1)
         text = (self.repo.path / CHANGELOG).read_text()
@@ -223,7 +235,8 @@ class TestFooter(unittest.TestCase):
         cls.without = generate_html(db, idx, source_date="2026-10-30")
 
     def test_footer_shows_version_and_commit(self):
-        self.assertIn("Explorer 1.6.0 &middot; Knowledge base: commit", self.with_ids)
+        self.assertIn('Explorer <a href="https://www.solveit-df.org/about/changelog/features/#explorer-1.6"', self.with_ids)
+        self.assertIn(">1.6.0</a> &middot; Knowledge base: commit", self.with_ids)
         self.assertIn(">9fd7804</a> (30 Oct 2026)", self.with_ids)
         self.assertIn('href="https://github.com/SOLVE-IT-DF/solve-it/commit/9fd7804"', self.with_ids)
 
@@ -236,9 +249,12 @@ class TestFooter(unittest.TestCase):
                              version_info={"version": "0.97.0", "schema": "5.0",
                                            "commit": "eac86fbf8b960e5ca1e2eddf501fe2937110be1f",
                                            "committed_at": "2026-11-10T21:35:42Z"})
-        self.assertIn("Explorer 1.6.0 &middot; Knowledge base <a href=", html)
-        self.assertIn('/commit/eac86fbf8b960e5ca1e2eddf501fe2937110be1f"', html)
-        self.assertIn(">0.97.0</a>, schema 5.0 (10 Nov 2026)", html)
+        base = "https://www.solveit-df.org/about/changelog/"
+        self.assertIn(f'Knowledge base <a href="{base}data/#data-0.97.0"', html)
+        self.assertIn(f'schema <a href="{base}structure/#schema-5.0"', html)
+        self.assertIn(">0.97.0</a>, schema", html)
+        self.assertIn(">5.0</a> (10 Nov 2026)", html)
+        self.assertIn("commit eac86fbf8", html)      # the commit is still given, in the link title
         self.assertNotIn("9fd7804", html)
 
     def test_footer_omits_what_is_unknown(self):

@@ -1,4 +1,4 @@
-# Knowledge Base Structure Changelog
+# Knowledge Base Schema Changelog
 
 Changes to the knowledge base schema.
 

@@ -771,7 +771,7 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_dat
         version_link = (f'<a href="{CHANGELOG_BASE}data/#data-{version_esc}" target="_blank"{title}>'
                         f'{version_esc}</a>')
         schema = version_info.get("schema")
-        schema_part = (f', schema <a href="{CHANGELOG_BASE}structure/#schema-{esc(schema)}" target="_blank" '
+        schema_part = (f', schema <a href="{CHANGELOG_BASE}schema/#schema-{esc(schema)}" target="_blank" '
                        f'title="Schema changes">{esc(schema)}</a>' if schema else "")
         kb_identity_html = f"Knowledge base {version_link}{schema_part} ({esc(kb_date)})"
     elif source_commit:

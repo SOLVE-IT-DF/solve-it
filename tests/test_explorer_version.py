@@ -251,7 +251,7 @@ class TestFooter(unittest.TestCase):
                                            "committed_at": "2026-11-10T21:35:42Z"})
         base = "https://www.solveit-df.org/about/changelog/"
         self.assertIn(f'Knowledge base <a href="{base}data/#data-0.97.0"', html)
-        self.assertIn(f'schema <a href="{base}structure/#schema-5.0"', html)
+        self.assertIn(f'schema <a href="{base}schema/#schema-5.0"', html)
         self.assertIn(">0.97.0</a>, schema", html)
         self.assertIn(">5.0</a> (10 Nov 2026)", html)
         self.assertIn("commit eac86fbf8", html)      # the commit is still given, in the link title

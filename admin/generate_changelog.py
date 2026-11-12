@@ -616,7 +616,7 @@ def write_jsonl(entries: list[dict], path: Path) -> None:
 # The website renders these files, and the Explorer footer links its version
 # numbers to anchors in them: #data-<version> in the data changelog,
 # #explorer-<major.minor> in the features changelog and #schema-<version> in
-# the structure changelog. Every number is worked out here, never typed by
+# the schema changelog (CHANGELOG_STRUCTURE.md, /about/changelog/schema/). Every number is worked out here, never typed by
 # hand, so the text cannot drift from the real versions.
 
 FEATURES_CHANGELOG = "changelog/CHANGELOG_FEATURES.md"

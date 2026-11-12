@@ -1,6 +1,7 @@
 {
     "id": "DFW-1254",
-    "name": "Recovered (non-allocated) file content is incorrect due to an incorrect assumption that the file was contiguous e.g. some residual file metadata exists, but not the full reassembly information",
+    "name": "Recovered (non-allocated) file content is incorrect due to an incorrect assumption that the file was contiguous",
+    "description": "For example, some residual file metadata exists, but not the full reassembly information. This could result in other fragments of files being considered to be part of the recovered file.",
     "categories": [
         "ASTM_INAC_EX"
     ],

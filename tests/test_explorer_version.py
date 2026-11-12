@@ -236,7 +236,7 @@ class TestFooter(unittest.TestCase):
 
     def test_footer_shows_version_and_commit(self):
         self.assertIn('Explorer <a href="https://www.solveit-df.org/about/changelog/features/#explorer-1.6"', self.with_ids)
-        self.assertIn(">1.6.0</a> &middot; Knowledge base: commit", self.with_ids)
+        self.assertIn(">1.6.0</a> &middot; knowledge base: commit", self.with_ids)
         self.assertIn(">9fd7804</a> (30 Oct 2026)", self.with_ids)
         self.assertIn('href="https://github.com/SOLVE-IT-DF/solve-it/commit/9fd7804"', self.with_ids)
 
@@ -250,15 +250,16 @@ class TestFooter(unittest.TestCase):
                                            "commit": "eac86fbf8b960e5ca1e2eddf501fe2937110be1f",
                                            "committed_at": "2026-11-10T21:35:42Z"})
         base = "https://www.solveit-df.org/about/changelog/"
-        self.assertIn(f'Knowledge base <a href="{base}data/#data-0.97.0"', html)
+        self.assertIn(f'knowledge base <a href="{base}data/#data-0.97.0"', html)
         self.assertIn(f'schema <a href="{base}schema/#schema-5.0"', html)
-        self.assertIn(">0.97.0</a>, schema", html)
-        self.assertIn(">5.0</a> (10 Nov 2026)", html)
+        # The date is the data's, so it sits beside the data version, not the schema
+        self.assertIn(">0.97.0</a> (10 Nov 2026), schema", html)
+        self.assertNotIn(">5.0</a> (", html)
         self.assertIn("commit eac86fbf8", html)      # the commit is still given, in the link title
         self.assertNotIn("9fd7804", html)
 
     def test_footer_omits_what_is_unknown(self):
-        self.assertIn("Knowledge base updated 30 Oct 2026", self.without)
+        self.assertIn("knowledge base updated 30 Oct 2026", self.without)
         self.assertNotIn("Explorer 1.", self.without)
         self.assertNotIn("/commit/", self.without)
 

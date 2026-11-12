@@ -773,13 +773,13 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_dat
         schema = version_info.get("schema")
         schema_part = (f', schema <a href="{CHANGELOG_BASE}schema/#schema-{esc(schema)}" target="_blank" '
                        f'title="Schema changes">{esc(schema)}</a>' if schema else "")
-        kb_identity_html = f"Knowledge base {version_link}{schema_part} ({esc(kb_date)})"
+        kb_identity_html = f"knowledge base {version_link} ({esc(kb_date)}){schema_part}"
     elif source_commit:
         commit_esc = esc(source_commit)
-        kb_identity_html = (f'Knowledge base: commit <a href="https://github.com/SOLVE-IT-DF/solve-it/commit/{commit_esc}" '
+        kb_identity_html = (f'knowledge base: commit <a href="https://github.com/SOLVE-IT-DF/solve-it/commit/{commit_esc}" '
                             f'target="_blank">{commit_esc}</a> ({esc(kb_date)})')
     else:
-        kb_identity_html = f"Knowledge base updated {esc(kb_date)}"
+        kb_identity_html = f"knowledge base updated {esc(kb_date)}"
     if explorer_version:
         feature = ".".join(explorer_version.split(".")[:2])   # 1.6.1 -> the 1.6 feature entry
         explorer_version_html = (f'Explorer <a href="{CHANGELOG_BASE}features/#explorer-{esc(feature)}" '

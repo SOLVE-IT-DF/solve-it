@@ -1,0 +1,24 @@
+{
+    "id": "DFT-1217",
+    "name": "Test forensic tools that are to be used on a running machine for intrusiveness",
+    "description": "Deploying tools on a live system will make changes to the target system potentially overwriting data. Knowing what those changes are likely to be in advance allows risk-based decisions to be made, and later justification as to whether any relevant data was likely to have been overwritten.",
+    "synonyms": [
+        "testing live tools"
+    ],
+    "details": "",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [],
+    "CASE_input_classes": [
+        "https://ontology.unifiedcyberontology.org/uco/tool/Tool"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/ArtifactSet"
+    ],
+    "references": [
+        {
+            "DFCite_id": "DFCite-1062",
+            "relevance_summary_280": ""
+        }
+    ]
+}

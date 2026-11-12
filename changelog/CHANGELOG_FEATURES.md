@@ -16,13 +16,18 @@ viewer at explore.solveit-df.org, or the custom viewer), copy the marker line
 from an existing Explorer entry below (an HTML comment reading
 "explorer: feature") and put it directly under the new heading, with no blank
 line between them. It cannot be written out here, because HTML comments do
-not nest.
+not nest. Do not add an "Explorer version" line yourself: the changelog
+workflow adds it under the marker, with the right number.
 
 Do not mark fixes, internal changes, or features of other tools (the JSON or
 RDF exports, issue forms, workflows). Never remove or move an existing marker:
 that renumbers every later version. This comment and the markers are HTML
 comments, so they do not appear on the website's changelog page.
 -->
+
+### Versions in the changelogs, linked from the Explorer (2026-11-12)
+
+Every entry in the data changelog now starts with the knowledge base data version it arrived in, for example "0.97.0 · 2026-11-08 · Updated mitigation …", within the existing monthly sections. A change made on a branch gets the version of the merge that brought it into main, worked out with the same replay as the version file, so the whole history is versioned. A version whose changes are not otherwise itemised (an alternative objective mapping, or an edit to `data/solve-it.json` that moves nothing) gets a line of its own, so every version has an anchor (221 when this was written). Explorer feature entries in this changelog show their Explorer version, and structure changelog entries carry an anchor for their schema version; the changelog workflow writes all of these, so none is typed by hand. In the Explorer and custom viewer footer, the Explorer, knowledge base and schema version numbers now link to the matching entry on the website's changelog pages.
 
 ### Objective changes in the data changelog (2026-11-11)
 
@@ -42,6 +47,7 @@ The data changelog listed some changes many times over, for example one techniqu
 
 ### Slide badges from the Explorer (2026-11-02)
 <!-- explorer: feature -->
+<a id="explorer-1.6"></a>Explorer version 1.6
 
 The Explorer's detail panel has a 'badge' button that produces an image (the technique, weakness or mitigation ID and name) for use in slides or other media. The menu offers three shapes (Auto, Standard or Wide) and two formats. SVG is a vector file at the badge's size in points, so it needs no resizing. PNG can be copied to the clipboard at Low quality, which pastes at the right size, or High quality, which has four times the pixels and needs resizing after pasting. A slide width box scales the size to the slide in use, and the resize guidance states the width to set. Dragging the button onto a slide delivers the same file.
 
@@ -51,21 +57,25 @@ The combined JSON export at data.solveit-df.org/solve-it.json now includes a `ci
 
 ### Editing items from the Explorer (2026-09-15)
 <!-- explorer: feature -->
+<a id="explorer-1.5"></a>Explorer version 1.5
 
 Added an edit form to the detail panel of the HTML Explorer, so a technique, weakness or mitigation can be revised in the page rather than by retyping its current values into a GitHub issue form. The form is prefilled from the item being viewed, offers the CASE, UCO and SOLVE-IT class lists when editing ontology input and output classes, and on submission opens an issue that the existing update pipeline previews as proposed JSON.
 
 ### Git history and issue search from the Explorer (2026-07-06)
 <!-- explorer: feature -->
+<a id="explorer-1.4"></a>Explorer version 1.4
 
 Added two buttons to the detail panel of the HTML Explorer. "Show git history" opens the commit history of the JSON file that backs the item being viewed, so the sequence of changes to a technique, weakness or mitigation can be read directly. "Search git issue mentions" opens a GitHub issue search for the item's ID, covering both open and closed issues, so the discussion behind a change can be found from the item itself.
 
 ### Drag and drop of techniques out of the Explorer (2026-06-20)
 <!-- explorer: feature -->
+<a id="explorer-1.3"></a>Explorer version 1.3
 
 Techniques in the HTML Explorer can now be dragged out of the page and dropped into another application open alongside it, including one running on a different origin. The drag carries the technique ID, which the receiving application uses to reconstruct the remaining detail from the knowledge base. Techniques can be dragged from the objective grid, from technique tables, and from the detail panel header.
 
 ### HTML viewer presentation mode (2026-04-16)
 <!-- explorer: feature -->
+<a id="explorer-1.2"></a>Explorer version 1.2
 
 Added a presentation view to the detail panel (technique only) for slide screenshots: a full-width two-column layout with weaknesses shown alongside their mitigations as a nested tree. Weakness and mitigation panels also gained hero and summary cards, mitigation counts now appear inline on weakness rows.
 
@@ -75,6 +85,7 @@ GitHub Actions workflow to automatically implement TRWM submissions from issue f
 
 ### Customisable HTML explorer views (2026-03-09)
 <!-- explorer: feature -->
+<a id="explorer-1.1"></a>Explorer version 1.1
 
 Added support for custom HTML explorer views, allowing reorganisation of technqiues in the knowledge base (PR [#318](https://github.com/SOLVE-IT-DF/solve-it/pull/318)).
 
@@ -84,6 +95,7 @@ Added validation scripts and GitHub workflow to check knowledge base integrity, 
 
 ### HTML explorer (2026-02-23)
 <!-- explorer: feature -->
+<a id="explorer-1.0"></a>Explorer version 1.0
 
 Added generation of a static HTML viewer for browsing the knowledge base, with search, deep linking, and contributor credits.
 

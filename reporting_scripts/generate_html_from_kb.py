@@ -415,6 +415,8 @@ def get_source_data_commit(repo_root: Path) -> str | None:
 # ─────────────────────────────────────────────────────────────────────────────
 
 EXPLORER_MAJOR = 1
+# The website's changelog pages, which the footer's version numbers link to.
+CHANGELOG_BASE = "https://www.solveit-df.org/about/changelog/"
 EXPLORER_FEATURE_MARKER = "<!-- explorer: feature -->"
 FEATURES_CHANGELOG = "changelog/CHANGELOG_FEATURES.md"
 EXPLORER_CODE_PATHS = (
@@ -760,12 +762,17 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_dat
         kb_date = datetime.strptime(generated_at, "%Y-%m-%d").strftime("%-d %b %Y")
     except ValueError:
         kb_date = generated_at
+    # Each version number links to its entry in the changelogs on the website
+    # (anchors written by admin/generate_changelog.py).
     if version_info:
         commit_esc = esc(version_info.get("commit", ""))
         version_esc = esc(version_info["version"])
-        version_link = (f'<a href="https://github.com/SOLVE-IT-DF/solve-it/commit/{commit_esc}" target="_blank" '
-                        f'title="commit {commit_esc[:9]}">{version_esc}</a>' if commit_esc else version_esc)
-        schema_part = f', schema {esc(version_info["schema"])}' if version_info.get("schema") else ""
+        title = f' title="What changed in this version (commit {commit_esc[:9]})"' if commit_esc else ""
+        version_link = (f'<a href="{CHANGELOG_BASE}data/#data-{version_esc}" target="_blank"{title}>'
+                        f'{version_esc}</a>')
+        schema = version_info.get("schema")
+        schema_part = (f', schema <a href="{CHANGELOG_BASE}structure/#schema-{esc(schema)}" target="_blank" '
+                       f'title="Schema changes">{esc(schema)}</a>' if schema else "")
         kb_identity_html = f"Knowledge base {version_link}{schema_part} ({esc(kb_date)})"
     elif source_commit:
         commit_esc = esc(source_commit)
@@ -773,7 +780,12 @@ def generate_html(db: dict, idx: dict, custom: bool = False, kb=None, source_dat
                             f'target="_blank">{commit_esc}</a> ({esc(kb_date)})')
     else:
         kb_identity_html = f"Knowledge base updated {esc(kb_date)}"
-    explorer_version_html = f"Explorer {esc(explorer_version)} &middot; " if explorer_version else ""
+    if explorer_version:
+        feature = ".".join(explorer_version.split(".")[:2])   # 1.6.1 -> the 1.6 feature entry
+        explorer_version_html = (f'Explorer <a href="{CHANGELOG_BASE}features/#explorer-{esc(feature)}" '
+                                 f'target="_blank" title="Explorer features">{esc(explorer_version)}</a> &middot; ')
+    else:
+        explorer_version_html = ""
     # Sanitise </script> sequences to prevent early tag closure when embedded in HTML
     data_json    = json.dumps(db, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
     idx_json     = json.dumps({

@@ -609,6 +609,103 @@ def write_jsonl(entries: list[dict], path: Path) -> None:
 # ---------------------------------------------------------------------------
 
 
+# ---------------------------------------------------------------------------
+# Versions (data, Explorer, schema) for the changelogs
+# ---------------------------------------------------------------------------
+#
+# The website renders these files, and the Explorer footer links its version
+# numbers to anchors in them: #data-<version> in the data changelog,
+# #explorer-<major.minor> in the features changelog and #schema-<version> in
+# the structure changelog. Every number is worked out here, never typed by
+# hand, so the text cannot drift from the real versions.
+
+FEATURES_CHANGELOG = "changelog/CHANGELOG_FEATURES.md"
+STRUCTURE_CHANGELOG = "changelog/CHANGELOG_STRUCTURE.md"
+EXPLORER_FEATURE_MARKER = "<!-- explorer: feature -->"  # as in generate_html_from_kb.py
+EXPLORER_MAJOR = 1                                      # as in generate_html_from_kb.py
+
+
+def commit_versions(root: Path | None = None) -> tuple[dict[str, str], list[tuple[str, str]]]:
+    """Map each commit's 7-character hash to the data version it arrived in.
+
+    Uses the same replay as admin/data_version.py. A change made on a branch
+    gets the version of the first-parent commit (usually the merge) that
+    brought it into main. Also returns the replay itself: [(commit, version)].
+    """
+    import data_version
+    root = root or PROJECT_ROOT
+    out: dict[str, str] = {}
+    history = data_version.replay("HEAD", root=root)
+    for commit, version in history:
+        parents = git(["rev-list", "--parents", "-n1", commit], cwd=root).split()[1:]
+        introduced = git(["rev-list", f"{parents[0]}..{commit}"], cwd=root).split() if parents else [commit]
+        for c in introduced:
+            out.setdefault(c[:7], version)
+    return out, history
+
+
+def entries_for_unlisted_versions(entries: list[dict], history: list[tuple[str, str]],
+                                  root: Path | None = None) -> list[dict]:
+    """An entry for each data version that no other entry belongs to.
+
+    Some changes are not itemised (an alternative objective mapping such as
+    data/dfrws.json, or an edit to data/solve-it.json that moves nothing), but
+    every version needs a line, and an anchor, in the changelog.
+    """
+    root = root or PROJECT_ROOT
+    listed = {e.get("version") for e in entries}
+    extra = []
+    for commit, version in history:
+        if version in listed:
+            continue
+        changed = git(["diff", "--name-only", f"{commit}^", commit, "--", "data/"], cwd=root).split()
+        names = sorted({Path(f).name for f in changed if f != "data/solveit_version.json"}) or ["data"]
+        extra.append({"date": git(["log", "-1", "--format=%as", commit], cwd=root).strip(),
+                      "action": "updated", "type": "objective mapping",
+                      "id": ", ".join(names), "name": ", ".join(names),
+                      "commit": commit[:7], "source": "manual", "issue": None, "version": version})
+    return extra
+
+
+def _version_key(version: str | None) -> tuple:
+    return tuple(int(p) for p in version.split(".")) if version else (-1,)
+
+
+def annotate_features_changelog(path: Path) -> bool:
+    """Put the Explorer version, with an anchor, under each marked feature entry.
+
+    The oldest marked entry is 1.0 and each later one raises the minor number,
+    the rule get_explorer_version() in generate_html_from_kb.py uses. The line
+    goes directly after the marker, which must itself stay directly under its
+    heading. Returns True if the file changed.
+    """
+    lines = path.read_text(encoding="utf-8").split("\n")
+    marked = [i for i, line in enumerate(lines)
+              if line.startswith("### ") and i + 1 < len(lines) and lines[i + 1].strip() == EXPLORER_FEATURE_MARKER]
+    out = list(lines)
+    for minor, i in enumerate(reversed(marked)):           # oldest entry is last in the file
+        version = f"{EXPLORER_MAJOR}.{minor}"
+        wanted = f'<a id="explorer-{version}"></a>Explorer version {version}'
+        if i + 2 < len(out) and out[i + 2].startswith('<a id="explorer-'):
+            out[i + 2] = wanted
+        else:
+            out.insert(i + 2, wanted)
+    changed = out != lines
+    if changed:
+        path.write_text("\n".join(out), encoding="utf-8")
+    return changed
+
+
+def annotate_structure_changelog(path: Path) -> bool:
+    """Give each "Schema version: X.Y" line an anchor, #schema-X.Y. Returns True if changed."""
+    text = path.read_text(encoding="utf-8")
+    new = re.sub(r'^(?:<a id="schema-[\d.]+"></a>)?Schema version: (\d+\.\d+)$',
+                 r'<a id="schema-\1"></a>Schema version: \1', text, flags=re.MULTILINE)
+    if new != text:
+        path.write_text(new, encoding="utf-8")
+    return new != text
+
+
 def render_markdown(entries: list[dict], path: Path) -> None:
     """Generate CHANGELOG.md grouped by month, newest first."""
     # Group by year-month
@@ -626,7 +723,11 @@ def render_markdown(entries: list[dict], path: Path) -> None:
         "10": "October", "11": "November", "12": "December",
     }
 
-    lines = ["# SOLVE-IT Knowledge Base Changelog", ""]
+    lines = ["# SOLVE-IT Knowledge Base Changelog", "",
+             "Each entry starts with the knowledge base data version it arrived in. "
+             "The version is given to the merge into main, so a change can carry a "
+             "later date than its version's first entry.", ""]
+    anchored: set[str] = set()
 
     for month_key in months_sorted:
         year, mm = month_key.split("-")
@@ -634,14 +735,24 @@ def render_markdown(entries: list[dict], path: Path) -> None:
         lines.append(f"## {month_name} {year}")
         lines.append("")
 
-        # Sort entries within month by date descending, then by id
+        # Newest version first, so each version's entries stay together;
+        # then by date and id
         month_entries = sorted(
             by_month[month_key],
-            key=lambda e: (e["date"], e["id"]),
+            key=lambda e: (_version_key(e.get("version")), e["date"], e["id"]),
             reverse=True,
         )
 
         for entry in month_entries:
+            # Line start: the data version (with an anchor on its first entry,
+            # for links from the Explorer footer), then the date.
+            version = entry.get("version")
+            if version:
+                anchor = "" if version in anchored else f'<a id="data-{version}"></a>'
+                anchored.add(version)
+                lead = f"{anchor}**{version}** · {entry['date']} ·"
+            else:
+                lead = f"**{entry['date']}**"
             # Bulk entries get their own format
             # Commit link
             commit_sha = entry.get("commit", "")
@@ -650,7 +761,7 @@ def render_markdown(entries: list[dict], path: Path) -> None:
 
             if entry["action"] == "bulk":
                 lines.append(
-                    f"- **{entry['date']}** {entry['name']}{commit_link}"
+                    f"- {lead} {entry['name']}{commit_link}"
                 )
                 continue
 
@@ -673,11 +784,11 @@ def render_markdown(entries: list[dict], path: Path) -> None:
             if name_part == entry["id"]:
                 # No separate name, just show the ID
                 lines.append(
-                    f"- **{entry['date']}** {action} {item_type}{source_tag}: {entry['id']}{commit_link}"
+                    f"- {lead} {action} {item_type}{source_tag}: {entry['id']}{commit_link}"
                 )
             else:
                 lines.append(
-                    f"- **{entry['date']}** {action} {item_type}{source_tag}: {name_part} ({entry['id']}){commit_link}"
+                    f"- {lead} {action} {item_type}{source_tag}: {name_part} ({entry['id']}){commit_link}"
                 )
 
         lines.append("")
@@ -819,6 +930,24 @@ def main():
             if "commit_url" not in entry and entry.get("commit"):
                 entry["commit_url"] = commit_base_url + entry["commit"]
 
+    # The data version each entry arrived in (recomputed every run: it is
+    # derived from history, so it never needs editing by hand).
+    versions, history = commit_versions()
+    for entry in all_entries:
+        v = versions.get((entry.get("commit") or "")[:7])
+        if v:
+            entry["version"] = v
+        else:
+            entry.pop("version", None)
+    unlisted = entries_for_unlisted_versions(all_entries, history)
+    if unlisted:
+        for entry in unlisted:
+            if commit_base_url:
+                entry["commit_url"] = commit_base_url + entry["commit"]
+        all_entries = drop_duplicates(all_entries + unlisted)
+        all_entries.sort(key=lambda e: (e["date"], e["id"]))
+        print(f"Added {len(unlisted)} entries for versions with no other entry.")
+
     # Write outputs
     output_path.parent.mkdir(parents=True, exist_ok=True)
     write_jsonl(all_entries, output_path)
@@ -826,6 +955,12 @@ def main():
 
     render_markdown(all_entries, md_path)
     print(f"Rendered CHANGELOG.md to {md_path}")
+
+    for rel, annotate in ((FEATURES_CHANGELOG, annotate_features_changelog),
+                          (STRUCTURE_CHANGELOG, annotate_structure_changelog)):
+        path = PROJECT_ROOT / rel
+        if path.exists() and annotate(path):
+            print(f"Updated version anchors in {rel}")
 
 
 if __name__ == "__main__":

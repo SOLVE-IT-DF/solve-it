@@ -4,6 +4,7 @@ Each entry starts with the knowledge base data version it arrived in. The versio
 
 ## November 2026
 
+- <a id="data-0.98.1"></a>**0.98.1** · 2026-11-10 · Updated weakness: Recovered (non-allocated) file content is incorrect due to an incorrect assumption that the file was contiguous (DFW-1254) [`212037a`](https://github.com/SOLVE-IT-DF/solve-it/commit/212037a)
 - <a id="data-0.97.0"></a>**0.97.0** · 2026-11-08 · Updated mitigation (TRWM): Use of AI to classify files in addition to standard programmatic methods (DFM-1112) [`f19b9b5`](https://github.com/SOLVE-IT-DF/solve-it/commit/f19b9b5)
 - **0.97.0** · 2026-11-07 · Updated mitigation: Record the specific format, and its version where relevant, alongside any category (DFM-1380) [`854d0ea`](https://github.com/SOLVE-IT-DF/solve-it/commit/854d0ea)
 - **0.97.0** · 2026-11-07 · Updated mitigation: Use a file type identification method that reports the specific format, and its version where relevant (DFM-1379) [`ae68d8b`](https://github.com/SOLVE-IT-DF/solve-it/commit/ae68d8b)
@@ -20,6 +21,7 @@ Each entry starts with the knowledge base data version it arrived in. The versio
 
 ## October 2026
 
+- <a id="data-0.98.0"></a>**0.98.0** · 2026-10-28 · Added technique: Test forensic tools that are to be used on a running machine for intrusiveness (DFT-1217) [`a81445c`](https://github.com/SOLVE-IT-DF/solve-it/commit/a81445c)
 - <a id="data-0.95.0"></a>**0.95.0** · 2026-10-28 · Added technique: Prevent a device from screen-locking (DFT-1216) [`b9b94c1`](https://github.com/SOLVE-IT-DF/solve-it/commit/b9b94c1)
 - <a id="data-0.94.2"></a>**0.94.2** · 2026-10-28 · Updated reference: DFCite-1165 [`0b41576`](https://github.com/SOLVE-IT-DF/solve-it/commit/0b41576)
 - **0.94.2** · 2026-10-28 · Updated reference: DFCite-1164 [`0b41576`](https://github.com/SOLVE-IT-DF/solve-it/commit/0b41576)

@@ -1,0 +1,1 @@
+Qin, J., Schmotz, D., Prinzhorn, D., Beurer-Kellner, L., Prabhu, A. and Andriushchenko, M., 2026. LLM agents can easily tamper with their own traces. arXiv preprint arXiv:2609.30266. https://arxiv.org/abs/2609.30266

@@ -137,8 +137,12 @@ The full definitions from ASTM are here for reference[^1], but the more concise 
 * Names should **not** end with a full stop.
 * Mitigation names should be action-oriented so they pass the investigator test below. Use imperative verb phrases: "Use dual tool verification", "Manually verify relevant data", "Use digital stratigraphy to attempt to attribute data within a specific file system".
 * Aim for enough detail to be self-explanatory without reading the linked weakness.
+* A mitigation can be something the investigator does or something a tool does. Both are named the same way: "Manually verify relevant data" (investigator), "Alert user that the data collected is a partial set of data stored on the device" (tool).
+* Avoid noun and gerund forms such as "Testing of…", "Manual verification of…" or "Regular checks for…". Use the verb instead: "Test…", "Manually verify…", "Check regularly for…".
 
-> **Investigator test:** "As an investigator, I can \[mitigation name\] to reduce this risk" should make sense read aloud.
+> **Investigator test:** One of these should make sense read aloud:
+    - "As an investigator, I can \[mitigation name\] to reduce this risk".
+    - "A tool can \[mitigation name\] to reduce this risk".
 
 ### **Descriptions**
 

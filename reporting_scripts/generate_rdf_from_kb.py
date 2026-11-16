@@ -340,11 +340,16 @@ def add_mitigations_to_graph(g, kb):
     for mit_id in mitigations:
         mit = kb.get_mitigation(mit_id)
 
-        # Create URI for this mitigation (instance in data namespace)
+        # Create URI for this mitigation (in data namespace)
         mit_uri = SOLVEIT_DATA[f"mitigation{mit_id}"]
 
-        # Add type
+        # A mitigation is an instance of the solveit-core:Mitigation metaclass
+        # and an owl:Class in its own right, built the same way as a technique.
+        # An action that carries it out is typed with this class, and inherits
+        # membership of SolveitMitigation and so of InvestigativeAction.
+        g.add((mit_uri, RDF.type, OWL.Class))
         g.add((mit_uri, RDF.type, SOLVEIT_CORE.Mitigation))
+        g.add((mit_uri, RDFS.subClassOf, SOLVEIT_CORE.SolveitMitigation))
 
         # Add label
         g.add((mit_uri, RDFS.label, Literal(f"{mit_id}: {mit['name']}", lang="en")))
@@ -463,7 +468,10 @@ TTL_SECTIONS = [
     ),
     (
         'Mitigations',
-        'Actions that prevent a weakness or reduce its impact.',
+        'Actions that prevent a weakness or reduce its impact. Each mitigation is\n'
+        '#    an instance of the solveit-core:Mitigation metaclass AND an owl:Class\n'
+        '#    in its own right, rdfs:subClassOf solveit-core:SolveitMitigation, built\n'
+        '#    the same way as a technique.',
         SOLVEIT_CORE.Mitigation,
         ['mitigationID', 'mitigationName', 'mitigationDescription',
          'linksToTechnique', 'hasReference'],

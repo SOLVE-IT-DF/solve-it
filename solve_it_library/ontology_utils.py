@@ -88,12 +88,25 @@ UCO_CASE_MODULES = [
     "https://raw.githubusercontent.com/casework/CASE/1.5.0/ontology/investigation/investigation.ttl",
 ]
 
-# UCO modules beyond the default set that the knowledge base draws terms from.
+# UCO modules beyond the default set. This is every other module the Explorer's
+# term picker offers (reporting_scripts/build_ontology_classes.py), so any term
+# a contributor can pick there is also one this check can find.
+_UCO_150 = "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/"
 EXTRA_UCO_MODULES = [
-    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/configuration/configuration.ttl",
-    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/identity/identity.ttl",
-    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/location/location.ttl",
-    "https://raw.githubusercontent.com/ucoProject/UCO/1.5.0/ontology/uco/action/action.ttl",
+    _UCO_150 + path for path in (
+        "uco/action/action.ttl",
+        "uco/configuration/configuration.ttl",
+        "uco/identity/identity.ttl",
+        "uco/location/location.ttl",
+        "uco/marking/marking.ttl",
+        "uco/pattern/pattern.ttl",
+        "uco/role/role.ttl",
+        "uco/time/time.ttl",
+        "uco/tool/tool.ttl",
+        "uco/victim/victim.ttl",
+        "uco/vocabulary/vocabulary.ttl",
+        "co/co.ttl",
+    )
 ]
 
 PROJECTVIC_ONTOLOGY_BASE = (

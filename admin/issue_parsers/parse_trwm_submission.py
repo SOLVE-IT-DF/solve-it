@@ -831,18 +831,19 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
                 lines.append(f"- `{item['id']}` — {item.get('name', 'Unknown')}")
             lines.append("")
 
-    # Revision guidance — this comment (not the issue body) is what the
-    # automation reads, so revisions requested during review belong here.
+    # Revision guidance — changes are sent from the Helper as a
+    # "### TRWM revision" comment, which rewrites this preview in place.
     lines.append("---")
     lines.append("")
     lines.append("### Revising this submission")
     lines.append("")
-    lines.append("If a reviewer requests changes, edit the JSON blocks in this comment "
-                 "directly, keeping the hidden markers and any temporary IDs unchanged. "
-                 "The JSON export in the issue body is only read when the issue is "
-                 "opened, so editing it alone has no effect. Adding or removing whole "
-                 "items requires regenerating this preview from a corrected issue body "
-                 "instead — see [Revising a TRWM submission]"
+    lines.append("To make changes, open your session in the "
+                 "[TRWM Helper app](https://trwm.hargs.co.uk), link it to this issue on "
+                 "the Summary tab, make the changes, then use **Copy revision and open "
+                 "issue** and paste the result as a new comment here. This preview is "
+                 "then updated in place. Please don't edit this comment or the issue "
+                 "body. Revisions are accepted until the `assigned ID` label is added. "
+                 "See [Revising a TRWM submission]"
                  "(https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#revising-a-trwm-submission).")
     lines.append("")
 

@@ -350,7 +350,8 @@ class TestBuildCommentRevisionGuidance(unittest.TestCase):
     def test_revision_section_present(self):
         comment = self._build()
         self.assertIn("### Revising this submission", comment)
-        self.assertIn("edit the JSON blocks in this comment", comment)
+        self.assertIn("Copy revision and open issue", comment)
+        self.assertIn("Please don't edit this comment", comment)
 
     def test_links_to_contributor_guide(self):
         comment = self._build()

@@ -48,7 +48,7 @@ You can propose any of the following as standalone contributions:
 
 ### Bulk submissions (TRWM)
 
-If you have a complete technique with its weaknesses and mitigations ready, you can submit them all at once using a **TRWM (Technique, Risk, Weakness, Mitigation) submission**. This is ideal when you've used the TRWM Helper worksheets to develop a full analysis.
+If you have a complete technique with its weaknesses and mitigations ready, you can submit them all at once using a **TRWM (Technique, Results, Weaknesses, Mitigations) submission**. This is ideal when you've used the TRWM Helper worksheets to develop a full analysis.
 
 ---
 
@@ -417,24 +417,24 @@ flowchart LR
 
 ### Revising a TRWM submission
 
-If a reviewer requests changes to a TRWM submission, there is no need to re-export from the TRWM Helper or open a new issue. However, the edits must be made in the right place.
+If a reviewer asks for changes, make them in the TRWM Helper app and send them to the same issue as a revision. Don't open a new issue, and don't edit the issue body or the preview comment.
 
-The automation does not read the JSON export in the issue body after submission. When the issue is opened, a preview comment is generated from the export, and every later stage works from that comment: the ID assignment step replaces the temporary IDs in it, and the implementation step extracts its JSON blocks to write the data files. The issue body is only read for the "Submission type" and "Objective" fields. The export in the body is therefore a record of what was submitted, and editing it changes nothing downstream on its own.
+1. Open the session you submitted from. The TRWM Helper app keeps it in your browser; if you saved it to a file, import that.
+2. On the **Summary** tab, paste the issue's link into the **Submit** card and click **Link**. You only need to do this once per session.
+3. Make the changes. You can edit, add or delete any technique field, weakness or mitigation. If you change anything on Weaknesses 1 or Mitigations 1, re-run the grouping on Weaknesses 2 or Mitigations 2; the Submit card will tell you if you need to.
+4. Click **Copy revision and open issue**, and paste the copied text into a **new** comment on the issue.
 
-**Changing the wording of existing items.** For changes to names, descriptions, categories, or other fields of items already in the submission, edit the JSON blocks in the preview comment directly (this requires write access to the repository). Two things must be left intact:
+Within a minute or so, the preview comment is updated to show the new version, and a reply lists what changed. Items keep their temporary IDs (`DFW-temp-0002` and so on) from one revision to the next, so reviewers can see exactly what you changed.
 
-- the hidden markers (`<!-- TRWM_PREVIEW -->`, `<!-- TRWM_ID_MAP: ... -->`, `<!-- TRWM_REFS_MAP: ... -->`), which are visible when editing the comment but not when reading it
-- the temporary IDs (`DFT-temp-0001` and so on), which the ID assignment step matches by exact string
+**Who can revise.** The person who opened the issue, or a SOLVE-IT maintainer.
 
-**Adding or removing items.** This changes the set of temporary IDs, so the hidden ID map in the preview comment would no longer match. In this case, regenerate the preview from a corrected body instead:
+**Timing.** Revisions are accepted until a maintainer adds the `assigned ID` label. After that, comment on the issue to ask for any further change.
 
-1. Edit the JSON export in the issue body.
-2. Delete the outdated preview comment (the automation uses the first preview comment it finds, so a stale one would take precedence).
-3. Close and reopen the issue to generate a fresh preview.
+**Editing a revision comment does nothing.** Only new comments are read. To change it again, send another revision.
 
-**Changing the objective or submission type.** These two fields are read from the issue body at implementation time, so edit them there. A proposed new objective is handled manually during review in any case.
+**Objective and submission type.** These come from the issue form, not the TRWM Helper app. To change them, edit the issue body; they are read when the submission is implemented.
 
-**Timing.** Make revisions before the `assigned ID` label is applied. After ID assignment, a second preview comment exists (the copy with real IDs), and the implementation step reads that one, so any later edits must be made in the assigned copy instead.
+**Revision comment format.** The TRWM Helper app writes this for you. For reference, it is a comment starting with the heading `### TRWM revision`, followed by the full JSON export from the TRWM Helper app in a `json` code block.
 
 ---
 

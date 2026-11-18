@@ -51,6 +51,8 @@ When a contributor opens an issue using one of the GitHub issue forms, two thing
 
 If the submission needs changes, comment on the issue asking the contributor to update it. They can edit the issue body and reopen to trigger a fresh preview.
 
+For a TRWM submission, ask the contributor to send a revision from the TRWM Helper app instead (see [Revising a TRWM submission](../CONTRIBUTOR_GUIDE.md#revising-a-trwm-submission)). The [TRWM Reviewer](https://trwm-reviewer.hargs.co.uk) can write the feedback comment for you.
+
 ### Step 2: Assign an ID
 
 Once you're satisfied with the preview, add the **`assigned ID`** label. This triggers the ID assignment workflow, which:
@@ -151,8 +153,13 @@ If validation passes and the PR looks good, merge it. The issue will be automati
 - Preview: `issue-preview.yml`
 - ID assignment: `technique-assign-id.yml` (uses the `assign-trwm-ids` job)
 - Auto-implement: `autoimplement-trwm.yml` → `admin/autoimplement_trwm.py`
+- Revisions: `trwm-revision.yml` → `admin/apply_trwm_revision.py`
 
 TRWM submissions contain a complete technique with all its weaknesses and mitigations in a single issue. The ID assignment step assigns IDs for all items in bulk.
+
+**Revisions.** The contributor can post a `### TRWM revision` comment holding a new export from the TRWM Helper app. The `trwm-revision.yml` workflow rewrites the first preview comment in place, marked "Revision N", and replies with what changed, matched by temporary ID. Check that reply before adding `assigned ID`. Only the issue's author, or an owner, member or collaborator, can revise, and revisions are refused once `assigned ID` is on.
+
+Prefer asking for a revision to editing the preview yourself. If you do edit the preview, a later revision replaces your edit: the reply warns when this happens and points to the comment's edit history, so the edit can be carried into the contributor's session.
 
 **Bare BibTeX / plaintext references:** TRWM exports from the helper may include references as raw BibTeX (or plaintext) when the contributor hasn't picked an existing `DFCite` ID. A new reference that carries a relevance summary arrives as `{"citation_text": "...", "relevance_summary_280": "..."}` rather than a bare string; it goes through the same two stages and keeps its summary. The preview parser handles these in two stages:
 
@@ -161,7 +168,7 @@ TRWM submissions contain a complete technique with all its weaknesses and mitiga
 
 **What to check before `assigned ID`:**
 - Skim the "New references to review" section. For each placeholder, verify that none of the listed "possible existing matches" is actually the same reference.
-- If any *is* a duplicate, reject the submission: ask the contributor to resubmit from the Helper with the existing `DFCite-XXXX` typed into the reference row, rather than the raw citation text.
+- If any *is* a duplicate, ask the contributor to put the existing `DFCite-XXXX` into the reference row in the TRWM Helper app, in place of the raw citation text, and send a revision. There's no need to reject the submission.
 - If no listed candidate matches (or the list is empty), the `assigned ID` label will mint new `DFCite-XXXX` IDs alongside the technique/weakness/mitigation IDs, and autoimplement will write `data/references/DFCite-XXXX.bib` as part of the PR.
 
 Where the contributor gave no relevance summary, the `relevance_summary_280` field is left empty — contributors can fill it in later via a "Update DFCite relevance" issue.
@@ -233,6 +240,7 @@ Check the validation comment on the PR for details. You can fix issues by pushin
 | `autoimplement-new-item.yml` | `autoimplement` label + `content: new {type}` (not `trwm`) | Creates data file + PR for new T/W/M |
 | `autoimplement-new-reference.yml` | `autoimplement` label + `content: new reference` | Creates DFCite files + PR |
 | `autoimplement-trwm.yml` | `autoimplement` label + `trwm` | Creates all TRWM data files + PR |
+| `trwm-revision.yml` | New comment containing `### TRWM revision` on a `trwm` issue | Rewrites the TRWM preview from the new export, replies with the changes |
 | `autoimplement-dfcite-relevance.yml` | `autoimplement` label + `content: update dfcite relevance` | Updates relevance summary + PR |
 | `validate-kb.yml` | PR or push to main | Runs KB validation |
 | `validate-kb-comment.yml` | After `validate-kb.yml` completes | Posts validation results as PR comment |
@@ -253,6 +261,8 @@ Check the validation comment on the PR for details. You can fix issues by pushin
 | `admin/autoimplement_new_item.py` | Create data file + PR for new T/W/M |
 | `admin/autoimplement_new_reference.py` | Create DFCite files + PR |
 | `admin/autoimplement_trwm.py` | Create all TRWM files + PR |
+| `admin/apply_trwm_revision.py` | Apply a `### TRWM revision` comment to the preview |
+| `admin/trwm_revision_diff.py` | List what changed between two TRWM previews |
 | `admin/autoimplement_dfcite_relevance.py` | Update relevance summary + PR |
 | `admin/validate_kb.py` | Validate entire knowledge base |
 

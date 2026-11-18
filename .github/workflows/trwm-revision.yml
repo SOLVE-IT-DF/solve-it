@@ -1,0 +1,62 @@
+name: Apply TRWM Revision
+
+# A submitter revises a TRWM submission by posting a comment headed
+# "### TRWM revision" with the revised TRWM Helper export. This rebuilds the
+# preview comment from it, in place, and replies with what changed.
+# Who may revise, and whether revisions are still open, is checked by the
+# script so that a refusal gets a reply rather than a silently skipped run.
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+
+# One revision at a time per issue, in the order they were posted.
+concurrency:
+  group: trwm-revision-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  apply-revision:
+    if: >-
+      !github.event.issue.pull_request &&
+      contains(github.event.comment.body, '### TRWM revision') &&
+      contains(github.event.issue.labels.*.name, 'trwm') &&
+      github.event.comment.user.login != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: pip install pydantic pybtex
+
+    # The comment is untrusted input: it reaches the script through an
+    # environment variable and a file, never through the shell command line.
+    - name: Write comment body to file
+      run: printenv COMMENT_BODY > comment_body.md
+      env:
+        COMMENT_BODY: ${{ github.event.comment.body }}
+
+    - name: Apply revision
+      run: |
+        python3 admin/apply_trwm_revision.py \
+          --project-root . \
+          --issue-number "$ISSUE_NUMBER" \
+          --comment-id "$COMMENT_ID" \
+          --comment-body-file comment_body.md \
+          --commenter "$COMMENTER" \
+          --association "$ASSOCIATION"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+        COMMENT_ID: ${{ github.event.comment.id }}
+        COMMENTER: ${{ github.event.comment.user.login }}
+        ASSOCIATION: ${{ github.event.comment.author_association }}

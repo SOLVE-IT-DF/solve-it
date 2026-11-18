@@ -561,14 +561,29 @@ def detect_removed_weaknesses(trwm_data, kb):
 
 def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
                   ref_warnings, submission_type, reviewer_notes=None, kb=None,
-                  dfcite_placeholders=None, parent_technique=None):
-    """Build the GitHub comment markdown."""
+                  dfcite_placeholders=None, parent_technique=None,
+                  revision_info=None):
+    """Build the GitHub comment markdown.
+
+    revision_info, when given, records that the preview was rebuilt from a
+    revision comment rather than from the issue body. It is a dict with
+    'comment_id', 'revision' (int), 'user' and 'date' (YYYY-MM-DD).
+    """
     if dfcite_placeholders is None:
         dfcite_placeholders = {}
     lines = []
 
     lines.append("<!-- TRWM_PREVIEW -->")
+    if revision_info:
+        lines.append(
+            f"<!-- TRWM_SOURCE: comment {int(revision_info['comment_id'])} "
+            f"revision {int(revision_info['revision'])} -->")
     lines.append("")
+    if revision_info:
+        lines.append(
+            f"**Revision {int(revision_info['revision'])}**, from "
+            f"@{revision_info['user']}'s comment of {revision_info['date']}.")
+        lines.append("")
     lines.append("Thanks for your TRWM submission! Here's a preview of the proposed changes:")
     lines.append("")
 
@@ -878,52 +893,79 @@ def determine_labels(new_items, existing_items, submission_type):
     return labels
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Parse a TRWM submission issue and generate a preview comment",
-    )
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--issue-body', type=str, help="Issue body as a string")
-    group.add_argument('--issue-body-file', type=str, help="File containing the issue body")
-    parser.add_argument('--project-root', type=str, default=None,
-                        help="Path to SOLVE-IT project root (for KB verification)")
-    parser.add_argument('--output', type=str,
-                        help="Output file for the comment (default: stdout)")
-    parser.add_argument('--labels-output', type=str,
-                        help="Output file for auto-detected labels (one per line)")
-    args = parser.parse_args()
+class SubmissionError(ValueError):
+    """A submission that cannot be turned into a preview, with a message
+    suitable for showing to the submitter."""
 
-    if args.issue_body_file:
-        with open(args.issue_body_file) as f:
-            body = f.read()
-    else:
-        body = args.issue_body
 
-    # Parse the issue form fields
-    fields = parse_issue_body(body)
+# Hash of the preview text as the automation wrote it. A later revision
+# compares the live comment against it to tell whether someone has edited the
+# preview by hand in the meantime.
+PREVIEW_HASH_RE = re.compile(r'^<!-- TRWM_PREVIEW_HASH: [0-9a-f]{64} -->\n?', re.MULTILINE)
 
-    # Extract and parse the TRWM JSON
-    raw_json = fields.get("TRWM Helper JSON export", "")
-    if not raw_json or raw_json == "_No response_":
-        print("Error: No TRWM JSON found in issue body", file=sys.stderr)
-        sys.exit(1)
 
-    json_text = extract_json_from_field(raw_json)
+def _normalise_for_hash(body):
+    """Strip the hash marker and differences GitHub may introduce on save
+    (CRLF line endings, trailing whitespace)."""
+    body = PREVIEW_HASH_RE.sub('', body.replace('\r\n', '\n'))
+    return '\n'.join(line.rstrip() for line in body.split('\n')).strip()
+
+
+def preview_hash(body):
+    """SHA-256 of a preview comment, ignoring any hash marker it carries."""
+    import hashlib
+    return hashlib.sha256(_normalise_for_hash(body).encode('utf-8')).hexdigest()
+
+
+def add_preview_hash(body):
+    """Return the preview with a hash marker of its own content appended."""
+    body = PREVIEW_HASH_RE.sub('', body).rstrip('\n')
+    return f"{body}\n<!-- TRWM_PREVIEW_HASH: {preview_hash(body)} -->\n"
+
+
+def stored_preview_hash(body):
+    """The hash recorded in a preview comment, or None if it carries none."""
+    match = re.search(r'<!-- TRWM_PREVIEW_HASH: ([0-9a-f]{64}) -->', body)
+    return match.group(1) if match else None
+
+
+def load_trwm_json(json_text, source="TRWM export"):
+    """Parse and structurally check a TRWM Helper export."""
     try:
         trwm_data = json.loads(json_text)
     except json.JSONDecodeError as e:
-        print(f"Error: Invalid JSON in TRWM export: {e}", file=sys.stderr)
-        sys.exit(1)
-
-    # Validate structure
+        raise SubmissionError(f"Invalid JSON in {source}: {e}")
+    if not isinstance(trwm_data, dict):
+        raise SubmissionError(f"{source} is not a JSON object")
     for key in ("techniques", "weaknesses", "mitigations"):
         if key not in trwm_data:
-            print(f"Error: Missing required key '{key}' in TRWM JSON", file=sys.stderr)
-            sys.exit(1)
+            raise SubmissionError(f"Missing required key '{key}' in {source}")
+        if not isinstance(trwm_data[key], dict):
+            raise SubmissionError(f"'{key}' in {source} must be an object keyed by ID")
+    return trwm_data
+
+
+def generate_preview(body, project_root=None, trwm_data=None, revision_info=None):
+    """Build the preview comment and its labels for a TRWM submission issue.
+
+    The form fields (submission type, objective, parent technique) always come
+    from the issue body. The submission JSON comes from the body too, unless
+    trwm_data is given, which is how a revision comment supplies a newer
+    version of the export.
+
+    Returns (comment, labels). Raises SubmissionError on bad input.
+    """
+    fields = parse_issue_body(body)
+
+    if trwm_data is None:
+        raw_json = fields.get("TRWM Helper JSON export", "")
+        if not raw_json or raw_json == "_No response_":
+            raise SubmissionError("No TRWM JSON found in issue body")
+        trwm_data = load_trwm_json(extract_json_from_field(raw_json))
 
     # Resolve bare-string references: strict-match to existing DFCites or
     # assign DFCite-____-N placeholders (mutates trwm_data in place).
-    dfcite_placeholders = resolve_bare_references(trwm_data, args.project_root)
+    dfcite_placeholders = resolve_bare_references(trwm_data, project_root)
 
     # Build placeholder map and classify items
     placeholder_map, new_items, existing_items = build_placeholder_map(trwm_data)
@@ -931,9 +973,9 @@ def main():
     # Verify existing references against KB
     ref_warnings = []
     kb = None
-    if args.project_root:
+    if project_root:
         try:
-            kb = KnowledgeBase(args.project_root, 'solve-it.json')
+            kb = KnowledgeBase(project_root, 'solve-it.json')
             ref_warnings = verify_all_references(trwm_data, kb)
         except Exception as e:
             print(f"Warning: Could not load KB for verification: {e}", file=sys.stderr)
@@ -950,13 +992,66 @@ def main():
     reviewer_notes += check_parent_technique(
         parent_technique, parent_raw, kb, submission_type)
 
-    # Build the comment
     comment = build_comment(
         trwm_data, fields, placeholder_map, new_items, existing_items,
         ref_warnings, submission_type, reviewer_notes, kb=kb,
         dfcite_placeholders=dfcite_placeholders,
         parent_technique=parent_technique,
+        revision_info=revision_info,
     )
+    comment = add_preview_hash(comment)
+    labels = determine_labels(new_items, existing_items, submission_type)
+    return comment, labels
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Parse a TRWM submission issue and generate a preview comment",
+    )
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--issue-body', type=str, help="Issue body as a string")
+    group.add_argument('--issue-body-file', type=str, help="File containing the issue body")
+    parser.add_argument('--project-root', type=str, default=None,
+                        help="Path to SOLVE-IT project root (for KB verification)")
+    parser.add_argument('--output', type=str,
+                        help="Output file for the comment (default: stdout)")
+    parser.add_argument('--labels-output', type=str,
+                        help="Output file for auto-detected labels (one per line)")
+    parser.add_argument('--revision-json-file', type=str, default=None,
+                        help="Take the submission JSON from this file (a revision) "
+                             "instead of the issue body; form fields still come "
+                             "from the body")
+    parser.add_argument('--revision-comment-id', type=int, default=None)
+    parser.add_argument('--revision-number', type=int, default=None)
+    parser.add_argument('--revision-user', type=str, default=None)
+    parser.add_argument('--revision-date', type=str, default=None)
+    args = parser.parse_args()
+
+    if args.issue_body_file:
+        with open(args.issue_body_file) as f:
+            body = f.read()
+    else:
+        body = args.issue_body
+
+    trwm_data = None
+    revision_info = None
+    try:
+        if args.revision_json_file:
+            with open(args.revision_json_file) as f:
+                trwm_data = load_trwm_json(extract_json_from_field(f.read()),
+                                           source="revision JSON")
+            if args.revision_comment_id is not None and args.revision_number is not None:
+                revision_info = {
+                    "comment_id": args.revision_comment_id,
+                    "revision": args.revision_number,
+                    "user": args.revision_user or "unknown",
+                    "date": args.revision_date or "",
+                }
+        comment, labels = generate_preview(
+            body, args.project_root, trwm_data=trwm_data, revision_info=revision_info)
+    except SubmissionError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
 
     if args.output:
         with open(args.output, 'w') as f:
@@ -966,7 +1061,6 @@ def main():
 
     # Write auto-detected labels
     if args.labels_output:
-        labels = determine_labels(new_items, existing_items, submission_type)
         with open(args.labels_output, 'w') as f:
             f.write('\n'.join(labels) + '\n' if labels else '')
         print(f"Auto-detected labels: {labels}", file=sys.stderr)

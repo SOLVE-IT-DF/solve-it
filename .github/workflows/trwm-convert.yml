@@ -1,0 +1,48 @@
+name: Convert issue to TRWM submission
+
+# Adding the `trwm-convert` label to an issue that was not opened with the
+# TRWM form (such as a placeholder "Create new technique" issue) turns it
+# into a TRWM submission, from the newest comment holding a TRWM Helper
+# export by the issue's author or a maintainer. Only people with triage
+# access can add labels. The script replies on the issue either way and
+# removes the label, so adding it again retries.
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+
+# Shares the revision workflow's queue, so a conversion and a revision on
+# the same issue never run at once.
+concurrency:
+  group: trwm-revision-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  convert:
+    if: >-
+      github.event.label.name == 'trwm-convert' &&
+      !github.event.issue.pull_request
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: pip install pydantic pybtex
+
+    - name: Convert to TRWM submission
+      run: |
+        python3 admin/convert_to_trwm.py \
+          --project-root . \
+          --issue-number "$ISSUE_NUMBER"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}

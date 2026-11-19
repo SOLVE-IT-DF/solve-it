@@ -365,6 +365,123 @@ KNOWN_CASE_PREFIXES = [
     "https://cacontology.projectvic.org/",
 ]
 PARENT_FIELD_LABEL = "Parent technique (optional)"
+OTHER_OBJECTIVE = "Other (specify below)"
+NO_RESPONSE = "_No response_"
+FORM_MARKER_RE = re.compile(r'<!-- TRWM_FORM: (\{.*?\}) -->')
+
+
+def _form_value(fields, label):
+    value = (fields.get(label, "") or "").strip()
+    return "" if value == NO_RESPONSE else value
+
+
+def has_trwm_form(fields):
+    """True if the issue body was written with the TRWM submission form.
+
+    An issue opened from another form (such as a placeholder "Create new
+    technique" issue) and later converted to TRWM has none of the form's
+    fields, so they are taken from the export instead.
+    """
+    return bool(_form_value(fields, "Submission type"))
+
+
+def export_objective(trwm_data):
+    """The objective named at the top level of a TRWM Helper export, or ''.
+
+    Exports from Helper 3.17.0 onwards carry it; older ones do not.
+    """
+    value = trwm_data.get("objective") if isinstance(trwm_data, dict) else None
+    return value.strip() if isinstance(value, str) else ""
+
+
+def resolve_form_fields(fields, trwm_data, known_objectives=None):
+    """Work out the submission type and objective of a TRWM submission.
+
+    The issue form's fields take precedence. When the issue has no TRWM
+    form, the submission type follows from the technique's ID (a real ID is
+    an update) and the objective comes from the export. The export's
+    objective also fills in a form that left the objective empty.
+
+    known_objectives, if given, is the set of objective names in the KB; an
+    export objective outside it is treated as a proposed new objective.
+
+    Returns (resolved, notes): resolved is a dict with 'submission_type',
+    'objective' (a KB objective name or '') and 'proposed_objective' (or
+    ''); notes are reviewer notes as (level, message) pairs.
+    """
+    notes = []
+    from_form = has_trwm_form(fields)
+    bundle_obj = export_objective(trwm_data)
+
+    if from_form:
+        submission_type = _form_value(fields, "Submission type")
+    else:
+        submission_type = "New technique"
+        for tid in (trwm_data.get("techniques") or {}):
+            if REAL_TECHNIQUE_RE.match(str(tid)):
+                submission_type = "Update existing technique"
+                break
+
+    objective, proposed = "", ""
+    form_obj = _form_value(fields, "Objective") if from_form else ""
+    if form_obj == OTHER_OBJECTIVE:
+        proposed = _form_value(fields, "Propose new objective")
+    elif form_obj:
+        objective = form_obj
+
+    if from_form:
+        if bundle_obj and (objective or proposed) and bundle_obj not in (objective, proposed):
+            notes.append((
+                "warning",
+                f"**Objective**: the issue form says "
+                f"\"{objective or proposed}\" but the TRWM export says "
+                f"\"{bundle_obj}\". The form's choice is used."))
+    if not objective and not proposed and bundle_obj:
+        if known_objectives is not None and bundle_obj not in known_objectives:
+            proposed = bundle_obj
+        else:
+            objective = bundle_obj
+        if not from_form:
+            notes.append((
+                "info",
+                "**Form fields**: this issue was not opened with the TRWM form, so "
+                "the submission type and objective were taken from the TRWM export."))
+    elif not from_form and not bundle_obj:
+        notes.append((
+            "warning",
+            "**Objective**: this issue was not opened with the TRWM form and the "
+            "TRWM export names no objective (exports from TRWM Helper 3.17.0 onwards "
+            "do). The technique will not be added to an objective automatically."))
+
+    return {
+        "submission_type": submission_type,
+        "objective": objective,
+        "proposed_objective": proposed,
+    }, notes
+
+
+def form_marker(resolved, parent_technique):
+    """Hidden marker recording the resolved form fields in the preview.
+
+    Later steps (implementation) read it, so an issue without the TRWM form,
+    or one whose export has been revised, is implemented with the values
+    the preview showed. ">" is escaped so a value cannot close the comment.
+    """
+    data = dict(resolved)
+    data["parent_technique"] = parent_technique or ""
+    return "<!-- TRWM_FORM: " + json.dumps(data).replace(">", "\\u003e") + " -->"
+
+
+def read_form_marker(body):
+    """The resolved form fields stored in a preview comment, or None."""
+    match = FORM_MARKER_RE.search(body or "")
+    if not match:
+        return None
+    try:
+        data = json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return None
+    return data if isinstance(data, dict) else None
 
 
 def resolve_parent_technique(fields, trwm_data):
@@ -562,12 +679,17 @@ def detect_removed_weaknesses(trwm_data, kb):
 def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
                   ref_warnings, submission_type, reviewer_notes=None, kb=None,
                   dfcite_placeholders=None, parent_technique=None,
-                  revision_info=None):
+                  revision_info=None, resolved=None):
     """Build the GitHub comment markdown.
+
+    resolved, when given, is the result of resolve_form_fields; it supplies
+    the objective. Without it, the objective is read from fields.
 
     revision_info, when given, records that the preview was rebuilt from a
     revision comment rather than from the issue body. It is a dict with
-    'comment_id', 'revision' (int), 'user' and 'date' (YYYY-MM-DD).
+    'comment_id', 'revision' (int), 'user' and 'date' (YYYY-MM-DD), and
+    'converted' set when the comment is the one a non-TRWM issue was
+    converted from.
     """
     if dfcite_placeholders is None:
         dfcite_placeholders = {}
@@ -579,7 +701,13 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
             f"<!-- TRWM_SOURCE: comment {int(revision_info['comment_id'])} "
             f"revision {int(revision_info['revision'])} -->")
     lines.append("")
-    if revision_info:
+    if revision_info and revision_info.get("converted"):
+        lines.append(
+            f"**Converted to a TRWM submission** from "
+            f"@{revision_info['user']}'s comment of {revision_info['date']}. "
+            f"Later changes can be sent as TRWM revisions.")
+        lines.append("")
+    elif revision_info:
         lines.append(
             f"**Revision {int(revision_info['revision'])}**, from "
             f"@{revision_info['user']}'s comment of {revision_info['date']}.")
@@ -617,15 +745,14 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
         lines.append("")
 
     # Objective info
-    objective = fields.get("Objective", "").strip()
-    if objective and objective != "_No response_" and objective != "Other (specify below)":
-        lines.append(f"**Objective:** {objective}")
+    if resolved is None:
+        resolved, _ = resolve_form_fields(fields, {})
+    if resolved["objective"]:
+        lines.append(f"**Objective:** {resolved['objective']}")
         lines.append("")
-    elif objective == "Other (specify below)":
-        other_objective = fields.get("Propose new objective", "").strip()
-        if other_objective and other_objective != "_No response_":
-            lines.append(f"**Proposed new objective:** {other_objective}")
-            lines.append("")
+    elif resolved["proposed_objective"]:
+        lines.append(f"**Proposed new objective:** {resolved['proposed_objective']}")
+        lines.append("")
 
     # Reviewer notes — combine ref warnings and validation notes
     all_warnings = [(w, "warning") for w in ref_warnings]
@@ -851,6 +978,7 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
 
     # Hidden ID map for the assignment script
     lines.append(f"<!-- TRWM_ID_MAP: {json.dumps(placeholder_map)} -->")
+    lines.append(form_marker(resolved, parent_technique if not is_update else ""))
     if dfcite_placeholders:
         # Store only the citation text per placeholder — candidates are advisory
         # for the reviewer and not needed downstream.
@@ -951,10 +1079,12 @@ def load_trwm_json(json_text, source="TRWM export"):
 def generate_preview(body, project_root=None, trwm_data=None, revision_info=None):
     """Build the preview comment and its labels for a TRWM submission issue.
 
-    The form fields (submission type, objective, parent technique) always come
-    from the issue body. The submission JSON comes from the body too, unless
-    trwm_data is given, which is how a revision comment supplies a newer
-    version of the export.
+    The form fields (submission type, objective, parent technique) come
+    from the issue body when it was written with the TRWM form, and from
+    the export otherwise (see resolve_form_fields). The submission JSON
+    comes from the body too, unless trwm_data is given, which is how a
+    revision comment, or the comment an issue is converted from, supplies
+    the export.
 
     Returns (comment, labels). Raises SubmissionError on bad input.
     """
@@ -984,11 +1114,18 @@ def generate_preview(body, project_root=None, trwm_data=None, revision_info=None
             print(f"Warning: Could not load KB for verification: {e}", file=sys.stderr)
             ref_warnings.append(f"Could not verify existing references: {e}")
 
-    # Determine submission type
-    submission_type = fields.get("Submission type", "New technique").strip()
+    # Submission type and objective, from the form or else the export
+    known_objectives = None
+    if kb is not None:
+        try:
+            known_objectives = {o.get("name") for o in kb.list_objectives()}
+        except Exception:
+            known_objectives = None
+    resolved, form_notes = resolve_form_fields(fields, trwm_data, known_objectives)
+    submission_type = resolved["submission_type"]
 
     # Run lightweight validation
-    reviewer_notes = validate_submission(trwm_data, new_items)
+    reviewer_notes = validate_submission(trwm_data, new_items) + form_notes
 
     # Parent technique (subtechnique placement)
     parent_technique, parent_raw = resolve_parent_technique(fields, trwm_data)
@@ -1001,6 +1138,7 @@ def generate_preview(body, project_root=None, trwm_data=None, revision_info=None
         dfcite_placeholders=dfcite_placeholders,
         parent_technique=parent_technique,
         revision_info=revision_info,
+        resolved=resolved,
     )
     comment = add_preview_hash(comment)
     labels = determine_labels(new_items, existing_items, submission_type)

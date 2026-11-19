@@ -154,10 +154,20 @@ If validation passes and the PR looks good, merge it. The issue will be automati
 - ID assignment: `technique-assign-id.yml` (uses the `assign-trwm-ids` job)
 - Auto-implement: `autoimplement-trwm.yml` → `admin/autoimplement_trwm.py`
 - Revisions: `trwm-revision.yml` → `admin/apply_trwm_revision.py`
+- Converting an existing issue: `trwm-convert.yml` → `admin/convert_to_trwm.py`
 
 TRWM submissions contain a complete technique with all its weaknesses and mitigations in a single issue. The ID assignment step assigns IDs for all items in bulk.
 
 **Revisions.** The contributor can post a `### TRWM revision` comment holding a new export from the TRWM Helper app. The `trwm-revision.yml` workflow rewrites the first preview comment in place, marked "Revision N", and replies with what changed, matched by temporary ID. Check that reply before adding `assigned ID`. Only the issue's author, or an owner, member or collaborator, can revise, and revisions are refused once `assigned ID` is on.
+
+**Converting an existing issue.** An issue that was not opened with the TRWM form, such as an early placeholder "Create new technique" issue, can be turned into a TRWM submission without opening a new one, so its number and discussion are kept:
+
+1. The TRWM Helper export is posted on the issue as a comment. In the Helper, link the session to the issue (Summary tab, Submit card) and post the revision it copies, or paste the exported JSON under a line reading `### TRWM submission` in a ` ```json ` fenced block.
+2. A maintainer adds the `trwm-convert` label.
+
+`trwm-convert.yml` takes the newest such comment from the issue's author or a maintainer, posts a TRWM preview from it, adds `trwm` and the content labels, and removes `trwm-convert`. As the issue has no TRWM form, the submission type, objective and parent technique come from the export: Helper exports from version 3.17.0 onwards name the objective, and the preview warns when one does not. From then on the issue is an ordinary TRWM submission, and revisions, `assigned ID` and `autoimplement` work as usual. An issue that is already a TRWM submission, or has `assigned ID`, is refused with a reply, and the label is removed so it can be added again once that is sorted.
+
+**Form fields in the preview.** Every TRWM preview records the submission type, objective and parent technique it was built with in a hidden `TRWM_FORM` marker, and `autoimplement_trwm.py` reads them from there for a converted issue. An issue opened with the form is still read from its body, so editing its Objective field before `autoimplement` still takes effect. The form's fields win over the export's objective, and the preview warns when the two differ.
 
 Prefer asking for a revision to editing the preview yourself. If you do edit the preview, a later revision replaces your edit: the reply warns when this happens and points to the comment's edit history, so the edit can be carried into the contributor's session.
 
@@ -241,6 +251,7 @@ Check the validation comment on the PR for details. You can fix issues by pushin
 | `autoimplement-new-reference.yml` | `autoimplement` label + `content: new reference` | Creates DFCite files + PR |
 | `autoimplement-trwm.yml` | `autoimplement` label + `trwm` | Creates all TRWM data files + PR |
 | `trwm-revision.yml` | New comment containing `### TRWM revision` on a `trwm` issue | Rewrites the TRWM preview from the new export, replies with the changes |
+| `trwm-convert.yml` | `trwm-convert` label | Turns an issue not opened with the TRWM form into a TRWM submission, from a comment holding the export |
 | `autoimplement-dfcite-relevance.yml` | `autoimplement` label + `content: update dfcite relevance` | Updates relevance summary + PR |
 | `validate-kb.yml` | PR or push to main | Runs KB validation |
 | `validate-kb-comment.yml` | After `validate-kb.yml` completes | Posts validation results as PR comment |
@@ -262,6 +273,7 @@ Check the validation comment on the PR for details. You can fix issues by pushin
 | `admin/autoimplement_new_reference.py` | Create DFCite files + PR |
 | `admin/autoimplement_trwm.py` | Create all TRWM files + PR |
 | `admin/apply_trwm_revision.py` | Apply a `### TRWM revision` comment to the preview |
+| `admin/convert_to_trwm.py` | Convert an existing issue into a TRWM submission from an export comment |
 | `admin/trwm_revision_diff.py` | List what changed between two TRWM previews |
 | `admin/autoimplement_dfcite_relevance.py` | Update relevance summary + PR |
 | `admin/validate_kb.py` | Validate entire knowledge base |

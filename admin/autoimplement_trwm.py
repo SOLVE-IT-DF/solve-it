@@ -250,6 +250,39 @@ def update_parent_subtechniques(project_root, parent_id, subtechnique_id):
     return filepath, None
 
 
+FORM_MARKER_RE = re.compile(r'<!-- TRWM_FORM: (\{.*?\}) -->')
+
+
+def form_fields_from_comments(comments):
+    """The resolved form fields recorded in the TRWM preview, or None.
+
+    Previews written since issues could be converted to TRWM carry a
+    TRWM_FORM marker with the submission type, objective and parent
+    technique they were built with, whether those came from the issue form
+    or from the export. It is read for issues with no TRWM form. The
+    assigned-ID preview is preferred, as it is the one implemented.
+    """
+    previews = [c.get("body", "") for c in comments
+                if "<!-- TRWM_PREVIEW -->" in c.get("body", "")]
+    previews.sort(key=lambda b: "has been assigned" not in b)
+    for body in previews:
+        match = FORM_MARKER_RE.search(body)
+        if not match:
+            continue
+        try:
+            data = json.loads(match.group(1))
+        except json.JSONDecodeError:
+            continue
+        if isinstance(data, dict):
+            return data
+    return None
+
+
+def body_has_trwm_form(issue_body):
+    """True if the issue was opened with the TRWM submission form."""
+    return bool(re.search(r'^### Submission type[ \t]*$', issue_body or "", re.MULTILINE))
+
+
 def parse_submission_type_from_issue(issue_body):
     """Extract the Submission type field from the issue body.
 
@@ -398,8 +431,15 @@ def main():
     issue = get_issue(args.issue_number)
     comments = get_issue_comments(args.issue_number)
 
-    # 2. Detect submission type
-    submission_type = parse_submission_type_from_issue(issue["body"])
+    # 2. Detect submission type. An issue opened with the TRWM form is read
+    # from its body as before, so editing the form still takes effect. An
+    # issue converted to TRWM has no form, and is read from the preview's
+    # record of the fields it was built with.
+    form = None if body_has_trwm_form(issue["body"]) else form_fields_from_comments(comments)
+    if form and form.get("submission_type"):
+        submission_type = form["submission_type"]
+    else:
+        submission_type = parse_submission_type_from_issue(issue["body"])
     is_update = submission_type == "Update existing technique"
     print(f"Submission type: {submission_type}", file=sys.stderr)
 
@@ -437,9 +477,20 @@ def main():
     print(f"Found: {len(techniques)} techniques, {len(weaknesses)} weaknesses, "
           f"{len(mitigations)} mitigations", file=sys.stderr)
 
-    # 4. Get objective from issue body
-    objective_name = parse_objective_from_issue(issue["body"])
-    if not objective_name or objective_name == "Other (specify below)":
+    # 4. Get the objective, from the preview's record or the issue body
+    if form is not None:
+        objective_name = (form.get("objective") or "").strip() or None
+        proposed = (form.get("proposed_objective") or "").strip()
+        if proposed:
+            print(f"Warning: new objective proposed: '{proposed}'. "
+                  "solve-it.json will NOT be updated — add the objective manually.",
+                  file=sys.stderr)
+        elif not objective_name:
+            print("Warning: no objective found. solve-it.json will NOT be updated.",
+                  file=sys.stderr)
+    else:
+        objective_name = parse_objective_from_issue(issue["body"])
+    if form is None and (not objective_name or objective_name == "Other (specify below)"):
         # Check for proposed new objective
         match = re.search(r'### Propose new objective\s*\n\s*\n\s*(.+)', issue["body"])
         if match and match.group(1).strip() != "_No response_":
@@ -455,7 +506,12 @@ def main():
 
     # 4b. Parent technique — a new subtechnique is linked from its parent
     # instead of being listed directly under the objective
-    parent_id, parent_warning = parse_parent_technique_from_issue(issue["body"])
+    if form is not None:
+        value = (form.get("parent_technique") or "").strip().upper()
+        parent_id = value if TECHNIQUE_ID_RE.match(value) else None
+        parent_warning = None
+    else:
+        parent_id, parent_warning = parse_parent_technique_from_issue(issue["body"])
     if parent_warning:
         print(f"Warning: {parent_warning}", file=sys.stderr)
     if parent_id and is_update:

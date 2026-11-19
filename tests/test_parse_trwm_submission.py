@@ -351,6 +351,7 @@ class TestBuildCommentRevisionGuidance(unittest.TestCase):
         comment = self._build()
         self.assertIn("### Revising this submission", comment)
         self.assertIn("Copy revision and open issue", comment)
+        self.assertIn("Import from", comment)
         self.assertIn("Please don't edit this comment", comment)
 
     def test_links_to_contributor_guide(self):

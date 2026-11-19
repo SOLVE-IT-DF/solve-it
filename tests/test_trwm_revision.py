@@ -358,6 +358,7 @@ class TestReplies(unittest.TestCase):
         self.assertIn("**Revision 2 applied**", reply)
         self.assertIn("Changes since revision 1:", reply)
         self.assertNotIn(":warning:", reply)
+        self.assertIn("send another revision the same way", reply)
 
     def test_success_reply_warns_on_hand_edit(self):
         reply = build_success_reply(2, 1, "x", "u", True)

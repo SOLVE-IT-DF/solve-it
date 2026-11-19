@@ -126,6 +126,9 @@ def build_success_reply(revision, previous, summary, preview_url, hand_edited):
     lines.append(f"Changes since revision {previous}:")
     lines.append("")
     lines.append(summary)
+    lines.append("")
+    lines.append("For further changes, send another revision the same way: in the "
+                 "TRWM Helper app, **Import from GitHub** loads this latest version.")
     return "\n".join(lines) + "\n"
 
 

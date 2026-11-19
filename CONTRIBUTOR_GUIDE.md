@@ -433,9 +433,19 @@ Within a minute or so, the preview comment is updated to show the new version, a
 
 **Editing a revision comment does nothing.** Only new comments are read. To change it again, send another revision.
 
-**Objective and submission type.** These come from the issue form, not the TRWM Helper app. To change them, edit the issue body; they are read when the submission is implemented.
+**Objective and submission type.** On an issue opened with the TRWM form, these come from the form. To change them, edit the issue body; they are read when the submission is implemented. On an issue converted to a TRWM submission (see below), they come from the export: the objective is the one chosen on the Technique tab of the TRWM Helper app, so change it there and send a revision.
 
 **Revision comment format.** The TRWM Helper app writes this for you. For reference, it is a comment starting with the heading `### TRWM revision`, followed by the full JSON export from the TRWM Helper app in a `json` code block.
+
+### Adding a TRWM submission to an existing issue
+
+Some issues were opened before the TRWM form existed, or with another form, such as a placeholder "Create new technique" issue. To develop one of these into a full TRWM submission, keep the issue rather than opening a new one:
+
+1. In the TRWM Helper app, choose the technique's **Objective** on the Technique tab (the issue has no form to choose it on).
+2. On the **Summary** tab, paste the existing issue's link into the **Submit** card and click **Link**, then click **Copy revision and open issue** and paste the copied text into a new comment on the issue. (Alternatively, paste the exported JSON under a line reading `### TRWM submission`, in a `json` code block.)
+3. Ask a maintainer to add the `trwm-convert` label.
+
+The issue then gets a TRWM preview and the `trwm` label, and from there it is an ordinary TRWM submission: revise it as above. Only the issue's author or a maintainer can supply the export.
 
 ---
 

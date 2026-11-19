@@ -25,6 +25,10 @@ that renumbers every later version. This comment and the markers are HTML
 comments, so they do not appear on the website's changelog page.
 -->
 
+### Converting existing issues to TRWM submissions (2026-11-19)
+
+An issue that was not opened with the TRWM submission form, such as an early placeholder technique issue, can now take a TRWM Helper export as a comment and be turned into a TRWM submission with the `trwm-convert` label, keeping its number and discussion. The objective is taken from the export when the issue has no TRWM form.
+
 ### Search by ontology class in the Explorer (2026-11-19)
 <!-- explorer: feature -->
 <a id="explorer-1.7"></a>Explorer version 1.7

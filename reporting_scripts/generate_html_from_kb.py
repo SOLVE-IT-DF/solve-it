@@ -2243,6 +2243,27 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
 }}
 .ref-bibtex-pre.open {{ display: block; }}
 .detail-row-id.r {{ color: #a78bfa; }}
+/* ── Classes tab ── */
+.topnav-tab.active.tab-c {{ border-bottom-color: #2dd4bf; }}
+.cls-name {{ font-weight: 600; }}
+.cls-iri {{ display:block; font-family: var(--font-mono); font-size: .7rem; color: var(--gray-500); overflow-wrap:anywhere; }}
+.cls-desc {{ font-size: .8rem; color: var(--gray-700); }}
+.cls-src {{ display:inline-block; font-size:.65rem; font-weight:600; padding:1px 6px; border-radius:3px; margin-left:6px; vertical-align:middle; background:var(--gray-100); color:var(--gray-600); border:1px solid var(--gray-200); }}
+.cls-src.solveit {{ background:#e6f6f4; color:#0f766e; border-color:#99e2d8; }}
+.cls-warn {{ display:inline-block; font-size:.65rem; font-weight:600; padding:1px 6px; border-radius:3px; margin-left:6px; background:#fff4e5; color:#9a3412; border:1px solid #fdba74; }}
+.cls-count {{ text-align:center; font-family:var(--font-mono); font-size:.8rem; }}
+.cls-crumbs {{ display:flex; flex-wrap:wrap; align-items:center; gap:4px; font-size:.8rem; margin-bottom:4px; }}
+.cls-crumb {{ color: var(--blue); cursor:pointer; }}
+.cls-crumb:hover {{ text-decoration: underline; }}
+.cls-crumb.current {{ color: var(--gray-900); font-weight:600; cursor:default; text-decoration:none; }}
+.cls-chip {{ cursor:pointer; }}
+.cls-chip:hover {{ border-color: #2dd4bf; }}
+.cls-group-title {{ font-size:.72rem; font-weight:600; color:var(--gray-500); text-transform:uppercase; letter-spacing:.04em; margin:10px 0 4px; }}
+.cls-group-title:first-child {{ margin-top:0; }}
+.cls-group-note {{ font-size:.75rem; color:var(--gray-500); margin:-2px 0 6px; }}
+.cls-via {{ display:inline-block; font-family:var(--font-mono); font-size:.68rem; color:#0f766e; background:#e6f6f4; border-radius:3px; padding:0 5px; margin-left:6px; }}
+.case-tag.internal {{ cursor:pointer; }}
+.case-tag-ext {{ margin-left:5px; color:var(--gray-500); text-decoration:none; font-size:.7rem; }}
 .ref-cell {{
   padding: 8px 12px;
   font-size: .82rem;
@@ -2467,6 +2488,12 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
       <span class="topnav-tab-short">R</span>
       <span class="tab-badge" id="badge-r">{n_r}</span>
     </button>
+    <button class="topnav-tab tab-c" data-view="classes">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M6 1h4v4H9v2h4v3h1v4h-4v-4h1V9H5v1h1v4H2v-4h1V7h4V5H6V1z"/></svg>
+      <span class="topnav-tab-label">Classes</span>
+      <span class="topnav-tab-short">C</span>
+      <span class="tab-badge" id="badge-c"></span>
+    </button>
   </div>
   <button class="burger-btn" id="burgerBtn" title="Menu">
     <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><rect x="2" y="4" width="16" height="2" rx="1"/><rect x="2" y="9" width="16" height="2" rx="1"/><rect x="2" y="14" width="16" height="2" rx="1"/></svg>
@@ -2502,6 +2529,11 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2h8a1 1 0 011 1v1h1a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1v-1H2a1 1 0 01-1-1V3a1 1 0 011-1h1zm1 1v9h8V3H4zM2 5v7h1V4H2v1zm10 8v1H4v-1h8z"/></svg>
       References
       <span class="burger-badge">{n_r}</span>
+    </button>
+    <button class="burger-item" data-view="classes">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M6 1h4v4H9v2h4v3h1v4h-4v-4h1V9H5v1h1v4H2v-4h1V7h4V5H6V1z"/></svg>
+      Classes
+      <span class="burger-badge" id="burger-badge-c"></span>
     </button>
   </div>
   <div class="topnav-search">
@@ -2608,6 +2640,14 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
     <div class="filterbar-sep"></div>
     <span class="result-count" id="r-count"></span>
   </div>
+  <!-- Class filters -->
+  <div id="fb-classes" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
+    <span class="filterbar-label">Show</span>
+    <button class="filter-chip active" data-cshow="used">Used by techniques</button>
+    <button class="filter-chip" data-cshow="all">All ontology classes</button>
+    <div class="filterbar-sep"></div>
+    <span class="result-count" id="c-count"></span>
+  </div>
 </div>
 
 <!-- ───────────────── Page body ───────────────── -->
@@ -2636,6 +2676,9 @@ tr[data-show-type="reference"].selected {{ background: var(--blue-pale); }}
 
     <!-- References view -->
     <div id="view-references" class="view hidden"></div>
+
+    <!-- Classes view -->
+    <div id="view-classes" class="view hidden"></div>
 
     <footer class="site-footer">
       <div class="footer-copyright">&copy; {footer_year} SOLVE-IT</div>
@@ -2930,6 +2973,9 @@ const S = {{
   sfDir:   -1,      // mitigation sort direction (1=asc, -1=desc)
   rf:      'cited',  // reference sort
   rtype:   'all',    // reference type filter
+  cs:      'uses',   // classes sort column
+  csDir:   -1,       // classes sort direction
+  cshow:   'used',   // classes filter: 'used' by a technique, or 'all'
   os:      'order', // objectives sort column
   osDir:   1,       // objectives sort direction
   matrixObj: 'all', // matrix objective filter (index or 'all')
@@ -3755,6 +3801,29 @@ function showDetail(id, type, skipHash) {{
   updateSelectionHighlights();
   updateBackButton();
 
+  // Class detail — early return branch
+  if (type === 'class') {{
+    if (!skipHash) history.replaceState(null, '', '#class=' + encodeURIComponent(id));
+    const info = classInfo(id);
+    document.getElementById('dp-id').innerHTML =
+      `<span style="color:#2dd4bf">${{esc(info.prefixed)}}</span>
+       <span class="type-label">Class</span>`;
+    document.getElementById('dp-name').textContent = info.name;
+    document.getElementById('dp-objective').style.display = 'none';
+    document.getElementById('dp-original-objective').style.display = 'none';
+    document.getElementById('dpPresent').classList.add('hidden');
+    document.getElementById('dpDrag').classList.add('hidden');
+    document.getElementById('dpBadge').classList.add('hidden');
+    const clsBody = buildClassDetail(id);
+    document.getElementById('dp-body').innerHTML = clsBody;
+    window._dpFlatHtml = clsBody;
+    if (document.getElementById('detailPanel').classList.contains('expanded')) reorganizeForGrid();
+    document.getElementById('detailPanel').classList.add('open');
+    document.getElementById('mainArea').classList.add('shifted');
+    document.body.classList.add('panel-open');
+    return;
+  }}
+
   // Reference detail — early return branch
   if (type === 'reference') {{
     const cite = CiteMap[id];
@@ -4005,7 +4074,7 @@ function buildTechniqueDetail(t) {{
     const cin = t.CASE_input_classes || [];
     html += `<div class="detail-section" data-col="top-right">
       <div class="detail-section-title">CASE Input Classes <span class="badge">${{cin.length}}</span></div>
-      ${{cin.length ? `<div class="detail-tags">${{cin.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag case-tag">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE input classes.</div>'}}
+      ${{cin.length ? `<div class="detail-tags">${{cin.map(c=>classTag(c, false)).join('')}}</div>` : '<div class="empty-message">No CASE input classes.</div>'}}
     </div>`;
   }}
 
@@ -4013,7 +4082,7 @@ function buildTechniqueDetail(t) {{
     const cout = t.CASE_output_classes || [];
     html += `<div class="detail-section" data-col="top-right">
       <div class="detail-section-title">CASE Output Classes <span class="badge">${{cout.length}}</span></div>
-      ${{cout.length ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag case-tag">${{esc(c)}}</a>`).join('')}}</div>` : '<div class="empty-message">No CASE output classes.</div>'}}
+      ${{cout.length ? `<div class="detail-tags">${{cout.map(c=>classTag(c, false)).join('')}}</div>` : '<div class="empty-message">No CASE output classes.</div>'}}
     </div>`;
   }}
 
@@ -4313,13 +4382,13 @@ function buildTechniquePresentationDetail(t) {{
     <div style="margin-bottom:6px">
       <small style="color:var(--gray-500);font-weight:600">Input</small>
       ${{cin.length
-        ? `<div class="detail-tags">${{cin.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag case-tag">${{esc(c.split('/').slice(-3).join('/'))}}</a>`).join('')}}</div>`
+        ? `<div class="detail-tags">${{cin.map(c=>classTag(c, true)).join('')}}</div>`
         : `<div class="empty-message" style="font-size:.75rem">None</div>`}}
     </div>
     <div>
       <small style="color:var(--gray-500);font-weight:600">Output</small>
       ${{cout.length
-        ? `<div class="detail-tags">${{cout.map(c=>`<a href="${{esc(c)}}" target="_blank" rel="noopener" class="detail-tag case-tag">${{esc(c.split('/').slice(-3).join('/'))}}</a>`).join('')}}</div>`
+        ? `<div class="detail-tags">${{cout.map(c=>classTag(c, true)).join('')}}</div>`
         : `<div class="empty-message" style="font-size:.75rem">None</div>`}}
     </div>
   </div>`;
@@ -4549,6 +4618,11 @@ function updateSelectionHighlights() {{
     el.classList.toggle('selected',
       S.selected && S.selected.type === 'weakness' && el.dataset.wid === S.selected.id);
   }});
+  // Class rows
+  document.querySelectorAll('tr[data-show-type="class"]').forEach(el => {{
+    el.classList.toggle('selected',
+      S.selected && S.selected.type === 'class' && el.dataset.showId === S.selected.id);
+  }});
   // Reference rows
   document.querySelectorAll('tr[data-show-type="reference"]').forEach(el => {{
     el.classList.toggle('selected',
@@ -4672,6 +4746,244 @@ function renderReferences() {{
   el.innerHTML = html;
 }}
 
+// ── Ontology terms for the edit form and the Classes tab ─────────────────────────────────
+// Built by reporting_scripts/build_ontology_classes.py from the CASE, UCO and
+// SOLVE-IT ontologies, and baked in here at compile time.
+const ONTOLOGY_TERMS = {ontology_terms_json};
+
+// ── Classes tab ───────────────────────────────────────────────────────
+// Which techniques take or produce each ontology class, using the class
+// hierarchy (rdfs:subClassOf, baked into ONTOLOGY_TERMS as `parents`) so a
+// search for a general class also finds techniques that use its subclasses,
+// and a specific class shows techniques that use its immediate parent.
+const CLS_PREFIXES = [
+  [/^https:\\/\\/ontology\\.unifiedcyberontology\\.org\\/uco\\/([^/]+)\\//, 'uco-$1:'],
+  [/^https:\\/\\/ontology\\.caseontology\\.org\\/case\\/([^/]+)\\//, 'case-$1:'],
+  [/^https:\\/\\/ontology\\.solveit-df\\.org\\/solveit\\/([^/]+)\\//, 'solveit-$1:'],
+];
+let _CLS = null;
+function clsIndex() {{
+  if (_CLS) return _CLS;
+  const terms = {{}};
+  ONTOLOGY_TERMS.forEach(t => {{ terms[t.uri] = t; }});
+  const children = {{}};
+  ONTOLOGY_TERMS.forEach(t => (t.parents || []).forEach(p => {{
+    (children[p] = children[p] || []).push(t.uri);
+  }}));
+  // uri -> {{in: [technique ids], out: [technique ids]}}
+  const use = {{}};
+  DB.techniques.forEach(t => {{
+    [['in', t.CASE_input_classes], ['out', t.CASE_output_classes]].forEach(([dir, list]) => {{
+      (list || []).forEach(c => {{
+        c = (c || '').trim();
+        if (!c) return;
+        const u = use[c] = use[c] || {{in: [], out: []}};
+        if (!u[dir].includes(t.id)) u[dir].push(t.id);
+      }});
+    }});
+  }});
+  _CLS = {{terms, children, use}};
+  return _CLS;
+}}
+function clsDescendants(uri) {{
+  const {{children}} = clsIndex();
+  const seen = new Set(), queue = [uri];
+  while (queue.length) {{
+    (children[queue.shift()] || []).forEach(c => {{
+      if (!seen.has(c) && c !== uri) {{ seen.add(c); queue.push(c); }}
+    }});
+  }}
+  return [...seen];
+}}
+function classInfo(uri) {{
+  const t = clsIndex().terms[uri];
+  let prefixed = null;
+  for (const [re, rep] of CLS_PREFIXES) {{
+    if (re.test(uri)) {{ prefixed = uri.replace(re, rep); break; }}
+  }}
+  const name = t ? t.name : uri.replace(/[#/]+$/, '').split(/[#/]/).pop();
+  return {{
+    uri, name,
+    prefixed: prefixed || name,
+    description: t ? t.description : '',
+    source: t ? t.source : '',
+    kind: t ? t.kind : null,      // 'class', 'property', or null if not in the list
+    parents: t ? (t.parents || []) : [],
+  }};
+}}
+function clsWarning(info) {{
+  if (info.kind === 'property') return '<span class="cls-warn" title="This IRI is a property, not a class, so it should not be listed as an input or output class">Property, not a class</span>';
+  if (!info.kind) return '<span class="cls-warn" title="Not in the CASE, UCO or SOLVE-IT ontologies the Explorer loads">Unknown ontology</span>';
+  return '';
+}}
+function clsSourceChip(info) {{
+  if (!info.source) return '';
+  return `<span class="cls-src${{info.source === 'SOLVE-IT' ? ' solveit' : ''}}">${{esc(info.source)}}</span>`;
+}}
+// A class IRI shown on a technique: opens the class view; the arrow opens the IRI itself.
+function classTag(c, short) {{
+  const label = short ? c.split('/').slice(-3).join('/') : c;
+  return `<span class="detail-tag case-tag internal" data-show-id="${{esc(c)}}" data-show-type="class" title="Show techniques that use this class">${{esc(label)}}<a class="case-tag-ext" href="${{esc(c)}}" target="_blank" rel="noopener" title="Open the ontology definition">&#8599;</a></span>`;
+}}
+
+function renderClasses() {{
+  const el = document.getElementById('view-classes');
+  const {{terms, use}} = clsIndex();
+  const used = Object.keys(use);
+  document.getElementById('badge-c').textContent = used.length;
+
+  let uris = S.cshow === 'all'
+    ? [...new Set([...used, ...ONTOLOGY_TERMS.filter(t => t.kind === 'class').map(t => t.uri)])]
+    : used;
+
+  const rows = uris.map(uri => {{
+    const info = classInfo(uri);
+    const u = use[uri] || {{in: [], out: []}};
+    // Techniques reached through a subclass, not already counted directly
+    const sub = {{in: new Set(), out: new Set()}};
+    clsDescendants(uri).forEach(d => {{
+      const du = use[d];
+      if (!du) return;
+      du.in.forEach(id => {{ if (!u.in.includes(id)) sub.in.add(id); }});
+      du.out.forEach(id => {{ if (!u.out.includes(id)) sub.out.add(id); }});
+    }});
+    return {{info, nIn: u.in.length, nOut: u.out.length, subIn: sub.in.size, subOut: sub.out.size}};
+  }});
+
+  let items = rows;
+  if (S.search) {{
+    const q = S.search.toLowerCase();
+    items = rows.filter(r => r.info.name.toLowerCase().includes(q)
+      || r.info.prefixed.toLowerCase().includes(q)
+      || r.info.uri.toLowerCase().includes(q)
+      || (r.info.description || '').toLowerCase().includes(q));
+  }}
+
+  const sortFns = {{
+    uses: (a, b) => (a.nIn + a.nOut + a.subIn + a.subOut) - (b.nIn + b.nOut + b.subIn + b.subOut),
+    name: (a, b) => a.info.name.localeCompare(b.info.name),
+    in:   (a, b) => (a.nIn + a.subIn) - (b.nIn + b.subIn),
+    out:  (a, b) => (a.nOut + a.subOut) - (b.nOut + b.subOut),
+  }};
+  const fn = sortFns[S.cs] || sortFns.uses;
+  items.sort((a, b) => fn(a, b) * S.csDir || a.info.name.localeCompare(b.info.name));
+
+  document.getElementById('c-count').textContent = `${{items.length}} shown`;
+  if (!items.length) {{
+    el.innerHTML = '<div class="no-results">No classes match your search.</div>';
+    return;
+  }}
+
+  const count = (n, sub) => `${{n || '—'}}${{sub ? `<br><small style="color:var(--gray-500)" title="Further techniques that use a subclass">+${{sub}} via subclasses</small>` : ''}}`;
+  el.innerHTML = `
+    <div class="table-section">
+      <div class="table-section-header">
+        <span class="table-section-title">${{S.cshow === 'all' ? 'All Ontology Classes' : 'Classes Used by Techniques'}}</span>
+        <span class="table-section-count">${{items.length}}</span>
+      </div>
+      <table class="attck-table">
+        <thead><tr>
+          ${{sortTh('Class', 'name', 'cs', 'csDir', 'width:32%')}}
+          <th>Description</th>
+          ${{sortTh('Input', 'in', 'cs', 'csDir', 'width:110px;text-align:center')}}
+          ${{sortTh('Output', 'out', 'cs', 'csDir', 'width:110px;text-align:center')}}
+        </tr></thead>
+        <tbody>
+          ${{items.map(r => {{
+            const sel = S.selected && S.selected.type === 'class' && S.selected.id === r.info.uri;
+            return `<tr class="${{sel ? 'selected' : ''}}" data-show-id="${{esc(r.info.uri)}}" data-show-type="class">
+              <td><span class="cls-name">${{esc(r.info.name)}}</span>${{clsSourceChip(r.info)}}${{clsWarning(r.info)}}
+                <span class="cls-iri">${{esc(r.info.prefixed)}}</span></td>
+              <td class="cls-desc">${{esc(r.info.description)}}</td>
+              <td class="cls-count">${{count(r.nIn, r.subIn)}}</td>
+              <td class="cls-count">${{count(r.nOut, r.subOut)}}</td>
+            </tr>`;
+          }}).join('')}}
+        </tbody>
+      </table>
+    </div>`;
+}}
+
+function clsTechRow(tid, via) {{
+  const t = TMap[tid];
+  const viaHtml = (via || []).map(v => `<span class="cls-via" title="${{esc(v)}}">${{esc(classInfo(v).name)}}</span>`).join('');
+  return `<div class="detail-row" data-show-id="${{esc(tid)}}" data-show-type="technique">
+    <span class="detail-row-id t">${{esc(tid)}}</span>
+    <span class="detail-row-name">${{t ? esc(t.name) : esc(tid)}}${{viaHtml}}</span>
+  </div>`;
+}}
+
+function buildClassDetail(uri) {{
+  const {{use, children}} = clsIndex();
+  const info = classInfo(uri);
+  let html = '';
+
+  // Description and IRI
+  html += `<div class="detail-section" data-col="top-left">
+    <div class="detail-section-title">Description</div>
+    <div class="detail-desc">${{info.description ? esc(info.description) : '<span class="empty-message">No description in the ontology.</span>'}}</div>
+    <div style="margin-top:6px"><a href="${{esc(uri)}}" target="_blank" rel="noopener" class="case-tag" style="color:var(--blue)">${{esc(uri)}}</a>${{clsSourceChip(info)}}${{clsWarning(info)}}</div>
+  </div>`;
+
+  // Hierarchy: the chain up through first parents, then the direct subclasses
+  const chain = [];
+  let cur = uri;
+  const seen = new Set();
+  while (cur && !seen.has(cur)) {{
+    seen.add(cur);
+    chain.unshift(cur);
+    cur = classInfo(cur).parents[0];
+  }}
+  const crumbs = chain.map(c => c === uri
+    ? `<span class="cls-crumb current">${{esc(classInfo(c).name)}}</span>`
+    : `<span class="cls-crumb" data-show-id="${{esc(c)}}" data-show-type="class" title="${{esc(c)}}">${{esc(classInfo(c).name)}}</span>`
+  ).join(' <span style="color:var(--gray-400)">&rsaquo;</span> ');
+  const otherParents = info.parents.slice(1);
+  const kids = (children[uri] || []).slice().sort((a, b) => classInfo(a).name.localeCompare(classInfo(b).name));
+  html += `<div class="detail-section" data-col="top-right">
+    <div class="detail-section-title">Hierarchy</div>
+    <div class="cls-crumbs">${{crumbs}}</div>
+    ${{otherParents.length ? `<div class="cls-group-note">Also a subclass of: ${{otherParents.map(p => `<span class="cls-crumb" data-show-id="${{esc(p)}}" data-show-type="class">${{esc(classInfo(p).name)}}</span>`).join(', ')}}</div>` : ''}}
+    ${{kids.length ? `<div class="cls-group-title">Subclasses (${{kids.length}})</div>
+      <div class="detail-tags">${{kids.map(k => `<span class="detail-tag cls-chip" data-show-id="${{esc(k)}}" data-show-type="class" title="${{esc(k)}}">${{esc(classInfo(k).name)}}</span>`).join('')}}</div>` : ''}}
+  </div>`;
+
+  // Techniques, grouped by how they relate to this class
+  const desc = clsDescendants(uri);
+  const section = (dir, title) => {{
+    const direct = (use[uri] || {{}})[dir] || [];
+    const bySub = {{}};
+    desc.forEach(d => ((use[d] || {{}})[dir] || []).forEach(tid => {{
+      if (direct.includes(tid)) return;
+      (bySub[tid] = bySub[tid] || []).push(d);
+    }}));
+    const byParent = {{}};
+    info.parents.forEach(p => ((use[p] || {{}})[dir] || []).forEach(tid => {{
+      if (direct.includes(tid) || bySub[tid]) return;
+      (byParent[tid] = byParent[tid] || []).push(p);
+    }}));
+    const subIds = Object.keys(bySub).sort();
+    const parIds = Object.keys(byParent).sort();
+    const verb = dir === 'in' ? 'take' : 'output';
+    let body = '';
+    if (direct.length) body += `<div class="cls-group-title">This class (${{direct.length}})</div>
+      <div class="detail-list">${{direct.slice().sort().map(t => clsTechRow(t)).join('')}}</div>`;
+    if (subIds.length) body += `<div class="cls-group-title">A subclass (${{subIds.length}})</div>
+      <div class="detail-list">${{subIds.map(t => clsTechRow(t, bySub[t])).join('')}}</div>`;
+    if (parIds.length) body += `<div class="cls-group-title">The parent class (${{parIds.length}})</div>
+      <div class="cls-group-note">These ${{verb}} a more general class, so they may also handle ${{esc(info.name)}}, but do not say so.</div>
+      <div class="detail-list">${{parIds.map(t => clsTechRow(t, byParent[t])).join('')}}</div>`;
+    const total = direct.length + subIds.length + parIds.length;
+    return `<div class="detail-section" data-col="bot">
+      <div class="detail-section-title">${{title}} <span class="badge">${{total}}</span></div>
+      ${{body || `<div class="empty-message">No technique ${{verb}}s this class, a subclass or its parent.</div>`}}
+    </div>`;
+  }};
+  html += section('out', 'Techniques that output it');
+  html += section('in', 'Techniques that take it as input');
+  return html;
+}}
+
 // ── View switching ────────────────────────────────────────────────────
 function switchView(view, skipHash) {{
   S.view = view;
@@ -4684,7 +4996,7 @@ function switchView(view, skipHash) {{
   document.querySelectorAll('.burger-item').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.view === view));
   document.getElementById('burgerMenu').classList.add('hidden');
-  const viewNames = {{matrix:'Matrix',objectives:'Objectives',techniques:'Techniques',weaknesses:'Weaknesses',mitigations:'Mitigations',references:'References'}};
+  const viewNames = {{matrix:'Matrix',objectives:'Objectives',techniques:'Techniques',weaknesses:'Weaknesses',mitigations:'Mitigations',references:'References',classes:'Classes'}};
   document.getElementById('burgerLabel').textContent = viewNames[view] || view;
 
   document.querySelectorAll('.view').forEach(el =>
@@ -4696,6 +5008,7 @@ function switchView(view, skipHash) {{
   document.getElementById('fb-weaknesses').style.display  = view === 'weaknesses'  ? 'flex' : 'none';
   document.getElementById('fb-mitigations').style.display = view === 'mitigations' ? 'flex' : 'none';
   document.getElementById('fb-references').style.display  = view === 'references'  ? 'flex' : 'none';
+  document.getElementById('fb-classes').style.display     = view === 'classes'     ? 'flex' : 'none';
 
   render();
 }}
@@ -4708,6 +5021,7 @@ function render() {{
   if (S.view === 'weaknesses')  renderWeaknesses();
   if (S.view === 'mitigations') renderMitigations();
   if (S.view === 'references')  renderReferences();
+  if (S.view === 'classes')     renderClasses();
 }}
 
 // ── Event wiring ──────────────────────────────────────────────────────
@@ -4745,6 +5059,14 @@ document.querySelectorAll('[data-t2t]').forEach(btn =>
     document.querySelectorAll('[data-t2t]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     S.t2t = btn.dataset.t2t;
+    render();
+  }}));
+
+document.querySelectorAll('[data-cshow]').forEach(btn =>
+  btn.addEventListener('click', () => {{
+    document.querySelectorAll('[data-cshow]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    S.cshow = btn.dataset.cshow;
     render();
   }}));
 
@@ -5268,8 +5590,15 @@ function handleHash() {{
   const hash = location.hash.slice(1);
   if (!hash) return;
   // Tab views
-  if (['matrix','objectives','techniques','weaknesses','mitigations','references'].includes(hash)) {{
+  if (['matrix','objectives','techniques','weaknesses','mitigations','references','classes'].includes(hash)) {{
     switchView(hash, true);
+    return;
+  }}
+  // Class deep links: #class=<IRI, URI-encoded>
+  if (hash.startsWith('class=')) {{
+    const iri = decodeURIComponent(hash.slice(6));
+    if (S.view !== 'classes') switchView('classes', true);
+    showDetail(iri, 'class', true);
     return;
   }}
   // Item IDs — determine type from prefix (support old T/W/M and new DFT-/DFW-/DFM-)
@@ -5303,10 +5632,6 @@ function handleHash() {{
 render();
 handleHash();
 window.addEventListener('hashchange', handleHash);
-// ── Ontology terms for the edit form ─────────────────────────────────
-// Built by reporting_scripts/build_ontology_classes.py from the CASE, UCO and
-// SOLVE-IT ontologies, and baked in here at compile time.
-const ONTOLOGY_TERMS = {ontology_terms_json};
 
 {editor_js}
 </script>

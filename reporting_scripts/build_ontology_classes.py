@@ -191,6 +191,13 @@ def harvest(graph, source):
                 "source": source,
                 "kind": kind,
             }
+            if kind == "class":
+                # Named superclasses only, so the Explorer's Classes tab can
+                # group techniques by class hierarchy. Restrictions and unions
+                # are blank nodes and are skipped.
+                found[uri]["parents"] = sorted(
+                    str(o) for o in graph.objects(subject, RDFS.subClassOf) if isinstance(o, URIRef)
+                )
     return found
 
 
@@ -219,7 +226,11 @@ def build(uco_ref, case_ref, solveit_ref=DEFAULT_SOLVEIT_REF, verbose=True):
         # An earlier module wins on a repeated IRI, which keeps the defining
         # module's description rather than a later import's stub.
         for uri, term in harvested.items():
-            terms.setdefault(uri, term)
+            kept = terms.setdefault(uri, term)
+            # A superclass can be declared in a module other than the defining
+            # one, so parents are merged rather than taken from the first only.
+            if kept is not term and "parents" in term:
+                kept["parents"] = sorted(set(kept.get("parents", [])) | set(term["parents"]))
         if verbose:
             print(f"  ok      {url} ({len(harvested)} terms)")
 

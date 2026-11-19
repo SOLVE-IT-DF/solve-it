@@ -419,12 +419,13 @@ flowchart LR
 
 If a reviewer asks for changes, make them in the TRWM Helper app and send them to the same issue as a revision. Don't open a new issue, and don't edit the issue body or the preview comment.
 
-1. Open the session you submitted from. The TRWM Helper app keeps it in your browser; if you saved it to a file, import that.
-2. On the **Summary** tab, paste the issue's link into the **Submit** card and click **Link**. You only need to do this once per session.
-3. Make the changes. You can edit, add or delete any technique field, weakness or mitigation. If you change anything on Weaknesses 1 or Mitigations 1, re-run the grouping on Weaknesses 2 or Mitigations 2; the Submit card will tell you if you need to.
-4. Click **Copy revision and open issue**, and paste the copied text into a **new** comment on the issue.
+1. Open the [TRWM Helper app](https://trwm.hargs.co.uk), click **Import from GitHub** on the Home tab, and enter the issue's number or link. This loads the latest version of the submission, including any earlier revisions, into a new session already linked to the issue. It works in any browser, so you don't need the session you submitted from.
+2. Make the changes. You can edit, add or delete any technique field, weakness or mitigation. If you change anything on Weaknesses 1 or Mitigations 1, re-run the grouping on Weaknesses 2 or Mitigations 2; the Submit card will tell you if you need to.
+3. Check the **Change summary** on the **Summary** tab, then click **Copy revision and open issue**, and paste the copied text into a **new** comment on the issue.
 
 Within a minute or so, the preview comment is updated to show the new version, and a reply lists what changed. Items keep their temporary IDs (`DFW-temp-0002` and so on) from one revision to the next, so reviewers can see exactly what you changed.
+
+**Using your own session instead.** If you still have the session you submitted from, you can revise from it: on the **Summary** tab, paste the issue's link into the **Submit** card and click **Link**, once per session. Importing from GitHub is safer if anyone else has sent a revision since, because it starts from the latest version.
 
 **Who can revise.** The person who opened the issue, or a SOLVE-IT maintainer.
 

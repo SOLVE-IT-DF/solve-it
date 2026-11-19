@@ -837,13 +837,15 @@ def build_comment(trwm_data, fields, placeholder_map, new_items, existing_items,
     lines.append("")
     lines.append("### Revising this submission")
     lines.append("")
-    lines.append("To make changes, open your session in the "
-                 "[TRWM Helper app](https://trwm.hargs.co.uk), link it to this issue on "
-                 "the Summary tab, make the changes, then use **Copy revision and open "
-                 "issue** and paste the result as a new comment here. This preview is "
-                 "then updated in place. Please don't edit this comment or the issue "
-                 "body. Revisions are accepted until the `assigned ID` label is added. "
-                 "See [Revising a TRWM submission]"
+    lines.append("To make changes, for example after review, open the "
+                 "[TRWM Helper app](https://trwm.hargs.co.uk), choose **Import from "
+                 "GitHub** and enter this issue's number. This loads the latest version "
+                 "of the submission into a new session linked to this issue. Make the "
+                 "changes, then on the Summary tab use **Copy revision and open issue** "
+                 "and paste the result as a new comment here. This preview is then "
+                 "updated in place. Please don't edit this comment or the issue body. "
+                 "Revisions are accepted until the `assigned ID` label is added. See "
+                 "[Revising a TRWM submission]"
                  "(https://github.com/SOLVE-IT-DF/solve-it/blob/main/CONTRIBUTOR_GUIDE.md#revising-a-trwm-submission).")
     lines.append("")
 

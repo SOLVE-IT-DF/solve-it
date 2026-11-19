@@ -1,0 +1,27 @@
+{
+    "id": "DFT-1219",
+    "name": "Enumerate allocated data from a SQLite database ",
+    "description": "Processing the allocated tables, records and fields only, not data from non-allocated space within the database.",
+    "synonyms": [
+        "SQLite database parsing"
+    ],
+    "details": "This does not include any attempts to recover non-allocated data from within SQLite databases. ",
+    "subtechniques": [],
+    "examples": [],
+    "weaknesses": [
+        "DFW-1493",
+        "DFW-1494",
+        "DFW-1495"
+    ],
+    "CASE_input_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/SQLiteDatabase",
+        "https://ontology.solveit-df.org/solveit/observable/SQLiteJournal",
+        "https://ontology.solveit-df.org/solveit/observable/SQLiteWAL"
+    ],
+    "CASE_output_classes": [
+        "https://ontology.solveit-df.org/solveit/observable/SQLiteSchema",
+        "https://ontology.solveit-df.org/solveit/observable/SQLiteTable",
+        "https://ontology.solveit-df.org/solveit/observable/SQLiteRecord"
+    ],
+    "references": []
+}

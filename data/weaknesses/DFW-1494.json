@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1494",
+    "name": "Failure to recover one or more tables from a SQLite database due to incorrect parsing of the database schema",
+    "description": "For example an error parsing the schema means that an entire table was not reported",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1385",
+        "DFM-1386"
+    ],
+    "references": []
+}

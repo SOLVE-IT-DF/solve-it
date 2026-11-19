@@ -1,0 +1,12 @@
+{
+    "id": "DFW-1495",
+    "name": "Failure to recover one or more records from a SQLite database due to a failure parsing data within a table",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1387",
+        "DFM-1388"
+    ],
+    "references": []
+}

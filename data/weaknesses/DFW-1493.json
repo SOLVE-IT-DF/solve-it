@@ -1,0 +1,13 @@
+{
+    "id": "DFW-1493",
+    "name": "Failure to recover one or more entire tables from a SQLite database due to a tool error parsing data within the table",
+    "description": "For example an error that occurs during parsing records in a table causes the entire table being missed from the output. ",
+    "categories": [
+        "ASTM_INCOMP"
+    ],
+    "mitigations": [
+        "DFM-1383",
+        "DFM-1384"
+    ],
+    "references": []
+}

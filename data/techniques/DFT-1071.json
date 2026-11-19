@@ -6,7 +6,9 @@
         "database forensics"
     ],
     "details": "",
-    "subtechniques": [],
+    "subtechniques": [
+        "DFT-1219"
+    ],
     "examples": [
         "sqlite-forensic-corpus (2018), https://faui1-files.cs.fau.de/public/sqlite-forensic-corpus/"
     ],

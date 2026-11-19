@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1386",
+    "name": "Text that failures when parsing SQLite schemas are clearly reported",
+    "references": []
+}

@@ -1,0 +1,5 @@
+{
+    "id": "DFM-1388",
+    "name": "Test that failures when parsing records and fields within SQLite tables are clearly reported",
+    "references": []
+}

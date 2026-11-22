@@ -25,6 +25,10 @@ that renumbers every later version. This comment and the markers are HTML
 comments, so they do not appear on the website's changelog page.
 -->
 
+### RDF export can fail instead of leaving out type declarations (2026-11-22)
+
+The RDF export looks up whether each technique input or output term is a class or a property by downloading the CASE, UCO, SOLVE-IT and projectvic ontology modules. If a download failed, the export logged a warning and wrote the knowledge base without the declarations for the terms it could not resolve, and the build still reported success. `generate_rdf_from_kb.py` now accepts `--require-term-types`, which stops with an error when the lookup cannot be loaded or any term has no type. Without the option the behaviour is unchanged, so a run offline still produces output. The ontology repository's hourly build uses the option.
+
 ### Converting existing issues to TRWM submissions (2026-11-19)
 
 An issue that was not opened with the TRWM submission form, such as an early placeholder technique issue, can now take a TRWM Helper export as a comment and be turned into a TRWM submission with the `trwm-convert` label, keeping its number and discussion. The objective is taken from the export when the issue has no TRWM form.

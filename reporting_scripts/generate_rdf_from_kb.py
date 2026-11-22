@@ -55,13 +55,23 @@ DCTERMS = Namespace("http://purl.org/dc/terms/")
 KB_HEADER = URIRef(str(SOLVEIT_DATA))
 
 
-def create_rdf_graph(kb, include_objectives=True):
+class TermTypesUnresolvedError(RuntimeError):
+    """Input/output terms could not be typed and the caller asked for that to be fatal."""
+
+
+def create_rdf_graph(kb, include_objectives=True, require_term_types=False):
     """
     Creates an RDF graph from the SOLVE-IT knowledge base.
 
     Args:
         kb: KnowledgeBase instance
         include_objectives: Whether to include objective mappings (default: True)
+        require_term_types: If True, raise TermTypesUnresolvedError when the
+            ontologies used to type input/output terms could not be loaded, or
+            when any term is left without a type. Off by default so a local run
+            offline still produces output; scheduled builds turn it on so a
+            partial download fails the build instead of publishing a knowledge
+            base without declarations.
 
     Returns:
         rdflib.Graph: The populated RDF graph
@@ -88,7 +98,7 @@ def create_rdf_graph(kb, include_objectives=True):
 
     # Add techniques
     logger.info("Adding techniques to graph...")
-    add_techniques_to_graph(g, kb)
+    add_techniques_to_graph(g, kb, require_term_types=require_term_types)
 
     # Add weaknesses
     logger.info("Adding weaknesses to graph...")
@@ -176,7 +186,7 @@ def load_term_type_lookup():
         return None
 
 
-def add_techniques_to_graph(g, kb):
+def add_techniques_to_graph(g, kb, require_term_types=False):
     """Add all techniques to the RDF graph.
 
     Each technique is emitted under the uco-action:Technique metaclass pattern
@@ -273,6 +283,9 @@ def add_techniques_to_graph(g, kb):
     # the assertion a consumer would trust. A term whose type cannot be
     # resolved is referenced without a declaration rather than guessed at.
     lookup = load_term_type_lookup()
+    if lookup is None and require_term_types:
+        raise TermTypesUnresolvedError(
+            "The ontologies used to type input/output terms could not be loaded.")
     if lookup is not None:
         counts, unresolved = {}, []
         for class_uri in sorted(referenced_classes):
@@ -288,6 +301,11 @@ def add_techniques_to_graph(g, kb):
                     ", ".join(f"{n} {k}" for k, n in sorted(counts.items())))
         for term in unresolved:
             logger.warning("Input/output term not declared, type unresolved: %s", term)
+        if unresolved and require_term_types:
+            raise TermTypesUnresolvedError(
+                f"{len(unresolved)} input/output terms have no resolvable type, "
+                f"for example {unresolved[0]}. A remote ontology module probably "
+                "failed to download; publishing now would drop their declarations.")
 
 
 def add_weaknesses_to_graph(g, kb):
@@ -810,6 +828,14 @@ def main():
         help='Exclude objective mappings from output'
     )
 
+    parser.add_argument(
+        '--require-term-types',
+        action='store_true',
+        help='Fail if any technique input/output term cannot be given a type '
+             '(for example because a remote ontology failed to download), '
+             'instead of writing output without that declaration'
+    )
+
     args = parser.parse_args()
 
     try:
@@ -822,7 +848,8 @@ def main():
         )
 
         # Create RDF graph
-        g = create_rdf_graph(kb, include_objectives=not args.no_objectives)
+        g = create_rdf_graph(kb, include_objectives=not args.no_objectives,
+                             require_term_types=args.require_term_types)
 
         # Save to file(s)
         save_graph(g, args.output_dir, args.format)
